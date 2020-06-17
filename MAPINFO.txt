@@ -1,0 +1,4 @@
+GameInfo
+{
+	AddEventHandlers = "HaloPickup_EVH"
+}

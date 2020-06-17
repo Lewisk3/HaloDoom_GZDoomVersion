@@ -1,0 +1,7 @@
+version 4.0
+
+#include "pickup.cfg"
+#include "ZScript/halo_events.zsc"
+#include "ZScript/weapbehavior.zsc"
+#include "ZScript/SBS/halo_sbs_base.zsc"
+#include "ZScript/SBS/halo_sbs_3D.zsc"

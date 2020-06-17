@@ -1,0 +1,245 @@
+/*
+Copyright 2020 Lewisk3
+
+Permission is hereby granted, free of charge, to any person obtaining a copy 
+of this software and associated documentation files (the "Software"), to deal 
+in the Software without restriction, including without limitation the rights 
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell 
+copies of the Software, and to permit persons to whom the Software is 
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all 
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+THE SOFTWARE.
+
+~ MIT License ~
+*/
+
+class WeaponPickupProxy : Actor
+{
+	class<Weapon> trueitem;
+	string truepickupmsg;
+	sound truepickupsnd;
+	PlayerPawn plr;
+	bool weapdropped;
+	bool isaimweap;
+	bool noammogive;
+	int clipammo;
+	
+	double visiblefov;
+	double visibledist;
+	bool mustsee;
+	Property VisibleParams : mustsee, visiblefov, visibledist;
+	
+	Default
+	{
+		Radius PICKUP_RANGE;
+		Height PICKUP_RANGE;
+		WeaponPickupProxy.VisibleParams PICKUP_MUSTSEE, PICKUP_FOV, PICKUP_RANGE*2.;
+	}
+	
+	static WeaponPickupProxy BecomeWeaponProxy(Weapon source, bool noammogive = false)
+	{
+		let wp = WeaponPickupProxy(Actor.Spawn("WeaponPickupProxy", source.pos));
+		if(wp)
+		{
+			wp.truepickupmsg = source.PickupMessage();
+			wp.truepickupsnd = source.pickupsound;
+			wp.Sprite = source.Sprite;
+			wp.Frame = source.Frame;
+			wp.noammogive = noammogive;
+			wp.trueitem = source.GetClass();
+			wp.clipammo = -1;
+			source.Destroy();
+		}
+		return wp;
+	}
+	
+	Weapon GiveWeaponItem(Actor to)
+	{
+		let ammotype1 = GetDefaultByType(trueitem).ammotype1;
+		let ammotype2 = GetDefaultByType(trueitem).ammotype2;
+		int ammogive1 = GetDefaultByType(trueitem).ammogive1;
+		int ammogive2 = GetDefaultByType(trueitem).ammogive2;
+		Inventory.PrintPickupMessage(to.CheckLocalView(), truepickupmsg);
+		to.A_StartSound(truepickupsnd, CHAN_ITEM, CHANF_OVERLAP);
+		to.GiveInventory(trueitem, 1);
+		if(noammogive) 
+		{
+			to.TakeInventory(ammotype1, ammogive1);
+			to.TakeInventory(ammotype2, ammogive2);
+		}
+		// Resolve clip-ammunition.
+		if(ammotype2 && clipammo != -1)
+		{
+			let clipdefs = GetDefaultByType(ammotype2);
+			to.TakeInventory(ammotype2, clipdefs.maxamount);
+			to.GiveInventory(ammotype2, clipammo);
+		}
+        return Weapon(to.FindInventory(trueitem));
+	}
+	
+	void CheckPlrCollide()
+	{
+		let it = ThinkerIterator.Create("PlayerPawn");
+		PlayerPawn act;	
+		
+		plr = NULL;
+		isaimweap = false;
+		WeaponPickupProxy closest;
+		while(act = PlayerPawn(it.Next()))
+		{
+			// If player is colliding with a weaponproxy item, and looking at it.
+			if( Distance2D(act) <= radius && 
+			    act.pos.z >= pos.z && 
+			    act.pos.z <= pos.z+height )
+			{
+				// Check if the player is looking at the object, based on a
+				// very low FOV.
+				if(mustsee)
+				{
+					LookExParams visview;
+					visview.FOV = visiblefov;
+					visview.maxDist = visibledist;
+					bool cansee = act.IsVisible(act, true, visview); 
+					if(!cansee) continue;
+				}
+				
+				isaimweap = true;
+				plr = act;
+				break;
+			}
+		}
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		CheckPlrCollide();
+		
+		// If invalid sprite, use default.
+		if(sprite == GetSpriteIndex("TNT1") || !sprite) 
+		{
+			sprite = GetSpriteIndex(NOWEAPSPR);
+			frame = 0;
+		}
+		
+		if(!plr) return;
+		if(!plr.player.ReadyWeapon || weapdropped || !isaimweap) return;
+		
+		let wcontrol = WeaponLimitProxy(plr.FindInventory("WeaponLimitProxy"));
+		if(!wcontrol) 
+		{
+			plr.GiveInventory("WeaponLimitProxy",1);
+			return;
+		}
+		
+		int wcount = wcontrol.CountWeapons();
+		int btns = plr.player.cmd.buttons;
+		int oldbtns = plr.player.oldbuttons;
+		if( (btns & BT_USE) && !(oldbtns & BT_USE) )
+		{
+			bool hasweap = plr.countinv(trueitem);
+			if(wcount >= MAXWEAPS)
+			{
+				if(!hasweap)
+				{
+					wcontrol.DropSelectedWeapon(pos);
+					weapdropped = true;
+				}
+				else
+				{
+					GiveWeaponItem(plr);
+					Destroy();
+				}
+			}
+			else
+			{
+				let nweap = GiveWeaponItem(plr);
+				if(!hasweap) nweap.Use(true);
+				Destroy();
+			}
+		}
+	}
+	
+	States
+	{
+		Spawn:
+			"####" "#" 1 NoDelay A_JumpIf(weapdropped, "Weap.New");
+		loop;
+		Weap.New:
+			TNT1 A 1;
+			TNT1 A 0 
+			{
+				let nweap = GiveWeaponItem(plr); 
+				nweap.Use(true);
+			}
+		stop;
+	}
+}
+
+class WeaponLimitProxy : Inventory
+{
+	PlayerPawn plr;
+	Default
+	{
+		inventory.maxamount 1;
+		+INVENTORY.UNDROPPABLE;
+	}
+	
+	void DropSelectedWeapon(vector3 atpos)
+	{
+		if(!plr || !plr.player || !plr.player.ReadyWeapon) return;
+		let selweap = plr.player.ReadyWeapon;
+		plr.DropWeapon();
+		let temp = plr.Spawn(selweap.GetClass(), atpos);
+		if(temp) 
+		{
+			let wp = WeaponPickupProxy.BecomeWeaponProxy(Weapon(temp), true);
+			if(wp) wp.clipammo = plr.countinv(selweap.ammotype2);
+		}
+		plr.player.ReadyWeapon = NULL;
+		
+		// Interestingly, inventory items stay on the map at ALL times.
+		// So, if you remove an item, and you want it completely gone be sure
+		// to destroy it as well. If an item doesn't have an owner, it'll remain
+		// invisible but it'll be pickupable again. Producing some really funny
+		// bugs sometimes.
+		plr.RemoveInventory(selweap);
+		selweap.Destroy();
+	}
+	
+	int CountWeapons()
+	{
+		// Count weapons. (If player is connected to this item)
+		if(!plr) return -1;
+		int weapcnt = 0;
+		for(let item = plr.Inv; item; item = item.inv)
+		{
+			if(item is "Weapon" && !(item is "Fist")) weapcnt++;
+		}
+		return weapcnt;
+	}
+	
+	override void DoEffect()
+	{
+		super.DoEffect();
+		plr = PlayerPawn(Owner);
+		if(!plr || !plr.player) return;
+		if(CountWeapons() > MAXWEAPS) 
+		{
+			double rang = ceil(frandom(0,90)*4.);
+			vector3 fw = ( cos(plr.angle+rang)*32, sin(plr.angle+rang)*32, 0 );
+			DropSelectedWeapon(plr.Vec3Offset(fw.x,fw.y,0));
+			let nextweap = plr.PickNextWeapon();
+			if(nextweap) nextweap.Use(false);
+		}
+	}
+}
