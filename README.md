@@ -1,3 +1,3 @@
-# Halo_PickupSystem
+# Halo_GZDoomVer
  ##### Part of a bigger multi-person HaloDoom project.
- ###### This is pretty much no longer just a weapon pickup system, it's pretty much backup for my side of things.
+ ###### This is the GZDoom port, it's pretty much backup for my side of things.
