@@ -1,0 +1,110 @@
+class HaloGun : RecoilWeapon
+{
+	double spreadmod; // Spread introduced by continuous fire
+	double bloomamt, bloomspd;
+	string wcrosshair;
+	Property Bloom : bloomamt;
+	Property BloomSpeed : bloomspd;
+	Property Crosshair : wcrosshair;
+	
+	Default
+	{
+		RecoilWeapon.RecoilSpeed 16;
+		HaloGun.Bloom 0.32;
+		HaloGun.Crosshair "";
+	}
+
+	action void A_UpdateSpread()
+	{
+		invoker.spreadmod += invoker.bloomamt;
+	}
+	
+	action double A_GetSpread(double smod = 5)
+	{
+		return 1.0+(invoker.spreadmod*smod);
+	}
+	
+	override void DoEffect()
+	{
+		spreadmod -= bloomamt*bloomspd;
+		spreadmod = clamp(spreadmod, 0, 2);
+		super.DoEffect();
+	}
+	
+	// This override will ensure that the weapon is given its clip ammo upon 
+	// being picked up.
+	override bool TryPickup (in out Actor toucher)
+	{
+		if(!(toucher is "PlayerPawn")) return super.TryPickup(toucher);
+		if(!toucher.FindInventory(getClassName())) 
+		{
+			if(AmmoType2)
+			{
+				let rammo = GetDefaultByType(AmmoType2);
+				toucher.GiveInventory(AmmoType2,rammo.maxamount);
+			}
+		}
+		return super.TryPickup(toucher);;
+	}
+	
+	// [Lewisk3] Checks if a button was recently pressed.
+	action bool A_ButtonPressed(int btn)
+	{
+		if(!player) return false;
+		return (player.cmd.buttons & btn) && !(player.oldbuttons & btn);
+	}
+	
+	// [Lewisk3] Use this instead of using deprecated functions :P
+	action void A_WeapSound(sound snd, uint flags = 0)
+	{
+		A_StartSound(snd, CHAN_WEAPON, flags);
+	}
+	
+	// For reloading clips/magazines
+	action void A_ReloadClip()
+	{
+		let rammo = GetDefaultByType(invoker.AmmoType2);
+		int reserves = countinv(invoker.AmmoType1);
+		
+		int takeammo = rammo.maxamount - countinv(invoker.AmmoType2); 
+		if(takeammo > reserves) takeammo = reserves;
+		
+		GiveInventory(invoker.AmmoType2,takeammo);
+		TakeInventory(invoker.AmmoType1,takeammo);
+	}
+	
+	// Takes from primary ammunition pool, optionally has a type parameter
+	// setting this to ammotype1 will take from the secondary pool. 
+	// By default NULL results in using ammotype2
+	action void A_TakeAmmo(int amt = 1, class<Inventory> type = NULL)
+	{
+		if(!type) type = invoker.ammotype2;
+		A_TakeInventory(type, amt);
+	}
+	
+	// For reloading one at a time, like a shotgun.
+	action void A_ReloadSingle()
+	{
+		if(countinv(invoker.AmmoType1) > 0)
+		{
+			TakeInventory(invoker.AmmoType1,1);
+			GiveInventory(invoker.AmmoType2,1);
+		}
+	}
+	
+	// Check if we need to reload, if we do, jump to Reload.
+	action state A_GunCheckReload()
+	{
+		return !countinv(invoker.AmmoType2) ? ResolveState("Reload") : ResolveState(NULL);
+	}
+	
+	// Validate that a reload should be done, returns fallback if mag is already full 
+	// or if no reserve ammo is found.
+	action state A_ValidateReload(StateLabel fallback="Ready")
+	{
+		let rammo = GetDefaultByType(invoker.AmmoType2);
+		if(countinv(invoker.AmmoType2) == rammo.maxamount || countinv(invoker.AmmoType1) == 0)
+			return ResolveState(fallback);
+		return ResolveState(NULL);
+	}
+}

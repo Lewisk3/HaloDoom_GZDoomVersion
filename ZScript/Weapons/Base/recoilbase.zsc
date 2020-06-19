@@ -1,0 +1,252 @@
+class RecoilWeapon : Weapon
+{
+	/* 
+		Smooth weapon recoil by : Lewisk3 (Redxone)
+	*/
+	
+	bool usesway, velsway, swapping;
+
+	double recoil_pitch, defpitch;
+	double recoil_angle, defangle;
+	double defzoom, zoomfactor, zoomtimer;
+	double woffsx, woffsy, wofftimer;
+	double realoffsx, realoffsy;
+
+	int deftimer, recoil_timer, newtimer, looksway;
+	double swayspd, pitchmax, anglemax;
+	
+	Vector2 weapsway;
+		
+	property RecoilSpeed : deftimer;
+	property LookSway : usesway, velsway, swayspd;
+	property SwayRange : pitchmax, anglemax;
+	property _Defaults : swapping;
+	
+	Default
+	{
+		RecoilWeapon.RecoilSpeed 6;
+		Weapon.BobStyle "InverseSmooth";
+		Weapon.BobRangeX 0.43;
+		Weapon.BobRangeY 0.67;
+		Weapon.BobSpeed 1.21;
+		
+		RecoilWeapon._Defaults true;
+		RecoilWeapon.LookSway true, false, 2.5;
+		RecoilWeapon.SwayRange 20.0, 10.0;
+	}
+	
+	static double sign(int num)
+	{
+		return (num < 0 ? -1 : 1);
+	}
+	
+	action void A_RWeaponReady(uint flags=0)
+	{
+		let psp = player.GetPSprite(PSP_WEAPON);
+		if(!psp) return;
+		
+		A_WeaponReady(flags);
+		if(invoker.swapping && psp.y == WEAPONTOP) invoker.swapping = false;
+	}
+		
+	action void A_LookSway(float swayspeed, bool requirespd=false, Actor ptr = NULL)
+	{
+		if(!ptr) ptr = self;
+		if(requirespd)
+		{
+			let plr = PlayerPawn(ptr);
+			if(!plr) return;
+			if(plr.vel.length() == 0) return;
+			plr.player.WeaponState |= WF_WEAPONBOBBING;
+		}
+		// This is a port of Nash's ACS weapon sway: https://forum.zdoom.org/viewtopic.php?f=45&t=52122
+		int yaw = ptr.GetPlayerInput(INPUT_YAW) / 1280; 
+		int wpitch = (1.0 - (ptr.pitch * 4)) / 10;
+		double swayMod = yaw * 20;
+		if (swayMod < 0 && invoker.looksway >= swayMod) invoker.looksway -= swayspeed - yaw; // left
+		if (swayMod > 0 && invoker.looksway <= swayMod) invoker.looksway += swayspeed + yaw; // right
+		if (yaw == 0)
+		{
+			if (invoker.looksway < 0) invoker.looksway = invoker.looksway > 0 ? 0 : invoker.looksway + 1.0;
+			if (invoker.looksway > 0) invoker.looksway = invoker.looksway < 0 ? 0 : invoker.looksway - 1.0;
+		}
+		invoker.looksway = clamp(invoker.looksway, -invoker.anglemax, invoker.anglemax);
+		wpitch = clamp(wpitch, -invoker.pitchmax, 8 - invoker.pitchmax);
+		invoker.weapsway = ( invoker.looksway, -wpitch ); // -wpitch
+		
+		//ptr.A_WeaponOffset(invoker.weapsway.x,invoker.weapsway.y, WOF_ADD | WOF_INTERPOLATE);
+	}
+	
+	static double FrameInterpolate(double from, double to, double spd)
+	{
+		if(from < to) from += abs(from-to)/spd;
+		if(from > to) from -= abs(from-to)/spd;
+		return from;
+	}
+	
+	static vector2 PosInterpolate(Vector2 from, Vector2 to, double spd, bool swap=false)
+	{
+	    if (swap)
+		{
+			vector2 tmp = from;
+			from = to;
+			to = tmp;
+		}
+		if(from.x < to.x) from.x += abs(from.x-to.x)/spd;
+		if(from.y < to.y) from.y += abs(from.y-to.y)/spd;
+		if(from.x > to.x) from.x -= abs(from.x-to.x)/spd;
+		if(from.y > to.y) from.y -= abs(from.y-to.y)/spd;
+		return (swap ? to : from);
+	}
+
+	action void A_SetZoom(double z, double zoomframes)
+	{
+		if(invoker.zoomfactor == 0) invoker.zoomfactor = 1;
+		invoker.defzoom = z;
+		invoker.zoomtimer = zoomframes;
+	}
+	
+	action void A_SetRecoil(double p, double a, double spd)
+	{
+		invoker.recoil_pitch = p;
+		invoker.recoil_angle = a;
+		invoker.recoil_timer = (spd == 0) ? invoker.deftimer : spd;
+		invoker.newtimer = invoker.recoil_timer;
+	}
+	
+	action void A_AddRecoil(double p, double a, double spd)
+	{
+		invoker.recoil_pitch += p;
+		invoker.recoil_angle += a;
+		invoker.recoil_timer = (spd == 0) ? invoker.deftimer : spd;
+		invoker.newtimer = invoker.recoil_timer;
+	}
+	
+	action void A_RecoilOffset(double x, double y, double spd)
+	{
+		invoker.woffsx = x;
+		invoker.woffsy = y;
+		invoker.wofftimer = spd;
+		A_UpdateOffsets();
+	}
+
+	
+	action void A_SetupLower()
+	{
+		invoker.swapping = true;
+	}
+	
+	action void A_RLower(int speed)
+	{
+		A_SetCrossHair(0);
+		invoker.realoffsx = invoker.woffsx;
+		invoker.realoffsy = invoker.woffsy;
+		// Reset recoil interpolation if deselected.
+		invoker.recoil_pitch = 0;
+		invoker.recoil_angle = 0;
+		invoker.defpitch = pitch;
+		invoker.defangle = angle;
+		A_Lower(speed);
+	}
+	
+	action void A_RRaise(int speed)
+	{
+		A_SetCrossHair(9);
+		invoker.realoffsx = invoker.woffsx;
+		invoker.realoffsy = invoker.woffsy;
+		A_Raise(speed);
+	}
+	
+	action void A_SetupRaise()
+	{
+		invoker.swapping = true;
+	}
+	
+	action void A_UpdateOffsets(Actor ptr=NULL)
+	{
+		if(!ptr) ptr = self;
+		
+		if( invoker.realoffsx == invoker.woffsx && invoker.realoffsy == invoker.woffsy ) 
+		{
+			if(!invoker.swapping)ptr.A_WeaponOffset(0 + invoker.weapsway.x, 32 + invoker.weapsway.y);
+			return;
+		}
+		
+		double diffx = abs(invoker.realoffsx - invoker.woffsx);
+		double diffy = abs(invoker.realoffsy - invoker.woffsy);
+		if(diffx < 0.1) invoker.realoffsx = invoker.woffsx; 
+		if(diffy < 0.1) invoker.realoffsy = invoker.woffsy;
+						
+		ptr.A_WeaponOffset(0 + invoker.realoffsx+invoker.weapsway.x, 32 + invoker.realoffsy+invoker.weapsway.y);
+		
+		invoker.realoffsx = RecoilWeapon.FrameInterpolate(invoker.realoffsx, invoker.woffsx, invoker.wofftimer);
+		invoker.realoffsy = RecoilWeapon.FrameInterpolate(invoker.realoffsy, invoker.woffsy, invoker.wofftimer);
+	}
+	
+	// [Lewisk]: Had to be re-implemented because the original uses self because it's an Action function.
+	private void O_ZoomFactor(double zoom = 1, int flags = 0)
+	{
+		let player = Owner.player;
+		if (player != NULL && player.ReadyWeapon != NULL)
+		{
+			zoom = 1 / clamp(zoom, 0.1, 50.0);
+			if (flags & 1) Owner.player.FOV = Owner.player.DesiredFOV * zoom;
+			if (flags & 2) zoom = -zoom;
+			Owner.player.ReadyWeapon.FOVScale = zoom;
+		}
+	}
+	
+	override void DoEffect()
+	{
+		if(!Owner) return;
+		PlayerInfo plr = PlayerPawn(Owner).player;
+		if(!plr) return;
+		if(plr.ReadyWeapon != self) return;
+		
+		bool dosway = !swapping;
+		if( usesway && dosway ) A_LookSway(3,velsway,Owner);
+		A_UpdateOffsets(Owner);
+
+		
+		if( abs(recoil_pitch) == 0 && abs(recoil_angle) == 0 )
+		{
+			defangle = Owner.angle;
+			defpitch = Owner.pitch;
+		}
+		
+		if(PlayerPawn(Owner))
+		{
+			PlayerInfo plr = PlayerPawn(Owner).player;
+			if( abs(plr.cmd.pitch) > 1 )	defpitch = Owner.pitch;
+			if( plr.centering || !(level.IsFreelookAllowed()) ) defpitch = 0;
+			if( abs(plr.cmd.yaw  ) > 1 )	defangle = Owner.angle;
+		}
+		
+		if(recoil_timer)
+		{
+			Owner.A_setPitch( Owner.pitch - recoil_pitch );
+			Owner.A_setAngle( Owner.angle - recoil_angle );	
+		}
+		
+		zoomfactor = FrameInterpolate(zoomfactor, defzoom, zoomtimer);
+		if(zoomfactor > 0)O_ZoomFactor(zoomfactor);
+		
+		
+		if(recoil_timer > 0) recoil_timer--;
+		
+		if(recoil_timer <= 0)
+		{
+			double ipitch = FrameInterpolate(Owner.pitch,defpitch,deftimer);
+			double iangle = FrameInterpolate(Owner.angle,defangle,deftimer);
+			if( abs(ipitch-defpitch) <= 0.1 && abs(iangle-defangle) <= 0.1)
+			{	
+				recoil_pitch = 0;
+				recoil_angle = 0;
+			}
+			Owner.A_setPitch( ipitch );
+			Owner.A_setAngle( iangle );	
+		}
+		
+		super.DoEffect();
+	}
+}

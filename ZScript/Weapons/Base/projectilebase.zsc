@@ -1,0 +1,83 @@
+class HaloProjectile : FastProjectile
+{
+	double truedamage;
+	double range_falloff;
+	double range_max;
+	double falloff_minimum;
+	vector3 spawnpos;
+	
+	Property SetRanges : range_falloff, range_max;
+	Property MinRangeDamage : falloff_minimum;
+	Property BaseDamage : truedamage;
+	
+	Default
+	{
+		Radius 5;
+		Height 5;
+		Speed 120;
+		Projectile;
+		RenderStyle "Add";
+		Scale 0.5;
+		
+		HaloProjectile.SetRanges 61, 123;
+		HaloProjectile.MinRangeDamage 0.4; 
+		HaloProjectile.BaseDamage 145;
+	}
+	
+	override int SpecialMissileHit(Actor victim)
+	{	
+		if(victim is "PlayerPawn") return 1;
+		// console.printf("Damage output: %f, Dist: %f", truedamage, getTravelDistance());
+		victim.DamageMobJ(target,self,truedamage,DamageType,0,angle);
+		return -1;
+	}
+	
+	double getTravelDistance(bool tometers = true)
+	{
+		double convert = tometers ? UNIT_METER : 1.0;
+		return HaloMath.Distance3D(pos, spawnpos) / convert;
+	}	
+	virtual void AdjustRangeDamage()
+	{
+		// Do not calculate damage if we have no ranged damage.
+		if(range_max <= 0) return;
+		// Interpolate to minimum damage based on range maximum.
+		double dist = getTravelDistance();
+		// Negate damage at max range.
+		if(dist >= range_max)
+		{
+			truedamage = 0;
+			return;
+		}
+		// Dampen damage until minimum.
+		if(dist > range_falloff)
+		{
+			double dmgmod = HaloMath.Lerp(1.0, 0.0, dist/range_max);
+			dmgmod = clamp(dmgmod, falloff_minimum, 1.0);
+			truedamage = default.truedamage*dmgmod;
+		}
+	}
+	virtual void Init()
+	{
+		spawnpos = pos;
+		SetDamage(0);
+	}
+	
+	override void PostBeginPlay()
+	{
+		Init();
+		super.PostBeginPlay();
+	}
+	override void Tick()
+	{
+		AdjustRangeDamage();
+		super.Tick();
+	}
+	
+	States
+	{
+		Spawn:	
+			TRAC A 1;
+		loop;
+	}
+}

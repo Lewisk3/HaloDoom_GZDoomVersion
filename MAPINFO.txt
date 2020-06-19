@@ -1,4 +1,4 @@
 GameInfo
 {
-	AddEventHandlers = "HaloPickup_EVH"
+	AddEventHandlers = "HaloPickup_EVH", "Halo_OverlayUI"
 }

@@ -1,0 +1,1 @@
+user bool pickup_checksight = true;

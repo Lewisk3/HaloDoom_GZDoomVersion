@@ -1,0 +1,14 @@
+
+HW_MAGF1 HW_MAGF1
+HW_MAGF2 HW_MAGF2
+HW_MAGF3 HW_MAGF3
+HW_MAGF4 HW_MAGF4
+
+HW_MAGS1 HW_MAGS1
+HW_MAGS2 HW_MAGS2
+
+$Random Halo/Weapons/Mag_MD6/Fire 	{ HW_MAGF1 HW_MAGF2 HW_MAGF3 HW_MAGF4 }
+$Random Halo/Weapons/Mag_MD6/Select { HW_MAGS1 HW_MAGS2 }
+Halo/Weapons/Mag_MD6/Melee 				HW_MAGM
+Halo/Weapons/Mag_MD6/Reload 			HW_MAGR
+Halo/Weapons/DryFire 					HW_DRYF

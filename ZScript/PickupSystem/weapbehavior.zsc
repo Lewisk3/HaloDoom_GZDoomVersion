@@ -35,14 +35,13 @@ class WeaponPickupProxy : Actor
 	
 	double visiblefov;
 	double visibledist;
-	bool mustsee;
-	Property VisibleParams : mustsee, visiblefov, visibledist;
+	Property VisibleParams : visiblefov, visibledist;
 	
 	Default
 	{
 		Radius PICKUP_RANGE;
 		Height PICKUP_RANGE;
-		WeaponPickupProxy.VisibleParams PICKUP_MUSTSEE, PICKUP_FOV, PICKUP_RANGE*2.;
+		WeaponPickupProxy.VisibleParams PICKUP_FOV, PICKUP_RANGE*2.;
 	}
 	
 	static WeaponPickupProxy BecomeWeaponProxy(Weapon source, bool noammogive = false)
@@ -64,10 +63,32 @@ class WeaponPickupProxy : Actor
 	
 	Weapon GiveWeaponItem(Actor to)
 	{
+		if(!to) return null;
 		let ammotype1 = GetDefaultByType(trueitem).ammotype1;
 		let ammotype2 = GetDefaultByType(trueitem).ammotype2;
 		int ammogive1 = GetDefaultByType(trueitem).ammogive1;
 		int ammogive2 = GetDefaultByType(trueitem).ammogive2;
+		let ammodef1  = ammotype1 ? GetDefaultByType(ammotype1) : NULL;
+		let ammodef2  = ammotype2 ? GetDefaultByType(ammotype2) : NULL;
+		
+		// Do not pickup if we already own this item but we have max ammo
+		// for it.
+		if( to.countinv(trueitem) )
+		{
+			double togive;
+			if(!to.countinv("backpack"))
+			{
+				if(ammodef1) togive += ammodef1.maxamount-to.countinv(ammotype1);
+				if(ammodef2) togive += ammodef2.maxamount-to.countinv(ammotype2);
+			}
+			else
+			{
+				if(ammodef1) togive += ammodef1.backpackmaxamount-to.countinv(ammotype1);
+				if(ammodef2) togive += ammodef2.backpackmaxamount-to.countinv(ammotype2);
+			}
+			if(togive <= 0) return Null;
+		}
+			
 		Inventory.PrintPickupMessage(to.CheckLocalView(), truepickupmsg);
 		to.A_StartSound(truepickupsnd, CHAN_ITEM, CHANF_OVERLAP);
 		to.GiveInventory(trueitem, 1);
@@ -86,7 +107,7 @@ class WeaponPickupProxy : Actor
         return Weapon(to.FindInventory(trueitem));
 	}
 	
-	void CheckPlrCollide()
+	void CheckPlrCollide(double distmod=1.0)
 	{
 		let it = ThinkerIterator.Create("PlayerPawn");
 		PlayerPawn act;	
@@ -97,23 +118,23 @@ class WeaponPickupProxy : Actor
 		while(act = PlayerPawn(it.Next()))
 		{
 			// If player is colliding with a weaponproxy item, and looking at it.
-			if( Distance2D(act) <= radius && 
+			if( Distance2D(act) <= radius*distmod && 
 			    act.pos.z >= pos.z && 
-			    act.pos.z <= pos.z+height )
+			    act.pos.z <= pos.z+(height*distmod) )
 			{
-				// Check if the player is looking at the object, based on a
-				// very low FOV.
+				
+				bool mustsee = CVar.GetCVar("pickup_checksight", act.player).GetBool();
 				if(mustsee)
 				{
 					LookExParams visview;
 					visview.FOV = visiblefov;
 					visview.maxDist = visibledist;
-					bool cansee = act.IsVisible(act, true, visview); 
+					bool cansee = act.IsVisible(self, false, visview) && act.CheckSight(self); 
 					if(!cansee) continue;
 				}
 				
-				isaimweap = true;
 				plr = act;
+				if(!plr.countinv(trueitem)) isaimweap = true;
 				break;
 			}
 		}
@@ -121,8 +142,12 @@ class WeaponPickupProxy : Actor
 	
 	override void Tick()
 	{
+		SetOrigin((pos.x,pos.y,floorz),true);
 		super.Tick();
-		CheckPlrCollide();
+		
+		bool hasweap = !plr ? false : plr.countinv(trueitem);
+		CheckPlrCollide(hasweap ? 0.5 : 1.0);
+		if(!plr) return;
 		
 		// If invalid sprite, use default.
 		if(sprite == GetSpriteIndex("TNT1") || !sprite) 
@@ -131,8 +156,7 @@ class WeaponPickupProxy : Actor
 			frame = 0;
 		}
 		
-		if(!plr) return;
-		if(!plr.player.ReadyWeapon || weapdropped || !isaimweap) return;
+		if(!plr.player.ReadyWeapon || weapdropped || (!isaimweap && !hasweap)) return;
 		
 		let wcontrol = WeaponLimitProxy(plr.FindInventory("WeaponLimitProxy"));
 		if(!wcontrol) 
@@ -144,9 +168,8 @@ class WeaponPickupProxy : Actor
 		int wcount = wcontrol.CountWeapons();
 		int btns = plr.player.cmd.buttons;
 		int oldbtns = plr.player.oldbuttons;
-		if( (btns & BT_USE) && !(oldbtns & BT_USE) )
+		if( ((btns & BT_USE) && !(oldbtns & BT_USE)) || hasweap )
 		{
-			bool hasweap = plr.countinv(trueitem);
 			if(wcount >= MAXWEAPS)
 			{
 				if(!hasweap)
@@ -156,15 +179,14 @@ class WeaponPickupProxy : Actor
 				}
 				else
 				{
-					GiveWeaponItem(plr);
-					Destroy();
+					if(GiveWeaponItem(plr)) Destroy();
 				}
 			}
 			else
 			{
 				let nweap = GiveWeaponItem(plr);
 				if(!hasweap) nweap.Use(true);
-				Destroy();
+				if(nweap) Destroy();
 			}
 		}
 	}
@@ -179,7 +201,7 @@ class WeaponPickupProxy : Actor
 			TNT1 A 0 
 			{
 				let nweap = GiveWeaponItem(plr); 
-				nweap.Use(true);
+				if(nweap) nweap.Use(true);
 			}
 		stop;
 	}

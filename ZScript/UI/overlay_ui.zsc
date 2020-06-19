@@ -1,0 +1,39 @@
+class Halo_OverlayUI : EventHandler
+{
+	const ANIM_FPS = 60;
+	ui double curbloom;
+	ui double prevMS;
+	ui double deltatime;
+	
+	ui void GetDelta()
+	{
+		if(!prevMS)
+		{
+			prevMS = MSTime();
+			return;
+		}
+		double ftime = MSTime()-prevMS;
+		prevMS = MSTime();
+		double dtime = 1000.0 / ANIM_FPS;
+		deltatime = (ftime/dtime);
+	}
+	
+	override void RenderOverlay(RenderEvent e)
+	{
+		GetDelta();
+		let plr = PlayerPawn(e.Camera);
+		if(!plr || !plr.player) return;
+		HaloGun weap = HaloGun(plr.player.ReadyWeapon);
+		if(!weap) return;
+		
+		string crosshair = weap.wcrosshair;
+		double bloom = weap.spreadmod;
+		vector2 retsize = (0.65,0.65);
+		vector2 midpos = (0,0);
+		retsize *= 1.0+curbloom;
+		HLSBS.DrawImage(crosshair, midpos, HLSBS.SS_SCREEN_CENTER, 0.65, scale:retsize);
+		double ispd = 0.05;
+		if(bloom > curbloom) ispd = 0.25; 
+		curbloom = HaloMath.Lerp(curbloom, bloom, ispd);
+	}
+}
