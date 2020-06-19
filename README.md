@@ -1,3 +1,3 @@
 # Halo_PickupSystem
- ##### Part of a bigger multi-person HaloDoom project. This is the Pickup/Weapon Limit system.
- ###### This system is universally compatible with the vast majority of weapon mods.
+ ##### Part of a bigger multi-person HaloDoom project.
+ ###### This is pretty much no longer just a weapon pickup system, it's pretty much backup for my side of things.
