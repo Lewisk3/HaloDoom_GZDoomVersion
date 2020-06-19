@@ -162,7 +162,7 @@ class HaloPickup_EVH : EventHandler
 
 			if(infront) 
 			{
-				string weapname = GetDefaultByType(aim_weap.trueitem).getClassName();
+				string weapname = GetDefaultByType(aim_weap.trueitem).GetTag();
 				string pickup1 = PICKUP_STR1;
 				string pickup2 = PICKUP_STR2;
 				pickup1.Replace("$WEAPNAME",""..weapname);

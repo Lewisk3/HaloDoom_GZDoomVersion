@@ -119,5 +119,9 @@ class Halo_Magnum : HaloGun
 			MAR2 A 1 A_ReloadClip();
 			MAR2 BCDEFGHIJKL 1;
 		goto Ready.Active;
+		
+		Spawn:
+			HMAG A -1;
+		stop;
 	}
 }

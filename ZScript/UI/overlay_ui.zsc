@@ -33,7 +33,7 @@ class Halo_OverlayUI : EventHandler
 		retsize *= 1.0+curbloom;
 		HLSBS.DrawImage(crosshair, midpos, HLSBS.SS_SCREEN_CENTER, 0.65, scale:retsize);
 		double ispd = 0.12;
-		if(bloom > curbloom) ispd = 0.25; 
-		curbloom = HaloMath.Lerp(curbloom, bloom, ispd);
+		if(bloom > curbloom) ispd = 0.5; 
+		curbloom = HaloMath.Lerp(curbloom, bloom, ispd*deltatime);
 	}
 }

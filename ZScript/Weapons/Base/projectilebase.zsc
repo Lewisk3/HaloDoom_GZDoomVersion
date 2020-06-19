@@ -28,7 +28,8 @@ class HaloProjectile : FastProjectile
 	override int SpecialMissileHit(Actor victim)
 	{	
 		if(victim is "PlayerPawn") return 1;
-		// console.printf("Damage output: %f, Dist: %f", truedamage, getTravelDistance());
+		AdjustRangeDamage();
+		//console.printf("Damage output: %f, Dist: %f", truedamage, getTravelDistance());
 		victim.DamageMobJ(target,self,truedamage,DamageType,0,angle);
 		return -1;
 	}
@@ -51,9 +52,10 @@ class HaloProjectile : FastProjectile
 			return;
 		}
 		// Dampen damage until minimum.
-		if(dist > range_falloff)
+		if(dist >= range_falloff)
 		{
-			double dmgmod = HaloMath.Lerp(1.0, 0.0, dist/range_max);
+			double distmax = dist/range_max;
+			double dmgmod = (-1.5 * (distmax**2)) + 1;
 			dmgmod = clamp(dmgmod, falloff_minimum, 1.0);
 			truedamage = default.truedamage*dmgmod;
 		}
@@ -71,9 +73,8 @@ class HaloProjectile : FastProjectile
 	}
 	override void Tick()
 	{
-		if(target) SetOrigin(pos+target.vel, true);
-		AdjustRangeDamage();
 		super.Tick();
+		if(target) SetOrigin(pos+target.vel, true);
 	}
 	
 	States
