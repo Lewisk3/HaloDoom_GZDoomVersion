@@ -18,6 +18,7 @@ class HaloProjectile : FastProjectile
 		Projectile;
 		RenderStyle "Add";
 		Scale 0.5;
+		+INTERPOLATEANGLES;
 		
 		HaloProjectile.SetRanges 61, 123;
 		HaloProjectile.MinRangeDamage 0.4; 
@@ -70,6 +71,7 @@ class HaloProjectile : FastProjectile
 	}
 	override void Tick()
 	{
+		if(target) SetOrigin(pos+target.vel, true);
 		AdjustRangeDamage();
 		super.Tick();
 	}

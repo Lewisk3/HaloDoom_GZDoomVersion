@@ -39,7 +39,7 @@ class WeaponPickupProxy : Actor
 	
 	Default
 	{
-		Radius PICKUP_RANGE;
+		Radius PICKUP_RANGE*0.25;
 		Height PICKUP_RANGE;
 		WeaponPickupProxy.VisibleParams PICKUP_FOV, PICKUP_RANGE*2.;
 	}
@@ -118,19 +118,18 @@ class WeaponPickupProxy : Actor
 		while(act = PlayerPawn(it.Next()))
 		{
 			// If player is colliding with a weaponproxy item, and looking at it.
-			if( Distance2D(act) <= radius*distmod && 
+			if( Distance2D(act) <= PICKUP_RANGE*distmod && 
 			    act.pos.z >= pos.z && 
-			    act.pos.z <= pos.z+(height*distmod) )
+			    act.pos.z <= pos.z+(PICKUP_RANGE*distmod) )
 			{
 				
 				bool mustsee = CVar.GetCVar("pickup_checksight", act.player).GetBool();
 				if(mustsee)
 				{
-					LookExParams visview;
-					visview.FOV = visiblefov;
-					visview.maxDist = visibledist;
-					bool cansee = act.IsVisible(self, false, visview) && act.CheckSight(self); 
-					if(!cansee) continue;
+					FLineTraceData lt;
+					act.LineTrace(act.angle, visibledist, act.pitch, TRF_ALLACTORS|TRF_ABSOFFSET, act.player.viewheight,0,0, lt);
+					Actor hitact = lt.HitActor;
+					if(hitact != self) continue;
 				}
 				
 				plr = act;

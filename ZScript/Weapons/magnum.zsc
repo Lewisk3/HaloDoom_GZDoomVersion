@@ -33,9 +33,10 @@ class Halo_Magnum : HaloGun
 		Weapon.AmmoType1 "Clip";
 		Weapon.AmmoType2 "Halo_Magnum_Clip";
 				
-		// Recoil 
+		// Recoil
 		HaloGun.Bloom 0.8;
-		HaloGun.BloomSpeed 0.1;
+		HaloGun.BloomSpeed 0.15;
+		HaloGun.BaseRecoil 2;
 		HaloGun.Crosshair "MagRet";
 	}
 	
@@ -43,7 +44,7 @@ class Halo_Magnum : HaloGun
 	{
 		A_Light(2);
 		A_WeapSound("Halo/Weapons/Mag_MD6/Fire");
-		A_FireProjectile("HaloMagnum_Bullet", frandom(-1,1)*A_GetSpread(), false, 8, -4, 0, frandom(-1,-1)*A_GetSpread());
+		A_FireProjectile("HaloMagnum_Bullet", A_RecoilSpread(), false, 8, -2, 0, A_RecoilSpread());		
 		A_TakeAmmo();
 		A_UpdateSpread();
 	}
