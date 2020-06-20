@@ -7,9 +7,13 @@ version 4.0
 #include "ZScript/PickupSystem/halopickup_events.zsc"
 #include "ZScript/PickupSystem/weapbehavior.zsc"
 
+// Player(s)
+#include "ZScript/Player/haloplayer.zsc"
+
 // UI
 #include "ZScript/SBS/halo_sbs_base.zsc"
 #include "ZScript/SBS/halo_sbs_3D.zsc"
+#include "ZScript/UI/halo_hud.zsc"
 #include "ZScript/UI/overlay_ui.zsc"
 
 // Weapon base

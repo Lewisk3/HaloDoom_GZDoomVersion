@@ -1,0 +1,170 @@
+class HaloStatusBar : BaseStatusBar
+{
+	const ANIM_FPS = 60;
+	
+	HaloPlayer haloplr;
+	HUDFont mHUDFont;
+	
+	// Delta-time logic.
+	double prevMS; 
+	double deltatime;
+	
+	// Crosshair vars
+	double curbloom;
+	
+	// Interpolated vars
+	double curshields;
+	double dimalpha;
+	
+	// Timers
+	double lowshield_timer;
+	bool shieldwarn;
+	
+	// Font(s)
+	Font fnt;
+
+	override void Init()
+	{
+		Super.Init();
+		SetSize(0, 320, 200);
+		if(CPlayer) haloplr = HaloPlayer(CPlayer.mo);
+		
+		// Create the font used for the fullscreen HUD
+		fnt = "BigFont";
+		mHUDFont = HUDFont.Create(fnt);
+	}
+		
+	override void Draw (int state, double TicFrac)
+	{
+		if(!automapactive) Super.Draw(state, TicFrac);
+				
+		// Always draw HUD
+		BeginHUD();
+		DrawMainBar (TicFrac);
+	}
+	
+	void DrawMainBar (double TicFrac)
+	{
+		if(CPlayer && CPlayer.mo)
+		{	
+			if(!haloplr) 
+			{
+				haloplr = HaloPlayer(CPlayer.mo);
+				return;	
+			}
+			
+			// Vitals
+			DrawBars(); 
+			
+			// Weapons
+			DrawRadar();
+			DrawCompass();
+			DrawCrosshairs();
+			
+			// Keys and Objectives
+			DrawKeys();			
+			DrawObjectives();
+			
+			// Keep track of time, always.
+			if(!prevMS)
+			{
+				prevMS = MSTime();
+				return;
+			}
+			double ftime = MSTime()-prevMS;
+			prevMS = MSTime();
+			double dtime = 1000.0 / ANIM_FPS;
+			deltatime = (ftime/dtime);
+		}
+	}
+
+	void DrawCrosshairs()
+	{
+		HaloGun weap = HaloGun(haloplr.player.ReadyWeapon);
+		if(!weap) return;
+		
+		string crosshair = weap.wcrosshair;
+		double bloom = weap.spreadmod;
+		vector2 retsize = (0.65,0.65);
+		vector2 midpos = (0,0);
+		retsize *= 1.0+curbloom;
+		HLSBS.DrawImage(crosshair, midpos, HLSBS.SS_SCREEN_CENTER, 0.65, scale:retsize);
+		double ispd = 0.12;
+		if(bloom > curbloom) ispd = 0.5; 
+		curbloom = HaloMath.Lerp(curbloom, bloom, ispd*deltatime);
+	}
+
+	const BLINKRATE = ANIM_FPS/6.;
+	void DrawBars()
+	{
+		if(haloplr.shields <= 0)
+		{
+			lowshield_timer -= 1*deltatime;	
+			if(lowshield_timer < 0) 
+			{
+				lowshield_timer = BLINKRATE; 
+				shieldwarn = !shieldwarn;
+			}
+		}
+		else
+		{
+			lowshield_timer = BLINKRATE;
+			shieldwarn = false;
+		}
+		
+		if( haloplr.regen_timer >= HaloPlayer.REGENTIME && dimalpha > 0 &&
+			haloplr.shields < haloplr.maxshields )
+		{
+			dimalpha = HaloMath.Lerp(dimalpha, 0, 0.025*deltatime);
+			Screen.Dim("42ADF5",dimalpha,0,0,Screen.GetWidth(),Screen.getHeight());
+		}
+		else
+			dimalpha = 0.4;
+
+		string shbg = shieldwarn ? "sh_rbg"  : "sh_nbg";
+		string shou = shieldwarn ? "sh_rout" : "sh_nout";
+		
+		vector2 shieldpos = (1550, 50);
+		vector2 healthpos = (1740, 77);
+		if(curshields != haloplr.shields) curshields = HaloMath.Lerp(curshields, haloplr.shields, 0.2*deltatime);
+		HLSBS.DrawBar("sh_bar",shbg,curshields,haloplr.maxshields,shieldpos,1,0, 0.8, 1.0, (1.35,1.35));
+		shieldpos += (171, 42);
+		HLSBS.DrawImage(shou,shieldpos,scale:(1.35,1.3));
+		int healthbars = clamp(ceil((haloplr.health / 5.) - 1), 1, 8);
+		HLSBS.DrawImage("ui_hbar"..healthbars, healthpos, 0, 0.8, scale:(1.0,1.15));
+		HLSBS.DrawImage("ui_hout"..healthbars, healthpos, 0, 1.0, scale:(1.0,1.15));
+	}
+
+	// Planned to implement, currently unimplemented.
+	void DrawObjectives() {}
+	void DrawRadar() {}
+	void DrawCompass() {}
+
+	void DrawKeys()
+	{
+		if(!CPlayer) return;
+		
+		bool locks[6];
+		String image;
+		for(int i = 0; i < 6; i++) locks[i] = CPlayer.mo.CheckKeys(i + 1, false, true);
+		// key 1
+		if (locks[1] && locks[4]) image = "STKEYS6";
+		else if (locks[1]) image = "STKEYS0";
+		else if (locks[4]) image = "STKEYS3";
+		HLSBS.DrawImage(image, (32, 48+32),0,scale:(6.0,4.6));
+		// key 2
+		if (locks[2] && locks[5]) image = "STKEYS7";
+		else if (locks[2]) image = "STKEYS1";
+		else if (locks[5]) image = "STKEYS4";
+		else image = "";
+		HLSBS.DrawImage(image, (32, 96+32),0,scale:(6.0,4.6));
+		// key 3
+		if (locks[0] && locks[3]) image = "STKEYS8";
+		else if (locks[0]) image = "STKEYS2";
+		else if (locks[3]) image = "STKEYS5";
+		else image = "";
+		HLSBS.DrawImage(image, (32, 144+32),0,scale:(6.0,4.6));
+	}
+
+	void DrawFullScreenStuff (double TicFrac) {}
+}

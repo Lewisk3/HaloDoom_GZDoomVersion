@@ -232,7 +232,7 @@ class HLSBS Abstract ui
 	}
 	
 	static void DrawBar(String ongfx, String offgfx, double curval, double maxval, Vector2 position, int border, int vertical,
-						double Alpha = 1., Vector2 scale = (1, 1), Color tint=Color(0,0,0,0) )
+						double OnAlpha = 1., double OffAlpha = 1., Vector2 scale = (1, 1), Color tint=Color(0,0,0,0) )
 	{
 		let ontex = TexMan.CheckForTexture(ongfx, TexMan.TYPE_MiscPatch);
 		if (!ontex.IsValid()) return;
@@ -268,17 +268,17 @@ class HLSBS Abstract ui
 			for(int i = 0; i < 4; i++) Clip[i] += border;
 
 			//Draw the whole foreground
-			DrawTexture(ontex, position, 0, alpha, scale, tint, (0,0) );
+			DrawTexture(ontex, position, 0, OnAlpha, scale, tint, (0,0) );
 			SetClipRect(position.X + Clip[0], position.Y + Clip[1], on_texsize.X - Clip[0] - Clip[2], on_texsize.Y - Clip[1] - Clip[3]);
 		}
 		
-		if (offtex.IsValid() && off_texsize == on_texsize) DrawTexture(offtex, position, 0, alpha, scale, tint, (0,0) );
+		if (offtex.IsValid() && off_texsize == on_texsize) DrawTexture(offtex, position, 0, OffAlpha, scale, tint, (0,0) );
 		else Fill(color(255,0,0,0), position.X + Clip[0], position.Y + Clip[1], on_texsize.X - Clip[0] - Clip[2], on_texsize.Y - Clip[1] - Clip[3]);
 		
 		if (border == 0) 
 		{
 			SetClipRect(position.X + Clip[0], position.Y + Clip[1], on_texsize.X - Clip[0] - Clip[2], on_texsize.Y - Clip[1] - Clip[3]);
-			DrawTexture(ontex, position, 0, alpha, scale, tint, (0,0) );
+			DrawTexture(ontex, position, 0, OnAlpha, scale, tint, (0,0) );
 		}
 		// restore the previous clipping rectangle
 		screen.SetClipRect(cx, cy, cw, ch);

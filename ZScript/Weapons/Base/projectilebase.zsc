@@ -19,6 +19,7 @@ class HaloProjectile : FastProjectile
 		RenderStyle "Add";
 		Scale 0.5;
 		+INTERPOLATEANGLES;
+		Decal "BulletDecal";
 		
 		HaloProjectile.SetRanges 61, 123;
 		HaloProjectile.MinRangeDamage 0.4; 

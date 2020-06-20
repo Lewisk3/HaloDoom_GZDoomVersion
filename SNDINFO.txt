@@ -12,3 +12,10 @@ $Random Halo/Weapons/Mag_MD6/Select { HW_MAGS1 HW_MAGS2 }
 Halo/Weapons/Mag_MD6/Melee 				HW_MAGM
 Halo/Weapons/Mag_MD6/Reload 			HW_MAGR
 Halo/Weapons/DryFire 					HW_DRYF
+
+// Shield
+Shield/TakeDamage shdmg
+Shield/Regenerate shreg
+Shield/Explode shexp
+Shield/Warning shbip
+Shield/Low shlow
