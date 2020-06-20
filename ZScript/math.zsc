@@ -17,7 +17,7 @@ class HaloMath Abstract
 		if( abs(a-b) < dampenv) a = b;
 		return a;
 	}
-	
+
 	// Linear interpolate
 	static double Lerp(double a, double b, double lerpFactor)
 	{
