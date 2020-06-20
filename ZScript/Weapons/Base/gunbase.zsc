@@ -1,5 +1,7 @@
 class HaloGun : RecoilWeapon
 {
+	bool pbtn_fire;
+	bool pbtn_altfire;
 	double baserecoil;
 	double spreadmod; // Spread introduced by continuous fire
 	double bloomamt, bloomspd, accmod;
@@ -30,6 +32,10 @@ class HaloGun : RecoilWeapon
 	
 	override void DoEffect()
 	{
+		// Constantly keep track of this for better responsiveness.
+		pbtn_fire = A_ButtonPressed(BT_ATTACK, Owner);
+		pbtn_altfire = A_ButtonPressed(BT_ALTATTACK, Owner);
+		
 		spreadmod -= bloomamt*bloomspd;
 		spreadmod = clamp(spreadmod, 0, 2);
 		super.DoEffect();
@@ -52,11 +58,14 @@ class HaloGun : RecoilWeapon
 	}
 	
 	// [Lewisk3] Checks if a button was recently pressed.
-	action bool A_ButtonPressed(int btn)
+	action bool A_ButtonPressed(int btn, Actor ptr=NULL)
 	{
-		if(!player) return false;
-		return (player.cmd.buttons & btn) && !(player.oldbuttons & btn);
+		let src = ptr ? ptr : self;
+		if(!src.player) return false;
+		return (src.player.cmd.buttons & btn) && !(src.player.oldbuttons & btn);
 	}
+	action bool A_FirePressed() { return invoker.pbtn_fire; }
+	action bool A_AltFirePressed() { return invoker.pbtn_altfire; }
 	
 	// [Lewisk3] Use this instead of using deprecated functions :P
 	action void A_WeapSound(sound snd, uint flags = 0)

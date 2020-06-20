@@ -8,7 +8,7 @@ class Halo_Magnum_Clip : Ammo
 	}
 }
 
-class HaloMagnum_Bullet : HaloProjectile 
+class HaloMagnum_Bullet : HaloBullet 
 {
 	Default
 	{
@@ -51,7 +51,7 @@ class Halo_Magnum : HaloGun
 	}
 	action state A_CheckRapidFire()
 	{
-		return A_JumpIf(A_ButtonPressed(BT_ATTACK), "Fire");
+		return A_JumpIf(A_FirePressed(), "Fire");
 	}
 	
 	States
@@ -80,7 +80,11 @@ class Halo_Magnum : HaloGun
 			MASE EDCBA 1;
 			TNT1 A 0 A_RLower(12);
 		wait;
-
+		
+		
+		//  - 210RPM -
+		// 210/60 = 3.5
+		// 35/3.5 = 10 frames.
 		Fire:
 			MAFI A 1
 			{
@@ -102,7 +106,7 @@ class Halo_Magnum : HaloGun
 				A_SetZoom(1.0, 2);
 				A_SetRecoil(-0.18, 0, 8);
 			}
-			MAFI CDE 1 A_RecoilOffset(0,0,4);
+			MAFI CDE 2 A_RecoilOffset(0,0,4);
 			MAFI FG 1 A_CheckRapidFire();
 		Hold:
 			MAR1 A 1 A_CheckRapidFire();

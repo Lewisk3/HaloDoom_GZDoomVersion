@@ -1,1 +1,1 @@
-#include "ModelScripts/weapons.mdf"
+#include "Models/defs/weapons.mdf"

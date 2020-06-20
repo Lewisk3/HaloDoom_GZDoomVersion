@@ -1,0 +1,31 @@
+// Lights
+pointlight YellowPointLight
+{
+    color 5.0 5.0 0.0
+    size 16
+}
+pointlight TinyYellowPointLight
+{
+    color 5.0 5.0 0.0
+    size 2
+}
+pointlight OrangePointLight
+{
+    color 1.0 0.5 0.0
+    size 16
+}
+pointlight BlueBrightLight
+{
+    color 0.0 0.0 1.0
+    size 8
+}
+
+// Lit objects
+object HaloBullet
+{
+	Frame TRAC { light YellowPointLight }
+}
+object HaloMagnum_Bullet
+{
+	Frame TRAC { light YellowPointLight }
+}
