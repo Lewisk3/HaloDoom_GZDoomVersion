@@ -16,6 +16,9 @@ version 4.0
 #include "ZScript/UI/halo_hud.zsc"
 #include "ZScript/UI/overlay_ui.zsc"
 
+// Items
+#include "ZScript/Items/keys.zsc"
+
 // Weapon base
 #include "ZScript/Weapons/Base/recoilbase.zsc"
 #include "ZScript/Weapons/Base/gunbase.zsc"

@@ -23,32 +23,16 @@ THE SOFTWARE.
 */
 class HaloPickup_EVH : EventHandler
 {
-	play WeaponPickupProxy aim_weap;
-	
-	override void WorldTick()
-	{
-		let plr = players[consoleplayer].mo;
-		if(!plr) return;
-		
-		let it = ThinkerIterator.Create("WeaponPickupProxy");
-		WeaponPickupProxy act;	
-		
-		aim_weap = NULL;
-		while(act = WeaponPickupProxy(it.Next()))
-		{
-			if(act.isaimweap) 
-			{	
-				aim_weap = act;
-				break;
-			}
-		}
-	}
+	ui WeaponPickupProxy aim_weap;
 	
 	override void RenderOverlay(RenderEvent e)
 	{
 		Actor rendersrc = e.Camera;
 		// Draw HUD projections
-		
+		aim_weap = NULL;
+		let plr = HaloPlayer(e.Camera);
+		if(plr) aim_weap = plr.pickuptarget;
+			
 		if(aim_weap)
 		{
 			bool infront;

@@ -28,7 +28,7 @@ class HaloProjectile : FastProjectile
 	
 	override int SpecialMissileHit(Actor victim)
 	{	
-		if(victim is "PlayerPawn") return 1;
+		if(victim == target) return 1;
 		AdjustRangeDamage();
 		//console.printf("Damage output: %f, Dist: %f", truedamage, getTravelDistance());
 		victim.DamageMobJ(target,self,truedamage,DamageType,0,angle);

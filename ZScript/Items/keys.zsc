@@ -1,0 +1,41 @@
+class HaloRedKey : RedCard replaces RedCard
+{
+	Default
+	{
+		Scale 0.5;
+	}
+	
+	States
+	{
+		Spawn:
+			HRKY A 10 Bright;
+		loop;
+	}
+}
+class HaloBlueKey : BlueCard replaces BlueCard
+{
+	Default
+	{
+		Scale 0.5;
+	}
+	States
+	{
+		Spawn:
+			HBKY A 10 Bright;
+		loop;
+	}
+} 
+class HaloYellowKey : YellowCard replaces YellowCard
+{
+	Default
+	{
+		Scale 0.5;
+	}
+	
+	States
+	{
+		Spawn:
+			HYKY A 10 Bright;
+		loop;
+	}
+}

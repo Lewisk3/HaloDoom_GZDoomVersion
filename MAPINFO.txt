@@ -1,6 +1,6 @@
 GameInfo
 {
-	AddEventHandlers = "HaloPickup_EVH"
+	AddEventHandlers = "HaloPickup_EVH", "Halo_OverlayUI"
 	StatusBarClass = "HaloStatusBar"
 	PlayerClasses = "HaloPlayer"
 }
