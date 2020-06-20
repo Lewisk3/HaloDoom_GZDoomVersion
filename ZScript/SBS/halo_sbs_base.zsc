@@ -144,8 +144,9 @@ class HLSBS Abstract ui
 				DTA_VirtualHeightF, GetBaseHeight(),
 				DTA_KeepRatio, true,
 				DTA_Alpha, alpha,
-				DTA_DestWidth, int(texsize.x*scale.x),
-				DTA_DestHeight, int(texsize.y*scale.y),
+				DTA_DestWidth, int(abs(texsize.x*scale.x)),
+				DTA_DestHeight, int(abs(texsize.y*scale.y)),
+				DTA_FlipX, !!(scale.x < 0),
 				DTA_ColorOverlay, tint
 			);
 		}
@@ -160,8 +161,9 @@ class HLSBS Abstract ui
 			Screen.DrawTexture(texture, false, npos.x, npos.y,
 				DTA_KeepRatio, true,
 				DTA_Alpha, alpha,
-				DTA_DestWidth, int(texsize.x*scale.x*scaleratio.x),
-				DTA_DestHeight, int(texsize.y*scale.y*scaleratio.y),
+				DTA_DestWidth, int(abs(texsize.x*scale.x*scaleratio.x)),
+				DTA_DestHeight, int(abs(texsize.y*scale.y*scaleratio.y)),
+				DTA_FlipX, !!(scale.x < 0),
 				DTA_ColorOverlay, tint
 			);
 		}

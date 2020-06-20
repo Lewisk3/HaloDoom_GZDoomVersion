@@ -99,6 +99,7 @@ class HaloPlayer : DoomPlayer
 			A_StartSound("Shield/TakeDamage",flags:CHANF_NOSTOP);
 			if(shields <= 0) 
 			{	
+				A_StartSound("Shield/Explode",flags:CHANF_NOSTOP);
 				double truedmg = abs(shields);
 				shields = 0;
 				return super.DamageMobJ(inflictor, source, truedmg, mod, flags, angle);

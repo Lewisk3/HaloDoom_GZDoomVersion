@@ -12,9 +12,9 @@ class HaloMagnum_Bullet : HaloProjectile
 {
 	Default
 	{
-		HaloProjectile.SetRanges 61, 123;
-		HaloProjectile.MinRangeDamage 0.4; 
-		HaloProjectile.BaseDamage 145;
+		HaloProjectile.SetRanges MAGNUM_RANGE1, MAGNUM_RANGE2;
+		HaloProjectile.MinRangeDamage MAGNUM_MINDMG/10.; 
+		HaloProjectile.BaseDamage MAGNUM_DMG;
 	}
 }
 
@@ -36,7 +36,8 @@ class Halo_Magnum : HaloGun
 		// Recoil
 		HaloGun.Bloom 0.8;
 		HaloGun.BloomSpeed 0.15;
-		HaloGun.BaseRecoil 2;
+		HaloGun.BaseRecoil MAGNUM_RECOIL;
+		HaloGun.Inaccuracy MAGNUM_ACCMOD;
 		HaloGun.Crosshair "MagRet";
 	}
 	

@@ -2,12 +2,13 @@ class HaloGun : RecoilWeapon
 {
 	double baserecoil;
 	double spreadmod; // Spread introduced by continuous fire
-	double bloomamt, bloomspd;
+	double bloomamt, bloomspd, accmod;
 	string wcrosshair;
 	Property Bloom : bloomamt;
 	Property BloomSpeed : bloomspd;
 	Property Crosshair : wcrosshair;
 	Property BaseRecoil : baserecoil;
+	Property Inaccuracy : accmod;
 	
 	Default
 	{
@@ -22,9 +23,9 @@ class HaloGun : RecoilWeapon
 		invoker.spreadmod += invoker.bloomamt;
 	}
 	
-	action double A_RecoilSpread(double smod = 5)
+	action double A_RecoilSpread()
 	{
-		return frandom(-invoker.baserecoil, invoker.baserecoil)*1.0+(invoker.spreadmod*smod);
+		return frandom[GunRecoil](-invoker.baserecoil, invoker.baserecoil)*(1.0+(invoker.spreadmod*invoker.accmod));
 	}
 	
 	override void DoEffect()
