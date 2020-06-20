@@ -4,6 +4,6 @@
 root = true
 
 # 4 space indentation
-[*.zsc]
+[*.{zsc,cfg}]
 indent_style = tab
 indent_size = 4
