@@ -234,7 +234,7 @@ class WeaponLimitProxy : Inventory
 		// invisible but it'll be pickupable again. Producing some really funny
 		// bugs sometimes.
 		plr.RemoveInventory(selweap);
-		selweap.Destroy();
+		Inventory(selweap).GoAwayAndDie();
 	}
 	
 	int CountWeapons()
