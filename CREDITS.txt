@@ -1,0 +1,7 @@
+ZScript : Lewisk3
+Magnum Sprites & Animations: Indie 
+Halo KeyCards: AlienWheelChair
+Halo CovenantKeys: killerkouhai
+UI Graphics: AlienWheelChair
+
+# Not sure whom to credit for certain sounds, will update when appropriate. #
