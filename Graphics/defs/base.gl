@@ -19,6 +19,27 @@ pointlight BlueBrightLight
     color 0.0 0.0 1.0
     size 8
 }
+pulselight RedPulseLight
+{
+	color 0.96 0 0
+	size 16    
+	secondarySize 8
+    interval 2.5
+}
+pulselight BluePulseLight
+{
+	color 0 0 0.96
+	size 8    
+	secondarySize 4
+    interval 2.5
+}
+pulselight YellowPulseLight
+{
+	color 0.96 0.96 0
+	size 8    
+	secondarySize 4
+    interval 2.5
+}
 
 // Lit objects
 object HaloBullet
@@ -28,4 +49,28 @@ object HaloBullet
 object HaloMagnum_Bullet
 {
 	Frame TRAC { light YellowPointLight }
+}
+object HaloRedKey 
+{
+	Frame HRKY { light RedPulseLight }
+}
+object HaloBlueKey 
+{
+	Frame HBKY { light BluePulseLight }
+}
+object HaloYellowKey 
+{
+	Frame HYKY { light YellowPulseLight }
+}
+object HaloCovRedKey 
+{
+	Frame HCRK { light RedPulseLight }
+}
+object HaloCovBlueKey 
+{
+	Frame HCBK { light BluePulseLight }
+}
+object HaloCovYellowKey 
+{
+	Frame HCYK { light YellowPulseLight }
 }

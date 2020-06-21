@@ -99,7 +99,7 @@ extend class HLSBS
 		
 		HLViewProjection vp = new("HLViewProjection");
 		vp.FOV = viewplr.FOV;
-		vp.view_pos = viewer.vec3offset(0, 0, viewplr.viewheight);
+		vp.view_pos = viewer.vec3offset(0, 0, viewplr.viewz-viewer.pos.z);
 		vp.view_ang = (viewer.angle, viewer.pitch, viewer.roll);
 		
 		return vp;

@@ -80,12 +80,12 @@ class Halo_OverlayUI : EventHandler
 			if(k && !k.Owner)
 			{
 				// Project KeyNAV
-				HLViewProjection viewproj = HLSBS.GetRenderEventViewProj(e);
+				HLViewProjection viewproj = HLSBS.GetActorViewProj(e.Camera); //HLSBS.GetRenderEventViewProj(e);
 				bool infront;
 				vector2 apos;
 				[infront, apos] = HLSBS.GetActorHUDPos (
 					viewproj,
-					k, 0, 0, k.height*1.5
+					k, cos(k.angle)*2, sin(k.angle)*2, k.height*1.5
 				);
 				if(infront) 
 				{

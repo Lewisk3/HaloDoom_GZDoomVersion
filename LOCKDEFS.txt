@@ -29,7 +29,7 @@ Lock 3 Doom
 Lock 129 Doom
 {
 	//$Title "Any red key"
-	Any { HaloRedKey RedSkull KeyGreen }
+	Any { HaloRedKey HaloCovRedKey KeyGreen }
 	Message "$PD_REDK"
 	RemoteMessage "$PD_REDO"
 	Mapcolor 255 0 0
@@ -38,7 +38,7 @@ Lock 129 Doom
 Lock 130 Doom
 {
 	//$Title "Any blue key"
-	Any { HaloBlueKey BlueSkull KeyBlue }
+	Any { HaloBlueKey HaloCovBlueKey KeyBlue }
 	Message "$PD_BLUEK"
 	RemoteMessage "$PD_BLUEO"
 	Mapcolor 0 0 255
@@ -47,7 +47,7 @@ Lock 130 Doom
 Lock 131 Doom
 {
 	//$Title "Any yellow key"
-	Any { HaloYellowKey YellowSkull KeyYellow }
+	Any { HaloYellowKey HaloCovYellowKey KeyYellow }
 	Message "$PD_YELLOWK"
 	RemoteMessage "$PD_YELLOWO"
 	Mapcolor 255 255 0
@@ -56,7 +56,7 @@ Lock 131 Doom
 Lock 132 Doom
 {
 	//$Title "Red card or skull"
-	Any { HaloRedKey RedSkull }
+	Any { HaloRedKey HaloCovRedKey }
 	Message "$PD_REDK"
 	RemoteMessage "$PD_REDO"
 	Mapcolor 255 0 0
@@ -65,7 +65,7 @@ Lock 132 Doom
 Lock 133 Doom
 {
 	//$Title "Blue card or skull"
-	Any { HaloBlueKey BlueSkull }
+	Any { HaloBlueKey HaloCovBlueKey }
 	Message "$PD_BLUEK"
 	RemoteMessage "$PD_BLUEO"
 	Mapcolor 0 0 255
@@ -74,7 +74,7 @@ Lock 133 Doom
 Lock 134 Doom
 {
 	//$Title "Yellow card or skull"
-	Any { HaloYellowKey YellowSkull }
+	Any { HaloYellowKey HaloCovYellowKey }
 	Message "$PD_YELLOWK"
 	RemoteMessage "$PD_YELLOWO"
 	Mapcolor 255 255 0

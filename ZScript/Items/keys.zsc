@@ -1,8 +1,55 @@
-class HaloRedKey : RedCard replaces RedCard
+const HKEY_REDMSG     = "$GOTREDCARD";
+const HKEY_BLUEMSG    = "$GOTBLUECARD";
+const HKEY_YELLOWMSG  = "$GOTYELLOWCARD";
+const HCKEY_REDMSG    = "Picked up the red index.";
+const HCKEY_BLUEMSG   = "Picked up the blue index.";
+const HCKEY_YELLOWMSG = "Picked up the yellow index.";
+
+// Defaults
+class HaloKey : DoomKey
 {
+	double rotatespd;
+	Property RotationSpeed : rotatespd;
+	
 	Default
 	{
 		Scale 0.5;
+		+FLATSPRITE;
+		+INTERPOLATEANGLES;
+		HaloKey.RotationSpeed 4;
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		if(!rotatespd) 
+			bFLATSPRITE = false;
+		else
+		{
+			pitch = -90;
+			angle += rotatespd;
+		}
+	}
+}
+class HaloCovKey : HaloKey
+{
+	Default
+	{
+		Radius 8;
+		Height 24;
+		ProjectilePassHeight 0;
+		Renderstyle "Normal";
+		Scale 2.5;
+	}
+}
+
+// Card Keys
+class HaloRedKey : HaloKey replaces RedCard
+{
+	Default
+	{
+		Inventory.Pickupmessage HKEY_REDMSG;
+		Inventory.Icon "STKEYS2";
 	}
 	
 	States
@@ -12,11 +59,12 @@ class HaloRedKey : RedCard replaces RedCard
 		loop;
 	}
 }
-class HaloBlueKey : BlueCard replaces BlueCard
+class HaloBlueKey : HaloKey replaces BlueCard
 {
 	Default
 	{
-		Scale 0.5;
+		Inventory.Pickupmessage HKEY_BLUEMSG;
+		Inventory.Icon "STKEYS0";
 	}
 	States
 	{
@@ -25,11 +73,12 @@ class HaloBlueKey : BlueCard replaces BlueCard
 		loop;
 	}
 } 
-class HaloYellowKey : YellowCard replaces YellowCard
+class HaloYellowKey : HaloKey replaces YellowCard
 {
 	Default
 	{
-		Scale 0.5;
+		Inventory.Pickupmessage HKEY_YELLOWMSG;
+		Inventory.Icon "STKEYS1";
 	}
 	
 	States
@@ -37,5 +86,49 @@ class HaloYellowKey : YellowCard replaces YellowCard
 		Spawn:
 			HYKY A 10 Bright;
 		loop;
+	}
+}
+
+// Covenant(Skull) Keys
+class HaloCovRedKey : HaloCovKey replaces RedSkull
+{
+	Default
+	{
+		inventory.pickupmessage HCKEY_REDMSG;
+		inventory.icon "HCRKA0";
+	}
+	States
+	{
+		Spawn:
+			HCRK A 4 Bright;
+		Loop;
+	}
+}
+class HaloCovBlueKey : HaloCovKey replaces BlueSkull
+{
+	Default
+	{
+		inventory.pickupmessage HCKEY_BLUEMSG;
+		inventory.icon "HCBKA0";
+	}
+	States
+	{
+		Spawn:
+			HCBK A 4 Bright;
+		Loop;
+	}
+}
+class HaloCovYellowKey : HaloCovKey replaces YellowSkull
+{
+	Default
+	{
+		inventory.pickupmessage HCKEY_YELLOWMSG;
+		inventory.icon "HCYKA0";
+	}
+	States
+	{
+		Spawn:
+			HCYK A 4 Bright;
+		Loop;
 	}
 }
