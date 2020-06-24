@@ -42,6 +42,10 @@ pulselight YellowPulseLight
 }
 
 // Lit objects
+object HaloNeedleProjectile
+{
+	Frame TRAC { light BlueBrightLight }
+}
 object HaloBullet
 {
 	Frame TRAC { light YellowPointLight }
