@@ -16,7 +16,6 @@ class HaloProjectile : FastProjectile
 		Height 5;
 		Speed 60;
 		Projectile;
-		+INTERPOLATEANGLES;
 		
 		HaloProjectile.SetRanges 61, 123;
 		HaloProjectile.MinRangeDamage 0.4; 
@@ -129,8 +128,14 @@ class HaloNeedleProjectile : Actor
 		Projectile;
 		Speed 45;
 		Damage 1;
+		BounceType "Doom";
+		BounceCount 4;
 		RenderStyle "Add";
 		+INTERPOLATEANGLES;
+		+BOUNCEONWALLS;
+		+BOUNCEONFLOORS;
+		+BOUNCEONCEILINGS;
+		-BOUNCEONACTORS;
 		Scale 0.25;
 		HaloNeedleProjectile.ExplodeDelay 100;
 		HaloNeedleProjectile.ExplodeCount 10;
@@ -183,14 +188,8 @@ class HaloNeedleProjectile : Actor
 				explodetimer--;
 				if(hitactor && hitactor.health <= 0 && needlecount) 
 					hitactor.RemoveInventory(needlecount); 
-
-				if((needlecount && needlecount.CountNeedles() >= explodecount) || doexplode) 
-				{
-					if(!doexplode) needlecount.ExplodeNeedles();
-					finalst = "Death.Explode";
-					hitactor.DamageMobJ(self, self.target, 60, "Explosive", 0, angle);
-				}
-
+				
+				if(doexplode) finalst = "Death.Explode";
 				if(!bMISSILE && (!hitactor || hitactor.health <= 0) || explodetimer <= 0) 
 					finalst = "Death.Explode";
 				return ResolveState(finalst);
@@ -199,6 +198,11 @@ class HaloNeedleProjectile : Actor
 		Death.Explode:
 			TRAC A 1 
 			{
+				if((needlecount && needlecount.CountNeedles() >= explodecount) && !doexplode) 
+				{
+					needlecount.ExplodeNeedles();
+					hitactor.DamageMobJ(self, self.target, 60, "Explosive", 0, angle);
+				}
 				if(hitactor) hitactor.DamageMobJ(self, self.target, 20, "Explosive", 0, angle);
 				if(needlecount) needlecount.RemoveNeedle(self);
 				for(int i = 0; i < 10; i++) 

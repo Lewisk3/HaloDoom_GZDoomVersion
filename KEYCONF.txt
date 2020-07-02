@@ -1,0 +1,5 @@
+addkeysection "HaloDoom Controls" HaloDoomControls
+addmenukey "Fire Weapon" +ATTACK
+addmenukey "Weapon Zoom" +ALTATTACK
+addmenukey "Reload" +RELOAD
+addmenukey "Switch Weapons" +USER1

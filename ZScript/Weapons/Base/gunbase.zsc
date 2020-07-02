@@ -1,7 +1,11 @@
 class HaloGun : RecoilWeapon
 {
+	const BTN_SWITCHWEAP = BT_USER1;
 	bool pbtn_fire;
 	bool pbtn_altfire;
+	bool backpack_reloading;
+	uint backpack_reloadtimer;
+	uint backpack_reloadmaxtime;
 	double baserecoil;
 	double spreadmod; // Spread introduced by continuous fire
 	double bloomamt, bloomspd, accmod;
@@ -11,13 +15,14 @@ class HaloGun : RecoilWeapon
 	Property Crosshair : wcrosshair;
 	Property BaseRecoil : baserecoil;
 	Property Inaccuracy : accmod;
-	
+	Property BackpackReloadTime : backpack_reloadmaxtime;
 	Default
 	{
 		RecoilWeapon.RecoilSpeed 16;
 		HaloGun.Bloom 0.32;
 		HaloGun.Crosshair "";
 		HaloGun.BaseRecoil 2;
+		HaloGun.BackpackReloadTime 35;
 	}
 
 	action void A_UpdateSpread()
@@ -30,15 +35,83 @@ class HaloGun : RecoilWeapon
 		return frandom[GunRecoil](-invoker.baserecoil, invoker.baserecoil)*(1.0+(invoker.spreadmod*invoker.accmod));
 	}
 	
+	bool CheckWeaponSelected()
+	{
+		return (Owner.player && Owner.player.ReadyWeapon == self);
+	}
+	
+	action void A_CancelBackpackReload()
+	{
+		invoker.backpack_reloading = false;
+		invoker.backpack_reloadtimer = 0;
+	}
+	
+	Weapon FindNextWeapon()
+	{
+		Weapon gun = NULL;
+		if(!Owner) return NULL;
+		for(let i = Owner.Inv; i; i = i.Inv)
+		{
+			gun = Weapon(i);
+			if(gun && gun != self) break;
+		}
+		return gun;
+	}
+	
 	override void DoEffect()
 	{
+		super.DoEffect();
+		if(!CheckWeaponSelected()) 
+		{
+			if(backpack_reloading)
+			{
+				backpack_reloadtimer--;
+				if(backpack_reloadtimer <= 0)
+				{
+					let rammo = GetDefaultByType(AmmoType2);
+					int reserves = countinv(AmmoType1);
+					int takeammo = rammo.maxamount - countinv(AmmoType2); 
+					if(takeammo > reserves) takeammo = reserves;
+					GiveInventory(AmmoType2,takeammo);
+					TakeInventory(AmmoType1,takeammo);
+					backpack_reloading = false;
+					backpack_reloadtimer = 0;
+					// console.printf("Finished backpack reload");
+				}
+			}
+			return;
+		}
+		if(!Owner.player) return;
+		
+		// Process weapon switch
+		let btns = Owner.player.cmd.buttons;
+		let psp  = Owner.player.GetPSprite(PSP_WEAPON);
+		if((btns & BTN_SWITCHWEAP) && psp && !InStateSequence(psp.CurState,FindState("Deselect.Quick")))
+		{
+			let nextweap = FindNextWeapon();
+			if(nextweap) 
+			{
+				Owner.player.WeaponState |= WF_WEAPONSWITCHOK | WF_REFIRESWITCHOK;
+				psp.SetState(FindState("Deselect.Quick"));
+				nextweap.Use(false);
+			}
+		}
+		// Backpack reload check
+		if( psp && InStateSequence(psp.CurState,FindState("Reload")) && 
+		    A_ButtonPressed(BT_RELOAD, Owner) && !backpack_reloading	)
+		{
+			if(backpack_reloadtimer)
+				backpack_reloading = true;
+			else
+				backpack_reloadtimer = backpack_reloadmaxtime;
+		}
+
 		// Constantly keep track of this for better responsiveness.
 		pbtn_fire = A_ButtonPressed(BT_ATTACK, Owner);
 		pbtn_altfire = A_ButtonPressed(BT_ALTATTACK, Owner);
 		
 		spreadmod -= bloomamt*bloomspd;
 		spreadmod = clamp(spreadmod, 0, 2);
-		super.DoEffect();
 	}
 	
 	// This override will ensure that the weapon is given its clip ammo upon 
@@ -84,6 +157,7 @@ class HaloGun : RecoilWeapon
 		
 		GiveInventory(invoker.AmmoType2,takeammo);
 		TakeInventory(invoker.AmmoType1,takeammo);
+		A_CancelBackpackReload();
 	}
 	
 	// Takes from primary ammunition pool, optionally has a type parameter
@@ -102,6 +176,7 @@ class HaloGun : RecoilWeapon
 		{
 			TakeInventory(invoker.AmmoType1,1);
 			GiveInventory(invoker.AmmoType2,1);
+			A_CancelBackpackReload();
 		}
 	}
 	
@@ -119,5 +194,17 @@ class HaloGun : RecoilWeapon
 		if(countinv(invoker.AmmoType2) == rammo.maxamount || countinv(invoker.AmmoType1) == 0)
 			return ResolveState(fallback);
 		return ResolveState(NULL);
+	}
+	
+	States
+	{
+		Deselect.Quick:
+			"####" "#" 1; 
+			"####" "#" 0 
+			{
+				A_SetupLower();
+				A_RLower(12);
+			}
+		loop;
 	}
 }

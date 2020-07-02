@@ -1,0 +1,50 @@
+AddOptionMenu "CustomizeControls"
+{
+	// Man this is a gross solution, i really wish there were a way to
+	// setup ini sections in MenuDef...
+	Submenu    "HaloDoom Controls"      , "HaloDoomControlsMenu"
+	StaticText " "
+	StaticText " "
+	StaticText " "
+	StaticText " "
+	StaticText " "
+	StaticText " "
+	StaticText " "
+	StaticText " "
+	StaticText " "
+	StaticText " "
+	StaticText " "
+	StaticText " "
+	StaticText " "
+	StaticText " "
+	StaticText " "
+	StaticText " "
+	StaticText " "
+	StaticText " "
+	StaticText " "
+	StaticText " "
+	StaticText " "
+	StaticText " "
+	StaticText " "
+	StaticText "↓ More Controls ↓"
+}
+
+
+OptionMenu "HaloDoomControlsMenu"
+{
+	Title "HaloDoom Controls"
+	ScrollTop 2
+	StaticTextSwitchable "$CNTRLMNU_SWITCHTEXT1", "$CNTRLMNU_SWITCHTEXT2", "ControlMessage"	
+	StaticText " "
+	Control    "Fire Weapon (M1)"		, "+attack"
+	Control    "Weapon Zoom (M2)"    	, "+altattack"
+	Control    "Reload (R)"         	, "+reload"
+	Control    "Switch Weapons(Q)"   	, "+user1"
+	StaticText " "
+}
+
+OptionValue "EnabledDisabled"
+{
+	0, "Disabled"
+	1, "Enabled"
+}
