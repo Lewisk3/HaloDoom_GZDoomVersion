@@ -16,6 +16,7 @@ class HaloProjectile : FastProjectile
 		Height 5;
 		Speed 60;
 		Projectile;
+		+INTERPOLATEANGLES;
 		
 		HaloProjectile.SetRanges 61, 123;
 		HaloProjectile.MinRangeDamage 0.4; 
@@ -123,10 +124,10 @@ class HaloNeedleProjectile : Actor
 
 	Default
 	{
-		Radius 1;
+		Radius 2;
 		Height 5;
 		Projectile;
-		Speed 45;
+		Speed 40; // Don't increase speed, otherwise they can bounce through walls.
 		Damage 1;
 		BounceType "Doom";
 		BounceCount 4;
@@ -136,9 +137,12 @@ class HaloNeedleProjectile : Actor
 		+BOUNCEONFLOORS;
 		+BOUNCEONCEILINGS;
 		-BOUNCEONACTORS;
+		+SEEKERMISSILE;
+		+SCREENSEEKER;
 		Scale 0.25;
 		HaloNeedleProjectile.ExplodeDelay 100;
 		HaloNeedleProjectile.ExplodeCount 10;
+		Translation "0:255=@70[128, 17, 247]";
 	}
 	
 	override int SpecialMissileHit(Actor victim)
@@ -179,7 +183,7 @@ class HaloNeedleProjectile : Actor
 	States
 	{
 		Spawn:	
-			TRAC A 1 Bright;
+			TRAC A 1 Bright A_SeekerMissile(30, 50, SMF_PRECISE|SMF_LOOK); 
 		loop;
 		Spawn.HitActor:
 			TRAC A 1 Bright 

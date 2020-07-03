@@ -12,10 +12,11 @@ Model HaloBullet
 Model HaloNeedleProjectile
 { 
    Path "Models/Weapons"
-   SKIN 0 "tracer2.tga" 
-   MODEL 0 "Tracer.md3" 
-   Scale 0.5 1.5 1.5 
+   SKIN 0 "needle_crystal.png" 
+   MODEL 0 "needle_crystal.md3" 
+   Scale 4.0 4.0 2.5 
    PITCHFROMMOMENTUM 
+   AngleOffset 90
    
    FrameIndex TRAC A 0 0 
 }
