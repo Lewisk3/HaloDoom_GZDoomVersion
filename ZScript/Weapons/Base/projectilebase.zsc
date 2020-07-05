@@ -1,5 +1,6 @@
 class HaloProjectile : FastProjectile
 {
+	double meterspeed;
 	double truedamage;
 	double range_falloff;
 	double range_max;
@@ -9,18 +10,20 @@ class HaloProjectile : FastProjectile
 	Property SetRanges : range_falloff, range_max;
 	Property MinRangeDamage : falloff_minimum;
 	Property BaseDamage : truedamage;
+	Property Speed_MPS : meterspeed;
 	
 	Default
 	{
-		Radius 5;
-		Height 5;
-		Speed 60;
+		Radius 3;
+		Height 3;
+		Speed 0;
 		Projectile;
 		+INTERPOLATEANGLES;
 		
 		HaloProjectile.SetRanges 61, 123;
 		HaloProjectile.MinRangeDamage 0.4; 
 		HaloProjectile.BaseDamage 145;
+		HaloProjectile.Speed_MPS 914.0;
 	}
 	
 	override int SpecialMissileHit(Actor victim)
@@ -63,6 +66,7 @@ class HaloProjectile : FastProjectile
 	virtual void Init()
 	{
 		spawnpos = pos;
+		A_SetSpeed((meterspeed / 35.)*UNIT_METER);
 		SetDamage(0);
 	}
 	

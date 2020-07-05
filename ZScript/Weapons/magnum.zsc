@@ -15,6 +15,7 @@ class HaloMagnum_Bullet : HaloBullet
 		HaloProjectile.SetRanges MAGNUM_RANGE1, MAGNUM_RANGE2;
 		HaloProjectile.MinRangeDamage MAGNUM_MINDMG/10.; 
 		HaloProjectile.BaseDamage MAGNUM_DMG;
+		HaloProjectile.Speed_MPS MAGNUM_BMPS;
 	}
 }
 
@@ -45,7 +46,7 @@ class Halo_Magnum : HaloGun
 	{
 		A_Light(2);
 		A_WeapSound("Halo/Weapons/Mag_MD6/Fire");
-		A_FireProjectile("HaloMagnum_Bullet", A_RecoilSpread(), false, 8, -2, 0, A_RecoilSpread());		
+		A_FireProjectile("HaloMagnum_Bullet", A_RecoilSpread()+1, false, 8, 0, 0, A_RecoilSpread()-1.35);		
 		A_TakeAmmo();
 		A_UpdateSpread();
 	}
@@ -119,9 +120,13 @@ class Halo_Magnum : HaloGun
 		Reload:
 			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
 			TNT1 A 0 A_WeapSound("Halo/Weapons/Mag_MD6/Reload", CHANF_OVERLAP);
-			MAR1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1;
+			MAR1 ABCDEFGHIJKLM 1;
+			MAR1 N 1 A_RecoilOffset(-14,26,4);
+			MAR1 OPQRRSSTTTTTTTRQ 1 A_RecoilOffset(-14,26,16);
+			MAR1 P 1 A_RecoilOffset(14,0,4);
+			MAR1 ONMLKJ 1 A_RecoilOffset(14,0,6);
 			MAR2 A 1 A_ReloadClip();
-			MAR2 BCDEFGHIJKL 1;
+			MAR2 BCDEFGHIJKL 1 A_RecoilOffset(0,0,11);
 		goto Ready.Active;
 		
 		Spawn:

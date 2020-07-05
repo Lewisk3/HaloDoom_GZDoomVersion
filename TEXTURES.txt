@@ -13,7 +13,7 @@ Sprite "MAR1B0", 1400, 800
 {
 	XScale 3.000
 	YScale 3.000
-	Offset 320, 200
+	Offset 320, 240
 	Patch "MAGREL2", 714, 303
 }
 
@@ -21,7 +21,7 @@ Sprite "MAR1C0", 1400, 800
 {
 	XScale 3.000
 	YScale 3.000
-	Offset 320, 200
+	Offset 320, 240
 	Patch "MAGREL3", 714, 303
 }
 
@@ -29,7 +29,7 @@ Sprite "MAR1D0", 1400, 800
 {
 	XScale 3.000
 	YScale 3.000
-	Offset 320, 200
+	Offset 320, 240
 	Patch "MAGREL4", 714, 303
 }
 
@@ -37,7 +37,7 @@ Sprite "MAR1E0", 1400, 800
 {
 	XScale 3.000
 	YScale 3.000
-	Offset 320, 200
+	Offset 320, 240
 	Patch "MAGREL5", 714, 303
 }
 
@@ -45,7 +45,7 @@ Sprite "MAR1F0", 1400, 800
 {
 	XScale 3.000
 	YScale 3.000
-	Offset 320, 200
+	Offset 320, 240
 	Patch "MAGREL6", 714, 303
 }
 
@@ -53,7 +53,7 @@ Sprite "MAR1G0", 1400, 800
 {
 	XScale 3.000
 	YScale 3.000
-	Offset 320, 200
+	Offset 320, 240
 	Patch "MAGREL7", 714, 303
 }
 
@@ -61,7 +61,7 @@ Sprite "MAR1H0", 1400, 800
 {
 	XScale 3.000
 	YScale 3.000
-	Offset 320, 200
+	Offset 320, 240
 	Patch "MAGREL8", 714, 303
 }
 
@@ -69,7 +69,7 @@ Sprite "MAR1I0", 1400, 800
 {
 	XScale 3.000
 	YScale 3.000
-	Offset 320, 200
+	Offset 320, 240
 	Patch "MAGREL9", 714, 303
 }
 
@@ -77,7 +77,7 @@ Sprite "MAR1J0", 1400, 800
 {
 	XScale 3.000
 	YScale 3.000
-	Offset 320, 200
+	Offset 320, 240
 	Patch "MAGREL10", 714, 303
 }
 
@@ -85,7 +85,7 @@ Sprite "MAR1K0", 1400, 800
 {
 	XScale 3.000
 	YScale 3.000
-	Offset 320, 200
+	Offset 320, 240
 	Patch "MAGREL11", 714, 303
 }
 
@@ -93,7 +93,7 @@ Sprite "MAR1L0", 1400, 800
 {
 	XScale 3.000
 	YScale 3.000
-	Offset 320, 200
+	Offset 320, 240
 	Patch "MAGREL12", 714, 303
 }
 
@@ -101,7 +101,7 @@ Sprite "MAR1M0", 1400, 800
 {
 	XScale 3.000
 	YScale 3.000
-	Offset 320, 200
+	Offset 320, 240
 	Patch "MAGREL13", 714, 303
 }
 
@@ -109,7 +109,7 @@ Sprite "MAR1N0", 1400, 800
 {
 	XScale 3.000
 	YScale 3.000
-	Offset 320, 200
+	Offset 320, 240
 	Patch "MAGREL14", 714, 303
 }
 
@@ -117,7 +117,7 @@ Sprite "MAR1O0", 1400, 800
 {
 	XScale 3.000
 	YScale 3.000
-	Offset 320, 200
+	Offset 320, 240
 	Patch "MAGREL15", 714, 303
 }
 
@@ -125,7 +125,7 @@ Sprite "MAR1P0", 1400, 800
 {
 	XScale 3.000
 	YScale 3.000
-	Offset 320, 200
+	Offset 320, 240
 	Patch "MAGREL16", 714, 303
 }
 
@@ -133,7 +133,7 @@ Sprite "MAR1Q0", 1400, 800
 {
 	XScale 3.000
 	YScale 3.000
-	Offset 320, 200
+	Offset 320, 240
 	Patch "MAGREL17", 714, 303
 }
 
@@ -141,7 +141,7 @@ Sprite "MAR1R0", 1400, 800
 {
 	XScale 3.000
 	YScale 3.000
-	Offset 320, 200
+	Offset 320, 240
 	Patch "MAGREL18", 714, 303
 }
 
@@ -149,7 +149,7 @@ Sprite "MAR1S0", 1400, 800
 {
 	XScale 3.000
 	YScale 3.000
-	Offset 320, 200
+	Offset 320, 240
 	Patch "MAGREL19", 714, 303
 }
 
@@ -157,7 +157,7 @@ Sprite "MAR1T0", 1400, 800
 {
 	XScale 3.000
 	YScale 3.000
-	Offset 320, 200
+	Offset 320, 240
 	Patch "MAGREL20", 714, 303
 }
 

@@ -286,7 +286,7 @@ class HLSBS Abstract ui
 		screen.SetClipRect(cx, cy, cw, ch);
 	}
 	
-	static void SetClipRect(int x, int y, int w, int h)
+	static void SetClipRect(int x, int y, int w, int h, bool visual = false)
 	{
 		float sc_xres = Screen.getWidth()/GetBaseWidth();
 		float sc_yres = Screen.getHeight()/GetBaseHeight();		
@@ -294,6 +294,7 @@ class HLSBS Abstract ui
 		y *= sc_yres;
 		w *= sc_xres;
 		h *= sc_yres;
+		if(visual) Fill(Color(255,0,255,0), x,y,w,h );	
 		Screen.SetClipRect(x,y,w,h);
 	}
 	

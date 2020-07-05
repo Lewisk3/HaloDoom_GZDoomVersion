@@ -86,19 +86,20 @@ class HaloGun : RecoilWeapon
 		// Process weapon switch
 		let btns = Owner.player.cmd.buttons;
 		let psp  = Owner.player.GetPSprite(PSP_WEAPON);
+		bool inreload = psp && InStateSequence(psp.CurState,FindState("Reload"));
 		if((btns & BTN_SWITCHWEAP) && psp && !InStateSequence(psp.CurState,FindState("Deselect.Quick")))
 		{
 			let nextweap = FindNextWeapon();
 			if(nextweap) 
 			{
 				Owner.player.WeaponState |= WF_WEAPONSWITCHOK | WF_REFIRESWITCHOK;
-				psp.SetState(FindState("Deselect.Quick"));
+				State tostate = !inreload ? FindState("Deselect") : FindState("Deselect.Quick");
+				psp.SetState(tostate);
 				nextweap.Use(false);
 			}
 		}
 		// Backpack reload check
-		if( psp && InStateSequence(psp.CurState,FindState("Reload")) && 
-		    A_ButtonPressed(BT_RELOAD, Owner) && !backpack_reloading	)
+		if(inreload && A_ButtonPressed(BT_RELOAD, Owner) && !backpack_reloading)
 		{
 			if(backpack_reloadtimer)
 				backpack_reloading = true;

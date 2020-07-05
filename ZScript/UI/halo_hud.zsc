@@ -129,18 +129,19 @@ class HaloStatusBar : BaseStatusBar
 
 		string shbg = shieldwarn ? "sh_rbg"  : "sh_nbg";
 		string shou = shieldwarn ? "sh_rout" : "sh_nout";
-		
-		vector2 shieldpos = (957,50); //(1550, 50);
-		vector2 healthpos = (577, 77); //(1740, 77);
 		if(curshields != haloplr.shields) curshields = HaloMath.Lerp(curshields, haloplr.shields, 0.2*deltatime);
-		uint leftflags = BaseStatusBar.SHADER_REVERSE;
-		HLSBS.DrawBar("sh_barL",shbg.."L",curshields,haloplr.maxshields,shieldpos-(253,0), 0,leftflags, 0.8,1.0, (1.0,1.35));
-		HLSBS.DrawBar("sh_barR",shbg.."R",curshields,haloplr.maxshields,shieldpos, 0,0, 0.8,1.0, (1.0,1.35));
-		
-		shieldpos += (126, 42);
-		HLSBS.DrawImage(shou.."R",shieldpos,scale:(1.0,1.3));
-		HLSBS.DrawImage(shou.."L",shieldpos-(251,0),scale:(1.0,1.3));
-		
+		double shieldperc = curshields/haloplr.maxshields;
+		vector2 shieldpos  = (958, 88); //(1550, 50);
+		vector2 healthpos  = (577, 77); //(1740, 77);
+		vector2 shieldmin  = (958,  0); //(958,   0);  
+		vector2 shieldclip = (706,504); //(706, 504);
+		shieldclip.x = HaloMath.Lerp(shieldclip.x, shieldmin.x, 1.-shieldperc);
+		shieldclip.y = HaloMath.Lerp(shieldclip.y, shieldmin.y, 1.-shieldperc);
+		HLSBS.DrawImage(shbg, shieldpos, 0, 0.8, scale:(1.0,1.35));
+		HLSBS.SetClipRect(shieldclip.x,32,shieldclip.y,86);
+		HLSBS.DrawImage("sh_bar", shieldpos, 0, 0.8, scale:(1.0,1.35));
+		HLSBS.ClearClipRect();		
+		HLSBS.DrawImage(shou, shieldpos, 0, 0.8, scale:(1.0,1.35));
 		int healthbars = clamp(ceil((haloplr.health / 5.)), 1, 9);
 		HLSBS.DrawImage("ui_hbar"..healthbars, healthpos, 0, 0.8, scale:(-1.0,1.15));
 		healthpos += (508,0);
@@ -248,3 +249,15 @@ mixin class BasicHUDFeatures
 		return y - 11;
 	}
 }
+
+/* Old Shield code, when it used to use halves.
+vector2 shieldpos = (957,50); //(1550, 50);
+vector2 healthpos = (577, 77); //(1740, 77);
+uint leftflags = BaseStatusBar.SHADER_REVERSE;
+HLSBS.DrawBar("sh_barL",shbg.."L",curshields,haloplr.maxshields,shieldpos-(253,0), 0,leftflags, 0.8,1.0, (1.0,1.35));
+HLSBS.DrawBar("sh_barR",shbg.."R",curshields,haloplr.maxshields,shieldpos, 0,0, 0.8,1.0, (1.0,1.35));
+
+shieldpos += (126, 42);
+HLSBS.DrawImage(shou.."R",shieldpos,scale:(1.0,1.3));
+HLSBS.DrawImage(shou.."L",shieldpos-(251,0),scale:(1.0,1.3));
+*/
