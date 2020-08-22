@@ -78,7 +78,7 @@ class HaloProjectile : FastProjectile
 	override void Tick()
 	{
 		super.Tick();
-		if(target) SetOrigin(pos+target.vel, true);
+		if(target) SetOrigin(Vec3Offset(target.vel.x,target.vel.y,target.vel.z), true);
 	}
 }
 

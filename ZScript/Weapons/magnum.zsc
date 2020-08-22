@@ -23,7 +23,7 @@ class Halo_Magnum : HaloGun
 {
 	Default
 	{
-		Weapon.SlotNumber 2;
+		Weapon.SlotNumber 1;
 		Obituary "%o was took down by %k's Magnum.";
 		Inventory.PickupMessage	"Magnum Md6 Adquired.";
 		Tag "Magnum";

@@ -40,10 +40,32 @@ class HaloGun : RecoilWeapon
 		return (Owner.player && Owner.player.ReadyWeapon == self);
 	}
 	
+	action void A_UpdateCrosshair(string nxhair)
+	{
+		if(nxhair == "") 
+			invoker.wcrosshair = invoker.default.wcrosshair;
+		else
+			invoker.wcrosshair = nxhair;
+	}
+	
 	action void A_CancelBackpackReload()
 	{
 		invoker.backpack_reloading = false;
 		invoker.backpack_reloadtimer = 0;
+	}
+	
+	action void A_SetSprite(Name spr, uint layer = PSP_WEAPON)
+	{
+		let spr = GetSpriteIndex(spr);
+		if(!player) return;
+		let psp = player.GetPSprite(layer);
+		if(psp) psp.Sprite = spr;
+	}
+	action void A_SetFrame(int frm, uint layer = PSP_WEAPON)
+	{
+		if(!player) return;
+		let psp = player.GetPSprite(layer);
+		if(psp) psp.Frame = frm;
 	}
 	
 	Weapon FindNextWeapon()

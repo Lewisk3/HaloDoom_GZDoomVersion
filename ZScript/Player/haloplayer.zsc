@@ -5,12 +5,13 @@ class HaloPlayer : DoomPlayer
 	WeaponPickupProxy pickuptarget;
 	
 	// Shields
-	const REGENTIME = 35*5.;
+	double shield_regentime;
+	double shield_regenrate;
 	double shields;
 	double maxshields;
 	double regen_timer;
 	
-	Property Shields : maxshields;
+	Property Shields : maxshields, shield_regentime, shield_regenrate;
 	
 	Default
 	{
@@ -20,13 +21,13 @@ class HaloPlayer : DoomPlayer
 		Health 45;
 		Player.StartItem "Halo_Magnum", 1;
 		Player.StartItem "Clip", 50;
-		HaloPlayer.Shields 70;
+		HaloPlayer.Shields 70, 5, 4; // 5 seconds to recharge, 4 seconds to max.
 		Player.MaxHealth 45;
 	}
 	
 	override void BeginPlay()
 	{
-		regen_timer = REGENTIME;
+		regen_timer = shield_regentime*35.;
 		shields = maxshields;
 		super.BeginPlay();
 	}
@@ -60,24 +61,26 @@ class HaloPlayer : DoomPlayer
 			viewbob = default.viewbob;
 	
 		// Shield Regen
+		double shregentime = shield_regentime*35.;
+		
 		uint sndflags = CHANF_LOOPING|CHANF_MAYBE_LOCAL;
-		if(regen_timer < REGENTIME)
+		if(regen_timer < shregentime)
 		{
 			if(shields <= 0) 
 				A_StartSound("Shield/Warning", CHAN_7, flags:sndflags);
 			else if(shields <= maxshields*0.25) 
 				A_StartSound("Shield/Low", CHAN_7, flags:sndflags);
 		}
-		if(regen_timer < REGENTIME) 
+		if(regen_timer < shregentime) 
 		{	
 			regen_timer += 1;
 			// Useful for overshields to not regenerate.
-			if(shields >= maxshields) regen_timer = REGENTIME;
+			if(shields >= maxshields) regen_timer = shregentime;
 		}
-		regen_timer = clamp(regen_timer, -REGENTIME, REGENTIME);
-		if(regen_timer >= REGENTIME && shields < maxshields) 
+		regen_timer = clamp(regen_timer, -shregentime, shregentime);
+		if(regen_timer >= shregentime && shields < maxshields) 
 		{
-			shields += 1;
+			shields += maxshields/(shield_regenrate*35.);
 			A_StopSound(CHAN_7);
 			A_StartSound("Shield/Regenerate", CHAN_5, flags:sndflags);
 		}

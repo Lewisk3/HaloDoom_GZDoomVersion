@@ -118,7 +118,7 @@ class HaloStatusBar : BaseStatusBar
 			shieldwarn = false;
 		}
 		
-		if( haloplr.regen_timer >= HaloPlayer.REGENTIME && dimalpha > 0 &&
+		if( haloplr.regen_timer >= (haloplr.shield_regentime*35.) && dimalpha > 0 &&
 			haloplr.shields < haloplr.maxshields )
 		{
 			dimalpha = HaloMath.Lerp(dimalpha, 0, 0.025*deltatime);

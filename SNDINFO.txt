@@ -1,16 +1,32 @@
 
+// Magnum
 HW_MAGF1 HW_MAGF1
 HW_MAGF2 HW_MAGF2
 HW_MAGF3 HW_MAGF3
 HW_MAGF4 HW_MAGF4
-
 HW_MAGS1 HW_MAGS1
 HW_MAGS2 HW_MAGS2
-
 $Random Halo/Weapons/Mag_MD6/Fire 	{ HW_MAGF1 HW_MAGF2 HW_MAGF3 HW_MAGF4 }
 $Random Halo/Weapons/Mag_MD6/Select { HW_MAGS1 HW_MAGS2 }
 Halo/Weapons/Mag_MD6/Melee 				HW_MAGM
 Halo/Weapons/Mag_MD6/Reload 			HW_MAGR
+
+// AssaultRifle
+ARFIRE1 ARFire1
+ARFIRE2 ARFire2
+ARFIRE3 ARFire3
+ARFIRE4 ARFire4
+$random Halo/Weapons/Rifle/Fire { ARFIRE1 ARFIRE2 ARFIRE3 ARFIRE4 }
+
+// SuperShotgun
+DBFIRE1 DBFIRE1
+DBFIRE2 DBFIRE2
+DBFIRE3 DBFIRE3
+$random Halo/Weapons/SuperShotgun/Fire { DBFIRE1 DBFIRE2 DBFIRE3 }
+Halo/Weapons/SuperShotgun/Reload DBRELOAD
+Halo/Weapons/SuperShotgun/Select DBREADY
+
+// Misc WeapSnds
 Halo/Weapons/DryFire 					HW_DRYF
 
 // Shield
