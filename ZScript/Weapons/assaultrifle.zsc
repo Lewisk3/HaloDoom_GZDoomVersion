@@ -33,7 +33,7 @@ class Halo_AssaultRifle : HaloGun
 		Weapon.BobRangeX 0.30;
 		// [Lewisk] had to switch ammotype's 1 and 2 because thats how my
 		// reload function works.
-		Weapon.AmmoType1 "Clip";
+		Weapon.AmmoType1 "Halo_Clip";
 		Weapon.AmmoType2 "Halo_AR_Clip";
 				
 		// Recoil
@@ -42,6 +42,7 @@ class Halo_AssaultRifle : HaloGun
 		HaloGun.BaseRecoil ARIFLE_RECOIL;
 		HaloGun.Inaccuracy ARIFLE_ACCMOD;
 		HaloGun.Crosshair "RifleRet";
+		HaloGun.UIGraphic "WI_AR";
 	}
 	
 	action void A_FireRifle()

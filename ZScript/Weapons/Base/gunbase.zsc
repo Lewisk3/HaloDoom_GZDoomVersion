@@ -9,13 +9,19 @@ class HaloGun : RecoilWeapon
 	double baserecoil;
 	double spreadmod; // Spread introduced by continuous fire
 	double bloomamt, bloomspd, accmod;
+	
+	// UI Stuff
 	string wcrosshair;
+	string UI_Icon;
+	
 	Property Bloom : bloomamt;
 	Property BloomSpeed : bloomspd;
 	Property Crosshair : wcrosshair;
 	Property BaseRecoil : baserecoil;
 	Property Inaccuracy : accmod;
 	Property BackpackReloadTime : backpack_reloadmaxtime;
+	property UIGraphic : UI_Icon;
+	
 	Default
 	{
 		RecoilWeapon.RecoilSpeed 16;
@@ -23,6 +29,7 @@ class HaloGun : RecoilWeapon
 		HaloGun.Crosshair "";
 		HaloGun.BaseRecoil 2;
 		HaloGun.BackpackReloadTime 35;
+		HaloGun.UIGraphic "WI_AR";
 	}
 
 	action void A_UpdateSpread()
@@ -68,7 +75,7 @@ class HaloGun : RecoilWeapon
 		if(psp) psp.Frame = frm;
 	}
 	
-	Weapon FindNextWeapon()
+	clearscope Weapon FindNextWeapon()
 	{
 		Weapon gun = NULL;
 		if(!Owner) return NULL;

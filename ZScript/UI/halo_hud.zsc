@@ -3,7 +3,6 @@ class HaloStatusBar : BaseStatusBar
 	const ANIM_FPS = 60;
 	
 	HaloPlayer haloplr;
-	HUDFont mHUDFont;
 	
 	// Delta-time logic.
 	double prevMS; 
@@ -21,7 +20,9 @@ class HaloStatusBar : BaseStatusBar
 	bool shieldwarn;
 	
 	// Font(s)
+	HUDFont mHUDFont;
 	Font fnt;
+	Font fntHaloAmmo;
 	
 	// Basic Functions
 	mixin BasicHUDFeatures;
@@ -34,6 +35,7 @@ class HaloStatusBar : BaseStatusBar
 		
 		// Create the font used for the fullscreen HUD
 		fnt = "BigFont";
+		fntHaloAmmo = "HaloAmmoFont";
 		mHUDFont = HUDFont.Create(fnt);
 	}
 		
@@ -65,6 +67,7 @@ class HaloStatusBar : BaseStatusBar
 				DrawRadar();
 				DrawCompass();
 				DrawCrosshairs();
+				DrawWeaponsAmmo();
 			}
 			
 			// Keys and Objectives
@@ -82,6 +85,44 @@ class HaloStatusBar : BaseStatusBar
 			double dtime = 1000.0 / ANIM_FPS;
 			deltatime = (ftime/dtime);
 		}
+	}
+	
+	// 24 ammo per line.
+	const AMMO_MAX = 16.;
+	const AMMOG_SIZE = 10.;
+	void DrawWeaponsAmmo()
+	{
+		HaloGun curweap   = HaloGun(haloplr.player.ReadyWeapon);
+		if(!curweap) return;
+		
+		HaloGun otherweap = curweap ? HaloGun(curweap.FindNextWeapon()) : null;
+		String weap1_icon = "";
+		String weap2_icon = "";
+		if(curweap  ) weap1_icon = curweap.UI_Icon;
+		if(otherweap) weap2_icon = otherweap.UI_Icon;
+		
+		HLSBS.DrawImage(weap1_icon, (1700,100), 0, 0.8, (1.5,1.5));
+		HLSBS.DrawImage(weap2_icon, (1770,50), 0, 0.8, (0.6,0.6));
+		
+		// Ammo display
+		double cur_ammo  = haloplr.countinv(curweap.AmmoType2);
+		double clip_ammo = GetDefaultByType(curweap.AmmoType2).MaxAmount;
+		int ymax = ceil(cur_ammo/AMMO_MAX);
+		vector2 ampos = (1640, 160);
+		vector2 amoffs;
+		for(int i = 0; i < clip_ammo; i++)
+		{
+			double ammo_diff = clip_ammo-cur_ammo;
+			if(ammo_diff <= i) HLSBS.DrawImage("WI_AMMO", ampos+amoffs, 0, 0.8, (1,1));
+			amoffs.x += AMMOG_SIZE;
+			if(amoffs.x >= AMMOG_SIZE*AMMO_MAX) 
+			{
+				amoffs.y += AMMOG_SIZE*1.25;
+				amoffs.x = 0;
+			}
+		}
+		// Ammo Count
+		HLSBS.DrawString(fntHaloAmmo, haloplr.countinv(curweap.AmmoType1).."", (1732, 60), scale:(0.18,0.15));
 	}
 
 	void DrawCrosshairs()

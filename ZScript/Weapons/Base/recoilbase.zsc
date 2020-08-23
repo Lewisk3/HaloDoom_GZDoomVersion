@@ -16,7 +16,7 @@ class RecoilWeapon : Weapon
 	double swayspd, pitchmax, anglemax;
 	
 	Vector2 weapsway;
-		
+
 	property RecoilSpeed : deftimer;
 	property LookSway : usesway, velsway, swayspd;
 	property SwayRange : pitchmax, anglemax;

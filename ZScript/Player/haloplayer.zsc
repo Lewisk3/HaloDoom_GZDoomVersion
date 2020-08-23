@@ -20,7 +20,8 @@ class HaloPlayer : DoomPlayer
 		Player.JumpZ 16;
 		Health 45;
 		Player.StartItem "Halo_Magnum", 1;
-		Player.StartItem "Clip", 50;
+		Player.StartItem "Halo_AssaultRifle", 1;
+		Player.StartItem "Halo_Clip", 320;
 		HaloPlayer.Shields 70, 5, 4; // 5 seconds to recharge, 4 seconds to max.
 		Player.MaxHealth 45;
 	}

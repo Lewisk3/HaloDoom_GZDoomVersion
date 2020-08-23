@@ -31,7 +31,7 @@ class Halo_Magnum : HaloGun
 		Weapon.BobRangeX 0.30;
 		// [Lewisk] had to switch ammotype's 1 and 2 because thats how my
 		// reload function works.
-		Weapon.AmmoType1 "Clip";
+		Weapon.AmmoType1 "Halo_Clip";
 		Weapon.AmmoType2 "Halo_Magnum_Clip";
 				
 		// Recoil
@@ -40,6 +40,7 @@ class Halo_Magnum : HaloGun
 		HaloGun.BaseRecoil MAGNUM_RECOIL;
 		HaloGun.Inaccuracy MAGNUM_ACCMOD;
 		HaloGun.Crosshair "MagRet";
+		HaloGun.UIGraphic "WI_MAGNM";
 	}
 	
 	action void A_FireMagnum()

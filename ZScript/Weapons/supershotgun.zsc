@@ -50,6 +50,7 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 		HaloGun.BaseRecoil DBLSHOTGUN_RECOIL;
 		HaloGun.Inaccuracy DBLSHOTGUN_ACCMOD;
 		HaloGun.Crosshair "DBLSRet1";
+		HaloGun.UIGraphic "WI_DBL";
 	}
 	
 	action void A_FireDouble()
