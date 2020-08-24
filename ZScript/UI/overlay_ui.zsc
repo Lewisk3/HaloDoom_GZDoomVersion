@@ -66,6 +66,7 @@ class Halo_OverlayUI : EventHandler
 		// Draw HUD projections
 		DrawKeys(e);
 	}
+	
 	ui void DrawKeys(RenderEvent e)
 	{
 		Actor rendersrc = e.Camera;

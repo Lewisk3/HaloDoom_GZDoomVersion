@@ -86,7 +86,18 @@ class HaloMath Abstract
 	// Distance 3D on vectors, not actors.
 	static double Distance3D(vector3 one, vector3 two)
 	{
-		return sqrt( (two.x - one.x)**2 + (two.y - one.y)**2 + (two.z - one.z)**2 );
+		int x = one.x - two.x;
+		int y = one.y - two.y;
+		int z = one.z - two.z;
+		return sqrt( x*x + y*y + z*z );
+	}
+	
+	// Distance 2D on vectors, not actors.
+	static float Distance2D(Vector2 one, Vector2 two)
+	{
+		int x = one.x - two.x;
+		int y = one.y - two.y;
+		return sqrt( x*x + y*y );
 	}
 	
 	// Rotate vectors.
@@ -101,6 +112,18 @@ class HaloMath Abstract
 		return ( pos.y * cos(angle) - pos.x * sin(angle), 
 		         pos.y * sin(angle) + pos.x * cos(angle) );
 	}	
+	
+	// Clamp vectors.
+	static vector2, double ClampVector(vector2 dest, vector2 origin, double dist)
+	{
+		double fulldist = sqrt( (dest.x - origin.x)**2 + (dest.y - origin.y)**2 );
+		if(fulldist > dist) 
+		{
+			double vecangle = atan2(origin.y-dest.y, origin.x-dest.x);
+			return ( (origin.x-cos(vecangle)*dist), (origin.y-sin(vecangle)*dist) ), fulldist;
+		}
+		return dest, fulldist;
+	}
 	
 	// Offset vector position.
 	static Vector2 VOffset(double angle, double xoffs, double yoffs, double dist)

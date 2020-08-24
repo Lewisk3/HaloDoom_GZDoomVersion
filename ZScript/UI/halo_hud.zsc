@@ -64,10 +64,10 @@ class HaloStatusBar : BaseStatusBar
 			// Weapons
 			if(!automapactive)
 			{
-				DrawRadar();
 				DrawCompass();
 				DrawCrosshairs();
 				DrawWeaponsAmmo();
+				DrawRadar();
 			}
 			
 			// Keys and Objectives
@@ -189,9 +189,129 @@ class HaloStatusBar : BaseStatusBar
 		HLSBS.DrawImage("ui_hbar"..healthbars, healthpos, 0, 0.8, scale:(1.0,1.15));
 	}
 
+	void drawRadarLine( double x0, double y0, double x1, double y1, Color col, vector2 origin = (0,0), double maxdist = 128)
+	{	
+		// Grab direct angle and magnitude
+		double lineangle = atan2(y1-y0, x1-x0);
+		double dist = HaloMath.Distance2D((x0,y0),(x1,y1));
+		double step = 1;
+		for(int i = 0; i < dist; i+=step)
+		{
+			vector2 pixpos = (x0+cos(lineangle)*i, y0+sin(lineangle)*i);
+			double fulldist = HaloMath.Distance2D(pixpos, origin);
+			if(fulldist > maxdist) continue;
+			HLSBS.DrawImage("HPXL", pixpos, 0, 1.0, (0.5,0.5), col);
+		}
+	}	
+	
+	vector2 SwapVector(vector2 vec)
+	{
+		double oldx = vec.x;
+		vec.x = vec.y;
+		vec.y = oldx;
+		return vec;
+	}
+	void DrawRadar()
+	{
+		// -- CVars / Constants --
+		double zoom = 7;
+		double radarsize = 120;
+		double minimap_renderdist = 800;
+		Vector2 baseoffs = ( 230, 894 );
+		Vector2 plrpos2D = (haloplr.pos.x, haloplr.pos.y);
+		Color linecol = Color( 0xFF, 0x79, 0xC1, 0xC9);
+		Color radrcol = Color( 0xFF, 0x2D, 0x3E, 0x5B);
+		Vector2 dp = Actor.RotateVector( (0,0), haloplr.angle-90 );
+		Vector2 map_middle = (dp.x+baseoffs.x,dp.y+baseoffs.y);
+			
+		// Draw radar bg
+		HLSBS.DrawImage("RADARBG", baseoffs);
+		
+		// Draw Minimap
+		if( CVar.FindCVar("halodoom_showminimap").getBool() )
+		{
+			for (int i = 0; i < Level.Lines.Size(); i++)
+			{
+				Line ln = Level.Lines[i];
+				if( !(ln.flags & Line.ML_MAPPED) ) continue;
+			
+				double zf = zoom; //4+(zoom-3);
+				Vector2 ln_pos = (ln.v1.p.x,ln.v1.p.y);
+				Vector2 ln_len = (ln.v2.p.x,ln.v2.p.y);
+				
+				// Check render distance
+				if(
+					   abs(ln_pos.x-plrpos2D.x) > minimap_renderdist
+					&& abs(ln_len.x-plrpos2D.x) > minimap_renderdist 
+					|| abs(ln_pos.y-plrpos2D.y) > minimap_renderdist
+					&& abs(ln_len.y-plrpos2D.y) > minimap_renderdist)
+				{
+					continue;
+				}
+					
+				Vector2 amapoffs = ( baseoffs.x ,  baseoffs.y );
+				Vector2 drawpos = ( amapoffs.x, amapoffs.y );
+				
+				ln_pos = Actor.RotateVector(SwapVector(ln_pos-plrpos2D),haloplr.angle+180) + plrpos2D;
+				ln_len = Actor.RotateVector(SwapVector(ln_len-plrpos2D),haloplr.angle+180) + plrpos2D;
+				ln_pos.x -= plrpos2D.x;
+				ln_len.x -= plrpos2D.x;
+				ln_pos.y -= plrpos2D.y;
+				ln_len.y -= plrpos2D.y;						
+				ln_pos += drawpos*zf;
+				ln_len += drawpos*zf;
+				ln_pos /= zf;
+				ln_len /= zf;
+			
+				//	drawLine(ln_pos.x,ln_pos.y,ln_len.x,ln_len.y,linecol,radarbox);
+				drawRadarLine(ln_pos.x,ln_pos.y,ln_len.x,ln_len.y,linecol, map_middle, radarsize*0.94);
+			}
+		}
+		
+		// Draw doomguy and Radar	
+		double maxdist = CVar.FindCVar("strkr_radardist").getFloat();
+		ThinkerIterator act_it = ThinkerIterator.Create("Actor");
+		Actor obj;		
+		while(obj = Actor(act_it.Next()))
+		{		
+			if(maxdist <= 0) break;
+			if(!obj.bSHOOTABLE) continue;
+			double x = haloplr.pos.x - obj.pos.x;
+			double y = haloplr.pos.y - obj.pos.y;
+			
+			int dis = obj.Distance2D(haloplr);
+			if( dis < (maxdist*10.) )
+			{
+				double frontangle = haloplr.angle+180;
+				vector2 delta = Actor.RotateVector(SwapVector((x,y)), frontangle);
+				delta.x /= zoom;
+				delta.y /= zoom;
+				if( !(obj is haloplr.GetClass()) && obj.target )
+				{
+					String basegraphic = "ALLYDOT";
+					if(obj.target != NULL && !obj.bFRIENDLY && obj.bSOLID && obj.bSHOOTABLE)
+						basegraphic = "ENEMYDOT";
+					else if(obj.bFRIENDLY)
+						basegraphic = "ALLYDOT";
+					
+					vector2 finalpos = ((map_middle.x-delta.x), (map_middle.y-delta.y));
+					double drawdist; 
+					[finalpos, drawdist] = HaloMath.ClampVector(finalpos, map_middle, radarsize*0.98);
+					
+					vector2 dScale = (1.0, 1.0);
+					dScale *= clamp(1.0-(drawdist/512.), 0.5, 1.0);
+					
+					HLSBS.DrawImage(basegraphic, finalpos, 0, (drawdist>radarsize ? 0.6 : 1.0), dScale);
+				}
+			}
+		}
+		
+		// Draw Radar middle, "player"
+		HLSBS.DrawImage("RADARMID", baseoffs);	
+	}
+
 	// Planned to implement, currently unimplemented.
 	void DrawObjectives() {}
-	void DrawRadar() {}
 	void DrawCompass() {}
 
 	void DrawFullScreenStuff (double TicFrac) {}

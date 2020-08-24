@@ -107,7 +107,7 @@ class Halo_AssaultRifle : HaloGun
 				A_FireRifle();
 				A_SetRecoil(0.4, 0, 6);
 				A_SetZoom(0.987,2);
-				A_QuakeEx(2,4,0,3,0,20,"",QF_RELATIVE|QF_WAVE);
+				A_QuakeEx(1,2,0,3,0,20,"",QF_RELATIVE|QF_WAVE);
 				A_RecoilOffset(8,10,2);
 				A_OverlayOffset(LCD_LLayer, 0, 0);
 				A_OverlayOffset(LCD_RLayer, 0, 0);
