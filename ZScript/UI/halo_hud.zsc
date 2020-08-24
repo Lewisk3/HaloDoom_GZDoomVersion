@@ -252,12 +252,8 @@ class HaloStatusBar : BaseStatusBar
 				Vector2 amapoffs = ( baseoffs.x ,  baseoffs.y );
 				Vector2 drawpos = ( amapoffs.x, amapoffs.y );
 				
-				ln_pos = Actor.RotateVector(SwapVector(ln_pos-plrpos2D),haloplr.angle+180) + plrpos2D;
-				ln_len = Actor.RotateVector(SwapVector(ln_len-plrpos2D),haloplr.angle+180) + plrpos2D;
-				ln_pos.x -= plrpos2D.x;
-				ln_len.x -= plrpos2D.x;
-				ln_pos.y -= plrpos2D.y;
-				ln_len.y -= plrpos2D.y;						
+				ln_pos = Actor.RotateVector(SwapVector(ln_pos-plrpos2D),haloplr.angle+180);
+				ln_len = Actor.RotateVector(SwapVector(ln_len-plrpos2D),haloplr.angle+180);					
 				ln_pos += drawpos*zf;
 				ln_len += drawpos*zf;
 				ln_pos /= zf;
