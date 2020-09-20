@@ -57,7 +57,7 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 	{
 		A_Light(4);
 		A_WeapSound("Halo/Weapons/SuperShotgun/Fire");
-		for(int i = 0; i < 15; i++)
+		for(int i = 0; i < 30; i++)
 			A_FireProjectile("HaloDBLShotgun_Bullet", A_RecoilSpread()+1, false, 8, 0, 0, A_RecoilSpread()-1.35);		
 		A_TakeAmmo(2);
 		A_UpdateSpread();
@@ -66,7 +66,7 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 	{
 		A_Light(4);
 		A_WeapSound("Halo/Weapons/SuperShotgun/Fire");
-		for(int i = 0; i < 7; i++)
+		for(int i = 0; i < 15; i++)
 			A_FireProjectile("HaloDBLShotgun_Bullet", A_RecoilSpread()+1, false, 8, 0, 0, A_RecoilSpread()-1.35);		
 		A_TakeAmmo(1);
 		A_UpdateSpread();
@@ -76,12 +76,8 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 	{
 		
 		Ready:
-			TNT1 A 0 
-			{
-				A_WeapSound("Halo/Weapons/SuperShotgun/Select");
-				A_WeaponOffset(0,50);
-			}
-			DBSE ABCDE 1;
+			TNT1 A 0 A_WeapSound("Halo/Weapons/SuperShotgun/Select");
+			DBSE ABCDE 1 A_DoSelectAnim();
 		Ready.Active:
 			DBSH A 1 
 			{

@@ -31,6 +31,12 @@ class HaloGun : RecoilWeapon
 		HaloGun.BackpackReloadTime 35;
 		HaloGun.UIGraphic "WI_AR";
 	}
+	
+	// For some reason weapons start with an odd offset.
+	action void A_DoSelectAnim()
+	{
+		 A_WeaponOffset(0, 45);
+	}
 
 	action void A_UpdateSpread()
 	{

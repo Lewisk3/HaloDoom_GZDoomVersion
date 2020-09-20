@@ -59,7 +59,7 @@ class Halo_AssaultRifle : HaloGun
 		
 		Ready:
 			TNT1 A 0 A_WeapSound("Halo/Weapons/Mag_MD6/Select");
-			HARI AAAAA 1;
+			HARI AAAAA 1 A_DoSelectAnim();
 		Ready.Active:
 			HARI A 1 
 			{
@@ -132,10 +132,28 @@ class Halo_AssaultRifle : HaloGun
 		LCD_AmmoCount.Right:
 			LCDR "#" 1 A_SetFrame(floor(countinv(invoker.AmmoType2)%10.), LCD_RLayer);
 		loop;
+		LCD_Off:
+			TNT1 A 1;
+		stop;
 		
 		Reload:
 			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
-			HARI A 10 A_ReloadClip();
+			TNT1 A 0 
+			{
+				A_Overlay(LCD_LLayer, "LCD_Off");
+				A_Overlay(LCD_RLayer, "LCD_Off");
+			}
+			HARR A 4 A_WeapSound("Halo/Weapons/Mag_MD6/Reload", CHANF_OVERLAP);
+			HARR BCDE 2;
+			HARR F 6; 
+			HARR G 2;
+			HARR H 4;
+			HARR IJKL 2;
+			HARR M 7;
+			HARR NOPQR 2;
+			HARR STUV 4;
+			HARR WXYZ 2;
+			TNT1 A 0 A_ReloadClip();
 		goto Ready.Active;
 		
 		Spawn:

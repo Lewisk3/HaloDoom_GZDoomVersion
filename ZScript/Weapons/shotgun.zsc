@@ -1,0 +1,155 @@
+class Halo_Shotgun_Shells : Ammo 
+{
+	Default{
+		Inventory.MaxAmount 8;
+	}
+}
+
+class HaloShotgun_Bullet : HaloBullet 
+{
+	Default
+	{
+		HaloProjectile.SetRanges SHOTGUN_RANGE1, SHOTGUN_RANGE2;
+		HaloProjectile.MinRangeDamage SHOTGUN_MINDMG/10.; 
+		HaloProjectile.BaseDamage SHOTGUN_DMG;
+		HaloProjectile.Speed_MPS SHOTGUN_BMPS;
+	}
+}
+
+class Halo_Shotgun : HaloGun replaces Shotgun
+{
+	bool dryreload;
+	Default
+	{
+		Weapon.SlotNumber 1;
+		Obituary "%o was took down by %k's Shotgun.";
+		Inventory.PickupMessage	"Shotgun Adquired.";
+		Tag "Shotgun";
+		Weapon.BobSpeed 2.0;
+		Weapon.BobRangeX 0.10;
+		// [Lewisk] had to switch ammotype's 1 and 2 because thats how my
+		// reload function works.
+		Weapon.AmmoType1 "Shell";
+		Weapon.AmmoType2 "Halo_Shotgun_Shells";
+				
+		// Recoil
+		HaloGun.Bloom 0.8;
+		HaloGun.BloomSpeed 0.08;
+		HaloGun.BaseRecoil SHOTGUN_RECOIL;
+		HaloGun.Inaccuracy SHOTGUN_ACCMOD;
+		HaloGun.Crosshair "SGRet";
+		HaloGun.UIGraphic "WI_SG";
+	}
+	
+	action void A_FireShotgun()
+	{
+		A_Light(2);
+		A_WeapSound("Halo/Weapons/Shotgun/Fire");
+		for(int i = 0; i < 15; i++)
+			A_FireProjectile("HaloShotgun_Bullet", A_RecoilSpread()+1, false, 8, 0, 0, A_RecoilSpread()-1.35);		
+		A_TakeAmmo(1);
+		A_UpdateSpread();
+	}
+	
+	States
+	{
+		Ready:
+			TNT1 A 0 A_WeapSound("Halo/Weapons/Shotgun/Select");
+			HSGS ABCDEF 1 A_DoSelectAnim();
+		Ready.Active:
+			HSGI A 1 
+			{
+				if(!countinv("Halo_Shotgun_Shells")) A_SetFrame(1);
+				A_RWeaponReady(WRF_ALLOWRELOAD);
+			}
+		loop;
+		
+		Ready.Dryfire:
+			HSGI B 1;
+		goto Ready.Active;
+
+		Select:
+			TNT1 A 1 A_RRaise(12);
+		wait;
+
+		Deselect:
+			HSGS FEDCBA 1;
+			TNT1 A 0 A_RLower(12);
+		wait;
+		
+		Fire:
+			TNT1 A 0 A_GunCheckReload();
+			TNT1 A 0 A_SetZoom(0.86, 2);
+			HSGF A 1 Bright
+			{
+				A_SetRecoil(4.36, 2.42, 1);
+				A_FireShotgun();
+				A_QuakeEx(4,0,2,4,0,20,"",QF_RELATIVE);
+				A_RecoilOffset(15, 30, 8);
+			}
+			HSGF B 2 Bright;
+			TNT1 A 0 A_Light(0);
+			HSGF CC 1 
+			{
+				A_SetZoom(0.994, 2);
+				A_SetRecoil(-0.24, -0.13, 8);
+			}
+			HSGF D 4 A_RecoilOffset(5, 10, 8);
+			HSGF EFGH 2 A_RecoilOffset(0,5,5);
+			HSGF JK 2 A_SetZoom(1.0, 2);
+		goto Pump;
+		
+		Pump:
+			TNT1 A 0 A_GunCheckReload();
+			HSGP ABCDEFGG 1;
+			HSGP HIJKLLL 1 
+			{
+				A_WeapSound("Halo/Weapons/Shotgun/Pump", CHANF_OVERLAP);
+				A_RecoilOffset(5,30,8);
+				A_SetRecoil(-0.25, -0.09, 4);
+			}
+			HSGP MNONM 1;
+			HSGP LKJIIIHGG 1 
+			{
+				A_RecoilOffset(0,0,14);
+				A_SetRecoil(0.25, 0.09, 4);
+			}
+			HSGP FEDCBA 1;
+		goto Ready.Active;
+		
+		Pump.Dry:
+			HSDP ABCDE 1;
+			HSDP FG 2 A_WeapSound("Halo/Weapons/Shotgun/Pump", CHANF_OVERLAP);
+			HSDP EDCBA 1;
+		goto Ready.Active;
+		
+		Reload:
+			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
+			TNT1 A 0 A_WeapSound("Halo/Weapons/Shotgun/Reload/Start", CHANF_OVERLAP);
+		Reload.Ready:
+			HSGR ABCDEFGHIJKL 1 
+			{
+				A_SetRecoil(0.25, -0.14, 4);
+				invoker.dryreload = !countinv("Halo_Shotgun_Shells");
+			}
+		Reload.Loop:
+			HSGR LMNO 1;
+			HSGR P 2 
+			{
+				A_ReloadSingle();
+				A_SetRecoil(-0.12, 0.12, 2);
+				A_WeapSound("Halo/Weapons/Shotgun/Reload/Loop", CHANF_OVERLAP);
+			}
+			HSGR QRSTUV 1;
+			TNT1 A 0 A_ValidateReload("Reload.Finish");
+		loop;
+		Reload.Finish:
+			HSGR LKJIHGFEDCBA 1 A_SetRecoil(-0.25, 0.14, 4);
+			TNT1 A 0 A_JumpIf(invoker.dryreload, "Pump.Dry");
+		goto Ready.Active;
+		
+		Spawn:
+			HMAG A -1;
+		stop;
+	}
+}

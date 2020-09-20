@@ -28,6 +28,7 @@ version 4.0
 
 // Weapons
 #include "ZScript/Weapons/magnum.zsc"
+#include "ZScript/Weapons/shotgun.zsc"
 #include "ZScript/Weapons/supershotgun.zsc"
 #include "ZScript/Weapons/assaultrifle.zsc"
 

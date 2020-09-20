@@ -86,18 +86,13 @@ class HaloMath Abstract
 	// Distance 3D on vectors, not actors.
 	static double Distance3D(vector3 one, vector3 two)
 	{
-		int x = one.x - two.x;
-		int y = one.y - two.y;
-		int z = one.z - two.z;
-		return sqrt( x*x + y*y + z*z );
+		return (one-two).Length();
 	}
 	
 	// Distance 2D on vectors, not actors.
 	static float Distance2D(Vector2 one, Vector2 two)
 	{
-		int x = one.x - two.x;
-		int y = one.y - two.y;
-		return sqrt( x*x + y*y );
+		return (one-two).Length();
 	}
 	
 	// Rotate vectors.
