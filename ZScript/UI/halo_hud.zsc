@@ -271,7 +271,7 @@ class HaloStatusBar : BaseStatusBar
 		}
 		
 		// Draw doomguy and Radar	
-		double maxdist = CVar.FindCVar("strkr_radardist").getFloat();
+		double maxdist = 500;
 		ThinkerIterator act_it = ThinkerIterator.Create("Actor");
 		Actor obj;		
 		while(obj = Actor(act_it.Next()))
