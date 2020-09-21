@@ -26,6 +26,18 @@ $random Halo/Weapons/SuperShotgun/Fire { DBFIRE1 DBFIRE2 DBFIRE3 }
 Halo/Weapons/SuperShotgun/Reload DBRELOAD
 Halo/Weapons/SuperShotgun/Select DBREADY
 
+// Shotgun
+SGFIRE1 SGFIRE1
+SGFIRE2 SGFIRE2
+SGFIRE3 SGFIRE3
+SGRELOAD1 SGRELOD1
+SGRELOAD2 SGRELOD2
+SGRELOAD3 SGRELOD3
+SGRELOAD4 SGRELOD4
+Halo/Weapons/Shotgun/Pump SGPUMP
+$random Halo/Weapons/Shotgun/Fire { SGFIRE1 SGFIRE2 SGFIRE3 }
+$random Halo/Weapons/Shotgun/Reload { SGRELOAD1 SGRELOAD2 SGRELOAD3 SGRELOAD4 }
+
 // Misc WeapSnds
 Halo/Weapons/DryFire 					HW_DRYF
 
