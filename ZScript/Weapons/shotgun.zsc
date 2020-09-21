@@ -148,7 +148,7 @@ class Halo_Shotgun : HaloGun replaces Shotgun
 		goto Ready.Active;
 		
 		Spawn:
-			HMAG A -1;
+			SGFL A -1;
 		stop;
 	}
 }

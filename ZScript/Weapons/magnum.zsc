@@ -131,7 +131,7 @@ class Halo_Magnum : HaloGun
 		goto Ready.Active;
 		
 		Spawn:
-			HMAG A -1;
+			MGFL A -1;
 		stop;
 	}
 }

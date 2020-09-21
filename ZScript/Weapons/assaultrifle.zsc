@@ -157,7 +157,7 @@ class Halo_AssaultRifle : HaloGun
 		goto Ready.Active;
 		
 		Spawn:
-			HMAG A -1;
+			ARFL A -1;
 		stop;
 	}
 }
