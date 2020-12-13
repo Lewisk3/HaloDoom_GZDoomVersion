@@ -42,6 +42,7 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 		// [Lewisk] had to switch ammotype's 1 and 2 because thats how my
 		// reload function works.
 		Weapon.AmmoType1 "Shell";
+		Weapon.AmmoGive 4;
 		Weapon.AmmoType2 "Halo_DBLShotgun_Shells";
 				
 		// Recoil
