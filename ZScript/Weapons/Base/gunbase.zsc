@@ -9,6 +9,7 @@ class HaloGun : RecoilWeapon
 	double baserecoil;
 	double spreadmod; // Spread introduced by continuous fire
 	double bloomamt, bloomspd, accmod;
+	double rotation_range;
 	
 	// UI Stuff
 	string wcrosshair;
@@ -19,6 +20,7 @@ class HaloGun : RecoilWeapon
 	Property Crosshair : wcrosshair;
 	Property BaseRecoil : baserecoil;
 	Property Inaccuracy : accmod;
+	Property SwayRange : rotation_range;
 	Property BackpackReloadTime : backpack_reloadmaxtime;
 	property UIGraphic : UI_Icon;
 	
@@ -30,6 +32,7 @@ class HaloGun : RecoilWeapon
 		HaloGun.BaseRecoil 2;
 		HaloGun.BackpackReloadTime 35;
 		HaloGun.UIGraphic "WI_AR";
+		HaloGun.SwayRange 15.0;
 	}
 	
 	// For some reason weapons start with an odd offset.
@@ -52,6 +55,20 @@ class HaloGun : RecoilWeapon
 	{
 		return (Owner.player && Owner.player.ReadyWeapon == self);
 	}
+	
+	action void A_FollowRotation(int DEST_LAYER, int SRC_LAYER, double mul = 1.0)
+	{
+		let src_psp = player.GetPSprite(SRC_LAYER);
+		A_OverlayPivotAlign(DEST_LAYER, PSPA_CENTER, PSPA_CENTER);
+		A_OverlayRotate(DEST_LAYER, src_psp.rotation*mul);
+	}
+	action void A_FollowRotatedPos(int DEST_LAYER, int SRC_LAYER, vector2 max, double mul = 1.0)
+	{
+		let src_psp = player.GetPSprite(SRC_LAYER);
+		vector2 rvec = (cos(src_psp.rotation+90)*max.x, sin(src_psp.rotation+90)*max.y) * mul;
+		A_OverlayOffset(DEST_LAYER, rvec.x, rvec.y);
+	}
+	
 	
 	action void A_UpdateCrosshair(string nxhair)
 	{
@@ -118,9 +135,26 @@ class HaloGun : RecoilWeapon
 		}
 		if(!Owner.player) return;
 		
-		// Process weapon switch
+		// Get useful data
 		let btns = Owner.player.cmd.buttons;
 		let psp  = Owner.player.GetPSprite(PSP_WEAPON);
+			
+		// Weapon roll
+		vector2 su = (cos(Owner.angle+90), sin(Owner.angle+90));
+		vector2 vu = Owner.vel.xy;
+		vu.x *= su.x;
+		vu.y *= su.y;
+		psp.halign = PSPA_CENTER;
+		psp.valign = PSPA_CENTER;
+		double weaprotation = (vu.x+vu.y);
+		if(Owner.player.cmd.sidemove && abs(weaprotation) > 0.02)
+			psp.rotation = HaloMath.Lerp(psp.rotation, weaprotation * -0.8, 0.1);
+		else
+			psp.rotation = HaloMath.Lerp(psp.rotation, 0, 0.1);
+			
+		psp.rotation = clamp(psp.rotation, -rotation_range, rotation_range);
+		
+		// Process weapon switch
 		bool inreload = psp && InStateSequence(psp.CurState,FindState("Reload"));
 		if((btns & BTN_SWITCHWEAP) && psp && !InStateSequence(psp.CurState,FindState("Deselect.Quick")))
 		{

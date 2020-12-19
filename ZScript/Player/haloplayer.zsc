@@ -15,9 +15,7 @@ class HaloPlayer : DoomPlayer
 	
 	Default
 	{
-		Gravity 1.5;
 		Speed 0.67;
-		Player.JumpZ 16;
 		Health 45;
 		Player.StartItem "Halo_Magnum", 1;
 		Player.StartItem "Halo_AssaultRifle", 1;
