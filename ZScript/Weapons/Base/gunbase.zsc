@@ -10,6 +10,7 @@ class HaloGun : RecoilWeapon
 	double spreadmod; // Spread introduced by continuous fire
 	double bloomamt, bloomspd, accmod;
 	double rotation_range;
+	double rotation_sens;
 	
 	// UI Stuff
 	string wcrosshair;
@@ -21,6 +22,7 @@ class HaloGun : RecoilWeapon
 	Property BaseRecoil : baserecoil;
 	Property Inaccuracy : accmod;
 	Property SwayRange : rotation_range;
+	Property SwaySpeed : rotation_sens;
 	Property BackpackReloadTime : backpack_reloadmaxtime;
 	property UIGraphic : UI_Icon;
 	
@@ -32,7 +34,8 @@ class HaloGun : RecoilWeapon
 		HaloGun.BaseRecoil 2;
 		HaloGun.BackpackReloadTime 35;
 		HaloGun.UIGraphic "WI_AR";
-		HaloGun.SwayRange 15.0;
+		HaloGun.SwayRange 5.0;
+		HaloGun.SwaySpeed 1.5;
 	}
 	
 	// For some reason weapons start with an odd offset.
@@ -148,7 +151,7 @@ class HaloGun : RecoilWeapon
 		psp.valign = PSPA_CENTER;
 		double weaprotation = (vu.x+vu.y);
 		if(Owner.player.cmd.sidemove && abs(weaprotation) > 0.02)
-			psp.rotation = HaloMath.Lerp(psp.rotation, weaprotation * -0.8, 0.1);
+			psp.rotation = HaloMath.Lerp(psp.rotation, weaprotation * rotation_sens, 0.1);
 		else
 			psp.rotation = HaloMath.Lerp(psp.rotation, 0, 0.1);
 			
