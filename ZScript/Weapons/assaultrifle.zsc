@@ -10,7 +10,7 @@ class HaloRifle_Bullet : HaloBullet
 	Default
 	{
 		HaloProjectile.SetRanges ARIFLE_RANGE1, ARIFLE_RANGE2;
-		HaloProjectile.MinRangeDamage ARIFLE_MINDMG/10.; 
+		HaloProjectile.MinRangeDamage ARIFLE_MINDMG; 
 		HaloProjectile.BaseDamage ARIFLE_DMG;
 		HaloProjectile.Speed_MPS ARIFLE_BMPS;
 		Scale 0.5;

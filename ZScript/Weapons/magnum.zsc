@@ -13,7 +13,7 @@ class HaloMagnum_Bullet : HaloBullet
 	Default
 	{
 		HaloProjectile.SetRanges MAGNUM_RANGE1, MAGNUM_RANGE2;
-		HaloProjectile.MinRangeDamage MAGNUM_MINDMG/10.; 
+		HaloProjectile.MinRangeDamage MAGNUM_MINDMG; 
 		HaloProjectile.BaseDamage MAGNUM_DMG;
 		HaloProjectile.Speed_MPS MAGNUM_BMPS;
 	}

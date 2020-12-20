@@ -23,7 +23,7 @@ class HaloDBLShotgun_Bullet : HaloBullet
 	Default
 	{
 		HaloProjectile.SetRanges DBLSHOTGUN_RANGE1, DBLSHOTGUN_RANGE2;
-		HaloProjectile.MinRangeDamage DBLSHOTGUN_MINDMG/10.; 
+		HaloProjectile.MinRangeDamage DBLSHOTGUN_MINDMG; 
 		HaloProjectile.BaseDamage DBLSHOTGUN_DMG;
 		HaloProjectile.Speed_MPS DBLSHOTGUN_BMPS;
 	}

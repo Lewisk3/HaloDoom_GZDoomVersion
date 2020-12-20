@@ -10,7 +10,7 @@ class HaloShotgun_Bullet : HaloBullet
 	Default
 	{
 		HaloProjectile.SetRanges SHOTGUN_RANGE1, SHOTGUN_RANGE2;
-		HaloProjectile.MinRangeDamage SHOTGUN_MINDMG/10.; 
+		HaloProjectile.MinRangeDamage SHOTGUN_MINDMG; 
 		HaloProjectile.BaseDamage SHOTGUN_DMG;
 		HaloProjectile.Speed_MPS SHOTGUN_BMPS;
 	}
