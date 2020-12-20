@@ -37,7 +37,7 @@ class HaloProjectile : FastProjectile
 		// console.printf("Damage output: %f, Dist: %f", truedamage, getTravelDistance());
 		Sound hitsnd = "Hit/Normal";
 		if(killed) hitsnd = "Hit/Killed";
-		victim.DamageMobJ(target,self,truedamage,DamageType,0,angle);
+		victim.DamageMobJ(self,target,truedamage,DamageType,0,angle);
 		class<Actor> blud = victim.GetBloodType(0);
 		if(blud && bBLOODSPLATTER && victim.bISMONSTER) victim.Spawn(blud,pos);
 		
