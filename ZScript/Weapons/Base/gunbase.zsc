@@ -238,7 +238,7 @@ class HaloGun : RecoilWeapon
 		A_StartSound( 
 			snd, CHAN_WEAPON, 
 			flags | CHANF_OVERLAP, 
-			0.4 + (1.0 * (1.0-ammo_usedperc) )
+			0.3 + (0.8 * (1.0-ammo_usedperc) )
 		);
 	}
 	

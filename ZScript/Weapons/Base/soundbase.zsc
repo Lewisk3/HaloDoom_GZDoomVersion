@@ -1,0 +1,36 @@
+class SoundEmitter : Actor
+{
+	Sound audio;
+
+	Default
+	{
+		+NOBLOCKMAP
+		+NOINTERACTION
+		Radius 0;
+		Height 0;
+	}
+
+	static SoundEmitter SE_Trigger(Sound snd = "weapons/pistol")
+	{
+		let a_snd = SoundEmitter(Spawn("SoundEmitter",(0,0,0), ALLOW_REPLACE));
+		if(a_snd)
+		{
+			a_snd.SeeSound = snd;
+			a_snd.audio = snd;
+		}
+		return a_snd;
+	}	
+	
+	override void PostBeginPlay()
+	{
+		A_StartSound(audio, CHAN_BODY, 0, 1.0, ATTN_NONE);
+		super.PostBeginPlay();
+	}
+
+	States
+	{
+		Spawn:
+			TNT1 A 1;
+		stop;
+	}
+}

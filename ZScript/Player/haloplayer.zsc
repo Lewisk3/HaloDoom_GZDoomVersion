@@ -3,6 +3,7 @@ class HaloPlayer : DoomPlayer
 {
 	// Misc
 	WeaponPickupProxy pickuptarget;
+	double soundwait;
 	
 	// Shields
 	double shield_regentime;
@@ -40,6 +41,9 @@ class HaloPlayer : DoomPlayer
 			super.Tick();
 			return;
 		}
+		
+		// Used for timing certain sound fx.
+		if(soundwait) soundwait--;
 		
 		// Aircontrol and friction.
 		uint btns = player.cmd.buttons;

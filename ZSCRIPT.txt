@@ -7,6 +7,7 @@ version 4.0
 #include "skill.cfg"
 #include "ZScript/PickupSystem/halopickup_events.zsc"
 #include "ZScript/PickupSystem/weapbehavior.zsc"
+#include "ZScript/Weapons/Base/soundbase.zsc"
 
 // Player(s)
 #include "ZScript/Player/haloplayer.zsc"

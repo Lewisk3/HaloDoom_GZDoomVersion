@@ -50,6 +50,21 @@ $random Halo/Weapons/Shotgun/Reload { SGRELOAD1 SGRELOAD2 SGRELOAD3 SGRELOAD4 }
 // Misc WeapSnds
 Halo/Weapons/DryFire 					HW_DRYF
 
+// Hit feedback
+HMHIT1 HMHit1
+HMHIT2 HMHit2
+HMHIT3 HMHit3
+HMHIT4 HMHit4
+HMHEAD1 HMHead1
+HMHEAD2 HMHead2
+HMHEAD3 HMHead3
+HMHEAD4 HMHead4
+HMKILL1 HMKill1
+HMKILL2 HMKill2
+$random Hit/Normal  { HMHIT1 HMHIT2 HMHIT3 HMHIT4 }
+$random Hit/Crit    { HMHEAD1 HMHEAD2 HMHEAD3 HMHEAD4 }
+$random Hit/Killed  { HMKILL1 HMKILL2 }
+
 // Shield
 Shield/TakeDamage shdmg
 Shield/Regenerate shreg
