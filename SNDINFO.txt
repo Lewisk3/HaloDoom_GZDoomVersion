@@ -16,7 +16,13 @@ ARFIRE1 ARFire1
 ARFIRE2 ARFire2
 ARFIRE3 ARFire3
 ARFIRE4 ARFire4
+ARMECH1 ARMech1
+ARMECH2 ARMech2
+ARMECH3 ARMech3
+ARMECH4 ARMech4
 $random Halo/Weapons/Rifle/Fire { ARFIRE1 ARFIRE2 ARFIRE3 ARFIRE4 }
+$random Halo/Weapons/Rifle/Mech { ARMECH1 ARMECH2 ARMECH3 ARMECH4 }
+
 Halo/Weapons/Rifle/Reload/Full AReloadF
 Halo/Weapons/Rifle/Reload/Empty AReloadE
 Halo/Weapons/Rifle/Select ARReady

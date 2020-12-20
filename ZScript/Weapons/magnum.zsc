@@ -46,7 +46,7 @@ class Halo_Magnum : HaloGun
 	action void A_FireMagnum()
 	{
 		A_Light(2);
-		A_WeapSound("Halo/Weapons/Mag_MD6/Fire");
+		A_WeapSound("Halo/Weapons/Mag_MD6/Fire", 0, true);
 		A_FireProjectile("HaloMagnum_Bullet", A_RecoilSpread()+1, false, 8, 0, 0, A_RecoilSpread()-1.35);		
 		A_TakeAmmo();
 		A_UpdateSpread();

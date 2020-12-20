@@ -1,6 +1,7 @@
 class HaloGun : RecoilWeapon
 {
 	const BTN_SWITCHWEAP = BT_USER1;
+	bool first_shot; // Tied to fire btn.
 	bool pbtn_fire;
 	bool pbtn_altfire;
 	bool backpack_reloading;
@@ -139,9 +140,16 @@ class HaloGun : RecoilWeapon
 		if(!Owner.player) return;
 		
 		// Get useful data
-		let btns = Owner.player.cmd.buttons;
+		uint btns = Owner.player.cmd.buttons;
+		uint oldbtns = Owner.player.oldbuttons;
 		let psp  = Owner.player.GetPSprite(PSP_WEAPON);
-			
+		
+		// WeapSound features
+		bool infire = psp && InStateSequence(psp.CurState,FindState("Fire"));
+		if( !infire || !((btns & BT_ATTACK) && (oldbtns & BT_ATTACK)) ) 
+			first_shot = true;
+		
+		
 		// Weapon roll
 		vector2 su = (cos(Owner.angle+90), sin(Owner.angle+90));
 		vector2 vu = Owner.vel.xy;
@@ -214,9 +222,24 @@ class HaloGun : RecoilWeapon
 	action bool A_AltFirePressed() { return invoker.pbtn_altfire; }
 	
 	// [Lewisk3] Use this instead of using deprecated functions :P
-	action void A_WeapSound(sound snd, uint flags = 0)
+	action void A_WeapSound(sound snd, uint flags = 0, bool firesound = false)
+	{	
+		double vol = firesound ? (invoker.first_shot ? 1.0 : 0.5) : 1.0;
+		A_StartSound(snd, CHAN_WEAPON, flags, vol);
+		if(firesound) invoker.first_shot = false;
+	}
+	
+	// [Lewisk3] This plays the mechanism sound of the weapon,
+	// essentially the sound of the thing that loads the next bullet.
+	action void A_MechanismSound(Sound snd, uint flags = 0)
 	{
-		A_StartSound(snd, CHAN_WEAPON, flags);
+		let rammo = GetDefaultByType(invoker.AmmoType2);
+		double ammo_usedperc = double(countinv(invoker.AmmoType2)) / rammo.maxamount;
+		A_StartSound( 
+			snd, CHAN_WEAPON, 
+			flags | CHANF_OVERLAP, 
+			0.4 + (1.0 * (1.0-ammo_usedperc) )
+		);
 	}
 	
 	// For reloading clips/magazines
