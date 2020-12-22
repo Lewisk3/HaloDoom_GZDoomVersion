@@ -48,7 +48,7 @@ class HitM_Normal : HitMarker
 	
 	override void Draw(double dT)
 	{
-		// Draw 4 cornered hitmarker, starting at the center, moving outwards.
+		// Draw 4 cornered hitmarker, starting at the center, moving inwards.
 		uint flags = HLSBS.SS_SCREEN_CENTER;
 		vector2 fscale = (scale.x*animscale, scale.y*animscale);
 		double offs = 170 * fscale.x;
@@ -60,6 +60,33 @@ class HitM_Normal : HitMarker
 		
 		dist -= 3 * dT;
 		if(animscale > 0.1) animscale -= 0.09 * dT;
+		alpha -= 0.06 * dT;  
+		if(alpha <= 0.1) Destroy();
+	}
+}
+
+class HitM_Headshot : HitMarker
+{
+	double animscale;
+	String img;
+	uint pickimg;
+	
+	override void Init()
+	{
+		pickimg = random(0,1);
+		img = String.Format("hitded%d", pickimg+1);
+		alpha = 1.0;
+		animscale = 1.0;
+		scale = (0.4, 0.4);
+	}
+	
+	override void Draw(double dT)
+	{
+		uint flags = HLSBS.SS_SCREEN_CENTER;
+		vector2 fscale = (scale.x*animscale, scale.y*animscale);
+		HLSBS.DrawImage(img, (0,0), flags, alpha, scale:fscale);
+
+		if(animscale > 0.1) animscale -= 0.04 * dT;
 		alpha -= 0.06 * dT;  
 		if(alpha <= 0.1) Destroy();
 	}
