@@ -37,9 +37,6 @@ class HaloProjectile : FastProjectile
 		// console.printf("Damage output: %f, Dist: %f", truedamage, getTravelDistance());
 		Sound hitsnd = "Hit/Normal";
 		if(killed) hitsnd = "Hit/Killed";
-		victim.DamageMobJ(self,target,truedamage,DamageType,0,angle);
-		class<Actor> blud = victim.GetBloodType(0);
-		if(blud && bBLOODSPLATTER && victim.bISMONSTER) victim.Spawn(blud,pos);
 		
 		// Determine headshot
         // Preform ray cast to determine where the shooter is aiming.
@@ -49,7 +46,11 @@ class HaloProjectile : FastProjectile
         float headz    = (victim.pos.z + victim.height);
         float head_top =  18;
         // Compare ray location with the head hit boundaries
-        if(dmgz <= headz && dmgz >= headz-head_top) hitsnd = "Hit/Crit";
+        if(dmgz <= headz && dmgz >= headz-head_top && killed) hitsnd = "Hit/Crit";
+		
+		victim.DamageMobJ(self,target,truedamage,DamageType,0,angle);
+		class<Actor> blud = victim.GetBloodType(0);
+		if(blud && bBLOODSPLATTER && victim.bISMONSTER) victim.Spawn(blud,pos);
 
 		// Hit feedback
 		if(plr && (!plr.soundwait || killed))
@@ -57,6 +58,9 @@ class HaloProjectile : FastProjectile
 			target.A_StartSound(hitsnd, killed ? CHAN_VOICE : CHAN_BODY, CHANF_OVERLAP);
 			plr.soundwait = 2;
 		}
+		
+		// Hitmarker queue
+		Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Normal");
 		
 		return -1;
 	}

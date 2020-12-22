@@ -29,6 +29,10 @@ class Halo_OverlayUI : EventHandler
 {	
 	Array<Key> foundkeys;
 	
+	ui double prevMS, deltatime;
+	ui HitMarker active_hitmarker;
+	HitMarkerQueued hitmarker_queue;
+	
 	void AddNewKey(Key k)
 	{
 		string colors = (
@@ -61,10 +65,49 @@ class Halo_OverlayUI : EventHandler
 		if(e.Thing is "Key") AddNewKey(Key(e.Thing));
 	}
 	
+	override void NetworkProcess(ConsoleEvent e)
+	{
+		String cmd = e.Name;
+		Array<String> args;
+		cmd.Split(args, ":");
+		if(args[0] == "hitmark")
+		{
+			class<Hitmarker> type = args[1];
+			if(type) hitmarker_queue = HitMarkerQueued.Queue(type);
+		}
+	}
+	
+	override void WorldTick()
+	{
+		if(hitmarker_queue && hitmarker_queue.ontic != level.time)
+			hitmarker_queue.Destroy();
+	}
+	
+	// Keys and Hitmarkers
 	override void RenderOverlay(RenderEvent e)
 	{
 		// Draw HUD projections
 		DrawKeys(e);
+		
+		// Hitmarker(s)
+		if(hitmarker_queue) 
+		{
+			if(active_hitmarker) active_hitmarker.Destroy();
+			active_hitmarker = HitMarker(new(hitmarker_queue.type));
+			active_hitmarker.Init();
+		}
+		if(active_hitmarker) active_hitmarker.Draw(deltatime);
+		
+		// Keep track of time, always.
+		if(!prevMS)
+		{
+			prevMS = MSTime();
+			return;
+		}
+		double ftime = MSTime()-prevMS;
+		prevMS = MSTime();
+		double dtime = 1000.0 / 60.;
+		deltatime = (ftime/dtime);
 	}
 	
 	ui void DrawKeys(RenderEvent e)

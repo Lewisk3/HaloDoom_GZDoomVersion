@@ -31,6 +31,7 @@ $random Halo/Weapons/Rifle/Fire/Bass { ARBASS1 ARBASS2 ARBASS3 ARBASS4 }
 Halo/Weapons/Rifle/Reload/Full AReloadF
 Halo/Weapons/Rifle/Reload/Empty AReloadE
 Halo/Weapons/Rifle/Select ARReady
+$volume Halo/Weapons/Rifle/Fire/Bass 0.7;
 
 // SuperShotgun
 DBFIRE1 DBFIRE1

@@ -1,0 +1,66 @@
+class HitMarkerQueued : Object
+{
+	int ontic;
+	class<HitMarker> type;
+	static HitMarkerQueued Queue(class<HitMarker> hm)
+	{
+		let hitmobj = HitMarkerQueued(new("HitMarkerQueued"));
+		if(hitmobj)
+		{
+			hitmobj.type = hm;
+			hitmobj.ontic = level.maptime;
+		}
+		return hitmobj;
+	}
+}
+
+class HitMarker : Object
+{
+	vector2 pos;
+	vector2 scale;
+	double rotation;
+	double alpha;
+	virtual ui void Init()
+	{
+	}
+	virtual ui void Draw(double dT)
+	{
+	}
+}
+
+class HitM_Normal : HitMarker
+{
+	double dist;
+	double animscale;
+	
+	vector2 angdist(double ang, double dist)
+	{
+		return (cos(ang), sin(ang)) * dist;
+	}
+	
+	override void Init()
+	{
+		alpha = 1.0;
+		animscale = 1.0;
+		scale = (0.25, 0.25);
+		dist = 30;
+	}
+	
+	override void Draw(double dT)
+	{
+		// Draw 4 cornered hitmarker, starting at the center, moving outwards.
+		uint flags = HLSBS.SS_SCREEN_CENTER;
+		vector2 fscale = (scale.x*animscale, scale.y*animscale);
+		double offs = 170 * fscale.x;
+		
+		HLSBS.DrawImage("hitdef1", ( offs, offs) + angdist(45, dist), flags, alpha, scale:fscale);
+		HLSBS.DrawImage("hitdef2", (-offs, offs) + angdist(135, dist), flags, alpha, scale:fscale);
+		HLSBS.DrawImage("hitdef3", ( offs,-offs) + angdist(315, dist), flags, alpha, scale:fscale);
+		HLSBS.DrawImage("hitdef4", (-offs,-offs) + angdist(225, dist), flags, alpha, scale:fscale);
+		
+		dist -= 3 * dT;
+		if(animscale > 0.1) animscale -= 0.09 * dT;
+		alpha -= 0.06 * dT;  
+		if(alpha <= 0.1) Destroy();
+	}
+}

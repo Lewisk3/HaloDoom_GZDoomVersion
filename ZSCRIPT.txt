@@ -17,6 +17,7 @@ version 4.0
 #include "ZScript/SBS/halo_sbs_3D.zsc"
 #include "ZScript/UI/halo_hud.zsc"
 #include "ZScript/UI/overlay_ui.zsc"
+#include "ZScript/UI/hitmarkers.zsc"
 
 // Items
 #include "ZScript/Items/keys.zsc"
