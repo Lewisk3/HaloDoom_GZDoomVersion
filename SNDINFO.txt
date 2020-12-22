@@ -4,12 +4,25 @@ HW_MAGF1 HW_MAGF1
 HW_MAGF2 HW_MAGF2
 HW_MAGF3 HW_MAGF3
 HW_MAGF4 HW_MAGF4
+HW_MAGL1 HW_MAGL1 
+HW_MAGL2 HW_MAGL2 
+HW_MAGL3 HW_MAGL3 
+HW_MAGM1 HW_MAGM1
+HW_MAGM2 HW_MAGM2
+HW_MAGM3 HW_MAGM3
+HW_MAGM4 HW_MAGM4
+HW_MAGM5 HW_MAGM5
 HW_MAGS1 HW_MAGS1
 HW_MAGS2 HW_MAGS2
-$Random Halo/Weapons/Mag_MD6/Fire 	{ HW_MAGF1 HW_MAGF2 HW_MAGF3 HW_MAGF4 }
+
+$Random Halo/Weapons/Mag_MD6/Fire 		{ HW_MAGF1 HW_MAGF2 HW_MAGF3 HW_MAGF4 }
+$Random Halo/Weapons/Mag_MD6/Fire/Bass 	{ HW_MAGL1 HW_MAGL2 HW_MAGL3 }
+$Random Halo/Weapons/Mag_MD6/Mech 	{ HW_MAGM1 HW_MAGM2 HW_MAGM3 HW_MAGM4 HW_MAGM5 }
 $Random Halo/Weapons/Mag_MD6/Select { HW_MAGS1 HW_MAGS2 }
 Halo/Weapons/Mag_MD6/Melee 				HW_MAGM
 Halo/Weapons/Mag_MD6/Reload 			HW_MAGR
+$volume Halo/Weapons/Mag_MD6/Fire/Bass 0.4;
+$volume Halo/Weapons/Mag_MD6/Fire 0.7;
 
 // AssaultRifle
 ARFIRE1 ARFire1
@@ -32,6 +45,7 @@ Halo/Weapons/Rifle/Reload/Full AReloadF
 Halo/Weapons/Rifle/Reload/Empty AReloadE
 Halo/Weapons/Rifle/Select ARReady
 $volume Halo/Weapons/Rifle/Fire/Bass 0.7;
+
 
 // SuperShotgun
 DBFIRE1 DBFIRE1

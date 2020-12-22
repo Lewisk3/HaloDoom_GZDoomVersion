@@ -47,6 +47,7 @@ class Halo_Magnum : HaloGun
 	{
 		A_Light(2);
 		A_WeapSound("Halo/Weapons/Mag_MD6/Fire", 0, true);
+		A_WeapSound("Halo/Weapons/Mag_MD6/Fire/Bass", CHANF_OVERLAP, true);
 		A_FireProjectile("HaloMagnum_Bullet", A_RecoilSpread()+1, false, 8, 0, 0, A_RecoilSpread()-1.35);		
 		A_TakeAmmo();
 		A_UpdateSpread();
@@ -107,7 +108,8 @@ class Halo_Magnum : HaloGun
 				A_SetZoom(1.0, 2);
 				A_SetRecoil(-0.18, 0, 8);
 			}
-			MAFI CDE 2 A_RecoilOffset(0,0,4);
+			TNT1 A 0 A_MechanismSound("Halo/Weapons/Mag_MD6/Mech");
+			MAFI CDEE 1 A_RecoilOffset(0,0,4);
 			MAFI FG 1 A_CheckRapidFire();
 		Hold:
 			MAR1 A 1 A_CheckRapidFire();

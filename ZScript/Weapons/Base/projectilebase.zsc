@@ -37,7 +37,11 @@ class HaloProjectile : FastProjectile
 		// console.printf("Damage output: %f, Dist: %f", truedamage, getTravelDistance());
 		Sound hitsnd = "Hit/Normal";
 		String hitmark = "HitM_Normal";
-		if(killed) hitsnd = "Hit/Killed";
+		if(killed) 
+		{
+			hitsnd = "Hit/Killed";
+			hitmark = "HitM_Killed";
+		}
 		
 		// Determine headshot
         // Preform ray cast to determine where the shooter is aiming.

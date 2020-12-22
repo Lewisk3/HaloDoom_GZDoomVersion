@@ -74,7 +74,7 @@ class HitM_Headshot : HitMarker
 	override void Init()
 	{
 		pickimg = random(0,1);
-		img = String.Format("hitded%d", pickimg+1);
+		img = String.Format("hithed%d", pickimg+1);
 		alpha = 1.0;
 		animscale = 1.0;
 		scale = (0.4, 0.4);
@@ -89,5 +89,16 @@ class HitM_Headshot : HitMarker
 		if(animscale > 0.1) animscale -= 0.04 * dT;
 		alpha -= 0.06 * dT;  
 		if(alpha <= 0.1) Destroy();
+	}
+}
+
+class HitM_Killed : HitM_Headshot
+{
+	override void Init()
+	{
+		img = "hitkill1";
+		alpha = 0.8;
+		animscale = 0.65;
+		scale = (0.4, 0.4);
 	}
 }
