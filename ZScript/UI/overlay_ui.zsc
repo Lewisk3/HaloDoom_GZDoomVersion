@@ -30,9 +30,8 @@ class Halo_OverlayUI : EventHandler
 	Array<Key> foundkeys;
 	
 	ui double prevMS, deltatime;
-	ui HitMarker active_hitmarker;
-	HitMarkerQueued hitmarker_queue;
-	
+	HitMarkers ui_hitmarkers;
+
 	void AddNewKey(Key k)
 	{
 		string colors = (
@@ -73,14 +72,15 @@ class Halo_OverlayUI : EventHandler
 		if(args[0] == "hitmark")
 		{
 			class<Hitmarker> type = args[1];
-			if(type) hitmarker_queue = HitMarkerQueued.Queue(type);
+			uint layer = args[2].ToInt();
+			if(type) ui_hitmarkers.Queue(layer, type);
 		}
 	}
 	
 	override void WorldTick()
 	{
-		if(hitmarker_queue && hitmarker_queue.ontic != level.time)
-			hitmarker_queue.Destroy();
+		if(!ui_hitmarkers) ui_hitmarkers = new("HitMarkers");
+		ui_hitmarkers.Cleanup();
 	}
 	
 	// Keys and Hitmarkers
@@ -90,13 +90,8 @@ class Halo_OverlayUI : EventHandler
 		DrawKeys(e);
 		
 		// Hitmarker(s)
-		if(hitmarker_queue) 
-		{
-			if(active_hitmarker) active_hitmarker.Destroy();
-			active_hitmarker = HitMarker(new(hitmarker_queue.type));
-			active_hitmarker.Init();
-		}
-		if(active_hitmarker) active_hitmarker.Draw(deltatime);
+		ui_hitmarkers.Process();
+		ui_hitmarkers.Animate(deltatime);
 		
 		// Keep track of time, always.
 		if(!prevMS)

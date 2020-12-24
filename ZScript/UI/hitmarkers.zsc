@@ -1,12 +1,14 @@
 class HitMarkerQueued : Object
 {
 	int ontic;
+	uint qlayer;
 	class<HitMarker> type;
-	static HitMarkerQueued Queue(class<HitMarker> hm)
+	static HitMarkerQueued Queue(uint layer, class<HitMarker> hm)
 	{
 		let hitmobj = HitMarkerQueued(new("HitMarkerQueued"));
 		if(hitmobj)
 		{
+			hitmobj.qlayer = layer;
 			hitmobj.type = hm;
 			hitmobj.ontic = level.maptime;
 		}
@@ -14,8 +16,72 @@ class HitMarkerQueued : Object
 	}
 }
 
+class HitMarkers : Object
+{
+	ui Array<HitMarker> actives;
+	play Array<HitMarkerQueued> queued;
+	
+	play void Queue(uint layer, class<HitMarker> hm)
+	{
+		queued.Push(HitMarkerQueued.Queue(layer, hm));
+	}
+	
+	// Move queued hitmakers into active hitmarkers (Play -> UI).
+	ui void Process()
+	{
+		for(int i = queued.Size()-1; i >= 0; i--)
+		{
+			let hitq = queued[i];
+			
+			for(int x = actives.Size()-1; x >= 0; x--)
+			{
+				let hitm = actives[x];
+				if(hitm && hitm.ui_layer == hitq.qlayer)
+				{
+					actives[x].Destroy();
+					actives.Delete(x);
+				}
+			}
+			
+			HitMarker obj = HitMarker(new(hitq.type));			
+			if(obj) 
+			{
+				obj.Init();
+				obj.ui_layer = hitq.qlayer;
+			}
+			actives.Push(obj);			
+		}
+	}
+	
+	// Draw active hitmarkers
+	ui void Animate(double deltatime)
+	{
+		for(int i = actives.Size()-1; i >= 0; i--) 
+		{
+			// Cleanup "dead" hitmarkers.
+			if(!actives[i]) 
+			{
+				actives.Delete(i);
+				continue;
+			}
+			actives[i].Draw(deltatime);
+		}
+	}
+	
+	// De-queue old hitmarker "requests"
+	play void Cleanup()
+	{
+		for(int i = queued.Size()-1; i >= 0; i--)
+		{
+			if(queued[i].ontic != level.time) 
+				queued.Delete(i);
+		}
+	}
+}
+
 class HitMarker : Object
 {
+	uint ui_layer;
 	vector2 pos;
 	vector2 scale;
 	double rotation;
