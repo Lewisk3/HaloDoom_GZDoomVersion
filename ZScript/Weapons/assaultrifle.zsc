@@ -195,31 +195,17 @@ class Halo_AssaultRifle : HaloGun
 			TNT1 A 0 A_DisableLCD();
 			HRR0 A 4;
 			HRR0 ABCDEFGHIJK 1 A_RecoilOffset(0, 20, 20);
-			HRR0 L 3 
-			{	
-				 // Clip unload
-				A_SetRecoil(-0.4, -0.2, 8);
-				A_WeapSound("Halo/Weapons/Rifle/Reload/Mag/Out", CHANF_OVERLAP);
-			}
+			HRR0 L 3 A_SetRecoil(-0.4, -0.2, 8); // Clip unload
 			HRR0 MNOPQRSTU 1;
+			TNT1 A 0 A_ReloadSound();
 			HRR0 VWXYZ 1;
 			HRR1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1;
 			HRR2 ABC 1;
-			HRR2 D 3 
-			{
-				// Clip load
-				A_SetRecoil(0.7, 0.4, 6);
-				A_WeapSound("Halo/Weapons/Rifle/Reload/Mag/In", CHANF_OVERLAP);
-			}
-			HRR2 EFGH 1 A_RecoilOffset(0, 0, 20);
-			HRR2 I 1 A_WeapSound("Halo/Weapons/Rifle/Reload/Mag/Slap", CHANF_OVERLAP);
- 			HRR2 JKLM 1;
+			HRR2 D 3 A_SetRecoil(0.7, 0.4, 6); // Clip load
+			HRR2 EFGHIJKLM 1 A_RecoilOffset(0, 0, 20);
 			HRR2 N 1 A_JumpIf(countinv("Halo_AR_Clip") > 0, "Reload.Finish");
 		Reload.Bolt:
-			HRRP ABCDEFGH 1;
-			HRRP I 1 A_WeapSound("Halo/Weapons/Rifle/Reload/Bolt/In", CHANF_OVERLAP);
-			HRRP JKLMNN 1;
-			TNT1 A 0 A_WeapSound("Halo/Weapons/Rifle/Reload/Bolt/Out", CHANF_OVERLAP);
+			HRRP ABCDEFGHIJKLMNN 1;
 		Reload.Finish:
 			HRR2 OOPQRSTUVWXYZ 1;
 			TNT1 A 0 A_ReloadClip();

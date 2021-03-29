@@ -21,7 +21,7 @@ $Random Halo/Weapons/Mag_MD6/Mech 	{ HW_MAGM1 HW_MAGM2 HW_MAGM3 HW_MAGM4 HW_MAGM
 $Random Halo/Weapons/Mag_MD6/Select { HW_MAGS1 HW_MAGS2 }
 Halo/Weapons/Mag_MD6/Melee 				HW_MAGM
 Halo/Weapons/Mag_MD6/Reload 			HW_MAGR
-$volume Halo/Weapons/Mag_MD6/Fire/Bass 0.65;
+Halo/Weapons/Mag_MD6/Reload/Empty 		HW_MAGRE
 $volume Halo/Weapons/Mag_MD6/Fire 0.7;
 
 // AssaultRifle
@@ -44,15 +44,9 @@ $random Halo/Weapons/Rifle/Fire/Bass { ARBASS1 ARBASS2 ARBASS3 ARBASS4 }
 Halo/Weapons/Rifle/Reload/Full AReloadF
 Halo/Weapons/Rifle/Reload/Empty AReloadE
 
-Halo/Weapons/Rifle/Reload/Mag/In AMagIn
-Halo/Weapons/Rifle/Reload/Mag/Out AMagOut
-Halo/Weapons/Rifle/Reload/Mag/Slap AMagSlap
-Halo/Weapons/Rifle/Reload/Bolt/In ABoltIn
-Halo/Weapons/Rifle/Reload/Bolt/Out ABoltOut
-
 Halo/Weapons/Rifle/Select ARReady
 $volume Halo/Weapons/Rifle/Fire/Bass 0.7;
-
+$volume Halo/Weapons/Rifle/Mech 0.6;
 
 // SuperShotgun
 DBFIRE1 DBFIRE1
