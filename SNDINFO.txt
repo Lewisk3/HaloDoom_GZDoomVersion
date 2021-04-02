@@ -48,6 +48,10 @@ Halo/Weapons/Rifle/Select ARReady
 $volume Halo/Weapons/Rifle/Fire/Bass 0.7;
 $volume Halo/Weapons/Rifle/Mech 0.6;
 
+// Battle Rifle
+Halo/Weapons/BattleRifle/Reload/Full BAR_RELF
+Halo/Weapons/BattleRifle/Reload/Empty BAR_REL
+
 // SuperShotgun
 DBFIRE1 DBFIRE1
 DBFIRE2 DBFIRE2

@@ -29,8 +29,8 @@ class Halo_AssaultRifle : HaloGun
 	Default
 	{
 		Weapon.SlotNumber 1;
-		Obituary "%o was took down by %k's Magnum.";
-		Inventory.PickupMessage	"Magnum Md6 Adquired.";
+		Obituary "%o was took down by %k's Assault Rifle.";
+		Inventory.PickupMessage	"Assault Rifle Acquired.";
 		Tag "Assault Rifle";
 		Weapon.BobSpeed 1.86;
 		Weapon.BobRangeX 0.30;

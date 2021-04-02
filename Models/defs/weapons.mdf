@@ -43,6 +43,18 @@ Model HaloRifle_Bullet
    FrameIndex TRAC A 0 0 
 }
 
+Model HaloBattleRifle_Bullet
+{ 
+   Path "Models/Weapons"
+   SKIN 0 "tracer1.tga" 
+   MODEL 0 "Tracer.md3" 
+   Scale 1.0 1.25 1.35 
+   PITCHFROMMOMENTUM 
+   
+   FrameIndex TRAC A 0 0 
+}
+
+
 Model HaloDBLShotgun_Bullet
 { 
    Path "Models/Weapons"

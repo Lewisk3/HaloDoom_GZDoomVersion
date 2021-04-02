@@ -1,0 +1,176 @@
+class Halo_BAR_Clip : Ammo 
+{
+	Default{
+		Inventory.MaxAmount 36;
+	}
+}
+
+class HaloBattleRifle_Bullet : HaloBullet 
+{
+	Default
+	{
+		HaloProjectile.SetRanges BARIFLE_RANGE1, BARIFLE_RANGE2;
+		HaloProjectile.MinRangeDamage BARIFLE_MINDMG; 
+		HaloProjectile.BaseDamage BARIFLE_DMG;
+		HaloProjectile.Speed_MPS BARIFLE_BMPS;
+		Scale 0.5;
+	}
+}
+
+class Halo_BattleRifle : HaloGun
+{	
+	Default
+	{
+		Weapon.SlotNumber 1;
+		Obituary "%o was took down by %k's Battle Rifle.";
+		Inventory.PickupMessage	"Battle Rifle Acquired.";
+		Tag "Battle Rifle";
+		Weapon.BobSpeed 1.86;
+		Weapon.BobRangeX 0.30;
+
+		Weapon.AmmoType1 "Halo_Clip";
+		Weapon.AmmoType2 "Halo_BAR_Clip";
+				
+		// Recoil
+		HaloGun.Bloom 0.6;
+		HaloGun.BloomSpeed 0.44;
+		HaloGun.BaseRecoil BARIFLE_RECOIL;
+		HaloGun.Inaccuracy BARIFLE_ACCMOD;
+		HaloGun.Crosshair "RifleRet";
+		HaloGun.UIGraphic "WI_DMR";
+	}
+	
+	action void A_FireRifle()
+	{
+		A_Light(2);
+		A_WeapSound("Halo/Weapons/Rifle/Fire", 0, true);
+		A_WeapSound("Halo/Weapons/Rifle/Fire/Bass", CHANF_OVERLAP, true);
+		A_FireProjectile("HaloBattleRifle_Bullet", A_RecoilSpread()+1, false, 6, 0, 0, A_RecoilSpread()-1.35);		
+		A_TakeAmmo();
+		A_UpdateSpread();
+	}
+	
+	action void A_ReloadSound()
+	{
+		Sound reload_snd = "Halo/Weapons/BattleRifle/Reload/Full";
+		if(!CountLoadedAmmo()) reload_snd = "Halo/Weapons/BattleRifle/Reload/Empty";
+		A_WeapSound(reload_snd, CHANF_OVERLAP);
+	}
+	
+	States
+	{
+		
+		Ready:
+			TNT1 A 0 A_WeapSound("Halo/Weapons/Rifle/Select");
+			BARD EDCBA 1 A_DoSelectAnim();
+		Ready.Active:
+			BARI A 1 A_RWeaponReady(WRF_ALLOWRELOAD);
+		loop;
+		
+		Ready.Dryfire:
+			HARI A 12 A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
+		goto Ready.Active;
+
+		Select:
+			TNT1 A 1 A_RRaise(12);
+		wait;
+
+		Deselect:
+			BARD ABCDE 1;
+			TNT1 A 0 A_RLower(12);
+		wait;
+		
+		
+		//  - 900RPM -
+		// 900/60 = ~15
+		// 35/15 = ~2 frames.
+		Fire:
+			TNT1 A 0 A_GunCheckReload();
+			BRFI A 1
+			{
+				A_RecoilOffset(0,8,1);
+			}
+			BRFI B 1
+			{
+				A_FireRifle();
+				A_SetRecoil(0.5, 0, 6);
+				A_SetZoom(0.987,2);
+				A_QuakeEx(1,2,2,3,0,20,"",QF_RELATIVE|QF_WAVE);
+				A_RecoilOffset(8,10,2);
+			}
+			BRFI C 1
+			{
+				A_SetZoom(0.99,1);
+				A_RecoilOffset(0,8,2);
+				A_MechanismSound("Halo/Weapons/Rifle/Mech");
+				A_GunCheckReload();
+			}
+			BRFI D 2
+			{
+				A_FireRifle();
+				A_SetRecoil(0.5, 0, 6);
+				A_SetZoom(0.987,2);
+				A_QuakeEx(1,1,0,3,0,20,"",QF_RELATIVE|QF_WAVE);
+			}
+			BRFI E 1
+			{
+				A_SetZoom(0.99,1);
+				A_RecoilOffset(0,8,1);
+				A_MechanismSound("Halo/Weapons/Rifle/Mech");
+				A_GunCheckReload();
+			}
+			BRFI F 1
+			{
+				A_FireRifle();
+				A_SetRecoil(-0.4, 0, 8);
+				A_SetZoom(0.987,2);
+				A_QuakeEx(1,0,2,3,0,20,"",QF_RELATIVE|QF_WAVE);
+				A_RecoilOffset(8,10,2);
+			}
+			BRFI G 1 A_MechanismSound("Halo/Weapons/Rifle/Mech");
+			BRFI HI 1 
+			{
+				A_SetRecoil(-0.6, 0, 8);
+				A_SetZoom(1.0,3);
+			}
+			BRFI JKKKKK 1
+			{
+				A_SetRecoil(0.2, 0, 2);
+				A_SetZoom(1.0,3);
+				A_RecoilOffset(0,0,4);
+			}
+		goto Ready.Active;
+		
+		Reload:
+			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
+			BRR1 ABCDEFGHIJKL 1;
+			TNT1 A 0 A_ReloadSound();
+			BRR1 M 1 A_SetRecoil(-0.4, 0, 3);
+			BRR1 NOPQRSTU 1;
+			BRR1 V 2 
+			{
+				A_SetRecoil(0.4, 0, 3);
+			}
+			BRR1 WX 1; 
+			TNT1 A 0 A_JumpIf(CountLoadedAmmo(), "Reload.Finish");
+			// Empty reload animation frames.
+			BRR3 ABCDEFGHIJ 1;
+			BRR3 K 2 A_SetRecoil(-0.4, -0.4, 3);
+			BRR3 LMNOPQRST 1;
+			BRR3 U 1 A_SetRecoil(0.4, 0.4, 4);
+			BRR3 VWXYZ 1;
+			BRR4 A 1; 
+		goto Reload.Draw;
+		Reload.Finish:
+			BRR1 YZ 1;
+			BRR2 ABCDEFGHIJKLMNOP 1;
+		Reload.Draw:
+			TNT1 A 0 A_ReloadClip();
+			BARD DCBA 1;
+		goto Ready.Active;
+		
+		Spawn:
+			ARFL A -1;
+		stop;
+	}
+}
