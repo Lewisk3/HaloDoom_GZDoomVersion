@@ -3,7 +3,8 @@
 //		  Gun's centered properly, and now contains a reloading function!
 class Halo_Magnum_Clip : Ammo 
 {
-	Default{
+	Default 
+	{
 		Inventory.MaxAmount 15;
 	}
 }
@@ -76,11 +77,7 @@ class Halo_Magnum : HaloGun
 		Ready.Chambered:
 			MASE ABC 1 A_DoSelectAnim(-5);
 		Ready.Active:
-			MAR1 A 1 
-			{
-				A_RWeaponReady(WRF_ALLOWRELOAD);
-				A_WeaponOffset(0,40);
-			}
+			MAR1 A 1 A_RWeaponReady(WRF_ALLOWRELOAD);
 		loop;
 		
 		Ready.Dryfire:
@@ -88,11 +85,11 @@ class Halo_Magnum : HaloGun
 		goto Ready.Active;
 
 		Select:
-			TNT1 A 1 A_RRaise(12);
+			TNT1 A 0 A_RRaise(12);
 		wait;
 
 		Deselect:
-			MASE TCBA 1;
+			MASE CBA 1;
 			TNT1 A 0 A_RLower(12);
 		wait;
 		
@@ -137,10 +134,10 @@ class Halo_Magnum : HaloGun
 			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Reload.Empty");
 			TNT1 A 0 A_WeapSound("Halo/Weapons/Mag_MD6/Reload", CHANF_OVERLAP);
 			MAR1 ABCDEFG 1;
-			MAR1 H 2 A_RecoilOffset(-4,10,2);
-			MAR1 IJKLMNOP 1 A_RecoilOffset(-4,0,10);
-			MAR1 Q 1 A_RecoilOffset(4,-10,2);
-			MAR1 RSTUVWXYZ 1 A_RecoilOffset(0,0,10);
+			MAR1 H 2; 
+			MAR1 IJKLMNOP 1;
+			MAR1 Q 1;
+			MAR1 RSTUVWXYZ 1;
 			MAR2 A 1 A_ReloadClip();
 			MAR2 BCDEFG 1;
 			MAR1 EDCBAA 1;

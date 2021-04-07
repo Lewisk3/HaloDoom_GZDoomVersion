@@ -1,6 +1,7 @@
 class Halo_BAR_Clip : Ammo 
 {
-	Default{
+	Default 
+	{
 		Inventory.MaxAmount 36;
 	}
 }
@@ -68,7 +69,7 @@ class Halo_BattleRifle : HaloGun
 		loop;
 		
 		Ready.Dryfire:
-			HARI A 12 A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
+			BARI A 4 A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
 		goto Ready.Active;
 
 		Select:

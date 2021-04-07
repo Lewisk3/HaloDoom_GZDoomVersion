@@ -1,6 +1,7 @@
 class Halo_AR_Clip : Ammo 
 {
-	Default{
+	Default 
+	{
 		Inventory.MaxAmount 32;
 	}
 }

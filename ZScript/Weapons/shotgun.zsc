@@ -1,6 +1,7 @@
 class Halo_Shotgun_Shells : Ammo 
 {
-	Default{
+	Default 
+	{
 		Inventory.MaxAmount 8;
 	}
 }
