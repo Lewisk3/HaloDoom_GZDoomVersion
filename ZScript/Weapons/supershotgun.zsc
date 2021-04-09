@@ -59,7 +59,8 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 	action void A_FireDouble()
 	{
 		A_Light(4);
-		A_WeapSound("Halo/Weapons/SuperShotgun/Fire", 0, true);
+		A_WeapSound("Halo/Weapons/SuperShotgun/Fire", CHANF_OVERLAP, true);
+		A_WeapSound("Halo/Weapons/SuperShotgun/Fire/Bass", CHANF_OVERLAP, true);
 		for(int i = 0; i < 30; i++)
 			A_FireProjectile("HaloDBLShotgun_Bullet", A_RecoilSpread()+1, false, 8, 0, 0, A_RecoilSpread()-1.35);		
 		A_TakeAmmo(2);
@@ -68,7 +69,8 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 	action void A_FireSingle()
 	{
 		A_Light(4);
-		A_WeapSound("Halo/Weapons/SuperShotgun/Fire", 0, true);
+		A_WeapSound("Halo/Weapons/SuperShotgun/Fire/Single", 0, true);
+		A_WeapSound("Halo/Weapons/SuperShotgun/Fire/Bass", CHANF_OVERLAP, true);
 		for(int i = 0; i < 15; i++)
 			A_FireProjectile("HaloDBLShotgun_Bullet", A_RecoilSpread()+1, false, 8, 0, 0, A_RecoilSpread()-1.35);		
 		A_TakeAmmo(1);
@@ -168,13 +170,7 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 		goto Ready.Active;
 		
 		Spawn:
-			HMAG A -1;
-		stop;
-		
-		// Used for internal data reasons.
-		SprCache:
-			DBFA "#" 1;
-			DBFB "#" 1;
+			SSGF A -1;
 		stop;
 	}
 }

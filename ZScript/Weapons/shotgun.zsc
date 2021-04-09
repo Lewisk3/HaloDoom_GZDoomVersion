@@ -46,7 +46,8 @@ class Halo_Shotgun : HaloGun replaces Shotgun
 	action void A_FireShotgun()
 	{
 		A_Light(2);
-		A_WeapSound("Halo/Weapons/Shotgun/Fire", 0, true);
+		A_WeapSound("Halo/Weapons/Shotgun/Fire", CHANF_OVERLAP, true);
+		A_WeapSound("Halo/Weapons/Shotgun/Fire/Bass", CHANF_OVERLAP, true);
 		for(int i = 0; i < 15; i++)
 			A_FireProjectile("HaloShotgun_Bullet", A_RecoilSpread()+1, false, 8, 0, 0, A_RecoilSpread()-1.35);		
 		A_TakeAmmo(1);
@@ -56,7 +57,7 @@ class Halo_Shotgun : HaloGun replaces Shotgun
 	States
 	{
 		Ready:
-			TNT1 A 0 A_WeapSound("Halo/Weapons/SuperShotgun/Select");
+			TNT1 A 0 A_WeapSound("Halo/Weapons/Shotgun/Ready");
 			HSGS ABCDE 1 A_DoSelectAnim();
 		Ready.Active:
 			HSGI A 1 A_RWeaponReady(WRF_ALLOWRELOAD);

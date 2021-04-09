@@ -74,21 +74,40 @@ $volume Halo/Weapons/BattleRifle/Mech 0.6;
 DBFIRE1 DBFIRE1
 DBFIRE2 DBFIRE2
 DBFIRE3 DBFIRE3
-$random Halo/Weapons/SuperShotgun/Fire { DBFIRE1 DBFIRE2 DBFIRE3 }
+DBFIRE4 DBFIRE4
+DBSFIRE1 DBSFIRE1
+DBSFIRE2 DBSFIRE2
+DBSFIRE3 DBSFIRE3
+DBSFIRE4 DBSFIRE4
+DBBASS1 DBBASS1 
+DBBASS2 DBBASS2 
+DBBASS3 DBBASS3 
+$random Halo/Weapons/SuperShotgun/Fire { DBFIRE1 DBFIRE2 DBFIRE3 DBFIRE4 }
+$random Halo/Weapons/SuperShotgun/Fire/Single { DBSFIRE1 DBSFIRE2 DBSFIRE3 DBSFIRE4 }
+$random Halo/Weapons/SuperShotgun/Fire/Bass  { DBBASS1 DBBASS2 DBBASS3 }
 Halo/Weapons/SuperShotgun/Reload DBRELOAD
-Halo/Weapons/SuperShotgun/Select DBREADY
+Halo/Weapons/SuperShotgun/Select DBDRAW
 
 // Shotgun
 SGFIRE1 SGFIRE1
 SGFIRE2 SGFIRE2
 SGFIRE3 SGFIRE3
+SGBASS1 SGBASS1
+SGBASS2 SGBASS2
+SGBASS3 SGBASS3
 SGRELOAD1 SGRELOD1
 SGRELOAD2 SGRELOD2
 SGRELOAD3 SGRELOD3
 SGRELOAD4 SGRELOD4
-Halo/Weapons/Shotgun/Pump SGPUMP
+SGPUMP1 SGPUMP1
+SGPUMP2 SGPUMP2
+SGPUMP3 SGPUMP3
+Halo/Weapons/Shotgun/Ready SGDRAW
 $random Halo/Weapons/Shotgun/Fire { SGFIRE1 SGFIRE2 SGFIRE3 }
+$random Halo/Weapons/Shotgun/Pump { SGPUMP1 SGPUMP2 SGPUMP3 }
+$random Halo/Weapons/Shotgun/Fire/Bass { SGBASS1 SGBASS2 SGBASS3 }
 $random Halo/Weapons/Shotgun/Reload { SGRELOAD1 SGRELOAD2 SGRELOAD3 SGRELOAD4 }
+$volume Halo/Weapons/Shotgun/Fire/Bass 0.8;
 
 // Misc WeapSnds
 Halo/Weapons/DryFire 					HW_DRYF
