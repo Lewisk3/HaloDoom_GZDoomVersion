@@ -57,17 +57,13 @@ class Halo_Shotgun : HaloGun replaces Shotgun
 	{
 		Ready:
 			TNT1 A 0 A_WeapSound("Halo/Weapons/SuperShotgun/Select");
-			HSGS ABCDEF 1 A_DoSelectAnim();
+			HSGS ABCDE 1 A_DoSelectAnim();
 		Ready.Active:
-			HSGI A 1 
-			{
-				if(!countinv("Halo_Shotgun_Shells")) A_SetFrame(1);
-				A_RWeaponReady(WRF_ALLOWRELOAD);
-			}
+			HSGI A 1 A_RWeaponReady(WRF_ALLOWRELOAD);
 		loop;
 		
 		Ready.Dryfire:
-			HSGI B 1;
+			HSGI A 1;
 		goto Ready.Active;
 
 		Select:
@@ -75,7 +71,8 @@ class Halo_Shotgun : HaloGun replaces Shotgun
 		wait;
 
 		Deselect:
-			HSGS FEDCBA 1;
+			HSGI A 1;
+			HSGS EDCBA 1;
 			TNT1 A 0 A_RLower(12);
 		wait;
 		
@@ -84,70 +81,63 @@ class Halo_Shotgun : HaloGun replaces Shotgun
 			TNT1 A 0 A_SetZoom(0.86, 2);
 			HSGF A 1 Bright
 			{
-				A_SetRecoil(4.36, 2.42, 1);
+				A_SetRecoil(8.78, 0, 1);
 				A_FireShotgun();
-				A_QuakeEx(4,0,2,4,0,20,"",QF_RELATIVE);
-				A_RecoilOffset(15, 30, 8);
+				A_QuakeEx(3,1,2,6,0,20,"",QF_RELATIVE|QF_WAVE);
+				A_RecoilOffset(15, 5, 8);
 			}
-			HSGF B 2 Bright;
+			HSGF B 1 Bright;
+			HSGF C 1 A_SetZoom(0.994, 2);
 			TNT1 A 0 A_Light(0);
-			HSGF CC 1 
+			HSGF D 6;
+			HSGF EFGH 1 
 			{
-				A_SetZoom(0.994, 2);
-				A_SetRecoil(-0.24, -0.13, 8);
+				A_RecoilOffset(0,0,5);
+				 A_SetRecoil(-0.36, -0.13, 10);
 			}
-			HSGF D 4 A_RecoilOffset(5, 10, 8);
-			HSGF EFGH 2 A_RecoilOffset(0,5,5);
-			HSGF JK 2 A_SetZoom(1.0, 2);
+			HSGF IJKKKK 1 A_SetZoom(1.0, 2);
 		goto Pump;
 		
 		Pump:
 			TNT1 A 0 A_GunCheckReload();
-			HSGP ABCDEFGG 1;
+			HSGP ABCDEFG 1;
 			TNT1 A 0 A_WeapSound("Halo/Weapons/Shotgun/Pump", CHANF_OVERLAP);
-			HSGP HIJKLLL 1 
-			{
-				A_RecoilOffset(5,30,8);
-				A_SetRecoil(-0.25, -0.09, 4);
-			}
-			HSGP MNONM 1;
-			HSGP LKJIIIHGG 1 
+			HSGP HI 1;
+			HSGP J 1 A_SetRecoil(-0.25, -0.09, 6);
+			HSGP KLLLLK 1 A_RecoilOffset(0,10,6);
+			HSGP J 1 
 			{
 				A_RecoilOffset(0,0,14);
 				A_SetRecoil(0.25, 0.09, 4);
 			}
-			HSGP FEDCBA 1;
-		goto Ready.Active;
-		
-		Pump.Dry:
-			TNT1 A 0 A_WeapSound("Halo/Weapons/Shotgun/Pump", CHANF_OVERLAP);
-			HSDP ABCDE 1;
-			HSDP FGGEDCBA 2;
+			HSGP IHGFEDCBA 1;
+			HSGI A 4;
 		goto Ready.Active;
 		
 		Reload:
 			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
 		Reload.Ready:
-			HSGR ABCDEFGHIJKL 1 
-			{
-				A_SetRecoil(0.25, -0.14, 4);
-				invoker.dryreload = !countinv("Halo_Shotgun_Shells");
-			}
+			SGR1 ABCDEFGHI 1;
 		Reload.Loop:
-			HSGR LMNO 1;
-			HSGR P 2 
+			SGR2 ABCDE 1;
+			SGR2 F 1
 			{
 				A_ReloadSingle();
 				A_SetRecoil(-0.12, 0.12, 2);
 				A_WeapSound("Halo/Weapons/Shotgun/Reload", CHANF_OVERLAP);
 			}
-			HSGR QRSTUV 1;
+			SGR2 GHIJKLM 1;
+			TNT1 A 0 A_JumpIf(CountLoadedAmmo() <= 1, "Reload.Pump");
 			TNT1 A 0 A_JumpIf(player.cmd.buttons & BT_ATTACK, "Fire");
 			TNT1 A 0 A_ValidateReload("Reload.Finish");
-		loop;
+		goto Reload.Loop;
+		Reload.Pump:
+			SGR3 ABCD 1;
+			SGR3 E 1 A_WeapSound("Halo/Weapons/Shotgun/Pump", CHANF_OVERLAP);
+			SGR3 FGFEDCBA 1;
+		goto Reload.Loop;
 		Reload.Finish:
-			HSGR LKJIHGFEDCBA 1 A_SetRecoil(-0.25, 0.14, 4);
-			TNT1 A 0 A_JumpIf(invoker.dryreload, "Pump.Dry");
+			SGR1 IHGFEDCBA 1;
 		goto Ready.Active;
 		
 		Spawn:

@@ -49,8 +49,26 @@ $volume Halo/Weapons/Rifle/Fire/Bass 0.7;
 $volume Halo/Weapons/Rifle/Mech 0.6;
 
 // Battle Rifle
+BARFIRE1 BARFIRE1
+BARFIRE2 BARFIRE2
+BARFIRE3 BARFIRE3
+BARFIRE4 BARFIRE4
+BARMECH1 BARMEC1
+BARMECH2 BARMEC2
+BARMECH3 BARMEC3
+BARBASS1 BARLOW1 
+BARBASS2 BARLOW2
+BARBASS3 BARLOW3
+BARBASS4 BARLOW4 
 Halo/Weapons/BattleRifle/Reload/Full BAR_RELF
 Halo/Weapons/BattleRifle/Reload/Empty BAR_REL
+
+$random Halo/Weapons/BattleRifle/Fire { BARFIRE1 BARFIRE2 BARFIRE3 BARFIRE4 }
+$random Halo/Weapons/BattleRifle/Mech { BARMECH1 BARMECH2 BARMECH3 BARMECH4 }
+$random Halo/Weapons/BattleRifle/Fire/Bass { BARBASS1 BARBASS2 BARBASS3 BARBASS4 }
+
+$volume Halo/Weapons/BattleRifle/Fire/Bass 0.7;
+$volume Halo/Weapons/BattleRifle/Mech 0.6;
 
 // SuperShotgun
 DBFIRE1 DBFIRE1
