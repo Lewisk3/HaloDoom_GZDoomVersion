@@ -46,7 +46,11 @@ class Halo_BattleRifle : HaloGun
 		A_Light(2);
 		A_WeapSound("Halo/Weapons/BattleRifle/Fire", CHANF_OVERLAP, true);
 		A_WeapSound("Halo/Weapons/BattleRifle/Fire/Bass", CHANF_OVERLAP, true);
-		A_FireProjectile("HaloBattleRifle_Bullet", A_RecoilSpread()+1, false, 6, 0, 0, A_RecoilSpread()-1.35);		
+		A_FireProjectile("HaloBattleRifle_Bullet", A_RecoilSpread()+1, false, 6, 0, 0, A_RecoilSpread()-1.35);	
+		A_SetSFXPos(25,0,30);
+		A_SpawnSFX("BulletCasing", 90,20);
+		A_SetSFXPos(25,-10,28);
+		A_SpawnSFX("MuzzleSmoke", 0,0);
 		A_TakeAmmo();
 		A_UpdateSpread();
 	}
@@ -62,7 +66,7 @@ class Halo_BattleRifle : HaloGun
 	{
 		
 		Ready:
-			TNT1 A 0 A_WeapSound("Halo/Weapons/Rifle/Select");
+			TNT1 A 0 A_WeapSound("Halo/Weapons/BattleRifle/Select");
 			BARD EDCBA 1 A_DoSelectAnim();
 		Ready.Active:
 			BARI A 1 A_RWeaponReady(WRF_ALLOWRELOAD);
@@ -148,8 +152,8 @@ class Halo_BattleRifle : HaloGun
 		
 		Reload:
 			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
-			BRR1 ABCDEFGHIJKL 1;
 			TNT1 A 0 A_ReloadSound();
+			BRR1 ABCDEFGHIJKL 1;
 			BRR1 M 1 A_SetRecoil(-0.4, 0, 3);
 			BRR1 NOPQRSTU 1;
 			BRR1 V 2 
@@ -161,7 +165,8 @@ class Halo_BattleRifle : HaloGun
 			// Empty reload animation frames.
 			BRR3 ABCDEFGHIJ 1;
 			BRR3 K 2 A_SetRecoil(-0.4, -0.4, 3);
-			BRR3 LMNOPQRST 1;
+			BRR3 LMNOPQRS 2;
+			BRR3 T 10;
 			BRR3 U 1 A_SetRecoil(0.4, 0.4, 4);
 			BRR3 VWXYZ 1;
 			BRR4 A 1; 

@@ -4,6 +4,7 @@ version 4.0
 
 // Essentials
 #include "ZScript/math.zsc"
+#include "ZScript/events.zsc"
 #include "skill.cfg"
 #include "ZScript/PickupSystem/halopickup_events.zsc"
 #include "ZScript/PickupSystem/weapbehavior.zsc"
@@ -27,6 +28,7 @@ version 4.0
 #include "ZScript/Weapons/Base/gunbase.zsc"
 #include "ZScript/Weapons/Base/projectilebase.zsc"
 #include "ZScript/Weapons/Base/ammobase.zsc"
+#include "ZScript/Weapons/sfx.zsc"
 
 // Weapons
 #include "ZScript/Weapons/magnum.zsc"

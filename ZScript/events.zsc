@@ -1,0 +1,28 @@
+// For generalized HaloDoom Events.
+
+class HaloDoom_Events : EventHandler
+{
+	override void NetworkProcess(ConsoleEvent e)
+	{
+		if(e.Name == "HaloDoom_GiveAll")
+		{
+			PlayerInfo src = players[e.Player];
+			if(!src || !src.mo) return;
+			
+			Array<class<HaloGun> > guns;
+			for(int i = 0; i < AllActorClasses.Size(); i++)
+			{
+				let classtype = AllActorClasses[i];
+				if(classtype is "HaloGun" && classtype != "HaloGun") 
+					guns.Push(AllActorClasses[i]);
+			}
+			int spacing = 360./guns.Size();
+			for(int i = 0; i < guns.Size(); i++)
+			{
+				let gun = guns[i];
+				vector2 spawnpos = Actor.AngleToVector(i*spacing, 64);
+				Actor.Spawn(gun, src.mo.Vec3Offset(spawnpos.x,spawnpos.y, src.mo.floorz));
+			}
+		}
+	}
+}

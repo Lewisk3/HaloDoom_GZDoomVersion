@@ -1,5 +1,7 @@
 class HaloGun : RecoilWeapon
 {
+	vector3 sfx_pos;
+	bool debug_sfxpos;
 	const BTN_SWITCHWEAP = BT_USER1;
 	bool first_shot; // Tied to fire btn.
 	bool pbtn_fire;
@@ -53,6 +55,41 @@ class HaloGun : RecoilWeapon
 	action double A_RecoilSpread()
 	{
 		return frandom[GunRecoil](-invoker.baserecoil, invoker.baserecoil)*(1.0+(invoker.spreadmod*invoker.accmod));
+	}
+	
+	action void A_DebugSFX(bool onoff = true)
+	{
+		invoker.debug_sfxpos = onoff;
+	}
+	
+	action void A_SetSFXPos(double forward, double leftright, double updown)
+	{
+		double sinap = sin(angle)*cos(pitch);
+		double cosap = cos(angle)*cos(pitch);
+		vector3 relpos = ( forward * cosap - leftright * sinap,
+						   leftright * cosap + forward * sinap, 0);
+		relpos.z = forward * -sin(pitch);
+		invoker.sfx_pos = Vec3Offset(relpos.x,relpos.y, relpos.z + updown);
+	}
+	
+	action Actor A_SpawnSFX(class<Actor> sfxtype, double projangle, double projpitch, double spd = -1)
+	{
+		double cosp = cos(pitch+projpitch);
+		if(spd < 0) spd = GetDefaultByType(sfxtype).speed;
+		vector3 projvel = (
+			cos(angle+projangle) * cosp,
+			sin(angle+projangle) * cosp,
+			-sin(pitch+projpitch)
+		) * spd;
+		projvel += vel;
+		let proj = Spawn(sfxtype, invoker.sfx_pos);
+		if(proj)
+		{
+			proj.vel = projvel;
+			proj.angle = angle+projangle;
+			proj.pitch = pitch+projpitch;
+		}
+		return proj;
 	}
 	
 	bool CheckWeaponSelected()
@@ -117,6 +154,9 @@ class HaloGun : RecoilWeapon
 	override void DoEffect()
 	{
 		super.DoEffect();
+		
+		if(debug_sfxpos) Spawn("FXFollower", sfx_pos);
+		
 		if(!CheckWeaponSelected()) 
 		{
 			if(backpack_reloading)

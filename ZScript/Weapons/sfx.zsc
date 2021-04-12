@@ -1,0 +1,175 @@
+class BulletCasing : Actor
+{
+	int animspd;
+	Property AnimateSpeed : animspd;
+	Default
+	{
+		Speed 4;
+		BulletCasing.AnimateSpeed 2;
+		Projectile;
+		BounceType "Doom";
+		BounceCount 3;
+		BounceFactor 0.7;
+		-SOLID;
+		-NOGRAVITY;
+		Gravity 0.35;
+		Radius 2;
+		Height 2;
+		Scale 0.15;
+	}
+	
+	override bool CanCollideWith(Actor other, bool passive)
+	{
+		if(other is "PlayerPawn") return false;
+		return super.CanCollideWith(other, passive);
+	}
+	
+	override void Tick()
+	{
+		if( !(level.maptime%10) && random[SpawnSmoke](0,1) && GetAge() < 3*35 )
+		{
+			let smoke = Spawn("CasingSmoke", pos);
+			if(smoke) 
+			{
+				smoke.vel = vel;
+				smoke.A_SetScale(frandom(0.04,0.15));
+				smoke.alpha = frandom(0.05,0.5);
+			}
+		}
+		super.Tick();
+	}
+	
+	States
+	{
+		Spawn:
+			CAS3 A 1;
+		Animate:
+			"####" ABCDEFGHI 2 A_SetTics(animspd);
+		loop;
+		XDeath:
+		Death:
+		Crash:
+			"####" A 1 
+			{
+				frame = random(10,13);
+			}
+		WaitDeath:
+			"####" "#" 1 A_FadeOut(0.002);
+		wait;
+	}
+}
+
+class CasingSmoke : Actor
+{
+	Default
+	{
+		Speed 2;
+		+NOINTERACTION;
+		RenderStyle "Add";
+		Alpha 0.5;
+		Scale 0.15;
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		vel.z += 0.05;
+		vel *= 0.87;
+	}
+	
+	States
+	{
+		Spawn:
+			SMKE ABCDEFGHIJKLMNOPQR 3;
+		Death:
+			SMKE R 1 A_FadeOut(0.07);
+		wait;
+	}
+}
+
+class MuzzleSmoke : Actor
+{
+	Default
+	{
+		Speed 2;
+		+NOINTERACTION;
+		RenderStyle "Add";
+		Alpha 0.30;
+		Scale 0.08;
+		+ROLLSPRITE;
+	}
+	
+	double rolldir;
+	double fadespd;
+	
+	override void BeginPlay()
+	{
+		super.BeginPlay();
+		rolldir = randompick(-1,1);
+		fadespd = frandom(0.8,2.0);
+		vel.x += frandom(-1,1);
+		vel.y += frandom(-1,1);
+		A_SetScale(frandom(0.02,0.1));
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		vel.z += 0.01;
+		vel *= 0.87;
+		roll -= 1.2 * rolldir;
+		alpha -= 0.006 * fadespd;
+		A_SetScale(scale.x * 1.02);
+		if(alpha <= 0.001) Destroy();
+	}
+	
+	States
+	{
+		Spawn:
+			SMOK A 1;
+		loop;
+	}
+}
+
+class ShellCasing : BulletCasing
+{
+	Default
+	{
+		Speed 2;
+	}
+	States
+	{
+		Spawn:
+			CAS2 A 1;
+		goto Animate;
+	}
+}
+
+class SmallCasing : BulletCasing
+{
+	Default
+	{
+		Speed 5;
+	}
+	States
+	{
+		Spawn:
+			CAS1 A 1;
+		goto Animate;
+	}
+}
+
+class FXFollower : Actor
+{
+	Default
+	{
+		+NOINTERACTION;
+	}
+	
+	States
+	{
+		Spawn:
+			PLSS A 2;
+		stop;
+	}
+}

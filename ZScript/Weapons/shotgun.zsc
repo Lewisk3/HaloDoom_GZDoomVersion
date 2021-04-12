@@ -48,8 +48,12 @@ class Halo_Shotgun : HaloGun replaces Shotgun
 		A_Light(2);
 		A_WeapSound("Halo/Weapons/Shotgun/Fire", CHANF_OVERLAP, true);
 		A_WeapSound("Halo/Weapons/Shotgun/Fire/Bass", CHANF_OVERLAP, true);
+		A_SetSFXPos(25,-12,32);
 		for(int i = 0; i < 15; i++)
+		{
 			A_FireProjectile("HaloShotgun_Bullet", A_RecoilSpread()+1, false, 8, 0, 0, A_RecoilSpread()-1.35);		
+			A_SpawnSFX("MuzzleSmoke", 0,0);
+		}
 		A_TakeAmmo(1);
 		A_UpdateSpread();
 	}
@@ -85,18 +89,22 @@ class Halo_Shotgun : HaloGun replaces Shotgun
 				A_SetRecoil(8.78, 0, 1);
 				A_FireShotgun();
 				A_QuakeEx(3,1,2,6,0,20,"",QF_RELATIVE|QF_WAVE);
-				A_RecoilOffset(15, 5, 8);
+				A_RecoilOffset(15, 15, 4);
 			}
 			HSGF B 1 Bright;
 			HSGF C 1 A_SetZoom(0.994, 2);
 			TNT1 A 0 A_Light(0);
-			HSGF D 6;
+			HSGF D 6 A_RecoilOffset(15, 20, 4);
 			HSGF EFGH 1 
 			{
-				A_RecoilOffset(0,0,5);
-				 A_SetRecoil(-0.36, -0.13, 10);
+				A_RecoilOffset(8,10,6);
+				A_SetRecoil(-0.36, -0.13, 10);
 			}
-			HSGF IJKKKK 1 A_SetZoom(1.0, 2);
+			HSGF IJKKKK 1 
+			{
+				A_SetZoom(1.0, 2);
+				A_RecoilOffset(0,0,8);
+			}
 		goto Pump;
 		
 		Pump:
@@ -110,6 +118,8 @@ class Halo_Shotgun : HaloGun replaces Shotgun
 			{
 				A_RecoilOffset(0,0,14);
 				A_SetRecoil(0.25, 0.09, 4);
+				A_SetSFXPos(25,-25,30);
+				A_SpawnSFX("ShellCasing", -90,20);
 			}
 			HSGP IHGFEDCBA 1;
 			HSGI A 4;
@@ -134,7 +144,7 @@ class Halo_Shotgun : HaloGun replaces Shotgun
 		goto Reload.Loop;
 		Reload.Pump:
 			SGR3 ABCD 1;
-			SGR3 E 1 A_WeapSound("Halo/Weapons/Shotgun/Pump", CHANF_OVERLAP);
+			SGR3 E 1 A_WeapSound("Halo/Weapons/Shotgun/Reload/Pump", CHANF_OVERLAP);
 			SGR3 FGFEDCBA 1;
 		goto Reload.Loop;
 		Reload.Finish:
