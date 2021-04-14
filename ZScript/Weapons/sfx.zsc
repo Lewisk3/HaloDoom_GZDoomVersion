@@ -26,7 +26,12 @@ class BulletCasing : Actor
 	
 	override void Tick()
 	{
-		if( !(level.maptime%10) && random[SpawnSmoke](0,1) && GetAge() < 3*35 )
+		bool dosmoke = true;
+		let src = HaloGun(target);
+		if(src && src.cvfx_smoke)
+			dosmoke = src.cvfx_smoke.GetBool();
+			
+		if( !(level.maptime%10) && random[SpawnSmoke](0,1) && GetAge() < 3*35 && dosmoke )
 		{
 			let smoke = Spawn("CasingSmoke", pos);
 			if(smoke) 
@@ -87,7 +92,7 @@ class CasingSmoke : Actor
 	}
 }
 
-class MuzzleSmoke : Actor
+class MuzzleSmoke : CasingSmoke
 {
 	Default
 	{

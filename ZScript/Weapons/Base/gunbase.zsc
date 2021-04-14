@@ -1,5 +1,7 @@
 class HaloGun : RecoilWeapon
 {
+	transient CVar cvfx_smoke;
+	transient CVar cvfx_casings;
 	vector3 sfx_pos;
 	bool debug_sfxpos;
 	const BTN_SWITCHWEAP = BT_USER1;
@@ -74,6 +76,9 @@ class HaloGun : RecoilWeapon
 	
 	action Actor A_SpawnSFX(class<Actor> sfxtype, double projangle, double projpitch, double spd = -1)
 	{
+		if(!invoker.cvfx_smoke || !invoker.cvfx_casings) return null;
+		if(sfxtype is "CasingSmoke" && !invoker.cvfx_smoke.GetBool()) return null;
+		if(sfxtype is "BulletCasing" && !invoker.cvfx_casings.GetBool()) return null;
 		double cosp = cos(pitch+projpitch);
 		if(spd < 0) spd = GetDefaultByType(sfxtype).speed;
 		vector3 projvel = (
@@ -88,6 +93,7 @@ class HaloGun : RecoilWeapon
 			proj.vel = projvel;
 			proj.angle = angle+projangle;
 			proj.pitch = pitch+projpitch;
+			proj.target = invoker;
 		}
 		return proj;
 	}
@@ -154,6 +160,11 @@ class HaloGun : RecoilWeapon
 	override void DoEffect()
 	{
 		super.DoEffect();
+		
+		if(!cvfx_smoke)
+			cvfx_smoke = CVar.GetCVar("halodoom_fx_smoke", Owner.player);
+		if(!cvfx_casings) 
+			cvfx_casings = CVar.GetCVar("halodoom_fx_casings", Owner.player);
 		
 		if(debug_sfxpos) Spawn("FXFollower", sfx_pos);
 		

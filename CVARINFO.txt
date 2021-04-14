@@ -1,2 +1,6 @@
 user bool pickup_checksight = true;
 user bool halodoom_showminimap = false;
+user bool halodoom_fx_smoke = true;
+user bool halodoom_fx_casings = true;
+user bool halodoom_fx_hitmarkers = true;
+user float halodoom_recoil_intensity = 1.0;

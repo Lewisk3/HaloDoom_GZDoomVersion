@@ -20,6 +20,7 @@ class HaloProjectile : FastProjectile
 		Speed 0;
 		Projectile;
 		+INTERPOLATEANGLES;
+		DamageType "Bullet";
 		
 		HaloProjectile.SetRanges 61, 123;
 		HaloProjectile.MinRangeDamage 40; 

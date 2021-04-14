@@ -3,7 +3,8 @@ class RecoilWeapon : Weapon
 	/* 
 		Smooth weapon recoil by : Lewisk3 (Redxone)
 	*/
-	
+		
+	transient CVar cv_recoil;
 	bool usesway, velsway, swapping;
 
 	double recoil_pitch, defpitch;
@@ -196,12 +197,30 @@ class RecoilWeapon : Weapon
 		}
 	}
 	
+	action void A_RQuakeEx(int ix, int iy, int iz, int dur, int drad, int trad, sound sfx = "", int flags = 0, double wx = 1., double wy = 1., double wz = 1.)
+	{	
+		if(!invoker.cv_recoil) return;
+		double cvi = invoker.cv_recoil.GetFloat();
+		if(cvi <= 0) return;
+		A_QuakeEx(ix*cvi,iy*cvi,iz*cvi,dur,drad,trad,sfx,flags,wx,wy,wz);
+	}
+	action void A_RQuake(int str, int dur, int drad, int trad, sound sfx = "")
+	{	
+		if(!invoker.cv_recoil) return;
+		double cvi = invoker.cv_recoil.GetFloat();
+		if(cvi <= 0) return;
+		A_Quake(str*cvi,dur,drad,trad,sfx);
+	}
+	
 	override void DoEffect()
 	{
 		if(!Owner) return;
 		PlayerInfo plr = PlayerPawn(Owner).player;
 		if(!plr) return;
 		if(plr.ReadyWeapon != self) return;
+		
+		if(!cv_recoil)
+			cv_recoil = CVar.GetCVar("halodoom_recoil_intensity", plr);
 		
 		bool dosway = !swapping;
 		if( usesway && dosway ) A_LookSway(3,velsway,Owner);
@@ -228,9 +247,17 @@ class RecoilWeapon : Weapon
 			Owner.A_setAngle( Owner.angle - recoil_angle );	
 		}
 		
-		zoomfactor = FrameInterpolate(zoomfactor, defzoom, zoomtimer);
-		if(zoomfactor > 0)O_ZoomFactor(zoomfactor);
-		
+		double zoom_intensity = cv_recoil.GetFloat();  
+		if(zoom_intensity == 0)
+		{
+			zoomfactor = 1.0;
+			O_ZoomFactor(zoomfactor);
+		}
+		else
+		{
+			zoomfactor = FrameInterpolate(zoomfactor, defzoom, zoomtimer / zoom_intensity);
+			if(zoomfactor > 0)O_ZoomFactor(zoomfactor);
+		}
 		
 		if(recoil_timer > 0) recoil_timer--;
 		

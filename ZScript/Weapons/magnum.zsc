@@ -112,7 +112,7 @@ class Halo_Magnum : HaloGun
 				A_FireMagnum();
 				A_SetRecoil(2.55, 0, 2);
 				A_SetZoom(0.984,2);
-				A_QuakeEx(0,2,2,2,0,20,"",QF_RELATIVE|QF_WAVE);
+				A_RQuakeEx(0,2,2,2,0,20,"",QF_RELATIVE|QF_WAVE);
 			}
 			MAFI B 1 bright A_RecoilOffset(16,-20,4);
 			MAFI C 1 

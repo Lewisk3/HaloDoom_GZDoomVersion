@@ -127,14 +127,14 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 				A_SetRecoil(7.69, 7.42, 1);
 				A_SetZoom(0.86, 2);
 				A_FireDouble();
-				A_QuakeEx(4,4,4,4,0,20,"",QF_RELATIVE|QF_WAVE);
+				A_RQuakeEx(4,4,4,4,0,20,"",QF_RELATIVE|QF_WAVE);
 				
 			}
 			DBSF B 1 Bright;
 			TNT1 A 0 A_Light(0);
 			DBSF CD 2 
 			{
-				A_QuakeEx(2,2,4,6,0,20,"",QF_RELATIVE ,2.,3.,2.);
+				A_RQuakeEx(2,2,4,6,0,20,"",QF_RELATIVE ,2.,3.,2.);
 				A_SetZoom(0.974, 2);
 				A_SetRecoil(0.60, 0.13, 4);
 			}
@@ -154,7 +154,7 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 			DBSF A 2 Bright
 			{
 				A_RecoilOffset(random(2,7),12,4);
-				A_Quake(2,6,0,20,"");
+				A_RQuake(2,6,0,20,"");
 				A_SetRecoil(3.44, 1.45, 3);
 				A_FireSingle();
 			}

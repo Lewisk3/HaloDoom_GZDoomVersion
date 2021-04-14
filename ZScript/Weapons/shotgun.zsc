@@ -10,6 +10,7 @@ class HaloShotgun_Bullet : HaloBullet
 {
 	Default
 	{
+		DamageType "Shotgun";
 		HaloProjectile.SetRanges SHOTGUN_RANGE1, SHOTGUN_RANGE2;
 		HaloProjectile.MinRangeDamage SHOTGUN_MINDMG; 
 		HaloProjectile.BaseDamage SHOTGUN_DMG;
@@ -88,7 +89,7 @@ class Halo_Shotgun : HaloGun replaces Shotgun
 			{
 				A_SetRecoil(8.78, 0, 1);
 				A_FireShotgun();
-				A_QuakeEx(3,1,2,6,0,20,"",QF_RELATIVE|QF_WAVE);
+				A_RQuakeEx(3,1,2,6,0,20,"",QF_RELATIVE|QF_WAVE);
 				A_RecoilOffset(15, 15, 4);
 			}
 			HSGF B 1 Bright;
