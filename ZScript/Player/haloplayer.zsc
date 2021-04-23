@@ -18,7 +18,7 @@ class HaloPlayer : DoomPlayer
 	{
 		Speed 0.67;
 		Health 45;
-		Player.StartItem "Halo_Shotgun", 1;
+		Player.StartItem "Halo_AssaultRifle", 1;
 		Player.StartItem "Halo_BattleRifle", 1;
 		//Player.StartItem "Halo_Shotgun", 1;
 		Player.StartItem "Halo_Clip", 320;

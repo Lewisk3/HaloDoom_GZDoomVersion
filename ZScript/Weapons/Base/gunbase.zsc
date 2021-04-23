@@ -354,7 +354,7 @@ class HaloGun : RecoilWeapon
 	}
 	
 	States
-	{
+	{	
 		Deselect.Quick:
 			"####" "#" 1; 
 			"####" "#" 0 
