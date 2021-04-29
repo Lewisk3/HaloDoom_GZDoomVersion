@@ -40,6 +40,7 @@ class Halo_AssaultRifle : HaloGun
 		// reload function works.
 		Weapon.AmmoType1 "Halo_Clip";
 		Weapon.AmmoType2 "Halo_AR_Clip";
+		Weapon.AmmoGive 16;
 				
 		// Recoil
 		HaloGun.Bloom 0.6;
@@ -74,7 +75,7 @@ class Halo_AssaultRifle : HaloGun
 	action void A_ReloadSound()
 	{
 		Sound reload_snd = "Halo/Weapons/Rifle/Reload/Full";
-		if(!countinv("Halo_AR_Clip")) reload_snd = "Halo/Weapons/Rifle/Reload/Empty";
+		if(!CountLoadedAmmo()) reload_snd = "Halo/Weapons/Rifle/Reload/Empty";
 		A_WeapSound(reload_snd, CHANF_OVERLAP);
 	}
 	
@@ -205,9 +206,9 @@ class Halo_AssaultRifle : HaloGun
 			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
 			TNT1 A 0 A_DisableLCD();
 			HRR1 ABCDEF 1;
+			TNT1 A 0 A_ReloadSound();
 			HRR1 G 1 A_SetRecoil(1.8, 0, 2);
 			HRR1 H 1;
-			TNT1 A 0 A_ReloadSound();
 			HRR1 IJKLMNOPQRSTUVWX 2;
 			HRR1 Y 1;
 			HRR1 Z 1 A_SetRecoil(-1.2, 0, 1);

@@ -11,19 +11,23 @@ class HaloPlayer : DoomPlayer
 	double shields;
 	double maxshields;
 	double regen_timer;
+	double movebob;
+	
 	
 	Property Shields : maxshields, shield_regentime, shield_regenrate;
+	Property MovementBob : movebob;
 	
 	Default
 	{
-		Speed 0.67;
+		Speed 1;
 		Health 45;
 		Player.StartItem "Halo_AssaultRifle", 1;
-		Player.StartItem "Halo_BattleRifle", 1;
+		Player.StartItem "Halo_Magnum", 1;
 		//Player.StartItem "Halo_Shotgun", 1;
 		Player.StartItem "Halo_Clip", 320;
 		Player.StartItem "Shell", 36;
 		HaloPlayer.Shields 70, 5, 4; // 5 seconds to recharge, 4 seconds to max.
+		HaloPlayer.MovementBob 0;
 		Player.MaxHealth 45;
 	}
 	
@@ -49,21 +53,8 @@ class HaloPlayer : DoomPlayer
 		// Aircontrol and friction.
 		uint btns = player.cmd.buttons;
 		uint move_bitmask = BT_FORWARD | BT_BACK | BT_MOVELEFT | BT_MOVERIGHT;
-		level.aircontrol = 0.6;
-		if(!player.onground) vel.xy *= 0.94;
 		bool moving = btns & move_bitmask;
-		// Fast momentum dappening when not in motion.
-		if(!moving && player.onground)
-		{
-			vel.xy *= 0.9;
-			if(vel.Length() > 3)
-			{
-				player.bob *= 0.9;
-				player.mo.viewbob *= 0.72;
-			}
-		}
-		else if(player.onground)
-			viewbob = default.viewbob;
+	
 	
 		// Shield Regen
 		double shregentime = shield_regentime*35.;
@@ -115,5 +106,14 @@ class HaloPlayer : DoomPlayer
 			return 0;
 		}
 		return super.DamageMobJ(inflictor, source, damage, mod, flags, angle);
+	}
+	
+	override void CalcHeight()
+	{
+		super.CalcHeight();
+		player.viewz = pos.Z + player.viewheight + (player.bob * clamp(movebob, 0. , 1.5)); 
+		if (Floorclip && player.playerstate != PST_DEAD && pos.Z <= floorz) player.viewz -= Floorclip;
+		if (player.viewz > ceilingz - 4) player.viewz = ceilingz - 4;
+		if (player.viewz < floorz + 4) player.viewz = floorz + 4;
 	}
 }

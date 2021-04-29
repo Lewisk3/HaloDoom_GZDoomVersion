@@ -32,7 +32,7 @@ class Halo_Shotgun : HaloGun replaces Shotgun
 		// [Lewisk] had to switch ammotype's 1 and 2 because thats how my
 		// reload function works.
 		Weapon.AmmoType1 "Shell";
-		Weapon.AmmoGive 12;
+		Weapon.AmmoGive 4;
 		Weapon.AmmoType2 "Halo_Shotgun_Shells";
 				
 		// Recoil

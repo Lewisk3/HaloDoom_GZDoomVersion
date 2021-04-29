@@ -1,0 +1,193 @@
+extend class HaloPlayer
+{
+	// Movement constants
+	const GNDMAX  = 10;
+	const AIRMAX = GNDMAX * 0.8;
+	const ACCELMAX = 10 * GNDMAX;
+	const GNDFRIC = 6.0;
+
+	void DoQuakeGroundAccel(vector3 wishdir, double spd)
+	{
+		double curspd = wishdir dot vel;
+		double addspd = clamp(GNDMAX - curspd, 0, ACCELMAX / TICRATE) * spd;
+		
+		vel += addspd * wishdir;
+	}
+	
+	void DoQuakeAirAccel(vector3 wishdir, double spd)
+	{
+		double curspd = wishdir dot vel;
+		double addspd = clamp(AIRMAX - curspd, 0, ACCELMAX / TICRATE);
+		
+		vel += addspd * wishdir;
+	}
+	
+	double GetFloorAngle()
+	{
+		// Get Floor Normal
+		Vector3 floornorm;
+		F3DFloor ThreeDFloor;
+		for(int i = 0; i < FloorSector.Get3DFloorCount(); i++)
+		{
+			if(FloorSector.Get3DFloor(i).Top.ZAtPoint(Pos.XY) ~== FloorZ)
+			{
+				ThreeDFloor = FloorSector.Get3DFloor(i);
+				break;
+			}
+		}
+		floornorm = ThreeDFloor ? - ThreeDFloor.Top.Normal : FloorSector.FloorPlane.Normal;
+		return atan2(floornorm.XY.Length(), floornorm.Z);
+	}
+	
+	// Credits: Ivory Duke (ZMovement)
+	void DoQuakeFriction(double friction)
+	{
+		double maxspd = GNDMAX;
+		double floorangle = GetFloorAngle();
+		
+		if(WaterLevel >= 2 || bNOGRAVITY)
+		{
+			if(Vel.Length() < 0.5f)
+			{
+				Vel.XY = (0, 0);
+				return;
+			}
+		}
+		else if(Vel.XY.Length() < 1.f)
+		{
+			Vel.XY = (0, 0);
+			return;
+		}
+		
+		if(floorangle >= 45 && player.OnGround) //lower friction on steep slopes
+		{
+			maxspd *= 4;
+			friction /= 4;
+		}
+		
+		Double Velocity = Vel.Length();
+		Double Drop, Control;
+		if(WaterLevel >= 2)
+		{
+			drop = Velocity * friction / TICRATE; //very tight friction
+		}
+		else if(bNOGRAVITY)
+		{
+			drop = Velocity * friction / TICRATE; //loose friction
+		}
+		else if(player.OnGround)
+		{
+			Control = Velocity < maxspd ? GNDFRIC : Velocity;
+			Drop = Control * friction / TICRATE;
+		}
+		
+		Double NewVelocity = (Velocity - Drop <= 0 ? 0 : Velocity - Drop) / Velocity;
+		if(WaterLevel >= 2 || bNOGRAVITY)
+			Vel *= NewVelocity;
+		else
+			Vel.XY *= NewVelocity;
+	}
+	
+	override void MovePlayer ()
+	{
+		let player = self.player;
+		UserCmd cmd = player.cmd;
+	
+		// [RH] 180-degree turn overrides all other yaws
+		if (player.turnticks)
+		{
+			player.turnticks--;
+			Angle += (180. / TURN180_TICKS);
+		}
+		else
+		{
+			Angle += cmd.yaw * (360./65536.);
+		}
+		player.onground = (pos.z <= floorz) || bOnMobj || bMBFBouncer || (player.cheats & CF_NOCLIP2);
+		
+		DoQuakeFriction(4.0);
+		if (cmd.forwardmove | cmd.sidemove)
+		{
+			// Calculate wishdir
+			UserCmd cmd = player.cmd;
+			vector3 wishdir;
+			wishdir.xy = RotateVector((cmd.forwardmove, - cmd.sidemove), angle);
+			wishdir.z = 0;
+			
+			if(wishdir.Length())
+			{
+				wishdir = wishdir.Unit();
+				if(player.onground) 
+					DoQuakeGroundAccel(wishdir, Speed);
+				else
+					DoQuakeAirAccel(wishdir, Speed);
+			}
+			player.vel = vel.xy;
+			
+			if (!(player.cheats & CF_PREDICTING)) PlayRunning ();
+			if (player.cheats & CF_REVERTPLEASE)
+			{
+				player.cheats &= ~CF_REVERTPLEASE;
+				player.camera = player.mo;
+			}
+		}
+	}		
+	
+	override void CheckJump()
+	{
+		let player = self.player;
+		// [RH] check for jump
+		if (player.cmd.buttons & BT_JUMP)
+		{
+			if (player.crouchoffset != 0)
+			{
+				// Jumping while crouching will force an un-crouch but not jump
+				player.crouching = 1;
+			}
+			else if (waterlevel >= 2)
+			{
+				Vel.Z = 4 * Speed;
+			}
+			else if (bNoGravity)
+			{
+				Vel.Z = 3.;
+			}
+			else if (level.IsJumpingAllowed() && player.onground)
+			{
+				double jumpvelz = JumpZ * 35 / TICRATE;
+				double jumpfac = 0;
+
+				// [BC] If the player has the high jump power, double his jump velocity.
+				// (actually, pick the best factors from all active items.)
+				for (let p = Inv; p != null; p = p.Inv)
+				{
+					let pp = PowerHighJump(p);
+					if (pp)
+					{
+						double f = pp.Strength;
+						if (f > jumpfac) jumpfac = f;
+					}
+				}
+				if (jumpfac > 0) jumpvelz *= jumpfac;
+
+				Vel.Z += jumpvelz;
+				bOnMobj = false;
+				player.jumpTics = -1;
+				if (!(player.cheats & CF_PREDICTING)) A_StartSound("*jump", CHAN_BODY);
+			}
+		}
+	}
+}
+
+/*
+		vector2 dir_forward = (
+				 cos(angle) * cmd.forwardmove,
+				 sin(angle) * cmd.forwardmove
+			);
+			vector2 dir_strafe = (
+				 cos(angle-90) * cmd.sidemove,
+				 sin(angle-90) * cmd.sidemove
+			);
+			wishdir.xy = (dir_forward + dir_strafe);
+			wishdir.z = 0;
+*/

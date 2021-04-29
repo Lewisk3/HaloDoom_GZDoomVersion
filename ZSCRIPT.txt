@@ -12,6 +12,7 @@ version 4.0
 
 // Player(s)
 #include "ZScript/Player/haloplayer.zsc"
+#include "ZScript/Player/hplr_movement.zsc"
 
 // UI
 #include "ZScript/SBS/halo_sbs_base.zsc"

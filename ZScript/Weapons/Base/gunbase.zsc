@@ -41,6 +41,9 @@ class HaloGun : RecoilWeapon
 		HaloGun.UIGraphic "WI_AR";
 		HaloGun.SwayRange 5.0;
 		HaloGun.SwaySpeed 1.5;
+		Weapon.BobRangeX 1.5;
+		Weapon.BobRangeY 0.6;
+		Weapon.BobSpeed 0.5;
 	}
 	
 	// For some reason weapons start with an odd offset.
@@ -84,7 +87,7 @@ class HaloGun : RecoilWeapon
 		vector3 projvel = (
 			cos(angle+projangle) * cosp,
 			sin(angle+projangle) * cosp,
-			-sin(pitch+projpitch)
+			-sin(projpitch)
 		) * spd;
 		projvel += vel;
 		let proj = Spawn(sfxtype, invoker.sfx_pos);
