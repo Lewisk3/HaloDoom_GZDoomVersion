@@ -111,7 +111,7 @@ extend class HaloPlayer
 			// Calculate wishdir
 			UserCmd cmd = player.cmd;
 			vector3 wishdir;
-			wishdir.xy = RotateVector((cmd.forwardmove, - cmd.sidemove), angle);
+			wishdir.xy = RotateVector((cmd.forwardmove, -cmd.sidemove), angle);
 			wishdir.z = 0;
 			
 			if(wishdir.Length())
@@ -122,7 +122,6 @@ extend class HaloPlayer
 				else
 					DoQuakeAirAccel(wishdir, Speed);
 			}
-			player.vel = vel.xy;
 			
 			if (!(player.cheats & CF_PREDICTING)) PlayRunning ();
 			if (player.cheats & CF_REVERTPLEASE)
@@ -131,6 +130,7 @@ extend class HaloPlayer
 				player.camera = player.mo;
 			}
 		}
+		player.vel = vel.xy;
 	}		
 	
 	override void CheckJump()
@@ -180,14 +180,14 @@ extend class HaloPlayer
 }
 
 /*
-		vector2 dir_forward = (
-				 cos(angle) * cmd.forwardmove,
-				 sin(angle) * cmd.forwardmove
-			);
-			vector2 dir_strafe = (
-				 cos(angle-90) * cmd.sidemove,
-				 sin(angle-90) * cmd.sidemove
-			);
-			wishdir.xy = (dir_forward + dir_strafe);
-			wishdir.z = 0;
+	vector2 dir_forward = (
+		 cos(angle) * cmd.forwardmove,
+		 sin(angle) * cmd.forwardmove
+	);
+	vector2 dir_strafe = (
+		 cos(angle-90) * cmd.sidemove,
+		 sin(angle-90) * cmd.sidemove
+	);
+	wishdir.xy = (dir_forward + dir_strafe);
+	wishdir.z = 0;
 */
