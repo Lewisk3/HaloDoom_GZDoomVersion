@@ -12,6 +12,7 @@ class RecoilWeapon : Weapon
 	double defzoom, zoomfactor, zoomtimer;
 	double woffsx, woffsy, wofftimer;
 	double realoffsx, realoffsy;
+	double yoff_min, yoff_max;
 
 	int deftimer, recoil_timer, newtimer, looksway;
 	double swayspd, pitchmax, anglemax;
@@ -21,6 +22,7 @@ class RecoilWeapon : Weapon
 	property RecoilSpeed : deftimer;
 	property LookSway : usesway, velsway, swayspd;
 	property SwayRange : pitchmax, anglemax;
+	Property YOffsetRange : yoff_min, yoff_max;
 	property _Defaults : swapping;
 	
 	Default
@@ -34,6 +36,7 @@ class RecoilWeapon : Weapon
 		RecoilWeapon._Defaults true;
 		RecoilWeapon.LookSway true, false, 2.5;
 		RecoilWeapon.SwayRange 20.0, 10.0;
+		RecoilWeapon.YOffsetRange 0, 40;
 	}
 	
 	static double sign(int num)
@@ -80,6 +83,7 @@ class RecoilWeapon : Weapon
 	
 	static double FrameInterpolate(double from, double to, double spd)
 	{
+		if(spd <= 0) spd = 1;
 		if(from < to) from += abs(from-to)/spd;
 		if(from > to) from -= abs(from-to)/spd;
 		return from;
@@ -182,6 +186,8 @@ class RecoilWeapon : Weapon
 		
 		invoker.realoffsx = RecoilWeapon.FrameInterpolate(invoker.realoffsx, invoker.woffsx, invoker.wofftimer);
 		invoker.realoffsy = RecoilWeapon.FrameInterpolate(invoker.realoffsy, invoker.woffsy, invoker.wofftimer);
+		
+		invoker.realoffsy = clamp(invoker.realoffsy, invoker.yoff_min, invoker.yoff_max);
 	}
 	
 	// [Lewisk]: Had to be re-implemented because the original uses self because it's an Action function.
@@ -218,6 +224,7 @@ class RecoilWeapon : Weapon
 		PlayerInfo plr = PlayerPawn(Owner).player;
 		if(!plr) return;
 		if(plr.ReadyWeapon != self) return;
+		plr.WeaponState |= WF_WEAPONBOBBING;
 		
 		if(!cv_recoil)
 			cv_recoil = CVar.GetCVar("halodoom_recoil_intensity", plr);
@@ -274,6 +281,10 @@ class RecoilWeapon : Weapon
 			Owner.A_setAngle( iangle );	
 		}
 		
+		double velz = Owner.vel.z * 0.6;
+		velz = clamp(velz, -10, 10);
+		woffsy += velz;
+		woffsy *= 0.8;
 		super.DoEffect();
 	}
 }

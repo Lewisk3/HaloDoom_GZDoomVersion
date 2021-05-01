@@ -39,8 +39,8 @@ class HaloGun : RecoilWeapon
 		HaloGun.BaseRecoil 2;
 		HaloGun.BackpackReloadTime 35;
 		HaloGun.UIGraphic "WI_AR";
-		HaloGun.SwayRange 5.0;
-		HaloGun.SwaySpeed 1.5;
+		HaloGun.SwayRange 4.0;
+		HaloGun.SwaySpeed 2.5;
 		Weapon.BobRangeX 1.5;
 		Weapon.BobRangeY 0.6;
 		Weapon.BobSpeed 0.5;

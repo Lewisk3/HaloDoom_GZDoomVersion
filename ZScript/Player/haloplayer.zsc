@@ -29,6 +29,7 @@ class HaloPlayer : DoomPlayer
 		HaloPlayer.Shields 70, 5, 4; // 5 seconds to recharge, 4 seconds to max.
 		HaloPlayer.MovementBob 0;
 		Player.MaxHealth 45;
+		Player.JumpZ 9;
 	}
 	
 	override void BeginPlay()
@@ -49,12 +50,6 @@ class HaloPlayer : DoomPlayer
 		
 		// Used for timing certain sound fx.
 		if(soundwait) soundwait--;
-		
-		// Aircontrol and friction.
-		uint btns = player.cmd.buttons;
-		uint move_bitmask = BT_FORWARD | BT_BACK | BT_MOVELEFT | BT_MOVERIGHT;
-		bool moving = btns & move_bitmask;
-	
 	
 		// Shield Regen
 		double shregentime = shield_regentime*35.;
