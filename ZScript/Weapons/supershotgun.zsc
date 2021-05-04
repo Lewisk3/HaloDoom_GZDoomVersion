@@ -95,7 +95,7 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 		Ready.Active:
 			DBSI A 1 
 			{
-				A_RWeaponReady(WRF_ALLOWRELOAD);
+				A_HaloWeaponReady(WRF_ALLOWRELOAD);
 			}
 		loop;
 		
@@ -106,12 +106,12 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 		goto Ready.Active;
 
 		Select:
-			TNT1 A 1 A_RRaise(12);
+			TNT1 A 1 A_GunRaise();
 		wait;
 
 		Deselect:
 			DBSS FEDCBA 1;
-			TNT1 A 0 A_RLower(12);
+			DBSS A 1 A_GunLower();
 		wait;
 		
 		// DBL - 30RPM -
