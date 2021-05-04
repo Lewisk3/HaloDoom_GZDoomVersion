@@ -54,7 +54,7 @@ class HitMarkers : Object
 	}
 	
 	// Draw active hitmarkers
-	ui void Animate(double deltatime)
+	ui void Animate(double deltatime, vector2 mid)
 	{
 		for(int i = actives.Size()-1; i >= 0; i--) 
 		{
@@ -64,7 +64,7 @@ class HitMarkers : Object
 				actives.Delete(i);
 				continue;
 			}
-			actives[i].Draw(deltatime);
+			actives[i].Draw(deltatime, mid);
 		}
 	}
 	
@@ -89,7 +89,7 @@ class HitMarker : Object
 	virtual ui void Init()
 	{
 	}
-	virtual ui void Draw(double dT)
+	virtual ui void Draw(double dT, vector2 mid = (0,0))
 	{
 	}
 }
@@ -112,17 +112,17 @@ class HitM_Normal : HitMarker
 		dist = 30;
 	}
 	
-	override void Draw(double dT)
+	override void Draw(double dT, vector2 mid)
 	{
 		// Draw 4 cornered hitmarker, starting at the center, moving inwards.
 		uint flags = HLSBS.SS_SCREEN_CENTER;
 		vector2 fscale = (scale.x*animscale, scale.y*animscale);
 		double offs = 170 * fscale.x;
 		
-		HLSBS.DrawImage("hitdef1", ( offs, offs) + angdist(45, dist), flags, alpha, scale:fscale);
-		HLSBS.DrawImage("hitdef2", (-offs, offs) + angdist(135, dist), flags, alpha, scale:fscale);
-		HLSBS.DrawImage("hitdef3", ( offs,-offs) + angdist(315, dist), flags, alpha, scale:fscale);
-		HLSBS.DrawImage("hitdef4", (-offs,-offs) + angdist(225, dist), flags, alpha, scale:fscale);
+		HLSBS.DrawImage("hitdef1", ( offs, offs) + angdist(45, dist)  + mid, flags, alpha, scale:fscale);
+		HLSBS.DrawImage("hitdef2", (-offs, offs) + angdist(135, dist) + mid, flags, alpha, scale:fscale);
+		HLSBS.DrawImage("hitdef3", ( offs,-offs) + angdist(315, dist) + mid, flags, alpha, scale:fscale);
+		HLSBS.DrawImage("hitdef4", (-offs,-offs) + angdist(225, dist) + mid, flags, alpha, scale:fscale);
 		
 		dist -= 3 * dT;
 		if(animscale > 0.1) animscale -= 0.09 * dT;
@@ -146,11 +146,11 @@ class HitM_Headshot : HitMarker
 		scale = (0.4, 0.4);
 	}
 	
-	override void Draw(double dT)
+	override void Draw(double dT, vector2 mid)
 	{
 		uint flags = HLSBS.SS_SCREEN_CENTER;
 		vector2 fscale = (scale.x*animscale, scale.y*animscale);
-		HLSBS.DrawImage(img, (0,0), flags, alpha, scale:fscale);
+		HLSBS.DrawImage(img, mid, flags, alpha, scale:fscale);
 
 		if(animscale > 0.1) animscale -= 0.04 * dT;
 		alpha -= 0.06 * dT;  

@@ -290,7 +290,7 @@ class HLSBS Abstract ui
 		}		
 	}
 	
-	static void Fill(Color col, double x, double y, double w, double h, int flags = 0, bool absolute = false)
+	static void Fill(Color col, double x, double y, double w, double h, double alpha = 1.0, int flags = 0, bool absolute = false)
 	{
 		vector2 pos = (x, y);
 		float sc_xres = Screen.getWidth()/GetBaseWidth();
@@ -304,7 +304,7 @@ class HLSBS Abstract ui
 		w *= sc_xres;
 		h *= sc_yres;
 		
-		Screen.Dim(col, 1.0, npos.x, npos.y, w, h);
+		Screen.Dim(col, alpha, npos.x, npos.y, w, h);
 	}
 	
 	static void DrawBar(String ongfx, String offgfx, double curval, double maxval, Vector2 position, int border, int vertical,

@@ -13,12 +13,20 @@ class HaloPlayer : DoomPlayer
 	double regen_timer;
 	double movebob;
 	
+	// Weapon values
+	double weap_yoffs;
+	double xhair_lowpos;
+	
+	// CVar(s)
+	transient CVar lowered_xhair;
 	
 	Property Shields : maxshields, shield_regentime, shield_regenrate;
 	Property MovementBob : movebob;
+	Property LowerCrosshairY : xhair_lowpos;
 	
 	Default
 	{
+		Player.ViewHeight 41;
 		Speed 1;
 		Health 45;
 		Player.StartItem "Halo_AssaultRifle", 1;
@@ -28,6 +36,7 @@ class HaloPlayer : DoomPlayer
 		Player.StartItem "Shell", 36;
 		HaloPlayer.Shields 70, 5, 4; // 5 seconds to recharge, 4 seconds to max.
 		HaloPlayer.MovementBob 0;
+		HaloPlayer.LowerCrosshairY 60;
 		Player.MaxHealth 45;
 		Player.JumpZ 9;
 	}
@@ -41,6 +50,25 @@ class HaloPlayer : DoomPlayer
 	
 	override void Tick()
 	{
+		// Get CVar(s)
+		if(!lowered_xhair)
+			lowered_xhair = CVar.GetCVar("halodoom_loweredcrosshair", player);
+		
+		// Processes lowered crosshair differences.
+		double defvz = default.viewheight;
+		if(lowered_xhair.GetBool())
+		{
+			SetViewHeight(defvz * 1.2);
+			weap_yoffs = 20;
+		}
+		else
+		{
+			SetViewHeight(defvz);
+			weap_yoffs = 0;
+		}
+			
+		
+		// Don't do stuff when dead.
 		if(health <= 0) 
 		{
 			A_StopSound(CHAN_7);
@@ -80,6 +108,9 @@ class HaloPlayer : DoomPlayer
 			A_StopSound(CHAN_5);
 		}
 		
+		// Aim Assist
+		if(halodoom_doaimassist) DoAimAssist();
+		
 		super.Tick();
 	}
 	
@@ -101,6 +132,35 @@ class HaloPlayer : DoomPlayer
 			return 0;
 		}
 		return super.DamageMobJ(inflictor, source, damage, mod, flags, angle);
+	}
+	
+	clearscope bool CheckCrosshairLowered()
+	{
+		// Safe way of checking lowered_xhair CVar.
+		return lowered_xhair && lowered_xhair.GetBool();
+	}
+	
+	void DoAimAssist(double strength = 0.20)
+	{
+		// Do not apply if not using a controller.
+		if(!using_controller) return;
+		
+		// Get target under aim.
+		let act = AimTarget();
+		if(!act) return;
+		
+		// Gather pitch and angular difference and interpolate
+		// aim to target.
+		vector3 aimpos = (act.pos.x, act.pos.y, act.pos.z + act.height/2.);
+		vector3 frompos = (pos.x, pos.y, player.viewz - (weap_yoffs * 1.2));
+		vector3 diffs = level.SphericalCoords(frompos, aimpos, (angle, pitch));
+		angle -= diffs.x * strength;
+		pitch -= diffs.y * (strength * 0.35);
+	}
+	
+	void SetViewHeight(double val)
+	{
+		viewheight = player.viewheight = val;
 	}
 	
 	override void CalcHeight()

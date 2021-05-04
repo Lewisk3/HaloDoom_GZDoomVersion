@@ -9,6 +9,7 @@ class HaloGun : RecoilWeapon
 	bool pbtn_fire;
 	bool pbtn_altfire;
 	bool backpack_reloading;
+	bool force_deselect;
 	uint backpack_reloadtimer;
 	uint backpack_reloadmaxtime;
 	double baserecoil;
@@ -18,8 +19,15 @@ class HaloGun : RecoilWeapon
 	double rotation_sens;
 	
 	// UI Stuff
+	const SIGHT_OVERLAY = 0xFF;
 	string wcrosshair;
 	string UI_Icon;
+	string UI_Sight;
+	double sightscale;
+	double scoperecoil;
+	bool enablezoom;
+	double scopezoom;
+	bool zoomed;
 	
 	Property Bloom : bloomamt;
 	Property BloomSpeed : bloomspd;
@@ -30,6 +38,16 @@ class HaloGun : RecoilWeapon
 	Property SwaySpeed : rotation_sens;
 	Property BackpackReloadTime : backpack_reloadmaxtime;
 	property UIGraphic : UI_Icon;
+	Property UISight : UI_Sight, sightscale;
+	Property SetupScope : scopezoom, scoperecoil;
+
+	enum ButtonStates
+	{
+		BTS_UP,
+		BTS_DOWN,
+		BTS_RELEASED,
+		BTS_PRESSED
+	};
 	
 	Default
 	{
@@ -38,6 +56,7 @@ class HaloGun : RecoilWeapon
 		HaloGun.Crosshair "";
 		HaloGun.BaseRecoil 2;
 		HaloGun.BackpackReloadTime 35;
+		HaloGun.UISight "SI_MAG", 1.0;
 		HaloGun.UIGraphic "WI_AR";
 		HaloGun.SwayRange 4.0;
 		HaloGun.SwaySpeed 2.5;
@@ -59,7 +78,31 @@ class HaloGun : RecoilWeapon
 	
 	action double A_RecoilSpread()
 	{
-		return frandom[GunRecoil](-invoker.baserecoil, invoker.baserecoil)*(1.0+(invoker.spreadmod*invoker.accmod));
+		double scopemod = (invoker.scoperecoil == 0) ? 1.0 : invoker.scoperecoil;
+		return frandom[GunRecoil](-invoker.baserecoil, invoker.baserecoil)*(1.0+(invoker.spreadmod*invoker.accmod)) * scopemod;
+	}
+	
+	action double A_GetWeapYOffs()
+	{
+		// Primarily used to offset weapon SFX and projectiles
+		// when the crosshair is lowered.
+		let plr = HaloPlayer(self);
+		return plr ? plr.weap_yoffs : 0;
+	}
+	
+	action void A_ShootProjectile(class<Actor> proj, double angoffs, double pitchoffs, double lowerpitchoffs, double leftright, double spreadmod = 1.0)
+	{
+		double yoffs = A_GetWeapYOffs() * 0.6;
+		bool lowered = yoffs > 0;
+		double tpitchoffs = lowered ? lowerpitchoffs : pitchoffs;
+		double scopemod = (invoker.scoperecoil == 0) ? 1.0 : invoker.scoperecoil;
+		A_FireProjectile(
+			proj, 
+			(A_RecoilSpread()*spreadmod)+(angoffs*scopemod), 
+			false, leftright, 
+			yoffs, 0,
+			(A_RecoilSpread()*spreadmod)+(tpitchoffs*scopemod)
+		);	
 	}
 	
 	action void A_DebugSFX(bool onoff = true)
@@ -74,7 +117,8 @@ class HaloGun : RecoilWeapon
 		vector3 relpos = ( forward * cosap - leftright * sinap,
 						   leftright * cosap + forward * sinap, 0);
 		relpos.z = forward * -sin(pitch);
-		invoker.sfx_pos = Vec3Offset(relpos.x,relpos.y, relpos.z + updown);
+		double yoffs = A_GetWeapYOffs() * 0.5;
+		invoker.sfx_pos = Vec3Offset(relpos.x,relpos.y, relpos.z + updown + yoffs);
 	}
 	
 	action Actor A_SpawnSFX(class<Actor> sfxtype, double projangle, double projpitch, double spd = -1)
@@ -105,7 +149,7 @@ class HaloGun : RecoilWeapon
 	{
 		return (Owner.player && Owner.player.ReadyWeapon == self);
 	}
-	
+		
 	action void A_FollowRotation(int DEST_LAYER, int SRC_LAYER, double mul = 1.0)
 	{
 		let src_psp = player.GetPSprite(SRC_LAYER);
@@ -118,7 +162,6 @@ class HaloGun : RecoilWeapon
 		vector2 rvec = (cos(src_psp.rotation+90)*max.x, sin(src_psp.rotation+90)*max.y) * mul;
 		A_OverlayOffset(DEST_LAYER, rvec.x, rvec.y);
 	}
-	
 	
 	action void A_UpdateCrosshair(string nxhair)
 	{
@@ -203,7 +246,6 @@ class HaloGun : RecoilWeapon
 		if( !infire || !((btns & BT_ATTACK) && (oldbtns & BT_ATTACK)) ) 
 			first_shot = true;
 		
-		
 		// Weapon roll
 		vector2 su = (cos(Owner.angle+90), sin(Owner.angle+90));
 		vector2 vu = Owner.vel.xy;
@@ -221,8 +263,9 @@ class HaloGun : RecoilWeapon
 		
 		// Process weapon switch
 		bool inreload = psp && InStateSequence(psp.CurState,FindState("Reload"));
-		if((btns & BTN_SWITCHWEAP) && psp && !InStateSequence(psp.CurState,FindState("Deselect.Quick")))
+		if((btns & BTN_SWITCHWEAP) && !InStateSequence(psp.CurState,FindState("Deselect.Quick")))
 		{
+			// Deselect weapon.
 			let nextweap = FindNextWeapon();
 			if(nextweap) 
 			{
@@ -232,6 +275,20 @@ class HaloGun : RecoilWeapon
 				nextweap.Use(false);
 			}
 		}
+		
+		// Force weapon to be deselected.
+		if(force_deselect && !InStateSequence(psp.CurState,FindState("Deselect")))
+		{
+			let nextweap = FindNextWeapon();
+			if(nextweap)
+			{
+				Owner.player.WeaponState |= WF_WEAPONSWITCHOK | WF_REFIRESWITCHOK;
+				nextweap.Use(false);
+				psp.SetState(FindState("Deselect"));
+			}
+			force_deselect = false;
+		}
+		
 		// Backpack reload check
 		if(inreload && A_ButtonPressed(BT_RELOAD, Owner) && !backpack_reloading)
 		{
@@ -247,6 +304,7 @@ class HaloGun : RecoilWeapon
 		
 		spreadmod -= bloomamt*bloomspd;
 		spreadmod = clamp(spreadmod, 0, 2);
+		
 	}
 	
 	// This override will ensure that the weapon is given its clip ammo upon 
@@ -271,6 +329,26 @@ class HaloGun : RecoilWeapon
 		let src = ptr ? ptr : self;
 		if(!src.player) return false;
 		return (src.player.cmd.buttons & btn) && !(src.player.oldbuttons & btn);
+	}
+	action bool A_ButtonStatus(int btn, int bstate, Actor ptr=NULL)
+	{
+		let src = ptr ? ptr : self;
+		if(!src.player) return false;
+		bool btnstatus;
+		UserCmd cmd = src.player.cmd;
+		uint oldbtns = src.player.oldbuttons;
+		switch(bstate)
+		{
+			case BTS_UP:
+				btnstatus = !(cmd.buttons & btn); break;
+			case BTS_DOWN:
+				btnstatus =  (cmd.buttons & btn); break;
+			case BTS_PRESSED:
+				btnstatus =  (cmd.buttons & btn) && !(oldbtns & btn); break;
+			case BTS_RELEASED:
+				btnstatus = !(cmd.buttons & btn) && (oldbtns & btn); break;
+		}
+		return btnstatus;
 	}
 	action bool A_FirePressed() { return invoker.pbtn_fire; }
 	action bool A_AltFirePressed() { return invoker.pbtn_altfire; }
@@ -356,15 +434,103 @@ class HaloGun : RecoilWeapon
 		return ResolveState(NULL);
 	}
 	
+	// Getters and Setters for readability.
+	action void A_ScopeDisable()
+	{
+		invoker.enablezoom = false;
+	}
+	action void A_ScopeEnable()
+	{
+		invoker.enablezoom = true;
+	}
+	action void A_ScopeON()
+	{
+		invoker.zoomed = true;
+	}
+	action void A_ScopeOFF()
+	{
+		invoker.zoomed = false;
+	}
+	action bool A_CheckInScope()
+	{
+		return invoker.zoomed;
+	}
+	action void A_HaloWeaponReady(uint flags, bool usescope = false)
+	{
+		if(usescope) A_ScopeEnable();
+		A_RWeaponReady(flags);
+		A_Overlay(SIGHT_OVERLAY, "Scope.Ready", true);
+	}
+	action bool A_LowerAim()
+	{
+		return A_GetWeapYOffs() > 0;
+	}
+	
+	// Custom lower and raise.
+	action void A_GunLower(int speed = 32)
+	{
+		if(invoker.zoomed) 
+			A_ScopeDisable();
+		else 
+			A_RLower(speed);
+	}
+	
+	action void A_GunRaise(int speed = 32)
+	{
+		A_RRaise(speed);
+	}
+	
 	States
 	{	
 		Deselect.Quick:
-			"####" "#" 1; 
+			"####" "#" 1;
 			"####" "#" 0 
 			{
-				A_SetupLower();
-				A_RLower(12);
+				A_GunLower(12);
 			}
 		loop;
+		
+		WaitState:
+			"####" "#" 1;
+		loop;
+		
+		Scope.Ready:
+			TNT1 A 1
+			{	
+				CVar togglezoom = CVar.GetCVar("halodoom_togglezoom", player);
+				bool zoom_in  = A_ButtonStatus(BT_ALTATTACK, BTS_DOWN) && !invoker.zoomed;
+				bool zoom_out = A_ButtonStatus(BT_ALTATTACK, BTS_UP) && invoker.zoomed;
+				if(togglezoom.GetBool())
+				{
+					zoom_in  = A_ButtonStatus(BT_ALTATTACK, BTS_PRESSED) && !invoker.zoomed;
+					zoom_out = A_ButtonStatus(BT_ALTATTACK, BTS_PRESSED) && invoker.zoomed;
+				}
+				State scope_on = ResolveState("Scope.ON");
+				State scope_off = ResolveState("Scope.OFF");
+				if(!invoker.enablezoom && !invoker.zoomed)
+				{
+					return ResolveState(null);
+				}
+				else if(!invoker.enablezoom)
+				{
+					zoom_in = false;
+					zoom_out = true;
+				}
+				if(zoom_in) return scope_on;
+				if(zoom_out) return scope_off;
+				return ResolveState(null);
+			}
+		loop;
+		
+		Scope.ON:
+			TNT1 A 1 A_ScopeON();
+			TNT1 A 5 A_SetZoom(invoker.scopezoom, 5, true);
+		goto Scope.Ready;
+		Scope.OFF:
+			TNT1 A 1 A_ScopeOFF();
+			TNT1 A 5 A_SetZoom(0, 5, true);
+		goto Scope.Ready;
 	}
 }
+
+

@@ -13,6 +13,8 @@ class RecoilWeapon : Weapon
 	double woffsx, woffsy, wofftimer;
 	double realoffsx, realoffsy;
 	double yoff_min, yoff_max;
+	double basezoom;
+	double recoilmod;
 
 	int deftimer, recoil_timer, newtimer, looksway;
 	double swayspd, pitchmax, anglemax;
@@ -49,8 +51,11 @@ class RecoilWeapon : Weapon
 		let psp = player.GetPSprite(PSP_WEAPON);
 		if(!psp) return;
 		
+		let hplr = HaloPlayer(player.mo);
+		double wyoffs = hplr ? hplr.weap_yoffs : 0;
+		
 		A_WeaponReady(flags);
-		if(invoker.swapping && psp.y == WEAPONTOP) invoker.swapping = false;
+		if(invoker.swapping && psp.y >= WEAPONTOP-wyoffs) invoker.swapping = false;
 	}
 		
 	action void A_LookSway(float swayspeed, bool requirespd=false, Actor ptr = NULL)
@@ -104,27 +109,33 @@ class RecoilWeapon : Weapon
 		return (swap ? to : from);
 	}
 
-	action void A_SetZoom(double z, double zoomframes)
+	action void A_SetZoom(double z, double zoomframes, bool keepzoom = false)
 	{
 		if(invoker.zoomfactor == 0) invoker.zoomfactor = 1;
-		invoker.defzoom = z;
+		invoker.defzoom = (z == 0) ? 1.0 : z;
 		invoker.zoomtimer = zoomframes;
+		if(keepzoom) invoker.basezoom = z;
 	}
 	
 	action void A_SetRecoil(double p, double a, double spd)
 	{
-		invoker.recoil_pitch = p;
-		invoker.recoil_angle = a;
+		invoker.recoil_pitch = p * invoker.recoilmod;
+		invoker.recoil_angle = a * invoker.recoilmod;
 		invoker.recoil_timer = (spd == 0) ? invoker.deftimer : spd;
 		invoker.newtimer = invoker.recoil_timer;
 	}
 	
 	action void A_AddRecoil(double p, double a, double spd)
 	{
-		invoker.recoil_pitch += p;
-		invoker.recoil_angle += a;
+		invoker.recoil_pitch += p * invoker.recoilmod;
+		invoker.recoil_angle += a * invoker.recoilmod;
 		invoker.recoil_timer = (spd == 0) ? invoker.deftimer : spd;
 		invoker.newtimer = invoker.recoil_timer;
+	}
+	
+	action void A_ModifyRecoil(double mod)
+	{
+		invoker.recoilmod = mod;
 	}
 	
 	action void A_RecoilOffset(double x, double y, double spd)
@@ -134,15 +145,15 @@ class RecoilWeapon : Weapon
 		invoker.wofftimer = spd;
 		A_UpdateOffsets();
 	}
-
 	
-	action void A_SetupLower()
+	action void A_SetupSwapping()
 	{
 		invoker.swapping = true;
 	}
 	
-	action void A_RLower(int speed)
+	action void A_RLower(int speed, bool dosetup = true)
 	{
+		if(dosetup) A_SetupSwapping();
 		A_SetCrossHair(0);
 		invoker.realoffsx = invoker.woffsx;
 		invoker.realoffsy = invoker.woffsy;
@@ -154,24 +165,32 @@ class RecoilWeapon : Weapon
 		A_Lower(speed);
 	}
 	
-	action void A_RRaise(int speed)
+	action void A_RRaise(int speed, bool dosetup = true)
 	{
+		if(dosetup) A_SetupSwapping();
 		A_SetCrossHair(9);
 		invoker.realoffsx = invoker.woffsx;
 		invoker.realoffsy = invoker.woffsy;
 		A_Raise(speed);
 	}
 	
-	action void A_SetupRaise()
-	{
-		invoker.swapping = true;
-	}
 	
 	action void A_UpdateOffsets(Actor ptr=NULL)
 	{
 		if(!ptr) ptr = self;
+	
+		let hplr = HaloPlayer(ptr);
+		double wyoffs = hplr ? hplr.weap_yoffs : 0;
+		if(invoker.swapping) wyoffs = 0;
 		
-		if( invoker.realoffsx == invoker.woffsx && invoker.realoffsy == invoker.woffsy ) 
+		vector2 yrange = (invoker.yoff_min + wyoffs, invoker.yoff_max + wyoffs);
+		if(!invoker.swapping)
+		{
+			invoker.woffsy = clamp(invoker.woffsy, yrange.x, yrange.y);
+			invoker.realoffsy = clamp(invoker.realoffsy, yrange.x, yrange.y);
+		}
+		
+		if( invoker.realoffsx == invoker.woffsx && invoker.realoffsy == invoker.woffsy+wyoffs) 
 		{
 			if(!invoker.swapping)ptr.A_WeaponOffset(0 + invoker.weapsway.x, 32 + invoker.weapsway.y);
 			return;
@@ -181,13 +200,11 @@ class RecoilWeapon : Weapon
 		double diffy = abs(invoker.realoffsy - invoker.woffsy);
 		if(diffx < 0.1) invoker.realoffsx = invoker.woffsx; 
 		if(diffy < 0.1) invoker.realoffsy = invoker.woffsy;
-						
+
 		ptr.A_WeaponOffset(0 + invoker.realoffsx+invoker.weapsway.x, 32 + invoker.realoffsy+invoker.weapsway.y);
 		
 		invoker.realoffsx = RecoilWeapon.FrameInterpolate(invoker.realoffsx, invoker.woffsx, invoker.wofftimer);
 		invoker.realoffsy = RecoilWeapon.FrameInterpolate(invoker.realoffsy, invoker.woffsy, invoker.wofftimer);
-		
-		invoker.realoffsy = clamp(invoker.realoffsy, invoker.yoff_min, invoker.yoff_max);
 	}
 	
 	// [Lewisk]: Had to be re-implemented because the original uses self because it's an Action function.
@@ -220,10 +237,15 @@ class RecoilWeapon : Weapon
 	
 	override void DoEffect()
 	{
+		if(!recoilmod) recoilmod = 1.0;
 		if(!Owner) return;
 		PlayerInfo plr = PlayerPawn(Owner).player;
 		if(!plr) return;
-		if(plr.ReadyWeapon != self) return;
+		if(plr.ReadyWeapon != self) 
+		{
+			A_SetZoom(1.0, 1);
+			return;
+		}
 		plr.WeaponState |= WF_WEAPONBOBBING;
 		
 		if(!cv_recoil)
@@ -254,16 +276,17 @@ class RecoilWeapon : Weapon
 			Owner.A_setAngle( Owner.angle - recoil_angle );	
 		}
 		
+		double zoom_offs = basezoom != 0 ? basezoom - 1 : 0;
 		double zoom_intensity = cv_recoil.GetFloat();  
 		if(zoom_intensity == 0)
 		{
 			zoomfactor = 1.0;
-			O_ZoomFactor(zoomfactor);
+			O_ZoomFactor(zoomfactor + basezoom);
 		}
 		else
 		{
-			zoomfactor = FrameInterpolate(zoomfactor, defzoom, zoomtimer / zoom_intensity);
-			if(zoomfactor > 0)O_ZoomFactor(zoomfactor);
+			zoomfactor = FrameInterpolate(zoomfactor, defzoom + zoom_offs, zoomtimer / zoom_intensity);
+			if(zoomfactor > 0)O_ZoomFactor(zoomfactor + basezoom);
 		}
 		
 		if(recoil_timer > 0) recoil_timer--;
@@ -280,7 +303,7 @@ class RecoilWeapon : Weapon
 			Owner.A_setPitch( ipitch );
 			Owner.A_setAngle( iangle );	
 		}
-		
+				
 		double velz = Owner.vel.z * 0.6;
 		velz = clamp(velz, -10, 10);
 		woffsy += velz;

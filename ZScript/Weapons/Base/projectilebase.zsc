@@ -64,7 +64,7 @@ class HaloProjectile : FastProjectile
 		HaloPlayer plr = HaloPlayer(target);
 		bool killed = victim.health-truedamage <= 0;
 		
-		// console.printf("Damage output: %f, Dist: %f", truedamage, getTravelDistance());
+		//console.printf("Damage output: %f, Dist: %f", truedamage, getTravelDistance());
 		Sound hitsnd = "Hit/Normal";
 		
 		// Determine headshot
@@ -119,6 +119,7 @@ class HaloProjectile : FastProjectile
 			truedamage = 0;
 			return;
 		}
+		
 		// Dampen damage until minimum.
 		if(dist >= range_falloff && range_falloff > 0)
 		{

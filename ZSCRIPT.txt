@@ -39,4 +39,4 @@ version 4.0
 #include "ZScript/Weapons/battlerifle.zsc"
 
 // [>> Gameplay Constants <<]
-const UNIT_METER = 8.f;
+const UNIT_METER = 16.f;

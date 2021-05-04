@@ -44,6 +44,7 @@ class Halo_Magnum : HaloGun
 		HaloGun.Inaccuracy MAGNUM_ACCMOD;
 		HaloGun.Crosshair "MagRet";
 		HaloGun.UIGraphic "WI_MAGNM";
+		HaloGun.SetupScope 1.5, 0.5;
 	}
 	
 	action void A_FireMagnum()
@@ -51,7 +52,7 @@ class Halo_Magnum : HaloGun
 		A_Light(2);
 		A_WeapSound("Halo/Weapons/Mag_MD6/Fire", 0, true);
 		A_WeapSound("Halo/Weapons/Mag_MD6/Fire/Bass", CHANF_OVERLAP, true);
-		A_FireProjectile("HaloMagnum_Bullet", A_RecoilSpread()+1, false, 4, 0, 0, A_RecoilSpread()-1.35);
+		A_ShootProjectile("HaloMagnum_Bullet", 1, -1.35, 8.0, 4);
 		A_SetSFXPos(25,0,35);
 		A_SpawnSFX("MuzzleSmoke", 0,0);
 		A_SetSFXPos(25,-5,30);
@@ -66,7 +67,6 @@ class Halo_Magnum : HaloGun
 	
 	States
 	{
-		
 		Ready:
 			TNT1 A 0 
  			{
@@ -82,7 +82,7 @@ class Halo_Magnum : HaloGun
 		Ready.Chambered:
 			MASE ABC 1 A_DoSelectAnim(-5);
 		Ready.Active:
-			MAR1 A 1 A_RWeaponReady(WRF_ALLOWRELOAD);
+			MAR1 A 1 A_HaloWeaponReady(WRF_ALLOWRELOAD, true);
 		loop;
 		
 		Ready.Dryfire:
@@ -90,12 +90,12 @@ class Halo_Magnum : HaloGun
 		goto Ready.Active;
 
 		Select:
-			TNT1 A 0 A_RRaise(12);
+			TNT1 A 0 A_GunRaise();
 		wait;
 
 		Deselect:
 			MASE CBA 1;
-			TNT1 A 0 A_RLower(12);
+			MASE A 1 A_GunLower();
 		wait;
 		
 		
@@ -136,6 +136,7 @@ class Halo_Magnum : HaloGun
 		// conditional check.
 		Reload:
 			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
+			TNT1 A 0 A_ScopeDisable();
 			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Reload.Empty");
 			TNT1 A 0 A_WeapSound("Halo/Weapons/Mag_MD6/Reload", CHANF_OVERLAP);
 			MAR1 ABCDEFG 1;

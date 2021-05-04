@@ -90,12 +90,18 @@ class Halo_OverlayUI : EventHandler
 	// Keys and Hitmarkers
 	override void RenderOverlay(RenderEvent e)
 	{
+		// Get player
+		HaloPlayer haloplr = HaloPlayer(e.Camera);
+		vector2 hitxmid = (0,0);
+		if(haloplr && haloplr.CheckCrosshairLowered()) 
+			hitxmid.y = haloplr.xhair_lowpos;
+		
 		// Draw HUD projections
 		DrawKeys(e);
 		
 		// Hitmarker(s)
 		ui_hitmarkers.Process();
-		ui_hitmarkers.Animate(deltatime);
+		ui_hitmarkers.Animate(deltatime, hitxmid);
 		
 		// Keep track of time, always.
 		if(!prevMS)

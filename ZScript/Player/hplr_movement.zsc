@@ -5,12 +5,16 @@ extend class HaloPlayer
 	const GNDACCEL = 80;
 	const GNDFRIC  = 7.0;
 	
-	const AIRMAX     = 12;
-	const AIRACCEL   = 120;
+	const AIRMAX     = 10;
+	const AIRACCEL   = 100;
 	const AIRCONTROL = 0.5;
+	
+	// Input device(s)
+	bool using_controller;
 	
 	// Jump delay
 	int prevjump;
+	
 
 	void DoQuakeGroundAccel(vector3 wishdir, double spd)
 	{
@@ -32,7 +36,7 @@ extend class HaloPlayer
 	{
 		let player = self.player;
 		UserCmd cmd = player.cmd;
-		bool moving = (cmd.forwardmove + cmd.sidemove);
+		bool moving = (cmd.forwardmove | cmd.sidemove);
 	
 		// [RH] 180-degree turn overrides all other yaws
 		if (player.turnticks)
@@ -48,7 +52,8 @@ extend class HaloPlayer
 
 		if(player.onground) DoQuakeFriction(6.0);
 		
-		if (cmd.forwardmove | cmd.sidemove)
+		DetectController();
+		if (moving)
 		{
 			// Calculate wishdir
 			UserCmd cmd = player.cmd;
@@ -74,6 +79,18 @@ extend class HaloPlayer
 		}
 		player.vel = vel.xy;
 	}		
+	
+	void DetectController()
+	{
+		UserCmd cmd = player.cmd;
+		uint movebtns = (BT_FORWARD | BT_MOVELEFT | BT_MOVERIGHT | BT_BACK);
+		
+		bool moving_analog  = (cmd.forwardmove | cmd.sidemove);
+		bool moving_digital = (cmd.buttons & movebtns);
+		bool moving = moving_analog | moving_digital;
+		
+		if(moving) using_controller = !moving_digital;
+	}
 	
 	override void CheckJump()
 	{

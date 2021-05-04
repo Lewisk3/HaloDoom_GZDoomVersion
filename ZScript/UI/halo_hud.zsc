@@ -68,6 +68,7 @@ class HaloStatusBar : BaseStatusBar
 				DrawCrosshairs();
 				DrawWeaponsAmmo();
 				DrawRadar();
+				DrawSight();
 			}
 			
 			// Keys and Objectives
@@ -130,15 +131,67 @@ class HaloStatusBar : BaseStatusBar
 		HaloGun weap = HaloGun(haloplr.player.ReadyWeapon);
 		if(!weap) return;
 		
+		bool lowerxhair = haloplr.CheckCrosshairLowered();
 		string crosshair = weap.wcrosshair;
 		double bloom = weap.spreadmod;
 		vector2 retsize = (0.65,0.65);
 		vector2 midpos = (0,0);
+		if(lowerxhair) midpos.y = haloplr.xhair_lowpos;
 		retsize *= 1.0+curbloom;
 		HLSBS.DrawImage(crosshair, midpos, HLSBS.SS_SCREEN_CENTER, 0.65, scale:retsize);
 		double ispd = 0.12;
 		if(bloom > curbloom) ispd = 0.5; 
 		curbloom = HaloMath.Lerp(curbloom, bloom, ispd*deltatime);
+	}
+
+	void DrawSight()
+	{
+		HaloGun weap = HaloGun(haloplr.player.ReadyWeapon);
+		if(!weap) return;
+		if(weap.zoomed)
+		{
+			vector2 midpos = ( 1920 / 2. , 1080 / 2. );
+			bool lowerxhair = haloplr.CheckCrosshairLowered();
+			if(lowerxhair) midpos.y += haloplr.xhair_lowpos;
+			
+			string sight = weap.UI_Sight;
+			double scale = weap.sightscale * 2.;
+			double sightalpha = 0.9;
+			Color dark = 0xFF000000;
+			
+			// There's no way to implement a "negative" cliprect or fill,
+			// because GZDoom's UI library is aids, so we've gotta do it
+			// manually... PAIN peko.
+			
+			let tex = TexMan.CheckForTexture(sight);
+			let texsize = TexMan.GetScaledSize(tex);
+			texsize *= scale;
+			vector2 texmid = texsize / 2.;
+			
+			// -- :Begin quad fill: -- \\
+			// Left
+			HLSBS.Fill(dark, 0,0, midpos.x-texmid.x + 1, 1080, sightalpha); 
+			// Right
+			HLSBS.Fill(dark, 
+				midpos.x+texmid.x - 1, 0, 
+				1920, 1080,
+				sightalpha
+			); 
+			// Top
+			HLSBS.Fill(dark, 
+				midpos.x-texmid.x, 0, 
+				texsize.x, midpos.y-texmid.y + 1,
+				sightalpha
+			); 
+			// Bottom
+			HLSBS.Fill(dark, 
+				midpos.x-texmid.x, midpos.y+texmid.y, 
+				texsize.x, 1080,
+				sightalpha
+			); 
+			
+			HLSBS.DrawImage(sight, midpos, 0, sightalpha, scale:(scale,scale));
+		}
 	}
 
 	const BLINKRATE = ANIM_FPS/6.;
