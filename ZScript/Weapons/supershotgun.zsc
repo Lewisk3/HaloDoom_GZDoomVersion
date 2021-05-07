@@ -110,7 +110,7 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 		wait;
 
 		Deselect:
-			DBSS FEDCBA 1;
+			DBSS FEDCB 1;
 			DBSS A 1 A_GunLower();
 		wait;
 		

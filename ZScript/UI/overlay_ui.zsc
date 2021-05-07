@@ -92,6 +92,8 @@ class Halo_OverlayUI : EventHandler
 	{
 		// Get player
 		HaloPlayer haloplr = HaloPlayer(e.Camera);
+		if(!haloplr) return;
+		
 		vector2 hitxmid = (0,0);
 		if(haloplr && haloplr.CheckCrosshairLowered()) 
 			hitxmid.y = haloplr.xhair_lowpos;

@@ -112,13 +112,9 @@ class HaloGun : RecoilWeapon
 	
 	action void A_SetSFXPos(double forward, double leftright, double updown)
 	{
-		double sinap = sin(angle)*cos(pitch);
-		double cosap = cos(angle)*cos(pitch);
-		vector3 relpos = ( forward * cosap - leftright * sinap,
-						   leftright * cosap + forward * sinap, 0);
-		relpos.z = forward * -sin(pitch);
 		double yoffs = A_GetWeapYOffs() * 0.5;
-		invoker.sfx_pos = Vec3Offset(relpos.x,relpos.y, relpos.z + updown + yoffs);
+		vector3 relpos = HaloMath.V3Offset(angle, pitch, forward, -leftright, updown + yoffs, 1.);
+		invoker.sfx_pos = Vec3Offset(relpos.x,relpos.y,relpos.z);
 	}
 	
 	action Actor A_SpawnSFX(class<Actor> sfxtype, double projangle, double projpitch, double spd = -1)

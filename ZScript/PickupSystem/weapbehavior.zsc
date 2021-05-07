@@ -117,7 +117,7 @@ class WeaponPickupProxy : Actor
 		while(act = HaloPlayer(it.Next()))
 		{
 			// If player is colliding with a weaponproxy item, and looking at it.
-			if( Distance2D(act) <= PICKUP_RANGE*distmod && 
+			if( Distance2DSquared(act) <= ((PICKUP_RANGE*distmod)**2) && 
 			    act.pos.z >= pos.z && 
 			    act.pos.z <= pos.z+(PICKUP_RANGE*distmod) )
 			{

@@ -78,7 +78,7 @@ class Halo_Shotgun : HaloGun replaces Shotgun
 
 		Deselect:
 			HSGI A 1;
-			HSGS EDCBA 1;
+			HSGS EDCB 1;
 			HSGS A 1 A_GunLower();
 		wait;
 		

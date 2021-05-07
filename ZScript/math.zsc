@@ -126,4 +126,20 @@ class HaloMath Abstract
 		return ( xoffs * cos(angle) - yoffs * sin(angle),
 				 yoffs * cos(angle) + xoffs * sin(angle) )*dist;
 	}
+	
+	// 3D Vector offset, thanks Comet!
+	static vector3 V3Offset(double fromangle, double frompitch, double forward, double leftright, double updown, double distance)
+    {
+		double cosa = cos(fromangle), sina = sin(fromangle); 
+		double cosp = cos(frompitch), sinp = sin(frompitch);
+		leftright *= -1;
+		
+		vector3 vec;
+		vec.x = forward * cosa * cosp - leftright * sina + updown * cosa * sinp;
+		vec.y = forward * sina * cosp + leftright * cosa + updown * sina * sinp;
+		vec.z = -forward * sinp + updown * cosp;
+		vec *= distance;
+		
+		return vec;
+    }
 }
