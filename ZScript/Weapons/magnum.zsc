@@ -111,7 +111,8 @@ class Halo_Magnum : HaloGun
 			TNT1 A 0 
 			{
 				A_FireMagnum();
-				A_SetRecoil(2.55, 0, 2);
+				A_ModifyRecoil(A_CheckInScope() ? 0.25 : 1.0);
+				A_SetRecoil(2.20, 0, 2);
 				A_SetZoom(0.984,2);
 				A_RQuakeEx(0,2,2,2,0,20,"",QF_RELATIVE|QF_WAVE);
 			}

@@ -7,13 +7,14 @@ extend class HaloPlayer
 	
 	const AIRMAX     = 10;
 	const AIRACCEL   = 100;
-	const AIRCONTROL = 0.5;
+	const AIRCONTROL = 0.10;
 	
 	// Input device(s)
 	bool using_controller;
 	
 	// Jump delay
 	int prevjump;
+	int fricwait;
 	
 
 	void DoQuakeGroundAccel(vector3 wishdir, double spd)
@@ -29,7 +30,13 @@ extend class HaloPlayer
 		double curspd = wishdir dot vel;
 		double addspd = clamp(AIRMAX - curspd, 0, (AIRACCEL*spd) / TICRATE);
 		
+		vector2 forward = (
+			cos(angle),
+			sin(angle)
+		) * addspd;
+		
 		vel += (addspd*AIRCONTROL) * wishdir;
+		vel += forward * 0.1;
 	}
 	
 	override void MovePlayer ()
@@ -48,9 +55,13 @@ extend class HaloPlayer
 		{
 			Angle += cmd.yaw * (360./65536.);
 		}
+		
+		if(player.onground && fricwait > 4) DoQuakeFriction(6.0);
 		player.onground = (pos.z <= floorz) || bOnMobj || bMBFBouncer || (player.cheats & CF_NOCLIP2);
-
-		if(player.onground) DoQuakeFriction(6.0);
+		if(player.onground) 
+			fricwait ++;
+		else 
+			fricwait = 0;
 		
 		DetectController();
 		if (moving)
