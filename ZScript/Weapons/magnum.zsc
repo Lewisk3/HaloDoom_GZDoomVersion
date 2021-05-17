@@ -44,7 +44,9 @@ class Halo_Magnum : HaloGun
 		HaloGun.Inaccuracy MAGNUM_ACCMOD;
 		HaloGun.Crosshair "MagRet";
 		HaloGun.UIGraphic "WI_MAGNM";
-		HaloGun.SetupScope 1.5, 0.5;
+		HaloGun.SetupScope 1.25, 0.5;
+		
+		RecoilWeapon.YOffsetRange -10, 40;
 	}
 	
 	action void A_FireMagnum()
@@ -52,7 +54,8 @@ class Halo_Magnum : HaloGun
 		A_Light(2);
 		A_WeapSound("Halo/Weapons/Mag_MD6/Fire", 0, true);
 		A_WeapSound("Halo/Weapons/Mag_MD6/Fire/Bass", CHANF_OVERLAP, true);
-		A_ShootProjectile("HaloMagnum_Bullet", 1, -1.35, 8.0, 4);
+		double lowoffs = A_CheckInScope() ? 2.0 : 8.0;
+		A_ShootProjectile("HaloMagnum_Bullet", 2, -1.8, lowoffs, 12);
 		A_SetSFXPos(25,0,35);
 		A_SpawnSFX("MuzzleSmoke", 0,0);
 		A_SetSFXPos(25,-5,30);
@@ -73,20 +76,20 @@ class Halo_Magnum : HaloGun
 				A_WeapSound("Halo/Weapons/Mag_MD6/Select");
 				return A_JumpIf(invoker.chambered, "Ready.Chambered");
 			}
-			MASE DEFFFGHIJKLMNNNOPQRS 1 
+			MAGS ABCDEFGHIJKLMNOPQRSTUV 1 
 			{
 				A_DoSelectAnim(-5);
 				invoker.chambered = true;
 			}
 		goto Ready.Active;
 		Ready.Chambered:
-			MASE ABC 1 A_DoSelectAnim(-5);
+			MAGD ABCE 1 A_DoSelectAnim(-5);
 		Ready.Active:
 			MAR1 A 1 A_HaloWeaponReady(WRF_ALLOWRELOAD, true);
 		loop;
 		
 		Ready.Dryfire:
-			MAR1 A 12 A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
+			MAGI A 12 A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
 		goto Ready.Active;
 
 		Select:
@@ -94,8 +97,8 @@ class Halo_Magnum : HaloGun
 		wait;
 
 		Deselect:
-			MASE CBA 1;
-			MASE A 1 A_GunLower();
+			MAGD EDCBA 1;
+			MAGD A 1 A_GunLower();
 		wait;
 		
 		
@@ -103,7 +106,7 @@ class Halo_Magnum : HaloGun
 		// 210/60 = 3.5
 		// 35/3.5 = 10 frames.
 		Fire:
-			MAFI A 1
+			MAGF A 1
 			{
 				A_RecoilOffset(0,8,1);
 				return A_GunCheckReload();
@@ -116,16 +119,16 @@ class Halo_Magnum : HaloGun
 				A_SetZoom(0.984,2);
 				A_RQuakeEx(0,2,2,2,0,20,"",QF_RELATIVE|QF_WAVE);
 			}
-			MAFI B 1 bright A_RecoilOffset(16,-20,4);
-			MAFI C 1 
+			MAGF B 1 bright A_RecoilOffset(16,-20,4);
+			MAGF C 1 
 			{
 				A_Light(0);
 				A_SetZoom(1.0, 2);
 				A_SetRecoil(-0.18, 0, 8);
 			}
 			TNT1 A 0 A_MechanismSound("Halo/Weapons/Mag_MD6/Mech");
-			MAFI DDE 1 A_RecoilOffset(0,0,4);
-			MAFI FGHI 1 A_CheckRapidFire();
+			MAGF DEF 1 A_RecoilOffset(0,0,4);
+			MAGF GH 1 A_CheckRapidFire();
 		Hold:
 			MAR1 A 1 A_CheckRapidFire();
 			TNT1 A 0 A_ReFire("Hold");
@@ -140,28 +143,18 @@ class Halo_Magnum : HaloGun
 			TNT1 A 0 A_ScopeDisable();
 			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Reload.Empty");
 			TNT1 A 0 A_WeapSound("Halo/Weapons/Mag_MD6/Reload", CHANF_OVERLAP);
-			MAR1 ABCDEFG 1;
-			MAR1 H 2; 
-			MAR1 IJKLMNOP 1;
-			MAR1 Q 1;
-			MAR1 RSTUVWXYZ 1;
-			MAR2 A 1 A_ReloadClip();
-			MAR2 BCDEFG 1;
-			MAR1 EDCBAA 1;
+			MAR1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1;
+			MAR2 ABCD 1;
+			MAR2 E 1 A_ReloadClip();
+			MAR2 FGHIJKLMNO 1;
 		goto Ready.Active;
 		
 		Reload.Empty:
 			TNT1 A 0 A_WeapSound("Halo/Weapons/Mag_MD6/Reload/Empty", CHANF_OVERLAP);
-			MAR3 ABCDE 1;
-			MAR3 F 2;
-			MAR3 GHIJLKMNO 1;
-			MAR3 P 6;
-			MAR3 QR 1;
-			MAR3 S 3 A_ReloadClip();
-			MAR3 TTUUVWXYZ 1;
-			MAR4 ABCDE 1;
-			MAR4 F 2;
-			MAR4 GGHIJKLM 1;
+			MAR3 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1;
+			MAR4 ABC 1;
+			MAR4 D 1 A_ReloadClip();
+			MAR4 EFGHIJKLMNOPQRSTUVW 1;
 		goto Ready.Active;
 		
 		Spawn:

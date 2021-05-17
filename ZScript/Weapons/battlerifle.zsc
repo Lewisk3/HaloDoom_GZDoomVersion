@@ -40,7 +40,7 @@ class Halo_BattleRifle : HaloGun
 		HaloGun.Inaccuracy BARIFLE_ACCMOD;
 		HaloGun.Crosshair "BarRet";
 		HaloGun.UIGraphic "WI_DMR";
-		HaloGun.SetupScope 2.5, 0.25;
+		HaloGun.SetupScope 2.0, 0.25;
 	}
 	
 	action void A_FireRifle()
@@ -101,9 +101,9 @@ class Halo_BattleRifle : HaloGun
 			BRFI B 2
 			{
 				A_FireRifle();
-				A_SetRecoil(0.5, 0, 4);
+				A_SetRecoil(0.3, 0, 4);
 				A_SetZoom(0.987,2);
-				A_RQuakeEx(1,2,1,3,0,20,"",QF_RELATIVE|QF_WAVE);
+				A_RQuakeEx(1,3,1,3,0,20,"",QF_RELATIVE|QF_WAVE);
 				A_RecoilOffset(8,10,2);
 			}
 			BRFI C 1
@@ -117,7 +117,7 @@ class Halo_BattleRifle : HaloGun
 			BRFI D 2
 			{
 				A_FireRifle();
-				A_SetRecoil(0.5, 0, 4);
+				A_SetRecoil(0.3, 0, 4);
 				A_SetZoom(0.987,2);
 				A_RQuakeEx(1,3,0,3,0,20,"",QF_RELATIVE|QF_WAVE);
 			}
@@ -132,7 +132,7 @@ class Halo_BattleRifle : HaloGun
 			BRFI F 2
 			{
 				A_FireRifle();
-				A_SetRecoil(-0.4, 0, 8);
+				A_SetRecoil(-0.15, 0, 8);
 				A_SetZoom(0.987,2);
 				A_RQuakeEx(1,0,3,3,0,20,"",QF_RELATIVE|QF_WAVE);
 				A_RecoilOffset(8,10,2);
@@ -140,7 +140,7 @@ class Halo_BattleRifle : HaloGun
 			BRFI G 1 A_MechanismSound("Halo/Weapons/BattleRifle/Mech");
 			BRFI HI 1 
 			{
-				A_SetRecoil(-0.6, 0, 4);
+				A_SetRecoil(-0.3, 0, 4);
 				A_SetZoom(1.0,3);
 				A_Light(0);
 			}
