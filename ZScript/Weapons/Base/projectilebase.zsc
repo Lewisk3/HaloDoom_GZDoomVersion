@@ -132,7 +132,16 @@ class HaloProjectile : FastProjectile
 	virtual void Init()
 	{
 		spawnpos = pos;
-		A_SetSpeed((meterspeed / 35.)*UNIT_METER);
+		A_SetSpeed(((meterspeed*0.5) / 35.)*UNIT_METER);
+		
+		// Re-calculate velocity with new speed.
+		double cosp = cos(pitch);
+		vel = (
+			cos(angle) * cosp,
+			sin(angle) * cosp,
+			-sin(pitch)
+		) * speed;
+		
 		SetDamage(0);
 	}
 	

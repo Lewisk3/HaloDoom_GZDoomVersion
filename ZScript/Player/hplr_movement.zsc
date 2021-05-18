@@ -6,8 +6,8 @@ extend class HaloPlayer
 	const GNDFRIC  = 7.0;
 	
 	const AIRMAX     = 10;
-	const AIRACCEL   = 100;
-	const AIRCONTROL = 0.10;
+	const AIRACCEL   = 80;
+	const AIRCONTROL = 0.20;
 	
 	// Input device(s)
 	bool using_controller;
@@ -56,7 +56,10 @@ extend class HaloPlayer
 			Angle += cmd.yaw * (360./65536.);
 		}
 		
-		if(player.onground && fricwait > 4) DoQuakeFriction(6.0);
+		// Process friction every couple of tics.
+		if( player.onground && (fricwait > 4 || !halodoom_allowbhop) ) 
+			DoQuakeFriction(6.0);
+			
 		player.onground = (pos.z <= floorz) || bOnMobj || bMBFBouncer || (player.cheats & CF_NOCLIP2);
 		if(player.onground) 
 			fricwait ++;

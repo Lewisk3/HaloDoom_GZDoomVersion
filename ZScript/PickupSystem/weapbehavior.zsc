@@ -113,11 +113,13 @@ class WeaponPickupProxy : Actor
 		
 		if(plr) plr.pickuptarget = NULL;
 		plr = NULL;
+		
 		WeaponPickupProxy closest;
+		double pickup_dist = (PICKUP_RANGE*distmod)**2;
 		while(act = HaloPlayer(it.Next()))
 		{
 			// If player is colliding with a weaponproxy item, and looking at it.
-			if( Distance2DSquared(act) <= ((PICKUP_RANGE*distmod)**2) && 
+			if( Distance2DSquared(act) <= pickup_dist && 
 			    act.pos.z >= pos.z && 
 			    act.pos.z <= pos.z+(PICKUP_RANGE*distmod) )
 			{
@@ -138,10 +140,31 @@ class WeaponPickupProxy : Actor
 		}
 	}
 	
+	void ProcessPickupCollision()
+	{
+		// Determine if colliding with another weapon, move outside bounds.
+		let it = ThinkerIterator.Create("WeaponPickupProxy");
+		WeaponPickupProxy curpickup;
+		while(curpickup = WeaponPickupProxy(it.Next()))
+		{
+			if(curpickup == self) continue;
+			double curdist = Distance3DSquared(curpickup);
+			if(curdist > (radius*radius)) continue;
+			double angto = frandom(0,360);
+			vector2 outpos = (
+				cos(angto) * -4,
+				sin(angto) * -4
+			);
+			SetOrigin((pos.x+outpos.x, pos.y+outpos.y, pos.z), true);
+		}
+	}
+		
 	override void Tick()
 	{
 		SetOrigin((pos.x,pos.y,floorz),true);
 		super.Tick();
+		
+		ProcessPickupCollision();
 		bool hasweap = !plr ? false : plr.countinv(trueitem);
 		CheckPlrCollide(hasweap ? 0.5 : 1.0);
 		if(!plr) return;
@@ -174,6 +197,10 @@ class WeaponPickupProxy : Actor
 				if(!hasweap)
 				{
 					wcontrol.DropSelectedWeapon(pos);
+					let nweap = GiveWeaponItem(plr);
+					nweap.Use(true);
+					Destroy();
+					
 					weapdropped = true;
 				}
 				else

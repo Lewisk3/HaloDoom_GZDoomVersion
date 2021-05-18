@@ -98,13 +98,13 @@ class HaloGun : RecoilWeapon
 		bool lowered = yoffs > 0;
 		double tpitchoffs = lowered ? lowerpitchoffs : pitchoffs;
 		double scopemod = (invoker.scoperecoil == 0) ? 1.0 : invoker.scoperecoil;
-		A_FireProjectile(
-			proj, 
-			(A_RecoilSpread()*spreadmod)+(angoffs*scopemod), 
-			false, leftright, 
-			yoffs, 0,
-			(A_RecoilSpread()*spreadmod)+(tpitchoffs*scopemod)
-		);	
+		
+		let aproj = A_FireProjectile(proj,0, false, leftright, yoffs, 0,0);	
+		if(aproj)
+		{
+			aproj.angle = angle + (A_RecoilSpread()*spreadmod)+(angoffs*scopemod);
+			aproj.pitch = pitch + (A_RecoilSpread()*spreadmod)+(tpitchoffs*scopemod);
+		}
 	}
 	
 	action void A_DebugSFX(bool onoff = true)
@@ -530,7 +530,7 @@ class HaloGun : RecoilWeapon
 		
 		Scope.ON:
 			TNT1 A 1 A_ScopeON();
-			TNT1 A 5 A_SetZoom(invoker.scopezoom, 5, true);
+			TNT1 A 5 A_SetZoom(invoker.scopezoom, 2, true);
 			TNT1 A 0 
 			{
 				bool holding = A_ButtonStatus(BT_ALTATTACK, BTS_HELD) && !A_ButtonStatus(BT_ALTATTACK, BTS_PRESSED);
@@ -539,7 +539,7 @@ class HaloGun : RecoilWeapon
 		goto Scope.Ready;
 		Scope.OFF:
 			TNT1 A 1 A_ScopeOFF();
-			TNT1 A 5 A_SetZoom(0, 5, true);
+			TNT1 A 5 A_SetZoom(0, 2, true);
 		goto Scope.Ready;
 	}
 }

@@ -343,10 +343,11 @@ class HaloStatusBar : BaseStatusBar
 				delta.y /= zoom;
 				if( !(obj is haloplr.GetClass()) && obj.target )
 				{
-					String basegraphic = "ALLYDOT";
+					if(obj.health <= 0 || obj.bCORPSE) continue;
+					String basegraphic = "ALLYDOT"; 
 					if(obj.target != NULL && !obj.bFRIENDLY && obj.bSOLID && obj.bSHOOTABLE)
 						basegraphic = "ENEMYDOT";
-					else if(obj.bFRIENDLY)
+					else if(obj.bFRIENDLY && obj.bSHOOTABLE)
 						basegraphic = "ALLYDOT";
 					
 					vector2 finalpos = ((map_middle.x-delta.x), (map_middle.y-delta.y));

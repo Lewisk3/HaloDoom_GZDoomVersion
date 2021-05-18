@@ -39,6 +39,7 @@ class HaloPlayer : DoomPlayer
 		HaloPlayer.LowerCrosshairY 60;
 		Player.MaxHealth 45;
 		Player.JumpZ 9;
+		Gravity 0.75;
 	}
 	
 	override void BeginPlay()
