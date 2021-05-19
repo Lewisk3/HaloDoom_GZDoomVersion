@@ -1,1 +1,4 @@
-// For future 3D models
+
+material texture models/Lasers/BEAM.png {
+	brightmap models/Lasers/BEAM.png
+}

@@ -1,6 +1,7 @@
 
 class GrapplingHook : Actor
 {
+	LaserEmitter tail;
 	FLineTraceData hitdata;
 	vector3 hitpos;
 	vector3 pos_offs;
@@ -19,7 +20,7 @@ class GrapplingHook : Actor
 		Height 2;
 		Projectile;
 		Scale 0.5;
-		GrapplingHook.MaxSpeed_Accel_CloseDist 40, 60, 64, 700;
+		GrapplingHook.MaxSpeed_Accel_CloseDist 50, 80, 64, 800;
 	}
 	
 	override bool CanCollideWith(Actor other, bool passive)
@@ -30,13 +31,16 @@ class GrapplingHook : Actor
 	
 	vector3 GetOrigin()
 	{
-		vector3 offpos = HaloMath.V3Offset(angle, pitch, pos_offs.x, pos_offs.y, pos_offs.z, 1.);
+		vector3 offpos = HaloMath.V3Offset(source.angle, source.pitch, pos_offs.x, pos_offs.y, pos_offs.z, 1.);
 		return level.vec3offset(source.pos, offpos);
 	}
 	
 	static GrapplingHook Deploy(Actor source, double speed, vector3 offsets = (0,0,0), class<GrapplingHook> type = "GrapplingHook")
 	{
-		let gpl = GrapplingHook(Actor.Spawn(type, source.pos));
+		vector3 offpos = HaloMath.V3Offset(source.angle, source.pitch, offsets.x, offsets.y, offsets.z, 1.);
+		vector3 truepos = level.vec3offset(source.pos, offpos);
+		
+		let gpl = GrapplingHook(Actor.Spawn(type, truepos));
 		if(gpl)
 		{
 			vector3 grapple_vel = HaloMath.VecFromAngles(source.angle, source.pitch, speed);
@@ -53,7 +57,10 @@ class GrapplingHook : Actor
 	void Retract()
 	{
 		if(!retracting) 
+		{
+			if(tail) tail.LaserOff();
 			SetState(FindState("Retract"));
+		}
 	}
 	
 	override void Tick()
@@ -66,11 +73,25 @@ class GrapplingHook : Actor
 		
 		if(dist > maxdist) Retract();
 		
+		
+		if(!tail && !retracting) tail = LaserEmitter.Attach(source);
+		if(tail)
+		{
+			vector3 head_diff = level.SphericalCoords(origin, pos, (source.angle, source.pitch));
+			vector2 angles = (-head_diff.x, -head_diff.y);
+			vector3 finaloffs = pos_offs;
+			finaloffs.z *= 1.25;
+			
+			tail.SetPos(source.pos, finaloffs, angles);
+			tail.Fire("LSR_GrappleTail", maxdist: dist * 0.25);
+		}
+		
+		/*
 		double density = 10.;
-		for(int i = 0; i < dist / density; i++)
+		double tailcnt = (dist / density);
+		for(int i = 0; i < tailcnt; i++)
 		{
 			vector3 head_diff = level.SphericalCoords(origin, pos, (angle, pitch));
-			
 			vector3 spawnpos = HaloMath.VecFromAngles (
 				angle-head_diff.x,
 				pitch-head_diff.y, 
@@ -80,16 +101,19 @@ class GrapplingHook : Actor
 			vector3 finalpos = level.vec3offset(origin, spawnpos);
 			Spawn("GrappleHook_Tail", finalpos);
 		}
+		*/
+		
+		
 	}
 	
 	States
 	{
 		Spawn:
-			PLSS A 1;
+			TNT1 A 1;
 		loop;
 		
 		Death:
-			PLSS A 1 
+			TNT1 A 1 
 			{
 				// Get collision data
 				LineTrace(angle, radius*radius, pitch, data:hitdata);
@@ -108,7 +132,7 @@ class GrapplingHook : Actor
 		goto DoGrapple;
 		
 		DoGrapple:
-			PLSS A 1 
+			TNT1 A 1 
 			{
 				// If nothing was hit, don't grapple.
 				if(!hitdata.HitType) return ResolveState(null);
@@ -125,7 +149,7 @@ class GrapplingHook : Actor
 				double addspd = clamp(maxspd - spring_vel, 0, accel / TICRATE);
 				
 				// Apply velocity
-				dir.z *= 1.50;
+				// dir.z *= 1.50;
 				source.vel += dir * addspd;
 				
 				// Remove grapple if source is close enough.
@@ -138,7 +162,7 @@ class GrapplingHook : Actor
 		loop;
 				
 		Retract:
-			PLSS A 1 
+			TNT1 A 1 
 			{
 				bNOINTERACTION = true;
 				A_ChangeLinkFlags(0, 0);
@@ -151,7 +175,14 @@ class GrapplingHook : Actor
 		goto Retract;
 				
 		Death.Real:
-			TNT1 A 0;
+			TNT1 A 1
+			{
+				if(tail) 
+				{
+					tail.LaserOff();
+					tail.Destroy();
+				}
+			}
 		stop;
 	}
 }
@@ -172,3 +203,4 @@ class GrappleHook_Tail : Actor
 		stop;
 	}
 }
+

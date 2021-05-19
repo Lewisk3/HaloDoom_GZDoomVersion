@@ -182,12 +182,15 @@ extend class HaloPlayer
 		
 		// Apply friction
 		double curspeed = vel.Length();
-		double control = (swimming ? curspeed : (curspeed < maxspd ? GNDFRIC : curspeed));
-		double drop = control * unitfric;
-		double newspeed = curspeed - drop;
-		double frictionmod = (newspeed <= 0 ? 0 : newspeed) / curspeed;
+		if(curspeed)
+		{
+			double control = (swimming ? curspeed : (curspeed < maxspd ? GNDFRIC : curspeed));
+			double drop = control * unitfric;
+			double newspeed = curspeed - drop;
+			double frictionmod = (newspeed <= 0 ? 0 : newspeed) / curspeed;
 		
-		vel.xy *= frictionmod;
-		if(swimming) vel.z *= frictionmod;
+			vel.xy *= frictionmod;
+			if(swimming) vel.z *= frictionmod;
+		}
 	}
 }

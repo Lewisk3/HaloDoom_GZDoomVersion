@@ -33,12 +33,16 @@ version 4.0
 #include "ZScript/Weapons/sfx.zsc"
 
 // Weapons
-
 #include "ZScript/Weapons/magnum.zsc"
 #include "ZScript/Weapons/shotgun.zsc"
 #include "ZScript/Weapons/supershotgun.zsc"
 #include "ZScript/Weapons/assaultrifle.zsc"
 #include "ZScript/Weapons/battlerifle.zsc"
+
+// Laser(s)
+#include "ZScript/Lasers/base/laser_base.zsc"
+#include "ZScript/Lasers/base/laserfx_base.zsc"
+#include "ZScript/Lasers/halo_lasers.zsc"
 
 // [>> Gameplay Constants <<]
 const UNIT_METER = 16.f;
