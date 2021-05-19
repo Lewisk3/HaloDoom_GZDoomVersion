@@ -2,8 +2,10 @@
 class HaloPlayer : DoomPlayer
 {
 	// Misc
+	GrapplingHook grapple;
 	WeaponPickupProxy pickuptarget;
 	double soundwait;
+	
 	
 	// Shields
 	double shield_regentime;

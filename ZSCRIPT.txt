@@ -23,6 +23,7 @@ version 4.0
 
 // Items
 #include "ZScript/Items/keys.zsc"
+#include "ZScript/Weapons/grapple.zsc"
 
 // Weapon base
 #include "ZScript/Weapons/Base/recoilbase.zsc"
@@ -32,6 +33,7 @@ version 4.0
 #include "ZScript/Weapons/sfx.zsc"
 
 // Weapons
+
 #include "ZScript/Weapons/magnum.zsc"
 #include "ZScript/Weapons/shotgun.zsc"
 #include "ZScript/Weapons/supershotgun.zsc"

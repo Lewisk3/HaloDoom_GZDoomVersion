@@ -4,11 +4,26 @@ class HaloDoom_Events : EventHandler
 {
 	override void NetworkProcess(ConsoleEvent e)
 	{
-		if(e.Name == "HaloDoom_GiveAll")
+		PlayerInfo src = players[e.Player];
+		if(!src || !src.mo) return;
+	
+		if(e.Name == "HaloDoom_FireGrapple")
 		{
-			PlayerInfo src = players[e.Player];
-			if(!src || !src.mo) return;
+			let hplr = HaloPlayer(src.mo);
+			if(!hplr) return;
+			let gpl = hplr.grapple;
 			
+			if(gpl)
+			{
+				gpl.Retract();
+				return;
+			}
+				
+			hplr.grapple = GrapplingHook.Deploy(hplr, 50, (0,0,hplr.height*0.5));
+		}
+	
+		if(e.Name == "HaloDoom_GiveAll")
+		{	
 			Array<class<HaloGun> > guns;
 			for(int i = 0; i < AllActorClasses.Size(); i++)
 			{

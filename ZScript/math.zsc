@@ -2,10 +2,10 @@
 class HaloMath Abstract
 {	
 	// Generate forward facing vector from angle/pitch.
-	static vector3 VecFromAngles(double angle, double pitch)
+	static vector3 VecFromAngles(double angle, double pitch, double mag = 1.)
 	{
 		double cosp = cos(pitch);
-		return (cos(angle)*cosp, sin(angle)*cosp, -sin(pitch));
+		return (cos(angle)*cosp, sin(angle)*cosp, -sin(pitch)) * mag;
 	}
 
 	// Straight interpolate
@@ -141,5 +141,23 @@ class HaloMath Abstract
 		vec *= distance;
 		
 		return vec;
+    }
+	
+	/* Summary:
+    **  Simulates a damped spring.
+    **
+    ** Arguments:
+    **  p: Current position
+    **  r: Rest position
+    **  v: Current velocity
+    **  k: Spring coefficient
+    **  d: Damping coefficient
+    **
+    ** Returns:
+    **  The new velocity.
+    */
+    static double DampedSpring (double p, double r, double v, double k, double d) 
+	{
+        return -(d * v) - (k * (p - r));
     }
 }
