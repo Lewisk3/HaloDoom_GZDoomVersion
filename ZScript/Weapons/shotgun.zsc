@@ -20,7 +20,6 @@ class HaloShotgun_Bullet : HaloBullet
 
 class Halo_Shotgun : HaloGun replaces Shotgun
 {
-	bool dryreload;
 	Default
 	{
 		Weapon.SlotNumber 1;

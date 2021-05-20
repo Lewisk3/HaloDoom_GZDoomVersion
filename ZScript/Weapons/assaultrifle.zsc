@@ -24,7 +24,6 @@ class Halo_AssaultRifle : HaloGun
 	const LCD_RLayer = 21;
 	const LCD_CLayer = 22;
 	int rolldir;
-	bool chambered;
 	vector2 lcd_offs;
 	double testang;
 	
@@ -93,13 +92,13 @@ class Halo_AssaultRifle : HaloGun
 			TNT1 A 0 
 			{
 				A_WeapSound("Halo/Weapons/Rifle/Select");
-				return A_JumpIf(!invoker.chambered, "Ready.Chamber");
+				return A_JumpIf(A_DoFullSelectAnimation(), "Ready.Chamber");
 			}
 			HARR ABCDEFG 1 A_DoSelectAnim();
 		goto Ready.Active;
 		Ready.Chamber:
 			HARD ABCDEFGHIJKLMNOPQRSTUVW 1 A_DoSelectAnim();
-			TNT1 A 0 { invoker.chambered = true; } 
+			TNT1 A 0 A_ToggleSelectAnim();
 		Ready.Active:
 			HARI A 1 
 			{

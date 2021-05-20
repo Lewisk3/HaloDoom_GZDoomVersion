@@ -17,6 +17,7 @@ class HaloGun : RecoilWeapon
 	double bloomamt, bloomspd, accmod;
 	double rotation_range;
 	double rotation_sens;
+	bool dofirstdrawanim; 
 	
 	// UI Stuff
 	const SIGHT_OVERLAY = 0xFF;
@@ -199,6 +200,18 @@ class HaloGun : RecoilWeapon
 			if(gun && gun != self) break;
 		}
 		return gun;
+	}
+	
+	action bool A_DoFullSelectAnimation()
+	{
+		CVar fullsel = CVar.GetCVar("halodoom_dofullselectanim", player);
+		bool result = (fullsel && fullsel.GetBool()) || invoker.dofirstdrawanim;
+		return result;
+	}
+	
+	action void A_ToggleSelectAnim()
+	{
+		invoker.dofirstdrawanim = !invoker.dofirstdrawanim;
 	}
 	
 	override void DoEffect()
