@@ -48,7 +48,7 @@ class Halo_BattleRifle : HaloGun
 		A_Light(2);
 		A_WeapSound("Halo/Weapons/BattleRifle/Fire", CHANF_OVERLAP, true);
 		A_WeapSound("Halo/Weapons/BattleRifle/Fire/Bass", CHANF_OVERLAP, true);
-		A_ShootProjectile("HaloBattleRifle_Bullet", 1.67, -1.35, 16.0, 6);	
+		A_ShootProjectile("HaloBattleRifle_Bullet", 1.67, -1.35, 8.0, 6);	
 		A_SetSFXPos(20,-22,25);
 		A_SpawnSFX("BulletCasing", -90,-20);
 		A_SetSFXPos(25,-10,28);

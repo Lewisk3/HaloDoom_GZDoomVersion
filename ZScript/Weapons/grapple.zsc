@@ -152,6 +152,18 @@ class GrapplingHook : Actor
 				// dir.z *= 1.50;
 				source.vel += dir * addspd;
 				
+				// Process jump to detach
+				if(source.player)
+				{
+					UserCmd cmds = source.player.cmd;
+					if(cmds.buttons & BT_JUMP) 
+					{
+						source.vel.z += source.player.mo.jumpz * 0.5;
+						source.vel += (dir * addspd * 1.5);
+						return ResolveState("Retract");
+					}
+				}
+				
 				// Remove grapple if source is close enough.
 				double dist = (origin-pos).Length();
 				if( dist <= mindist ) return ResolveState("Retract");

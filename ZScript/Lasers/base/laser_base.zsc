@@ -171,7 +171,9 @@ class Laser : Actor
 			Destroy();
 			return;
 		}
-				
+		
+		AdjustLaser();
+		
 		// Carefully follow emitter.
 		vector2 paim = (0,0);
 		if(predictaim) paim = emitter.viewvel;

@@ -281,12 +281,12 @@ class RecoilWeapon : Weapon
 		if(zoom_intensity == 0)
 		{
 			zoomfactor = 1.0;
-			O_ZoomFactor(zoomfactor + basezoom);
+			O_ZoomFactor(zoomfactor + basezoom, ZOOM_INSTANT);
 		}
 		else
 		{
 			zoomfactor = FrameInterpolate(zoomfactor, defzoom + zoom_offs, zoomtimer / zoom_intensity);
-			if(zoomfactor > 0)O_ZoomFactor(zoomfactor + basezoom);
+			if(zoomfactor > 0)O_ZoomFactor(zoomfactor + basezoom, ZOOM_INSTANT);
 		}
 		
 		if(recoil_timer > 0) recoil_timer--;

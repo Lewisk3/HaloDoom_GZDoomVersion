@@ -530,7 +530,7 @@ class HaloGun : RecoilWeapon
 		
 		Scope.ON:
 			TNT1 A 1 A_ScopeON();
-			TNT1 A 5 A_SetZoom(invoker.scopezoom, 2, true);
+			TNT1 A 5 A_SetZoom(invoker.scopezoom, 3, true);
 			TNT1 A 0 
 			{
 				bool holding = A_ButtonStatus(BT_ALTATTACK, BTS_HELD) && !A_ButtonStatus(BT_ALTATTACK, BTS_PRESSED);
@@ -539,7 +539,7 @@ class HaloGun : RecoilWeapon
 		goto Scope.Ready;
 		Scope.OFF:
 			TNT1 A 1 A_ScopeOFF();
-			TNT1 A 5 A_SetZoom(0, 2, true);
+			TNT1 A 5 A_SetZoom(0, 3, true);
 		goto Scope.Ready;
 	}
 }
