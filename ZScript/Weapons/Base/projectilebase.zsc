@@ -60,9 +60,10 @@ class HaloProjectile : FastProjectile
 		if(victim == target || !victim.bSHOOTABLE) return 1;
 		hitactor = victim;
 		AdjustRangeDamage();
+		double scaled_damage = truedamage * GAMEPLAY_DAMAGEMOD;
 		
 		HaloPlayer plr = HaloPlayer(target);
-		bool killed = victim.health-truedamage <= 0;
+		bool killed = victim.health-scaled_damage <= 0;
 		
 		//console.printf("Damage output: %f, Dist: %f", truedamage, getTravelDistance());
 		Sound hitsnd = "Hit/Normal";
@@ -86,7 +87,7 @@ class HaloProjectile : FastProjectile
 			Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Killed:1");
 		}
 		
-		victim.DamageMobJ(self,target,truedamage * GAMEPLAY_DAMAGEMOD,DamageType,0,angle);
+		victim.DamageMobJ(self,target,scaled_damage,DamageType,0,angle);
 		class<Actor> blud = victim.GetBloodType(0);
 		if(blud && bBLOODSPLATTER && victim.bISMONSTER) victim.Spawn(blud,pos);
 
@@ -116,7 +117,9 @@ class HaloProjectile : FastProjectile
 		// Negate damage at max range.
 		if(dist >= range_max)
 		{
-			truedamage = 0;
+			// Destroy bullet so feedback is better,
+			// we wont get hit markers at above max range.
+			Destroy(); 
 			return;
 		}
 		
@@ -132,7 +135,7 @@ class HaloProjectile : FastProjectile
 	virtual void Init()
 	{
 		spawnpos = pos;
-		A_SetSpeed(((meterspeed*0.5) / 35.)*UNIT_METER);
+		A_SetSpeed((meterspeed / 35.)*UNIT_METER);
 		
 		// Re-calculate velocity with new speed.
 		double cosp = cos(pitch);

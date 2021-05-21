@@ -45,4 +45,4 @@ version 4.0
 #include "ZScript/Lasers/halo_lasers.zsc"
 
 // [>> Gameplay Constants <<]
-const UNIT_METER = 16.f;
+const UNIT_METER = 8.f;

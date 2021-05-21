@@ -24,6 +24,10 @@ class HaloStatusBar : BaseStatusBar
 	Font fnt;
 	Font fntHaloAmmo;
 	
+	// Opt Features
+	bool draw_distance;
+	
+	
 	// Basic Functions
 	mixin BasicHUDFeatures;
 
@@ -142,6 +146,12 @@ class HaloStatusBar : BaseStatusBar
 		double ispd = 0.12;
 		if(bloom > curbloom) ispd = 0.5; 
 		curbloom = HaloMath.Lerp(curbloom, bloom, ispd*deltatime);
+		
+		if(draw_distance)
+		{
+			string dist = String.Format("%.0f", haloplr.aimdist);
+			HLSBS.DrawString("BigFont", dist, midpos+(0,32), HLSBS.SS_SCREEN_CENTER); 
+		}
 	}
 
 	void DrawSight()
