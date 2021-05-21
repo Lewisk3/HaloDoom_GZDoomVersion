@@ -75,11 +75,7 @@ class Halo_Magnum : HaloGun
 				A_WeapSound("Halo/Weapons/Mag_MD6/Select");
 				return A_JumpIf(!A_DoFullSelectAnimation(), "Ready.Chambered");
 			}
-			MAGS ABCDEFGHIJKLMNOPQRSTUV 1 
-			{
-				A_DoSelectAnim(-5);
-				A_ToggleSelectAnim();
-			}
+			MAGS ABCDEFGHIJKLMNOPQRSTUV 1 A_DoSelectAnim(-5, true);
 		goto Ready.Active;
 		Ready.Chambered:
 			MAGD ABCE 1 A_DoSelectAnim(-5);

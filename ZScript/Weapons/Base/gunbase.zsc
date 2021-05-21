@@ -17,7 +17,7 @@ class HaloGun : RecoilWeapon
 	double bloomamt, bloomspd, accmod;
 	double rotation_range;
 	double rotation_sens;
-	bool dofirstdrawanim; 
+	bool donefirstdrawanim; 
 	
 	// UI Stuff
 	const SIGHT_OVERLAY = 0xFF;
@@ -69,9 +69,10 @@ class HaloGun : RecoilWeapon
 	}
 	
 	// For some reason weapons start with an odd offset.
-	action void A_DoSelectAnim(double yoffs = 0.)
+	action void A_DoSelectAnim(double yoffs = 0., bool first_time_draw = false)
 	{
 		 A_WeaponOffset(0, 45 + yoffs);
+		 if(first_time_draw) invoker.donefirstdrawanim = true;
 	}
 
 	action void A_UpdateSpread()
@@ -205,13 +206,8 @@ class HaloGun : RecoilWeapon
 	action bool A_DoFullSelectAnimation()
 	{
 		CVar fullsel = CVar.GetCVar("halodoom_dofullselectanim", player);
-		bool result = (fullsel && fullsel.GetBool()) || invoker.dofirstdrawanim;
+		bool result = (fullsel && fullsel.GetBool()) || !invoker.donefirstdrawanim;
 		return result;
-	}
-	
-	action void A_ToggleSelectAnim()
-	{
-		invoker.dofirstdrawanim = !invoker.dofirstdrawanim;
 	}
 	
 	override void DoEffect()

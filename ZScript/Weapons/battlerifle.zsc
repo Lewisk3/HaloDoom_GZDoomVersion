@@ -79,8 +79,7 @@ class Halo_BattleRifle : HaloGun
 			BARD IHGFDCBA 1 A_DoSelectAnim();
 		goto Ready.Active;
 		Ready.Chamber:
-			BARS ABCDEFGHIJKLMNOPQRSTUVWXYZ[] 1 A_DoSelectAnim();
-			TNT1 A 0 A_ToggleSelectAnim();
+			BARS ABCDEFGHIJKLMNOPQRSTUVWXYZ[] 1 A_DoSelectAnim(0, true);
 		Ready.Active:
 			BARI A 1 A_HaloWeaponReady(WRF_ALLOWRELOAD, true);
 		loop;
@@ -164,7 +163,7 @@ class Halo_BattleRifle : HaloGun
 			BRFI K 2;
 		goto Ready.Active;
 		
-		Reload:
+		Reload: // 44
 			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
 			TNT1 A 0 A_ScopeDisable();
 			TNT1 A 0 A_ReloadSound();
@@ -177,11 +176,11 @@ class Halo_BattleRifle : HaloGun
 			BRR1 YZ 1;
 			BRR2 ABCDEFGHHHH 1;
 			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Reload.Rechamber");
-		Reload.Finish:
+		Reload.Finish: // 7
 			TNT1 A 0 A_ReloadClip();
 			BRR3 ABCDEFG 1;
 		goto Ready.Active;
-		Reload.Rechamber:
+		Reload.Rechamber: // 25
 			TNT1 A 0 A_ReloadClip();
 			BRR4 ABCDEF 1;
 			BRR4 G 1 A_SetRecoil(0.4, 0, 3);
