@@ -18,7 +18,7 @@ class HaloBattleRifle_Bullet : HaloBullet
 	}
 }
 
-class Halo_BattleRifle : HaloGun
+class Halo_BattleRifle : HaloGun replaces PlasmaRifle
 {	
 	Default
 	{
@@ -35,7 +35,7 @@ class Halo_BattleRifle : HaloGun
 				
 		// Recoil
 		HaloGun.Bloom 0.6;
-		HaloGun.BloomSpeed 0.44;
+		HaloGun.BloomSpeed 0.30;
 		HaloGun.BaseRecoil BARIFLE_RECOIL;
 		HaloGun.Inaccuracy BARIFLE_ACCMOD;
 		HaloGun.Crosshair "BarRet";

@@ -31,7 +31,7 @@ class HaloPlayer : DoomPlayer
 		Player.ViewHeight 41;
 		Speed 1;
 		Health 45; // 45
-		Player.StartItem "Halo_BattleRifle", 1;
+		Player.StartItem "Halo_AssaultRifle", 1;
 		Player.StartItem "Halo_Magnum", 1;
 		//Player.StartItem "Halo_Shotgun", 1;
 		Player.StartItem "Halo_Clip", 320;
@@ -119,10 +119,11 @@ class HaloPlayer : DoomPlayer
 	
 	override int DamageMobJ(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle)
 	{
+		double truedamage = damage / GAMEPLAY_DAMAGEMOD;
 		if(shields > 0)
 		{
 			regen_timer = 0;
-			shields -= damage;
+			shields -= truedamage;
 			A_StopSound(CHAN_5);
 			A_StartSound("Shield/TakeDamage",flags:CHANF_NOSTOP);
 			if(shields <= 0) 
@@ -130,11 +131,11 @@ class HaloPlayer : DoomPlayer
 				A_StartSound("Shield/Explode",flags:CHANF_NOSTOP);
 				double truedmg = abs(shields);
 				shields = 0;
-				return super.DamageMobJ(inflictor, source, truedmg, mod, flags, angle);
+				return super.DamageMobJ(inflictor, source, ceil(truedmg), mod, flags, angle);
 			}
 			return 0;
 		}
-		return super.DamageMobJ(inflictor, source, damage, mod, flags, angle);
+		return super.DamageMobJ(inflictor, source, ceil(truedamage), mod, flags, angle);
 	}
 	
 	clearscope bool CheckCrosshairLowered()

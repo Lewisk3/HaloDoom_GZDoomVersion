@@ -133,7 +133,7 @@ class HaloStatusBar : BaseStatusBar
 		
 		bool lowerxhair = haloplr.CheckCrosshairLowered();
 		string crosshair = weap.wcrosshair;
-		double bloom = weap.spreadmod;
+		double bloom = clamp(weap.spreadmod, 0, 1.25);
 		vector2 retsize = (0.65,0.65);
 		vector2 midpos = (0,0);
 		if(lowerxhair) midpos.y = haloplr.xhair_lowpos;

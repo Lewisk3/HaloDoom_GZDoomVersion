@@ -83,7 +83,8 @@ class HaloGun : RecoilWeapon
 	action double A_RecoilSpread()
 	{
 		double scopemod = (invoker.scoperecoil == 0) ? 1.0 : invoker.scoperecoil;
-		return frandom[GunRecoil](-invoker.baserecoil, invoker.baserecoil)*(1.0+(invoker.spreadmod*invoker.accmod)) * scopemod;
+		double finalspread = frandom[GunRecoil](-invoker.baserecoil, invoker.baserecoil)*(1.0+(invoker.spreadmod*invoker.accmod)) * scopemod;
+		return finalspread;
 	}
 	
 	action double A_GetWeapYOffs()
@@ -311,7 +312,6 @@ class HaloGun : RecoilWeapon
 		
 		spreadmod -= bloomamt*bloomspd;
 		spreadmod = clamp(spreadmod, 0, 2);
-		
 	}
 	
 	// This override will ensure that the weapon is given its clip ammo upon 

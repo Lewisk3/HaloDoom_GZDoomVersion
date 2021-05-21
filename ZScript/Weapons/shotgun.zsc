@@ -18,7 +18,7 @@ class HaloShotgun_Bullet : HaloBullet
 	}
 }
 
-class Halo_Shotgun : HaloGun replaces Shotgun
+class Halo_Shotgun : HaloGun replaces Chainsaw
 {
 	Default
 	{
@@ -35,7 +35,7 @@ class Halo_Shotgun : HaloGun replaces Shotgun
 		Weapon.AmmoType2 "Halo_Shotgun_Shells";
 				
 		// Recoil
-		HaloGun.Bloom 0.8;
+		HaloGun.Bloom 1.10;
 		HaloGun.BloomSpeed 0.08;
 		HaloGun.BaseRecoil SHOTGUN_RECOIL;
 		HaloGun.Inaccuracy SHOTGUN_ACCMOD;
@@ -88,7 +88,7 @@ class Halo_Shotgun : HaloGun replaces Shotgun
 			{
 				A_SetRecoil(8.78, 0, 1);
 				A_FireShotgun();
-				A_RQuakeEx(3,1,2,6,0,20,"",QF_RELATIVE|QF_WAVE);
+				A_RQuakeEx(3,3,3,4,0,20,"",QF_RELATIVE);
 				A_RecoilOffset(15, 15, 4);
 			}
 			HSGF B 1 Bright;

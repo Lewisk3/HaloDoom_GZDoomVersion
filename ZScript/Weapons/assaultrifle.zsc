@@ -18,7 +18,7 @@ class HaloRifle_Bullet : HaloBullet
 	}
 }
 
-class Halo_AssaultRifle : HaloGun
+class Halo_AssaultRifle : HaloGun replaces Chaingun
 {
 	const LCD_LLayer = 20;
 	const LCD_RLayer = 21;
@@ -42,8 +42,8 @@ class Halo_AssaultRifle : HaloGun
 		Weapon.AmmoGive 16;
 				
 		// Recoil
-		HaloGun.Bloom 0.6;
-		HaloGun.BloomSpeed 0.44;
+		HaloGun.Bloom 0.32;
+		HaloGun.BloomSpeed 0.24;
 		HaloGun.BaseRecoil ARIFLE_RECOIL;
 		HaloGun.Inaccuracy ARIFLE_ACCMOD;
 		HaloGun.Crosshair "RifleRet";

@@ -86,7 +86,7 @@ class HaloProjectile : FastProjectile
 			Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Killed:1");
 		}
 		
-		victim.DamageMobJ(self,target,truedamage,DamageType,0,angle);
+		victim.DamageMobJ(self,target,truedamage * GAMEPLAY_DAMAGEMOD,DamageType,0,angle);
 		class<Actor> blud = victim.GetBloodType(0);
 		if(blud && bBLOODSPLATTER && victim.bISMONSTER) victim.Spawn(blud,pos);
 

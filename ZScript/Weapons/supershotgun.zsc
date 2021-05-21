@@ -31,7 +31,7 @@ class HaloDBLShotgun_Bullet : HaloBullet
 	}
 }
 
-class Halo_DBLShotgun : HaloGun replaces SuperShotgun
+class Halo_DBLShotgun : HaloGun replaces RocketLauncher
 {
 	Default
 	{
@@ -48,7 +48,7 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 		Weapon.AmmoType2 "Halo_DBLShotgun_Shells";
 				
 		// Recoil
-		HaloGun.Bloom 0.8;
+		HaloGun.Bloom 1.25;
 		HaloGun.BloomSpeed 0.08;
 		HaloGun.BaseRecoil DBLSHOTGUN_RECOIL;
 		HaloGun.Inaccuracy DBLSHOTGUN_ACCMOD;
