@@ -4,6 +4,7 @@ user bool halodoom_fx_smoke = true;
 user bool halodoom_fx_casings = true;
 user bool halodoom_fx_hitmarkers = true;
 user bool halodoom_loweredcrosshair = false;
+user bool halodoom_dofullselectanim = false;
 user float halodoom_recoil_intensity = 1.0;
 server bool halodoom_allowbhop = true;
 server bool halodoom_holdjump = true;
