@@ -32,7 +32,7 @@ class HaloPlayer : DoomPlayer
 		Player.ViewHeight 41;
 		Speed 1;
 		Health 45; // 45
-		Player.StartItem "Halo_AssaultRifle", 1;
+		Player.StartItem "Halo_DBLShotgun", 1;
 		Player.StartItem "Halo_Magnum", 1;
 		//Player.StartItem "Halo_Shotgun", 1;
 		Player.StartItem "Halo_Clip", 320;
