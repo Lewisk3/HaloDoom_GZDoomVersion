@@ -54,6 +54,8 @@ class Halo_DBLShotgun : HaloGun replaces RocketLauncher
 		HaloGun.Inaccuracy DBLSHOTGUN_ACCMOD;
 		HaloGun.Crosshair "DBLSRet1";
 		HaloGun.UIGraphic "WI_DBL";
+		
+		RecoilWeapon.YOffsetRange -10, 40;
 	}
 	
 	action void A_FireDouble()
@@ -66,9 +68,9 @@ class Halo_DBLShotgun : HaloGun replaces RocketLauncher
 			A_ShootProjectile("HaloDBLShotgun_Bullet", 1, -1.35, 4.0, 8);
 			if(!(i%2))
 			{
-				A_SetSFXPos(25,-5,35);
+				A_SetSFXPos(25,-8,35);
 				A_SpawnSFX("MuzzleSmoke", 0,0);
-				A_SetSFXPos(25,-15,35);
+				A_SetSFXPos(25,-13,35);
 				A_SpawnSFX("MuzzleSmoke", 0,0);
 			}
 		}
@@ -132,8 +134,8 @@ class Halo_DBLShotgun : HaloGun replaces RocketLauncher
 		
 		Reload:
 			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
-			DBR1 A 1 A_StartSound("Halo/Weapons/SuperShotgun/Reload",CHAN_WEAPON,CHANF_OVERLAP);
-			DBR1 BCDEFGHIJKLMNOPQR 1;
+			TNT1 A 0 A_StartSound("Halo/Weapons/SuperShotgun/Reload",CHAN_WEAPON,CHANF_OVERLAP);
+			DBR1 AAAAABCDEFGHIJKLLLLMNOPQR 1;
 			DBR1 S 1
 			{	
 				A_SetRecoil(-2.0, 0, 3);

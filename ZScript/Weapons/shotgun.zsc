@@ -18,7 +18,7 @@ class HaloShotgun_Bullet : HaloBullet
 	}
 }
 
-class Halo_Shotgun : HaloGun replaces Chainsaw
+class Halo_Shotgun : HaloGun replaces SuperShotgun
 {
 	Default
 	{
