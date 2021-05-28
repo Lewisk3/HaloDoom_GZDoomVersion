@@ -7,7 +7,7 @@ extend class HaloPlayer
 	
 	const AIRMAX     = 10;
 	const AIRACCEL   = 80;
-	const AIRCONTROL = 0.20;
+	const AIRCONTROL = 1.0; // 0.20
 	
 	// Input device(s)
 	bool using_controller;
@@ -29,14 +29,16 @@ extend class HaloPlayer
 	{
 		double curspd = wishdir dot vel;
 		double addspd = clamp(AIRMAX - curspd, 0, (AIRACCEL*spd) / TICRATE);
-		
-		vector2 forward = (
-			cos(angle),
-			sin(angle)
-		) * addspd;
-		
+				
 		vel += (addspd*AIRCONTROL) * wishdir;
-		vel += forward * 0.1;
+		if(AIRCONTROL < 1.) 
+		{
+			vector2 forward = (
+				cos(angle),
+				sin(angle)
+			) * addspd;
+			vel += forward * 0.1;
+		}
 	}
 	
 	override void MovePlayer ()

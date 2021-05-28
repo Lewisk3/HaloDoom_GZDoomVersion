@@ -130,7 +130,7 @@ class HLSBS Abstract ui
 		return _ProcessCoords(pos, flags);
 	}
 	
-	static void DrawTexture(TextureID texture, Vector2 pos, int flags = 0, double Alpha = 1., Vector2 scale = (1, 1), Color tint=Color(0,0,0,0), vector2 texoffs = (1,1), bool absolute=false)
+	static void DrawTexture(TextureID texture, Vector2 pos, int flags = 0, double Alpha = 1., Vector2 scale = (1, 1), double rotation = 0, Color tint=Color(0,0,0,0), vector2 texoffs = (1,1), bool absolute=false)
 	{
 		vector2 texsize;
 		[texsize.x, texsize.y] = TexMan.GetSize(texture);
@@ -147,7 +147,8 @@ class HLSBS Abstract ui
 				DTA_DestWidth, int(abs(texsize.x*scale.x)),
 				DTA_DestHeight, int(abs(texsize.y*scale.y)),
 				DTA_FlipX, !!(scale.x < 0),
-				DTA_ColorOverlay, tint
+				DTA_ColorOverlay, tint,
+				DTA_Rotate, rotation
 			);
 		}
 		else
@@ -164,15 +165,16 @@ class HLSBS Abstract ui
 				DTA_DestWidth, int(abs(texsize.x*scale.x*scaleratio.x)),
 				DTA_DestHeight, int(abs(texsize.y*scale.y*scaleratio.y)),
 				DTA_FlipX, !!(scale.x < 0),
-				DTA_ColorOverlay, tint
+				DTA_ColorOverlay, tint,
+				DTA_Rotate, rotation
 			);
 		}
 	}
 
-	static void DrawImage(String graphic, Vector2 pos, int flags = 0, double Alpha = 1., Vector2 scale = (1, 1), Color tint=Color(0,0,0,0), vector2 texoffs = (1,1), bool absolute=false)
+	static void DrawImage(String graphic, Vector2 pos, int flags = 0, double Alpha = 1., Vector2 scale = (1, 1), double rotation = 0, Color tint=Color(0,0,0,0), vector2 texoffs = (1,1), bool absolute=false)
 	{
 		TextureID texture = TexMan.CheckForTexture(graphic, TexMan.Type_Any);
-		DrawTexture(texture, pos, flags, alpha, scale, tint, texoffs, absolute);
+		DrawTexture(texture, pos, flags, alpha, scale, rotation, tint, texoffs, absolute);
 	}
 	
 	// Shape2D Stuff
@@ -250,11 +252,11 @@ class HLSBS Abstract ui
 	// ---- //
 	
 	static void DrawMugshot( int accuracy, vector2 pos, int drawflags = 0, int mugshotflags = 0, 
-							 float alpha = 1.0, vector2 scale=(5.0,5.0), string default_face="STF",
+							 float alpha = 1.0, vector2 scale=(5.0,5.0), double rotation = 0, string default_face="STF",
 							 Color tint=Color(0,0,0,0), bool absolute=false)
 	{
 		TextureID mugtex = statusbar.GetMugshot(accuracy, mugshotflags, default_face);
-		DrawTexture(mugtex, pos, drawflags, alpha, scale, tint, (1,1), absolute);
+		DrawTexture(mugtex, pos, drawflags, alpha, scale, rotation, tint, (1,1), absolute);
 	}
 	
 	static vector2 GetImageSize(String graphic)
@@ -344,17 +346,17 @@ class HLSBS Abstract ui
 			for(int i = 0; i < 4; i++) Clip[i] += border;
 
 			//Draw the whole foreground
-			DrawTexture(ontex, position, 0, OnAlpha, scale, tint, (0,0) );
+			DrawTexture(ontex, position, 0, OnAlpha, scale, 0, tint, (0,0) );
 			SetClipRect(position.X + Clip[0], position.Y + Clip[1], on_texsize.X - Clip[0] - Clip[2], on_texsize.Y - Clip[1] - Clip[3]);
 		}
 		
-		if (offtex.IsValid() && off_texsize == on_texsize) DrawTexture(offtex, position, 0, OffAlpha, scale, tint, (0,0) );
+		if (offtex.IsValid() && off_texsize == on_texsize) DrawTexture(offtex, position, 0, OffAlpha, scale, 0, tint, (0,0) );
 		else Fill(color(255,0,0,0), position.X + Clip[0], position.Y + Clip[1], on_texsize.X - Clip[0] - Clip[2], on_texsize.Y - Clip[1] - Clip[3]);
 		
 		if (border == 0) 
 		{
 			SetClipRect(position.X + Clip[0], position.Y + Clip[1], on_texsize.X - Clip[0] - Clip[2], on_texsize.Y - Clip[1] - Clip[3]);
-			DrawTexture(ontex, position, 0, OnAlpha, scale, tint, (0,0) );
+			DrawTexture(ontex, position, 0, OnAlpha, scale, 0, tint, (0,0) );
 		}
 		// restore the previous clipping rectangle
 		screen.SetClipRect(cx, cy, cw, ch);
