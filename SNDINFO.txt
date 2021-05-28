@@ -56,21 +56,21 @@ BARFIRE4 BARFIRE4
 BARMECH1 BARMEC1
 BARMECH2 BARMEC2
 BARMECH3 BARMEC3
-BARBASS1 BARLOW1 
-BARBASS2 BARLOW2
-BARBASS3 BARLOW3
-BARBASS4 BARLOW4 
+BARLOW1 BARLOW1 
+BARLOW2 BARLOW2
+BARLOW3 BARLOW3
+
 Halo/Weapons/BattleRifle/Reload/Full BARRELF
 Halo/Weapons/BattleRifle/Reload/Empty BARREL
 Halo/Weapons/BattleRifle/Select BARDRAW
 
 $random Halo/Weapons/BattleRifle/Fire { BARFIRE1 BARFIRE2 BARFIRE3 BARFIRE4 }
 $random Halo/Weapons/BattleRifle/Mech { BARMECH1 BARMECH2 BARMECH3 BARMECH4 }
-$random Halo/Weapons/BattleRifle/Fire/Bass { BARBASS1 BARBASS2 BARBASS3 BARBASS4 }
+$random Halo/Weapons/BattleRifle/Fire/Bass { BARLOW1 BARLOW2 BARLOW3 }
 
-$volume Halo/Weapons/BattleRifle/Fire 0.6;
-$volume Halo/Weapons/BattleRifle/Fire/Bass 0.8;
-$volume Halo/Weapons/BattleRifle/Mech 0.7;
+$volume Halo/Weapons/BattleRifle/Fire 0.4;
+$volume Halo/Weapons/BattleRifle/Fire/Bass 1.0;
+$volume Halo/Weapons/BattleRifle/Mech 0.4;
 
 // SuperShotgun
 DBFIRE1 DBFIRE1
@@ -89,6 +89,7 @@ $random Halo/Weapons/SuperShotgun/Fire/Single { DBSFIRE1 DBSFIRE2 DBSFIRE3 DBSFI
 $random Halo/Weapons/SuperShotgun/Fire/Bass  { DBBASS1 DBBASS2 DBBASS3 }
 Halo/Weapons/SuperShotgun/Reload DBRELOAD
 Halo/Weapons/SuperShotgun/Select DBDRAW
+$volume Halo/Weapons/SuperShotgun/Fire 0.5;
 
 // Shotgun
 SGFIRE1 SGFIRE1
