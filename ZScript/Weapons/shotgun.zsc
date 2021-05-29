@@ -48,7 +48,7 @@ class Halo_Shotgun : HaloGun replaces Shotgun
 		A_Light(2);
 		A_WeapSound("Halo/Weapons/Shotgun/Fire", CHANF_OVERLAP, true);
 		A_WeapSound("Halo/Weapons/Shotgun/Fire/Bass", CHANF_OVERLAP, true);
-		A_SetSFXPos(25,-12,32);
+		A_SetSFXPos(25,-10,-10);
 		for(int i = 0; i < 15; i++)
 		{
 			A_ShootProjectile("HaloShotgun_Bullet", 1, -1.35, 4.25, 8);		
@@ -118,7 +118,7 @@ class Halo_Shotgun : HaloGun replaces Shotgun
 			{
 				A_RecoilOffset(0,0,14);
 				A_SetRecoil(0.25, 0.09, 4);
-				A_SetSFXPos(25,-25,30);
+				A_SetSFXPos(25,-25,-15);
 				A_SpawnSFX("ShellCasing", -90,20);
 			}
 			HSGP IHGFEDCBA 1;

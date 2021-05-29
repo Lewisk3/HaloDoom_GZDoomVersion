@@ -19,7 +19,7 @@ class HaloDoom_Events : EventHandler
 				return;
 			}
 				
-			hplr.grapple = GrapplingHook.Deploy(hplr, 50, (0,0,hplr.height*0.5));
+			hplr.grapple = GrapplingHook.Deploy(hplr, 50, (0,0,-5));
 		}
 	
 		if(e.Name == "HaloDoom_GiveAll")

@@ -176,6 +176,7 @@ class HaloStatusBar : BaseStatusBar
 			let tex = TexMan.CheckForTexture(sight);
 			let texsize = TexMan.GetScaledSize(tex);
 			texsize *= scale;
+			texsize.x *= HLSBS.GetAspectScale();
 			vector2 texmid = texsize / 2.;
 			
 			// -- :Begin quad fill: -- \\

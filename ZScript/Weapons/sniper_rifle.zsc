@@ -54,7 +54,7 @@ class Halo_SniperRifle : HaloGun replaces RocketLauncher
 		A_WeapSound("Halo/Weapons/Sniper/Fire/Bass", CHANF_OVERLAP, true);
 		A_ShootProjectile("HaloSniper_Bullet", 1, -1.35, 4.0, 8, trail:true);
 		
-		A_SetSFXPos(25,-5,35);
+		A_SetSFXPos(25,-5,-7);
 		for(int i = 0; i < 15; i++)
 			A_SpawnSFX("MuzzleSmoke", 0,0);
 			

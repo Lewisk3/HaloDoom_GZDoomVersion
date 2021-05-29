@@ -110,10 +110,10 @@ class HaloGun : RecoilWeapon
 			aproj.pitch = pitch + (A_RecoilSpread()*spreadmod)+(tpitchoffs*scopemod);
 			if(trail)
 			{
-				let plr = PlayerPawn(self);
+				let plr = HaloPlayer(self);
 				Color col_smoke = 0x969696;
-				A_CustomRailgun(
-					0, leftright, "", col_smoke, RGF_SILENT, 
+				A_RailAttack(
+					0, leftright, false, "", col_smoke, RGF_SILENT, 
 					pufftype: "", range: 1024*64, duration: 25, 
 					sparsity:0.25, driftspeed: 0, spawnofs_z: yoffs + plr.AttackZOffset*0.5
 				);
@@ -129,9 +129,9 @@ class HaloGun : RecoilWeapon
 	
 	action void A_SetSFXPos(double forward, double leftright, double updown)
 	{
-		double yoffs = A_GetWeapYOffs() * 0.5;
-		vector3 relpos = HaloMath.V3Offset(angle, pitch, forward, -leftright, updown + yoffs, 1.);
-		invoker.sfx_pos = Vec3Offset(relpos.x,relpos.y,relpos.z);
+		double yoffs = A_GetWeapYOffs() * 0.5;		
+		vector3 relpos = HaloMath.RelativeV3Offset(self, 0, 0, forward, -leftright, updown + yoffs, 1.);
+		invoker.sfx_pos = relpos;
 	}
 	
 	action Actor A_SpawnSFX(class<Actor> sfxtype, double projangle, double projpitch, double spd = -1)
@@ -226,7 +226,7 @@ class HaloGun : RecoilWeapon
 	override void DoEffect()
 	{
 		super.DoEffect();
-		
+
 		if(!cvfx_smoke)
 			cvfx_smoke = CVar.GetCVar("halodoom_fx_smoke", Owner.player);
 		if(!cvfx_casings) 

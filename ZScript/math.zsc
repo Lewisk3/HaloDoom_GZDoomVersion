@@ -127,6 +127,7 @@ class HaloMath Abstract
 				 yoffs * cos(angle) + xoffs * sin(angle) )*dist;
 	}
 	
+	
 	// 3D Vector offset, thanks Comet!
 	static vector3 V3Offset(double fromangle, double frompitch, double forward, double leftright, double updown, double distance)
     {
@@ -141,6 +142,18 @@ class HaloMath Abstract
 		vec *= distance;
 		
 		return vec;
+    }
+	
+	static vector3 RelativeV3Offset(Actor source, double angleoffs, double pitchoffs, double forward, double leftright, double updown, double distance)
+    {
+		double a = source.angle + angleoffs;
+		double p = source.pitch + pitchoffs;
+		vector3 vec = V3Offset(a, p, forward, leftright, updown, distance);
+		
+		vector3 frompos = (source.pos.xy, source.pos.z + source.height * 0.5);
+		if(source.player) frompos.z = source.player.viewz;
+		
+		return level.vec3offset(frompos, vec);
     }
 
 	/* Summary:

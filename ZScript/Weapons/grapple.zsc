@@ -31,16 +31,12 @@ class GrapplingHook : Actor
 	
 	vector3 GetOrigin()
 	{
-		//vector3 offpos = HaloMath.V3Offset(source.angle, source.pitch, pos_offs.x, pos_offs.y, pos_offs.z, 1.);
-		vector3 offpos = (HaloMath.VOffset(source.angle, pos_offs.x, pos_offs.y, 1.), pos_offs.z);
-		return level.vec3offset(source.pos, offpos);
+		return HaloMath.RelativeV3Offset(source, 0, 0, pos_offs.x, pos_offs.y, pos_offs.z, 1.);
 	}
 	
 	static GrapplingHook Deploy(Actor source, double speed, vector3 offsets = (0,0,0), class<GrapplingHook> type = "GrapplingHook")
 	{
-		//vector3 offpos = HaloMath.V3Offset(source.angle, source.pitch, offsets.x, offsets.y, offsets.z, 1.);
-		vector3 offpos = (HaloMath.VOffset(source.angle, offsets.x, offsets.y, 1.), offsets.z);
-		vector3 truepos = level.vec3offset(source.pos, offpos);
+		vector3 truepos = HaloMath.RelativeV3Offset(source, 0, 0, offsets.x, offsets.y, offsets.z, 1.);
 		
 		let gpl = GrapplingHook(Actor.Spawn(type, truepos));
 		if(gpl)
@@ -84,7 +80,7 @@ class GrapplingHook : Actor
 			vector3 finaloffs = pos_offs;
 			finaloffs.z *= 1.25;
 			
-			tail.SetPos(source.pos, finaloffs, angles);
+			tail.SetPos(finaloffs, angles);
 			tail.Fire("LSR_GrappleTail", maxdist: dist * 0.25);
 		}
 		

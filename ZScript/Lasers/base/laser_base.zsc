@@ -75,26 +75,17 @@ class LaserEmitter : Actor
 	
 	vector3 UpdatePos()
 	{
-		SetPos(source.pos, posoffs, viewoffs);
+		SetPos(posoffs, viewoffs);
 		return pos;
 	}
 	
-	void SetPos(Vector3 pos, vector3 pos_offset = (0,0,0), vector2 view_offset = (0,0), bool use_3d = false)
+	void SetPos(vector3 pos_offset = (0,0,0), vector2 view_offset = (0,0))
 	{
 		viewoffs = view_offset;
 		posoffs = pos_offset;
 		vector3 finalpos;
-		if(!use_3d)
-		{
-			finalpos.xy = HaloMath.VOffset(source.angle+viewoffs.x, pos_offset.x, pos_offset.y, 1.);
-			finalpos.z  = pos_offset.z;
-		}
-		else
-		{
-			finalpos = HaloMath.V3Offset(source.angle+viewoffs.x, source.pitch+viewoffs.y, pos_offset.x, pos_offset.y, pos_offset.z, 1.);
-		}
-		
-		SetOrigin(level.Vec3Offset(pos,finalpos), false);
+		finalpos = HaloMath.RelativeV3Offset(source, viewoffs.x, viewoffs.y, pos_offset.x, pos_offset.y, pos_offset.z, 1.);
+		SetOrigin(finalpos, false);
 	}
 	
 	static LaserEmitter Attach(Actor to)
@@ -103,7 +94,7 @@ class LaserEmitter : Actor
 		if(lasersource) 
 		{
 			lasersource.source = to;
-			lasersource.SetPos(to.pos);
+			lasersource.UpdatePos();
 		}
 		return lasersource;
 	}
