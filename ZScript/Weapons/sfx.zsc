@@ -1,3 +1,30 @@
+class CheapActor : Actor
+{
+	Default
+	{
+		Radius 1;
+		+NOINTERACTION;
+	}
+	
+	override void Tick()
+	{			
+		if (alpha < 0)
+		{
+			destroy();
+			return;
+		}
+		if (isFrozen()) return;
+			
+		//animation:
+		if (tics != -1) 
+		{
+			if(tics > 0) tics--;
+			while (!tics) 
+				if(!SetState(CurState.NextState)) return;
+		}
+	}
+}
+
 class BulletCasing : Actor
 {
 	int animspd;

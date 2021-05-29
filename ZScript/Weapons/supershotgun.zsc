@@ -31,7 +31,7 @@ class HaloDBLShotgun_Bullet : HaloBullet
 	}
 }
 
-class Halo_DBLShotgun : HaloGun replaces RocketLauncher
+class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 {
 	Default
 	{

@@ -113,6 +113,25 @@ $random Halo/Weapons/Shotgun/Fire/Bass { SGBASS1 SGBASS2 SGBASS3 }
 $random Halo/Weapons/Shotgun/Reload { SGRELOAD1 SGRELOAD2 SGRELOAD3 SGRELOAD4 }
 $volume Halo/Weapons/Shotgun/Fire/Bass 0.8;
 
+// Sniper
+SNIPER_FIRE1 SNPRFIR1
+SNIPER_FIRE2 SNPRFIR2
+SNIPER_FIRE3 SNPRFIR3
+SNIPER_LOW1 SNPRLOW1
+SNIPER_LOW2 SNPRLOW2
+SNIPER_LOW3 SNPRLOW3
+SNIPER_BOLT1 SNPRBLT1;
+SNIPER_BOLT2 SNPRBLT1;
+SNIPER_BOLT3 SNPRBLT1;
+
+Halo/Weapons/Sniper/Reload SNPRREL
+$random Halo/Weapons/Sniper/Bolt { SNIPER_BOLT1 SNIPER_BOLT2 SNIPER_BOLT3 }
+Halo/Weapons/Sniper/Select SGDRAW
+
+$random Halo/Weapons/Sniper/Fire { SNIPER_FIRE1 SNIPER_FIRE2 SNIPER_FIRE3 }
+$random Halo/Weapons/Sniper/Fire/Bass { SNIPER_LOW1 SNIPER_LOW2 SNIPER_LOW3 }
+$volume Halo/Weapons/Sniper/Fire/Bass 0.8;
+
 // Misc WeapSnds
 Halo/Weapons/DryFire 					HW_DRYF
 

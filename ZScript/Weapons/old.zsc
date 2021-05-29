@@ -1,0 +1,83 @@
+FLineTraceData lt;
+let plr = PlayerPawn(self);
+double atkz = plr.AttackZOffset + plr.height * 0.5;
+LineTrace(aproj.angle, 1024*64, aproj.pitch, 0, yoffs + atkz, 0, leftright, lt);
+hitpos = lt.HitLocation;
+if(trail)
+{
+	vector3 posoffs = HaloMath.V3Test((0, leftright, 0), angle, pitch);  
+	posoffs.z = yoffs + atkz;
+	vector3 finalpos = level.vec3offset(pos, posoffs);
+	SmokeTrail.Setup(finalpos, (aproj.angle, aproj.pitch), hitpos);
+}
+			
+class SmokeTrail : CheapActor
+{
+	vector3 frompos;
+	vector3 endpos;
+	
+	Default
+	{
+		Radius 4;
+	}
+	
+	static SmokeTrail Setup(vector3 frompos, vector2 angles, vector3 endpos)
+	{
+		let trail = SmokeTrail(Spawn("SmokeTrail", frompos));
+		if(trail)
+		{
+			trail.frompos = frompos;
+			trail.endpos = endpos;
+			trail.angle = angles.x;
+			trail.pitch = angles.y+90;
+		}
+		return trail;
+	}
+	
+	override void Tick()
+	{
+		bInvisible = GetAge() < 2;
+		
+		double dist = HaloMath.Distance3D(frompos, endpos);
+		
+		vector3 dir = (
+			cos(angle) * cos(pitch-90),
+			sin(angle) * cos(pitch-90),
+			-sin(pitch+90)
+		);
+		
+		vector3 midpos = dir * (dist / 2.0);
+		SetOrigin(level.vec3offset(frompos, midpos), false);
+		
+		// Scale to correct size.
+		double scalequanta = (double(radius)*default.scale.x) * 0.5;
+		double newscale = default.scale.x * (dist / scalequanta);
+		Scale.Y = newscale;
+		super.tick();
+	}
+
+	States
+	{
+		Spawn:
+			BEAM A 8;
+		Spawn.Loop:
+			BEAM A 1 A_FadeOut(0.015);
+		wait;
+	}
+}
+
+Model SmokeTrail 
+{
+	Path "models/lasers"
+	Model 0 "beam_complex.md3"
+	Scale 1.0 1.0 1.2
+	USEACTORPITCH
+	SurfaceSkin 0 0 "BEAM.png" // Full mesh
+	AngleOffset 0
+	PitchOffset 0
+	
+   FrameIndex BEAM A 0 0
+}
+
+			
+			

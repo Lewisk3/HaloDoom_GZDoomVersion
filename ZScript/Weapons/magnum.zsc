@@ -20,7 +20,7 @@ class HaloMagnum_Bullet : HaloBullet
 	}
 }
 
-class Halo_Magnum : HaloGun replaces Shotgun
+class Halo_Magnum : HaloGun
 {
 	Default
 	{

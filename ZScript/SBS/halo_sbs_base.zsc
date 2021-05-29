@@ -66,7 +66,8 @@ class HLSBS Abstract ui
 		SS_SCREEN_BOTTOM_LEFT	= 0x10,
 		SS_SCREEN_TOP_RIGHT		= 0x20,
 		SS_SCREEN_BOTTOM_RIGHT	= 0x40,
-		SS_COORDS_TEXGRID		= 0x80
+		SS_COORDS_TEXGRID		= 0x80,
+		SS_NOASPECTCORRECTION   = 0x100
 	};
 
 	static float GetBaseHeight()
@@ -89,7 +90,7 @@ class HLSBS Abstract ui
 		int bottom = heightOfs + height;
 		return float(bottom) / Screen.getHeight();
 	}
-
+	
 	// Coord processing
 	static vector2 _ProcessCoords(vector2 pos, uint flags)
 	{
@@ -130,11 +131,27 @@ class HLSBS Abstract ui
 		return _ProcessCoords(pos, flags);
 	}
 	
+	static vector2 _ProcessScale(vector2 scale, uint flags)
+	{
+		if(!(flags & SS_NOASPECTCORRECTION)) 
+		{
+			double aspectdef = GetBaseWidth() / GetBaseHeight();
+			double aspectmod = Screen.GetAspectRatio() / aspectdef;
+			scale.x /= aspectmod;
+		}
+		return scale;
+	}
+	
+	static double GetAspectScale()
+	{
+		return 1 / (Screen.GetAspectRatio() / (GetBaseWidth() / GetBaseHeight()));
+	}
+	
 	static void DrawTexture(TextureID texture, Vector2 pos, int flags = 0, double Alpha = 1., Vector2 scale = (1, 1), double rotation = 0, Color tint=Color(0,0,0,0), vector2 texoffs = (1,1), bool absolute=false)
 	{
 		vector2 texsize;
 		[texsize.x, texsize.y] = TexMan.GetSize(texture);
-
+		scale = _ProcessScale(scale, flags);
 
 		if(!absolute)
 		{
@@ -275,6 +292,7 @@ class HLSBS Abstract ui
 		str.Split(lines, "\n");
 		
 		vector2 npos = _ProcessCoords(pos, flags);
+		scale = _ProcessScale(scale, flags);
 		npos.x *= (1./scale.x*0.5);
 		npos.y *= (1./scale.y*0.5);
 		
@@ -362,14 +380,18 @@ class HLSBS Abstract ui
 		screen.SetClipRect(cx, cy, cw, ch);
 	}
 	
-	static void SetClipRect(int x, int y, int w, int h, bool visual = false)
+	static void SetClipRect(int x, int y, int w, int h, uint flags = 0, bool visual = false)
 	{
-		float sc_xres = Screen.getWidth()/GetBaseWidth();
-		float sc_yres = Screen.getHeight()/GetBaseHeight();		
-		x *= sc_xres;
-		y *= sc_yres;
-		w *= sc_xres;
-		h *= sc_yres;
+		vector2 sc_res = (
+			Screen.getWidth() / GetBaseWidth(), 
+			Screen.getHeight()/ GetBaseHeight()
+		);
+			
+		x *= sc_res.x;
+		y *= sc_res.y;
+		w *= sc_res.x;
+		h *= sc_res.y;
+		
 		if(visual) Fill(Color(255,0,255,0), x,y,w,h );	
 		Screen.SetClipRect(x,y,w,h);
 	}

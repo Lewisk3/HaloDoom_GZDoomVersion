@@ -95,8 +95,9 @@ class HaloGun : RecoilWeapon
 		return plr ? plr.weap_yoffs : 0;
 	}
 	
-	action void A_ShootProjectile(class<Actor> proj, double angoffs, double pitchoffs, double lowerpitchoffs, double leftright, double spreadmod = 1.0)
+	action vector3 A_ShootProjectile(class<Actor> proj, double angoffs, double pitchoffs, double lowerpitchoffs, double leftright, double spreadmod = 1.0, bool trail = false)
 	{
+		vector3 hitpos = pos;
 		double yoffs = A_GetWeapYOffs() * 0.6;
 		bool lowered = yoffs > 0;
 		double tpitchoffs = lowered ? lowerpitchoffs : pitchoffs;
@@ -107,7 +108,18 @@ class HaloGun : RecoilWeapon
 		{
 			aproj.angle = angle + (A_RecoilSpread()*spreadmod)+(angoffs*scopemod);
 			aproj.pitch = pitch + (A_RecoilSpread()*spreadmod)+(tpitchoffs*scopemod);
+			if(trail)
+			{
+				let plr = PlayerPawn(self);
+				Color col_smoke = 0x969696;
+				A_CustomRailgun(
+					0, leftright, "", col_smoke, RGF_SILENT, 
+					pufftype: "", range: 1024*64, duration: 25, 
+					sparsity:0.25, driftspeed: 0, spawnofs_z: yoffs + plr.AttackZOffset*0.5
+				);
+			}
 		}
+		return hitpos;
 	}
 	
 	action void A_DebugSFX(bool onoff = true)
