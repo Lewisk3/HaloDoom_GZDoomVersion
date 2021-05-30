@@ -95,10 +95,10 @@ class HaloGun : RecoilWeapon
 		return plr ? plr.weap_yoffs : 0;
 	}
 	
-	action vector3 A_ShootProjectile(class<Actor> proj, double angoffs, double pitchoffs, double lowerpitchoffs, double leftright, double spreadmod = 1.0, bool trail = false)
+	action vector3 A_ShootProjectile(class<Actor> proj, double angoffs, double pitchoffs, double lowerpitchoffs, double leftright, double spreadmod = 1.0)
 	{
 		vector3 hitpos = pos;
-		double yoffs = A_GetWeapYOffs() * 0.6;
+		double yoffs = A_GetWeapYOffs() * 0.25;
 		bool lowered = yoffs > 0;
 		double tpitchoffs = lowered ? lowerpitchoffs : pitchoffs;
 		double scopemod = (invoker.scoperecoil == 0) ? 1.0 : invoker.scoperecoil;
@@ -108,16 +108,10 @@ class HaloGun : RecoilWeapon
 		{
 			aproj.angle = angle + (A_RecoilSpread()*spreadmod)+(angoffs*scopemod);
 			aproj.pitch = pitch + (A_RecoilSpread()*spreadmod)+(tpitchoffs*scopemod);
-			if(trail)
-			{
-				let plr = HaloPlayer(self);
-				Color col_smoke = 0x969696;
-				A_RailAttack(
-					0, leftright, false, "", col_smoke, RGF_SILENT, 
-					pufftype: "", range: 1024*64, duration: 25, 
-					sparsity:0.25, driftspeed: 0, spawnofs_z: yoffs + plr.AttackZOffset*0.5
-				);
-			}
+			
+			FLineTraceData lt;
+			aproj.LineTrace(aproj.angle, 1024*64, aproj.pitch, 0, offsetforward: 20, data:lt);
+			hitpos = lt.HitLocation;
 		}
 		return hitpos;
 	}
@@ -129,9 +123,19 @@ class HaloGun : RecoilWeapon
 	
 	action void A_SetSFXPos(double forward, double leftright, double updown)
 	{
-		double yoffs = A_GetWeapYOffs() * 0.5;		
-		vector3 relpos = HaloMath.RelativeV3Offset(self, 0, 0, forward, -leftright, updown + yoffs, 1.);
+		double yoffs = A_GetWeapYOffs() * 0.15;		
+		vector3 relpos = HaloMath.RelativeV3Offset(self, 0, 0, forward, -leftright, updown - yoffs, 1.);
 		invoker.sfx_pos = relpos;
+	}
+	
+	action void A_TrailSFX(vector3 hitpos, double startalpha = 1.0, Color col = 0x969696)
+	{		
+		double yoffs = A_GetWeapYOffs() * 0.25;
+		vector3 frompos = (
+			invoker.sfx_pos.xy,
+			invoker.sfx_pos.z - yoffs
+		);
+		SmokeTrail.Start(col, frompos, hitpos, (angle, pitch), startalpha);
 	}
 	
 	action Actor A_SpawnSFX(class<Actor> sfxtype, double projangle, double projpitch, double spd = -1)

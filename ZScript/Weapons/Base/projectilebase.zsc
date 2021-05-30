@@ -7,11 +7,13 @@ class HaloProjectile : FastProjectile
 	double falloff_minimum;
 	vector3 spawnpos;
 	Actor hitactor;
+	int ripamount;
 	
 	Property SetRanges : range_falloff, range_max;
 	Property MinRangeDamage : falloff_minimum;
 	Property BaseDamage : truedamage;
 	Property Speed_MPS : meterspeed;
+	Property RipperCount : ripamount;
 	
 	Default
 	{
@@ -26,6 +28,7 @@ class HaloProjectile : FastProjectile
 		HaloProjectile.MinRangeDamage 40; 
 		HaloProjectile.BaseDamage 145;
 		HaloProjectile.Speed_MPS 914.0;
+		HaloProjectile.RipperCount 0;
 	}
 	
 	void Particles(Color col = 0xFFF0E11A, double amt = 30, double size = 2, double spd = 5, vector3 pos_spread = (30,30,30), vector2 ang_spread = (90,30))
@@ -99,6 +102,13 @@ class HaloProjectile : FastProjectile
 		}
 		
 		Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Normal:0");
+		
+		// Rip through actors
+		if(ripamount > 0) 
+		{
+			ripamount--;
+			return 1;
+		}
 		
 		return -1;
 	}

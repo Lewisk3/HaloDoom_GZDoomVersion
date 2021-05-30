@@ -146,7 +146,7 @@ class Halo_OverlayUI : EventHandler
 					distscale *= dist/1200.;
 					distscale.x = clamp(distscale.x, 0.10, 0.20);
 					distscale.y = clamp(distscale.y, 0.10, 0.20);
-					HLSBS.DrawImage("HDENAV", apos, 0, 0.6, distscale, keytint, absolute:true);
+					HLSBS.DrawImage("HDENAV", apos, 0, 0.6, distscale, tint:keytint, absolute:true);
 					HLSBS.DrawString3D(
 						"BigFont", 
 						String.Format("%dm",dist/UNIT_METER), 

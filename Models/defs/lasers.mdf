@@ -10,3 +10,16 @@ Model LSR_GrappleTail
 	
    FrameIndex BEAM A 0 0
 } 
+
+Model SmokeTrail 
+{
+	Path "models/lasers"
+	Model 0 "beam_complex.md3"
+	Scale 1.0 1.0 1.0
+	USEACTORPITCH
+	SurfaceSkin 0 0 "BEAM.png" // Full mesh
+	AngleOffset 0
+	PitchOffset 0
+	
+   FrameIndex BEAM A 0 0
+}
