@@ -9,6 +9,9 @@ class HaloProjectile : FastProjectile
 	Actor hitactor;
 	int ripamount;
 	
+	// Keep track of ripped-through targets so damage isn't done multiple times.
+	Array<Actor> act_hits;
+	
 	Property SetRanges : range_falloff, range_max;
 	Property MinRangeDamage : falloff_minimum;
 	Property BaseDamage : truedamage;
@@ -90,7 +93,12 @@ class HaloProjectile : FastProjectile
 			Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Killed:1");
 		}
 		
+		// Ripped through actors only take damage once.
+		if(act_hits.Find(victim) != act_hits.Size()) return 1;
+		
 		victim.DamageMobJ(self,target,scaled_damage,DamageType,0,angle);
+		act_hits.Push(victim);
+
 		class<Actor> blud = victim.GetBloodType(0);
 		if(blud && bBLOODSPLATTER && victim.bISMONSTER) victim.Spawn(blud,pos);
 

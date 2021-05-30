@@ -31,6 +31,10 @@ class HaloGun : RecoilWeapon
 	bool zoomed;
 	int zoom_btnstate;
 	
+	// Sound Effects
+	Sound snd_zoomin;
+	Sound snd_zoomout;
+	
 	Property Bloom : bloomamt;
 	Property BloomSpeed : bloomspd;
 	Property Crosshair : wcrosshair;
@@ -42,6 +46,7 @@ class HaloGun : RecoilWeapon
 	property UIGraphic : UI_Icon;
 	Property UISight : UI_Sight, sightscale;
 	Property SetupScope : scopezoom, scoperecoil;
+	Property ZoomSounds : snd_zoomin, snd_zoomout;
 
 	enum ButtonStates
 	{
@@ -66,6 +71,7 @@ class HaloGun : RecoilWeapon
 		Weapon.BobRangeX 1.5;
 		Weapon.BobRangeY 0.6;
 		Weapon.BobSpeed 0.5;
+		HaloGun.ZoomSounds "Halo/Weapons/Zoom/IN", "Halo/Weapons/Zoom/OUT";
 	}
 	
 	// For some reason weapons start with an odd offset.
@@ -473,12 +479,14 @@ class HaloGun : RecoilWeapon
 		let psp = player.GetPSprite(PSP_WEAPON);
 		if(psp) psp.scale = (0,0);
 		invoker.zoomed = true;
+		A_StartSound(invoker.snd_zoomin, flags:CHANF_OVERLAP);
 	}
 	action void A_ScopeOFF()
 	{
 		let psp = player.GetPSprite(PSP_WEAPON);
 		if(psp) psp.scale = (1.,1.);
 		invoker.zoomed = false;
+		A_StartSound(invoker.snd_zoomout, flags:CHANF_OVERLAP);
 	}
 	action bool A_CheckInScope()
 	{
@@ -534,7 +542,6 @@ class HaloGun : RecoilWeapon
 					zoom_in  = A_ButtonStatus(BT_ALTATTACK, BTS_PRESSED) && !invoker.zoomed;
 					zoom_out = A_ButtonStatus(BT_ALTATTACK, BTS_PRESSED) && invoker.zoomed;
 				}
-				
 				
 				State scope_on = ResolveState("Scope.ON");
 				State scope_off = ResolveState("Scope.OFF");
