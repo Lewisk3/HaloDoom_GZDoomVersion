@@ -113,7 +113,7 @@ class Halo_BattleRifle : HaloGun replaces PlasmaRifle
 				A_FireRifle();
 				A_SetRecoil(0.3, 0, 4);
 				A_SetZoom(0.987,2);
-				A_RQuakeEx(1,3,1,3,0,20,"",QF_RELATIVE|QF_WAVE);
+				A_RQuakeEx(1,2,1,4,0,20,"",QF_RELATIVE);
 				A_RecoilOffset(8,10,2);
 			}
 			BRFI C 1
@@ -129,7 +129,7 @@ class Halo_BattleRifle : HaloGun replaces PlasmaRifle
 				A_FireRifle();
 				A_SetRecoil(0.3, 0, 4);
 				A_SetZoom(0.987,2);
-				A_RQuakeEx(1,3,0,3,0,20,"",QF_RELATIVE|QF_WAVE);
+				A_RQuakeEx(1,2,0,3,0,20,"",QF_RELATIVE);
 			}
 			BRFI E 1
 			{
@@ -144,7 +144,7 @@ class Halo_BattleRifle : HaloGun replaces PlasmaRifle
 				A_FireRifle();
 				A_SetRecoil(-0.15, 0, 8);
 				A_SetZoom(0.987,2);
-				A_RQuakeEx(1,0,3,3,0,20,"",QF_RELATIVE|QF_WAVE);
+				A_RQuakeEx(1,0,2,4,0,20,"",QF_RELATIVE);
 				A_RecoilOffset(8,10,2);
 			}
 			BRFI G 1 A_MechanismSound("Halo/Weapons/BattleRifle/Mech");

@@ -188,7 +188,7 @@ class Halo_SniperRifle : HaloGun replaces RocketLauncher
 		loop;
 
 		Spawn:
-			SSGF A -1;
+			SNPF A -1;
 		stop;
 	}
 }
