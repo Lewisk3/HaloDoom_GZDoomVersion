@@ -101,19 +101,25 @@ class HaloGun : RecoilWeapon
 		return plr ? plr.weap_yoffs : 0;
 	}
 	
-	action vector3 A_ShootProjectile(class<Actor> proj, double angoffs, double pitchoffs, double lowerpitchoffs, double leftright, double spreadmod = 1.0)
+	action vector3 A_ShootProjectile(class<HaloProjectile> proj, double leftright = 0, double updown = 0, double spreadmod = 1.0)
 	{
 		vector3 hitpos = pos;
 		double yoffs = A_GetWeapYOffs() * 0.25;
 		bool lowered = yoffs > 0;
-		double tpitchoffs = lowered ? lowerpitchoffs : pitchoffs;
 		double scopemod = (invoker.scoperecoil == 0) ? 1.0 : invoker.scoperecoil;
 		
-		let aproj = A_FireProjectile(proj,0, false, leftright, yoffs, 0,0);	
+		let aproj = HaloProjectile(A_FireProjectile(proj,0, false, leftright, updown, 0,0));	
 		if(aproj)
 		{
-			aproj.angle = angle + (A_RecoilSpread()*spreadmod)+(angoffs*scopemod);
-			aproj.pitch = pitch + (A_RecoilSpread()*spreadmod)+(tpitchoffs*scopemod);
+			let plr = HaloPlayer(self);
+			vector2 recoil = (
+				(A_RecoilSpread()*spreadmod*scopemod),
+				(A_RecoilSpread()*spreadmod*scopemod)
+			);
+			
+			aproj.angle = angle;
+			aproj.pitch = pitch;
+			aproj.DoConverge(plr.aimpos, recoil);
 			
 			FLineTraceData lt;
 			aproj.LineTrace(aproj.angle, 1024*64, aproj.pitch, 0, offsetforward: 20, data:lt);

@@ -53,8 +53,7 @@ class Halo_Magnum : HaloGun
 		A_Light(2);
 		A_WeapSound("Halo/Weapons/Mag_MD6/Fire", 0, true);
 		A_WeapSound("Halo/Weapons/Mag_MD6/Fire/Bass", CHANF_OVERLAP, true);
-		double lowoffs = A_CheckInScope() ? 2.0 : 8.0;
-		A_ShootProjectile("HaloMagnum_Bullet", 2, -1.8, lowoffs, 12);
+		A_ShootProjectile("HaloMagnum_Bullet", 12);
 		A_SetSFXPos(25,-9,-10);
 		A_SpawnSFX("MuzzleSmoke", 0,0);
 		A_SetSFXPos(25,-20,-12);

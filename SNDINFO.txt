@@ -98,8 +98,6 @@ $random Halo/Weapons/SuperShotgun/Fire/Bass  { DBBASS1 DBBASS2 DBBASS3 }
 Halo/Weapons/SuperShotgun/Reload DBRELOAD
 Halo/Weapons/SuperShotgun/Select DBDRAW
 
-$volume Halo/Weapons/SuperShotgun/Fire 0.5;
-
 // Shotgun
 SGFIRE1 SGFIRE1
 SGFIRE2 SGFIRE2

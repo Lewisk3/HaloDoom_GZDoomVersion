@@ -5,6 +5,7 @@ class HaloProjectile : FastProjectile
 	double range_falloff;
 	double range_max;
 	double falloff_minimum;
+	bool do_converge;
 	vector3 spawnpos;
 	Actor hitactor;
 	int ripamount;
@@ -17,6 +18,7 @@ class HaloProjectile : FastProjectile
 	Property BaseDamage : truedamage;
 	Property Speed_MPS : meterspeed;
 	Property RipperCount : ripamount;
+	Property ConvergeToAim : do_converge;
 	
 	Default
 	{
@@ -32,6 +34,7 @@ class HaloProjectile : FastProjectile
 		HaloProjectile.BaseDamage 145;
 		HaloProjectile.Speed_MPS 914.0;
 		HaloProjectile.RipperCount 0;
+		HaloProjectile.ConvergeToAim true;
 	}
 	
 	void Particles(Color col = 0xFFF0E11A, double amt = 30, double size = 2, double spd = 5, vector3 pos_spread = (30,30,30), vector2 ang_spread = (90,30))
@@ -164,6 +167,17 @@ class HaloProjectile : FastProjectile
 		) * speed;
 		
 		SetDamage(0);
+	}
+	
+	void DoConverge(vector3 aimpos, vector2 offs)
+	{
+		// Converge
+		if(do_converge)
+		{
+			vector3 toaim = level.SphericalCoords(pos, aimpos, (angle-offs.x, pitch-offs.y));
+			angle -= toaim.x;
+			pitch -= toaim.y;
+		}
 	}
 	
 	override void PostBeginPlay()

@@ -4,6 +4,7 @@ class HaloPlayer : DoomPlayer
 	// Misc
 	GrapplingHook grapple;
 	WeaponPickupProxy pickuptarget;
+	vector3 aimpos;
 	double soundwait;
 	double aimdist;
 	
@@ -114,10 +115,18 @@ class HaloPlayer : DoomPlayer
 		// Aim Assist
 		if(halodoom_doaimassist) DoAimAssist();
 		
+		// Deal with lowered crosshair awkwardness...
+		let weap = HaloGun(player.ReadyWeapon);
+		bool lowc = lowered_xhair.GetBool();
+		double aimheight = lowc ? 5 : 0;
+		if(weap && weap.zoomed && lowc) aimheight = 4.0 * weap.FOVScale;
+		
 		// Get Distance under crosshair.
 		FLineTraceData lt;
-		LineTrace(angle, 1024*1024, pitch, 0, viewheight, radius*5.0, data:lt);
+		LineTrace(angle, 1024*1024, pitch+aimheight, 0, viewheight, 0, data:lt);
+		
 		aimdist = lt.Distance / UNIT_METER; 
+		aimpos = lt.HitLocation;
 		
 		super.Tick();
 	}

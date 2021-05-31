@@ -31,6 +31,7 @@ class WeaponPickupProxy : Actor
 	bool weapdropped;
 	bool noammogive;
 	int clipammo;
+	int use_hold; // How many tics the USE key has been down for.
 	
 	double visiblefov;
 	double visibledist;
@@ -178,7 +179,11 @@ class WeaponPickupProxy : Actor
 		
 		// Process pickup
 		bool isaimweap = (plr.pickuptarget == self);
-		if(!plr.player.ReadyWeapon || weapdropped || (!isaimweap && !hasweap)) return;
+		if(!plr.player.ReadyWeapon || weapdropped || (!isaimweap && !hasweap)) 
+		{
+			use_hold = -1;
+			return;
+		}
 		
 		let wcontrol = WeaponLimitProxy(plr.FindInventory("WeaponLimitProxy"));
 		if(!wcontrol) 
@@ -190,8 +195,20 @@ class WeaponPickupProxy : Actor
 		int wcount = wcontrol.CountWeapons();
 		int btns = plr.player.cmd.buttons;
 		int oldbtns = plr.player.oldbuttons;
-		if( ((btns & BT_USE) && !(oldbtns & BT_USE)) || hasweap )
+		
+		bool use_down = (btns & BT_USE);
+		if(use_hold >= 0) 
 		{
+			use_hold = use_down ? use_hold+1 : 0;
+		}
+		else if(!use_down)
+		{
+			use_hold = 0;
+		}
+		
+		if( use_hold > 4 || hasweap )
+		{
+			use_hold = 0;
 			if(wcount >= MAXWEAPS)
 			{
 				if(!hasweap)

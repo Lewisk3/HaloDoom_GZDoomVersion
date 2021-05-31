@@ -38,7 +38,7 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 		Weapon.SlotNumber 2;
 		Obituary "%o was took down by %k's Double Barreled Shotgun.";
 		Inventory.PickupMessage	"DBL Shotgun Acquired.";
-		Tag "DBLShotgun";
+		Tag "Super Shotgun";
 		Weapon.BobSpeed 2.12;
 		Weapon.BobRangeX 0.63;
 		// [Lewisk] had to switch ammotype's 1 and 2 because thats how my
@@ -66,7 +66,7 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 		A_WeapSound("Halo/Weapons/SuperShotgun/Fire/Bass", CHANF_OVERLAP, true);
 		for(int i = 0; i < 30; i++)
 		{
-			A_ShootProjectile("HaloDBLShotgun_Bullet", 1, -1.35, 4.0, 8);
+			A_ShootProjectile("HaloDBLShotgun_Bullet", 8);
 			if(!(i%2))
 			{
 				A_SetSFXPos(25,-8,-8);
