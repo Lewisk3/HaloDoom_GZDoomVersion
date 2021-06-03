@@ -9,3 +9,4 @@ user float halodoom_recoil_intensity = 1.0;
 server bool halodoom_allowbhop = true;
 server bool halodoom_holdjump = true;
 server bool halodoom_doaimassist = false;
+server bool halodoom_unlimitedbackpack = false;

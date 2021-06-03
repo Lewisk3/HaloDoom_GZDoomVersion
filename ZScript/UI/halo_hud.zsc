@@ -97,37 +97,119 @@ class HaloStatusBar : BaseStatusBar
 	const AMMOG_SIZE = 10.;
 	void DrawWeaponsAmmo()
 	{
-		HaloGun curweap   = HaloGun(haloplr.player.ReadyWeapon);
-		if(!curweap) return;
+		Weapon curweap = haloplr.player.ReadyWeapon;
+		if(!curweap) return; // Just in case somehow the player has no weapon
 		
-		HaloGun otherweap = curweap ? HaloGun(curweap.FindNextWeapon()) : null;
+		// Find other weapon manually.
+		Weapon otherweap = haloplr.nextweapon;
+
+		Halogun halo_curweap, halo_otherweap;
+		halo_curweap = HaloGun(curweap);
+		halo_otherweap = HaloGun(otherweap);
+		
 		String weap1_icon = "";
 		String weap2_icon = "";
-		if(curweap  ) weap1_icon = curweap.UI_Icon;
-		if(otherweap) weap2_icon = otherweap.UI_Icon;
+		vector2 weap1_scale, weap2_scale;
+		vector2 weap1_offs, weap2_offs;
+		[weap1_icon, weap1_scale] = GetWeaponUIDetails(curweap,   (1.5,1.5));
+		[weap2_icon, weap2_scale] = GetWeaponUIDetails(otherweap, (0.6,0.6), (64,32));
 		
-		HLSBS.DrawImage(weap1_icon, (1700,100), 0, 0.8, (1.5,1.5));
-		HLSBS.DrawImage(weap2_icon, (1770,50), 0, 0.8, (0.6,0.6));
+		if(!halo_curweap) weap1_offs = (50,100);
+		if(!halo_otherweap && otherweap) weap2_offs = (80,30);
+			
+		// Weapon Icons
+		HLSBS.DrawImage(weap1_icon, (1700,100)+weap1_offs, 0, 0.8, weap1_scale);
+		if(otherweap) HLSBS.DrawImage(weap2_icon, (1770,50)+weap2_offs, 0, 0.8, weap2_scale);
+		
+		if(halodoom_unlimitedbackpack)
+		{
+			// TODO: Draw all weapons.
+			Weapon weap = NULL;
+			Array<int> slots;
+			slots.Resize(9);
+			
+			for(let i = haloplr.Inv; i; i = i.Inv)
+			{
+				weap = Weapon(i);
+				if(!weap) continue;
+				
+				double num = weap.slotnumber;
+				double cnt = slots[num];
+				vector2 offs = (
+					0, (num*100) + cnt*20
+				);
+				if(!HaloGun(weap)) 
+				{
+					offs.x += 25;
+					offs.y += 20;
+				}
+				
+				vector2 scale;
+				string icon;
+				[icon, scale] = GetWeaponUIDetails(weap, (1.0,1.0));
+				HLSBS.DrawImage(icon, (1850,200)+offs, 0, 0.8, scale*0.5);
+				slots[num]++;
+			}	
+			for(int i = 1; i <= slots.Size(); i++)
+			{
+				HLSBS.DrawString(fntHaloAmmo, i.."", (1800, 280+((i-1)*100)), scale:(0.05,0.05));
+			}
+		}
 		
 		// Ammo display
-		double cur_ammo  = haloplr.countinv(curweap.AmmoType2);
-		double clip_ammo = GetDefaultByType(curweap.AmmoType2).MaxAmount;
-		int ymax = ceil(cur_ammo/AMMO_MAX);
-		vector2 ampos = (1640, 160);
-		vector2 amoffs;
-		for(int i = 0; i < clip_ammo; i++)
+		if(curweap.AmmoType2 && curweap.AmmoType2 != curweap.AmmoType1)
 		{
-			double ammo_diff = clip_ammo-cur_ammo;
-			if(ammo_diff <= i) HLSBS.DrawImage("WI_AMMO", ampos+amoffs, 0, 0.8, (1,1));
-			amoffs.x += AMMOG_SIZE;
-			if(amoffs.x >= AMMOG_SIZE*AMMO_MAX) 
+			double cur_ammo  = haloplr.countinv(curweap.AmmoType2);
+			double clip_ammo = GetDefaultByType(curweap.AmmoType2).MaxAmount;
+			int ymax = ceil(cur_ammo/AMMO_MAX);
+			vector2 ampos = (1640, 160);
+			vector2 amoffs;
+			for(int i = 0; i < clip_ammo; i++)
 			{
-				amoffs.y += AMMOG_SIZE*1.25;
-				amoffs.x = 0;
+				double ammo_diff = clip_ammo-cur_ammo;
+				if(ammo_diff <= i) HLSBS.DrawImage("WI_AMMO", ampos+amoffs, 0, 0.8, (1,1));
+				amoffs.x += AMMOG_SIZE;
+				if(amoffs.x >= AMMOG_SIZE*AMMO_MAX) 
+				{
+					amoffs.y += AMMOG_SIZE*1.25;
+					amoffs.x = 0;
+				}
 			}
 		}
 		// Ammo Count
 		HLSBS.DrawString(fntHaloAmmo, haloplr.countinv(curweap.AmmoType1).."", (1732, 60), scale:(0.18,0.15));
+	}
+	
+	string, vector2 GetWeaponUIDetails(Weapon weap, vector2 uiscale = (1,1), vector2 desired_scale = (128,64))
+	{	
+		if(!weap) return "", (0,0);
+	
+		let haloweap = HaloGun(weap);
+		if(haloweap) 
+		{
+			return haloweap.UI_Icon, uiscale;
+		}
+	
+		State wspawn = weap.FindState("Spawn");
+		TextureID tex;
+		tex = wspawn.GetSpriteTexture(0);
+		string icon = TexMan.GetName(tex);
+		
+		vector2 size;
+		[size.x, size.y] = TexMan.GetSize(tex);
+		
+		double def_aspect = desired_scale.x / desired_scale.y;
+		double aspect = (size.x / size.y) / (def_aspect);
+		
+		vector2 scaleto = (
+			desired_scale.x / size.x,
+			desired_scale.y / size.y
+		);
+		
+		size.x = scaleto.x * aspect;
+		size.y = scaleto.y;
+		
+		return icon, size;
 	}
 
 	void DrawCrosshairs()
@@ -248,7 +330,9 @@ class HaloStatusBar : BaseStatusBar
 		HLSBS.DrawImage("sh_bar", shieldpos, flags, 0.8, scale:(1.0,1.35));
 		HLSBS.ClearClipRect();		
 		HLSBS.DrawImage(shou, shieldpos, flags, 0.8, scale:(1.0,1.35));
-		int healthbars = clamp(ceil((haloplr.health / 5.)), 1, 9);
+		
+		double hpratio = haloplr.health / double(haloplr.GetMaxHealth()); 
+		int healthbars = clamp(ceil(hpratio * 9), 1, 9);
 		HLSBS.DrawImage("ui_hbar"..healthbars, healthpos, flags, 0.8, scale:(-1.0,1.15));
 		healthpos += (508,0);
 		HLSBS.DrawImage("ui_hbar"..healthbars, healthpos, flags, 0.8, scale:(1.0,1.15));

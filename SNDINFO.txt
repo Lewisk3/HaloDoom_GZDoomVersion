@@ -76,7 +76,7 @@ $random Halo/Weapons/BattleRifle/Fire/Bass { BARLOW1 BARLOW2 BARLOW3 }
 
 $volume Halo/Weapons/BattleRifle/Fire 0.4;
 $volume Halo/Weapons/BattleRifle/Fire/Bass 1.0;
-$volume Halo/Weapons/BattleRifle/Mech 0.4;
+$volume Halo/Weapons/BattleRifle/Mech 0.6;
 
 // SuperShotgun
 DBFIRE1 DBFIRE1

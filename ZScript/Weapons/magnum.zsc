@@ -20,7 +20,7 @@ class HaloMagnum_Bullet : HaloBullet
 	}
 }
 
-class Halo_Magnum : HaloGun
+class Halo_Magnum : HaloGun 
 {
 	Default
 	{

@@ -222,6 +222,7 @@ class HaloGun : RecoilWeapon
 	
 	clearscope Weapon FindNextWeapon()
 	{
+		/*
 		Weapon gun = NULL;
 		if(!Owner) return NULL;
 		for(let i = Owner.Inv; i; i = i.Inv)
@@ -229,7 +230,8 @@ class HaloGun : RecoilWeapon
 			gun = Weapon(i);
 			if(gun && gun != self) break;
 		}
-		return gun;
+		*/
+		return HaloPlayer(Owner).nextweapon;
 	}
 	
 	action bool A_DoFullSelectAnimation()
@@ -299,7 +301,7 @@ class HaloGun : RecoilWeapon
 		
 		// Process weapon switch
 		bool inreload = psp && InStateSequence(psp.CurState,FindState("Reload"));
-		if((btns & BTN_SWITCHWEAP) && !InStateSequence(psp.CurState,FindState("Deselect.Quick")))
+		if(A_ButtonStatus(BTN_SWITCHWEAP, BTS_PRESSED, Owner) && !InStateSequence(psp.CurState,FindState("Deselect.Quick")))
 		{
 			// Deselect weapon.
 			let nextweap = FindNextWeapon();

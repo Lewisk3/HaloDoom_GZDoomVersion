@@ -6,7 +6,7 @@ extend class HaloPlayer
 	const GNDFRIC  = 7.0;
 	
 	const AIRMAX     = 10;
-	const AIRACCEL   = 80;
+	const AIRACCEL   = 40;
 	const AIRCONTROL = 1.0; // 0.20
 	
 	// Input device(s)

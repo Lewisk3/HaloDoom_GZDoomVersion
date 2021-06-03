@@ -209,7 +209,7 @@ class WeaponPickupProxy : Actor
 		if( use_hold > 4 || hasweap )
 		{
 			use_hold = 0;
-			if(wcount >= MAXWEAPS)
+			if(wcount >= MAXWEAPS && !halodoom_unlimitedbackpack)
 			{
 				if(!hasweap)
 				{
@@ -298,7 +298,8 @@ class WeaponLimitProxy : Inventory
 		super.DoEffect();
 		plr = PlayerPawn(Owner);
 		if(!plr || !plr.player) return;
-		if(CountWeapons() > MAXWEAPS) 
+		
+		if(CountWeapons() > MAXWEAPS && !halodoom_unlimitedbackpack) 
 		{
 			double rang = ceil(frandom(0,90)*4.);
 			vector3 fw = ( cos(plr.angle+rang)*32, sin(plr.angle+rang)*32, 0 );

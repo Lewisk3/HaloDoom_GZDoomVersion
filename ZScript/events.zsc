@@ -41,3 +41,14 @@ class HaloDoom_Events : EventHandler
 		}
 	}
 }
+
+// TODO: This will be used for the title screen primarily.
+// We can detect when the game has just started here
+// good for doing first-time things like a logo fade.
+class HaloDoom_EngineEvents : StaticEventHandler 
+{
+	override void OnRegister()
+	{
+		
+	}
+}
