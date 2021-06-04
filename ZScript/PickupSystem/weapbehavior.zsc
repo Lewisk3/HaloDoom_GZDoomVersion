@@ -220,17 +220,23 @@ class WeaponPickupProxy : Actor
 					let nweap = GiveWeaponItem(plr);
 					nweap.Use(true);
 					Destroy();
+					return;
 				}
-				else
+				else if(GiveWeaponItem(plr))
 				{
-					if(GiveWeaponItem(plr)) Destroy();
+					 Destroy();
+					 return;
 				}
 			}
 			else
 			{
 				let nweap = GiveWeaponItem(plr);
 				if(!hasweap) nweap.Use(true);
-				if(nweap) Destroy();
+				if(nweap) 
+				{
+					Destroy();
+					return;
+				}
 			}
 		}
 	}

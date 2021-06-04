@@ -141,7 +141,7 @@ class HaloGun : RecoilWeapon
 	}
 	
 	action void A_TrailSFX(vector3 hitpos, double startalpha = 1.0, Color col = 0x969696)
-	{		
+	{	
 		double yoffs = A_GetWeapYOffs() * 0.25;
 		vector3 frompos = (
 			invoker.sfx_pos.xy,

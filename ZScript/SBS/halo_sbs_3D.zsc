@@ -99,8 +99,18 @@ extend class HLSBS
 		
 		HLViewProjection vp = new("HLViewProjection");
 		vp.FOV = viewplr.FOV;
-		vp.view_pos = viewer.vec3offset(0, 0, viewplr.viewz-viewer.pos.z);
+		vp.view_pos = (viewer.pos.xy, viewplr.viewz);
 		vp.view_ang = (viewer.angle, viewer.pitch, viewer.roll);
+		
+		return vp;
+	}
+
+	static HLViewProjection GetEventViewerProj(RenderEvent ev)
+	{		
+		HLViewProjection vp = new("HLViewProjection");
+		vp.FOV = ev.Camera.player ? ev.Camera.player.FOV : 90;
+		vp.view_pos = ev.viewpos;
+		vp.view_ang = (ev.viewangle, ev.viewpitch, ev.viewroll);
 		
 		return vp;
 	}
@@ -128,15 +138,12 @@ extend class HLSBS
 	static bool, vector2 ProjectToHUD(HLViewProjection viewp, vector3 _worldpos, vector3 projoffs)
 	{		
 		// Dependant variables
+		double pixel_stretch = level.pixelstretch;
 		float hor_fov = viewp.FOV;
 		vector3 world_view_pos = viewp.view_pos;
 		vector3 world_ang = viewp.view_ang;
 		vector3 world_pos = _worldpos;
-		
-		// Process offsets
-		Vector3 adjustedWorldPos = world_view_pos + LevelLocals.vec3Diff(world_view_pos, world_pos);
-		world_pos = adjustedWorldPos + projoffs;
-		
+		 				
 		// Projection variables
 		vector2 resolution = (Screen.GetWidth(), Screen.GetHeight());
 		double aspect_ratio = max(4.0 / 3, Screen.GetAspectRatio());
@@ -147,7 +154,7 @@ extend class HLSBS
 		// [--]  .:Projection mathematics:. [--] \\
 		
 		// Pitch Correction
-		world_ang.y = VectorAngle( cos(world_ang.y), sin(world_ang.y) );
+		world_ang.y = VectorAngle( cos(world_ang.y), sin(world_ang.y) * pixel_stretch );
 		
 		// Get view angles
 		let cosang	= cos(world_ang.x);
@@ -167,8 +174,12 @@ extend class HLSBS
 		vector3 right_in   = right_unit / tan_fov_2.x;
 		vector3 down_in	   = down_unit  / tan_fov_2.y;
 		
+        forw_in.z   *= pixel_stretch;
+        right_in.z  *= pixel_stretch;
+        down_in.z   *= pixel_stretch;
+		
 		// Get project difference and 3D depth
-		vector3 diff = levellocals.vec3diff(world_view_pos, world_pos);
+		vector3 diff = levellocals.vec3diff(world_view_pos, world_pos + projoffs);
 		vector2 proj_pos = (diff dot right_in, diff dot down_in);
 		double  depth	 = diff dot forw_in;
 	
