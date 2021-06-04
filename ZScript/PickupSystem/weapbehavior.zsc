@@ -28,7 +28,6 @@ class WeaponPickupProxy : Actor
 	string truepickupmsg;
 	sound truepickupsnd;
 	HaloPlayer plr;
-	bool weapdropped;
 	bool noammogive;
 	int clipammo;
 	int use_hold; // How many tics the USE key has been down for.
@@ -68,12 +67,13 @@ class WeaponPickupProxy : Actor
 		let ammotype2 = GetDefaultByType(trueitem).ammotype2;
 		int ammogive1 = GetDefaultByType(trueitem).ammogive1;
 		int ammogive2 = GetDefaultByType(trueitem).ammogive2;
-		let ammodef1  = ammotype1 ? GetDefaultByType(ammotype1) : NULL;
-		let ammodef2  = ammotype2 ? GetDefaultByType(ammotype2) : NULL;
+		let ammodef1  = ammogive1 ? GetDefaultByType(ammotype1) : NULL;
+		let ammodef2  = ammogive2 ? GetDefaultByType(ammotype2) : NULL;
+		bool hasitem = to.countinv(trueitem);
 		
 		// Do not pickup if we already own this item but we have max ammo
 		// for it.
-		if( to.countinv(trueitem) )
+		if(hasitem)
 		{
 			double togive;
 			if(!to.countinv("backpack"))
@@ -88,21 +88,24 @@ class WeaponPickupProxy : Actor
 			}
 			if(togive <= 0) return Null;
 		}
+		else
+		{
+			// Resolve clip-ammunition.
+			to.GiveInventory(trueitem, 1);
+			if(ammotype2 && clipammo != -1)
+			{
+				let clipdefs = GetDefaultByType(ammotype2);
+				to.TakeInventory(ammotype2, clipdefs.maxamount);
+				to.GiveInventory(ammotype2, clipammo);
+			}
+		}
 			
 		Inventory.PrintPickupMessage(to.CheckLocalView(), truepickupmsg);
 		to.A_StartSound(truepickupsnd, CHAN_ITEM, CHANF_OVERLAP);
-		to.GiveInventory(trueitem, 1);
-		if(noammogive) 
+		if(!noammogive) 
 		{
-			to.TakeInventory(ammotype1, ammogive1);
-			to.TakeInventory(ammotype2, ammogive2);
-		}
-		// Resolve clip-ammunition.
-		if(ammotype2 && clipammo != -1)
-		{
-			let clipdefs = GetDefaultByType(ammotype2);
-			to.TakeInventory(ammotype2, clipdefs.maxamount);
-			to.GiveInventory(ammotype2, clipammo);
+			to.GiveInventory(ammotype1, ammogive1);
+			to.GiveInventory(ammotype2, ammogive2);
 		}
         return Weapon(to.FindInventory(trueitem));
 	}
@@ -179,7 +182,7 @@ class WeaponPickupProxy : Actor
 		
 		// Process pickup
 		bool isaimweap = (plr.pickuptarget == self);
-		if(!plr.player.ReadyWeapon || weapdropped || (!isaimweap && !hasweap)) 
+		if(!plr.player.ReadyWeapon || (!isaimweap && !hasweap)) 
 		{
 			use_hold = -1;
 			return;
@@ -217,8 +220,6 @@ class WeaponPickupProxy : Actor
 					let nweap = GiveWeaponItem(plr);
 					nweap.Use(true);
 					Destroy();
-					
-					weapdropped = true;
 				}
 				else
 				{
@@ -237,16 +238,8 @@ class WeaponPickupProxy : Actor
 	States
 	{
 		Spawn:
-			"####" "#" 1 NoDelay A_JumpIf(weapdropped, "Weap.New");
+			"####" "#" 1;
 		loop;
-		Weap.New:
-			TNT1 A 1;
-			TNT1 A 0 
-			{
-				let nweap = GiveWeaponItem(plr); 
-				if(nweap) nweap.Use(true);
-			}
-		stop;
 	}
 }
 

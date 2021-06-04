@@ -134,6 +134,8 @@ class HaloStatusBar : BaseStatusBar
 				if(!weap) continue;
 				
 				double num = weap.slotnumber;
+				if(num < 0) num = 0;
+				
 				double cnt = slots[num];
 				vector2 offs = (
 					0, (num*100) + cnt*20
