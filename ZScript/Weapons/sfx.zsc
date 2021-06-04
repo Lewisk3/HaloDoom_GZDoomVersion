@@ -139,8 +139,9 @@ class BulletCasing : Actor
 		XDeath:
 		Death:
 		Crash:
-			"####" A 1 
+			"####" A 2100 // 1 minute 
 			{
+				bNOINTERACTION = true;
 				frame = random(10,13);
 			}
 		WaitDeath:

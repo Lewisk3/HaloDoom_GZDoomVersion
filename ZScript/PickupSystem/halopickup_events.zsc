@@ -36,7 +36,7 @@ class HaloPickup_EVH : EventHandler
 		if(aim_weap)
 		{
 			bool infront;
-			HLViewProjection viewproj = HLSBS.GetRenderEventViewProj(e);
+			HLViewProjection viewproj = HLSBS.GetEventViewerProj(e);
 			
 			vector2 apos, bpos;
 			[infront, apos] = HLSBS.GetActorHUDPos (
@@ -59,7 +59,7 @@ class HaloPickup_EVH : EventHandler
 					pickup1, 
 					apos, 0, 
 					Font.CR_GRAY, 
-					scale:(1.0,1.0),
+					scale:(0.75,0.75),
 					distance: e.Camera.Distance3D(aim_weap)
 				);
 				HLSBS.DrawString3D("smallfont", 

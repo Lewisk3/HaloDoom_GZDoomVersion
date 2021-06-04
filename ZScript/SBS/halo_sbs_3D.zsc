@@ -125,16 +125,6 @@ extend class HLSBS
 		return vp;
 	}
 		
-	static HLViewProjection GetRenderEventViewProj(RenderEvent e, float fov = 90)
-	{
-		HLViewProjection vp = new("HLViewProjection");
-		vp.FOV = fov;
-		vp.view_pos = e.viewpos;
-		vp.view_ang = (e.viewangle, e.viewpitch, e.viewroll);
-		
-		return vp;
-	}
-		
 	static bool, vector2 ProjectToHUD(HLViewProjection viewp, vector3 _worldpos, vector3 projoffs)
 	{		
 		// Dependant variables
