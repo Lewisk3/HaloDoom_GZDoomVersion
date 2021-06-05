@@ -14,7 +14,7 @@ class HaloBattleRifle_Bullet : HaloBullet
 		HaloProjectile.MinRangeDamage BARIFLE_MINDMG; 
 		HaloProjectile.BaseDamage BARIFLE_DMG;
 		HaloProjectile.Speed_MPS BARIFLE_BMPS;
-		HaloProjectile.HeadshotDMGFactor 3.0;
+		HaloProjectile.HeadshotDMGFactor BARIFLE_HEDMOD;
 		Scale 0.5;
 	}
 }
@@ -29,13 +29,12 @@ class Halo_BattleRifle : HaloGun replaces PlasmaRifle
 		Tag "Battle Rifle";
 		Weapon.BobSpeed 1.86;
 		Weapon.BobRangeX 0.30;
-
 		Weapon.AmmoType1 "Halo_Clip";
 		Weapon.AmmoType2 "Halo_BAR_Clip";
 		Weapon.AmmoGive 18;
 				
 		// Recoil
-		HaloGun.Bloom 0.6;
+		HaloGun.Bloom 0.8;
 		HaloGun.BloomSpeed 0.30;
 		HaloGun.BaseRecoil BARIFLE_RECOIL;
 		HaloGun.Inaccuracy BARIFLE_ACCMOD;
@@ -57,7 +56,6 @@ class Halo_BattleRifle : HaloGun replaces PlasmaRifle
 		A_SetSFXPos(25,-10,-10);
 		A_SpawnSFX("MuzzleSmoke", 0,0);
 		A_TakeAmmo();
-		A_UpdateSpread();
 	}
 	
 	action void A_ReloadSound()
@@ -115,6 +113,7 @@ class Halo_BattleRifle : HaloGun replaces PlasmaRifle
 				A_SetZoom(0.987,2);
 				A_RQuakeEx(1,2,1,4,0,20,"",QF_RELATIVE);
 				A_RecoilOffset(8,10,2);
+				A_UpdateSpread();
 			}
 			BRFI C 1
 			{

@@ -5,7 +5,7 @@ class Halo_Magnum_Clip : Ammo
 {
 	Default 
 	{
-		Inventory.MaxAmount 15;
+		Inventory.MaxAmount 8;
 	}
 }
 
@@ -17,7 +17,7 @@ class HaloMagnum_Bullet : HaloBullet
 		HaloProjectile.MinRangeDamage MAGNUM_MINDMG; 
 		HaloProjectile.BaseDamage MAGNUM_DMG;
 		HaloProjectile.Speed_MPS MAGNUM_BMPS;
-		HaloProjectile.HeadshotDMGFactor 1.5;
+		HaloProjectile.HeadshotDMGFactor MAGNUM_HEDMOD;
 	}
 }
 
@@ -31,8 +31,6 @@ class Halo_Magnum : HaloGun replaces Pistol
 		Tag "Magnum";
 		Weapon.BobSpeed 1.86;
 		Weapon.BobRangeX 0.30;
-		// [Lewisk] had to switch ammotype's 1 and 2 because thats how my
-		// reload function works.
 		Weapon.AmmoType1 "Halo_Clip";
 		Weapon.AmmoType2 "Halo_Magnum_Clip";
 		Weapon.AmmoGive 8;

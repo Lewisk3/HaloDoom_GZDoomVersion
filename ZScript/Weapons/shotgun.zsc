@@ -15,6 +15,7 @@ class HaloShotgun_Bullet : HaloBullet
 		HaloProjectile.MinRangeDamage SHOTGUN_MINDMG; 
 		HaloProjectile.BaseDamage SHOTGUN_DMG;
 		HaloProjectile.Speed_MPS SHOTGUN_BMPS;
+		HaloProjectile.HeadshotDMGFactor SHOTGUN_HEDMOD;
 	}
 }
 
@@ -28,8 +29,6 @@ class Halo_Shotgun : HaloGun replaces Shotgun
 		Tag "Shotgun";
 		Weapon.BobSpeed 2.0;
 		Weapon.BobRangeX 0.10;
-		// [Lewisk] had to switch ammotype's 1 and 2 because thats how my
-		// reload function works.
 		Weapon.AmmoType1 "Shell";
 		Weapon.AmmoGive 4;
 		Weapon.AmmoType2 "Halo_Shotgun_Shells";

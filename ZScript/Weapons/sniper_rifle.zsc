@@ -16,8 +16,8 @@ class HaloSniper_Bullet : HaloBullet
 		HaloProjectile.MinRangeDamage SNIPER_MINDMG; 
 		HaloProjectile.BaseDamage SNIPER_DMG;
 		HaloProjectile.Speed_MPS SNIPER_BMPS;
+		HaloProjectile.HeadshotDMGFactor SNIPER_HEDMOD;
 		HaloProjectile.RipperCount 2;
-		HaloProjectile.HeadshotDMGFactor 2.0;
 	}
 }
 
@@ -31,8 +31,6 @@ class Halo_SniperRifle : HaloGun replaces RocketLauncher
 		Tag "Sniper Rifle";
 		Weapon.BobSpeed 2.12;
 		Weapon.BobRangeX 0.63;
-		// [Lewisk] had to switch ammotype's 1 and 2 because thats how my
-		// reload function works.
 		Weapon.AmmoType1 "RocketAmmo";
 		Weapon.AmmoGive 4;
 		Weapon.AmmoType2 "Halo_SniperClip";

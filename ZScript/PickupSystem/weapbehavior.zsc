@@ -92,6 +92,7 @@ class WeaponPickupProxy : Actor
 		{
 			// Resolve clip-ammunition.
 			to.GiveInventory(trueitem, 1);
+			if(noammogive && ammotype1) to.TakeInventory(ammotype1, ammogive1);
 			if(ammotype2 && clipammo != -1)
 			{
 				let clipdefs = GetDefaultByType(ammotype2);
