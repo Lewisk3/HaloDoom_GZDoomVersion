@@ -172,3 +172,5 @@ Shield/Regenerate shreg
 Shield/Explode shexp
 Shield/Warning shbip
 Shield/Low shlow
+
+$volume Shield/Low 0.5

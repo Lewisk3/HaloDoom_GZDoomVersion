@@ -14,6 +14,7 @@ class HaloBattleRifle_Bullet : HaloBullet
 		HaloProjectile.MinRangeDamage BARIFLE_MINDMG; 
 		HaloProjectile.BaseDamage BARIFLE_DMG;
 		HaloProjectile.Speed_MPS BARIFLE_BMPS;
+		HaloProjectile.HeadshotDMGFactor 3.0;
 		Scale 0.5;
 	}
 }

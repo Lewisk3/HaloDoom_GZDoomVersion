@@ -45,6 +45,10 @@ version 4.0
 #include "ZScript/Lasers/base/laserfx_base.zsc"
 #include "ZScript/Lasers/halo_lasers.zsc"
 
+// BiriBiri (Lightning)
+#include "ZScript/Lightning/biribiri_base.zsc"
+#include "ZScript/Lightning/biribiri_parts.zsc"
+
 // [>> Gameplay Constants <<]
 const UNIT_METER = 8.f;
 

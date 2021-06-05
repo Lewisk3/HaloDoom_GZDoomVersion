@@ -17,6 +17,7 @@ class HaloMagnum_Bullet : HaloBullet
 		HaloProjectile.MinRangeDamage MAGNUM_MINDMG; 
 		HaloProjectile.BaseDamage MAGNUM_DMG;
 		HaloProjectile.Speed_MPS MAGNUM_BMPS;
+		HaloProjectile.HeadshotDMGFactor 1.5;
 	}
 }
 

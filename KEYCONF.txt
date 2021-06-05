@@ -4,3 +4,5 @@ addmenukey "Weapon Zoom" +ALTATTACK
 addmenukey "Reload" +RELOAD
 addmenukey "Switch Weapons" +USER1
 alias "HDEall" "netevent HaloDoom_GiveAll"
+alias "HDEarbitercamo" "netevent HaloDoom_ArbiterCamo"
+alias "HDEaimhax" "netevent HaloDoom_AimHax"

@@ -5,6 +5,7 @@ class HaloProjectile : FastProjectile
 	double range_falloff;
 	double range_max;
 	double falloff_minimum;
+	double headshot_multiplier;
 	bool do_converge;
 	vector3 spawnpos;
 	Actor hitactor;
@@ -19,6 +20,7 @@ class HaloProjectile : FastProjectile
 	Property Speed_MPS : meterspeed;
 	Property RipperCount : ripamount;
 	Property ConvergeToAim : do_converge;
+	Property HeadshotDMGFactor : headshot_multiplier;
 	
 	Default
 	{
@@ -35,6 +37,7 @@ class HaloProjectile : FastProjectile
 		HaloProjectile.Speed_MPS 914.0;
 		HaloProjectile.RipperCount 0;
 		HaloProjectile.ConvergeToAim true;
+		HaloProjectile.HeadshotDMGFactor 1.0;
 	}
 	
 	void Particles(Color col = 0xFFF0E11A, double amt = 30, double size = 2, double spd = 5, vector3 pos_spread = (30,30,30), vector2 ang_spread = (90,30))
@@ -71,9 +74,9 @@ class HaloProjectile : FastProjectile
 		AdjustRangeDamage();
 		double scaled_damage = truedamage * GAMEPLAY_DAMAGEMOD;
 		
-		HaloPlayer plr = HaloPlayer(target);
-		bool killed = victim.health-scaled_damage <= 0;
-		
+		// Ripped through actors only take damage once.
+		if(act_hits.Find(victim) != act_hits.Size()) return 1;
+				
 		//console.printf("Damage output: %f, Dist: %f", truedamage, getTravelDistance());
 		Sound hitsnd = "Hit/Normal";
 		
@@ -83,21 +86,23 @@ class HaloProjectile : FastProjectile
         LineTrace(angle,128,pitch,0,0,0,0,lt);
         float dmgz = lt.HitLocation.z;
         float headz    = (victim.pos.z + victim.height);
-        float head_top =  18;
-        // Compare ray location with the head hit boundaries
-        if(dmgz <= headz && dmgz >= headz-head_top && killed) 
+        float head_top =  8;
+		bool headshot = dmgz <= headz && dmgz >= headz-head_top;
+		if(headshot) scaled_damage *= headshot_multiplier;
+		
+		bool killed = victim.health-scaled_damage <= 0;	
+		
+		// Play hit effects.
+        if(headshot) 
 		{
 			hitsnd = "Hit/Crit";
-			Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Headshot:1");
+			if(killed) Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Headshot:1");
 		}
 		else if(killed)
 		{
 			hitsnd = "Hit/Killed";
 			Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Killed:1");
 		}
-		
-		// Ripped through actors only take damage once.
-		if(act_hits.Find(victim) != act_hits.Size()) return 1;
 		
 		victim.DamageMobJ(self,target,scaled_damage,DamageType,0,angle);
 		act_hits.Push(victim);
@@ -106,6 +111,7 @@ class HaloProjectile : FastProjectile
 		if(blud && bBLOODSPLATTER && victim.bISMONSTER) victim.Spawn(blud,pos);
 
 		// Hit feedback
+		HaloPlayer plr = HaloPlayer(target);
 		if(plr && (!plr.soundwait || killed))
 		{
 			target.A_StartSound(hitsnd, killed ? CHAN_VOICE : CHAN_BODY, CHANF_OVERLAP);

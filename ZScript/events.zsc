@@ -2,6 +2,21 @@
 
 class HaloDoom_Events : EventHandler
 {
+	bool nevertarget;
+	bool alwaysautoaim;
+	override void WorldTick()
+	{
+		let act_it = ThinkerIterator.Create();
+		Actor act;
+		while(act = Actor(act_it.Next()))
+		{
+			if(act.bISMONSTER && nevertarget && act.target is "HaloPlayer")
+			{
+				act.target = NULL;
+			}
+		}
+	}
+
 	override void NetworkProcess(ConsoleEvent e)
 	{
 		PlayerInfo src = players[e.Player];
@@ -22,6 +37,7 @@ class HaloDoom_Events : EventHandler
 			hplr.grapple = GrapplingHook.Deploy(hplr, 50, (0,0,-5));
 		}
 	
+		if(multiplayer) return;
 		if(e.Name == "HaloDoom_GiveAll")
 		{	
 			Array<class<HaloGun> > guns;
@@ -38,6 +54,24 @@ class HaloDoom_Events : EventHandler
 				vector2 spawnpos = Actor.AngleToVector(i*spacing, 64);
 				Actor.Spawn(gun, src.mo.Vec3Offset(spawnpos.x,spawnpos.y, src.mo.floorz));
 			}
+		}
+		
+		if(e.Name == "HaloDoom_ArbiterCamo")
+		{	
+			nevertarget = !nevertarget;
+			if(nevertarget) 
+				console.printf("Camo is active, enemies will not target you.");
+			else
+				console.printf("Camo disabled.");
+		}
+		
+		if(e.Name == "HaloDoom_AimHax")
+		{	
+			alwaysautoaim = !alwaysautoaim;
+			if(alwaysautoaim) 
+				console.printf("Autoaim switched to always active.");
+			else
+				console.printf("Autoaim now controller only.");
 		}
 	}
 }

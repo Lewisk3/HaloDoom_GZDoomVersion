@@ -1,0 +1,108 @@
+// This file is optional to include in your mod
+// this just contains the default lightning effects as shown
+// by the test Lightning Emitter.
+
+class LightSpark : Actor
+{
+	double fscale;
+	Default
+	{
+		Speed 2;
+		+NOINTERACTION;
+		RenderStyle "Normal";
+		Alpha 1.0;
+		Scale 0.25;
+	}
+	
+	override void BeginPlay()
+	{
+		super.BeginPlay();
+		A_SetScale(0.005);
+		fscale = frandom(0.005,0.02);
+	}
+	
+	States
+	{
+		Spawn:
+			LSPR "#" 0 NoDelay
+			{
+				frame = random(1,12);
+			}
+		Spawn_Animate:
+			LSPR "###" 1 Bright
+			{
+				Scale.X += fscale * 0.30;
+				Scale.Y += fscale * 0.30;
+			}
+			LSPR O 1 Bright 
+			{
+				A_Fadeout(0.12);
+				Scale.X -= fscale * 0.05;
+				Scale.Y -= fscale * 0.05;
+			}
+		wait;
+	}
+}
+
+class LightSmoke : LightningActor
+{
+	Default
+	{
+		Speed 2;
+		+NOINTERACTION;
+		RenderStyle "Add";
+		Alpha 0.15;
+		Scale 1.0;
+		+ROLLSPRITE;
+	}
+	
+	double rolldir;
+	double fadespd;
+	
+	override void BeginPlay()
+	{
+		super.BeginPlay();
+		rolldir = randompick(-1,1);
+		fadespd = frandom(0.8,2.0);
+		vel.x += frandom(-1,1);
+		vel.y += frandom(-1,1);
+		A_SetScale(frandom(0.50,1.75));
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		vel.z += 0.01;
+		vel *= 0.87;
+		roll -= 1.2 * rolldir;
+		alpha -= 0.01 * fadespd;
+		A_SetScale(scale.x * 1.02);
+		if(alpha <= 0.001) Destroy();
+	}
+	
+	States
+	{
+		Spawn:
+			SMOK A 1;
+		loop;
+	}
+}
+
+class LightningBiri : LightningActor
+{
+	Default
+	{
+		-LightningActor.DOFLASH;
+		LightningActor.FlashTic 2;
+
+		Scale 0.05;
+		Translation "0:255=@80[4,8,76]";
+	}
+	
+	States
+	{
+		Spawn:
+			BEAM A 1 A_FadeOut(0.04); // 0.14
+		wait;
+	}
+}

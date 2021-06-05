@@ -36,8 +36,8 @@ class HaloPlayer : DoomPlayer
 		Player.StartItem "Halo_AssaultRifle", 1;
 		Player.StartItem "Halo_Magnum", 1;
 		//Player.StartItem "Halo_Shotgun", 1;
-		Player.StartItem "Halo_Clip", 320;
-		Player.StartItem "Shell", 36;
+		Player.StartItem "Halo_Clip", 120;
+		Player.StartItem "Shell", 12;
 		HaloPlayer.Shields 70, 5, 4; // 5 seconds to recharge, 4 seconds to max.
 		HaloPlayer.MovementBob 0;
 		HaloPlayer.LowerCrosshairY 60;
@@ -99,7 +99,7 @@ class HaloPlayer : DoomPlayer
 		{	
 			regen_timer += 1;
 			// Useful for overshields to not regenerate.
-			if(shields >= maxshields) regen_timer = shregentime;
+			if(shields > maxshields) regen_timer = shregentime;
 		}
 		regen_timer = clamp(regen_timer, -shregentime, shregentime);
 		if(regen_timer >= shregentime && shields < maxshields) 
@@ -163,22 +163,26 @@ class HaloPlayer : DoomPlayer
 		return lowered_xhair && lowered_xhair.GetBool();
 	}
 	
-	void DoAimAssist(double strength = 0.20)
+	void DoAimAssist(double strength = 0.10)
 	{
+		// Check for aim assist cheat.
+		let evs = HaloDoom_Events(EventHandler.Find("HaloDoom_Events"));
+		
 		// Do not apply if not using a controller.
-		if(!using_controller) return;
-		
-		// Get target under aim.
-		let act = AimTarget();
-		if(!act) return;
-		
-		// Gather pitch and angular difference and interpolate
-		// aim to target.
-		vector3 aimpos = (act.pos.x, act.pos.y, act.pos.z + act.height/2.);
-		vector3 frompos = (pos.x, pos.y, player.viewz - (weap_yoffs * 1.2));
-		vector3 diffs = level.SphericalCoords(frompos, aimpos, (angle, pitch));
-		angle -= diffs.x * strength;
-		pitch -= diffs.y * (strength * 0.35);
+		if(using_controller || (evs && evs.alwaysautoaim))
+		{
+			// Get target under aim.
+			let act = AimTarget();
+			if(!act) return;
+			
+			// Gather pitch and angular difference and interpolate
+			// aim to target.
+			vector3 aimpos = (act.pos.x, act.pos.y, act.pos.z + act.height/2.);
+			vector3 frompos = (pos.x, pos.y, player.viewz - (weap_yoffs * 1.2));
+			vector3 diffs = level.SphericalCoords(frompos, aimpos, (angle, pitch));
+			angle -= diffs.x * strength;
+			pitch -= diffs.y * (strength * 0.25);
+		}
 	}
 	
 	void SetViewHeight(double val)
