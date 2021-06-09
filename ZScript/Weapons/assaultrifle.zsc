@@ -86,17 +86,17 @@ class Halo_AssaultRifle : HaloGun replaces Chaingun
 	
 	States
 	{
-		
 		Ready:
 			TNT1 A 0 
 			{
 				A_WeapSound("Halo/Weapons/Rifle/Select");
 				return A_JumpIf(A_DoFullSelectAnimation(), "Ready.Chamber");
 			}
-			HARR ABCDEFG 1 A_DoSelectAnim();
+			HARD ABCDEFG 1 A_DoSelectAnim();
 		goto Ready.Active;
 		Ready.Chamber:
-			HARD ABCDEFGHIJKLMNOPQRSTUVW 1 A_DoSelectAnim(0, true);
+			TNT1 A 0 A_DoSelectAnim(0, true);
+			HRR2 ABCDEFGHIJKLMNOPQRSTUVWX 1;
 		Ready.Active:
 			HARI A 1 
 			{
@@ -120,8 +120,8 @@ class Halo_AssaultRifle : HaloGun replaces Chaingun
 
 		Deselect:
 			TNT1 A 0 A_DisableLCD();
-			HARR GFEDCB 1;
-			HARR A 1 A_GunLower();
+			HARD GFEDCB 1;
+			HARD A 1 A_GunLower();
 		wait;
 		
 		
@@ -204,6 +204,39 @@ class Halo_AssaultRifle : HaloGun replaces Chaingun
 		Reload:
 			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
 			TNT1 A 0 A_DisableLCD();
+			TNT1 A 0 A_ReloadSound();
+			HRR1 ABCDE 1 A_SetRecoil(0.7, 0, 1);
+			HRR1 FGHIJ 2;
+			HRR1 KLMNOPQRS 2;
+			HRR1 T 2 A_SetRecoil(0.6, 0.8, 1);
+			HRR1 "UVWXYZ[\]" 2;
+			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Reload.Bolt");
+		Reload.Tactical:
+			HRR3 ABC 2;
+			HRR3 D 2 A_SetRecoil(-0.7, 0, 2);
+			TNT1 A 0 A_ReloadClip();
+			HRR3 EFGH 1;
+			HRR3 IJK 2;
+		goto Ready.Active;
+		Reload.Bolt:
+			HRR2 ABCDEF 2;
+			HRR2 G 2 A_SetRecoil(-1.0, 0.4, 4);
+			HRR2 HIJKLMNOPQRST 2;
+			HRR2 UVWX 1;
+			TNT1 A 0 A_ReloadClip();
+		goto Ready.Active;
+		
+		Spawn:
+			ARFL A -1;
+		stop;
+	}
+}
+
+/*
+
+		Reload:
+			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
+			TNT1 A 0 A_DisableLCD();
 			HRR1 ABCDEF 1;
 			TNT1 A 0 A_ReloadSound();
 			HRR1 G 1 A_SetRecoil(1.8, 0, 2);
@@ -230,8 +263,4 @@ class Halo_AssaultRifle : HaloGun replaces Chaingun
 			TNT1 A 0 A_ReloadClip();
 		goto Ready.Active;
 		
-		Spawn:
-			ARFL A -1;
-		stop;
-	}
-}
+*/
