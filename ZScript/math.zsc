@@ -156,6 +156,17 @@ class HaloMath Abstract
 		return level.vec3offset(frompos, vec);
     }
 
+	// Intertial calculations for thrust on monsters.
+	static double GetInertia(double emass)
+	{
+		// Deviation from small weight, 0 means no deviation.
+		double m = 200; // Base mass
+		double d = 0.15; // Mass dropoff
+		double x = (1. - (emass/m));
+		double y = -d*(x**2) + 1;
+		return clamp(y*0.75,0.1,1.0);
+	}
+		
 	/* Summary:
     **  Simulates a damped spring.
     **

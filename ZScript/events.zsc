@@ -34,7 +34,7 @@ class HaloDoom_Events : EventHandler
 				return;
 			}
 				
-			hplr.grapple = GrapplingHook.Deploy(hplr, 50, (0,0,-5));
+			hplr.grapple = GrapplingHook.Deploy(hplr, 20, (0,-2,-3));
 		}
 	
 		if(multiplayer) return;
