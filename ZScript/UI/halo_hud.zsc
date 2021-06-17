@@ -250,7 +250,7 @@ class HaloStatusBar : BaseStatusBar
 			
 			string sight = weap.UI_Sight;
 			double scale = weap.sightscale * 2.;
-			double sightalpha = 0.9;
+			double sightalpha = weap.sightalpha > 0 ? weap.sightalpha : 0.9;
 			Color dark = 0xFF000000;
 			
 			// There's no way to implement a "negative" cliprect or fill,
@@ -285,7 +285,7 @@ class HaloStatusBar : BaseStatusBar
 				sightalpha
 			); 
 			
-			HLSBS.DrawImage(sight, midpos, 0, sightalpha, scale:(scale,scale));
+			HLSBS.DrawImage(sight, midpos, 0, 1.0, scale:(scale,scale));
 		}
 	}
 

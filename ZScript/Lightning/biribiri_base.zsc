@@ -17,12 +17,13 @@ class BiriBiri : Actor abstract
 		return (cos(a)*cos(p), sin(a)*cos(p), -sin(p));
 	}
 	
-	static void DoLightning(vector3 pos, vector2 angles, class<LightningActor> type = "LightningBiri", double dist = 200, double stepsize = 1.0, double strength = 2.0, double roughness = 20.0, double branchchance = 80)
+	static void DoLightning(vector3 pos, vector2 angles, class<LightningActor> type = "LightningBiri", double dist = 200, double stepsize = 1.0, double strength = 2.0, double roughness = 20.0, double variance = 30, double branchchance = 80)
 	{
 		// Initialize
 		LightningActor prev;
 		double str = strength;
 		double boltalpha = frandom(0.08, 1.0);
+		double pitchmov;
 				
 		for(double len = 0; len < dist; len+=stepsize)
 		{	
@@ -46,7 +47,7 @@ class BiriBiri : Actor abstract
 			if(biri)
 			{
 				biri.angle = src_angles.x;
-				biri.pitch = src_angles.y - 90;
+				biri.pitch = src_angles.y + 90;
 				biri.alpha = boltalpha;
 				biri.bInvisible = true;
 			}
@@ -61,7 +62,13 @@ class BiriBiri : Actor abstract
 				prev.pitch += frandom(0, roughness);
 				
 				// Update Lightning direction.
-				biri.pitch += frandom[LightningPitch](-str,str);
+				double movedir = frandom[LightningPitch](-str,str);
+				if( pitchmov >  variance && movedir > 0 ||
+				    pitchmov < -variance && movedir < 0   ) 
+					movedir = -movedir;
+
+				pitchmov += movedir;				
+	   		    biri.pitch += movedir;
 				
 				// Adjust scale so that current connects to previous' position.
 				double scalequanta = (stepsize*biri.scale.x);

@@ -42,7 +42,7 @@ class Halo_SniperRifle : HaloGun replaces RocketLauncher
 		HaloGun.Inaccuracy SNIPER_ACCMOD;
 		HaloGun.Crosshair "SNPRet";
 		HaloGun.UIGraphic "WI_SNPR";
-		HaloGun.UISight "SI_SNPR", 1.0;
+		HaloGun.UISight "SI_SNPR", 1.0, 0.8;
 		HaloGun.SetupScope 4.0, 0.25;
 		HaloGun.ZoomSounds "Halo/Weapons/Sniper/Zoom/IN", "Halo/Weapons/Sniper/Zoom/OUT";
 		

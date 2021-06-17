@@ -20,6 +20,7 @@ class RecoilWeapon : Weapon
 	double swayspd, pitchmax, anglemax;
 	
 	Vector2 weapsway;
+	Vector2 staticoffs;
 
 	property RecoilSpeed : deftimer;
 	property LookSway : usesway, velsway, swayspd;
@@ -192,7 +193,11 @@ class RecoilWeapon : Weapon
 		
 		if( invoker.realoffsx == invoker.woffsx && invoker.realoffsy == invoker.woffsy+wyoffs) 
 		{
-			if(!invoker.swapping)ptr.A_WeaponOffset(0 + invoker.weapsway.x, 32 + invoker.weapsway.y);
+			vector2 finaloffs = (
+				invoker.weapsway.x+invoker.staticoffs.x,
+				32 + invoker.weapsway.y+invoker.staticoffs.y
+			);
+			if(!invoker.swapping)ptr.A_WeaponOffset(finaloffs.x, finaloffs.y);
 			return;
 		}
 		
@@ -201,7 +206,11 @@ class RecoilWeapon : Weapon
 		if(diffx < 0.1) invoker.realoffsx = invoker.woffsx; 
 		if(diffy < 0.1) invoker.realoffsy = invoker.woffsy;
 
-		ptr.A_WeaponOffset(0 + invoker.realoffsx+invoker.weapsway.x, 32 + invoker.realoffsy+invoker.weapsway.y);
+		vector2 finaloffs = (
+			invoker.realoffsx+invoker.weapsway.x+invoker.staticoffs.x,
+			32 + invoker.realoffsy+invoker.weapsway.y+invoker.staticoffs.y
+		);
+		ptr.A_WeaponOffset(finaloffs.x, finaloffs.y);
 		
 		invoker.realoffsx = RecoilWeapon.FrameInterpolate(invoker.realoffsx, invoker.woffsx, invoker.wofftimer);
 		invoker.realoffsy = RecoilWeapon.FrameInterpolate(invoker.realoffsy, invoker.woffsy, invoker.wofftimer);

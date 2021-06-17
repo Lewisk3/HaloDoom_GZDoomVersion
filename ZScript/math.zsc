@@ -166,6 +166,13 @@ class HaloMath Abstract
 		double y = -d*(x**2) + 1;
 		return clamp(y*0.75,0.1,1.0);
 	}
+	
+	// Credits: https://www.arduino.cc/reference/en/language/functions/math/map/
+	static double fmap(double x, double in_min, double in_max, double out_min, double out_max) 
+	{
+		return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+	}
+	
 		
 	/* Summary:
     **  Simulates a damped spring.

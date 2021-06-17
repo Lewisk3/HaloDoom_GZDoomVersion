@@ -26,6 +26,7 @@ class HaloGun : RecoilWeapon
 	string UI_Sight;
 	double sightscale;
 	double scoperecoil;
+	double sightalpha;
 	bool enablezoom;
 	double scopezoom;
 	bool zoomed;
@@ -44,7 +45,7 @@ class HaloGun : RecoilWeapon
 	Property SwaySpeed : rotation_sens;
 	Property BackpackReloadTime : backpack_reloadmaxtime;
 	property UIGraphic : UI_Icon;
-	Property UISight : UI_Sight, sightscale;
+	Property UISight : UI_Sight, sightscale, sightalpha;
 	Property SetupScope : scopezoom, scoperecoil;
 	Property ZoomSounds : snd_zoomin, snd_zoomout;
 
@@ -64,7 +65,8 @@ class HaloGun : RecoilWeapon
 		HaloGun.Crosshair "";
 		HaloGun.BaseRecoil 2;
 		HaloGun.BackpackReloadTime 35;
-		HaloGun.UISight "SI_MAG", 1.0;
+		HaloGun.UISight "SI_DEF", 0.3, 0.75;
+		HaloGun.SetupScope 1.3, 1.0;
 		HaloGun.UIGraphic "WI_AR";
 		HaloGun.SwayRange 4.0;
 		HaloGun.SwaySpeed 2.5;
@@ -314,6 +316,9 @@ class HaloGun : RecoilWeapon
 			}
 		}
 		
+		// De-scope if reload detected.
+		if(inreload && zoomed) enablezoom = false;
+		
 		// Force weapon to be deselected.
 		if(force_deselect && !InStateSequence(psp.CurState,FindState("Deselect")))
 		{
@@ -485,7 +490,16 @@ class HaloGun : RecoilWeapon
 	action void A_ScopeON()
 	{
 		let psp = player.GetPSprite(PSP_WEAPON);
-		if(psp) psp.scale = (0,0);
+		if(psp) 
+		{
+			// Min scale, should be around 3x
+			double zscale = 1.0+HaloMath.fmap(invoker.scopezoom, 1.0, 3.0, 0, 2.0); 
+			if(invoker.scopezoom >= 2.0) zscale = 0;
+			
+			vector2 hidepos = (15, 10) * zscale;
+			psp.scale = (zscale,zscale);
+			invoker.staticoffs = (hidepos.x, hidepos.y);
+		}
 		invoker.zoomed = true;
 		A_StartSound(invoker.snd_zoomin, flags:CHANF_OVERLAP);
 	}
@@ -493,6 +507,7 @@ class HaloGun : RecoilWeapon
 	{
 		let psp = player.GetPSprite(PSP_WEAPON);
 		if(psp) psp.scale = (1.,1.);
+		invoker.staticoffs = (0,0);
 		invoker.zoomed = false;
 		A_StartSound(invoker.snd_zoomout, flags:CHANF_OVERLAP);
 	}
@@ -500,7 +515,7 @@ class HaloGun : RecoilWeapon
 	{
 		return invoker.zoomed;
 	}
-	action void A_HaloWeaponReady(uint flags, bool usescope = false)
+	action void A_HaloWeaponReady(uint flags, bool usescope = true)
 	{
 		if(usescope) A_ScopeEnable();
 		A_RWeaponReady(flags);

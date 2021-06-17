@@ -107,7 +107,7 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 		Ready.Active:
 			DBSI A 1 
 			{
-				A_HaloWeaponReady(WRF_ALLOWRELOAD);
+				A_HaloWeaponReady(WRF_ALLOWRELOAD, false);
 			}
 		loop;
 		

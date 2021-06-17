@@ -40,6 +40,7 @@ class Halo_BattleRifle : HaloGun replaces PlasmaRifle
 		HaloGun.Inaccuracy BARIFLE_ACCMOD;
 		HaloGun.Crosshair "BarRet";
 		HaloGun.UIGraphic "WI_DMR";
+		HaloGun.UISight "SI_BR", 0.3, 0.7;
 		HaloGun.SetupScope 2.0, 0.25;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
