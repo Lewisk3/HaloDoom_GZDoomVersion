@@ -15,6 +15,7 @@ class RecoilWeapon : Weapon
 	double yoff_min, yoff_max;
 	double basezoom;
 	double recoilmod;
+	double rollshake_str, rollshake_time, rollshake_freq;
 
 	int deftimer, recoil_timer, newtimer, looksway;
 	double swayspd, pitchmax, anglemax;
@@ -112,10 +113,10 @@ class RecoilWeapon : Weapon
 
 	action void A_SetZoom(double z, double zoomframes, bool keepzoom = false)
 	{
+		if(keepzoom) invoker.basezoom = z;
 		if(invoker.zoomfactor == 0) invoker.zoomfactor = 1;
 		invoker.defzoom = (z == 0) ? 1.0 : z;
 		invoker.zoomtimer = zoomframes;
-		if(keepzoom) invoker.basezoom = z;
 	}
 	
 	action void A_SetRecoil(double p, double a, double spd)
@@ -244,6 +245,20 @@ class RecoilWeapon : Weapon
 		A_Quake(str*cvi,dur,drad,trad,sfx);
 	}
 	
+	action void A_RollQuake(double str, int dur, double freq = 4, bool noreplace = false)
+	{
+		if(!noreplace || invoker.rollshake_str == 0)
+		{
+			invoker.rollshake_str = str;
+			invoker.rollshake_time = dur;
+			invoker.rollshake_freq = freq;
+		}
+		else
+		{
+			invoker.rollshake_time = dur;
+		}
+	}
+	
 	override void DoEffect()
 	{
 		if(!recoilmod) recoilmod = 1.0;
@@ -264,6 +279,21 @@ class RecoilWeapon : Weapon
 		if( usesway && dosway ) A_LookSway(3,velsway,Owner);
 		A_UpdateOffsets(Owner);
 
+
+		if(rollshake_time > 0)
+		{
+			double strmod = HaloMath.fmap(rollshake_time, 0, 20, 0.1, 1.0);
+			if(!(level.time%rollshake_freq)) rollshake_str *= -1;
+			double rshake = rollshake_str * strmod * cv_recoil.GetFloat();
+			
+			Owner.A_SetRoll(Owner.roll + rshake, SPF_INTERPOLATE);
+			rollshake_time--;
+		}
+		else if(rollshake_str != 0)
+		{
+			Owner.A_SetRoll(HaloMath.Lerp(Owner.roll, 0, 0.25), SPF_INTERPOLATE);
+			if(Owner.roll == 0) rollshake_str = 0;
+		}
 		
 		if( abs(recoil_pitch) == 0 && abs(recoil_angle) == 0 )
 		{
