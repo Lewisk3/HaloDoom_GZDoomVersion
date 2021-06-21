@@ -1,0 +1,108 @@
+class Overshield_LV1 : Inventory replaces GreenArmor
+{	
+	double shieldbuff;
+	Property ShieldBoost : shieldbuff;
+
+	Default
+	{
+		RenderStyle "Add";
+		Alpha 0.6;
+		+FLOATBOB;
+		+NOGRAVITY;
+		Scale 0.05;
+		Height 8;
+		Radius 8;
+		Overshield_LV1.ShieldBoost 2.0;
+		Inventory.PickupMessage "Picked up an Overshield (LV1)";
+	}
+	
+	override bool TryPickup(in out Actor toucher)
+	{
+		let hplr = HaloPlayer(toucher);
+		if(!hplr) return false;
+		
+		if(hplr.shields < (hplr.maxshields * shieldbuff))
+		{
+			hplr.shields = hplr.maxshields * shieldbuff;
+			bool localview = toucher.CheckLocalView();
+			PrintPickupMessage(localview, PickupMessage());
+			PlayPickupSound(toucher);
+			GoAwayAndDie();
+			return true;
+		}
+		return false;
+	}
+	
+	virtual void DoParticles(Color pcol = 0xFF21c24c)
+	{
+		double phase = cos(GetAge());
+		double bobz = GetBobOffset();
+		
+		double dist = 16;
+		double amt = 60;
+		
+		for(int i = 0; i < amt; i++)
+		{
+			double ifrac = i/amt;
+			double zoffs = bobz + 12;
+			
+			double ang = ifrac * 360;
+			double pit = 0;
+			ang += GetAge() * 8;
+		
+			vector3 sdir = (
+				cos(ang) * cos(pit),
+				sin(ang) * cos(pit),
+				-sin(pit)
+			);
+			vector3 spos = sdir*dist;
+			
+			A_SpawnParticle(
+				pcol, SPF_FULLBRIGHT, 1, 3.0, 0,
+				spos.x, spos.y, spos.z + zoffs, 0,0,0,0,0,0,
+				frandom(0.15,1.0), 0.025
+			);
+			
+			if(random(0,5)==5)
+			{
+				ang = frandom(0,360);
+				pit = frandom(-45,45);
+				vector3 rdir = (
+					cos(ang),
+					sin(ang),
+					-sin(pit)
+				) * frandom(2,8);
+				
+				A_SpawnParticle(
+					pcol, SPF_FULLBRIGHT, 10, 3.0, ang,
+					0,0, zoffs, rdir.x,rdir.y,rdir.z,0,0,0,
+					frandom(0.15,1.0), 0.025
+				);
+			}
+		}
+	}
+	
+	States
+	{
+		Spawn:
+			PWSH A 1 DoParticles();
+		loop;
+	}
+}
+
+class Overshield_LV2 : Overshield_LV1 replaces BlueArmor
+{
+	Default
+	{
+		Overshield_LV1.ShieldBoost 3.0;
+		Inventory.PickupMessage "Picked up an Overshield (LV2)";
+	}
+	
+	States
+	{
+		Spawn:
+			PWSH B 1 DoParticles(0xFFffa9ff);
+		loop;
+	}
+}
+

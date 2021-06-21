@@ -73,6 +73,13 @@ class HaloDoom_Events : EventHandler
 			else
 				console.printf("Autoaim now controller only.");
 		}
+		
+		if(e.Name == "HaloDoom_MaxShield")
+		{
+			let hplr = HaloPlayer(src.mo);
+			if(!hplr) return;
+			hplr.shields = hplr.maxshields * 3.0;
+		}
 	}
 }
 

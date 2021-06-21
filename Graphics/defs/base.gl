@@ -19,6 +19,13 @@ pointlight BlueBrightLight
     color 0.0 0.0 1.0
     size 8
 }
+pulselight GreenPulseLight
+{
+	color 0 0.96 0
+	size 16    
+	secondarySize 8
+    interval 2.5
+}
 pulselight RedPulseLight
 {
 	color 0.96 0 0
@@ -77,4 +84,16 @@ object HaloCovBlueKey
 object HaloCovYellowKey 
 {
 	Frame HCYK { light YellowPulseLight }
+}
+object Overshield_LV1 
+{
+	Frame PWSH { light GreenPulseLight }
+}
+
+// Sprite brightmaps
+brightmap sprite PWSHA0 {
+	map PWSBA0
+}
+brightmap sprite PWSHB0 {
+	map PWSBA0
 }

@@ -1,6 +1,11 @@
 // Credits: https://gist.github.com/itsmrpeck/be41d72e9d4c72d2236de687f6f53974
 class HaloMath Abstract
 {	
+	static double sign(double num)
+	{
+		return num < 0 ? -1 : 1;
+	}
+
 	// Generate forward facing vector from angle/pitch.
 	static vector3 VecFromAngles(double angle, double pitch, double mag = 1.)
 	{

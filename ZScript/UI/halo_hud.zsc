@@ -316,23 +316,53 @@ class HaloStatusBar : BaseStatusBar
 		else
 			dimalpha = 0.4;
 
-		string shbg = shieldwarn ? "sh_rbg"  : "sh_nbg";
-		string shou = shieldwarn ? "sh_rout" : "sh_nout";
-		if(curshields != haloplr.shields) curshields = HaloMath.Lerp(curshields, haloplr.shields, 0.2*deltatime);
-		double shieldperc = curshields/haloplr.maxshields;
+		// Constants
+		string shbg  = shieldwarn ? "sh_rbg"  : "sh_nbg";
+		string shou  = shieldwarn ? "sh_rout" : "sh_nout";
+		string shgfx = "sh_bar";
+		uint flags = HLSBS.SS_NOASPECTCORRECTION;
 		vector2 shieldpos  = (958, 88); //(1550, 50);
 		vector2 healthpos  = (577, 77); //(1740, 77);
 		vector2 shieldmin  = (958,  0); //(958,   0);  
 		vector2 shieldclip = (706,504); //(706, 504);
+		
+		// Interpolate Shields
+		if(curshields != haloplr.shields) 
+		{
+			double ispd = (haloplr.shields > curshields) ? 0.05 : 0.2;
+			curshields = HaloMath.Lerp(curshields, haloplr.shields, ispd*deltatime);
+		}
+		if(curshields == 0) curshields = haloplr.shields;
+		double shieldperc = curshields/haloplr.maxshields;
+		
+		// Setup shield parameters
+		if(shieldperc >= 2.0) 
+		{
+			shbg = "sh_bar1";
+			shgfx = "sh_bar2";
+			shieldperc -= 2.0;
+		}
+		else if(shieldperc >= 1.0) 
+		{
+			shbg = "sh_bar";
+			shgfx = "sh_bar1";
+			shieldperc -= 1.0;
+		}
+		
+		// Shield outline and background
+		HLSBS.DrawImage(shou, shieldpos, flags, 0.8, scale:(1.0,1.35));
+		HLSBS.DrawImage(shbg, shieldpos, flags, 0.8, scale:(1.0,1.35));
+		
+		// Shield clip
 		shieldclip.x = HaloMath.Lerp(shieldclip.x, shieldmin.x, 1.-shieldperc);
 		shieldclip.y = HaloMath.Lerp(shieldclip.y, shieldmin.y, 1.-shieldperc);
-		uint flags = HLSBS.SS_NOASPECTCORRECTION;
-		HLSBS.DrawImage(shbg, shieldpos, flags, 0.8, scale:(1.0,1.35));
-		HLSBS.SetClipRect(shieldclip.x,32,shieldclip.y,86);
-		HLSBS.DrawImage("sh_bar", shieldpos, flags, 0.8, scale:(1.0,1.35));
-		HLSBS.ClearClipRect();		
-		HLSBS.DrawImage(shou, shieldpos, flags, 0.8, scale:(1.0,1.35));
 		
+		// Shield graphics
+		HLSBS.SetClipRect(shieldclip.x,32,shieldclip.y,86);
+		HLSBS.DrawImage(shgfx, shieldpos, flags, 0.8, scale:(1.0,1.35));
+		HLSBS.ClearClipRect();	
+
+		// Health
 		double hpratio = haloplr.health / double(haloplr.GetMaxHealth()); 
 		int healthbars = clamp(ceil(hpratio * 9), 1, 9);
 		HLSBS.DrawImage("ui_hbar"..healthbars, healthpos, flags, 0.8, scale:(-1.0,1.15));
