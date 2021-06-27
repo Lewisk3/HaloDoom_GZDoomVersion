@@ -50,7 +50,7 @@ class HaloRedKey : HaloKey replaces RedCard
 	{
 		Inventory.Pickupmessage HKEY_REDMSG;
 		Inventory.Icon "STKEYS2";
-		species "RedCard";
+		Species "RedCard";
 	}
 	
 	States
@@ -66,7 +66,7 @@ class HaloBlueKey : HaloKey replaces BlueCard
 	{
 		Inventory.Pickupmessage HKEY_BLUEMSG;
 		Inventory.Icon "STKEYS0";
-		species "BlueCard";
+		Species "BlueCard";
 	}
 	States
 	{
@@ -81,7 +81,7 @@ class HaloYellowKey : HaloKey replaces YellowCard
 	{
 		Inventory.Pickupmessage HKEY_YELLOWMSG;
 		Inventory.Icon "STKEYS1";
-		species "YellowCard";
+		Species "YellowCard";
 	}
 	
 	States
@@ -97,9 +97,9 @@ class HaloCovRedKey : HaloCovKey replaces RedSkull
 {
 	Default
 	{
-		inventory.pickupmessage HCKEY_REDMSG;
-		inventory.icon "HCRKA0";
-		species "RedSkull";
+		Inventory.pickupmessage HCKEY_REDMSG;
+		Inventory.icon "HCRKA0";
+		Species "RedSkull";
 	}
 	States
 	{
@@ -112,9 +112,9 @@ class HaloCovBlueKey : HaloCovKey replaces BlueSkull
 {
 	Default
 	{
-		inventory.pickupmessage HCKEY_BLUEMSG;
-		inventory.icon "HCBKA0";
-		species "BlueSkull";
+		Inventory.pickupmessage HCKEY_BLUEMSG;
+		Inventory.icon "HCBKA0";
+		Species "BlueSkull";
 	}
 	States
 	{
@@ -127,9 +127,9 @@ class HaloCovYellowKey : HaloCovKey replaces YellowSkull
 {
 	Default
 	{
-		inventory.pickupmessage HCKEY_YELLOWMSG;
-		inventory.icon "HCYKA0";
-		species "YellowSkull";
+		Inventory.pickupmessage HCKEY_YELLOWMSG;
+		Inventory.icon "HCYKA0";
+		Species "YellowSkull";
 	}
 	States
 	{
