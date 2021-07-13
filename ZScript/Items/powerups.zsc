@@ -12,6 +12,7 @@ class Overshield_LV1 : Inventory replaces GreenArmor
 		Scale 0.05;
 		Height 8;
 		Radius 8;
+		Inventory.PickupSound "Halo/Powerup/Shield1";
 		Overshield_LV1.ShieldBoost 2.0;
 		Inventory.PickupMessage "Picked up an Overshield (LV1)";
 	}
@@ -95,6 +96,7 @@ class Overshield_LV2 : Overshield_LV1 replaces BlueArmor
 	Default
 	{
 		Overshield_LV1.ShieldBoost 3.0;
+		Inventory.PickupSound "Halo/Powerup/Shield2";
 		Inventory.PickupMessage "Picked up an Overshield (LV2)";
 	}
 	

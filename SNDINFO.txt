@@ -2,6 +2,13 @@
 Halo/Weapons/Zoom/In Zoom_IN
 Halo/Weapons/Zoom/Out Zoom_OUT
 
+// Items
+Halo/Powerup/Camo    "Sounds/Items/power_camo.wav"
+Halo/Powerup/Damage  "Sounds/Items/power_damage.wav"
+Halo/Powerup/Time    "Sounds/Items/power_time.wav"
+Halo/Powerup/Shield1 "Sounds/Items/power_shield1.wav"
+Halo/Powerup/Shield2 "Sounds/Items/power_shield2.wav"
+
 // Magnum
 HW_MAGF1 HW_MAGF1
 HW_MAGF2 HW_MAGF2
