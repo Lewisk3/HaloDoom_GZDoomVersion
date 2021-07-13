@@ -46,6 +46,17 @@ class Halo_BattleRifle : HaloGun replaces PlasmaRifle
 		RecoilWeapon.YOffsetRange -10, 40;
 	}
 	
+	override void MarkPrecacheSounds()
+	{
+		// Prevent stutters by precaching weapon sounds.
+		MarkSound("Halo/Weapons/BattleRifle/Fire");
+		MarkSound("Halo/Weapons/BattleRifle/Fire/Bass");
+		MarkSound("Halo/Weapons/BattleRifle/Mech");
+		MarkSound("Halo/Weapons/BattleRifle/Reload/Full");
+		MarkSound("Halo/Weapons/BattleRifle/Reload/Empty");
+		MarkSound("Halo/Weapons/BattleRifle/Select");
+	}
+	
 	action void A_FireRifle()
 	{
 		A_Light(2);

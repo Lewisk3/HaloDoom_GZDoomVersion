@@ -42,6 +42,16 @@ class Halo_Shotgun : HaloGun replaces Shotgun
 		HaloGun.UIGraphic "WI_SG";
 	}
 	
+	override void MarkPrecacheSounds()
+	{
+		// Prevent stutters by precaching weapon sounds.
+		MarkSound("Halo/Weapons/Shotgun/Fire");
+		MarkSound("Halo/Weapons/Shotgun/Fire/Bass");
+		MarkSound("Halo/Weapons/Shotgun/Pump");
+		MarkSound("Halo/Weapons/Shotgun/Reload");
+		MarkSound("Halo/Weapons/Shotgun/Ready");
+	}
+	
 	action void A_FireShotgun()
 	{
 		A_Light(2);

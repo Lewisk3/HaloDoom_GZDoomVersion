@@ -60,6 +60,17 @@ class Halo_AssaultRifle : HaloGun replaces Chaingun
 		}
 	*/
 	
+	override void MarkPrecacheSounds()
+	{
+		// Prevent stutters by precaching weapon sounds.
+		MarkSound("Halo/Weapons/Rifle/Fire");
+		MarkSound("Halo/Weapons/Rifle/Fire/Bass");
+		MarkSound("Halo/Weapons/Rifle/Mech");
+		MarkSound("Halo/Weapons/Rifle/Reload/Full");
+		MarkSound("Halo/Weapons/Rifle/Reload/Empty");
+		MarkSound("Halo/Weapons/Rifle/Select");
+	}
+	
 	action void A_FireRifle()
 	{
 		A_Light(2);
