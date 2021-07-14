@@ -105,13 +105,13 @@ class HaloPlayer : DoomPlayer
 		regen_timer = clamp(regen_timer, -shregentime, shregentime);
 		if(regen_timer >= shregentime && shields < maxshields) 
 		{
-			double recharge_perc =  1.0 - (shields / maxshields);
+			double recharge_perc = (shields / maxshields);
 			if(!shields_recharging)
 			{
 				A_StartSound("Shield/Regenerate", CHAN_5, flags:CHANF_MAYBE_LOCAL, startTime:recharge_perc*3.0);
 				shields_recharging = true;
 			}
-			A_SoundVolume(CHAN_5, recharge_perc + 0.1);
+			A_SoundVolume(CHAN_5, (1.0 - recharge_perc) + 0.1);
 			shields += maxshields/(shield_regenrate*35.);
 			A_StopSound(CHAN_7);
 		}
