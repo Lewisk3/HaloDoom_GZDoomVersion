@@ -1,6 +1,8 @@
 class HaloMenuBase : ListMenu
 {	
 	int btn_selected;
+	double prevMS;
+	double deltatime;
 	
 	// Elements
 	MenuTexture MainBG;
@@ -41,15 +43,28 @@ class HaloMenuBase : ListMenu
 		{
 			buttons[i].Draw();
 		}
+		
+		if(!prevMS)
+		{
+			prevMS = MSTime();
+			return;
+		}
+		double ftime = MSTime()-prevMS;
+		prevMS = MSTime();
+		double dtime = 1000.0 / 60.0;
+		deltatime = (ftime/dtime);
 	}
 
 	override bool OnUIEvent(UiEvent ev)
 	{
-		mMouse.Update(ev);
-		if(ev.Type == UIEvent.Type_MouseMove) 
+		if(mMouse) 
 		{
-			if(btn_selected > -1)mMouse.left_pressed = false;
-			btn_selected = -1;
+			mMouse.Update(ev);
+			if(ev.Type == UIEvent.Type_MouseMove) 
+			{
+				if(btn_selected > -1)mMouse.left_pressed = false;
+				btn_selected = -1;
+			}
 		}
 		return false;
 	}

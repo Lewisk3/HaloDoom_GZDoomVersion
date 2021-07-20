@@ -1,3 +1,84 @@
+class AnimatedImage ui
+{
+	vector2 pos;
+	vector2 scale;
+	vector2 center;
+	bool active;
+	
+	virtual void Setup()
+	{
+		pos = (0,0);
+		scale = (1.0, 1.0);
+		center = (1920./2., 1080./2.);
+		active = true;
+	}
+	
+	virtual void Animate(double dt)
+	{
+		active = false;
+	}
+}
+
+class ANImageQueue ui
+{ 
+	double prevMS;
+	double deltatime;
+	Array<AnimatedImage> images;
+	
+	static ANImageQueue Create()
+	{
+		return new("ANImageQueue");
+	}
+	
+	virtual void Push(class<AnimatedImage> imgcls)
+	{
+		let animg = AnimatedImage(new(imgcls));
+		animg.Setup();
+		images.Insert(0, animg);
+	}
+	
+	virtual AnimatedImage Pop()
+	{
+		uint top = images.Size()-1;
+		if(top < 0) return null;
+		
+		let topimg = images[top];
+		images.Delete(images.Size()-1);
+		return topimg;
+	}
+	
+	virtual bool IsEmpty()
+	{
+		return images.Size() <= 0;
+	}
+	
+	virtual void Process()
+	{
+		if(!prevMS)
+		{
+			prevMS = MSTime();
+			return;
+		}
+		double ftime = MSTime()-prevMS;
+		prevMS = MSTime();
+		double dtime = 1000.0 / 60.0;
+		deltatime = (ftime/dtime);
+		
+		uint top = images.Size()-1;
+		if(top < 0) return;
+		
+		let cur = images[top];
+		if(!cur) return;
+		if(!cur.active) 
+		{
+			Pop();
+			cur.Destroy();
+		}
+		cur.Animate(deltatime);
+	}
+}
+
+
 class TextElement ui
 {
 	Font text_font;
@@ -25,7 +106,6 @@ class TextElement ui
 		HLSBS.DrawString(text_font,txt,pos,0,font_color,alpha, scale, tint, linespace);
 	}
 }
-
 
 class Button ui
 {

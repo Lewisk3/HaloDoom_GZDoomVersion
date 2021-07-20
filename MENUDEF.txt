@@ -29,14 +29,15 @@ AddOptionMenu "CustomizeControls"
 	StaticText "↓ More Controls ↓"
 }
 
-
+ListMenu "Intro"
+{
+	class "HaloDoom_IntroSeq"
+}
 
 ListMenu "MainMenu"
 {
 	class "HaloDoom_TitleMenu"
 }
-
-
 
 OptionMenu "HaloDoomControlsMenu"
 {

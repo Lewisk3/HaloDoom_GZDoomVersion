@@ -4,6 +4,13 @@ class HaloDoom_Events : EventHandler
 {
 	bool nevertarget;
 	bool alwaysautoaim;
+	HaloDoom_EngineEvents engHandle;
+	
+	override void OnRegister()
+	{
+		engHandle = HaloDoom_EngineEvents(StaticEventHandler.Find("HaloDoom_EngineEvents"));
+	}
+	
 	override void WorldTick()
 	{
 		let act_it = ThinkerIterator.Create();
@@ -14,6 +21,18 @@ class HaloDoom_Events : EventHandler
 			{
 				act.target = NULL;
 			}
+		}
+	}
+
+	override void UITick()
+	{
+		let curmenu = Menu.GetCurrentMenu();
+		bool curintro = (curmenu is "HaloDoom_IntroSeq");
+		
+		if(engHandle.edata.first_boot && !curintro)
+		{
+			Menu.SetMenu("Intro");
+			engHandle.edata.first_boot = false;
 		}
 	}
 
@@ -83,13 +102,46 @@ class HaloDoom_Events : EventHandler
 	}
 }
 
-// TODO: This will be used for the title screen primarily.
-// We can detect when the game has just started here
-// good for doing first-time things like a logo fade.
-class HaloDoom_EngineEvents : StaticEventHandler 
+
+
+// As of GZDoom 4.5, Structs ignore scoping.
+// This needs to be done here because I cannot get NetworkEvents to properly
+// call from the title.
+// When the game first loads up, this will detect that and 
+// set the menu to play the intro effects. 
+struct engine_vars 
 {
+	bool first_boot;
+}
+
+class HaloDoom_EngineEvents : StaticEventHandler 
+{		
+	ui double prevMS;
+	ui double deltatime;
+	ui double ui_tick;
+	engine_vars edata;
+
 	override void OnRegister()
 	{
+		edata.first_boot = true;
+	}
+	
+	override void UITick()
+	{
+		// Keeps track of relative time while in UI
+		// Every time ui_tick rolls over, approx 1 in-game tick has passed.
+		if(!prevMS)
+		{
+			prevMS = MSTime();
+			return;
+		}
+		double ftime = MSTime()-prevMS;
+		prevMS = MSTime();
+		double dtime = 1000.0 / 60.0;
+		deltatime = (ftime/dtime);
 		
+		ui_tick += 0.285 * deltatime;
+		
+		if(ui_tick >= 1.0) ui_tick = 0;
 	}
 }

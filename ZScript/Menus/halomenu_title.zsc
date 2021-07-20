@@ -1,10 +1,6 @@
 class HaloDoom_TitleMenu : HaloMenuBase
 {
-	void DStr(String str, vector2 pos, Color col = Font.CR_WHITE, vector2 scale=(1.15,1.15))
-	{
-		HLSBS.DrawString("BigFont",str,pos,0,col,1.0,scale);
-	}
-
+	double fadein;
 	override void Init(Menu parent, ListMenuDescriptor desc)
 	{
 		Super.Init(parent, desc);
@@ -27,11 +23,16 @@ class HaloDoom_TitleMenu : HaloMenuBase
 		for(int i = 0; i < buttons.Size(); i++)
 			buttons[i].ScaleCollider(0.9, 0.7);
 		
+		S_ChangeMusic("TITLEMUS", force:true);
 		DontDim = true;
 		mMouse.SetPos(buttons[0].btnrect.pos);
-		
-		DontDim = true;
 		btn_selected = 0;
+		fadein = 1.0;
+	}
+	
+	void DStr(String str, vector2 pos, Color col = Font.CR_WHITE, vector2 scale=(1.15,1.15))
+	{
+		HLSBS.DrawString("BigFont",str,pos,0,col,1.0,scale);
 	}
 	
 	override void Drawer()
@@ -55,6 +56,9 @@ class HaloDoom_TitleMenu : HaloMenuBase
 		
 		// mMouse.DrawDebug();
 		// buttons[0].DrawDebug();
+		
+		if(fadein > 0.15) fadein -= 0.02 * deltatime;
+		HLSBS.Dim(Color(255,0,0,0), fadein);
 	}
 	
 	override void Ticker()
@@ -92,6 +96,182 @@ class HaloDoom_TitleMenu : HaloMenuBase
 	}
 }
 
+
+class HaloDoom_IntroSeq : HaloMenuBase
+{
+	ANImageQueue intros;
+
+	override void Init(Menu parent, ListMenuDescriptor desc)
+	{
+		Super.Init(parent, desc);
+		
+		intros = ANImageQueue.Create();
+		intros.push("Intro_Disclaimer");
+		intros.push("Intro_Xbox");
+		intros.push("Intro_Bungie");
+		intros.push("Intro_HaloDoom");
+		
+		DontDim = true;
+		S_ChangeMusic("INTROMUS", force:true);
+		
+		btn_selected = 0;
+	}
+	
+	override void Drawer()
+	{
+		intros.Process();
+		
+		if(intros.IsEmpty())
+		{
+			Close();
+			SetMenu("Mainmenu");
+			return;
+		}
+	}
+	
+	override bool MenuEvent(int mkey, bool fromcontroller)
+	{
+		switch (mkey)
+		{
+		case MKEY_Enter:
+		case MKEY_Back:
+			intros.Pop();
+			return true;
+		}
+		return false;
+	}
+	
+	override void Ticker()
+	{
+		
+	}
+}
+
+// Animated intros
+class Intro_Disclaimer : AnimatedImage
+{
+	double fade;
+	uint fadedir;
+	
+	override void Setup()
+	{
+		super.Setup();
+		fade = 0;
+		fadedir = 1.0;
+	}
+	
+	override void Animate(double dt)
+	{	
+		HLSBS.Dim(Color(255,0,0,0), 1.0);
+		if(fadedir > 0)
+		{
+			fade += 0.02 * dt;
+			if(fade >= 3.0) 
+			{
+				fadedir = -1;
+				fade = 1.0;
+			}
+			HLSBS.DrawImage("Graphics/UI/Title/Splash1.jpg", center, alpha:fade);
+		}
+		else
+		{
+			fade -= 0.04 * dt;
+			if(fade <= 0) active = false;
+			HLSBS.DrawImage("Graphics/UI/Title/Splash1.jpg", center, alpha:fade);
+			HLSBS.DrawImage("Graphics/UI/Title/Splash6.jpg", center, alpha:1.0-fade);
+		}
+	}
+}
+class Intro_Xbox : AnimatedImage
+{
+	double fade;
+	double whitefade;
+	
+	override void Setup()
+	{
+		super.Setup();
+		fade = 4.0;
+		whitefade = 1.0;
+	}
+	
+	override void Animate(double dt)
+	{	
+		HLSBS.Dim(Color(255,0,0,0), 1.0);
+		
+		whitefade -= 0.02 * dt;
+		if(whitefade <= 0) fade -= 0.02 * dt;
+		if(fade <= -0.5) active = false;
+		HLSBS.DrawImage("Graphics/UI/Title/Splash2.jpg", center, alpha:fade);
+		HLSBS.DrawImage("Graphics/UI/Title/Splash6.jpg", center, alpha:whitefade);
+	}
+}
+class Intro_Bungie : AnimatedImage
+{
+	double fade;
+	bool fadeout;
+	
+	override void Setup()
+	{
+		super.Setup();
+		fade = 0;
+	}
+	
+	override void Animate(double dt)
+	{	
+		HLSBS.Dim(Color(255,0,0,0), 1.0);
+		
+		if(!fadeout)
+			fade += 0.02 * dt;
+		else
+			fade -= 0.02 * dt;
+			
+		if(fade >= 5.0) 
+		{
+			fadeout = true;
+			fade = 1.0;
+		}
+		if(fade <= -0.5 && fadeout) active = false;
+		
+		HLSBS.DrawImage("Graphics/UI/Title/Splash3.jpg", center, alpha:fade);
+		if(fade > 2.0) 
+			HLSBS.DrawImage("Graphics/UI/Title/Splash4.jpg", center, alpha:fade-2.0);
+		else if(fadeout)
+			HLSBS.DrawImage("Graphics/UI/Title/Splash4.jpg", center, alpha:fade);
+	}
+}
+class Intro_HaloDoom : AnimatedImage
+{
+	double fade;
+	bool fadeout;
+	
+
+	override void Setup()
+	{
+		super.Setup();
+		fade = 0;
+	}
+	
+	override void Animate(double dt)
+	{	
+		HLSBS.Dim(Color(255,0,0,0), 1.0);
+		
+		if(!fadeout)
+			fade += 0.02 * dt;
+		else
+		{
+			fade -= 0.01 * dt;
+		}
+			
+		if(fade >= 4.5) 
+		{
+			fadeout = true;
+			fade = 1.0;
+		}
+		if(fade <= -0.35) active = false;
+		
+		HLSBS.DrawImage("Graphics/UI/Title/Splash5.jpg", center, alpha:fade);
+	}
+}
 
 // TitleMap Objects
 class Halo_Ring : Actor
