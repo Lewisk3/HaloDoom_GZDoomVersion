@@ -1,4 +1,4 @@
-version 4.0
+version "4.0"
 
 #include "pickup.cfg"
 
@@ -20,6 +20,11 @@ version 4.0
 #include "ZScript/UI/halo_hud.zsc"
 #include "ZScript/UI/overlay_ui.zsc"
 #include "ZScript/UI/hitmarkers.zsc"
+
+// Menu(s)
+#include "ZScript/Menus/Base/halomenu_base.zsc"
+#include "ZScript/Menus/Base/halomenu_elements.zsc"
+#include "ZScript/Menus/halomenu_title.zsc"
 
 // Items
 #include "ZScript/Items/keys.zsc"

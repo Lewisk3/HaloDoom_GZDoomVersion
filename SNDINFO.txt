@@ -1,6 +1,7 @@
 // Universal sounds
-Halo/Weapons/Zoom/In Zoom_IN
+Halo/Weapons/Zoom/In  Zoom_IN
 Halo/Weapons/Zoom/Out Zoom_OUT
+Halo/Weapons/DryFire  HW_DRYF
 
 // Items
 Halo/Powerup/Camo    "Sounds/Items/power_camo.wav"
@@ -27,12 +28,12 @@ HW_MAGS2 HW_MAGS2
 
 $Random Halo/Weapons/Mag_MD6/Fire 		{ HW_MAGF1 HW_MAGF2 HW_MAGF3 HW_MAGF4 }
 $Random Halo/Weapons/Mag_MD6/Fire/Bass 	{ HW_MAGL1 HW_MAGL2 HW_MAGL3 }
-$Random Halo/Weapons/Mag_MD6/Mech 	{ HW_MAGM1 HW_MAGM2 HW_MAGM3 }
-$Random Halo/Weapons/Mag_MD6/Select { HW_MAGS1 HW_MAGS2 }
+$Random Halo/Weapons/Mag_MD6/Mech 	    { HW_MAGM1 HW_MAGM2 HW_MAGM3 }
+$Random Halo/Weapons/Mag_MD6/Select     { HW_MAGS1 HW_MAGS2 }
 
-Halo/Weapons/Mag_MD6/Melee 				HW_MAGM
-Halo/Weapons/Mag_MD6/Reload 			HW_MAGR
-Halo/Weapons/Mag_MD6/Reload/Empty 		HW_MAGRE
+Halo/Weapons/Mag_MD6/Melee 		  HW_MAGM
+Halo/Weapons/Mag_MD6/Reload 	  HW_MAGR
+Halo/Weapons/Mag_MD6/Reload/Empty HW_MAGRE
 
 $volume Halo/Weapons/Mag_MD6/Fire 0.5;
 
@@ -50,16 +51,16 @@ ARBASS2 ARBass2
 ARBASS3 ARBass3 
 ARBASS4 ARBass4 
 
-$random Halo/Weapons/Rifle/Fire { ARFIRE1 ARFIRE2 ARFIRE3 ARFIRE4 }
-$random Halo/Weapons/Rifle/Mech { ARMECH1 ARMECH2 ARMECH3 ARMECH4 }
+$random Halo/Weapons/Rifle/Fire      { ARFIRE1 ARFIRE2 ARFIRE3 ARFIRE4 }
+$random Halo/Weapons/Rifle/Mech      { ARMECH1 ARMECH2 ARMECH3 ARMECH4 }
 $random Halo/Weapons/Rifle/Fire/Bass { ARBASS1 ARBASS2 ARBASS3 ARBASS4 }
 
-Halo/Weapons/Rifle/Reload/Full AReloadF
+Halo/Weapons/Rifle/Reload/Full  AReloadF
 Halo/Weapons/Rifle/Reload/Empty AReloadE
-Halo/Weapons/Rifle/Select ARReady
+Halo/Weapons/Rifle/Select       ARReady
 
 $volume Halo/Weapons/Rifle/Fire/Bass 0.9;
-$volume Halo/Weapons/Rifle/Mech 0.4;
+$volume Halo/Weapons/Rifle/Mech 0.2;
 
 // Battle Rifle
 BARFIRE1 BARFIRE1
@@ -73,12 +74,12 @@ BARLOW1 BARLOW1
 BARLOW2 BARLOW2
 BARLOW3 BARLOW3
 
-Halo/Weapons/BattleRifle/Reload/Full BARRELF
+Halo/Weapons/BattleRifle/Reload/Full  BARRELF
 Halo/Weapons/BattleRifle/Reload/Empty BARREL
-Halo/Weapons/BattleRifle/Select BARDRAW
+Halo/Weapons/BattleRifle/Select       BARDRAW
 
-$random Halo/Weapons/BattleRifle/Fire { BARFIRE1 BARFIRE2 BARFIRE3 BARFIRE4 }
-$random Halo/Weapons/BattleRifle/Mech { BARMECH1 BARMECH2 BARMECH3 BARMECH4 }
+$random Halo/Weapons/BattleRifle/Fire      { BARFIRE1 BARFIRE2 BARFIRE3 BARFIRE4 }
+$random Halo/Weapons/BattleRifle/Mech      { BARMECH1 BARMECH2 BARMECH3 BARMECH4 }
 $random Halo/Weapons/BattleRifle/Fire/Bass { BARLOW1 BARLOW2 BARLOW3 }
 
 $volume Halo/Weapons/BattleRifle/Fire 0.4;
@@ -98,9 +99,9 @@ DBBASS1 DBBASS1
 DBBASS2 DBBASS2 
 DBBASS3 DBBASS3 
 
-$random Halo/Weapons/SuperShotgun/Fire { DBFIRE1 DBFIRE2 DBFIRE3 DBFIRE4 }
+$random Halo/Weapons/SuperShotgun/Fire        { DBFIRE1 DBFIRE2 DBFIRE3 DBFIRE4 }
 $random Halo/Weapons/SuperShotgun/Fire/Single { DBSFIRE1 DBSFIRE2 DBSFIRE3 DBSFIRE4 }
-$random Halo/Weapons/SuperShotgun/Fire/Bass  { DBBASS1 DBBASS2 DBBASS3 }
+$random Halo/Weapons/SuperShotgun/Fire/Bass   { DBBASS1 DBBASS2 DBBASS3 }
 
 Halo/Weapons/SuperShotgun/Reload DBRELOAD
 Halo/Weapons/SuperShotgun/Select DBDRAW
@@ -121,12 +122,12 @@ SGPUMP2 SGPUMP2
 SGPUMP3 SGPUMP3
 
 Halo/Weapons/Shotgun/Reload/Pump SGRELPMP
-Halo/Weapons/Shotgun/Ready SGDRAW
+Halo/Weapons/Shotgun/Ready       SGDRAW
 
-$random Halo/Weapons/Shotgun/Fire { SGFIRE1 SGFIRE2 SGFIRE3 }
-$random Halo/Weapons/Shotgun/Pump { SGPUMP1 SGPUMP2 SGPUMP3 }
+$random Halo/Weapons/Shotgun/Fire      { SGFIRE1 SGFIRE2 SGFIRE3 }
+$random Halo/Weapons/Shotgun/Pump      { SGPUMP1 SGPUMP2 SGPUMP3 }
 $random Halo/Weapons/Shotgun/Fire/Bass { SGBASS1 SGBASS2 SGBASS3 }
-$random Halo/Weapons/Shotgun/Reload { SGRELOAD1 SGRELOAD2 SGRELOAD3 SGRELOAD4 }
+$random Halo/Weapons/Shotgun/Reload    { SGRELOAD1 SGRELOAD2 SGRELOAD3 SGRELOAD4 }
 
 $volume Halo/Weapons/Shotgun/Fire/Bass 0.8;
 
@@ -141,21 +142,18 @@ SNIPER_BOLT1 SNPRBLT1
 SNIPER_BOLT2 SNPRBLT2
 SNIPER_BOLT3 SNPRBLT3
 
-Halo/Weapons/Sniper/Select SGDRAW
-Halo/Weapons/Sniper/Reload SNPRREL
-Halo/Weapons/Sniper/Ready SNPRDRAW
-Halo/Weapons/Sniper/Zoom/IN SNPRZIN
+Halo/Weapons/Sniper/Select   SGDRAW
+Halo/Weapons/Sniper/Reload   SNPRREL
+Halo/Weapons/Sniper/Ready    SNPRDRAW
+Halo/Weapons/Sniper/Zoom/IN  SNPRZIN
 Halo/Weapons/Sniper/Zoom/OUT SNPRZOUT
 
-$random Halo/Weapons/Sniper/Bolt { SNIPER_BOLT1 SNIPER_BOLT2 SNIPER_BOLT3 }
-$random Halo/Weapons/Sniper/Fire { SNIPER_FIRE1 SNIPER_FIRE2 SNIPER_FIRE3 }
+$random Halo/Weapons/Sniper/Bolt      { SNIPER_BOLT1 SNIPER_BOLT2 SNIPER_BOLT3 }
+$random Halo/Weapons/Sniper/Fire      { SNIPER_FIRE1 SNIPER_FIRE2 SNIPER_FIRE3 }
 $random Halo/Weapons/Sniper/Fire/Bass { SNIPER_LOW1 SNIPER_LOW2 SNIPER_LOW3 }
 
 $volume Halo/Weapons/Sniper/Fire/Bass 1.0;
 $volume Halo/Weapons/Sniper/Fire 0.6;
-
-// Misc WeapSnds
-Halo/Weapons/DryFire 					HW_DRYF
 
 // Hit feedback
 HMHIT1 HMHit1

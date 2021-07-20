@@ -1,2 +1,12 @@
 #include "Graphics/defs/base.gl"
 #include "Graphics/defs/materials.gl"
+
+skybox "HDESKY"
+{
+	HDESKY_N
+	HDESKY_E
+	HDESKY_S
+	HDESKY_W
+	HDESKY_T
+	HDESKY_B
+}

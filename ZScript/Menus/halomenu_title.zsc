@@ -1,0 +1,63 @@
+class HaloDoom_TitleMenu : HaloMenuBase
+{
+	override void Init(Menu parent, ListMenuDescriptor desc)
+	{
+		Super.Init(parent, desc);
+		
+		MainBG = MenuTexture.Create("Graphics/UI/Title/TitleLogo.png",(0,0),(0.5,0.5));
+		mMouse = Mouse.Create("", 0,0,32,32);
+		
+		DontDim = true;
+		btn_selected = 0;
+	}
+	
+	override void Drawer()
+	{
+		//HLSBS.Dim(Color(255,0,0,0), 1.0);
+		super.Drawer();
+		mMouse.Draw();
+	}
+	
+	override void Ticker()
+	{
+		
+	}
+}
+
+
+// TitleMap Objects
+class Halo_Ring : Actor
+{
+	Default
+	{
+		+NOINTERACTION;
+		+INTERPOLATEANGLES;
+	}
+	
+	States
+	{
+		Spawn:
+			RING A 1
+			{
+				pitch += 0.125;
+			}
+		loop;
+	}
+}
+
+class Halo_RingPlanet : Actor
+{
+	Default
+	{
+		+NOINTERACTION;
+		+WALLSPRITE;
+		Scale 0.75;
+	}
+	
+	States
+	{
+		Spawn:
+			PLNT A -1;
+		stop;
+	}	
+}

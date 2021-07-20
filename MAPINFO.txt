@@ -4,3 +4,16 @@ GameInfo
 	StatusBarClass = "HaloStatusBar"
 	PlayerClasses = "HaloPlayer"
 }
+
+DoomEdNums 
+{
+	16000 = "Halo_Ring" 
+	16001 = "Halo_RingPlanet"
+}
+
+map Titlemap "Titlemap"
+{
+	levelnum = 1
+	sky1 = "HDESKY", 0
+	Music = "Music/TITLEMUS.ogg"
+}
