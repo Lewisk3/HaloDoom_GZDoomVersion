@@ -1,0 +1,466 @@
+class AnimatedImage ui
+{
+	vector2 pos;
+	vector2 scale;
+	vector2 center;
+	bool active;
+	
+	virtual void Setup()
+	{
+		pos = (0,0);
+		scale = (1.0, 1.0);
+		center = (1920./2., 1080./2.);
+		active = true;
+	}
+	
+	virtual void Animate(double dt)
+	{
+		active = false;
+	}
+}
+
+class ANImageQueue ui
+{ 
+	double prevMS;
+	double deltatime;
+	Array<AnimatedImage> images;
+	
+	static ANImageQueue Create()
+	{
+		return new("ANImageQueue");
+	}
+	
+	virtual void Push(class<AnimatedImage> imgcls)
+	{
+		let animg = AnimatedImage(new(imgcls));
+		animg.Setup();
+		images.Insert(0, animg);
+	}
+	
+	virtual AnimatedImage Pop()
+	{
+		uint top = images.Size()-1;
+		if(top < 0) return null;
+		
+		let topimg = images[top];
+		images.Delete(images.Size()-1);
+		return topimg;
+	}
+	
+	virtual bool IsEmpty()
+	{
+		return images.Size() <= 0;
+	}
+	
+	virtual void Process()
+	{
+		if(!prevMS)
+		{
+			prevMS = MSTime();
+			return;
+		}
+		double ftime = MSTime()-prevMS;
+		prevMS = MSTime();
+		double dtime = 1000.0 / 60.0;
+		deltatime = (ftime/dtime);
+		
+		uint top = images.Size()-1;
+		if(top < 0) return;
+		
+		let cur = images[top];
+		if(!cur) return;
+		if(!cur.active) 
+		{
+			Pop();
+			cur.Destroy();
+		}
+		cur.Animate(deltatime);
+	}
+}
+
+
+class TextElement ui
+{
+	Font text_font;
+	String txt;
+	vector2 pos;
+	vector2 scale;
+	uint font_color;
+	
+	static TextElement Create(Font fnt, string text, vector2 pos, vector2 scale=(1.0,1.0), uint translation=0)
+	{
+		let txt = new("TextElement");
+		if(txt)
+		{
+			txt.txt = text;
+			txt.pos = pos;
+			txt.scale = scale;
+			txt.text_font = fnt;
+			txt.font_color = translation;
+		}
+		return txt;
+	}
+	
+	void Draw(double alpha=1.0, Color tint=Color(0,0,0,0), int linespace=20)
+	{
+		HLSBS.DrawString(text_font,txt,pos,0,font_color,alpha, scale, tint, linespace);
+	}
+}
+
+class Button ui
+{
+	bool pressed;
+	bool clicked;
+	bool hovered;
+	TextureID off_tex;
+	TextureID on_tex;
+	TextureID cur_tex;
+	MenuRect collider;
+	MenuRect btnrect;
+	TextElement btntext;
+	vector2 texsize;
+	
+	static Button Create(String offtex, String ontex, 
+						 double x, double y, double sw, double sh, TextElement txt=NULL)
+	{
+		let btn = new("Button");
+		if(btn)
+		{
+			btn.off_tex = TexMan.CheckForTexture(offtex,TexMan.Type_Any);
+			btn.on_tex  = TexMan.CheckForTexture(ontex,TexMan.Type_Any);
+			btn.btnrect = MenuRect.Create(x,y,sw,sh,true);
+			btn.cur_tex = btn.off_tex;
+			btn.btntext = txt;		
+			
+			// Default collider mask
+			btn.texsize = HLSBS.GetImageSize(offtex);
+			btn.texsize.x *= sw;
+			btn.texsize.y *= sh;
+			btn.SetupCollider(x - btn.texsize.x/2,y - btn.texsize.y/2, btn.texsize.x,btn.texsize.y);
+		}
+		return btn;
+	}
+	
+	void SetupCollider(double x, double y, double w, double h)
+	{
+		collider = MenuRect.Create(x,y,w,h,true);
+	}
+	
+	void ScaleCollider(double wpart, double hpart)
+	{
+		vector2 ntexsize = texsize;
+		ntexsize.x *= wpart;
+		ntexsize.y *= hpart;
+		SetupCollider( 
+				btnrect.pos.x - ntexsize.x/2, 
+			    btnrect.pos.y - ntexsize.y/2, 
+				ntexsize.x, ntexsize.y
+		);
+	}
+	
+	void SetText(String txt)
+	{
+		if(btntext) btntext.txt = txt;
+	}
+
+	void DrawDebug()
+	{
+		 HLSBS.DrawString("SmallFont","Hovered: " .. int(hovered), (50,50));
+		 HLSBS.DrawString("SmallFont","Pressed: " .. int(pressed), (50,100));
+		 HLSBS.DrawString("SmallFont","Clicked: " .. int(clicked), (50,150));
+	}
+	
+	void Draw(double alpha=1.0, Color tint=Color(0,0,0,0))
+	{
+		HLSBS.DrawTexture(cur_tex,btnrect.pos,0,alpha,btnrect.size,tint);
+		if(btntext)
+		{
+			vector2 tscale = btntext.scale;
+			vector2 btn_mid = (
+				collider.pos.x + collider.size.x / 2.0,
+				collider.pos.y + collider.size.y / 2.0
+			);
+			
+			// Get string size
+			vector2 str_dm = (
+				 btntext.text_font.StringWidth(btntext.txt) * tscale.x,
+				 (btntext.text_font.GetHeight() / 2.0) * tscale.y
+			);
+			
+			HLSBS.DrawString(btntext.text_font, btntext.txt,btn_mid-str_dm,0,btntext.font_color,alpha,tscale,tint);
+		}
+	}
+	void DrawCollider()
+	{
+		HLSBS.DrawRect(collider,Color(255,0,127,127));
+	}
+	
+	void Update(Mouse mcheck, bool usemouse)
+	{
+		hovered = collider.checkCollision(mcheck.collider);
+		if(mcheck.left_pressed) pressed = hovered;
+		if(pressed && !hovered) pressed = false;
+		if(mcheck.left_clicked && pressed)
+		{
+			mcheck.left_clicked = false;
+			pressed = false;
+			if(hovered && usemouse) clicked = true;
+		}
+		cur_tex = pressed ? on_tex : off_tex;
+	}
+}
+
+
+class Mouse ui
+{
+	MenuRect collider;
+	TextureID tex;
+	bool left_pressed;
+	bool right_pressed;
+	bool left_clicked;
+	bool right_clicked;
+	int scroll;
+	
+	static Mouse Create(String tex, double x, double y, double w, double h)
+	{
+		let ms = new("Mouse");
+		if(ms) 
+		{
+			ms.tex = TexMan.CheckForTexture(tex,TexMan.Type_Any);
+			
+			// Mouse does not use relative res pos
+			ms.collider = MenuRect.Create(x,y,w,h, false);
+		}
+		return ms;
+	}
+	
+	void SetPos(vector2 pos)
+	{
+		vector2 rpos = HLSBS.GetRelativePos(pos);
+		collider.pos.x = rpos.x;
+		collider.pos.y = rpos.y;
+	}
+	
+	vector2 GetMousePos()
+	{
+		vector2 rpos = HLSBS.GetRelativePos( (1,1) );
+		return (collider.pos.x / rpos.x, collider.pos.y / rpos.y);
+	}
+	
+	void DrawDebug()
+	{
+		 HLSBS.DrawString("SmallFont","LPressed: " .. int(left_pressed), (50,300));
+		 HLSBS.DrawString("SmallFont","LClicked: " .. int(left_clicked), (50,350));
+		 HLSBS.DrawString("SmallFont","RPressed: " .. int(right_pressed), (50,450));
+		 HLSBS.DrawString("SmallFont","RClicked: " .. int(right_clicked), (50,500));
+	}
+	
+	void Draw(double alpha=1.0, Color tint=Color(0,0,0,0))
+	{
+		if(tex) 
+		{
+			vector2 truemouse = GetMousePos();
+			truemouse.x += collider.size.x/2;
+			truemouse.y += collider.size.y/2;
+			HLSBS.DrawTexture(tex,truemouse,0,alpha,(1.0,1.0),tint);
+		}
+	}
+	
+	void Update(UIEvent ev)
+	{
+		if(ev.Type == UIEvent.Type_MouseMove)
+		{
+			collider.pos.x = ev.MouseX-5;
+			collider.pos.y = ev.MouseY-5;
+		}
+		if(ev.Type == UIEvent.Type_RButtonDown) 
+		{
+			right_pressed = true;
+			right_clicked = false;
+		}
+		if(ev.Type == UIEvent.Type_RButtonUp  ) 
+		{
+			if(right_pressed) right_clicked = true;
+			right_pressed = false;
+		}
+		if(ev.Type == UIEvent.Type_LButtonDown) 
+		{
+			left_pressed = true;
+			left_clicked = false;
+		}
+		if(ev.Type == UIEvent.Type_LButtonUp  ) 
+		{
+			if(left_pressed) left_clicked  = true;
+			left_pressed = false;
+		}
+		if(ev.Type == UIEvent.Type_WheelUp  ) scroll = -1;
+		if(ev.Type == UIEvent.Type_WheelDown) scroll = 1;
+	}
+}
+
+
+class MenuRect ui
+{
+	vector2 pos;
+	vector2 size;
+	bool relativepos;
+	
+	static MenuRect Create(double x, double y, double w, double h, bool relative=true)
+	{
+		let nr = new("MenuRect");
+		if(nr)
+		{
+			nr.pos.x = x;
+			nr.pos.y = y;
+			nr.size.x = w;
+			nr.size.y = h;
+			nr.relativepos = relative;
+		}
+		return nr;
+	}
+	
+	vector2, vector2 GetRelativeCollider()
+	{
+		vector2 retpos = pos;
+		vector2 retsize = (pos.x+size.x,pos.y+size.y);
+		if(relativepos)
+		{
+			retpos = HLSBS.GetRelativePos(retpos);
+			retsize = HLSBS.GetRelativePos(retsize);
+		}
+		return retpos, retsize;
+	}
+	
+	bool CheckCollision(MenuRect r)
+	{
+		vector2 onepos, onesize;
+		[onepos, onesize] = GetRelativeCollider();
+		vector2 twopos, twosize;
+		[twopos, twosize] = r.GetRelativeCollider();
+		
+		bool collision = ( onepos.x < twosize.x && onesize.x > twopos.x && 
+		                   onepos.y < twosize.y && onesize.y > twopos.y    );
+		return collision;
+	}
+	void Move(vector2 npos, bool relative=false)
+	{
+		if(relative)
+			pos += npos;
+		else
+			pos = npos;
+	}
+}
+
+class MenuTexture ui
+{
+	TextureID tex;
+	vector2 scale;
+	vector2 pos;
+	
+	static MenuTexture Create(String tex, vector2 pos, vector2 scale=(1,1))
+	{
+		let mtex = new("MenuTexture");
+		if(mtex)
+		{
+			mtex.tex = TexMan.CheckForTexture(tex,TexMan.Type_Any);
+			mtex.scale = scale;
+			mtex.pos = pos;
+		}
+		return mtex;
+	}
+	
+	void Draw(double alpha=1.0, Color tint=Color(0,0,0,0))
+	{
+		HLSBS.DrawTexture(tex,pos,HLSBS.SS_SCREEN_CENTER,alpha,scale,tint);
+	}
+	void DrawEx(vector2 rpos, vector2 rscale, double alpha, Color tint=Color(0,0,0,0))
+	{
+		HLSBS.DrawTexture(tex,rpos,0,alpha, rscale, tint);
+	}
+	void Move(double xoffs, double yoffs, bool relative=true)
+	{
+		xoffs = relative ? pos.x+xoffs : xoffs;
+		xoffs = relative ? pos.y+yoffs : yoffs;
+		pos.x = xoffs;
+		pos.y = yoffs;
+	}
+	void SetScale(double xscale, double yscale)
+	{
+		scale.x = xscale;
+		scale.y = yscale;
+	}
+}
+
+// Graphics Drawer
+extend class HLSBS
+{
+	static void DrawLine(int x0, int y0, int x1, int y1, Color color, double alpha = 1.0, int flags = 0)
+	{
+		vector2 posFrom = (x0, y0);
+		vector2 posTo = (x1, y1);
+		double sc_xres = Screen.getWidth()/statscr_base_width;
+		double sc_yres = Screen.getHeight()/statscr_base_height;		
+		vector2 nposFrom = _ProcessCoords(posFrom, flags);
+		vector2 nposTo = _ProcessCoords(posTo, flags);
+		nposTo.x *= sc_xres;
+		nposTo.y *= sc_yres;
+		nposFrom.x *= sc_xres;
+		nposFrom.y *= sc_yres;
+		Screen.DrawLine(nposFrom.x, nposFrom.y, nposTo.x, nposTo.y, color, ceil(alpha*255.));
+	}
+	
+	static void DrawThickLine(int x0, int y0, int x1, int y1, int thickness, Color color, double alpha = 1.0, int flags = 0)
+	{
+		vector2 posFrom = (x0, y0);
+		vector2 posTo = (x1, y1);
+		double sc_xres = Screen.getWidth()/statscr_base_width;
+		double sc_yres = Screen.getHeight()/statscr_base_height;		
+		vector2 nposFrom = _ProcessCoords(posFrom, flags);
+		vector2 nposTo = _ProcessCoords(posTo, flags);
+		nposTo.x *= sc_xres;
+		nposTo.y *= sc_yres;
+		nposFrom.x *= sc_xres;
+		nposFrom.y *= sc_yres;
+		Screen.DrawThickLine(nposFrom.x, nposFrom.y, nposTo.x, nposTo.y, thickness, color, ceil(alpha*255.));
+	}
+	
+	static vector2 GetRelativePos(vector2 pos)
+	{
+		double sc_xres = Screen.getWidth()/statscr_base_width;
+		double sc_yres = Screen.getHeight()/statscr_base_height;	
+		return (pos.x*sc_xres, pos.y*sc_yres);
+	}
+
+	static TextureID FindGraphic(String graphic)
+	{
+		return TexMan.CheckForTexture(graphic, TexMan.Type_Any);
+	}
+
+	static void DrawRect(MenuRect r, Color c, bool scaled=true)
+	{	
+		vector2 p, s;
+		p = r.pos;
+		s = r.size;
+		if(scaled)
+		{
+			DrawLine(p.x,     	   p.y,    	     p.x+s.x, p.y+s.y, c);  //: \
+			DrawLine(p.x,     	   p.y,     	 p.x+s.x, p.y,     c);  //: -
+			DrawLine(p.x,     	   p.y+s.y, 	 p.x+s.x, p.y+s.y, c);  //: _
+			DrawLine(p.x,     	   p.y,     	 p.x,     p.y+s.y, c);  //: |
+			DrawLine(p.x+s.x, 	   p.y,     	 p.x+s.x, p.y+s.y, c);  //:  |
+		}
+		else
+		{
+			Screen.DrawLine(p.x,     	   p.y,    	     p.x+s.x, p.y+s.y, c);  //: \
+			Screen.DrawLine(p.x,     	   p.y,     	 p.x+s.x, p.y,     c);  //: -
+			Screen.DrawLine(p.x,     	   p.y+s.y, 	 p.x+s.x, p.y+s.y, c);  //: _
+			Screen.DrawLine(p.x,     	   p.y,     	 p.x,     p.y+s.y, c);  //: |
+			Screen.DrawLine(p.x+s.x,  	   p.y,     	 p.x+s.x, p.y+s.y, c);  //:  |
+		}
+	}
+	
+	static void Dim(Color c, double alpha)
+	{
+		Screen.Dim(c,alpha,0,0,Screen.GetWidth(),Screen.GetHeight());
+	}
+}
