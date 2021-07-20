@@ -1,11 +1,34 @@
 class HaloDoom_TitleMenu : HaloMenuBase
 {
+	void DStr(String str, vector2 pos, Color col = Font.CR_WHITE, vector2 scale=(1.15,1.15))
+	{
+		HLSBS.DrawString("BigFont",str,pos,0,col,1.0,scale);
+	}
+
 	override void Init(Menu parent, ListMenuDescriptor desc)
 	{
 		Super.Init(parent, desc);
 		
-		MainBG = MenuTexture.Create("Graphics/UI/Title/TitleLogo.png",(0,0),(0.5,0.5));
+		MainBG = MenuTexture.Create("Graphics/UI/Title/TitleLogo.png",(0,-200),(0.5,0.5));
 		mMouse = Mouse.Create("", 0,0,32,32);
+		
+		TextElement btntxt = newBtnText("CAMPAIGN");
+		buttons.push(Button.Create("BTN_OFF" ,  "BTN_ON" , 960, 680, 0.8, 0.25, btntxt));
+		
+		btntxt = newBtnText("LOAD GAME");
+		buttons.push(Button.Create("BTN_OFF" ,  "BTN_ON" , 960, 760, 0.8, 0.25, btntxt));
+		
+		btntxt = newBtnText("OPTIONS");
+		buttons.push(Button.Create("BTN_OFF" ,  "BTN_ON" , 960, 840, 0.8, 0.25, btntxt));
+		
+		btntxt = newBtnText("QUIT");
+		buttons.push(Button.Create("BTN_OFF" ,  "BTN_ON" , 960, 920, 0.8, 0.25, btntxt));
+		
+		for(int i = 0; i < buttons.Size(); i++)
+			buttons[i].ScaleCollider(0.9, 0.7);
+		
+		DontDim = true;
+		mMouse.SetPos(buttons[0].btnrect.pos);
 		
 		DontDim = true;
 		btn_selected = 0;
@@ -13,14 +36,59 @@ class HaloDoom_TitleMenu : HaloMenuBase
 	
 	override void Drawer()
 	{
-		//HLSBS.Dim(Color(255,0,0,0), 1.0);
 		super.Drawer();
 		mMouse.Draw();
+		
+		vector2 ht_pos = (75,1000);
+		for(int i = 0; i < buttons.Size(); i++)
+		{
+			if(buttons[i].btntext)
+			{
+				if(buttons[i].pressed)
+					buttons[i].btntext.font_color = Font.CR_BLACK;
+				else if(buttons[i].hovered)
+					buttons[i].btntext.font_color = Font.CR_BLUE;
+				else
+					buttons[i].btntext.font_color = Font.CR_WHITE;
+			}
+		}
+		
+		// mMouse.DrawDebug();
+		// buttons[0].DrawDebug();
 	}
 	
 	override void Ticker()
 	{
-		
+		if(btn_selected != -1) mMouse.left_pressed = true;
+	
+		for(int i = 0; i < buttons.Size(); i++)
+		{
+			buttons[i].Update(mMouse, btn_selected == -1);
+				
+			if(buttons[i].clicked)
+			{
+				MenuSound("UI/PressButton");
+				buttons[i].clicked = false;
+				
+				Switch(i)
+				{
+					case 0:	 	// New Game
+						Menu.SetMenu('PlayerclassMenu');
+					break;
+					case 1:		// Load Game
+						Menu.SetMenu('LoadGameMenu');
+					break;
+					case 2:     // Options
+						Menu.SetMenu('OptionsMenu');
+					break;
+					case 3:		// Exit
+						Menu.SetMenu("QuitMenu");
+					break;
+					default:
+					break;
+				}
+			}
+		}
 	}
 }
 
@@ -60,4 +128,19 @@ class Halo_RingPlanet : Actor
 			PLNT A -1;
 		stop;
 	}	
+}
+
+class Halo_Sky : Actor
+{
+	Default
+	{
+		+NOINTERACTION;
+	}
+	
+	States
+	{
+		Spawn:
+			RING A -1 Bright;
+		stop;
+	}
 }

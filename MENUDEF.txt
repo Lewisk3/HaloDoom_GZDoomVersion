@@ -31,11 +31,11 @@ AddOptionMenu "CustomizeControls"
 
 
 
-/*ListMenu "MainMenu"
+ListMenu "MainMenu"
 {
 	class "HaloDoom_TitleMenu"
 }
-*/
+
 
 
 OptionMenu "HaloDoomControlsMenu"

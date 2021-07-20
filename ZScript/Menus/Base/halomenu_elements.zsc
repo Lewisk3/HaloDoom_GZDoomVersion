@@ -96,9 +96,18 @@ class Button ui
 		if(btntext)
 		{
 			vector2 tscale = btntext.scale;
-			double xoffs = (btnrect.pos.x*tscale.x)+10; 
-			double yoffs = (btnrect.pos.y*tscale.y)+(btnrect.size.y*200);
-			HLSBS.DrawString(btntext.text_font, btntext.txt,(xoffs,yoffs),0,btntext.font_color,alpha,tscale,tint);
+			vector2 btn_mid = (
+				collider.pos.x + collider.size.x / 2.0,
+				collider.pos.y + collider.size.y / 2.0
+			);
+			
+			// Get string size
+			vector2 str_dm = (
+				 btntext.text_font.StringWidth(btntext.txt) * tscale.x,
+				 (btntext.text_font.GetHeight() / 2.0) * tscale.y
+			);
+			
+			HLSBS.DrawString(btntext.text_font, btntext.txt,btn_mid-str_dm,0,btntext.font_color,alpha,tscale,tint);
 		}
 	}
 	void DrawCollider()

@@ -9,6 +9,7 @@ DoomEdNums
 {
 	16000 = "Halo_Ring" 
 	16001 = "Halo_RingPlanet"
+	16002 = "Halo_Sky"
 }
 
 map Titlemap "Titlemap"

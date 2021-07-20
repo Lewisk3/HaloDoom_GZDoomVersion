@@ -10,3 +10,13 @@ Model Halo_Ring
 	
 	FrameIndex RING A 0 0 
 }
+
+Model Halo_Sky
+{
+	Path "Models/Title"
+	Model 0 "sky_sphere.obj"
+	Skin 0 "sky_sphere.png"
+	Scale 400.0 400.0 400.0 
+	
+	FrameIndex RING A 0 0 
+}
