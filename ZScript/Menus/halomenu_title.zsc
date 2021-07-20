@@ -23,7 +23,9 @@ class HaloDoom_TitleMenu : HaloMenuBase
 		for(int i = 0; i < buttons.Size(); i++)
 			buttons[i].ScaleCollider(0.9, 0.7);
 		
-		S_ChangeMusic("TITLEMUS", force:true);
+		if(gamestate != GS_LEVEL)
+			S_ChangeMusic("TITLEMUS", force:true);
+			
 		DontDim = true;
 		mMouse.SetPos(buttons[0].btnrect.pos);
 		btn_selected = 0;

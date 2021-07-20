@@ -2,6 +2,7 @@
 Halo/Weapons/Zoom/In  Zoom_IN
 Halo/Weapons/Zoom/Out Zoom_OUT
 Halo/Weapons/DryFire  HW_DRYF
+UI/PressButton BTNPRESS
 
 // Items
 Halo/Powerup/Camo    "Sounds/Items/power_camo.wav"
