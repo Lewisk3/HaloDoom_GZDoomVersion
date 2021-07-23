@@ -1,0 +1,3 @@
+STARTUPTITLE = "Halo Doom: Evolved (Closed Alpha)"
+STARTUPCOLORS = "FFFFFF", "613778"
+STARTUPTYPE = "Hexen"
