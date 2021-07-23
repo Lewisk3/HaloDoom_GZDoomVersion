@@ -1,7 +1,9 @@
+
+Project Lead: REVENGE 
 ZScript : Lewisk3
-Magnum Sprites & Animations: Indie 
-Halo KeyCards: AlienWheelChair
-Halo CovenantKeys: killerkouhai
+Weapon Sprites & Animations: Indie 
+Key Graphics: AlienWheelChair, killerkouhai
 UI Graphics: AlienWheelChair
+Skysphere texture: https://www.cleanpng.com/png-space-skybox-texture-mapping-cube-mapping-night-sk-776480
 
 # Not sure whom to credit for certain sounds, will update when appropriate. #

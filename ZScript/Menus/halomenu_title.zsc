@@ -8,28 +8,56 @@ class HaloDoom_TitleMenu : HaloMenuBase
 		MainBG = MenuTexture.Create("Graphics/UI/Title/TitleLogo.png",(0,-200),(0.5,0.5));
 		mMouse = Mouse.Create("", 0,0,32,32);
 		
-		TextElement btntxt = newBtnText("CAMPAIGN");
+		TextElement btntxt = newBtnText("CAMPAIGN", "HaloFont");
 		buttons.push(Button.Create("BTN_OFF" ,  "BTN_ON" , 960, 680, 0.8, 0.25, btntxt));
 		
-		btntxt = newBtnText("LOAD GAME");
+		btntxt = newBtnText("LOAD GAME", "HaloFont");
 		buttons.push(Button.Create("BTN_OFF" ,  "BTN_ON" , 960, 760, 0.8, 0.25, btntxt));
 		
-		btntxt = newBtnText("OPTIONS");
+		btntxt = newBtnText("OPTIONS", "HaloFont");
 		buttons.push(Button.Create("BTN_OFF" ,  "BTN_ON" , 960, 840, 0.8, 0.25, btntxt));
 		
-		btntxt = newBtnText("QUIT");
+		btntxt = newBtnText("QUIT", "HaloFont");
 		buttons.push(Button.Create("BTN_OFF" ,  "BTN_ON" , 960, 920, 0.8, 0.25, btntxt));
 		
 		for(int i = 0; i < buttons.Size(); i++)
 			buttons[i].ScaleCollider(0.9, 0.7);
 		
-		if(gamestate != GS_LEVEL)
-			S_ChangeMusic("TITLEMUS", force:true);
 			
+		if(gamestate != GS_LEVEL) 
+			S_ChangeMusic("Music/TITLEMUS" .. random[TMUS](1,5) .. ".ogg", force:true);
+		
 		DontDim = true;
 		mMouse.SetPos(buttons[0].btnrect.pos);
 		btn_selected = 0;
 		fadein = 1.0;
+	}
+	
+	override bool MenuEvent(int mkey, bool fromcontroller)
+	{
+		if(!mMouse) return false;
+		
+		switch (mkey)
+		{
+		case MKEY_Up:
+			btn_selected--;
+			if(btn_selected < 0) btn_selected = buttons.Size()-1;
+			mMouse.SetPos(buttons[btn_selected].btnrect.pos);
+			return true;
+		case MKEY_Down:
+			btn_selected++;
+			if(btn_selected > buttons.Size()-1) btn_selected = 0;
+			mMouse.SetPos(buttons[btn_selected].btnrect.pos);
+			return true;
+		case MKEY_Enter:
+			if(btn_selected >= 0 && btn_selected <= buttons.Size()-1) 
+				buttons[btn_selected].clicked = true;
+			return true;
+		case MKEY_Back:
+			if(gamestate == GS_LEVEL) Close();
+			return true;
+		}
+		return false;
 	}
 	
 	void DStr(String str, vector2 pos, Color col = Font.CR_WHITE, vector2 scale=(1.15,1.15))
