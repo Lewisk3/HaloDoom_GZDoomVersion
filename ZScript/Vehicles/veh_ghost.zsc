@@ -86,6 +86,7 @@ class HaloGhost : VehBase
 	double turnvel;
 	double veharmor;
 	bool firstperson;
+	Actor roadkill;
 	
 	Property Armored : veharmor;
 	
@@ -119,6 +120,12 @@ class HaloGhost : VehBase
 			veharmor = 0;
 			return super.DamageMobJ(inflictor, source, damage, mod, flags, angle);
 		}
+	}
+	
+	override bool CanCollideWith(Actor other, bool passive)
+	{
+		if(vel.length() > 10 && other.bISMONSTER) roadkill = other;
+		return super.CanCollideWith(other, passive);
 	}
 	
 	override void BeginPlay()
@@ -181,9 +188,16 @@ class HaloGhost : VehBase
 		
 		double plrangle = HaloMath.LerpAngle(angle, driver.angle, 0.32);
 		A_SetAngle(plrangle, SPF_INTERPOLATE);
-		
+	
 		double spd = 0.67;
-		if( (sidemove || forwardmove) )
+		bool boosting = CheckButtons(BT_ALTATTACK, VehButtons.BTS_DOWN);
+		if(boosting)
+		{
+			vector2 forward = (cos(angle), sin(angle));
+			vel.xy += forward * (spd * 1.5);
+		}
+		
+		if( (sidemove || forwardmove) && !boosting )
 		{
 			vector2 accel = (spd, spd * 1.35);
 			vector2 movedir = (forwardmove, -sidemove).Unit();
@@ -192,6 +206,20 @@ class HaloGhost : VehBase
 			accel.x *= movedir.x;
 			accel.y *= movedir.y;
 			vel.xy += accel;
+		}
+		
+		if( roadkill && roadkill.health >= 0 && 
+			Distance3D(roadkill) <= (roadkill.radius+radius) * 2.0 )
+		{
+			vector3 hitdiff = level.SphericalCoords(pos, roadkill.pos, (angle, pitch));
+			double hitang = angle - hitdiff.x;
+			
+			vector2 hitdir = (cos(hitang), sin(hitang));
+			double force = HaloMath.GetInertia(roadkill.mass) * vel.length() * 1.5;
+			
+			vel.xy -= hitdir * force;
+			roadkill.Thrust(force, angle - hitdiff.x);
+			roadkill.DamageMobj(self, self, vel.length() * 15, "Vehicular");
 		}
 	}
 	
