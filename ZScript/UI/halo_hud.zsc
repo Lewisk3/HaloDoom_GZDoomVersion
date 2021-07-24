@@ -216,6 +216,22 @@ class HaloStatusBar : BaseStatusBar
 
 	void DrawCrosshairs()
 	{
+		let curvehicle = Veh_Manager(haloplr.FindInventory("Veh_Manager"));
+		if(curvehicle && curvehicle.veh)
+		{
+			bool lowerxhair = haloplr.CheckCrosshairLowered();
+			string crosshair = curvehicle.veh.crosshair;
+			vector2 retsize = (
+				curvehicle.veh.crosshair_xscale, 
+				curvehicle.veh.crosshair_yscale
+			);
+			
+			vector2 midpos = (0,0);
+			if(lowerxhair) midpos.y = haloplr.xhair_lowpos;
+			HLSBS.DrawImage(crosshair, midpos, HLSBS.SS_SCREEN_CENTER, 0.65, scale:retsize);
+			return;
+		}
+		
 		HaloGun weap = HaloGun(haloplr.player.ReadyWeapon);
 		if(!weap) return;
 		

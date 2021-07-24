@@ -1,6 +1,124 @@
 // Credits: https://gist.github.com/itsmrpeck/be41d72e9d4c72d2236de687f6f53974
 class HaloMath Abstract
 {	
+	const PI = 3.14159265358;
+	const RAD = 180.0/PI;
+	const TWOPI = 2*PI;
+
+	// Lerps from angle a to b (both between 0.f and 360.f), taking the shortest path
+	static double LerpAngle(double a, double b, double lerpFactor) 
+	{
+		double result;
+		double diff = b - a;
+		if (diff < -180.f)
+		{
+			// lerp upwards past 360
+			b += 360.f;
+			result = Lerp(a, b, lerpFactor);
+			if (result >= 360.f)
+			{
+				result -= 360.f;
+			}
+		}
+		else if (diff > 180.f)
+		{
+			// lerp downwards past 0
+			b -= 360.f;
+			result = Lerp(a, b, lerpFactor);
+			if (result < 0.f)
+			{
+				result += 360.f;
+			}
+		}
+		else
+		{
+			// straight lerp
+			result = Lerp(a, b, lerpFactor);
+		}
+		return result;
+	}
+	
+	play static void AlignToPlane(Actor a, double pitchAdjust = 0, bool ceiling = false, double adjustSpeed = 2)
+	{
+		//Original code by ZZYZX & Nash Muhandes
+		if (!a) return;
+		double ceilingAdjust = 0;
+		Vector3 fnormal;
+		if (!ceiling)
+		{
+			fnormal = a.CurSector.FloorPlane.Normal;
+		}
+		else
+		{
+			fnormal = a.CurSector.CeilingPlane.Normal;
+			ceilingAdjust = 180.0;
+		}
+		Vector2 fnormalp1 = (fnormal.x != 0 || fnormal.y != 0) ? (fnormal.x, fnormal.y).Unit() : (0, 0);
+		Vector2 fnormalp2 = ((fnormal.x, fnormal.y).Length(), fnormal.z);
+		double dang = a.Angle;
+		double fang = atan2(fnormalp1.y, fnormalp1.x);
+		double fpitch = atan2(fnormalp2.x, fnormalp2.y);
+		double ddiff1 = sin(fang - (dang - pitchAdjust));
+		double ddiff2 = cos(fang - dang);
+		
+		double pitchTarget = (fpitch * ddiff2 - pitchAdjust) + ceilingAdjust;
+		double rollTarget = -fpitch * ddiff1 + ceilingAdjust;
+		double angleTarget = dang + ceilingAdjust;
+		
+		if(adjustSpeed == 0)
+		{
+			adjustSpeed = 180;
+		}
+		
+		if(a.Pitch < pitchTarget)
+		{
+			a.A_SetPitch(Clamp(a.pitch + adjustSpeed, a.pitch, pitchTarget));
+		}
+		else if(a.Pitch > pitchTarget)
+		{
+			a.A_SetPitch(Clamp(a.pitch - adjustSpeed, pitchTarget, a.pitch));
+		}
+		
+		if(a.Roll < rollTarget)
+		{
+			a.A_SetRoll(Clamp(a.roll + adjustSpeed, a.roll, rollTarget));
+		}
+		else if(a.Roll > rollTarget)
+		{
+			a.A_SetRoll(Clamp(a.roll - adjustSpeed, rollTarget, a.roll));
+		}
+
+		if(a.Angle < angleTarget)
+		{
+			a.A_SetAngle(Clamp(a.angle + adjustSpeed, a.angle, angleTarget));
+		}
+		else if(a.Angle > angleTarget)
+		{
+			a.A_SetAngle(Clamp(a.angle - adjustSpeed, angleTarget, a.angle));
+		}
+	}
+	
+	// Spawn helpers
+	play static Actor FireProjectile(class<Actor> proj, vector3 pos, double angle, double pitch, double leftright, double forwardback, double updown, double distance, double speed)
+	{
+		vector3 finalpos;
+		finalpos = V3Offset(angle, pitch, forwardback, leftright, updown, distance);
+		finalpos = level.vec3offset(pos, finalpos);
+		let proj = Actor.Spawn(proj, finalpos);
+		if(proj)
+		{
+			proj.angle = angle;
+			proj.pitch = pitch;
+			double cosp = cos(pitch);
+			proj.vel = (
+				cos(angle) * cosp,
+				sin(angle) * cosp,
+				-sin(pitch)
+			) * speed;
+		}
+		return proj;
+	}
+
 	static double sign(double num)
 	{
 		return num < 0 ? -1 : 1;

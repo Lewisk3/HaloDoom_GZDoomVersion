@@ -21,7 +21,7 @@ class HaloPlayer : DoomPlayer
 	// Weapon values
 	double weap_yoffs;
 	double xhair_lowpos;
-	
+		
 	// CVar(s)
 	transient CVar lowered_xhair;
 	
@@ -146,7 +146,10 @@ class HaloPlayer : DoomPlayer
 	
 	override int DamageMobJ(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle)
 	{
-		double truedamage = damage / GAMEPLAY_DAMAGEMOD;
+		// Get real damage amount, taking into account modified damage.
+		double dmg = GetModifiedDamage(mod, damage, true);
+		double truedamage = dmg / GAMEPLAY_DAMAGEMOD;
+		
 		if(shields > 0)
 		{
 			regen_timer = 0;

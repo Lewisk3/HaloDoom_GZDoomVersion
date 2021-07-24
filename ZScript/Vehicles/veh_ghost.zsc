@@ -1,0 +1,208 @@
+
+class GhostCamera : VehCamera
+{
+	double dist_xy;
+	double dist_z;
+
+	override void UpdatePos(bool moving)
+	{
+		if(!base) return;
+		
+		double a = base.driver.angle;
+		double p = base.driver.pitch;
+		vector3 followpos = (
+			cos(a) * cos(p),
+			sin(a) * cos(p),
+			-sin(p)
+		) * dist_xy;
+		followpos.z += dist_z;
+		followpos.z = clamp(followpos.z, dist_z, dist_z * 1.6);
+		
+		vector3 topos = level.vec3offset(base.pos, followpos);
+		vector3 curpos = HaloMath.Lerp3D(pos, topos, 0.65);
+		curpos.z += base.GetBobOffset();
+		
+		
+		A_SetAngle(a, SPF_INTERPOLATE);
+		A_SetPitch(p, SPF_INTERPOLATE);
+		SetOrigin(curpos, true);
+	}
+}
+
+
+class HaloGhost_Guns : VehPart
+{
+	uint cooldown;
+	
+	Default
+	{
+		Radius 16;
+		Height 16;
+	}
+	
+	override void UpdatePos(bool moving)
+	{
+		super.UpdatePos(moving);
+		if(!base || !base.driver) return;
+		
+		A_SetAngle(base.driver.angle, SPF_INTERPOLATE);
+		A_SetPitch(base.driver.pitch, SPF_INTERPOLATE);
+	}
+		
+	override void DoUpdate(VehCamera cam)
+	{
+		if(cooldown) 
+		{
+			cam.SetZoom(1.0, 0.1);
+			cooldown--;
+		}
+		
+		if( CheckButtons(BT_ATTACK, VehButtons.BTS_DOWN) && !cooldown )
+		{
+			cooldown = 12;
+			double rmax = 2.0;
+			for(int i = 0; i < 7; i++)
+			{
+				double arecoil = frandom(-rmax, rmax);
+				double precoil = frandom(-rmax, rmax)*0.5;
+				HaloMath.FireProjectile("PlasmaBall", pos, angle + arecoil, pitch + precoil, 0, 0, 20, 1, 60);
+			}
+			A_StartSound("Halo/Ghost/Fire", CHAN_BODY, CHANF_OVERLAP);
+			cam.Quake(1.25,1.25,0,0.5);
+		}
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 1;
+		loop;
+	}
+}
+
+class HaloGhost : VehBase
+{
+	VehPart gun;
+	double turnvel;
+	double veharmor;
+	bool firstperson;
+	
+	Property Armored : veharmor;
+	
+	Default
+	{
+		Health 1000;
+		Radius 40;
+		Height 40;
+		Scale 10.0;
+		HaloGhost.Armored 500;
+		VehBase.SetupCrosshair "GHOSTRET", 1.0, 1.0;
+		+SOLID;
+		+INTERPOLATEANGLES;
+		+SHOOTABLE;
+		+NOFRICTION;
+		+FLOATBOB; 
+		FloatBobStrength 0.25;
+		Gravity 0.5;
+	}
+	
+	override int DamageMobj(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle)
+	{
+		int diff = veharmor-damage;
+		if(diff > 0)
+		{
+			veharmor -= damage;
+			return 0;
+		}
+		else
+		{
+			veharmor = 0;
+			return super.DamageMobJ(inflictor, source, damage, mod, flags, angle);
+		}
+	}
+	
+	override void BeginPlay()
+	{
+		super.BeginPlay();
+		gun = VehPart.Attach("HaloGhost_Guns", self, (70,0,20), (0,0));
+	}
+	
+	override void RemoveDriver()
+	{
+		driver.scale = (1,1);
+		super.RemoveDriver();
+	}
+	
+	override void TakeDriver(PlayerPawn user)
+	{
+		if(health <= 0) return;
+		if(user) driver = user;
+		driver.scale *= 0;
+		let gcam = GhostCamera(SetupCamera(camtype:"GhostCamera"));
+		
+		if(gcam)
+		{
+			if(!firstperson)
+			{
+				gcam.dist_xy = -90;
+				gcam.dist_z = 50;
+			}
+			else
+			{
+				gcam.dist_xy = -30;
+				gcam.dist_z = 50;
+			}
+		}
+		ReadyDriver();
+	}
+	
+	override vector3 GetDrivePos()
+	{
+		return (-30,-5,0);
+	}
+	
+	override vector3 GetExitPos()
+	{
+		return ( cos(angle + 90) * 90,
+				 sin(angle + 90) * 90, 0 );
+	}
+
+	override void DoMove(float forwardmove, float sidemove)
+	{	
+		if(health <= 0)  
+		{
+			if(driver) RemoveDriver();
+			return;
+		}
+		bool onground = ((pos.z <= floorz) || bOnMobj || bMBFBouncer);
+		
+		vel.xy *= 0.97;
+		if(!driver) return;
+		
+		double plrangle = HaloMath.LerpAngle(angle, driver.angle, 0.32);
+		A_SetAngle(plrangle, SPF_INTERPOLATE);
+		
+		double spd = 0.67;
+		if( (sidemove || forwardmove) )
+		{
+			vector2 accel = (spd, spd * 1.35);
+			vector2 movedir = (forwardmove, -sidemove).Unit();
+
+			movedir = RotateVector(movedir, angle);
+			accel.x *= movedir.x;
+			accel.y *= movedir.y;
+			vel.xy += accel;
+		}
+	}
+	
+	States
+	{
+		Spawn:
+			GHST A 1;
+		loop;
+		
+		Death:
+			GHST A -1;
+		stop;
+	}
+}

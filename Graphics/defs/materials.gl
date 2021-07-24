@@ -2,3 +2,11 @@
 material texture models/Lasers/BEAM.png {
 	brightmap models/Lasers/BEAM.png
 }
+
+material texture models/Vehicles/ghost.png {
+	shader "shaders/simsun.fp"
+}
+
+material texture models/Title/Halo_Ring_Outer.png {
+	shader "shaders/simsun.fp"
+}

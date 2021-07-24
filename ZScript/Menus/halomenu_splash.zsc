@@ -22,12 +22,10 @@ class HaloDoom_IntroSeq : HaloMenuBase
 	{
 		intros.Process();
 		
-		bool inmap = (gamestate == GS_LEVEL);
-		if(intros.IsEmpty() || inmap)
+		if(intros.IsEmpty()) 
 		{
 			Close();
-			if(!inmap) SetMenu("Mainmenu");
-			return;
+			SetMenu("Mainmenu");
 		}
 	}
 	

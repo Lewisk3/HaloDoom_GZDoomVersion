@@ -28,12 +28,15 @@ class HaloDoom_Events : EventHandler
 	{
 		let curmenu = Menu.GetCurrentMenu();
 		bool curintro = (curmenu is "HaloDoom_IntroSeq");
+		bool inmap = (gamestate == GS_LEVEL);
 		
-		if(engHandle.edata.first_boot && !curintro)
+		if(engHandle.edata.first_boot && !curintro && !inmap)
 		{
 			Menu.SetMenu("Intro");
 			engHandle.edata.first_boot = false;
 		}
+		else if(inmap)
+			engHandle.edata.first_boot = false;
 	}
 
 	override void NetworkProcess(ConsoleEvent e)

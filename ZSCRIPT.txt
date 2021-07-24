@@ -47,6 +47,10 @@ version "4.0"
 #include "ZScript/Weapons/battlerifle.zsc"
 #include "ZScript/Weapons/sniper_rifle.zsc"
 
+// Vehicles
+#include "ZScript/Vehicles/veh_parts.zsc"
+#include "ZScript/Vehicles/veh_ghost.zsc"
+
 // Laser(s)
 #include "ZScript/Lasers/base/laser_base.zsc"
 #include "ZScript/Lasers/base/laserfx_base.zsc"

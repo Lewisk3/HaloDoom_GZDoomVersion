@@ -1,0 +1,410 @@
+
+// Effectively disables the player's active weapon until they exit
+// the vehicle (veh)
+class Veh_Manager : Inventory
+{
+	VehBase veh;
+	State defaultstate;
+	
+	override void ModifyDamage(int damage, Name damageType, out int newdamage, bool passive, Actor inflictor, Actor source, int flags)
+	{
+		// Don't allow the player to take damage while in a vehicle.
+		// bSHOOTABLE cannot simply be toggled off for the driver,
+		// otherwise monsters will ignore them.
+		
+		if(passive) newdamage = 0;
+	}
+	
+	
+	static Veh_Manager Setup(PlayerPawn to, VehBase onveh)
+	{
+		to.GiveInventoryType("Veh_Manager");
+		let noweap = Veh_Manager(to.FindInventory("Veh_Manager"));
+		if(noweap) 
+		{
+			noweap.veh = onveh;
+			let weap = to.player.ReadyWeapon;
+			if(weap) noweap.defaultstate = weap.FindState("Ready");
+		}
+		return noweap;
+	}
+	
+	override void DoEffect()
+	{
+		if(!veh || veh.driver != Owner) 
+		{
+			Disable();
+		}
+		else
+		{
+			let plr = veh.driver;
+			plr.player.SetPSprite(PSP_WEAPON, FindState("NoNothing"));
+		}
+		super.DoEffect();
+	}
+	
+	void Disable()
+	{
+		if(!Owner || !Owner.player) return;
+		Owner.player.SetPSprite(PSP_WEAPON, defaultstate);
+		Owner.RemoveInventory(self);
+		GoAwayAndDie();
+	}
+	
+	States(Weapon)
+	{
+		DoNothing:
+			TNT1 A 1;
+		loop;
+	}
+}
+
+// Part base
+class VehPart : Actor
+{
+	VehBase base;
+	vector3 posoffs;
+	vector2 angoffs;
+	vector3 anim_posoffs;
+	vector2 anim_angoffs;
+	double anim_spd;
+	
+	Default
+	{
+		+NOINTERACTION;
+		+NOGRAVITY;
+		+INTERPOLATEANGLES;
+		+SLIDESONWALLS;
+	}
+		
+	// Core
+	static VehPart Attach(class<VehPart> partname, VehBase to, vector3 offset = (0,0,0), vector2 angles = (0,0))
+	{
+		vector3 finalpos;
+		finalpos = HaloMath.V3Offset(to.angle+angles.x, to.pitch+angles.y, offset.x, offset.y, offset.z, 1.);
+		finalpos = level.vec3offset(to.pos, finalpos);
+		let vpt = VehPart(Spawn(partname, finalpos));
+		
+		if(vpt)
+		{
+			vpt.base = to;
+			vpt.posoffs = offset;
+			vpt.angoffs = angles;
+			if(vpt.base) vpt.OnAttach();
+		}
+		
+		return vpt;
+	}
+		
+	virtual vector3 GetOffsetPos(Actor from, vector3 posdiff = (0,0,0))
+	{
+		vector3 finalpos;
+		vector3 animpos = level.vec3Offset(posoffs, anim_posoffs);
+		vector3 finaloffs = level.vec3Offset(animpos, posdiff);
+		finalpos = HaloMath.V3Offset(from.angle+angoffs.x+anim_angoffs.x, from.pitch+angoffs.y+anim_angoffs.y, finaloffs.x, finaloffs.y, finaloffs.z, 1.);
+		
+		finalpos = level.vec3offset(from.pos, finalpos);
+		return finalpos;
+	}
+	
+	virtual void UpdatePos(bool moving = true)
+	{
+		if(!base) return;
+		vector3 finalpos = GetOffsetPos(base);
+		SetOrigin(finalpos, moving);
+	}
+
+	// Readability
+	bool CheckButtons(int btns, int bstate)
+	{
+		if(base) return base.CheckButtons(btns, bstate);
+		return false;
+	}
+	
+	void AnimatePos(double forward, double leftright, double updown)
+	{
+		anim_posoffs = (forward, leftright, updown);
+	}
+	void AnimateAngles(double oangle, double opitch)
+	{
+		anim_angoffs = (oangle, opitch);
+	}
+	
+	// Templates
+	virtual void DoUpdate(VehCamera cam) {}
+	virtual void OnAttach() {}
+	
+	override void Tick()
+	{
+		super.Tick();
+		if(!base) 
+		{
+			Destroy();
+			return;
+		}
+		if(base.driver) DoUpdate(base.viewcam);
+		if(!anim_spd) anim_spd = 0.97; 
+		anim_angoffs *= anim_spd;
+		anim_posoffs *= anim_spd;
+		UpdatePos();
+		
+		if(base.vehflags & base.bALIGNTOPLANE)
+			HaloMath.AlignToPlane(self);
+	}
+		
+	States
+	{
+		Spawn:
+			TNT1 A 1;
+		loop;
+	}
+	
+}
+
+// Wrapper for enums
+class VehButtons abstract
+{
+	enum ButtonStates
+	{
+		BTS_UP,
+		BTS_DOWN,
+		BTS_RELEASED,
+		BTS_PRESSED
+	};
+}
+
+class VehBase : Actor
+{
+	uint vehflags;
+	FlagDef ALIGNTOPLANE : vehflags, 0;
+	
+	PlayerPawn driver;
+	VehCamera viewcam;
+	string crosshair;
+	double crosshair_xscale;
+	double crosshair_yscale;
+	
+	Property SetupCrosshair : crosshair, crosshair_xscale, crosshair_yscale;
+
+	Default
+	{
+		+VehBase.ALIGNTOPLANE;
+		+SLIDESONWALLS;
+	}
+		
+	// Driver Interaction 
+	virtual void TakeDriver(PlayerPawn user)
+	{
+		// Spawn camera and setup Driver
+		if(user) driver = user;
+		SetupCamera();
+		ReadyDriver();
+	}
+	
+	virtual vector3 GetDrivePos()
+	{
+		return (0,0,0);
+	}
+	
+	virtual vector3 GetExitPos()
+	{
+		return ( cos(angle) * radius,
+				 sin(angle) * radius, 0 );
+	}
+	
+	virtual void RemoveDriver()
+	{
+		// Eject driver 
+		vector3 outpos = level.Vec3offset(GetExitPos(), pos);
+		driver.SetOrigin(outpos, true);
+		
+		// Remove camera
+		if(viewcam) driver.player.camera = driver;
+		viewcam.Destroy();
+		
+		// Reset flags
+		driver.bSOLID = driver.default.bSOLID;
+		driver.bNOGRAVITY = driver.default.bNOGRAVITY;
+		
+		// Invalidate driver
+		driver = null;
+	}
+	
+	virtual void ReadyDriver()
+	{
+		if(!driver) return;
+		if(!viewcam) console.printf("Warning: No camera attached to vehicle!");
+		Veh_Manager.Setup(driver, self);
+		driver.bSOLID = false;
+		driver.bNOGRAVITY = true;
+	}
+	
+    bool CheckButtons(int btn, int bstate)
+	{
+		if(!driver) return false;
+		bool btnstatus;
+		UserCmd cmd = driver.player.cmd;
+		uint oldbtns = driver.player.oldbuttons;
+		switch(bstate)
+		{
+			case VehButtons.BTS_UP:
+				btnstatus = !(cmd.buttons & btn); break;
+			case VehButtons.BTS_DOWN:
+				btnstatus =  (cmd.buttons & btn); break;
+			case VehButtons.BTS_PRESSED:
+				btnstatus =  (cmd.buttons & btn) && !(oldbtns & btn); break;
+			case VehButtons.BTS_RELEASED:
+				btnstatus = !(cmd.buttons & btn) && (oldbtns & btn); break;
+		}
+		return btnstatus;
+	}
+	
+	// Camera setup
+	virtual VehCamera SetupCamera(vector3 offset = (0,0,0), vector2 angles = (0,0), class<VehCamera> camtype = "VehCamera", bool setcam = true)
+	{
+		let cam = VehCamera(VehPart.Attach(camtype, self, offset, angles));
+		if(cam)
+		{
+			viewcam = VehCamera(cam);
+			if(driver && setcam) 
+			{
+				driver.player.camera = viewcam;
+				cam.default_fov = driver.player.FOV;
+			}
+		}
+		return viewcam;
+	}
+
+	// Update stuff
+	virtual void UpdateDriver()
+	{
+		vector3 newpos = GetDrivePos();
+		vector3 finalpos = HaloMath.V3Offset(angle, pitch, newpos.x, newpos.y, newpos.z, 1.);
+		finalpos = level.vec3offset(pos, finalpos);
+		driver.SetOrigin(finalpos, false);
+		driver.vel *= 0;
+		driver.player.vel *= 0;
+	}
+	
+	// Move vehichle
+	virtual void DoMove(float forwardmove, float sidemove) {}
+	
+	// Core
+	override bool CanCollideWith(Actor other, bool passive)
+	{
+		if(other == driver) return false;
+		return super.CanCollideWith(other, passive);
+	}
+	
+	override bool Used(Actor user)
+	{
+		if(!driver) 
+		{
+			TakeDriver(PlayerPawn(user));
+			if(!driver) return false;
+		}
+		else
+		{
+			RemoveDriver();
+		}
+		return false;
+	}
+	
+	override void Tick()
+	{
+		if(driver)
+		{
+			UpdateDriver();
+			
+			UserCmd cmd = driver.player.cmd;
+			DoMove(cmd.forwardmove, cmd.sidemove);
+		}
+		else
+		{
+			DoMove(0,0);
+		}
+		
+		if(vehflags & bALIGNTOPLANE)
+			HaloMath.AlignToPlane(self);
+		super.Tick();
+	}
+}
+
+class VehCamera : VehPart 
+{
+	// Zoom
+	double desired_zoom;
+	double zoom_interp;
+	
+	// Quake
+	vector3 quake_desiredI;
+	double quakeperc;
+	double quakefric;
+	bool quakedown;
+
+	double default_fov;
+	vector3 relposoffs;
+	override void UpdatePos(bool moving)
+	{
+		if(!base) return;
+		vector3 finalpos = GetOffsetPos(base, relposoffs);
+		SetOrigin(finalpos, moving);
+		
+		A_SetAngle(base.driver.angle, SPF_INTERPOLATE);
+		A_SetPitch(base.driver.pitch, SPF_INTERPOLATE);
+	}
+	
+	void SetZoom(double desired, double interpolation = 1.0)
+	{
+		desired_zoom = desired;
+		zoom_interp = interpolation;
+	}
+	
+	void Quake(double xi, double yi, double zi, double spd)
+	{
+		quake_desiredI = (xi, yi, zi);
+		quakefric = spd;
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		
+		if(!desired_zoom) desired_zoom = 1.0;
+		if(!zoom_interp) zoom_interp = 1.0;
+		
+		// Do zoom effects.
+		if(abs(CameraFOV-desired_zoom) >= 0.001)
+		{
+			CameraFOV = HaloMath.Lerp(CameraFOV, default_fov / desired_zoom, zoom_interp);
+		}
+		
+		// Do quake effects
+		if(quake_desiredI.Length())
+		{
+			quakeperc = clamp(quakeperc, 0, 1.0);	
+			if(!quakedown)
+			{
+				quakeperc += quakefric;		
+				if(quakeperc >= 1.0) quakedown = true;
+			}
+			else
+			{
+				quakeperc -= quakefric;
+				if(quakeperc <= 0) 
+				{
+					quake_desiredI *= 0;
+					relposoffs *= 0;
+					quakedown = false;
+					quakeperc = 0;
+				}
+			}
+		
+			vector3 q = quake_desiredI * quakeperc;
+			vector3 quakeoffs = ( frandom(-q.y, q.y),
+								  frandom(-q.x, q.x),
+								  frandom(-q.z, q.z) );			
+			relposoffs += quakeoffs;
+		}
+	}
+}

@@ -557,6 +557,7 @@ class HaloGun : RecoilWeapon
 		Scope.Ready:
 			TNT1 A 1
 			{	
+				if(player.camera != PlayerPawn(self)) return ResolveState(null);
 				bool zoom_in  = A_ButtonStatus(BT_ALTATTACK, BTS_DOWN) && !invoker.zoomed;
 				bool zoom_out = A_ButtonStatus(BT_ALTATTACK, BTS_UP) && invoker.zoomed;
 			

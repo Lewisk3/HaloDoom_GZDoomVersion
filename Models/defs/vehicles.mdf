@@ -1,0 +1,12 @@
+Model HaloGhost
+{ 
+   Path "Models/Vehicles"
+   Skin 0 "ghost.png" 
+   Model 0 "hde_ghost.obj" 
+   Scale 1.0 1.0 1.0
+   Offset -2 0 0.80
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex GHST A 0 0 
+}

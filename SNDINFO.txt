@@ -4,6 +4,9 @@ Halo/Weapons/Zoom/Out Zoom_OUT
 Halo/Weapons/DryFire  HW_DRYF
 UI/PressButton BTNPRESS
 
+// Vehicles
+Halo/Ghost/Fire GHSTFIRE
+
 // Items
 Halo/Powerup/Camo    "Sounds/Items/power_camo.wav"
 Halo/Powerup/Damage  "Sounds/Items/power_damage.wav"
