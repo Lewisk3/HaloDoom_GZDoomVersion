@@ -530,7 +530,7 @@ class HaloStatusBar : BaseStatusBar
 					vector2 pixpos = (x0+cos(lineangle)*i, y0+sin(lineangle)*i);
 					double fulldist = HaloMath.Distance2D(pixpos, origin);
 					if(fulldist > maxdist) continue;
-					HLSBS.DrawImage("HPXL", pixpos, 0, 1.0, (0.5,0.5), col);
+					HLSBS.DrawImage("HPXL", pixpos, 0, 1.0, (0.5,0.5), tint:col);
 				}
 				return;
 			}

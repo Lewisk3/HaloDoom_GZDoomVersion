@@ -113,6 +113,7 @@ class HaloPlayer : DoomPlayer
 			}
 			A_SoundVolume(CHAN_5, (1.0 - recharge_perc) + 0.1);
 			shields += maxshields/(shield_regenrate*35.);
+			shields = clamp(shields, 0, maxshields);
 			A_StopSound(CHAN_7);
 		}
 		if(shields >= maxshields)
