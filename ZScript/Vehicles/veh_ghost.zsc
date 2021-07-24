@@ -86,12 +86,12 @@ class HaloGhost : VehBase
 	double turnvel;
 	double veharmor;
 	bool firstperson;
-	Actor roadkill;
 	
 	Property Armored : veharmor;
 	
 	Default
 	{
+		Mass 800;
 		Health 1000;
 		Radius 40;
 		Height 40;
@@ -120,12 +120,6 @@ class HaloGhost : VehBase
 			veharmor = 0;
 			return super.DamageMobJ(inflictor, source, damage, mod, flags, angle);
 		}
-	}
-	
-	override bool CanCollideWith(Actor other, bool passive)
-	{
-		if(vel.length() > 10 && other.bISMONSTER) roadkill = other;
-		return super.CanCollideWith(other, passive);
 	}
 	
 	override void BeginPlay()
@@ -208,18 +202,33 @@ class HaloGhost : VehBase
 			vel.xy += accel;
 		}
 		
-		if( roadkill && roadkill.health >= 0 && 
-			Distance3D(roadkill) <= (roadkill.radius+radius) * 2.0 )
+		// Process enemies to run over.
+		if(vel.length() > 10)
 		{
-			vector3 hitdiff = level.SphericalCoords(pos, roadkill.pos, (angle, pitch));
-			double hitang = angle - hitdiff.x;
-			
-			vector2 hitdir = (cos(hitang), sin(hitang));
-			double force = HaloMath.GetInertia(roadkill.mass) * vel.length() * 1.5;
-			
-			vel.xy -= hitdir * force;
-			roadkill.Thrust(force, angle - hitdiff.x);
-			roadkill.DamageMobj(self, self, vel.length() * 15, "Vehicular");
+			let act_it = ThinkerIterator.Create();
+			Actor roadkill;
+			while(roadkill = Actor(act_it.Next()))
+			{
+				if( roadkill == self   || 
+				    roadkill == driver || 
+				   !roadkill.bSHOOTABLE  ) continue;
+				
+				double closedist = (roadkill.radius+radius) * 2.0;
+				if( roadkill.health >= 0 && Distance3DSquared(roadkill) <= closedist*closedist)
+				{
+					vector3 hitdiff = level.SphericalCoords(pos, roadkill.pos, (angle, pitch));
+					double hitang = angle - hitdiff.x;
+					
+					if(abs(hitdiff.x) > 30) continue;
+					
+					vector2 hitdir = (cos(hitang), sin(hitang));
+					double force = HaloMath.GetInertia(roadkill.mass) * vel.length() * 1.5;
+					
+					vel.xy -= hitdir * vel.length();
+					roadkill.Thrust(force, angle - hitdiff.x);
+					roadkill.DamageMobj(self, self, vel.length() * 10, "Vehicular", 0, hitang);
+				}
+			}
 		}
 	}
 	

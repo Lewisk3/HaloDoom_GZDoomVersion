@@ -1,3 +1,66 @@
+class HaloMessage ui
+{
+	Font fnt;
+	uint stage;
+	string msg;
+	double alpha;
+	Color tint;
+	vector2 scale, pos;   // Initalize here.
+	double desired_alpha;
+	vector2 desired_scale, desired_pos;
+	
+	static HaloMessage CreateMessage(Font fnt, string msg, vector2 pos, vector2 scale, double alpha = 1.0, Color tint = 0)
+	{
+		let hudmsg = HaloMessage(new("HaloMessage"));
+		if(hudmsg)
+		{
+			hudmsg.fnt = fnt;
+			hudmsg.msg = msg;
+			hudmsg.pos = hudmsg.desired_pos = pos;
+			hudmsg.desired_scale = scale * 1.5;
+			hudmsg.desired_alpha = alpha;
+			hudmsg.tint = tint;
+		}
+		return hudmsg;
+	}
+	
+	void Draw(double dt)
+	{
+		double ispd = 0.25 * dt;
+		scale.x = HaloMath.Lerp(scale.x, desired_scale.x, ispd);
+		scale.y = HaloMath.Lerp(scale.y, desired_scale.y, ispd);
+		pos.x = HaloMath.Lerp(pos.x, desired_pos.x, ispd);
+		pos.y = HaloMath.Lerp(pos.y, desired_pos.y, ispd);
+		HLSBS.DrawString(fnt, msg, pos, alpha:alpha, scale:scale, tint:tint);		
+		
+		
+		switch(stage)
+		{
+			// Scale up then back down.
+			case 0:
+				if(abs(scale.Length() - desired_scale.Length()) <= 0.01)
+				{
+					desired_scale *= 0.75;
+					stage++;
+				}
+				alpha = HaloMath.Lerp(alpha, desired_alpha, ispd);
+			break;
+			
+			// Begin fadeout.
+			case 1:
+				alpha = 3.0;
+				stage = 2;
+			break;
+			
+			// Process fadeout completion.
+			case 2:
+				alpha -= 0.01 * dt;
+				if(alpha <= 0) msg = "";
+			break;
+		}	
+	}
+}
+
 class HaloStatusBar : BaseStatusBar
 {
 	const ANIM_FPS = 60;
@@ -27,6 +90,10 @@ class HaloStatusBar : BaseStatusBar
 	// Opt Features
 	bool draw_distance;
 	
+	// Message handling
+	const MSGMAX = 4;
+	double msgfade;
+	Array<HaloMessage> messages;
 	
 	// Basic Functions
 	mixin BasicHUDFeatures;
@@ -42,7 +109,58 @@ class HaloStatusBar : BaseStatusBar
 		fntHaloAmmo = "HaloAmmoFont";
 		mHUDFont = HUDFont.Create(fnt);
 	}
+	
+	// Override message behavior
+	override bool ProcessNotify(EPrintLevel printlevel, String outline)
+	{
+		bool logprint = (printlevel & PRINT_LOG);
+		bool chatmsg  = (printlevel & (PRINT_CHAT|PRINT_TEAMCHAT));
+		bool validprint = (logprint && chatmsg) || (printlevel < PRINT_HIGH);
+		if(!validprint) return false;
 		
+		vector2 msgpos = (80, 600);
+		PushMessage(outline, msgpos);
+		
+		return true;
+	}
+		
+	void PushMessage(String msg, vector2 pos)
+	{
+		Color msgcol = 0x4002a7de;
+		vector2 msgscale = (1.0, 0.8);
+		double msg_spacing = 30;
+		uint count = messages.Size()-1;
+		// Generate
+		let msg = HaloMessage.CreateMessage("HaloFont", msg, pos, msgscale, tint:msgcol);
+		if(count >= MSGMAX) 
+		{
+			messages.Delete(0);
+			count--;
+		}
+		
+		// Push other messages down
+		for(int i = 0; i <= count; i++)
+			messages[i].desired_pos.y += msg_spacing;
+			
+		messages.Push(msg);
+	}
+	
+	
+	void DrawMessages()
+	{
+		uint count = messages.Size()-1;
+		for(int i = count; i >= 0; i--)
+		{
+			let msg = messages[i];
+			if(msg.msg == "") 
+			{
+				messages.Delete(i);
+				continue;
+			}
+			msg.Draw(deltatime);
+		}
+	}
+	
 	override void Draw (int state, double TicFrac)
 	{
 		if(!automapactive) Super.Draw(state, TicFrac);
@@ -74,6 +192,9 @@ class HaloStatusBar : BaseStatusBar
 				DrawRadar();
 				DrawSight();
 			}
+			
+			// Information
+			DrawMessages();
 			
 			// Keys and Objectives
 			DrawKeys(CPlayer, 50, 10, 30,30);			

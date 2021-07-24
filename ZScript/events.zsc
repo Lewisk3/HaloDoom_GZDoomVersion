@@ -28,14 +28,14 @@ class HaloDoom_Events : EventHandler
 	{
 		let curmenu = Menu.GetCurrentMenu();
 		bool curintro = (curmenu is "HaloDoom_IntroSeq");
-		bool inmap = (gamestate == GS_LEVEL);
+		bool titlescreen = (gamestate == GS_TITLELEVEL);
 		
-		if(engHandle.edata.first_boot && !curintro && !inmap)
+		if(engHandle.edata.first_boot && !curintro && titlescreen)
 		{
 			Menu.SetMenu("Intro");
 			engHandle.edata.first_boot = false;
 		}
-		else if(inmap)
+		else if(!titlescreen)
 			engHandle.edata.first_boot = false;
 	}
 
@@ -57,6 +57,11 @@ class HaloDoom_Events : EventHandler
 			}
 				
 			hplr.grapple = GrapplingHook.Deploy(hplr, 20, (0,-2,-3));
+		}
+		
+		if(e.Name == "debug_gimmeghost")
+		{
+			Actor.Spawn("HaloGhost", src.mo.pos);
 		}
 	
 		if(multiplayer) return;

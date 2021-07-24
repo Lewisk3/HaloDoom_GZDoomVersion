@@ -23,14 +23,13 @@ class HaloDoom_TitleMenu : HaloMenuBase
 		for(int i = 0; i < buttons.Size(); i++)
 			buttons[i].ScaleCollider(0.9, 0.7);
 		
-			
-		if(gamestate != GS_LEVEL) 
-			S_ChangeMusic("Music/TITLEMUS" .. random[TMUS](1,5) .. ".ogg", force:true);
+		bool title = (gamestate == GS_TITLELEVEL);
+		if(title) S_ChangeMusic("Music/TITLEMUS" .. random[TMUS](1,5) .. ".ogg", force:true);
 		
 		DontDim = true;
 		mMouse.SetPos(buttons[0].btnrect.pos);
 		btn_selected = 0;
-		fadein = 1.0;
+		fadein = title ? 1.0 : 0.15;
 	}
 	
 	override bool MenuEvent(int mkey, bool fromcontroller)
@@ -54,7 +53,7 @@ class HaloDoom_TitleMenu : HaloMenuBase
 				buttons[btn_selected].clicked = true;
 			return true;
 		case MKEY_Back:
-			if(gamestate == GS_LEVEL) Close();
+			if(gamestate != GS_TITLELEVEL) Close();
 			return true;
 		}
 		return false;
