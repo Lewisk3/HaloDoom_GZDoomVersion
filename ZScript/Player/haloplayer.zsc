@@ -162,11 +162,11 @@ class HaloPlayer : DoomPlayer
 				A_StartSound("Shield/Explode",flags:CHANF_NOSTOP);
 				double truedmg = abs(shields);
 				shields = 0;
-				return super.DamageMobJ(inflictor, source, ceil(truedmg), mod, flags, angle);
+				return super.DamageMobJ(inflictor, source, ceil(truedmg), mod, flags | DMG_FORCED, angle);
 			}
 			return 0;
 		}
-		return super.DamageMobJ(inflictor, source, ceil(truedamage), mod, flags, angle);
+		return super.DamageMobJ(inflictor, source, ceil(truedamage), mod, flags | DMG_FORCED, angle);
 	}
 	
 	clearscope bool CheckCrosshairLowered()

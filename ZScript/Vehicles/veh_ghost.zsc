@@ -103,6 +103,8 @@ class HaloGhost : VehBase
 		+NOFRICTION;
 		+FLOATBOB; 
 		FloatBobStrength 0.25;
+		MaxStepHeight 36;
+		MaxSlopeSteepness 0.1;
 		Gravity 0.3;
 	}
 	
