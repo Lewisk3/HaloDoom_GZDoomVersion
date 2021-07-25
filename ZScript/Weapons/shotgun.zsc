@@ -25,7 +25,7 @@ class Halo_Shotgun : HaloGun replaces Shotgun
 	{
 		Weapon.SlotNumber 1;
 		Obituary "%o was took down by %k's Shotgun.";
-		Inventory.PickupMessage	"Shotgun Adquired.";
+		Inventory.PickupMessage	"Shotgun Acquired.";
 		Tag "Shotgun";
 		Weapon.BobSpeed 2.0;
 		Weapon.BobRangeX 0.10;

@@ -112,6 +112,9 @@ class VehPart : Actor
 		if(!base) return;
 		vector3 finalpos = GetOffsetPos(base);
 		SetOrigin(finalpos, moving);
+		
+		if(base.vehflags & base.bALIGNTOPLANE)
+			HaloMath.AlignToPlane(self);
 	}
 
 	// Readability
@@ -147,9 +150,6 @@ class VehPart : Actor
 		anim_angoffs *= anim_spd;
 		anim_posoffs *= anim_spd;
 		UpdatePos();
-		
-		if(base.vehflags & base.bALIGNTOPLANE)
-			HaloMath.AlignToPlane(self);
 	}
 		
 	States
@@ -326,6 +326,7 @@ class VehBase : Actor
 		
 		if(vehflags & bALIGNTOPLANE)
 			HaloMath.AlignToPlane(self);
+			
 		super.Tick();
 	}
 }

@@ -29,7 +29,6 @@ class GhostCamera : VehCamera
 	}
 }
 
-
 class HaloGhost_Guns : VehPart
 {
 	uint cooldown;
@@ -104,7 +103,7 @@ class HaloGhost : VehBase
 		+NOFRICTION;
 		+FLOATBOB; 
 		FloatBobStrength 0.25;
-		Gravity 0.5;
+		Gravity 0.3;
 	}
 	
 	override int DamageMobj(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle)
