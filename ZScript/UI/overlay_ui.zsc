@@ -30,7 +30,7 @@ class Halo_OverlayUI : EventHandler
 	Array<Key> foundkeys;
 	
 	ui double prevMS, deltatime;
-	HitMarkers ui_hitmarkers;
+	Array<HitMarkers> ui_hitmarkers;
 
 	void AddNewKey(Key k)
 	{
@@ -66,25 +66,35 @@ class Halo_OverlayUI : EventHandler
 	
 	override void NetworkProcess(ConsoleEvent e)
 	{
+		let plr = players[e.Player].mo;
 		String cmd = e.Name;
 		Array<String> args;
 		cmd.Split(args, ":");
 		if(args[0] == "hitmark")
 		{
-			let dohitmarkers = CVar.GetCVar("halodoom_fx_hitmarkers", players[e.Player]);
-			if(dohitmarkers && dohitmarkers.GetBool())
+			uint plrnum = e.Args[0];
+			if(plrnum == plr.PlayerNumber())
 			{
-				class<Hitmarker> type = args[1];
-				uint layer = args[2].ToInt();
-				if(type) ui_hitmarkers.Queue(layer, type);
+				let dohitmarkers = CVar.GetCVar("halodoom_fx_hitmarkers", players[plrnum]);
+				if(dohitmarkers && dohitmarkers.GetBool())
+				{
+					class<Hitmarker> type = args[1];
+					uint layer = args[2].ToInt();
+					if(type) ui_hitmarkers[plrnum].Queue(layer, type);
+				}
 			}
 		}
 	}
 	
 	override void WorldTick()
 	{
-		if(!ui_hitmarkers) ui_hitmarkers = new("HitMarkers");
-		ui_hitmarkers.Cleanup();
+		if(ui_hitmarkers.Size() < MAXPLAYERS)
+		{
+			for(int i = 0; i < MAXPLAYERS; i++)
+				ui_hitmarkers.Push(new("HitMarkers"));
+		}
+		for(int i = 0; i < MAXPLAYERS; i++)
+			ui_hitmarkers[i].Cleanup();
 	}
 	
 	// Keys and Hitmarkers
@@ -102,8 +112,11 @@ class Halo_OverlayUI : EventHandler
 		DrawKeys(e);
 		
 		// Hitmarker(s)
-		ui_hitmarkers.Process();
-		ui_hitmarkers.Animate(deltatime, hitxmid);
+		uint plrnum = haloplr.PlayerNumber();
+		console.printf("%d", plrnum);
+		
+		ui_hitmarkers[plrnum].Process();
+		ui_hitmarkers[plrnum].Animate(deltatime, hitxmid);
 		
 		// Keep track of time, always.
 		if(!prevMS)

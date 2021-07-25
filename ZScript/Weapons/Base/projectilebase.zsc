@@ -92,18 +92,6 @@ class HaloProjectile : FastProjectile
 		
 		bool killed = victim.health-scaled_damage <= 0;	
 		
-		// Play hit effects.
-        if(headshot) 
-		{
-			hitsnd = "Hit/Crit";
-			if(killed) Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Headshot:1");
-		}
-		else if(killed)
-		{
-			hitsnd = "Hit/Killed";
-			Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Killed:1");
-		}
-		
 		victim.DamageMobJ(self,target,scaled_damage,DamageType,0,angle);
 		act_hits.Push(victim);
 
@@ -118,7 +106,23 @@ class HaloProjectile : FastProjectile
 			plr.soundwait = 2;
 		}
 		
-		Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Normal:0");
+		// Play hit effects.
+		if(plr)
+		{
+			uint plrnum = plr.PlayerNumber();
+			if(headshot) 
+			{
+				hitsnd = "Hit/Crit";
+				if(killed) Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Headshot:1", plrnum);
+			}
+			else if(killed)
+			{
+				hitsnd = "Hit/Killed";
+				Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Killed:1", plrnum);
+			}
+			
+			Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Normal:0", plrnum);
+		}
 		
 		// Rip through actors
 		if(ripamount > 0) 

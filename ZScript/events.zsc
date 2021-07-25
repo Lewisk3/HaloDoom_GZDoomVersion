@@ -64,7 +64,7 @@ class HaloDoom_Events : EventHandler
 			Actor.Spawn("HaloGhost", src.mo.pos);
 		}
 	
-		if(multiplayer) return;
+		// if(multiplayer) return;
 		if(e.Name == "HaloDoom_GiveAll")
 		{	
 			Array<class<HaloGun> > guns;
