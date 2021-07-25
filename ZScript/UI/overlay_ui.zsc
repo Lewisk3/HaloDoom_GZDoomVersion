@@ -113,8 +113,7 @@ class Halo_OverlayUI : EventHandler
 		
 		// Hitmarker(s)
 		uint plrnum = haloplr.PlayerNumber();
-		console.printf("%d", plrnum);
-		
+
 		ui_hitmarkers[plrnum].Process();
 		ui_hitmarkers[plrnum].Animate(deltatime, hitxmid);
 		
