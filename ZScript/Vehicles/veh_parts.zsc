@@ -199,47 +199,42 @@ class VehBase : Actor
 		// Spawn camera and setup Driver
 		if(user) driver = user;
 		SetupCamera();
-		ReadyDriver();
+		ReadyDriver(user);
 	}
 	
 	virtual vector3 GetDrivePos()
 	{
 		return (0,0,0);
 	}
-	
 	virtual vector3 GetExitPos()
 	{
-		return ( cos(angle) * radius,
-				 sin(angle) * radius, 0 );
+		return (0,0,30);
 	}
 	
-	virtual void RemoveDriver()
-	{
-		// Eject driver 
-		vector3 outpos = level.Vec3offset(GetExitPos(), pos);
-		driver.SetOrigin(outpos, true);
+	virtual void RemoveDriver(PlayerPawn user, vector3 exitpos)
+	{	
+		// Eject
+		vector3 outpos = HaloMath.V3Offset(angle, pitch, exitpos.x, exitpos.y, exitpos.z, 1.);
+		outpos = level.vec3offset(pos, outpos);
+		user.SetOrigin(outpos, true);
 		
 		// Remove camera
-		if(viewcam) driver.player.camera = driver;
-		viewcam.Destroy();
+		let cam = user.player.camera;
+		if(cam is "VehCamera") cam.destroy();
+		user.player.camera = user;
 		
 		// Reset flags
-		driver.bSOLID = driver.default.bSOLID;
-		driver.bNOGRAVITY = driver.default.bNOGRAVITY;
-		driver.bINTERPOLATEANGLES = driver.default.bINTERPOLATEANGLES;
-		
-		// Invalidate driver
-		driver = null;
+		user.bSOLID = user.default.bSOLID;
+		user.bNOGRAVITY = user.default.bNOGRAVITY;
+		user.bINTERPOLATEANGLES = user.default.bINTERPOLATEANGLES;
 	}
 	
-	virtual void ReadyDriver()
+	virtual void ReadyDriver(PlayerPawn user)
 	{
-		if(!driver) return;
-		if(!viewcam) console.printf("Warning: No camera attached to vehicle!");
-		Veh_Manager.Setup(driver, self);
-		driver.bSOLID = false;
-		driver.bNOGRAVITY = true;
-		driver.bINTERPOLATEANGLES = true;
+		Veh_Manager.Setup(user, self);
+		user.bSOLID = false;
+		user.bNOGRAVITY = true;
+		user.bINTERPOLATEANGLES = true;
 	}
 	
     bool CheckButtons(int btn, int bstate)
@@ -263,30 +258,40 @@ class VehBase : Actor
 	}
 	
 	// Camera setup
+	void AssignCamera(VehCamera cam, PlayerPawn to)
+	{
+		to.player.camera = cam;
+		cam.default_fov = to.player.FOV;
+	}
+	
 	virtual VehCamera SetupCamera(vector3 offset = (0,0,0), vector2 angles = (0,0), class<VehCamera> camtype = "VehCamera", bool setcam = true)
 	{
 		let cam = VehCamera(VehPart.Attach(camtype, self, offset, angles));
-		if(cam)
+		if(cam && setcam)
 		{
 			viewcam = VehCamera(cam);
-			if(driver && setcam) 
-			{
-				driver.player.camera = viewcam;
-				cam.default_fov = driver.player.FOV;
-			}
+			if(driver) AssignCamera(cam, driver);
 		}
-		return viewcam;
+		return cam;
 	}
 
 	// Update stuff
-	virtual void UpdateDriver()
+	void UpdateActorPos(Actor act, vector3 posoffs)
 	{
-		vector3 newpos = GetDrivePos();
-		vector3 finalpos = HaloMath.V3Offset(angle, pitch, newpos.x, newpos.y, newpos.z, 1.);
+		vector3 finalpos = HaloMath.V3Offset(angle, pitch, posoffs.x, posoffs.y, posoffs.z, 1.);
 		finalpos = level.vec3offset(pos, finalpos);
 		finalpos = level.vec3offset(finalpos, vel);
-		driver.vel = vel;
-		driver.SetOrigin(finalpos, true);
+		act.SetOrigin(finalpos, true);
+		act.vel = vel;
+	}
+	
+	virtual void UpdatePassengers()
+	{
+	}
+	
+	virtual void UpdateDriver()
+	{
+		UpdateActorPos(driver, GetDrivePos());
 		driver.player.vel *= 0;
 	}
 	
@@ -300,16 +305,27 @@ class VehBase : Actor
 		return super.CanCollideWith(other, passive);
 	}
 	
+	virtual bool OnDriveAttempt(PlayerPawn user)
+	{
+		// Used primarily for setting up passengers.
+		return true;
+	}
+	
 	override bool Used(Actor user)
 	{
-		if(!driver) 
+		let plruser = PlayerPawn(user);
+		if(!plruser) return false;
+		bool candrive = OnDriveAttempt(plruser);
+		
+		if(!driver && candrive) 
 		{
-			TakeDriver(PlayerPawn(user));
+			TakeDriver(plruser);
 			if(!driver) return false;
 		}
-		else
+		else if(driver && user == driver)
 		{
-			RemoveDriver();
+			RemoveDriver(driver, GetExitPos());
+			driver = null;
 		}
 		return false;
 	}
@@ -331,7 +347,8 @@ class VehBase : Actor
 		onground = ((pos.z <= floorz) || bOnMobj || bMBFBouncer);
 		if( (vehflags & bALIGNTOPLANE) && onground )
 			HaloMath.AlignToPlane(self);
-			
+		
+		UpdatePassengers();
 		super.Tick();
 	}
 }

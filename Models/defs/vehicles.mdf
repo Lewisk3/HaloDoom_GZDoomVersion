@@ -31,7 +31,7 @@ Model Warthog_Tire
    Path "Models/Vehicles/Warthog"
    Skin 0 "warthog_tires.png" 
    Model 0 "warthog_tire.obj" 
-   Scale 1.0 1.0 1.0
+   Scale 45.0 45.0 45.0
    USEACTORPITCH
    USEACTORROLL
    
@@ -42,7 +42,41 @@ Model Warthog_BackTire
    Path "Models/Vehicles/Warthog"
    Skin 0 "warthog_tires.png" 
    Model 0 "warthog_tire.obj" 
-   Scale 1.0 1.0 1.0
+   Scale 45.0 45.0 45.0
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}
+
+Model Warthog_TurretBase
+{ 
+   Path "Models/Vehicles/Warthog"
+   Skin 0 "warthog_chaingun.png" 
+   Model 0 "warthog_gun_base.obj" 
+   Scale 45.0 45.0 45.0
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}
+Model Warthog_TurretGun
+{ 
+   Path "Models/Vehicles/Warthog"
+   Skin 0 "warthog_chaingun.png" 
+   Model 0 "warthog_gun_body.obj" 
+   Scale 45.0 45.0 45.0
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}
+Model Warthog_TurretBarrel
+{ 
+   Path "Models/Vehicles/Warthog"
+   Skin 0 "warthog_chaingun.png" 
+   Model 0 "warthog_gun_barrel.obj" 
+   Scale 45.0 45.0 45.0
    USEACTORPITCH
    USEACTORROLL
    

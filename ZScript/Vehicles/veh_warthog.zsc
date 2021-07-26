@@ -2,13 +2,14 @@ class Warthog_Tire : VehPart
 {
 	bool invert;
 	double trueturn;
+	double turnvel;
 	Property BackTires : invert;
 	
 	Default
 	{
 		Radius 16;
 		Height 16;
-		Scale 45.0;
+		Scale 1.0;
 	}
 	
 	double GetSteerAngle(bool behind = false)
@@ -19,8 +20,14 @@ class Warthog_Tire : VehPart
 	
 	override void UpdatePos(bool moving)
 	{
-		super.UpdatePos(moving);
-		if(!base || !base.driver) return;
+		if(!base) return;
+		vector3 finalpos = GetOffsetPos(base);
+		SetOrigin(finalpos, moving);
+		
+		if(base.vehflags & base.bALIGNTOPLANE)
+			HaloMath.AlignToPlane(self, ignorepitch:true);
+			
+		if(!base.driver) return;
 		
 		let warthog = HaloWarthog(base);
 		
@@ -35,10 +42,7 @@ class Warthog_Tire : VehPart
 		steerangle = clamp(steerangle, -30, 30);
 		
 		A_SetAngle(steerangle + base.angle, SPF_INTERPOLATE);
-		if(base.vel.length() > 2)
-			A_SetPitch(pitch + base.vel.length(), SPF_INTERPOLATE);
-		else
-			A_SetPitch(0, SPF_INTERPOLATE);
+		A_SetPitch(pitch + warthog.accel, SPF_INTERPOLATE);
 	}
 		
 	override void DoUpdate(VehCamera cam)
@@ -60,12 +64,145 @@ class Warthog_BackTire : Warthog_Tire
 	}
 }
 
+// Turret
+class Warthog_TurretBase : VehPart
+{
+	Warthog_TurretGun gun;
+	Default
+	{
+		Radius 28;
+		Height 32;
+		+SOLID;
+	}
+	
+	override void OnAttach()
+	{
+		gun = Warthog_TurretGun(VehPart.Attach("Warthog_TurretGun", base, (32,0,38), (0,0))); 
+		if(gun) gun.gunbody = self;
+	}
+	
+	override void OnDestroy()
+	{
+		gun.Destroy();
+	}
+	
+	override void UpdatePos(bool moving)
+	{
+		super.UpdatePos(moving);
+		
+		let warthog = HaloWarthog(base);
+		if(!warthog) return;
+		
+		vector2 gunnerangles = (
+			warthog.gunner ? warthog.gunner.angle : base.angle,
+			warthog.gunner ? warthog.gunner.pitch : base.pitch
+		);
+		A_SetAngle(gunnerangles.x, SPF_INTERPOLATE);
+		A_SetPitch(base.pitch, SPF_INTERPOLATE);
+		
+		gun.A_SetPitch(gunnerangles.y, SPF_INTERPOLATE);
+	}
+		
+	override void DoUpdate(VehCamera cam)
+	{
+	}
+	
+	States
+	{
+		Spawn:
+			MODL A 1;
+		loop;
+	}
+}
+
+class Warthog_TurretGun : VehPart
+{
+	VehPart gunbody;
+	Warthog_TurretBarrel gunbarrel;
+	
+	Default
+	{
+		Radius 16;
+		Height 16;
+	}
+	
+	override void OnAttach()
+	{
+		gunbarrel = Warthog_TurretBarrel(VehPart.Attach("Warthog_TurretBarrel", base, (15,0,0), (0,0))); 
+		if(gunbarrel) gunbarrel.gun = self;
+	}
+	
+	override void OnDestroy()
+	{
+		gunbarrel.Destroy();
+	}
+	
+	override void UpdatePos(bool moving)
+	{
+		if(!gunbody) return;
+		vector3 finalpos = GetOffsetPos(gunbody);
+		SetOrigin(finalpos, moving);
+		
+		if(base.vehflags & base.bALIGNTOPLANE)
+			HaloMath.AlignToPlane(self);
+			
+		A_SetAngle(gunbody.angle, SPF_INTERPOLATE);
+	}
+		
+	override void DoUpdate(VehCamera cam)
+	{
+	}
+	
+	States
+	{
+		Spawn:
+			MODL A 1;
+		loop;
+	}
+}
+
+class Warthog_TurretBarrel : VehPart
+{
+	VehPart gun;
+	Default
+	{
+		Radius 16;
+		Height 16;
+	}
+	
+	override void UpdatePos(bool moving)
+	{
+		if(!gun) return;
+		vector3 finalpos = GetOffsetPos(gun);
+		SetOrigin(finalpos, moving);
+		
+		if(base.vehflags & base.bALIGNTOPLANE)
+			HaloMath.AlignToPlane(self);
+		
+		A_SetAngle(gun.angle, SPF_INTERPOLATE);
+		A_SetPitch(gun.pitch, SPF_INTERPOLATE);
+	}
+	
+	States
+	{
+		Spawn:
+			MODL A 1;
+		loop;
+	}
+}
+
 class HaloWarthog : HaloVehicle
 {
 	Warthog_Tire Tire_TL, Tire_TR, Tire_BL, Tire_BR;
+	Warthog_TurretBase turret;
 	double throttle;
 	double accelangle;
+	double accel;
 	vector2 relvel;
+	
+	// Passenger(s)
+	PlayerPawn gunner;
+	PlayerPawn passenger;
 	
 	Default
 	{
@@ -85,30 +222,60 @@ class HaloWarthog : HaloVehicle
 		Tire_TR = Warthog_Tire(VehPart.Attach("Warthog_Tire", self, (65, 35,16), (0,0)));
 		Tire_BL = Warthog_Tire(VehPart.Attach("Warthog_BackTire", self, (-65,-35,16), (0,0)));
 		Tire_BR = Warthog_Tire(VehPart.Attach("Warthog_BackTire", self, (-65, 35,16), (0,0)));
+		turret = Warthog_TurretBase(VehPart.Attach("Warthog_TurretBase", self, (-47, 0, 35), (0,0)));
 		super.BeginPlay();
 	}
 	
 	override void OnDestroy()
 	{
+		turret.Destroy();
 	}
 	
-	override void RemoveDriver()
+	override bool OnDriveAttempt(PlayerPawn user)
 	{
-		super.RemoveDriver();
+		double gundist = user.Distance2D(turret);
+		
+		// Take gunner.
+		if(!gunner && gundist <= 70) 
+		{
+			// Ready gunner seat.
+			let cam = SetupHaloCamera(dist:-140,70, 30,50, 30,100, setcam:false);
+			cam.source = user;
+			AssignCamera(cam, user);
+			ReadyDriver(user);
+			
+			gunner = user;
+			return false;
+		}
+		else if(gunner && gunner == user)
+		{
+			RemoveDriver(gunner, GetExitPos());
+			gunner = null;
+			return false;
+		}
+		
+		// Do take driver.
+		return true;
 	}
 	
 	override void TakeDriver(PlayerPawn user)
 	{
 		if(health <= 0) return;
-		if(user) driver = user;
+		driver = user;
+		
 		SetupHaloCamera(dist:-140,60, 30,50, 30, 100);
-		ReadyDriver();
+		ReadyDriver(user);
 	}
 	
 	override vector3 GetDrivePos()
 	{	
 		// Driver seat pos
 		return (8,-20,10);
+	}
+	
+	override void UpdatePassengers()
+	{
+		if(gunner) UpdateActorPos(gunner, (-60,0,35));
 	}
 	
 	vector2 GetTireDir(Warthog_Tire tire)
@@ -118,15 +285,18 @@ class HaloWarthog : HaloVehicle
 	
 	override void DoMove(float forwardmove, float sidemove)
 	{	
-		vel.xy *= 0.96;
+		vel.xy *= 0.93;
+		accel *= 0.96;
+		
 		if(health <= 0)  
 		{
-			if(driver) RemoveDriver();
+			if(driver) RemoveDriver(driver, GetExitPos());
+			if(gunner) RemoveDriver(gunner, GetExitPos());
 			return;
 		}
 		if(!driver) return;
-		double tireforce = 0.60 * throttle;
-		double tireangv = 0.25;
+		double tireforce = 0.80 * throttle;
+		double tireangv = 0.15;
 		
 		// Add tire forces for velocities
 		if(throttle > 0)
@@ -147,13 +317,15 @@ class HaloWarthog : HaloVehicle
 		if(forwardmove)
 		{
 			vector2 movedir = (forwardmove, -sidemove).Unit();
-			throttle += movedir.x * 0.15;
+			throttle += movedir.x * 0.03;
+			accel += throttle * 1.5;
 		}
 		else
 		{
 			throttle *= 0.5;
 		}		
 		throttle = clamp(throttle, -0.5, 1.0);
+		accel = clamp(accel, -10, 10);
 		
 		// Turning speed penalty
 		vector2 dir = AngleToVector(angle);

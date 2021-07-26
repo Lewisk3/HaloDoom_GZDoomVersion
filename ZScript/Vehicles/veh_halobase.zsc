@@ -2,13 +2,13 @@ class HaloVehCamera : VehCamera
 {
 	double dist_xy, dist_z;
 	double zmin, zmax;
+	Actor source;
 
 	override void UpdatePos(bool moving)
 	{
 		if(!base) return;
-		
-		double a = base.driver.angle;
-		double p = base.driver.pitch;
+		double a = source.angle;
+		double p = source.pitch;
 		vector3 followpos = (
 			cos(a) * cos(p),
 			sin(a) * cos(p),
@@ -64,9 +64,9 @@ class HaloVehicle : VehBase
 		}
 	}
 	
-	virtual void SetupHaloCamera(class<HaloVehCamera> cam = "HaloVehCamera", double dist = 50, double offs_oz = 50, double fpdist = 50, double fpoffs_z = 50, double zmin = 50, double zmax = 80, double fpzmin = 50, double fpzmax = 80)
+	virtual HaloVehCamera SetupHaloCamera(class<HaloVehCamera> cam = "HaloVehCamera", double dist = 50, double offs_oz = 50, double fpdist = 50, double fpoffs_z = 50, double zmin = 50, double zmax = 80, double fpzmin = 50, double fpzmax = 80, bool setcam = true)
 	{
-		let vehcam = HaloVehCamera(SetupCamera(camtype:cam));	
+		let vehcam = HaloVehCamera(SetupCamera(camtype:cam, setcam:setcam));	
 		if(vehcam)
 		{
 			if(!firstperson)
@@ -83,7 +83,9 @@ class HaloVehicle : VehBase
 				vehcam.zmin = fpzmin;
 				vehcam.zmax = fpzmax;
 			}
+			vehcam.source = driver;
 		}
+		return vehcam;
 	}
 	
 	virtual void DoCollisionDamage(double knockback = 1.0, double dmgmod = 10)

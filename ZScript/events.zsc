@@ -59,9 +59,12 @@ class HaloDoom_Events : EventHandler
 			hplr.grapple = GrapplingHook.Deploy(hplr, 20, (0,-2,-3));
 		}
 		
-		if(e.Name == "debug_gimmeghost")
+		Array<String> args;
+		String cmd = e.Name;
+		cmd.Split(args, ":");
+		if(args[0] == "mp_summon")
 		{
-			Actor.Spawn("HaloGhost", src.mo.pos);
+			Actor.Spawn(args[1], src.mo.pos);
 		}
 	
 		// if(multiplayer) return;

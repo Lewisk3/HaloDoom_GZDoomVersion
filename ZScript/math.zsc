@@ -38,7 +38,7 @@ class HaloMath Abstract
 		return result;
 	}
 	
-	play static void AlignToPlane(Actor a, double pitchAdjust = 0, bool ceiling = false, double adjustSpeed = 2)
+	play static void AlignToPlane(Actor a, double pitchAdjust = 0, bool ceiling = false, double adjustSpeed = 2, bool ignorepitch = false)
 	{
 		//Original code by ZZYZX & Nash Muhandes
 		if (!a) return;
@@ -70,13 +70,16 @@ class HaloMath Abstract
 			adjustSpeed = 180;
 		}
 		
-		if(a.Pitch < pitchTarget)
+		if(!ignorepitch)
 		{
-			a.A_SetPitch(Clamp(a.pitch + adjustSpeed, a.pitch, pitchTarget));
-		}
-		else if(a.Pitch > pitchTarget)
-		{
-			a.A_SetPitch(Clamp(a.pitch - adjustSpeed, pitchTarget, a.pitch));
+			if(a.Pitch < pitchTarget)
+			{
+				a.A_SetPitch(Clamp(a.pitch + adjustSpeed, a.pitch, pitchTarget));
+			}
+			else if(a.Pitch > pitchTarget)
+			{
+				a.A_SetPitch(Clamp(a.pitch - adjustSpeed, pitchTarget, a.pitch));
+			}
 		}
 		
 		if(a.Roll < rollTarget)

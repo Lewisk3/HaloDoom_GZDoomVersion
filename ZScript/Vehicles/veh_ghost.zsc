@@ -79,10 +79,10 @@ class HaloGhost : HaloVehicle
 		if(gun) gun.Destroy();
 	}
 	
-	override void RemoveDriver()
+	override void RemoveDriver(PlayerPawn user, vector3 exitpos)
 	{
 		A_StartSound("Halo/Ghost/EngineOFF",flags:CHANF_OVERLAP);
-		super.RemoveDriver();
+		super.RemoveDriver(user, exitpos);
 	}
 	
 	override void TakeDriver(PlayerPawn user)
@@ -92,7 +92,7 @@ class HaloGhost : HaloVehicle
 		A_StartSound("Halo/Ghost/EngineON",flags:CHANF_OVERLAP);
 		SetupHaloCamera(dist:-90, 50, -30, 50, 50, 80, 50, 50);
 		
-		ReadyDriver();
+		ReadyDriver(user);
 	}
 	
 	override vector3 GetDrivePos()
@@ -126,7 +126,7 @@ class HaloGhost : HaloVehicle
 		if(health <= 0)  
 		{
 			if(driver) 
-				RemoveDriver();
+				RemoveDriver(driver, GetExitPos());
 			else 
 				ExplodeGhost();
 			return;
