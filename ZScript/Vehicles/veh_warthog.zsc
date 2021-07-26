@@ -45,10 +45,6 @@ class Warthog_Tire : VehPart
 		A_SetPitch(pitch + warthog.accel, SPF_INTERPOLATE);
 	}
 		
-	override void DoUpdate(VehCamera cam)
-	{
-	}
-	
 	States
 	{
 		Spawn:
@@ -68,6 +64,10 @@ class Warthog_BackTire : Warthog_Tire
 class Warthog_TurretBase : VehPart
 {
 	Warthog_TurretGun gun;
+	uint cooldown_primary;
+	double spinspeed;
+	double turretspin;
+	
 	Default
 	{
 		Radius 28;
@@ -102,11 +102,41 @@ class Warthog_TurretBase : VehPart
 		
 		gun.A_SetPitch(gunnerangles.y, SPF_INTERPOLATE);
 	}
-		
+	
 	override void DoUpdate(VehCamera cam)
 	{
+		let warthog = HaloWarthog(base);
+		if(!warthog || !warthog.gunner) return;
+		let gcam = VehCamera(warthog.gunner.player.camera);
+		if(!gcam) return;
+		
+		if(cooldown_primary) 
+		{
+			gcam.SetZoom(1.0, 0.1);
+			cooldown_primary--;
+		}
+		
+		bool shooting = CheckButtons(BT_ATTACK, VehButtons.BTS_DOWN, warthog.gunner);
+		
+		if( shooting && !cooldown_primary )
+		{
+			cooldown_primary = 10 - (7 * spinspeed);
+			double rmax = 1.5;
+			double arecoil = frandom(-rmax, rmax);
+			double precoil = frandom(-rmax, rmax);
+			HaloMath.FireProjectile("HaloMagnum_Bullet", gun.pos, gun.angle + arecoil, gun.pitch + precoil, 0, 40, 0, 1, 200);
+			A_StartSound("Halo/Weapons/Rifle/Fire", CHAN_BODY, CHANF_OVERLAP);
+			gcam.Quake(1.25,1.25,0,0.5);
+			spinspeed += 0.1;
+			turretspin += 45;
+		}
+		else if(!shooting)
+		{
+			spinspeed *= 0.95;
+		}
+		spinspeed = clamp(spinspeed, 0, 1.0);
 	}
-	
+			
 	States
 	{
 		Spawn:
@@ -145,12 +175,8 @@ class Warthog_TurretGun : VehPart
 		
 		if(base.vehflags & base.bALIGNTOPLANE)
 			HaloMath.AlignToPlane(self);
-			
-		A_SetAngle(gunbody.angle, SPF_INTERPOLATE);
-	}
 		
-	override void DoUpdate(VehCamera cam)
-	{
+		A_SetAngle(gunbody.angle, SPF_INTERPOLATE);	
 	}
 	
 	States
@@ -172,13 +198,17 @@ class Warthog_TurretBarrel : VehPart
 	
 	override void UpdatePos(bool moving)
 	{
-		if(!gun) return;
+		let warthog = HaloWarthog(base);
+		if(!gun || !warthog) return;
+		
 		vector3 finalpos = GetOffsetPos(gun);
 		SetOrigin(finalpos, moving);
 		
+		double proll = roll;
 		if(base.vehflags & base.bALIGNTOPLANE)
 			HaloMath.AlignToPlane(self);
 		
+		roll = HaloMath.Lerp(roll, warthog.turret.turretspin, 0.15);
 		A_SetAngle(gun.angle, SPF_INTERPOLATE);
 		A_SetPitch(gun.pitch, SPF_INTERPOLATE);
 	}
@@ -234,6 +264,8 @@ class HaloWarthog : HaloVehicle
 	override bool OnDriveAttempt(PlayerPawn user)
 	{
 		double gundist = user.Distance2D(turret);
+		if(user == driver) return true;
+		
 		
 		// Take gunner.
 		if(!gunner && gundist <= 70) 
@@ -299,20 +331,21 @@ class HaloWarthog : HaloVehicle
 		double tireangv = 0.15;
 		
 		// Add tire forces for velocities
+		double adiff = 0;
 		if(throttle > 0)
 		{
 			vel.xy += GetTireDir(Tire_TL) * tireforce;
 			vel.xy += GetTireDir(Tire_TR) * tireforce;
-			double adiff = HaloMath.AngleDiff(angle, Tire_TL.angle) * tireangv * abs(tireforce);
-			A_SetAngle(angle + adiff, SPF_INTERPOLATE);
+			adiff = HaloMath.AngleDiff(angle, Tire_TL.angle) * tireangv * abs(tireforce);
 		}
 		else
 		{
 			vel.xy += GetTireDir(Tire_BL) * tireforce;
 			vel.xy += GetTireDir(Tire_BR) * tireforce;
-			double adiff = HaloMath.AngleDiff(angle, Tire_BL.angle) * tireangv * abs(tireforce);
-			A_SetAngle(angle + adiff, SPF_INTERPOLATE);
+			adiff = HaloMath.AngleDiff(angle, Tire_BL.angle) * tireangv * abs(tireforce);
 		}
+		A_SetAngle(angle + adiff, SPF_INTERPOLATE);
+		if(gunner) gunner.A_SetAngle(gunner.angle + adiff, SPF_INTERPOLATE);
 		
 		if(forwardmove)
 		{

@@ -31,13 +31,13 @@ class Veh_Manager : Inventory
 	
 	override void DoEffect()
 	{
-		if(!veh || veh.driver != Owner) 
+		let plr = PlayerPawn(Owner);
+		if(!veh || !plr) 
 		{
 			Disable();
 		}
 		else
 		{
-			let plr = veh.driver;
 			plr.player.SetPSprite(PSP_WEAPON, FindState("NoNothing"));
 		}
 		super.DoEffect();
@@ -118,9 +118,9 @@ class VehPart : Actor
 	}
 
 	// Readability
-	bool CheckButtons(int btns, int bstate)
+	bool CheckButtons(int btns, int bstate, PlayerPawn src = null)
 	{
-		if(base) return base.CheckButtons(btns, bstate);
+		if(base) return base.CheckButtons(btns, bstate, src);
 		return false;
 	}
 	
@@ -145,7 +145,7 @@ class VehPart : Actor
 			Destroy();
 			return;
 		}
-		if(base.driver) DoUpdate(base.viewcam);
+		DoUpdate(base.viewcam);
 		if(!anim_spd) anim_spd = 0.97; 
 		anim_angoffs *= anim_spd;
 		anim_posoffs *= anim_spd;
@@ -227,6 +227,10 @@ class VehBase : Actor
 		user.bSOLID = user.default.bSOLID;
 		user.bNOGRAVITY = user.default.bNOGRAVITY;
 		user.bINTERPOLATEANGLES = user.default.bINTERPOLATEANGLES;
+		
+		// Remove vehicle manager.
+		let vehman = Veh_Manager(user.FindInventory("Veh_Manager"));
+		if(vehman) vehman.Disable();
 	}
 	
 	virtual void ReadyDriver(PlayerPawn user)
@@ -237,12 +241,12 @@ class VehBase : Actor
 		user.bINTERPOLATEANGLES = true;
 	}
 	
-    bool CheckButtons(int btn, int bstate)
+    bool CheckButtons(int btn, int bstate, PlayerPawn src = null)
 	{
-		if(!driver) return false;
+		if(!src) src = driver;
 		bool btnstatus;
-		UserCmd cmd = driver.player.cmd;
-		uint oldbtns = driver.player.oldbuttons;
+		UserCmd cmd = src.player.cmd;
+		uint oldbtns = src.player.oldbuttons;
 		switch(bstate)
 		{
 			case VehButtons.BTS_UP:
