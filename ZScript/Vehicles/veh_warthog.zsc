@@ -76,7 +76,7 @@ class HaloWarthog : HaloVehicle
 		Mass 800;
 		Health 1000;
 		HaloVehicle.Armored 500;
-		MaxSlopeSteepness 0.4;
+		MaxSlopeSteepness 0.2;
 	}
 	
 	override void BeginPlay()
@@ -118,44 +118,31 @@ class HaloWarthog : HaloVehicle
 	
 	override void DoMove(float forwardmove, float sidemove)
 	{	
-		vel.xy *= 0.9;
+		vel.xy *= 0.96;
 		if(health <= 0)  
 		{
 			if(driver) RemoveDriver();
 			return;
 		}
 		if(!driver) return;
-				
-		// Derrive angle from velocity
-		vector2 veldir = vel.xy;
-		double toangle = atan2(veldir.y,veldir.x);
-		Vector2 dir = AngleToVector(angle+180);
-		if (vel.xy dot dir > 0)
-			toAngle += 180;
-		
-		/*
-		if(abs(HaloMath.AngleDiff(angle, toangle)) > 50)
-		{
-			if(throttle < 0)
-			{
-				veldir = RotateVector(veldir, 180);
-				toangle = atan2(veldir.y,veldir.x);
-				backingup = true;
-			}
-			else if(backingup)
-			{
-				backingup = false;
-			}
-		}
-		*/
-		
-		if(throttle > 0) A_SetAngle(toangle, SPF_INTERPOLATE);
-		
-		double tireforce = 0.80 * throttle;
+		double tireforce = 0.60 * throttle;
+		double tireangv = 0.25;
 		
 		// Add tire forces for velocities
-		vel.xy += GetTireDir(Tire_TL) * tireforce;
-		vel.xy += GetTireDir(Tire_TR) * tireforce;
+		if(throttle > 0)
+		{
+			vel.xy += GetTireDir(Tire_TL) * tireforce;
+			vel.xy += GetTireDir(Tire_TR) * tireforce;
+			double adiff = HaloMath.AngleDiff(angle, Tire_TL.angle) * tireangv * abs(tireforce);
+			A_SetAngle(angle + adiff, SPF_INTERPOLATE);
+		}
+		else
+		{
+			vel.xy += GetTireDir(Tire_BL) * tireforce;
+			vel.xy += GetTireDir(Tire_BR) * tireforce;
+			double adiff = HaloMath.AngleDiff(angle, Tire_BL.angle) * tireangv * abs(tireforce);
+			A_SetAngle(angle + adiff, SPF_INTERPOLATE);
+		}
 		
 		if(forwardmove)
 		{
@@ -167,7 +154,14 @@ class HaloWarthog : HaloVehicle
 			throttle *= 0.5;
 		}		
 		throttle = clamp(throttle, -0.5, 1.0);
-
+		
+		// Turning speed penalty
+		vector2 dir = AngleToVector(angle);
+		vector2 aimdir = AngleToVector(viewcam.angle);
+		double cosAng = (dir dot aimdir); // -1 to 1;
+		vector2 slowforce = AngleToVector(angle, tireforce) * (1.0-cosAng);
+		vel.xy -= slowforce;
+		
 		DoCollisionDamage();
 	}
 	
