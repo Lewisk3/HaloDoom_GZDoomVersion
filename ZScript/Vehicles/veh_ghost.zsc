@@ -193,7 +193,7 @@ class HaloGhost : VehBase
 		
 		vel.xy *= 0.97;
 		if(driver) 
-			A_StartSound("Halo/Ghost/EngineHum", CHAN_7, CHANF_LOOP);
+			A_StartSound("Halo/Ghost/EngineHum", CHAN_7, CHANF_LOOPING);
 		else
 		{
 			A_StopSound(CHAN_7);
@@ -229,12 +229,12 @@ class HaloGhost : VehBase
 		double plrangle = HaloMath.LerpAngle(angle, driver.angle, 0.32);
 		A_SetAngle(plrangle, SPF_INTERPOLATE);
 	
-		double spd = 0.67;
+		double spd = 0.55;
 		bool boosting = CheckButtons(BT_ALTATTACK, VehButtons.BTS_DOWN);
 		if(boosting)
 		{
 			vector2 forward = (cos(angle), sin(angle));
-			vel.xy += forward * (spd * 1.5);
+			vel.xy += forward * (spd * 2.5);
 			if(!firstboost) 
 			{
 				A_StartSound("Halo/Ghost/Boost", flags:CHANF_OVERLAP);
@@ -242,7 +242,7 @@ class HaloGhost : VehBase
 			}
 			else
 			{
-				A_StartSound("Halo/Ghost/BoostHum", CHAN_5, CHANF_LOOP);
+				A_StartSound("Halo/Ghost/BoostHum", CHAN_5, CHANF_LOOPING);
 			}
 		}
 		else
