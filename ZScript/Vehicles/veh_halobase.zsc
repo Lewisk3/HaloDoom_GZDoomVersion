@@ -1,0 +1,137 @@
+class HaloVehCamera : VehCamera
+{
+	double dist_xy, dist_z;
+	double zmin, zmax;
+
+	override void UpdatePos(bool moving)
+	{
+		if(!base) return;
+		
+		double a = base.driver.angle;
+		double p = base.driver.pitch;
+		vector3 followpos = (
+			cos(a) * cos(p),
+			sin(a) * cos(p),
+			-sin(p)
+		) * dist_xy;
+		followpos.z += dist_z;
+		followpos.z = clamp(followpos.z, zmin, zmax);
+		
+		vector3 topos = level.vec3offset(base.pos, followpos);
+		vector3 curpos = HaloMath.Lerp3D(pos, topos, 0.65);
+		curpos.z += base.GetBobOffset();
+		
+		
+		A_SetAngle(a, SPF_INTERPOLATE);
+		A_SetPitch(p, SPF_INTERPOLATE);
+		SetOrigin(curpos, true);
+	}
+}
+
+class HaloVehicle : VehBase
+{
+	double veharmor;
+	bool firstperson;
+	Property Armored : veharmor;
+	
+	Default
+	{
+		Mass 800;
+		Radius 32;
+		Height 16;
+		Scale 10.0;
+		VehBase.SetupCrosshair "GHOSTRET", 1.0, 1.0;
+		+SOLID;
+		+INTERPOLATEANGLES;
+		+SHOOTABLE;
+		+NOFRICTION;
+		MaxStepHeight 36;
+		Gravity 0.3;
+	}
+	
+	override int DamageMobj(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle)
+	{
+		int diff = veharmor-damage;
+		if(diff > 0)
+		{
+			veharmor -= damage;
+			return 0;
+		}
+		else
+		{
+			veharmor = 0;
+			return super.DamageMobJ(inflictor, source, damage, mod, flags, angle);
+		}
+	}
+	
+	virtual void SetupHaloCamera(class<HaloVehCamera> cam = "HaloVehCamera", double dist = 50, double offs_oz = 50, double fpdist = 50, double fpoffs_z = 50, double zmin = 50, double zmax = 80, double fpzmin = 50, double fpzmax = 80)
+	{
+		let vehcam = HaloVehCamera(SetupCamera(camtype:cam));	
+		if(vehcam)
+		{
+			if(!firstperson)
+			{
+				vehcam.dist_xy = dist;
+				vehcam.dist_z = offs_oz;
+				vehcam.zmin = zmin;
+				vehcam.zmax = zmax;
+			}
+			else
+			{
+				vehcam.dist_xy = fpdist;
+				vehcam.dist_z = fpoffs_z;
+				vehcam.zmin = fpzmin;
+				vehcam.zmax = fpzmax;
+			}
+		}
+	}
+	
+	virtual void DoCollisionDamage(double knockback = 1.0, double dmgmod = 10)
+	{
+		// Process enemies to run over.
+		if(vel.length() > 10)
+		{
+			let act_it = ThinkerIterator.Create();
+			Actor roadkill;
+			while(roadkill = Actor(act_it.Next()))
+			{
+				if( roadkill == self   || 
+				    roadkill == driver || 
+				   !roadkill.bSHOOTABLE  ) continue;
+				
+				double closedist = (roadkill.radius+radius) * 2.0;
+				if( roadkill.health >= 0 && Distance3DSquared(roadkill) <= closedist*closedist)
+				{
+					vector3 hitdiff = level.SphericalCoords(pos, roadkill.pos, (angle, pitch));
+					double hitang = angle - hitdiff.x;
+					
+					if(abs(hitdiff.x) > 30) continue;
+					
+					vector2 hitdir = (cos(hitang), sin(hitang));
+					double force = HaloMath.GetInertia(roadkill.mass) * vel.length() * 1.5;
+					
+					vel.xy -= hitdir * vel.length() * knockback;
+					roadkill.Thrust(force, angle - hitdiff.x);
+					roadkill.DamageMobj(self, self, vel.length() * dmgmod, "Vehicular", 0, hitang);
+				}
+			}
+		}
+	}
+	
+	override vector3 GetExitPos()
+	{
+		return ( cos(angle + 90) * 90,
+				 sin(angle + 90) * 90, 0 );
+	}
+	
+	States
+	{
+		Spawn:
+			MODL A 1;
+		loop;
+		
+		Death:
+			MODL A -1;
+		stop;
+	}
+}

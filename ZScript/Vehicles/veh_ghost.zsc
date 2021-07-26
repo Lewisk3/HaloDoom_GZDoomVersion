@@ -1,34 +1,3 @@
-
-class GhostCamera : VehCamera
-{
-	double dist_xy;
-	double dist_z;
-
-	override void UpdatePos(bool moving)
-	{
-		if(!base) return;
-		
-		double a = base.driver.angle;
-		double p = base.driver.pitch;
-		vector3 followpos = (
-			cos(a) * cos(p),
-			sin(a) * cos(p),
-			-sin(p)
-		) * dist_xy;
-		followpos.z += dist_z;
-		followpos.z = clamp(followpos.z, dist_z, dist_z * 1.6);
-		
-		vector3 topos = level.vec3offset(base.pos, followpos);
-		vector3 curpos = HaloMath.Lerp3D(pos, topos, 0.65);
-		curpos.z += base.GetBobOffset();
-		
-		
-		A_SetAngle(a, SPF_INTERPOLATE);
-		A_SetPitch(p, SPF_INTERPOLATE);
-		SetOrigin(curpos, true);
-	}
-}
-
 class HaloGhost_Guns : VehPart
 {
 	uint cooldown;
@@ -79,50 +48,24 @@ class HaloGhost_Guns : VehPart
 	}
 }
 
-class HaloGhost : VehBase
+class HaloGhost : HaloVehicle
 {
 	VehPart gun;
 	uint explosiontimer;
-	double turnvel;
-	double veharmor;
-	bool firstperson;
 	bool firstboost;
-	
-	Property Armored : veharmor;
 	
 	Default
 	{
-		Mass 800;
-		Health 1000;
 		Radius 40;
 		Height 40;
-		Scale 10.0;
-		HaloGhost.Armored 500;
+		
+		Mass 800;
+		Health 1000;
+		HaloVehicle.Armored 500;
 		VehBase.SetupCrosshair "GHOSTRET", 1.0, 1.0;
-		+SOLID;
-		+INTERPOLATEANGLES;
-		+SHOOTABLE;
-		+NOFRICTION;
 		+FLOATBOB; 
 		FloatBobStrength 0.25;
-		MaxStepHeight 36;
 		MaxSlopeSteepness 0.1;
-		Gravity 0.3;
-	}
-	
-	override int DamageMobj(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle)
-	{
-		int diff = veharmor-damage;
-		if(diff > 0)
-		{
-			veharmor -= damage;
-			return 0;
-		}
-		else
-		{
-			veharmor = 0;
-			return super.DamageMobJ(inflictor, source, damage, mod, flags, angle);
-		}
 	}
 	
 	override void BeginPlay()
@@ -147,22 +90,8 @@ class HaloGhost : VehBase
 		if(health <= 0) return;
 		if(user) driver = user;
 		A_StartSound("Halo/Ghost/EngineON",flags:CHANF_OVERLAP);
+		SetupHaloCamera(dist:-90, 50, -30, 50, 50, 80, 50, 50);
 		
-		let gcam = GhostCamera(SetupCamera(camtype:"GhostCamera"));
-		
-		if(gcam)
-		{
-			if(!firstperson)
-			{
-				gcam.dist_xy = -90;
-				gcam.dist_z = 50;
-			}
-			else
-			{
-				gcam.dist_xy = -30;
-				gcam.dist_z = 50;
-			}
-		}
 		ReadyDriver();
 	}
 	
@@ -171,12 +100,6 @@ class HaloGhost : VehBase
 		return (-20,-5,0);
 	}
 	
-	override vector3 GetExitPos()
-	{
-		return ( cos(angle + 90) * 90,
-				 sin(angle + 90) * 90, 0 );
-	}
-
 	void ExplodeGhost()
 	{
 		A_StartSound("Halo/Ghost/Explosion", flags:CHANF_OVERLAP);
@@ -262,44 +185,17 @@ class HaloGhost : VehBase
 			vel.xy += accel;
 		}
 		
-		// Process enemies to run over.
-		if(vel.length() > 10)
-		{
-			let act_it = ThinkerIterator.Create();
-			Actor roadkill;
-			while(roadkill = Actor(act_it.Next()))
-			{
-				if( roadkill == self   || 
-				    roadkill == driver || 
-				   !roadkill.bSHOOTABLE  ) continue;
-				
-				double closedist = (roadkill.radius+radius) * 2.0;
-				if( roadkill.health >= 0 && Distance3DSquared(roadkill) <= closedist*closedist)
-				{
-					vector3 hitdiff = level.SphericalCoords(pos, roadkill.pos, (angle, pitch));
-					double hitang = angle - hitdiff.x;
-					
-					if(abs(hitdiff.x) > 30) continue;
-					
-					vector2 hitdir = (cos(hitang), sin(hitang));
-					double force = HaloMath.GetInertia(roadkill.mass) * vel.length() * 1.5;
-					
-					vel.xy -= hitdir * vel.length();
-					roadkill.Thrust(force, angle - hitdiff.x);
-					roadkill.DamageMobj(self, self, vel.length() * 10, "Vehicular", 0, hitang);
-				}
-			}
-		}
+		DoCollisionDamage();
 	}
 	
 	States
 	{
 		Spawn:
-			GHST A 1;
+			MODL A 1;
 		loop;
 		
 		Death:
-			GHST A -1;
+			MODL A -1;
 		stop;
 	}
 }

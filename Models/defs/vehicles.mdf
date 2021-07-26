@@ -1,6 +1,8 @@
+
+// Ghost
 Model HaloGhost
 { 
-   Path "Models/Vehicles"
+   Path "Models/Vehicles/Ghost"
    Skin 0 "ghost.png" 
    Model 0 "hde_ghost.obj" 
    Scale 1.0 1.0 1.0
@@ -8,5 +10,41 @@ Model HaloGhost
    USEACTORPITCH
    USEACTORROLL
    
-   FrameIndex GHST A 0 0 
+   FrameIndex MODL A 0 0 
+}
+
+// Warthog
+Model HaloWarthog
+{ 
+   Path "Models/Vehicles/Warthog"
+   Skin 0 "warthog.png" 
+   Model 0 "warthog_base.obj" 
+   Scale 1.0 1.0 1.0
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}
+
+Model Warthog_Tire
+{ 
+   Path "Models/Vehicles/Warthog"
+   Skin 0 "warthog_tires.png" 
+   Model 0 "warthog_tire.obj" 
+   Scale 1.0 1.0 1.0
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}
+Model Warthog_BackTire
+{ 
+   Path "Models/Vehicles/Warthog"
+   Skin 0 "warthog_tires.png" 
+   Model 0 "warthog_tire.obj" 
+   Scale 1.0 1.0 1.0
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
 }

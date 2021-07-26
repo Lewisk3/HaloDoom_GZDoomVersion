@@ -3,7 +3,7 @@ material texture models/Lasers/BEAM.png {
 	brightmap models/Lasers/BEAM.png
 }
 
-material texture models/Vehicles/ghost.png {
+material texture models/Vehicles/Ghost/ghost.png {
 	shader "shaders/simsun.fp"
 }
 
