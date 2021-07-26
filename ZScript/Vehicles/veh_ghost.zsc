@@ -62,7 +62,6 @@ class HaloGhost : HaloVehicle
 		Mass 800;
 		Health 1000;
 		HaloVehicle.Armored 500;
-		VehBase.SetupCrosshair "GHOSTRET", 1.0, 1.0;
 		+FLOATBOB; 
 		FloatBobStrength 0.25;
 		MaxSlopeSteepness 0.1;
@@ -93,6 +92,7 @@ class HaloGhost : HaloVehicle
 		SetupHaloCamera(dist:-90, 50, -30, 50, 50, 80, 50, 50);
 		
 		ReadyDriver(user);
+		SetCrosshair(user, "GHOSTRET", (1.0,1.0));
 	}
 	
 	override vector3 GetDrivePos()

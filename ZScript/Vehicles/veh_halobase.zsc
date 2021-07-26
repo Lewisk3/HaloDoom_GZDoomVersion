@@ -40,7 +40,6 @@ class HaloVehicle : VehBase
 		Radius 32;
 		Height 16;
 		Scale 10.0;
-		VehBase.SetupCrosshair "GHOSTRET", 1.0, 1.0;
 		+SOLID;
 		+INTERPOLATEANGLES;
 		+SHOOTABLE;

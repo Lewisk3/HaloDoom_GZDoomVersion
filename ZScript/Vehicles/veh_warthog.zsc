@@ -275,6 +275,7 @@ class HaloWarthog : HaloVehicle
 			cam.source = user;
 			AssignCamera(cam, user);
 			ReadyDriver(user);
+			SetCrosshair(user, "TurRET", (0.75,0.75));
 			
 			gunner = user;
 			return false;
@@ -297,6 +298,7 @@ class HaloWarthog : HaloVehicle
 		
 		SetupHaloCamera(dist:-140,60, 30,50, 30, 100);
 		ReadyDriver(user);
+		SetCrosshair(user, "UnarmRET", (1.0,1.0));
 	}
 	
 	override vector3 GetDrivePos()

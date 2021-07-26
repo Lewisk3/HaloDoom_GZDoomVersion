@@ -5,6 +5,8 @@ class Veh_Manager : Inventory
 {
 	VehBase veh;
 	State defaultstate;
+	string crosshair;
+	vector2 crosshair_scale;
 	
 	override void ModifyDamage(int damage, Name damageType, out int newdamage, bool passive, Actor inflictor, Actor source, int flags)
 	{
@@ -181,11 +183,6 @@ class VehBase : Actor
 	PlayerPawn driver;
 	VehCamera viewcam;
 	bool onground;
-	string crosshair;
-	double crosshair_xscale;
-	double crosshair_yscale;
-	
-	Property SetupCrosshair : crosshair, crosshair_xscale, crosshair_yscale;
 
 	Default
 	{
@@ -200,6 +197,16 @@ class VehBase : Actor
 		if(user) driver = user;
 		SetupCamera();
 		ReadyDriver(user);
+	}
+	
+	virtual void SetCrosshair(Actor src, string crosshair, vector2 scale)
+	{
+		let vehman = Veh_Manager(src.FindInventory("Veh_Manager"));
+		if(vehman)
+		{
+			vehman.crosshair = crosshair;
+			vehman.crosshair_scale = scale;
+		}
 	}
 	
 	virtual vector3 GetDrivePos()
@@ -244,6 +251,8 @@ class VehBase : Actor
     bool CheckButtons(int btn, int bstate, PlayerPawn src = null)
 	{
 		if(!src) src = driver;
+		if(!src) return 0;
+		
 		bool btnstatus;
 		UserCmd cmd = src.player.cmd;
 		uint oldbtns = src.player.oldbuttons;
