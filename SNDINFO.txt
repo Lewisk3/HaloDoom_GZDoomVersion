@@ -5,7 +5,18 @@ Halo/Weapons/DryFire  HW_DRYF
 UI/PressButton BTNPRESS
 
 // Vehicles
-Halo/Ghost/Fire GHSTFIRE
+Halo/Ghost/Fire      "Sounds/Vehicles/Ghost_Fire.wav"
+Halo/Ghost/DoExplode "Sounds/Vehicles/Ghost_DoExplode.wav"
+Halo/Ghost/Explosion "Sounds/Vehicles/Ghost_Explosion.wav"
+Halo/Ghost/EngineOn  "Sounds/Vehicles/Ghost_EngineOn.wav"
+Halo/Ghost/EngineOff "Sounds/Vehicles/Ghost_EngineOff.wav"
+Halo/Ghost/EngineHum "Sounds/Vehicles/Ghost_EngineHum.wav"
+Halo/Ghost/Boost1    "Sounds/Vehicles/Ghost_Boost1.wav"
+Halo/Ghost/Boost2    "Sounds/Vehicles/Ghost_Boost2.wav"
+Halo/Ghost/BoostHum1 "Sounds/Vehicles/Ghost_BoostHum1.wav"
+Halo/Ghost/BoostHum2 "Sounds/Vehicles/Ghost_BoostHum2.wav"
+$random Halo/Ghost/Boost { Halo/Ghost/Boost1 Halo/Ghost/Boost2 }
+$random Halo/Ghost/BoostHum { Halo/Ghost/BoostHum1 Halo/Ghost/BoostHum2 }
 
 // Items
 Halo/Powerup/Camo    "Sounds/Items/power_camo.wav"

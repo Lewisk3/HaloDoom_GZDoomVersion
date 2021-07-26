@@ -45,6 +45,7 @@ class HaloPlayer : DoomPlayer
 		Player.MaxHealth 45;
 		Player.JumpZ 9;
 		Gravity 0.75;
+		-DONTTRANSLATE;
 	}
 	
 	override void BeginPlay()
@@ -209,5 +210,39 @@ class HaloPlayer : DoomPlayer
 		if (Floorclip && player.playerstate != PST_DEAD && pos.Z <= floorz) player.viewz -= Floorclip;
 		if (player.viewz > ceilingz - 4) player.viewz = ceilingz - 4;
 		if (player.viewz < floorz + 4) player.viewz = floorz + 4;
+	}
+	
+	States
+	{
+		Spawn:
+			HALO A -1;
+			Loop;
+		See:
+			HALO ABCD 4 A_JumpIf(player.vel.length() < 1, "Spawn");
+			Loop;
+		Missile:
+			HALO E 12;
+			Goto Spawn;
+		Melee:
+			HALO F 6 BRIGHT;
+			Goto Missile;
+		Pain:
+			HALO G 4;
+			HALO G 4 A_Pain;
+			Goto Spawn;
+		Death:
+			HALO H 10;
+			HALO I 10 A_PlayerScream;
+			HALO J 10 A_NoBlocking;
+			HALO KLM 10;
+			HALO N -1;
+			Stop;
+		XDeath:
+			HALO O 5;
+			HALO P 5 A_XScream;
+			HALO Q 5 A_NoBlocking;
+			HALO RSTUV 5;
+			HALO W -1;
+			Stop;
 	}
 }

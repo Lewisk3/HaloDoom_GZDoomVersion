@@ -114,6 +114,11 @@ class HaloGun : RecoilWeapon
 		if(aproj)
 		{
 			let plr = HaloPlayer(self);
+			
+			// Follow player's velocity on spawn.
+			aproj.SetOrigin(level.vec3offset(aproj.pos, vel), true);
+			aproj.vel += vel;
+			
 			vector2 recoil = (
 				(A_RecoilSpread()*spreadmod*scopemod),
 				(A_RecoilSpread()*spreadmod*scopemod)

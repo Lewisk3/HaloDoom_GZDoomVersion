@@ -180,6 +180,7 @@ class VehBase : Actor
 	
 	PlayerPawn driver;
 	VehCamera viewcam;
+	bool onground;
 	string crosshair;
 	double crosshair_xscale;
 	double crosshair_yscale;
@@ -225,6 +226,7 @@ class VehBase : Actor
 		// Reset flags
 		driver.bSOLID = driver.default.bSOLID;
 		driver.bNOGRAVITY = driver.default.bNOGRAVITY;
+		driver.bINTERPOLATEANGLES = driver.default.bINTERPOLATEANGLES;
 		
 		// Invalidate driver
 		driver = null;
@@ -237,6 +239,7 @@ class VehBase : Actor
 		Veh_Manager.Setup(driver, self);
 		driver.bSOLID = false;
 		driver.bNOGRAVITY = true;
+		driver.bINTERPOLATEANGLES = true;
 	}
 	
     bool CheckButtons(int btn, int bstate)
@@ -281,8 +284,9 @@ class VehBase : Actor
 		vector3 newpos = GetDrivePos();
 		vector3 finalpos = HaloMath.V3Offset(angle, pitch, newpos.x, newpos.y, newpos.z, 1.);
 		finalpos = level.vec3offset(pos, finalpos);
-		driver.SetOrigin(finalpos, false);
-		driver.vel *= 0;
+		finalpos = level.vec3offset(finalpos, vel);
+		driver.vel = vel;
+		driver.SetOrigin(finalpos, true);
 		driver.player.vel *= 0;
 	}
 	
@@ -324,7 +328,8 @@ class VehBase : Actor
 			DoMove(0,0);
 		}
 		
-		if(vehflags & bALIGNTOPLANE)
+		onground = ((pos.z <= floorz) || bOnMobj || bMBFBouncer);
+		if( (vehflags & bALIGNTOPLANE) && onground )
 			HaloMath.AlignToPlane(self);
 			
 		super.Tick();

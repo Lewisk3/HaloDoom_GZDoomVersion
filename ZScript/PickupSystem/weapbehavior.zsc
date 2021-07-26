@@ -172,7 +172,7 @@ class WeaponPickupProxy : Actor
 		ProcessPickupCollision();
 		bool hasweap = !plr ? false : plr.countinv(trueitem);
 		CheckPlrCollide(hasweap ? 0.5 : 1.0);
-		if(!plr) return;
+		if(!plr || !plr.player) return;
 			
 		// If invalid sprite, use default.
 		if(sprite == GetSpriteIndex("TNT1") || !sprite) 
