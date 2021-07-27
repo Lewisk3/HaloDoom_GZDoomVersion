@@ -9,7 +9,6 @@ class Warthog_Tire : VehPart
 	{
 		Radius 16;
 		Height 16;
-		Scale 1.0;
 	}
 	
 	double GetSteerAngle(bool behind = false)
@@ -223,6 +222,7 @@ class HaloWarthog : HaloVehicle
 	double throttle;
 	double accelangle;
 	double accel;
+	double angvel;
 	vector2 relvel;
 	uint horntics;
 	
@@ -354,6 +354,10 @@ class HaloWarthog : HaloVehicle
 	{
 		return (cos(tire.trueturn), sin(tire.trueturn));
 	}
+	double GetTireVel(Warthog_Tire tire, double velmod = 0.02)
+	{
+		return HaloMath.AngleDiff(angle, Tire_TL.angle) * velmod;
+	}
 	
 	override void DoMove(float forwardmove, float sidemove)
 	{	
@@ -413,26 +417,23 @@ class HaloWarthog : HaloVehicle
 		}
 		
 		// Physics
-		double tireforce = 0.80 * throttle;
-		double tireangv = 0.15;
+		double tireforce = 0.50 * throttle;
 		
 		// Add tire forces for velocities
-		double adiff = 0;
-		if(throttle > 0)
+		angvel *= 0.90;
+		if(abs(throttle) > 0)
 		{
 			vel.xy += GetTireDir(Tire_TL) * tireforce;
 			vel.xy += GetTireDir(Tire_TR) * tireforce;
-			adiff = HaloMath.AngleDiff(angle, Tire_TL.angle) * tireangv * abs(tireforce);
-		}
-		else
-		{
 			vel.xy += GetTireDir(Tire_BL) * tireforce;
 			vel.xy += GetTireDir(Tire_BR) * tireforce;
-			adiff = HaloMath.AngleDiff(angle, Tire_BL.angle) * tireangv * abs(tireforce);
+			angvel += GetTireVel(Tire_TL) * abs(tireforce);
+			angvel += GetTireVel(Tire_BR) * abs(tireforce);
 		}
-		A_SetAngle(angle + adiff, SPF_INTERPOLATE);
-		if(gunner) gunner.A_SetAngle(gunner.angle + adiff, SPF_INTERPOLATE);
-		if(passenger) passenger.A_SetAngle(passenger.angle + adiff, SPF_INTERPOLATE);
+		
+		A_SetAngle(angle + angvel, SPF_INTERPOLATE);
+		if(gunner) gunner.A_SetAngle(gunner.angle + angvel, SPF_INTERPOLATE);
+		if(passenger) passenger.A_SetAngle(passenger.angle + angvel, SPF_INTERPOLATE);
 		
 		if(forwardmove)
 		{
@@ -442,7 +443,7 @@ class HaloWarthog : HaloVehicle
 		}
 		else
 		{
-			throttle *= 0.5;
+			throttle *= 0.80;
 		}		
 		throttle = clamp(throttle, -0.5, 1.0);
 		accel = clamp(accel, -10, 10);

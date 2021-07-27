@@ -374,7 +374,8 @@ class VehBase : Actor
 		
 		if( !onground && (vehflags & bFALLINGPITCH) && vel.z <= -3.0 && pitch < 35 )
 		{
-			A_SetPitch(pitch-clamp(vel.z, -1, 0), SPF_INTERPOLATE); 
+			double fallrate = HaloMath.fmap(abs(vel.z), 0, 10, 0.1, 1.0);
+			A_SetPitch(pitch + fallrate, SPF_INTERPOLATE); 
 		}
 		
 		UpdatePassengers();
