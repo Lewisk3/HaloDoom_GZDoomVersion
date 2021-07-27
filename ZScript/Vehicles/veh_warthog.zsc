@@ -309,9 +309,9 @@ class HaloWarthog : HaloVehicle
 		// Take passenger
 		if(!passenger && useangle > 0)
 		{
-			let cam = SetupHaloCamera(dist:-120,50, 30,50, 30, 100, setcam:false);
-			cam.source = user;
-			AssignCamera(cam, user);
+			// let cam = SetupHaloCamera(dist:-120,50, 30,50, 30, 100, setcam:false);
+			// cam.source = user;
+			// AssignCamera(cam, user);
 			ReadyDriver(user, false);
 			passenger = user;
 			return false;
