@@ -7,6 +7,8 @@ class HaloVehCamera : VehCamera
 	override void UpdatePos(bool moving)
 	{
 		if(!base) return;
+		if(!source) return;
+		
 		double a = source.angle;
 		double p = source.pitch;
 		vector3 followpos = (
@@ -87,7 +89,7 @@ class HaloVehicle : VehBase
 		return vehcam;
 	}
 	
-	virtual void DoCollisionDamage(double knockback = 1.0, double dmgmod = 10)
+	virtual void DoCollisionDamage(double knockback = 1.0, double dmgmod = 10, Sound hitsound = "")
 	{
 		// Process enemies to run over.
 		if(vel.length() > 10)
@@ -99,6 +101,7 @@ class HaloVehicle : VehBase
 				if( roadkill == self   || 
 				    roadkill == driver || 
 				   !roadkill.bSHOOTABLE  ) continue;
+				if(!CanCollideWith(roadkill, false)) continue;
 				
 				double closedist = (roadkill.radius+radius) * 2.0;
 				if( roadkill.health >= 0 && Distance3DSquared(roadkill) <= closedist*closedist)
@@ -114,15 +117,10 @@ class HaloVehicle : VehBase
 					vel.xy -= hitdir * vel.length() * knockback;
 					roadkill.Thrust(force, angle - hitdiff.x);
 					roadkill.DamageMobj(self, self, vel.length() * dmgmod, "Vehicular", 0, hitang);
+					if(hitsound) A_StartSound(hitsound, flags:CHANF_OVERLAP);
 				}
 			}
 		}
-	}
-	
-	override vector3 GetExitPos()
-	{
-		return ( cos(angle + 90) * 90,
-				 sin(angle + 90) * 90, 0 );
 	}
 	
 	States

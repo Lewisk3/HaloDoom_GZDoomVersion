@@ -4,6 +4,7 @@
 class Veh_Manager : Inventory
 {
 	VehBase veh;
+	bool disableweaps;
 	State defaultstate;
 	string crosshair;
 	vector2 crosshair_scale;
@@ -18,7 +19,7 @@ class Veh_Manager : Inventory
 	}
 	
 	
-	static Veh_Manager Setup(PlayerPawn to, VehBase onveh)
+	static Veh_Manager Setup(PlayerPawn to, VehBase onveh, bool disableweaps = true)
 	{
 		to.GiveInventoryType("Veh_Manager");
 		let noweap = Veh_Manager(to.FindInventory("Veh_Manager"));
@@ -27,6 +28,7 @@ class Veh_Manager : Inventory
 			noweap.veh = onveh;
 			let weap = to.player.ReadyWeapon;
 			if(weap) noweap.defaultstate = weap.FindState("Ready");
+			noweap.disableweaps = disableweaps;
 		}
 		return noweap;
 	}
@@ -38,7 +40,7 @@ class Veh_Manager : Inventory
 		{
 			Disable();
 		}
-		else
+		else if(disableweaps)
 		{
 			plr.player.SetPSprite(PSP_WEAPON, FindState("NoNothing"));
 		}
@@ -48,7 +50,7 @@ class Veh_Manager : Inventory
 	void Disable()
 	{
 		if(!Owner || !Owner.player) return;
-		Owner.player.SetPSprite(PSP_WEAPON, defaultstate);
+		if(disableweaps) Owner.player.SetPSprite(PSP_WEAPON, defaultstate);
 		Owner.RemoveInventory(self);
 		GoAwayAndDie();
 	}
@@ -213,16 +215,23 @@ class VehBase : Actor
 	{
 		return (0,0,0);
 	}
-	virtual vector3 GetExitPos()
+	virtual vector3 GetExitPos(PlayerPawn user)
 	{
 		return (0,0,30);
 	}
 	
-	virtual void RemoveDriver(PlayerPawn user, vector3 exitpos)
+	virtual bool RemoveDriver(PlayerPawn user, vector3 exitpos)
 	{	
 		// Eject
 		vector3 outpos = HaloMath.V3Offset(angle, pitch, exitpos.x, exitpos.y, exitpos.z, 1.);
 		outpos = level.vec3offset(pos, outpos);
+		bool canexit = user.CheckMove(outpos.xy);
+		if(!canexit) 
+		{
+			DoHudMessage.Send(user, "No room to exit.");
+			return false;
+		}
+		
 		user.SetOrigin(outpos, true);
 		
 		// Remove camera
@@ -238,11 +247,12 @@ class VehBase : Actor
 		// Remove vehicle manager.
 		let vehman = Veh_Manager(user.FindInventory("Veh_Manager"));
 		if(vehman) vehman.Disable();
+		return true;
 	}
 	
-	virtual void ReadyDriver(PlayerPawn user)
+	virtual void ReadyDriver(PlayerPawn user, bool disableweapons = true)
 	{
-		Veh_Manager.Setup(user, self);
+		Veh_Manager.Setup(user, self, disableweapons);
 		user.bSOLID = false;
 		user.bNOGRAVITY = true;
 		user.bINTERPOLATEANGLES = true;
@@ -337,8 +347,7 @@ class VehBase : Actor
 		}
 		else if(driver && user == driver)
 		{
-			RemoveDriver(driver, GetExitPos());
-			driver = null;
+			if(RemoveDriver(driver, GetExitPos(driver))) driver = null;
 		}
 		return false;
 	}

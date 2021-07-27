@@ -69,10 +69,19 @@ class HaloProjectile : FastProjectile
 	
 	override int SpecialMissileHit(Actor victim)
 	{	
+		// Skip these victims
 		if(victim == target || !victim.bSHOOTABLE) return 1;
+		// Determine if victim is vehicle we're the driver of
+		if(target)
+		{
+			let curveh = Veh_Manager(target.FindInventory("Veh_Manager"));
+			if(curveh && curveh.veh == victim) return 1;
+		}
+		
 		hitactor = victim;
 		AdjustRangeDamage();
 		double scaled_damage = truedamage * GAMEPLAY_DAMAGEMOD;
+		
 		
 		// Ripped through actors only take damage once.
 		if(act_hits.Find(victim) != act_hits.Size()) return 1;
@@ -181,6 +190,10 @@ class HaloProjectile : FastProjectile
 	
 	void DoConverge(vector3 aimpos, vector2 offs)
 	{
+		// Do not follow crosshair converge for vehicles
+		let curveh = Veh_Manager(target.FindInventory("Veh_Manager"));
+		if(curveh) return;
+		
 		// Converge
 		if(do_converge)
 		{

@@ -102,7 +102,12 @@ class Halo_OverlayUI : EventHandler
 	{
 		// Get player
 		HaloPlayer haloplr = HaloPlayer(e.Camera);
-		if(!haloplr) return;
+		if(!haloplr)
+		{
+			let halocam = HaloVehCamera(e.Camera);
+			if(halocam) haloplr = HaloPlayer(halocam.source);
+			if(!haloplr) return;
+		}
 		
 		vector2 hitxmid = (0,0);
 		if(haloplr && haloplr.CheckCrosshairLowered()) 

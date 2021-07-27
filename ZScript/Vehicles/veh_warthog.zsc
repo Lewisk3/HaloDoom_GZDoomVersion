@@ -81,11 +81,6 @@ class Warthog_TurretBase : VehPart
 		if(gun) gun.gunbody = self;
 	}
 	
-	override void OnDestroy()
-	{
-		gun.Destroy();
-	}
-	
 	override void UpdatePos(bool moving)
 	{
 		super.UpdatePos(moving);
@@ -124,7 +119,12 @@ class Warthog_TurretBase : VehPart
 			double rmax = 1.5;
 			double arecoil = frandom(-rmax, rmax);
 			double precoil = frandom(-rmax, rmax);
-			HaloMath.FireProjectile("HaloMagnum_Bullet", gun.pos, gun.angle + arecoil, gun.pitch + precoil, 0, 40, 0, 1, 200);
+			let proj = HaloMath.FireProjectile("HaloMagnum_Bullet", gun.pos, gun.angle + arecoil, gun.pitch + precoil, 0, 40, 0, 1, 200);
+			
+			// We need to set the target of this projectile if we want hitmarkers to show up
+			// for the person who shoots it.
+			proj.target = warthog.gunner;
+			
 			A_StartSound("Halo/Weapons/Rifle/Fire", CHAN_BODY, CHANF_OVERLAP);
 			gcam.Quake(1.25,1.25,0,0.5);
 			spinspeed += 0.1;
@@ -160,11 +160,6 @@ class Warthog_TurretGun : VehPart
 	{
 		gunbarrel = Warthog_TurretBarrel(VehPart.Attach("Warthog_TurretBarrel", base, (15,0,0), (0,0))); 
 		if(gunbarrel) gunbarrel.gun = self;
-	}
-	
-	override void OnDestroy()
-	{
-		gunbarrel.Destroy();
 	}
 	
 	override void UpdatePos(bool moving)
@@ -229,6 +224,7 @@ class HaloWarthog : HaloVehicle
 	double accelangle;
 	double accel;
 	vector2 relvel;
+	uint horntics;
 	
 	// Passenger(s)
 	PlayerPawn gunner;
@@ -256,34 +252,73 @@ class HaloWarthog : HaloVehicle
 		super.BeginPlay();
 	}
 	
+	// Prevent collision with passengers and driver
+	override bool CanCollideWith(Actor other, bool passive)
+	{
+		if(other == driver || other == passenger || other == gunner) return false;
+		return super.CanCollideWith(other, passive);
+	}
+	
 	override void OnDestroy()
 	{
 		turret.Destroy();
+	}
+	
+	override vector3 GetExitPos(PlayerPawn user)
+	{
+		if(user == gunner) return (-120,0,20);
+		if(user == passenger) return (0,80,10);
+		return (0,-80,10);
+	}
+	
+	override bool RemoveDriver(PlayerPawn user, vector3 exitpos)
+	{
+		bool success = super.RemoveDriver(user, exitpos);
+		if(user == driver && success) A_StartSound("Halo/Warthog/EngineOff", flags:CHANF_OVERLAP);
+		return success;
 	}
 	
 	override bool OnDriveAttempt(PlayerPawn user)
 	{
 		double gundist = user.Distance2D(turret);
 		if(user == driver) return true;
-		
-		
+				
 		// Take gunner.
-		if(!gunner && gundist <= 70) 
+		if(!gunner && gundist <= 70 && user != passenger) 
 		{
 			// Ready gunner seat.
 			let cam = SetupHaloCamera(dist:-140,70, 30,50, 30,100, setcam:false);
 			cam.source = user;
 			AssignCamera(cam, user);
 			ReadyDriver(user);
-			SetCrosshair(user, "TurRET", (0.75,0.75));
+			SetCrosshair(user, "TurRET", (0.40,0.40));
 			
 			gunner = user;
 			return false;
 		}
 		else if(gunner && gunner == user)
 		{
-			RemoveDriver(gunner, GetExitPos());
-			gunner = null;
+			if(RemoveDriver(gunner, GetExitPos(gunner))) gunner = null;
+			return false;
+		}
+	
+		// Determine use angle
+		vector2 usedir = Vec2To(user);
+		double useangle = HaloMath.AngleDiff(atan2(usedir.y, usedir.x), angle);
+		
+		// Take passenger
+		if(!passenger && useangle > 0)
+		{
+			let cam = SetupHaloCamera(dist:-120,50, 30,50, 30, 100, setcam:false);
+			cam.source = user;
+			AssignCamera(cam, user);
+			ReadyDriver(user, false);
+			passenger = user;
+			return false;
+		}	
+		else if(passenger && passenger == user)
+		{
+			if(RemoveDriver(passenger, GetExitPos(passenger))) passenger = null;
 			return false;
 		}
 		
@@ -299,17 +334,19 @@ class HaloWarthog : HaloVehicle
 		SetupHaloCamera(dist:-140,60, 30,50, 30, 100);
 		ReadyDriver(user);
 		SetCrosshair(user, "UnarmRET", (1.0,1.0));
+		A_StartSound("Halo/Warthog/EngineOn", flags:CHANF_OVERLAP);
 	}
 	
 	override vector3 GetDrivePos()
 	{	
 		// Driver seat pos
-		return (8,-20,10);
+		return (4,-18,15);
 	}
 	
 	override void UpdatePassengers()
 	{
 		if(gunner) UpdateActorPos(gunner, (-60,0,35));
+		if(passenger) UpdateActorPos(passenger, (4,15,15));
 	}
 	
 	vector2 GetTireDir(Warthog_Tire tire)
@@ -322,13 +359,55 @@ class HaloWarthog : HaloVehicle
 		vel.xy *= 0.93;
 		accel *= 0.96;
 		
+		if(pos.z+vel.z <= floorz && vel.z <= -3) 
+			A_StartSound("Halo/Warthog/Suspension", flags:CHANF_OVERLAP);
+		
+		// SFX
+		if(!driver)
+		{
+			A_StopSound(CHAN_7); // Engine
+			A_StopSound(CHAN_VOICE); // Horn
+		}
+		else
+			A_StartSound("Halo/Warthog/EngineHum", CHAN_7, CHANF_LOOPING);
+		
+		if(vel.xy.length() > 5)
+		{
+			A_StartSound("Halo/Warthog/DriveHum1", CHAN_5, CHANF_LOOPING);
+			A_StartSound("Halo/Warthog/DriveHum2", CHAN_6, CHANF_LOOPING);
+		}
+		else
+		{
+			A_StopSound(CHAN_5); // Drive 1
+			A_StopSound(CHAN_6); // Drive 2
+		}
+		
+		// Validity check.
 		if(health <= 0)  
 		{
-			if(driver) RemoveDriver(driver, GetExitPos());
-			if(gunner) RemoveDriver(gunner, GetExitPos());
+			if(driver) RemoveDriver(driver, GetExitPos(driver));
+			if(gunner) RemoveDriver(gunner, GetExitPos(gunner));
 			return;
 		}
 		if(!driver) return;
+		
+		// Honk honk
+		bool horn = CheckButtons(BT_ATTACK, VehButtons.BTS_DOWN);
+		if(horn)
+		{
+			if(horntics < 5) 
+				A_StartSound("Halo/Warthog/Horn", flags:CHANF_OVERLAP | CHANF_NOSTOP);
+			else
+				A_StartSound("Halo/Warthog/HornLoop", CHAN_VOICE, CHANF_LOOPING);
+			horntics++;
+		}
+		else
+		{
+			horntics = 0;
+			A_StopSound(CHAN_VOICE);
+		}
+		
+		// Physics
 		double tireforce = 0.80 * throttle;
 		double tireangv = 0.15;
 		
@@ -348,6 +427,8 @@ class HaloWarthog : HaloVehicle
 		}
 		A_SetAngle(angle + adiff, SPF_INTERPOLATE);
 		if(gunner) gunner.A_SetAngle(gunner.angle + adiff, SPF_INTERPOLATE);
+		
+		
 		
 		if(forwardmove)
 		{
@@ -369,7 +450,7 @@ class HaloWarthog : HaloVehicle
 		vector2 slowforce = AngleToVector(angle, tireforce) * (1.0-cosAng);
 		vel.xy -= slowforce;
 		
-		DoCollisionDamage();
+		DoCollisionDamage(hitsound:"Halo/Warthog/Collision");
 	}
 	
 	States

@@ -94,6 +94,7 @@ class HaloStatusBar : BaseStatusBar
 	const MSGMAX = 4;
 	double msgfade;
 	Array<HaloMessage> messages;
+	vector2 msgpos;
 	
 	// Basic Functions
 	mixin BasicHUDFeatures;
@@ -108,6 +109,9 @@ class HaloStatusBar : BaseStatusBar
 		fnt = "BigFont";
 		fntHaloAmmo = "HaloAmmoFont";
 		mHUDFont = HUDFont.Create(fnt);
+		
+		// Messages setup
+		msgpos = (80, 600);
 	}
 	
 	// Override message behavior
@@ -118,20 +122,18 @@ class HaloStatusBar : BaseStatusBar
 		bool validprint = (logprint && chatmsg) || (printlevel < PRINT_HIGH);
 		if(!validprint) return false;
 		
-		vector2 msgpos = (80, 600);
-		PushMessage(outline, msgpos);
-		
+		PushMessage(outline);
 		return true;
 	}
 		
-	void PushMessage(String msg, vector2 pos)
+	void PushMessage(String msg)
 	{
 		Color msgcol = 0x4002a7de;
 		vector2 msgscale = (1.0, 0.8);
 		double msg_spacing = 30;
 		uint count = messages.Size()-1;
 		// Generate
-		let msg = HaloMessage.CreateMessage("HaloFont", msg, pos, msgscale, tint:msgcol);
+		let msg = HaloMessage.CreateMessage("HaloFont", msg, msgpos, msgscale, tint:msgcol);
 		if(count >= MSGMAX) 
 		{
 			messages.Delete(0);
@@ -338,7 +340,7 @@ class HaloStatusBar : BaseStatusBar
 	void DrawCrosshairs()
 	{
 		let curvehicle = Veh_Manager(haloplr.FindInventory("Veh_Manager"));
-		if(curvehicle)
+		if(curvehicle && curvehicle.disableweaps)
 		{
 			bool lowerxhair = haloplr.CheckCrosshairLowered();
 			string crosshair = curvehicle.crosshair;

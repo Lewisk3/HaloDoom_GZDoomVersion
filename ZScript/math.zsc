@@ -38,6 +38,15 @@ class HaloMath Abstract
 		return result;
 	}
 	
+	static Vector3 GetLocalPos(Actor a, Vector3 offset)
+	{
+		vector3 forwards  = (cos(a.angle),      sin(a.angle),      0);
+		vector3 sideways  = (cos(a.angle - 90), sin(a.angle - 90), 0);
+		vector3 upwards = (0,0,1);
+		vector3 offsetPos = a.pos + offset.x * forwards + offset.y * sideways + offset.z * upwards;
+		return offsetPos;
+	}
+	
 	play static void AlignToPlane(Actor a, double pitchAdjust = 0, bool ceiling = false, double adjustSpeed = 2, bool ignorepitch = false)
 	{
 		//Original code by ZZYZX & Nash Muhandes

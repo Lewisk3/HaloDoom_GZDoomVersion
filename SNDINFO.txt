@@ -5,18 +5,39 @@ Halo/Weapons/DryFire  HW_DRYF
 UI/PressButton BTNPRESS
 
 // Vehicles
-Halo/Ghost/Fire      "Sounds/Vehicles/Ghost_Fire.wav"
-Halo/Ghost/DoExplode "Sounds/Vehicles/Ghost_DoExplode.wav"
-Halo/Ghost/Explosion "Sounds/Vehicles/Ghost_Explosion.wav"
-Halo/Ghost/EngineOn  "Sounds/Vehicles/Ghost_EngineOn.wav"
-Halo/Ghost/EngineOff "Sounds/Vehicles/Ghost_EngineOff.wav"
-Halo/Ghost/EngineHum "Sounds/Vehicles/Ghost_EngineHum.wav"
-Halo/Ghost/Boost1    "Sounds/Vehicles/Ghost_Boost1.wav"
-Halo/Ghost/Boost2    "Sounds/Vehicles/Ghost_Boost2.wav"
-Halo/Ghost/BoostHum1 "Sounds/Vehicles/Ghost_BoostHum1.wav"
-Halo/Ghost/BoostHum2 "Sounds/Vehicles/Ghost_BoostHum2.wav"
+
+// Ghost
+Halo/Ghost/Fire      "Sounds/Vehicles/Ghost/Ghost_Fire.wav"
+Halo/Ghost/DoExplode "Sounds/Vehicles/Ghost/Ghost_DoExplode.wav"
+Halo/Ghost/Explosion "Sounds/Vehicles/Ghost/Ghost_Explosion.wav"
+Halo/Ghost/EngineOn  "Sounds/Vehicles/Ghost/Ghost_EngineOn.wav"
+Halo/Ghost/EngineOff "Sounds/Vehicles/Ghost/Ghost_EngineOff.wav"
+Halo/Ghost/EngineHum "Sounds/Vehicles/Ghost/Ghost_EngineHum.wav"
+Halo/Ghost/Boost1    "Sounds/Vehicles/Ghost/Ghost_Boost1.wav"
+Halo/Ghost/Boost2    "Sounds/Vehicles/Ghost/Ghost_Boost2.wav"
+Halo/Ghost/BoostHum1 "Sounds/Vehicles/Ghost/Ghost_BoostHum1.wav"
+Halo/Ghost/BoostHum2 "Sounds/Vehicles/Ghost/Ghost_BoostHum2.wav"
 $random Halo/Ghost/Boost { Halo/Ghost/Boost1 Halo/Ghost/Boost2 }
 $random Halo/Ghost/BoostHum { Halo/Ghost/BoostHum1 Halo/Ghost/BoostHum2 }
+
+// Warthog
+Halo/Warthog/EngineOn  "Sounds/Vehicles/Warthog/engine_on.wav"
+Halo/Warthog/EngineOff "Sounds/Vehicles/Warthog/engine_off.wav"
+Halo/Warthog/EngineHum "Sounds/Vehicles/Warthog/engine_loop.wav"
+Halo/Warthog/DriveHum1 "Sounds/Vehicles/Warthog/driving_loop1.wav"
+Halo/Warthog/DriveHum2 "Sounds/Vehicles/Warthog/driving_loop2.wav"
+Halo/Warthog/Suspension1 "Sounds/Vehicles/Warthog/suspension1.wav"
+Halo/Warthog/Suspension2 "Sounds/Vehicles/Warthog/suspension2.wav"
+Halo/Warthog/Suspension3 "Sounds/Vehicles/Warthog/suspension3.wav"
+Halo/Warthog/Collision1 "Sounds/Vehicles/Warthog/collision1.wav"
+Halo/Warthog/Collision2 "Sounds/Vehicles/Warthog/collision2.wav"
+Halo/Warthog/Collision3 "Sounds/Vehicles/Warthog/collision3.wav"
+Halo/Warthog/Horn "Sounds/Vehicles/Warthog/horn_start.wav"
+Halo/Warthog/HornLoop "Sounds/Vehicles/Warthog/horn_loop.wav"
+$random Halo/Warthog/Suspension { Halo/Warthog/Suspension1 Halo/Warthog/Suspension2 Halo/Warthog/Suspension3 }
+$random Halo/Warthog/Collision { Halo/Warthog/Collision1 Halo/Warthog/Collision2 Halo/Warthog/Collision3 }
+$volume Halo/Warthog/DriveHum1 0.15;
+$volume Halo/Warthog/DriveHum2 0.15;
 
 // Items
 Halo/Powerup/Camo    "Sounds/Items/power_camo.wav"
