@@ -305,7 +305,8 @@ class VehBase : Actor
 		finalpos = level.vec3offset(pos, finalpos);
 		finalpos = level.vec3offset(finalpos, vel);
 		act.SetOrigin(finalpos, true);
-		act.vel = vel;
+		// act.vel = vel;
+		act.vel *= 0;
 	}
 	
 	virtual void UpdatePassengers()

@@ -90,7 +90,7 @@ class HaloGhost : HaloVehicle
 		if(health <= 0) return;
 		if(user) driver = user;
 		A_StartSound("Halo/Ghost/EngineON",flags:CHANF_OVERLAP);
-		SetupHaloCamera(dist:-90, 50, -30, 50, 50, 80, 50, 50);
+		SetupHaloCamera(dist:-90, 50, 50, 80);
 		
 		ReadyDriver(user);
 		SetCrosshair(user, "GHOSTRET", (1.0,1.0));

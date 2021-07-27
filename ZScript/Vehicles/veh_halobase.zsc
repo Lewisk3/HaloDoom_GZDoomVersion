@@ -23,7 +23,6 @@ class HaloVehCamera : VehCamera
 		vector3 curpos = HaloMath.Lerp3D(pos, topos, 0.65);
 		curpos.z += base.GetBobOffset();
 		
-		
 		A_SetAngle(a, SPF_INTERPOLATE);
 		A_SetPitch(p, SPF_INTERPOLATE);
 		SetOrigin(curpos, true);
@@ -33,7 +32,6 @@ class HaloVehCamera : VehCamera
 class HaloVehicle : VehBase
 {
 	double veharmor;
-	bool firstperson;
 	Property Armored : veharmor;
 	
 	Default
@@ -65,25 +63,15 @@ class HaloVehicle : VehBase
 		}
 	}
 	
-	virtual HaloVehCamera SetupHaloCamera(class<HaloVehCamera> cam = "HaloVehCamera", double dist = 50, double offs_oz = 50, double fpdist = 50, double fpoffs_z = 50, double zmin = 50, double zmax = 80, double fpzmin = 50, double fpzmax = 80, bool setcam = true)
+	virtual HaloVehCamera SetupHaloCamera(class<HaloVehCamera> cam = "HaloVehCamera", double dist = 50, double offs_oz = 50, double zmin = 50, double zmax = 80, bool setcam = true)
 	{
 		let vehcam = HaloVehCamera(SetupCamera(camtype:cam, setcam:setcam));	
 		if(vehcam)
 		{
-			if(!firstperson)
-			{
-				vehcam.dist_xy = dist;
-				vehcam.dist_z = offs_oz;
-				vehcam.zmin = zmin;
-				vehcam.zmax = zmax;
-			}
-			else
-			{
-				vehcam.dist_xy = fpdist;
-				vehcam.dist_z = fpoffs_z;
-				vehcam.zmin = fpzmin;
-				vehcam.zmax = fpzmax;
-			}
+			vehcam.dist_xy = dist;
+			vehcam.dist_z = offs_oz;
+			vehcam.zmin = zmin;
+			vehcam.zmax = zmax;
 			vehcam.source = driver;
 		}
 		return vehcam;
