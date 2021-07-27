@@ -84,7 +84,7 @@ class LaserEmitter : Actor
 		viewoffs = view_offset;
 		posoffs = pos_offset;
 		vector3 finalpos;
-		finalpos = HaloMath.RelativeV3Offset(source, viewoffs.x, viewoffs.y, pos_offset.x, pos_offset.y, pos_offset.z, 1.);
+		finalpos = HaloMath.RelativeV3Offset(source, viewoffs.x, viewoffs.y, 0, pos_offset.x, pos_offset.y, pos_offset.z, 1.);
 		SetOrigin(finalpos, false);
 	}
 	

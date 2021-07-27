@@ -143,7 +143,7 @@ class HaloGun : RecoilWeapon
 	action void A_SetSFXPos(double forward, double leftright, double updown)
 	{
 		double yoffs = A_GetWeapYOffs() * 0.15;		
-		vector3 relpos = HaloMath.RelativeV3Offset(self, 0, 0, forward, -leftright, updown - yoffs, 1.);
+		vector3 relpos = HaloMath.RelativeV3Offset(self, 0, 0, 0, forward, -leftright, updown - yoffs, 1.);
 		invoker.sfx_pos = relpos;
 	}
 	

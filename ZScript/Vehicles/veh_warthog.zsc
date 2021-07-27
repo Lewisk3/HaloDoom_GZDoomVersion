@@ -23,9 +23,6 @@ class Warthog_Tire : VehPart
 		vector3 finalpos = GetOffsetPos(base);
 		SetOrigin(finalpos, moving);
 		
-		if(base.vehflags & base.bALIGNTOPLANE)
-			HaloMath.AlignToPlane(self, ignorepitch:true);
-			
 		if(!base.driver) return;
 		
 		let warthog = HaloWarthog(base);
@@ -42,6 +39,7 @@ class Warthog_Tire : VehPart
 		
 		A_SetAngle(steerangle + base.angle, SPF_INTERPOLATE);
 		A_SetPitch(pitch + warthog.accel, SPF_INTERPOLATE);
+		A_SetRoll(base.roll, SPF_INTERPOLATE);
 	}
 		
 	States
@@ -167,9 +165,7 @@ class Warthog_TurretGun : VehPart
 		vector3 finalpos = GetOffsetPos(gunbody);
 		SetOrigin(finalpos, moving);
 		
-		if(base.vehflags & base.bALIGNTOPLANE)
-			HaloMath.AlignToPlane(self);
-		
+		AlignWithTerrain();
 		A_SetAngle(gunbody.angle, SPF_INTERPOLATE);	
 	}
 	
@@ -199,8 +195,7 @@ class Warthog_TurretBarrel : VehPart
 		SetOrigin(finalpos, moving);
 		
 		double proll = roll;
-		if(base.vehflags & base.bALIGNTOPLANE)
-			HaloMath.AlignToPlane(self);
+		AlignWithTerrain();
 		
 		roll = HaloMath.Lerp(roll, warthog.turret.turretspin, 0.15);
 		A_SetAngle(gun.angle, SPF_INTERPOLATE);
@@ -365,7 +360,12 @@ class HaloWarthog : HaloVehicle
 		accel *= 0.96;
 		
 		if(pos.z+vel.z <= floorz && vel.z <= -3) 
+		{
 			A_StartSound("Halo/Warthog/Suspension", flags:CHANF_OVERLAP | CHANF_NOSTOP);
+			double movepenalty = HaloMath.fmap(abs(vel.z), 0, 20, 0.97, 0.25);
+			vel.xy *= movepenalty;
+			throttle *= movepenalty;
+		}
 		
 		// SFX
 		if(!driver)

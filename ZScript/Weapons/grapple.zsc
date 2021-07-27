@@ -34,7 +34,7 @@ class GrapplingHook : Actor
 	
 	vector3 GetOrigin()
 	{
-		return HaloMath.RelativeV3Offset(source, 0, 0, pos_offs.x, pos_offs.y, pos_offs.z, 1.);
+		return HaloMath.RelativeV3Offset(source, 0, 0, 0, pos_offs.x, pos_offs.y, pos_offs.z, 1.);
 	}
 	
 	void FollowDest()
@@ -44,7 +44,7 @@ class GrapplingHook : Actor
 	
 	static GrapplingHook Deploy(Actor source, double speed, vector3 offsets = (0,0,0), class<GrapplingHook> type = "GrapplingHook")
 	{
-		vector3 truepos = HaloMath.RelativeV3Offset(source, 0, 0, offsets.x, offsets.y, offsets.z, 1.);
+		vector3 truepos = HaloMath.RelativeV3Offset(source, 0, 0, 0, offsets.x, offsets.y, offsets.z, 1.);
 		
 		let gpl = GrapplingHook(Actor.Spawn(type, truepos));
 		if(gpl)

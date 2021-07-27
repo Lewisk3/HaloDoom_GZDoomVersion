@@ -85,7 +85,7 @@ class VehPart : Actor
 	static VehPart Attach(class<VehPart> partname, VehBase to, vector3 offset = (0,0,0), vector2 angles = (0,0))
 	{
 		vector3 finalpos;
-		finalpos = HaloMath.V3Offset(to.angle+angles.x, to.pitch+angles.y, offset.x, offset.y, offset.z, 1.);
+		finalpos = HaloMath.V3Offset(to.angle+angles.x, to.pitch+angles.y, to.roll, offset.x, offset.y, offset.z, 1.);
 		finalpos = level.vec3offset(to.pos, finalpos);
 		let vpt = VehPart(Spawn(partname, finalpos));
 		
@@ -105,10 +105,24 @@ class VehPart : Actor
 		vector3 finalpos;
 		vector3 animpos = level.vec3Offset(posoffs, anim_posoffs);
 		vector3 finaloffs = level.vec3Offset(animpos, posdiff);
-		finalpos = HaloMath.V3Offset(from.angle+angoffs.x+anim_angoffs.x, from.pitch+angoffs.y+anim_angoffs.y, finaloffs.x, finaloffs.y, finaloffs.z, 1.);
+		finalpos = HaloMath.V3Offset(from.angle+angoffs.x+anim_angoffs.x, from.pitch+angoffs.y+anim_angoffs.y, from.roll, finaloffs.x, finaloffs.y, finaloffs.z, 1.);
 		
 		finalpos = level.vec3offset(from.pos, finalpos);
 		return finalpos;
+	}
+	
+	virtual void AlignWithTerrain()
+	{
+		if( base.vehflags & base.bALIGNTOPLANE )
+		{
+			if(base.onground) 
+				HaloMath.AlignToPlane(self);
+			else
+			{
+				pitch = HaloMath.Lerp(pitch, 0, 0.15);
+				roll = HaloMath.Lerp(roll, 0, 0.15);
+			}
+		}
 	}
 	
 	virtual void UpdatePos(bool moving = true)
@@ -116,9 +130,7 @@ class VehPart : Actor
 		if(!base) return;
 		vector3 finalpos = GetOffsetPos(base);
 		SetOrigin(finalpos, moving);
-		
-		if(base.vehflags & base.bALIGNTOPLANE)
-			HaloMath.AlignToPlane(self);
+		AlignWithTerrain();
 	}
 
 	// Readability
@@ -224,7 +236,7 @@ class VehBase : Actor
 	virtual bool RemoveDriver(PlayerPawn user, vector3 exitpos)
 	{	
 		// Eject
-		vector3 outpos = HaloMath.V3Offset(angle, pitch, exitpos.x, exitpos.y, exitpos.z, 1.);
+		vector3 outpos = HaloMath.V3Offset(angle, pitch, roll, exitpos.x, exitpos.y, exitpos.z, 1.);
 		outpos = level.vec3offset(pos, outpos);
 		bool canexit = user.CheckMove(outpos.xy);
 		if(!canexit) 
@@ -244,6 +256,7 @@ class VehBase : Actor
 		user.bSOLID = user.default.bSOLID;
 		user.bNOGRAVITY = user.default.bNOGRAVITY;
 		user.bINTERPOLATEANGLES = user.default.bINTERPOLATEANGLES;
+		user.roll = 0;
 		
 		// Remove vehicle manager.
 		let vehman = Veh_Manager(user.FindInventory("Veh_Manager"));
@@ -302,10 +315,11 @@ class VehBase : Actor
 	// Update stuff
 	void UpdateActorPos(Actor act, vector3 posoffs)
 	{
-		vector3 finalpos = HaloMath.V3Offset(angle, pitch, posoffs.x, posoffs.y, posoffs.z, 1.);
+		vector3 finalpos = HaloMath.V3Offset(angle, pitch, roll, posoffs.x, posoffs.y, posoffs.z, 1.);
 		finalpos = level.vec3offset(pos, finalpos);
 		finalpos = level.vec3offset(finalpos, vel);
 		act.SetOrigin(finalpos, true);
+		act.roll = roll;
 		// act.vel = vel;
 		act.vel *= 0;
 	}
@@ -369,8 +383,16 @@ class VehBase : Actor
 		}
 		
 		onground = ((pos.z <= floorz) || bOnMobj || bMBFBouncer);
-		if( (vehflags & bALIGNTOPLANE) && onground )
-			HaloMath.AlignToPlane(self);
+		if( (vehflags & bALIGNTOPLANE) )
+		{
+			if(onground)
+				HaloMath.AlignToPlane(self);
+			else
+			{
+				pitch = HaloMath.Lerp(pitch, 0, 0.15);
+				roll = HaloMath.Lerp(roll, 0, 0.15);
+			}
+		}
 		
 		if( !onground && (vehflags & bFALLINGPITCH) && vel.z <= -3.0 && pitch < 35 )
 		{
