@@ -197,7 +197,7 @@ class Warthog_TurretBarrel : VehPart
 		double proll = roll;
 		AlignWithTerrain();
 		
-		roll = HaloMath.Lerp(roll, warthog.turret.turretspin, 0.15);
+		roll = HaloMath.Lerp(proll, warthog.turret.turretspin, 0.15);
 		A_SetAngle(gun.angle, SPF_INTERPOLATE);
 		A_SetPitch(gun.pitch, SPF_INTERPOLATE);
 	}
@@ -349,8 +349,9 @@ class HaloWarthog : HaloVehicle
 	{
 		return (cos(tire.trueturn), sin(tire.trueturn));
 	}
-	double GetTireVel(Warthog_Tire tire, double velmod = 0.02)
+	double GetTireVel(Warthog_Tire tire, double velmod = 0.03)
 	{
+		velmod *= HaloMath.fmap(vel.xy.length(), 0, 30, 0.05, 1.0); 
 		return HaloMath.AngleDiff(angle, Tire_TL.angle) * velmod;
 	}
 	
@@ -438,7 +439,7 @@ class HaloWarthog : HaloVehicle
 		if(forwardmove)
 		{
 			vector2 movedir = (forwardmove, -sidemove).Unit();
-			throttle += movedir.x * 0.03;
+			throttle += movedir.x * 0.02;
 			accel += throttle * 1.5;
 		}
 		else
