@@ -742,6 +742,32 @@ mixin class BasicHUDFeatures
 	}
 }
 
+// Dirty message hack
+class DoHudMessage : Inventory
+{
+	string msg;
+	
+	override string PickupMessage()
+	{
+		if(!msg) msg = "Hax";
+		return msg;
+	}
+
+	static void Send(Actor to, string msg)
+	{
+		let hudmsg = DoHudMessage(Actor.Spawn("DoHudMessage", to.pos));
+		hudmsg.msg = msg;
+		to.AddInventory(hudmsg);
+	}
+	
+	override void DoEffect()
+	{
+		PrintPickupMessage(Owner.CheckLocalView(), msg);
+		Owner.RemoveInventory(self);
+		GoAwayAndDie();
+	}
+}
+
 /* Old Shield code, when it used to use halves.
 vector2 shieldpos = (957,50); //(1550, 50);
 vector2 healthpos = (577, 77); //(1740, 77);

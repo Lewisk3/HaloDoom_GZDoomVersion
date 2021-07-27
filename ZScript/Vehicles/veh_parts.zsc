@@ -181,6 +181,7 @@ class VehBase : Actor
 {
 	uint vehflags;
 	FlagDef ALIGNTOPLANE : vehflags, 0;
+	FlagDef FALLINGPITCH : vehflags, 1;
 	
 	PlayerPawn driver;
 	VehCamera viewcam;
@@ -370,6 +371,11 @@ class VehBase : Actor
 		onground = ((pos.z <= floorz) || bOnMobj || bMBFBouncer);
 		if( (vehflags & bALIGNTOPLANE) && onground )
 			HaloMath.AlignToPlane(self);
+		
+		if( !onground && (vehflags & bFALLINGPITCH) && vel.z <= -3.0 && pitch < 35 )
+		{
+			A_SetPitch(pitch-clamp(vel.z, -1, 0), SPF_INTERPOLATE); 
+		}
 		
 		UpdatePassengers();
 		super.Tick();

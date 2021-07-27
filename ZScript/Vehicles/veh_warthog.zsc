@@ -287,8 +287,9 @@ class HaloWarthog : HaloVehicle
 		if(!gunner && gundist <= 70 && user != passenger) 
 		{
 			// Ready gunner seat.
-			let cam = SetupHaloCamera(dist:-140,70, 30,100, setcam:false);
+			let cam = SetupHaloCamera(dist:-120,50, 30,100, setcam:false);
 			cam.source = user;
+			cam.followact = turret;
 			AssignCamera(cam, user);
 			ReadyDriver(user);
 			SetCrosshair(user, "TurRET", (0.40,0.40));
@@ -360,7 +361,7 @@ class HaloWarthog : HaloVehicle
 		accel *= 0.96;
 		
 		if(pos.z+vel.z <= floorz && vel.z <= -3) 
-			A_StartSound("Halo/Warthog/Suspension", flags:CHANF_OVERLAP);
+			A_StartSound("Halo/Warthog/Suspension", flags:CHANF_OVERLAP | CHANF_NOSTOP);
 		
 		// SFX
 		if(!driver)
@@ -375,6 +376,10 @@ class HaloWarthog : HaloVehicle
 		{
 			A_StartSound("Halo/Warthog/DriveHum1", CHAN_5, CHANF_LOOPING);
 			A_StartSound("Halo/Warthog/DriveHum2", CHAN_6, CHANF_LOOPING);
+			double topitch = HaloMath.fmap(vel.xy.length(), 0, 20.0, 0.1, 2.0); 
+			A_SoundPitch(CHAN_5, topitch);
+			A_SoundPitch(CHAN_6, topitch);
+			
 		}
 		else
 		{
@@ -428,8 +433,6 @@ class HaloWarthog : HaloVehicle
 		A_SetAngle(angle + adiff, SPF_INTERPOLATE);
 		if(gunner) gunner.A_SetAngle(gunner.angle + adiff, SPF_INTERPOLATE);
 		if(passenger) passenger.A_SetAngle(passenger.angle + adiff, SPF_INTERPOLATE);
-		
-		
 		
 		if(forwardmove)
 		{

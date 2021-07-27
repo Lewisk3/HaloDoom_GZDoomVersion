@@ -107,31 +107,3 @@ class Overshield_LV2 : Overshield_LV1 replaces BlueArmor
 		loop;
 	}
 }
-
-
-// Dirty message hack
-class DoHudMessage : Inventory
-{
-	string msg;
-	
-	override string PickupMessage()
-	{
-		if(!msg) msg = "Hax";
-		return msg;
-	}
-
-	static void Send(Actor to, string msg)
-	{
-		let hudmsg = DoHudMessage(Actor.Spawn("DoHudMessage", to.pos));
-		hudmsg.msg = msg;
-		to.AddInventory(hudmsg);
-	}
-	
-	override void DoEffect()
-	{
-		PrintPickupMessage(true, msg);
-		Owner.RemoveInventory(self);
-		GoAwayAndDie();
-	}
-}
-
