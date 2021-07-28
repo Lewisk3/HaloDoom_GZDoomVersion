@@ -76,6 +76,11 @@ class HaloGun : RecoilWeapon
 		HaloGun.ZoomSounds "Halo/Weapons/Zoom/IN", "Halo/Weapons/Zoom/OUT";
 	}
 	
+	override void OnDrop (Actor dropper) 
+	{
+		WeaponPickupProxy.BecomeWeaponProxy(self);
+	}
+	
 	// For some reason weapons start with an odd offset.
 	action void A_DoSelectAnim(double yoffs = 0., bool first_time_draw = false)
 	{

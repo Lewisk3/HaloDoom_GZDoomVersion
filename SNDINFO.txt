@@ -57,7 +57,7 @@ Halo/Scorpion/MissileExplosion1 "Sounds/Vehicles/Scorpion/projexplode1.wav"
 Halo/Scorpion/MissileExplosion2 "Sounds/Vehicles/Scorpion/projexplode2.wav"
 Halo/Scorpion/MissileExplosion3 "Sounds/Vehicles/Scorpion/projexplode3.wav"
 $random Halo/Scorpion/MissileExplosion { Halo/Scorpion/MissileExplosion1 Halo/Scorpion/MissileExplosion2 Halo/Scorpion/MissileExplosion3 }
-$volume Halo/Scorpion/Treads 0.10;
+$volume Halo/Scorpion/Treads 0.30;
 
 // Items
 Halo/Powerup/Camo    "Sounds/Items/power_camo.wav"
