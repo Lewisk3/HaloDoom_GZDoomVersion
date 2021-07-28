@@ -47,6 +47,18 @@ $volume Halo/Warthog/DriveHum1 0.35;
 $volume Halo/Warthog/DriveHum2 0.35;
 $volume Halo/Warthog/Suspension 0.25;
 
+// Scorpion
+Halo/Scorpion/Fire "Sounds/Vehicles/Scorpion/cannon_fire.wav"
+Halo/Scorpion/EngineLoop "Sounds/Vehicles/Scorpion/engine_loop.wav"
+Halo/Scorpion/EngineOn "Sounds/Vehicles/Scorpion/scorpion_on.wav"
+Halo/Scorpion/EngineOff "Sounds/Vehicles/Scorpion/scorpion_off.wav"
+Halo/Scorpion/Treads "Sounds/Vehicles/Scorpion/treads_loop.wav"
+Halo/Scorpion/MissileExplosion1 "Sounds/Vehicles/Scorpion/projexplode1.wav"
+Halo/Scorpion/MissileExplosion2 "Sounds/Vehicles/Scorpion/projexplode2.wav"
+Halo/Scorpion/MissileExplosion3 "Sounds/Vehicles/Scorpion/projexplode3.wav"
+$random Halo/Scorpion/MissileExplosion { Halo/Scorpion/MissileExplosion1 Halo/Scorpion/MissileExplosion2 Halo/Scorpion/MissileExplosion3 }
+$volume Halo/Scorpion/Treads 0.10;
+
 // Items
 Halo/Powerup/Camo    "Sounds/Items/power_camo.wav"
 Halo/Powerup/Damage  "Sounds/Items/power_damage.wav"

@@ -26,3 +26,12 @@ material texture models/Vehicles/Warthog/warthog_chaingun.png {
 	shader "shaders/simsun.fp"
 }
 
+material texture models/Vehicles/Scorpion/scorpion_body.png {
+	shader "shaders/simsun.fp"
+}
+
+material texture models/Vehicles/Scorpion/scorpion_treads.png {
+	shader "shaders/simsun.fp"
+}
+
+
