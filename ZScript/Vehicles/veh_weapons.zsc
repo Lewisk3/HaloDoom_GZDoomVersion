@@ -35,7 +35,8 @@ class TankRocket : FastProjectile
 	{
 		Radius 16;
 		Height 8;
-		Speed 300;
+		Speed 1200;
+		Damage 500;
 		Projectile;
 	}
 	
@@ -52,9 +53,11 @@ class TankRocket : FastProjectile
 		vector3 spawnpos = level.vec3offset(from.pos, offs);
 		
 		let proj = TankRocket(Actor.Spawn("TankRocket", spawnpos));
+		let flare = Actor.Spawn("TankRocket_MuzzleFlare", spawnpos);
 		
 		if(proj)
 		{
+			proj.SetDamage(proj.default.damage);
 			proj.target = from;
 			proj.angle = view.x;
 			proj.pitch = view.y;
@@ -98,6 +101,7 @@ class TankRocket : FastProjectile
 	
 	void DoExplosion()
 	{
+		A_Explode(300, 512);
 		vector3 fxoffs = (-30, 0, 10);
 		fxoffs = HaloMath.V3Offset(angle, pitch, roll, fxoffs.x, fxoffs.y, fxoffs.z, 1.);
 		
@@ -182,6 +186,21 @@ class TankRocket_Flare : FastActor
 	{
 		Spawn:
 			FSH1 ABCDEFGHHIJKLMNOPQRS 1 Bright;
+		stop;
+	}
+}
+
+class TankRocket_MuzzleFlare : FastActor
+{
+	Default
+	{
+		Scale 2.0;
+	}
+
+	States
+	{
+		Spawn:
+			BFSH A 2 Bright;
 		stop;
 	}
 }

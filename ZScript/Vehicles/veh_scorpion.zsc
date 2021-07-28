@@ -22,10 +22,6 @@ class Scorpion_TurretBase : VehPart
 		A_SetRoll(base.roll, SPF_INTERPOLATE);
 		A_SetPitch(base.pitch, SPF_INTERPOLATE);
 	}
-		
-	override void DoUpdate(VehCamera cam)
-	{
-	}
 	
 	States
 	{
@@ -38,6 +34,7 @@ class Scorpion_TurretBase : VehPart
 class Scorpion_TurretCannon : VehPart
 {
 	uint cooldown;
+	uint cooldown_chaingun;
 	VehPart turretbase;
 	Default
 	{
@@ -64,15 +61,36 @@ class Scorpion_TurretCannon : VehPart
 	{
 		let tank = HaloScorpion(base);
 		if(!tank) return;
+		if(!cam) return;
 	
-		if(cooldown) cooldown--;
+		if(cooldown_chaingun) cooldown_chaingun--;
+		if(cooldown) 
+		{
+			cam.SetZoom(1.0, 0.1);
+			cooldown--;
+		}
 		if(CheckButtons(BT_ATTACK, VehButtons.BTS_PRESSED) && !cooldown)
 		{
-			TankRocket.Fire(self, (30, 0, 30));
+			TankRocket.Fire(self, (350, 0, 30));
 			cooldown = 70;
 			double kickback = -0.1 * abs(cos(base.angle-angle));
 			tank.AdjustTreads(kickback);
+			cam.SetZoom(0.93, 0.5);
 			cam.Quake(20,20,0,0.6);
+		}
+		if(CheckButtons(BT_ALTATTACK, VehButtons.BTS_DOWN) && !cooldown_chaingun)
+		{
+			double rmax = 1.5;
+			double arecoil = frandom(-rmax, rmax);
+			double precoil = frandom(-rmax, rmax);
+			let proj = HaloMath.FireProjectile("HaloMagnum_Bullet", pos, angle + arecoil, pitch + precoil, 40, 250, 40, 1, 200);
+			
+			// We need to set the target of this projectile if we want hitmarkers to show up
+			// for the person who shoots it.
+			proj.target = base.driver;
+			
+			A_StartSound("Halo/Weapons/Rifle/Fire", CHAN_BODY, CHANF_OVERLAP);
+			cooldown_chaingun = 2;
 		}
 	}
 	
@@ -112,17 +130,14 @@ class Scorpion_Tread : VehPart
 		
 		// Apply angular velocity based on rotation.
 		int dir = HaloMath.sign(posoffs.y);
+		double spdmod = HaloMath.fmap(base.vel.xy.Length(), 0, 15, 1.0, 2.0); 
 		double turnvel = (traction * rotation) * 0.5;
-		tank.angvel += turnvel * dir;
-		base.vel.xy += AngleToVector(base.angle, turnvel * 20);
+		tank.angvel += turnvel * dir * spdmod;
+		base.vel.xy += AngleToVector(base.angle, turnvel * 16);
 		
 		A_SetAngle(base.angle, SPF_INTERPOLATE);
 	}
 		
-	override void DoUpdate(VehCamera cam)
-	{
-	}
-	
 	States
 	{
 		Spawn:
@@ -180,8 +195,8 @@ class HaloScorpion : HaloVehicle
 		Height 100;
 	
 		Mass 800;
-		Health 1000;
-		HaloVehicle.Armored 500;
+		Health 3000;
+		HaloVehicle.Armored 4000;
 		HaloScorpion.TreadFriction 0.80;
 		MaxSlopeSteepness 0.4;
 	}
@@ -207,6 +222,7 @@ class HaloScorpion : HaloVehicle
 		if(user) driver = user;
 		let cam = SetupHaloCamera("ScorpionCamera", dist:-400,200,180,300);
 		ReadyDriver(user);
+		SetCrosshair(user, "ScorpRet", (1.0,1.0));
 	}
 	
 	override vector3 GetDrivePos()
@@ -236,7 +252,7 @@ class HaloScorpion : HaloVehicle
 		if(!driver) return;
 		
 		double movespd = 0.03;
-		double turnspd = 0.10;
+		double turnspd = 0.05;
 		if(forwardmove || sidemove)
 		{
 			vector2 movedir = (forwardmove, sidemove).Unit();

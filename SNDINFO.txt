@@ -34,10 +34,17 @@ Halo/Warthog/Collision2 "Sounds/Vehicles/Warthog/collision2.wav"
 Halo/Warthog/Collision3 "Sounds/Vehicles/Warthog/collision3.wav"
 Halo/Warthog/Horn "Sounds/Vehicles/Warthog/horn_start.wav"
 Halo/Warthog/HornLoop "Sounds/Vehicles/Warthog/horn_loop.wav"
+Halo/Warthog/Chaingun/Start "Sounds/Vehicles/Warthog/CGSpin_Start.wav"
+Halo/Warthog/Chaingun/Loop "Sounds/Vehicles/Warthog/CGSpin_Loop.wav"
+Halo/Warthog/Chaingun/Stop "Sounds/Vehicles/Warthog/CGSpin_End.wav"
+Halo/Warthog/Chaingun/Fire1 "Sounds/Vehicles/Warthog/CGFire1.wav"
+Halo/Warthog/Chaingun/Fire2 "Sounds/Vehicles/Warthog/CGFire2.wav"
+Halo/Warthog/Chaingun/Fire3 "Sounds/Vehicles/Warthog/CGFire3.wav"
 $random Halo/Warthog/Suspension { Halo/Warthog/Suspension1 Halo/Warthog/Suspension2 Halo/Warthog/Suspension3 }
 $random Halo/Warthog/Collision { Halo/Warthog/Collision1 Halo/Warthog/Collision2 Halo/Warthog/Collision3 }
-$volume Halo/Warthog/DriveHum1 0.15;
-$volume Halo/Warthog/DriveHum2 0.15;
+$random Halo/Warthog/Chaingun/Fire { Halo/Warthog/Chaingun/Fire1 Halo/Warthog/Chaingun/Fire2 Halo/Warthog/Chaingun/Fire3 }
+$volume Halo/Warthog/DriveHum1 0.35;
+$volume Halo/Warthog/DriveHum2 0.35;
 $volume Halo/Warthog/Suspension 0.25;
 
 // Items
