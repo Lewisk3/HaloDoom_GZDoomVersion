@@ -3,10 +3,26 @@ material texture models/Lasers/BEAM.png {
 	brightmap models/Lasers/BEAM.png
 }
 
-material texture models/Vehicles/Ghost/ghost.png {
-	shader "shaders/simsun.fp"
-}
-
 material texture models/Title/Halo_Ring_Outer.png {
 	shader "shaders/simsun.fp"
 }
+
+material texture models/Vehicles/Ghost/ghost.png {
+	shader "shaders/simsun.fp"
+	specular "models/Vehicles/Ghost/ghost.png"
+	specularlevel 0.5
+	glossiness 1.0
+}
+
+material texture models/Vehicles/Warthog/warthog.png {
+	shader "shaders/simsun.fp"
+}
+
+material texture models/Vehicles/Warthog/warthog_tires.png {
+	shader "shaders/simsun.fp"
+}
+
+material texture models/Vehicles/Warthog/warthog_chaingun.png {
+	shader "shaders/simsun.fp"
+}
+

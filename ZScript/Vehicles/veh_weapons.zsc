@@ -1,0 +1,352 @@
+class FastActor : Actor abstract
+{
+	Default
+	{
+		Radius 1;
+		+NOINTERACTION;
+		RenderStyle "Add";
+		Alpha 1.0;
+	}
+	
+	override void Tick()
+	{			
+		if (alpha < 0)
+		{
+			destroy();
+			return;
+		}
+		if (isFrozen()) return;
+				
+		//animation:
+		if (tics != -1) 
+		{
+			if(tics > 0) tics--;
+			while (!tics) 
+				if(!SetState(CurState.NextState)) return;
+		}
+	}
+}
+
+class TankRocket : FastProjectile
+{
+	vector3 movedir;
+	Default
+	{
+		Radius 16;
+		Height 8;
+		Speed 300;
+		Projectile;
+	}
+	
+	override bool CanCollideWith(Actor other, bool passive)
+	{
+		if(other == target) return false;
+		return super.CanCollideWith(other, passive);
+	}
+	
+	static TankRocket Fire(Actor from, vector3 posoffs, vector3 viewoffs = (0,0,0))
+	{
+		vector3 view = (from.angle + viewoffs.x, from.pitch + viewoffs.y, from.roll + viewoffs.z);
+		vector3 offs = HaloMath.V3Offset(view.x, view.y, view.z, posoffs.x, posoffs.y, posoffs.z, 1.);
+		vector3 spawnpos = level.vec3offset(from.pos, offs);
+		
+		let proj = TankRocket(Actor.Spawn("TankRocket", spawnpos));
+		
+		if(proj)
+		{
+			proj.target = from;
+			proj.angle = view.x;
+			proj.pitch = view.y;
+			proj.roll = view.z;
+			
+			// Assign velocity vector
+			double cosp = cos(view.y);
+			proj.vel = (
+				cos(view.x) * cosp,
+				sin(view.x) * cosp,
+				-sin(view.y)
+			) * proj.default.speed;
+			proj.movedir = proj.vel.Unit();
+			
+			FLineTraceData lt;
+			proj.LineTrace(proj.angle, 1024*1024, proj.pitch, data:lt);
+			SmokeTrail.Start(0x969696, spawnpos, lt.HitLocation, (view.x, view.y), 1.0);
+		}
+		
+		return proj;
+	}
+	
+	
+	void SpawnFX(class<Actor> type, vector3 frompos, double amt, double maxdist, double ydist)
+	{
+		for(int i = 0; i < amt; i++)
+		{
+			double spawnang = frandom(0,180);
+			double spawndist = frandom(-maxdist, maxdist);
+			vector3 spawndir = (
+				cos(angle + spawnang),
+				sin(angle + spawnang),
+				0
+			) * spawndist;
+			
+			spawndir.z = frandom(-ydist,ydist);
+			Spawn(type, level.vec3offset(frompos, spawndir));
+		}
+	}
+	
+	void DoExplosion()
+	{
+		vector3 fxoffs = (-30, 0, 10);
+		fxoffs = HaloMath.V3Offset(angle, pitch, roll, fxoffs.x, fxoffs.y, fxoffs.z, 1.);
+		
+		vector3 fxpos = level.vec3offset(pos, fxoffs);
+		Spawn("TankRocket_Explosion", fxpos);
+		
+		SpawnFX("TankRocket_MiniExplosion", fxpos, random(5,15), 160, 40);
+		SpawnFX("TankRocket_Smoke", fxpos, random(10,30), 120, 60);
+		
+		// Flying explosions
+		for(int i = 0; i < random(20,30); i++)
+		{
+			double spawnang = frandom(0,180);
+			double spawndist = frandom(-30, 30);
+			vector3 spawndir = (
+				cos(angle + spawnang),
+				sin(angle + spawnang),
+				0
+			) * spawndist;
+			
+			spawndir.z = frandom(-30,30);
+			let expl = Spawn("TankRocket_FlyingExplosion", level.vec3offset(fxpos, spawndir));
+			if(expl)
+			{
+				double velang = frandom(-180,180);
+				vector3 veldir = (
+					cos(velang),
+					sin(velang),
+					sin(frandom(-45,45))
+				);
+				expl.vel = veldir * 15;
+			}
+		}
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 1;
+		loop;
+		
+		Death:
+			TNT1 A 1 DoExplosion();
+		stop;
+	}	
+}
+
+// NoDelay isn't implemented properly apparently, so thats
+// why we need TNT1 A 0 frames for these...
+class TankRocket_Explosion : FastActor
+{
+	Default
+	{
+		Scale 4.0;
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0;
+			TNT1 A 1 
+			{
+				Spawn("TankRocket_Sparks", pos);
+			}
+			SX04 A 1 
+			{	
+				Spawn("TankRocket_Flare", pos);
+			}
+			SX04 BCDEFGHIJKLMNOPQ 1 Bright;
+		stop;
+	}
+}
+
+class TankRocket_Flare : FastActor
+{
+	Default
+	{
+		Scale 2.0;
+	}
+	
+	States
+	{
+		Spawn:
+			FSH1 ABCDEFGHHIJKLMNOPQRS 1 Bright;
+		stop;
+	}
+}
+
+class TankRocket_Sparks : FastActor
+{
+	Default
+	{
+		Scale 1.5;
+		Alpha 0.8;
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0; 
+			IPF2 "#" 2 Bright
+			{
+				frame = random(0,3);
+			}
+		stop;
+	}
+}
+
+class TankRocket_Smoke : FastActor
+{
+	double rollvel;
+	double upforce;
+	vector2 wind_dir;
+	Default
+	{
+		+ROLLSPRITE;
+	}
+	
+	
+	override void BeginPlay()
+	{	
+		alpha = frandom(0.5, 1.0);
+		A_SetScale(frandom(0.15,1.0));
+		rollvel = frandom(-2.0, 2.0);
+		upforce = frandom(0.015, 0.08);
+		wind_dir = AngleToVector(frandom(0,180), frandom(-0.005, 0.005)); 
+		super.BeginPlay();
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		
+		SetOrigin(level.vec3offset(pos, vel), true);
+		A_SetRoll(roll + rollvel, SPF_INTERPOLATE);
+		vel += wind_dir * frandom(0.25, 1.0);
+	}
+	
+	States
+	{
+		Spawn:	
+			TNT1 A 0;
+			SMK5 "#" 1 { frame = random(0, 23); }
+		SpawnLoop:
+			SMK5 "#" 1
+			{
+				vel.z += upforce;
+				A_FadeOut(0.004);
+			}
+		wait;
+	}
+}
+
+class TankRocket_DarkSmoke : FastActor
+{
+	double rollvel;
+	Default
+	{
+		RenderStyle "Subtract";
+		+ROLLSPRITE;
+	}
+	
+	override void BeginPlay()
+	{	
+		alpha = frandom(0.35, 0.77);
+		A_SetScale(frandom(0.10,0.20));
+		rollvel = frandom(-2.0, 2.0);
+		super.BeginPlay();
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		
+		SetOrigin(level.vec3offset(pos, vel), true);
+		A_SetRoll(roll + rollvel, SPF_INTERPOLATE);
+	}
+	
+	States
+	{
+		Spawn:	
+			TNT1 A 0;
+			SMK5 "#" 1 { frame = random(0, 23); }
+		SpawnLoop:
+			SMK5 "#" 1 A_FadeOut(0.01);
+		wait;
+	}
+}
+
+class TankRocket_MiniExplosion : TankRocket_Smoke
+{
+	override void BeginPlay()
+	{	
+		super.BeginPlay();	
+		wind_dir *= 0;
+	}
+	
+	States
+	{
+		Spawn:	
+			TNT1 A 0;
+			TNT1 A 0 A_JumpIf(random(0,2)==2, "SpawnLoop_Two");
+			TNT1 A 0 A_SetScale(frandom(2.0, 3.0));
+		SpawnLoop_One:
+			FX58 ABCDEFGHIJKLMNOPQ 2 Bright
+			{
+				vel.z += upforce * 10.0; 
+				A_FadeOut(0.003);
+			}
+		goto Death;
+		SpawnLoop_Two:
+			FRME ABCDEFGHIJKLMNOPQRS 2 Bright
+			{
+				vel.z += upforce * 4.0; 
+				A_FadeOut(0.004);
+			}
+		goto Death;
+		Death:
+		stop;
+	}
+}
+
+class TankRocket_FlyingExplosion : FastActor
+{
+	override void BeginPlay()
+	{	
+		super.BeginPlay();	
+		A_SetScale(frandom(0.15, 0.50));
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		SetOrigin(level.vec3offset(pos, vel), true);
+		vel.z -= 0.32;
+	}
+	
+	States
+	{
+		Spawn:	
+			TNT1 A 0;
+		SpawnLoop_One:
+			FX58 ABCDEFGHIJKLMNOP 2 Bright
+			{
+				Actor.Spawn("TankRocket_DarkSmoke", pos);
+			}
+			FX58 Q 2 Bright
+			{
+				A_FadeOut(0.006);
+				Actor.Spawn("TankRocket_DarkSmoke", pos);
+			}
+		wait;
+	}
+}

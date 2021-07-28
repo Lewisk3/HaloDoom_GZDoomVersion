@@ -38,6 +38,7 @@ $random Halo/Warthog/Suspension { Halo/Warthog/Suspension1 Halo/Warthog/Suspensi
 $random Halo/Warthog/Collision { Halo/Warthog/Collision1 Halo/Warthog/Collision2 Halo/Warthog/Collision3 }
 $volume Halo/Warthog/DriveHum1 0.15;
 $volume Halo/Warthog/DriveHum2 0.15;
+$volume Halo/Warthog/Suspension 0.25;
 
 // Items
 Halo/Powerup/Camo    "Sounds/Items/power_camo.wav"

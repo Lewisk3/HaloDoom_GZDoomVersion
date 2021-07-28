@@ -52,6 +52,7 @@ version "4.0"
 #include "ZScript/Vehicles/veh_halobase.zsc"
 #include "ZScript/Vehicles/veh_ghost.zsc"
 #include "ZScript/Vehicles/veh_warthog.zsc"
+#include "ZScript/Vehicles/veh_weapons.zsc" 
 
 // Laser(s)
 #include "ZScript/Lasers/base/laser_base.zsc"

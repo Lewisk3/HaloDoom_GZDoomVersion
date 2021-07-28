@@ -59,12 +59,19 @@ class HaloDoom_Events : EventHandler
 			hplr.grapple = GrapplingHook.Deploy(hplr, 20, (0,-2,-3));
 		}
 		
+		if(e.Name == "firetank")
+		{
+			TankRocket.Fire(src.mo, (30,0,src.mo.viewheight));
+		}
+		
 		Array<String> args;
 		String cmd = e.Name;
 		cmd.Split(args, ":");
-		if(args[0] == "mp_summon")
+		if(args[0] == "crosshairsummon")
 		{
-			Actor.Spawn(args[1], src.mo.pos);
+			class<Actor> obj = args[1];
+			let plr = HaloPlayer(src.mo);
+			if(plr && obj) Actor.Spawn(obj, plr.aimpos);
 		}
 		
 		// if(multiplayer) return;

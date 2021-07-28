@@ -224,6 +224,23 @@ class VehBase : Actor
 		}
 	}
 	
+	double GetFloorAngle()
+	{
+		// Get Floor Normal
+		Vector3 floornorm;
+		F3DFloor floors;
+		for(int i = 0; i < FloorSector.Get3DFloorCount(); i++)
+		{
+			if(FloorSector.Get3DFloor(i).Top.ZAtPoint(Pos.XY) ~== FloorZ)
+			{
+				floors = FloorSector.Get3DFloor(i);
+				break;
+			}
+		}
+		floornorm = floors ? -floors.Top.Normal : FloorSector.FloorPlane.Normal;
+		return atan2(floornorm.XY.Length(), floornorm.Z);
+	}
+	
 	virtual vector3 GetDrivePos()
 	{
 		return (0,0,0);
