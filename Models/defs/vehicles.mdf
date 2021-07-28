@@ -82,3 +82,86 @@ Model Warthog_TurretBarrel
    
    FrameIndex MODL A 0 0 
 }
+
+// Scorpion
+Model HaloScorpion
+{ 
+   Path "Models/Vehicles/Scorpion"
+   Skin 0 "scorpion_body.png" 
+   Model 0 "scorpion_base.obj" 
+   Scale 2.0 2.0 2.0
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}
+Model Scorpion_TreadFL
+{ 
+   Path "Models/Vehicles/Scorpion"
+   SurfaceSkin 0 0 "scorpion_body.png" 
+   SurfaceSkin 0 1 "scorpion_treads.png"
+   Model 0 "scorpion_treadFL.obj" 
+   Scale 20.0 20.0 20.0
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}
+Model Scorpion_TreadFR
+{ 
+   Path "Models/Vehicles/Scorpion"
+   SurfaceSkin 0 0 "scorpion_body.png" 
+   SurfaceSkin 0 1 "scorpion_treads.png"
+   Model 0 "scorpion_treadFR.obj" 
+   Scale 20.0 20.0 20.0
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}
+Model Scorpion_TreadBL
+{ 
+   Path "Models/Vehicles/Scorpion"
+   SurfaceSkin 0 0 "scorpion_body.png" 
+   SurfaceSkin 0 1 "scorpion_treads.png"
+   Model 0 "scorpion_treadBL.obj" 
+   Scale 20.0 20.0 20.0
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}
+Model Scorpion_TreadBR
+{ 
+   Path "Models/Vehicles/Scorpion"
+   SurfaceSkin 0 0 "scorpion_body.png" 
+   SurfaceSkin 0 1 "scorpion_treads.png"
+   Model 0 "scorpion_treadBR.obj" 
+   Scale 20.0 20.0 20.0
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}
+Model Scorpion_TurretBase
+{ 
+   Path "Models/Vehicles/Scorpion"
+   Skin 0 "scorpion_body.png" 
+   Model 0 "scorpion_turretbase.obj" 
+   Scale 20.0 20.0 20.0
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}
+Model Scorpion_TurretCannon
+{ 
+   Path "Models/Vehicles/Scorpion"
+   Skin 0 "scorpion_body.png" 
+   Model 0 "scorpion_cannon.obj" 
+   Scale 20.0 20.0 20.0
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}

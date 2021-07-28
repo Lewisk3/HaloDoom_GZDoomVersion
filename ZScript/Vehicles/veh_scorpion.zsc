@@ -1,0 +1,272 @@
+class Scorpion_TurretBase : VehPart
+{
+	Scorpion_TurretCannon cannon;
+	Default
+	{
+		Radius 16;
+		Height 16;
+	}
+	
+	override void OnAttach()
+	{
+		cannon = Scorpion_TurretCannon( VehPart.Attach("Scorpion_TurretCannon", base,(50,0,40)) );
+		cannon.turretbase = self;
+	}
+	
+	override void UpdatePos(bool moving)
+	{
+		super.UpdatePos(moving);
+		if(!base || !base.driver) return;
+		
+		A_SetAngle(base.driver.angle, SPF_INTERPOLATE);
+		A_SetRoll(base.roll, SPF_INTERPOLATE);
+		A_SetPitch(base.pitch, SPF_INTERPOLATE);
+	}
+		
+	override void DoUpdate(VehCamera cam)
+	{
+	}
+	
+	States
+	{
+		Spawn:
+			MODL A 1;
+		loop;
+	}
+}
+
+class Scorpion_TurretCannon : VehPart
+{
+	uint cooldown;
+	VehPart turretbase;
+	Default
+	{
+		Radius 16;
+		Height 16;
+	}
+	
+	override void UpdatePos(bool moving)
+	{
+		if(!turretbase) return;
+		vector3 finalpos = GetOffsetPos(turretbase);
+		SetOrigin(finalpos, moving);
+		
+		A_SetAngle(turretbase.angle, SPF_INTERPOLATE);
+		A_SetRoll(turretbase.roll, SPF_INTERPOLATE);
+		
+		double aimpitch = base.driver ? base.driver.pitch : 0;
+		aimpitch = clamp(aimpitch, -30, 10);
+		A_SetPitch(base.pitch + aimpitch, SPF_INTERPOLATE);
+		
+	}
+		
+	override void DoUpdate(VehCamera cam)
+	{
+		let tank = HaloScorpion(base);
+		if(!tank) return;
+	
+		if(cooldown) cooldown--;
+		if(CheckButtons(BT_ATTACK, VehButtons.BTS_PRESSED) && !cooldown)
+		{
+			TankRocket.Fire(self, (30, 0, 30));
+			cooldown = 70;
+			double kickback = -0.1 * abs(cos(base.angle-angle));
+			tank.AdjustTreads(kickback);
+			cam.Quake(20,20,0,0.6);
+		}
+	}
+	
+	States
+	{
+		Spawn:
+			MODL A 1;
+		loop;
+	}
+}
+
+class Scorpion_Tread : VehPart
+{
+	double traction;
+	double rotation;
+	Property Traction : traction;
+	
+	Default
+	{
+		Radius 50;
+		Height 35;
+		+SOLID;
+		
+		Scorpion_Tread.Traction 0.8;
+	}
+	
+	override void UpdatePos(bool moving)
+	{
+		super.UpdatePos(moving);
+		if(!base || !base.driver) return;
+		
+		let tank = HaloScorpion(base);
+		if(!tank) return;
+		
+		rotation *= tank.friction;
+		rotation = clamp(rotation, -1.0, 1.0);
+		
+		// Apply angular velocity based on rotation.
+		int dir = HaloMath.sign(posoffs.y);
+		double turnvel = (traction * rotation) * 0.5;
+		tank.angvel += turnvel * dir;
+		base.vel.xy += AngleToVector(base.angle, turnvel * 20);
+		
+		A_SetAngle(base.angle, SPF_INTERPOLATE);
+	}
+		
+	override void DoUpdate(VehCamera cam)
+	{
+	}
+	
+	States
+	{
+		Spawn:
+			MODL A 1;
+		loop;
+	}
+}
+
+class ScorpionCamera : HaloVehCamera
+{
+	override void UpdatePos(bool moving)
+	{
+		if(!base) return;
+		if(!source) return;
+		if(!followact) followact = base;
+		
+		double a = source.angle;
+		double p = base.driver.pitch;
+		vector3 followpos = (
+			cos(a) * cos(p),
+			sin(a) * cos(p),
+			-sin(p)
+		) * dist_xy;
+		followpos.z += dist_z;
+		followpos.z = clamp(followpos.z, zmin, zmax);
+		
+		vector3 topos = level.vec3offset(followact.pos, followpos + relposoffs);
+		vector3 curpos = HaloMath.Lerp3D(pos, topos, 0.65);
+		curpos.z += base.GetBobOffset();
+		
+		A_SetAngle(a, SPF_INTERPOLATE);
+		A_SetPitch(p, SPF_INTERPOLATE);
+		SetOrigin(curpos, true);
+	}
+}
+
+class Scorpion_TreadFR : Scorpion_Tread {}
+class Scorpion_TreadFL : Scorpion_Tread {}
+class Scorpion_TreadBL : Scorpion_Tread {}
+class Scorpion_TreadBR : Scorpion_Tread {}
+
+class HaloScorpion : HaloVehicle
+{
+	Scorpion_Tread TreadFL, TreadFR, TreadBL, TreadBR;
+	Scorpion_TurretBase turret;
+	double angvel;
+	double friction;
+	double throttle;
+	
+	Property TreadFriction : friction;
+
+	Default
+	{
+		Radius 200;
+		Height 100;
+	
+		Mass 800;
+		Health 1000;
+		HaloVehicle.Armored 500;
+		HaloScorpion.TreadFriction 0.80;
+		MaxSlopeSteepness 0.4;
+	}
+	
+	override void BeginPlay()
+	{
+		super.BeginPlay();
+		
+		TreadFL = Scorpion_Tread(VehPart.Attach("Scorpion_TreadFL", self, ( 140,-120,0)));
+		TreadFR = Scorpion_Tread(VehPart.Attach("Scorpion_TreadFR", self, ( 140, 120,0)));
+		TreadBL = Scorpion_Tread(VehPart.Attach("Scorpion_TreadBL", self, (-140,-140,0)));
+		TreadBR = Scorpion_Tread(VehPart.Attach("Scorpion_TreadBR", self, (-140, 140,0)));
+		turret = Scorpion_TurretBase(VehPart.Attach("Scorpion_TurretBase", self, (-110,0,100)));
+	}
+	
+	override void OnDestroy()
+	{
+	}
+
+	override void TakeDriver(PlayerPawn user)
+	{
+		if(health <= 0) return;
+		if(user) driver = user;
+		let cam = SetupHaloCamera("ScorpionCamera", dist:-400,200,180,300);
+		ReadyDriver(user);
+	}
+	
+	override vector3 GetDrivePos()
+	{
+		return (-20,-5,0);
+	}
+	
+	void AdjustTreads(double amt)
+	{
+		TreadFL.rotation += amt;
+		TreadFR.rotation += amt;
+		TreadBL.rotation += amt;
+		TreadBR.rotation += amt;
+	}
+	
+	override void DoMove(float forwardmove, float sidemove)
+	{	
+		// Friction
+		vel.xy *= 0.80;
+		angvel *= 0.80;
+
+		if(health <= 0)  
+		{
+			if(driver) RemoveDriver(driver, GetExitPos(driver));
+			return;
+		}
+		if(!driver) return;
+		
+		double movespd = 0.03;
+		double turnspd = 0.10;
+		if(forwardmove || sidemove)
+		{
+			vector2 movedir = (forwardmove, sidemove).Unit();
+			movedir.x *= movespd;
+			movedir.y *= turnspd;
+			movedir.y *= HaloMath.sign(movedir.x);
+			
+			TreadFL.rotation += movedir.x;
+			TreadFR.rotation += movedir.x;
+			TreadBL.rotation += movedir.x;
+			TreadBR.rotation += movedir.x;
+			
+			TreadFL.rotation += movedir.y;	
+			TreadFR.rotation -= movedir.y;	
+			TreadBL.rotation += movedir.y;	
+			TreadBR.rotation -= movedir.y;	
+		}
+		
+		A_SetAngle(angle + angvel, SPF_INTERPOLATE);
+		DoCollisionDamage();
+	}
+	
+	States
+	{
+		Spawn:
+			MODL A 1;
+		loop;
+		
+		Death:
+			MODL A -1;
+		stop;
+	}
+}

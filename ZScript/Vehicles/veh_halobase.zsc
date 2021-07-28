@@ -21,7 +21,7 @@ class HaloVehCamera : VehCamera
 		followpos.z += dist_z;
 		followpos.z = clamp(followpos.z, zmin, zmax);
 		
-		vector3 topos = level.vec3offset(followact.pos, followpos);
+		vector3 topos = level.vec3offset(followact.pos, followpos + relposoffs);
 		vector3 curpos = HaloMath.Lerp3D(pos, topos, 0.65);
 		curpos.z += base.GetBobOffset();
 		

@@ -27,6 +27,7 @@ class FastActor : Actor abstract
 	}
 }
 
+// Scorpion Rocket
 class TankRocket : FastProjectile
 {
 	vector3 movedir;
@@ -70,7 +71,8 @@ class TankRocket : FastProjectile
 			
 			FLineTraceData lt;
 			proj.LineTrace(proj.angle, 1024*1024, proj.pitch, data:lt);
-			SmokeTrail.Start(0x969696, spawnpos, lt.HitLocation, (view.x, view.y), 1.0);
+			let trail = SmokeTrail.Start(0x969696, spawnpos, lt.HitLocation, (view.x, view.y), 1.0);
+			trail.A_SetScale(3.0);
 		}
 		
 		return proj;
@@ -269,18 +271,13 @@ class TankRocket_DarkSmoke : FastActor
 	override void Tick()
 	{
 		super.Tick();
-		
-		SetOrigin(level.vec3offset(pos, vel), true);
 		A_SetRoll(roll + rollvel, SPF_INTERPOLATE);
 	}
 	
 	States
 	{
 		Spawn:	
-			TNT1 A 0;
-			SMK5 "#" 1 { frame = random(0, 23); }
-		SpawnLoop:
-			SMK5 "#" 1 A_FadeOut(0.01);
+			SMK5 H 1 A_FadeOut(0.01);
 		wait;
 	}
 }
@@ -305,15 +302,14 @@ class TankRocket_MiniExplosion : TankRocket_Smoke
 				vel.z += upforce * 10.0; 
 				A_FadeOut(0.003);
 			}
-		goto Death;
+		stop;
+		
 		SpawnLoop_Two:
 			FRME ABCDEFGHIJKLMNOPQRS 2 Bright
 			{
 				vel.z += upforce * 4.0; 
 				A_FadeOut(0.004);
 			}
-		goto Death;
-		Death:
 		stop;
 	}
 }
