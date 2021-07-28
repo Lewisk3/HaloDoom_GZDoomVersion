@@ -59,7 +59,7 @@ class HaloGhost : HaloVehicle
 		Radius 40;
 		Height 40;
 		
-		Mass 800;
+		Mass 300;
 		Health 1000;
 		HaloVehicle.Armored 500;
 		+FLOATBOB; 

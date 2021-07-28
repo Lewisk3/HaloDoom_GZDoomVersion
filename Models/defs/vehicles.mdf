@@ -89,7 +89,7 @@ Model HaloScorpion
    Path "Models/Vehicles/Scorpion"
    Skin 0 "scorpion_body.png" 
    Model 0 "scorpion_base.obj" 
-   Scale 2.0 2.0 2.0
+   Scale 1.5 1.5 1.5
    USEACTORPITCH
    USEACTORROLL
    
@@ -101,7 +101,7 @@ Model Scorpion_TreadFL
    SurfaceSkin 0 0 "scorpion_body.png" 
    SurfaceSkin 0 1 "scorpion_treads.png"
    Model 0 "scorpion_treadFL.obj" 
-   Scale 20.0 20.0 20.0
+   Scale 15.0 15.0 15.0
    USEACTORPITCH
    USEACTORROLL
    
@@ -113,7 +113,7 @@ Model Scorpion_TreadFR
    SurfaceSkin 0 0 "scorpion_body.png" 
    SurfaceSkin 0 1 "scorpion_treads.png"
    Model 0 "scorpion_treadFR.obj" 
-   Scale 20.0 20.0 20.0
+   Scale 15.0 15.0 15.0
    USEACTORPITCH
    USEACTORROLL
    
@@ -125,7 +125,7 @@ Model Scorpion_TreadBL
    SurfaceSkin 0 0 "scorpion_body.png" 
    SurfaceSkin 0 1 "scorpion_treads.png"
    Model 0 "scorpion_treadBL.obj" 
-   Scale 20.0 20.0 20.0
+   Scale 15.0 15.0 15.0
    USEACTORPITCH
    USEACTORROLL
    
@@ -137,7 +137,7 @@ Model Scorpion_TreadBR
    SurfaceSkin 0 0 "scorpion_body.png" 
    SurfaceSkin 0 1 "scorpion_treads.png"
    Model 0 "scorpion_treadBR.obj" 
-   Scale 20.0 20.0 20.0
+   Scale 15.0 15.0 15.0
    USEACTORPITCH
    USEACTORROLL
    
@@ -148,7 +148,7 @@ Model Scorpion_TurretBase
    Path "Models/Vehicles/Scorpion"
    Skin 0 "scorpion_body.png" 
    Model 0 "scorpion_turretbase.obj" 
-   Scale 20.0 20.0 20.0
+   Scale 15.0 15.0 15.0
    USEACTORPITCH
    USEACTORROLL
    
@@ -159,7 +159,7 @@ Model Scorpion_TurretCannon
    Path "Models/Vehicles/Scorpion"
    Skin 0 "scorpion_body.png" 
    Model 0 "scorpion_cannon.obj" 
-   Scale 20.0 20.0 20.0
+   Scale 15.0 15.0 15.0
    USEACTORPITCH
    USEACTORROLL
    

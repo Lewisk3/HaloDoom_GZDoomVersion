@@ -9,7 +9,7 @@ class Scorpion_TurretBase : VehPart
 	
 	override void OnAttach()
 	{
-		cannon = Scorpion_TurretCannon( VehPart.Attach("Scorpion_TurretCannon", base,(50,0,40)) );
+		cannon = Scorpion_TurretCannon( VehPart.Attach("Scorpion_TurretCannon", base,(37,0,30)) );
 		cannon.turretbase = self;
 	}
 	
@@ -86,7 +86,7 @@ class Scorpion_TurretCannon : VehPart
 			double rmax = 1.5;
 			double arecoil = frandom(-rmax, rmax);
 			double precoil = frandom(-rmax, rmax);
-			let proj = HaloMath.FireProjectile("HaloMagnum_Bullet", pos, angle + arecoil, pitch + precoil, 40, 250, 40, 1, 200);
+			let proj = HaloMath.FireProjectile("HaloMagnum_Bullet", pos, angle + arecoil, pitch + precoil, 30, 175, 30, 1, 200);
 			
 			// We need to set the target of this projectile if we want hitmarkers to show up
 			// for the person who shoots it.
@@ -211,7 +211,7 @@ class HaloScorpion : HaloVehicle
 		Radius 200;
 		Height 100;
 	
-		Mass 800;
+		Mass 2400;
 		Health 3000;
 		HaloVehicle.Armored 4000;
 		HaloScorpion.TreadFriction 0.80;
@@ -222,11 +222,11 @@ class HaloScorpion : HaloVehicle
 	{
 		super.BeginPlay();
 		
-		TreadFL = Scorpion_Tread(VehPart.Attach("Scorpion_TreadFL", self, ( 140,-120,0)));
-		TreadFR = Scorpion_Tread(VehPart.Attach("Scorpion_TreadFR", self, ( 140, 120,0)));
-		TreadBL = Scorpion_Tread(VehPart.Attach("Scorpion_TreadBL", self, (-140,-140,0)));
-		TreadBR = Scorpion_Tread(VehPart.Attach("Scorpion_TreadBR", self, (-140, 140,0)));
-		turret = Scorpion_TurretBase(VehPart.Attach("Scorpion_TurretBase", self, (-110,0,100)));
+		TreadFL = Scorpion_Tread(VehPart.Attach("Scorpion_TreadFL", self, ( 105,-90,0)));
+		TreadFR = Scorpion_Tread(VehPart.Attach("Scorpion_TreadFR", self, ( 105, 90,0)));
+		TreadBL = Scorpion_Tread(VehPart.Attach("Scorpion_TreadBL", self, (-105,-105,0)));
+		TreadBR = Scorpion_Tread(VehPart.Attach("Scorpion_TreadBR", self, (-105, 105,0)));
+		turret = Scorpion_TurretBase(VehPart.Attach("Scorpion_TurretBase", self, (-82,0,75)));
 	}
 	
 
@@ -245,7 +245,7 @@ class HaloScorpion : HaloVehicle
 	{
 		if(health <= 0) return;
 		if(user) driver = user;
-		let cam = SetupHaloCamera("ScorpionCamera", dist:-400,200,180,300);
+		let cam = SetupHaloCamera("ScorpionCamera", dist:-300,180,120,280);
 		ReadyDriver(user);
 		SetCrosshair(user, "ScorpRet", (1.0,1.0));
 		A_StartSound("Halo/Scorpion/EngineON", flags:CHANF_OVERLAP);
