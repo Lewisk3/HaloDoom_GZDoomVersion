@@ -80,10 +80,10 @@ class HaloVehicle : VehBase
 		return vehcam;
 	}
 	
-	virtual void DoCollisionDamage(double knockback = 1.0, double dmgmod = 10, Sound hitsound = "")
+	virtual void DoCollisionDamage(double knockback = 1.0, double dmgmod = 30, Sound hitsound = "")
 	{
 		// Process enemies to run over.
-		if(vel.length() > 10)
+		if(vel.length() > 3)
 		{
 			let act_it = ThinkerIterator.Create();
 			Actor roadkill;
@@ -104,10 +104,11 @@ class HaloVehicle : VehBase
 					
 					vector2 hitdir = (cos(hitang), sin(hitang));
 					double force = HaloMath.GetInertia(roadkill.mass) * vel.length() * 1.5;
+					double massmod = (mass/300.0);
 					
 					vel.xy -= hitdir * vel.length() * knockback;
 					roadkill.Thrust(force, angle - hitdiff.x);
-					roadkill.DamageMobj(self, self, vel.length() * dmgmod, "Vehicular", 0, hitang);
+					roadkill.DamageMobj(self, self, vel.length() * dmgmod * massmod, "Vehicular", 0, hitang);
 					if(hitsound) A_StartSound(hitsound, flags:CHANF_OVERLAP);
 				}
 			}

@@ -35,8 +35,8 @@ class TankRocket : FastProjectile
 	{
 		Radius 16;
 		Height 8;
-		Speed 1200;
-		Damage 500;
+		Speed 354 * 3.75;
+		Damage 300;
 		Projectile;
 	}
 	
@@ -69,7 +69,7 @@ class TankRocket : FastProjectile
 				cos(view.x) * cosp,
 				sin(view.x) * cosp,
 				-sin(view.y)
-			) * proj.default.speed;
+			) * ((proj.default.speed / 35) * UNIT_METER); 
 			proj.movedir = proj.vel.Unit();
 			
 			FLineTraceData lt;
@@ -82,7 +82,7 @@ class TankRocket : FastProjectile
 	}
 	
 	
-	void SpawnFX(class<Actor> type, vector3 frompos, double amt, double maxdist, double ydist)
+	void SpawnFX(class<Actor> type, vector3 frompos, double amt, double maxdist, double ydist, int rstyle = -1)
 	{
 		for(int i = 0; i < amt; i++)
 		{
@@ -95,13 +95,33 @@ class TankRocket : FastProjectile
 			) * spawndist;
 			
 			spawndir.z = frandom(-ydist,ydist);
-			Spawn(type, level.vec3offset(frompos, spawndir));
+			let obj = Spawn(type, level.vec3offset(frompos, spawndir));
+			if(rstyle >= 0) obj.A_SetRenderStyle(obj.alpha, rstyle);
 		}
 	}
 	
 	void DoExplosion()
 	{
-		A_Explode(300, 512);
+		A_Explode(250, 512);
+		double maxdist = 512*512;
+		let it = ThinkerIterator.Create();
+		Actor victim;
+		while(victim = Actor(it.Next()))
+		{
+			if(!victim.bISMONSTER) continue;
+			double dist = Distance3DSquared(victim);
+			if(dist <= maxdist && dist > 0)
+			{
+				// Thrust away
+				double ang = AngleTo(victim);
+				double interia = clamp(HaloMath.getInertia(victim.mass), 0.1, 1.0);
+				double force = (dist/maxdist) * 50 * interia;
+
+				victim.vel.xy += AngleToVector(ang, force);
+				victim.vel.z += force*0.25;
+			}
+		}
+		
 		vector3 fxoffs = (-30, 0, 10);
 		fxoffs = HaloMath.V3Offset(angle, pitch, roll, fxoffs.x, fxoffs.y, fxoffs.z, 1.);
 		
@@ -110,6 +130,7 @@ class TankRocket : FastProjectile
 		
 		SpawnFX("TankRocket_MiniExplosion", fxpos, random(5,15), 160, 40);
 		SpawnFX("TankRocket_Smoke", fxpos, random(10,30), 120, 60);
+		SpawnFX("TankRocket_Smoke", fxpos, random(10,30), 80, 60, STYLE_Subtract);
 		
 		// Flying explosions
 		for(int i = 0; i < random(20,30); i++)
@@ -156,6 +177,7 @@ class TankRocket_Explosion : FastActor
 	Default
 	{
 		Scale 4.0;
+	//	Translation "0:255=@[66, 194, 245]";
 	}
 	
 	States
@@ -181,6 +203,7 @@ class TankRocket_Flare : FastActor
 	Default
 	{
 		Scale 2.0;
+	//	Translation "0:255=#[66, 194, 245]";
 	}
 	
 	States

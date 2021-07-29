@@ -86,10 +86,10 @@ class Warthog_TurretBase : VehPart
 		if(!warthog) return;
 		
 		vector2 gunnerangles = (
-			warthog.gunner ? warthog.gunner.angle : base.angle,
-			warthog.gunner ? warthog.gunner.pitch : base.pitch
+			warthog.gunner ? warthog.gunner.angle : angle,
+			warthog.gunner ? warthog.gunner.pitch : pitch
 		);
-		A_SetAngle(gunnerangles.x, SPF_INTERPOLATE);
+		A_SetAngle(gunnerangles.x + warthog.angvel, SPF_INTERPOLATE);
 		A_SetPitch(base.pitch, SPF_INTERPOLATE);
 		
 		gun.A_SetPitch(gunnerangles.y, SPF_INTERPOLATE);
@@ -98,7 +98,27 @@ class Warthog_TurretBase : VehPart
 	override void DoUpdate(VehCamera cam)
 	{
 		let warthog = HaloWarthog(base);
-		if(!warthog || !warthog.gunner) return;
+		if(!warthog) return;
+
+		bool shooting = warthog.gunner ? CheckButtons(BT_ATTACK, VehButtons.BTS_DOWN, warthog.gunner) : false;
+		
+		spinspeed = clamp(spinspeed, 0, 1.0);	
+		if(!shooting && spinspeed > 0.01)
+		{
+			spinspeed *= 0.95;
+			if(spinspeed <= 0.1) spinspeed = 0;
+			if(spinspeed <= 0) A_StartSound("Halo/Warthog/Chaingun/Stop", flags:CHANF_OVERLAP);
+		}
+		if(spinspeed > 0.3) 
+		{
+			A_StartSound("Halo/Warthog/Chaingun/Loop", CHAN_6, flags:CHANF_LOOPING);
+		}
+		else
+		{
+			A_StopSound(CHAN_6);
+		}
+
+		if(!warthog.gunner) return;
 		let gcam = VehCamera(warthog.gunner.player.camera);
 		if(!gcam) return;
 		
@@ -107,8 +127,6 @@ class Warthog_TurretBase : VehPart
 			gcam.SetZoom(1.0, 0.1);
 			cooldown_primary--;
 		}
-		
-		bool shooting = CheckButtons(BT_ATTACK, VehButtons.BTS_DOWN, warthog.gunner);
 		
 		if( shooting && !cooldown_primary )
 		{
@@ -128,19 +146,6 @@ class Warthog_TurretBase : VehPart
 			if(spinspeed <= 0.2) A_StartSound("Halo/Warthog/Chaingun/Start", flags:CHANF_OVERLAP|CHANF_NOSTOP);
 			turretspin += 45;
 		}
-		else if(!shooting && spinspeed > 0.01)
-		{
-			spinspeed *= 0.95;
-			if(spinspeed <= 0.1) spinspeed = 0;
-			if(spinspeed <= 0) A_StartSound("Halo/Warthog/Chaingun/Stop", flags:CHANF_OVERLAP);
-		}
-		
-		if(spinspeed > 0.3) 
-			A_StartSound("Halo/Warthog/Chaingun/Loop", CHAN_6, flags:CHANF_LOOPING);
-		else
-			A_StopSound(CHAN_6);
-		
-		spinspeed = clamp(spinspeed, 0, 1.0);
 	}
 			
 	States

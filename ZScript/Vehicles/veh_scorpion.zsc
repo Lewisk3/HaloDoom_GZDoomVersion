@@ -18,7 +18,7 @@ class Scorpion_TurretBase : VehPart
 		super.UpdatePos(moving);
 		if(!base || !base.driver) return;
 		
-		A_SetAngle(base.driver.angle, SPF_INTERPOLATE);
+		A_SetAngle(HaloMath.LerpAngle(angle, base.driver.angle, 0.15), SPF_INTERPOLATE);
 		A_SetRoll(base.roll, SPF_INTERPOLATE);
 		A_SetPitch(base.pitch, SPF_INTERPOLATE);
 	}
@@ -52,8 +52,8 @@ class Scorpion_TurretCannon : VehPart
 		A_SetRoll(turretbase.roll, SPF_INTERPOLATE);
 		
 		double aimpitch = base.driver ? base.driver.pitch : 0;
-		aimpitch = clamp(aimpitch, -30, 10);
-		A_SetPitch(base.pitch + aimpitch, SPF_INTERPOLATE);
+		aimpitch = clamp(aimpitch, -30, 15);
+		A_SetPitch(HaloMath.Lerp(pitch, base.pitch + aimpitch, 0.25), SPF_INTERPOLATE);
 		
 	}
 		
@@ -74,10 +74,11 @@ class Scorpion_TurretCannon : VehPart
 			TankRocket.Fire(self, (350, 0, 30));
 			A_StartSound("Halo/Scorpion/Fire", CHAN_WEAPON, CHANF_OVERLAP);
 			
-			double kickback = -0.1 * abs(cos(base.angle-angle));
-			tank.AdjustTreads(kickback);
+			double kickback = -0.1 * cos(base.angle-angle);
+			tank.AdjustTreads(kickback, kickback);
 			cam.SetZoom(0.93, 0.5);
 			cam.Quake(20,20,0,0.6);
+			pitch -= 10;
 			
 			cooldown = 70;
 		}
@@ -133,7 +134,9 @@ class Scorpion_Tread : VehPart
 		let tank = HaloScorpion(base);
 		if(!tank) return;
 		
-		rotation *= tank.friction;
+		double tfric = ( 1.0-abs(rotation) ) * 0.05;
+
+		rotation *= (tank.friction + tfric);
 		rotation = clamp(rotation, -1.0, 1.0);
 		
 		double topitch = HaloMath.fmap(rotation, -1.0, 1.0, 0.5, 2.0); 
@@ -160,34 +163,6 @@ class Scorpion_Tread : VehPart
 		Spawn:
 			MODL A 1;
 		loop;
-	}
-}
-
-class ScorpionCamera : HaloVehCamera
-{
-	override void UpdatePos(bool moving)
-	{
-		if(!base) return;
-		if(!source) return;
-		if(!followact) followact = base;
-		
-		double a = source.angle;
-		double p = base.driver.pitch;
-		vector3 followpos = (
-			cos(a) * cos(p),
-			sin(a) * cos(p),
-			-sin(p)
-		) * dist_xy;
-		followpos.z += dist_z;
-		followpos.z = clamp(followpos.z, zmin, zmax);
-		
-		vector3 topos = level.vec3offset(followact.pos, followpos + relposoffs);
-		vector3 curpos = HaloMath.Lerp3D(pos, topos, 0.65);
-		curpos.z += base.GetBobOffset();
-		
-		A_SetAngle(a, SPF_INTERPOLATE);
-		A_SetPitch(p, SPF_INTERPOLATE);
-		SetOrigin(curpos, true);
 	}
 }
 
@@ -245,7 +220,10 @@ class HaloScorpion : HaloVehicle
 	{
 		if(health <= 0) return;
 		if(user) driver = user;
-		let cam = SetupHaloCamera("ScorpionCamera", dist:-300,180,120,280);
+		let cam = SetupHaloCamera("HaloVehCamera", dist:-260,100,40,200);
+		cam.followact = turret;
+		cam.source = driver;
+		
 		ReadyDriver(user);
 		SetCrosshair(user, "ScorpRet", (1.0,1.0));
 		A_StartSound("Halo/Scorpion/EngineON", flags:CHANF_OVERLAP);
@@ -263,13 +241,14 @@ class HaloScorpion : HaloVehicle
 		return (-20,-5,0);
 	}
 	
-	void AdjustTreads(double amt)
+	
+	void AdjustTreads(double left, double right)
 	{
-		TreadFL.rotation += amt;
-		TreadFR.rotation += amt;
-		TreadBL.rotation += amt;
-		TreadBR.rotation += amt;
-	}
+		TreadFL.rotation += left;
+		TreadBL.rotation += left;
+		TreadFR.rotation += right;
+		TreadBR.rotation += right;
+	}	
 	
 	override void DoMove(float forwardmove, float sidemove)
 	{	
@@ -284,8 +263,8 @@ class HaloScorpion : HaloVehicle
 		}
 		if(!driver) return;
 		
-		double movespd = 0.03;
-		double turnspd = 0.05;
+		double movespd = 0.015;
+		double turnspd = 0.050;
 		if(forwardmove || sidemove)
 		{
 			vector2 movedir = (forwardmove, sidemove).Unit();
@@ -293,15 +272,11 @@ class HaloScorpion : HaloVehicle
 			movedir.y *= turnspd;
 			movedir.y *= HaloMath.sign(movedir.x);
 			
-			TreadFL.rotation += movedir.x;
-			TreadFR.rotation += movedir.x;
-			TreadBL.rotation += movedir.x;
-			TreadBR.rotation += movedir.x;
+			// Forward and Back
+			AdjustTreads(movedir.x, movedir.x);
 			
-			TreadFL.rotation += movedir.y;	
-			TreadFR.rotation -= movedir.y;	
-			TreadBL.rotation += movedir.y;	
-			TreadBR.rotation -= movedir.y;	
+			// Left and Right
+			AdjustTreads(movedir.y, -movedir.y);
 		}
 		
 		A_SetAngle(angle + angvel, SPF_INTERPOLATE);
