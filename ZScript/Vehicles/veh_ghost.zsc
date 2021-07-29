@@ -150,7 +150,7 @@ class HaloGhost : HaloVehicle
 			}
 		}
 	
-		double plrangle = HaloMath.LerpAngle(angle, driver.angle, 0.32);
+		double plrangle = HaloMath.LerpAngle(angle, driver.angle, 0.15);
 		A_SetAngle(plrangle, SPF_INTERPOLATE);
 	
 		double spd = 0.55;

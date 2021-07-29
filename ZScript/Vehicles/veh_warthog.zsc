@@ -360,7 +360,7 @@ class HaloWarthog : HaloVehicle
 	{
 		return (cos(tire.trueturn), sin(tire.trueturn));
 	}
-	double GetTireVel(Warthog_Tire tire, double velmod = 0.03)
+	double GetTireVel(Warthog_Tire tire, double velmod = 0.025)
 	{
 		velmod *= HaloMath.fmap(vel.xy.length(), 0, 30, 0.05, 1.0); 
 		return HaloMath.AngleDiff(angle, Tire_TL.angle) * velmod;
@@ -368,14 +368,27 @@ class HaloWarthog : HaloVehicle
 	
 	override void DoMove(float forwardmove, float sidemove)
 	{	
-		vel.xy *= 0.93;
-		accel *= 0.96;
+		if(onground) 
+		{
+			vel.xy *= 0.93;
+			accel *= 0.96;
+		}
+		else
+		{
+			vel.xy *= 0.997;
+			accel *= 0.997;
+		}
 		
 		if(pos.z+vel.z <= floorz && vel.z <= -3) 
 		{
 			A_StartSound("Halo/Warthog/Suspension", flags:CHANF_OVERLAP | CHANF_NOSTOP);
-			double movepenalty = HaloMath.fmap(abs(vel.z), 0, 20, 0.97, 0.25);
+			double movepenalty = HaloMath.fmap(abs(vel.z), 0, 20, 0.98, 0.85);
+			double bounce = clamp(abs(vel.z)/20.0, 0, 1.0) * 20;
+			console.printf("%f", bounce);
+			
 			vel.xy *= movepenalty;
+			vel.z += bounce;
+			pitch -= bounce;
 			throttle *= movepenalty;
 		}
 		
@@ -388,14 +401,13 @@ class HaloWarthog : HaloVehicle
 		else
 			A_StartSound("Halo/Warthog/EngineHum", CHAN_7, CHANF_LOOPING);
 		
-		if(vel.xy.length() > 5)
+		if(abs(accel) > 0.001)
 		{
+			double topitch = HaloMath.fmap(accel, -10.0, 10.0, 0.5, 1.0); 
 			A_StartSound("Halo/Warthog/DriveHum1", CHAN_5, CHANF_LOOPING);
 			A_StartSound("Halo/Warthog/DriveHum2", CHAN_6, CHANF_LOOPING);
-			double topitch = HaloMath.fmap(vel.xy.length(), 0, 20.0, 0.5, 1.0); 
 			A_SoundPitch(CHAN_5, topitch);
 			A_SoundPitch(CHAN_6, topitch);
-			
 		}
 		else
 		{
@@ -429,10 +441,17 @@ class HaloWarthog : HaloVehicle
 		}
 		
 		// Physics
-		double tireforce = 0.50 * throttle;
+		
+		// Apply angular velocity
+		A_SetAngle(angle + angvel, SPF_INTERPOLATE);
+		if(gunner) gunner.A_SetAngle(gunner.angle + angvel, SPF_INTERPOLATE);
+		if(passenger) passenger.A_SetAngle(passenger.angle + angvel, SPF_INTERPOLATE);
+		angvel *= 0.94;
+		
+		if(!onground) return;
 		
 		// Add tire forces for velocities
-		angvel *= 0.90;
+		double tireforce = 0.50 * throttle;
 		if(abs(throttle) > 0)
 		{
 			vel.xy += GetTireDir(Tire_TL) * tireforce;
@@ -443,16 +462,11 @@ class HaloWarthog : HaloVehicle
 			angvel += GetTireVel(Tire_BR) * abs(tireforce);
 		}
 		
-		// Apply angular velocity
-		A_SetAngle(angle + angvel, SPF_INTERPOLATE);
-		if(gunner) gunner.A_SetAngle(gunner.angle + angvel, SPF_INTERPOLATE);
-		if(passenger) passenger.A_SetAngle(passenger.angle + angvel, SPF_INTERPOLATE);
-		
 		// Handle throttle and acceleration.
 		if(forwardmove)
 		{
 			vector2 movedir = (forwardmove, -sidemove).Unit();
-			throttle += movedir.x * 0.02;
+			throttle += movedir.x * 0.03;
 			accel += throttle * 1.5;
 		}
 		else

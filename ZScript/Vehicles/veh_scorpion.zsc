@@ -135,7 +135,6 @@ class Scorpion_Tread : VehPart
 		if(!tank) return;
 		
 		double tfric = ( 1.0-abs(rotation) ) * 0.05;
-
 		rotation *= (tank.friction + tfric);
 		rotation = clamp(rotation, -1.0, 1.0);
 		
@@ -178,6 +177,7 @@ class HaloScorpion : HaloVehicle
 	double angvel;
 	double friction;
 	double throttle;
+	double accel;
 	
 	Property TreadFriction : friction;
 
@@ -197,8 +197,8 @@ class HaloScorpion : HaloVehicle
 	{
 		super.BeginPlay();
 		
-		TreadFL = Scorpion_Tread(VehPart.Attach("Scorpion_TreadFL", self, ( 105,-90,0)));
-		TreadFR = Scorpion_Tread(VehPart.Attach("Scorpion_TreadFR", self, ( 105, 90,0)));
+		TreadFL = Scorpion_Tread(VehPart.Attach("Scorpion_TreadFL", self, ( 100, -95,0)));
+		TreadFR = Scorpion_Tread(VehPart.Attach("Scorpion_TreadFR", self, (  95, 100,0)));
 		TreadBL = Scorpion_Tread(VehPart.Attach("Scorpion_TreadBL", self, (-105,-105,0)));
 		TreadBR = Scorpion_Tread(VehPart.Attach("Scorpion_TreadBR", self, (-105, 105,0)));
 		turret = Scorpion_TurretBase(VehPart.Attach("Scorpion_TurretBase", self, (-82,0,75)));
@@ -253,8 +253,8 @@ class HaloScorpion : HaloVehicle
 	override void DoMove(float forwardmove, float sidemove)
 	{	
 		// Friction
-		vel.xy *= 0.80;
-		angvel *= 0.80;
+		vel.xy *= 0.75;
+		angvel *= 0.75;
 
 		if(health <= 0)  
 		{
@@ -265,6 +265,7 @@ class HaloScorpion : HaloVehicle
 		
 		double movespd = 0.015;
 		double turnspd = 0.050;
+		accel = forwardmove;
 		if(forwardmove || sidemove)
 		{
 			vector2 movedir = (forwardmove, sidemove).Unit();
@@ -276,7 +277,10 @@ class HaloScorpion : HaloVehicle
 			AdjustTreads(movedir.x, movedir.x);
 			
 			// Left and Right
-			AdjustTreads(movedir.y, -movedir.y);
+			int dir = HaloMath.sign(movedir.y);
+			double left  = dir < 0 ? 0.5 : 1.0;
+			double right = dir > 0 ? 0.5 : 1.0;
+			AdjustTreads(movedir.y * left, -movedir.y * right);
 		}
 		
 		A_SetAngle(angle + angvel, SPF_INTERPOLATE);
