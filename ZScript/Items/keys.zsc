@@ -1,6 +1,6 @@
 const HKEY_REDMSG     = "$GOTREDCARD";
 const HKEY_BLUEMSG    = "$GOTBLUECARD";
-const HKEY_YELLOWMSG  = "$GOTYELLOWCARD";
+const HKEY_YELLOWMSG  = "$GOTYELWCARD";
 const HCKEY_REDMSG    = "Picked up the red index.";
 const HCKEY_BLUEMSG   = "Picked up the blue index.";
 const HCKEY_YELLOWMSG = "Picked up the yellow index.";
