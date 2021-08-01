@@ -96,7 +96,7 @@ class Halo_AssaultRifle : HaloGun replaces Chaingun
 	{
 		Sound reload_snd = "Halo/Weapons/Rifle/Reload/Full";
 		if(!CountLoadedAmmo()) reload_snd = "Halo/Weapons/Rifle/Reload/Empty";
-		A_WeapSound(reload_snd, CHANF_OVERLAP);
+		A_StartSound(reload_snd, CHAN_RELOADING, CHANF_OVERLAP);
 	}
 	
 	action void A_LCDOffset(double x, double y)

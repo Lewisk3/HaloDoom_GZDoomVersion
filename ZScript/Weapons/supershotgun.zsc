@@ -168,7 +168,7 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 		
 		Reload:
 			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
-			TNT1 A 0 A_StartSound("Halo/Weapons/SuperShotgun/Reload",CHAN_WEAPON,CHANF_OVERLAP);
+			TNT1 A 0 A_StartSound("Halo/Weapons/SuperShotgun/Reload", CHAN_RELOADING, CHANF_OVERLAP);
 			DBR1 AAAAABCDEFGHIJKLLLLMNOPQR 1;
 			DBR1 S 1
 			{	

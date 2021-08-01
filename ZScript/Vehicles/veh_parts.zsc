@@ -500,3 +500,61 @@ class VehCamera : VehPart
 		}
 	}
 }
+
+class VehLight : Spotlight
+{
+	Color col;
+	vector3 aperture;
+	Actor emitter;
+	vector3 posoffs;
+	vector3 viewoffs;
+	double distoffs;
+
+	Default
+	{
+	  +NOINTERACTION
+	  +NOGRAVITY
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		if(!emitter)
+		{
+			Destroy();
+			return;
+		}
+		
+		// Update settings.
+		args[LIGHT_RED] = col.r;
+		args[LIGHT_GREEN] = col.g;
+		args[LIGHT_BLUE] = col.b;
+		args[LIGHT_INTENSITY] = aperture.x;
+		SpotInnerAngle = aperture.y;
+		SpotOuterAngle = aperture.z;
+		
+		// Update position
+		vector3 followpos = HaloMath.RelativeV3Offset(emitter, viewoffs.x, viewoffs.y, viewoffs.z, posoffs.x, posoffs.y, posoffs.z, distoffs);
+		SetOrigin(followpos, true);
+		
+		// Update angles
+		A_SetAngle(emitter.angle + viewoffs.x, SPF_INTERPOLATE);
+		A_SetPitch(emitter.pitch + viewoffs.y, SPF_INTERPOLATE);
+		A_SetRoll(emitter.roll + viewoffs.z, SPF_INTERPOLATE);
+	}
+	
+	static VehLight Attach(Actor source, Color col = 0xFFFFFFFF, vector3 intense_in_out = (350, 16, 32), vector3 offset = (0,0,0), double dist = 1.0, vector3 angles = (0,0,0))
+	{
+		let light = VehLight(Actor.Spawn("VehLight", source.pos));
+		if(light)
+		{
+			light.col = col;
+			light.aperture = intense_in_out;
+			light.emitter = source;
+			light.posoffs = offset;
+			light.distoffs = dist;
+			light.viewoffs = angles;
+		}
+		return light;
+	}
+}

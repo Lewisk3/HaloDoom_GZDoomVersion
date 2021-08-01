@@ -145,7 +145,7 @@ class Halo_Magnum : HaloGun replaces Pistol
 			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
 			TNT1 A 0 A_ScopeDisable();
 			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Reload.Empty");
-			TNT1 A 0 A_WeapSound("Halo/Weapons/Mag_MD6/Reload", CHANF_OVERLAP);
+			TNT1 A 0 A_StartSound("Halo/Weapons/Mag_MD6/Reload", CHAN_RELOADING, CHANF_OVERLAP);
 			MAR1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1;
 			MAR2 ABCD 1;
 			MAR2 E 1 A_ReloadClip();

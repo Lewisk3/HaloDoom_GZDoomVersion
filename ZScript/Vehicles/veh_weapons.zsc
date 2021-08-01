@@ -287,7 +287,7 @@ class TankRocket_Smoke : FastActor
 		SpawnLoop:
 			SMK5 "#" 1
 			{
-				vel.z += upforce;
+				vel.z += upforce * 0.5;
 				A_FadeOut(0.004);
 			}
 		wait;
@@ -340,19 +340,21 @@ class TankRocket_MiniExplosion : TankRocket_Smoke
 			TNT1 A 0 A_JumpIf(random(0,2)==2, "SpawnLoop_Two");
 			TNT1 A 0 A_SetScale(frandom(2.0, 3.0));
 		SpawnLoop_One:
-			FX58 ABCDEFGHIJKLMNOPQ 2 Bright
+			FX58 AAABCDEFGHIJKLMNOP 2 Bright
 			{
-				vel.z += upforce * 10.0; 
+				vel.z += upforce * 5.0; 
 				A_FadeOut(0.003);
 			}
+			FX58 Q 2 Bright A_FadeOut(0.004);
 		stop;
 		
 		SpawnLoop_Two:
-			FRME ABCDEFGHIJKLMNOPQRS 2 Bright
+			FRME AAAABCDEFGHIJKLMNOPQR 2
 			{
-				vel.z += upforce * 4.0; 
+				vel.z += upforce * 2.0; 
 				A_FadeOut(0.004);
 			}
+			TNT1 A 0 A_Jump(128, "SpawnLoop_One");
 		stop;
 	}
 }

@@ -18,9 +18,11 @@ class HaloGun : RecoilWeapon
 	double rotation_range;
 	double rotation_sens;
 	bool donefirstdrawanim; 
+	bool punching; // Keep track of melee stuff.
 	
 	// UI Stuff
 	const SIGHT_OVERLAY = 0xFF;
+	const MELEE_OVERLAY = 0xA0;
 	string wcrosshair;
 	string UI_Icon;
 	string UI_Sight;
@@ -33,6 +35,7 @@ class HaloGun : RecoilWeapon
 	int zoom_btnstate;
 	
 	// Sound Effects
+	const CHAN_RELOADING = CHAN_7;
 	Sound snd_zoomin;
 	Sound snd_zoomout;
 	
@@ -266,6 +269,7 @@ class HaloGun : RecoilWeapon
 		
 		if(!CheckWeaponSelected()) 
 		{
+			if(punching) punching = false;
 			if(backpack_reloading)
 			{
 				backpack_reloadtimer--;
@@ -285,7 +289,7 @@ class HaloGun : RecoilWeapon
 			return;
 		}
 		if(!Owner.player) return;
-		
+				
 		// Get useful data
 		uint btns = Owner.player.cmd.buttons;
 		uint oldbtns = Owner.player.oldbuttons;
@@ -328,6 +332,14 @@ class HaloGun : RecoilWeapon
 		
 		// De-scope if reload detected.
 		if(inreload && zoomed) enablezoom = false;
+		
+		// Melee attack
+		if(A_ButtonStatus(BT_USER2, BTS_PRESSED, Owner) && !punching)
+		{
+			Owner.A_StopSound(CHAN_RELOADING);
+			Owner.player.SetPSprite(MELEE_OVERLAY, FindState("DoMelee"));
+			if(inreload) psp.SetState(FindState("Ready.Active"));
+		}
 		
 		// Force weapon to be deselected.
 		if(force_deselect && !InStateSequence(psp.CurState,FindState("Deselect")))
@@ -482,6 +494,7 @@ class HaloGun : RecoilWeapon
 	// or if no reserve ammo is found.
 	action state A_ValidateReload(StateLabel fallback="Ready")
 	{
+		if(invoker.punching) return ResolveState(fallback);
 		let rammo = GetDefaultByType(invoker.AmmoType2);
 		if(countinv(invoker.AmmoType2) == rammo.maxamount || countinv(invoker.AmmoType1) == 0)
 			return ResolveState(fallback);
@@ -535,6 +548,14 @@ class HaloGun : RecoilWeapon
 	{
 		return A_GetWeapYOffs() > 0;
 	}
+	action void A_BeginMelee()
+	{
+		invoker.punching = true;
+	}
+	action void A_FinishMelee()
+	{
+		invoker.punching = false;
+	}
 	
 	// Custom lower and raise.
 	action void A_GunLower(int speed = 32)
@@ -563,6 +584,11 @@ class HaloGun : RecoilWeapon
 		WaitState:
 			"####" "#" 1;
 		loop;
+		
+		DoMelee:
+			TNT1 A 0 A_BeginMelee();
+			TNT1 A 0 A_FinishMelee();
+		stop;
 		
 		Scope.Ready:
 			TNT1 A 1

@@ -79,6 +79,7 @@ class Scorpion_TurretCannon : VehPart
 			cam.SetZoom(0.93, 0.5);
 			cam.Quake(20,20,0,0.6);
 			pitch -= 10;
+			tank.driver.pitch -= 3;
 			
 			cooldown = 70;
 		}
@@ -155,6 +156,8 @@ class Scorpion_Tread : VehPart
 				
 		A_SetAngle(base.angle, SPF_INTERPOLATE);
 		A_SetRoll(base.roll, SPF_INTERPOLATE);
+		
+		if(rotation >= 0.2) tank.driver.A_AlertMonsters(2048, AMF_TARGETEMITTER);
 	}
 		
 	States
@@ -183,7 +186,7 @@ class HaloScorpion : HaloVehicle
 
 	Default
 	{
-		Radius 200;
+		Radius 150;
 		Height 100;
 	
 		Mass 2400;

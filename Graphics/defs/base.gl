@@ -4,6 +4,11 @@ pointlight YellowPointLight
     color 5.0 5.0 0.0
     size 16
 }
+pointlight BigYellowPointLight
+{
+    color 5.0 5.0 0.0
+    size 48
+}
 pointlight TinyYellowPointLight
 {
     color 5.0 5.0 0.0
@@ -14,6 +19,12 @@ pointlight OrangePointLight
     color 1.0 0.5 0.0
     size 16
 }
+pointlight BigOrangePointLight
+{
+    color 1.0 0.5 0.0
+    size 48
+}
+
 pointlight BlueBrightLight
 {
     color 0.0 0.0 1.0
@@ -96,4 +107,16 @@ brightmap sprite PWSHA0 {
 }
 brightmap sprite PWSHB0 {
 	map PWSBA0
+}
+
+// Explosions
+object TankRocket_MiniExplosion 
+{
+	Frame FRME { light BigOrangePointLight }
+	Frame FX58 { light BigYellowPointLight }
+}
+
+object TankRocket_Explosion 
+{
+	Frame SX04 { light BigYellowPointLight }
 }

@@ -5,7 +5,7 @@ class HitMarkerQueued : Object
 	class<HitMarker> type;
 	static HitMarkerQueued Queue(uint layer, class<HitMarker> hm)
 	{
-		let hitmobj = HitMarkerQueued(new("HitMarkerQueued"));
+		let hitmobj = new("HitMarkerQueued");
 		if(hitmobj)
 		{
 			hitmobj.qlayer = layer;

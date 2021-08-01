@@ -74,7 +74,7 @@ class Halo_BattleRifle : HaloGun replaces PlasmaRifle
 	{
 		Sound reload_snd = "Halo/Weapons/BattleRifle/Reload/Full";
 		if(!CountLoadedAmmo()) reload_snd = "Halo/Weapons/BattleRifle/Reload/Empty";
-		A_WeapSound(reload_snd, CHANF_OVERLAP);
+		A_StartSound(reload_snd, CHAN_RELOADING, CHANF_OVERLAP);
 	}
 	
 	States

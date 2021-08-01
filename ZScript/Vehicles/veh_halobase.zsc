@@ -11,13 +11,23 @@ class HaloVehCamera : VehCamera
 		if(!source) return;
 		if(!followact) followact = base;
 		
+		double maxdist = dist_xy;
+		FLineTraceData lndata;
+		followact.LineTrace(source.angle,dist_xy,0,TRF_THRUACTORS|TRF_THRUBLOCK|TRF_ABSOFFSET,dist_z+sin(source.pitch),0,0,lndata);
+		if( lndata.HitType == lndata.TRACE_HitWall    || 
+		    lndata.HitType == lndata.TRACE_HitCeiling || 
+			lndata.HitType == TRACE_HitFloor			  ) 
+		{
+			maxdist = lndata.Distance;
+		}		
+		
 		double a = source.angle;
 		double p = source.pitch;
 		vector3 followpos = (
 			cos(a) * cos(p),
 			sin(a) * cos(p),
 			-sin(p)
-		) * dist_xy;
+		) * maxdist;
 		followpos.z += dist_z;
 		followpos.z = clamp(followpos.z, zmin, zmax);
 		
