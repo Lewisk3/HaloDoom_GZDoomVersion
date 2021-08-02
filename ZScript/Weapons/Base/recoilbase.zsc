@@ -22,6 +22,7 @@ class RecoilWeapon : Weapon
 	
 	Vector2 weapsway;
 	Vector2 staticoffs;
+	Vector2 curstaticoffs;
 
 	property RecoilSpeed : deftimer;
 	property LookSway : usesway, velsway, swayspd;
@@ -192,11 +193,13 @@ class RecoilWeapon : Weapon
 			invoker.realoffsy = clamp(invoker.realoffsy, yrange.x, yrange.y);
 		}
 		
+		invoker.curstaticoffs.x = HaloMath.Lerp(invoker.curstaticoffs.x, invoker.staticoffs.x, 0.35);
+		invoker.curstaticoffs.y = HaloMath.Lerp(invoker.curstaticoffs.y, invoker.staticoffs.y, 0.35);
 		if( invoker.realoffsx == invoker.woffsx && invoker.realoffsy == invoker.woffsy+wyoffs) 
 		{
 			vector2 finaloffs = (
-				invoker.weapsway.x+invoker.staticoffs.x,
-				32 + invoker.weapsway.y+invoker.staticoffs.y
+				invoker.weapsway.x+invoker.curstaticoffs.x,
+				32 + invoker.weapsway.y+invoker.curstaticoffs.y
 			);
 			if(!invoker.swapping)ptr.A_WeaponOffset(finaloffs.x, finaloffs.y);
 			return;
@@ -208,8 +211,8 @@ class RecoilWeapon : Weapon
 		if(diffy < 0.1) invoker.realoffsy = invoker.woffsy;
 
 		vector2 finaloffs = (
-			invoker.realoffsx+invoker.weapsway.x+invoker.staticoffs.x,
-			32 + invoker.realoffsy+invoker.weapsway.y+invoker.staticoffs.y
+			invoker.realoffsx+invoker.weapsway.x+invoker.curstaticoffs.x,
+			32 + invoker.realoffsy+invoker.weapsway.y+invoker.curstaticoffs.y
 		);
 		ptr.A_WeaponOffset(finaloffs.x, finaloffs.y);
 		

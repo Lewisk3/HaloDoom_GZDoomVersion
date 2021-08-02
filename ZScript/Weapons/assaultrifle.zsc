@@ -186,8 +186,7 @@ class Halo_AssaultRifle : HaloGun replaces Chaingun
 				A_SetFrame(floor(countinv(invoker.AmmoType2)/10.), LCD_LLayer);
 				A_FollowRotatedPos(LCD_LLayer, PSP_WEAPON, (30,0));
 				A_FollowRotation(LCD_LLayer, PSP_WEAPON);
-				double yoffs = (invoker.staticoffs.y*0.7);
-				A_OverlayOffset(LCD_LLayer, invoker.lcd_offs.x, invoker.lcd_offs.y-yoffs, WOF_ADD);
+				A_OverlayOffset(LCD_LLayer, invoker.lcd_offs.x, invoker.lcd_offs.y, WOF_ADD);
 			}
 		loop;
 		// Ammo 1s count
@@ -197,8 +196,7 @@ class Halo_AssaultRifle : HaloGun replaces Chaingun
 				A_SetFrame(floor(countinv(invoker.AmmoType2)%10.), LCD_RLayer);
 				A_FollowRotatedPos(LCD_RLayer, PSP_WEAPON, (30,0));
 				A_FollowRotation(LCD_RLayer, PSP_WEAPON);
-				double yoffs = (invoker.staticoffs.y*0.7);
-				A_OverlayOffset(LCD_RLayer, invoker.lcd_offs.x, invoker.lcd_offs.y-yoffs, WOF_ADD);
+				A_OverlayOffset(LCD_RLayer, invoker.lcd_offs.x, invoker.lcd_offs.y, WOF_ADD);
 			}
 		loop;
 		
@@ -210,8 +208,7 @@ class Halo_AssaultRifle : HaloGun replaces Chaingun
 				A_OverlayPivotAlign(LCD_CLayer, PSPA_CENTER, PSPA_CENTER);
 				A_OverlayPivot(LCD_CLayer, 0, 0.18);
 				A_OverlayRotate(LCD_CLayer, angle-90, WOF_INTERPOLATE);
-				double yoffs = (invoker.staticoffs.y*0.7);
-				A_OverlayOffset(LCD_CLayer, invoker.lcd_offs.x, invoker.lcd_offs.y-yoffs, WOF_ADD);
+				A_OverlayOffset(LCD_CLayer, invoker.lcd_offs.x, invoker.lcd_offs.y, WOF_ADD);
 			}
 		loop;
 		

@@ -157,7 +157,8 @@ class Scorpion_Tread : VehPart
 		A_SetAngle(base.angle, SPF_INTERPOLATE);
 		A_SetRoll(base.roll, SPF_INTERPOLATE);
 		
-		if(rotation >= 0.2) tank.driver.A_AlertMonsters(2048, AMF_TARGETEMITTER);
+		if(rotation >= 0.2 && tank.driver) 
+			tank.driver.A_AlertMonsters(2048, AMF_TARGETEMITTER);
 	}
 		
 	States
@@ -262,6 +263,7 @@ class HaloScorpion : HaloVehicle
 		if(health <= 0)  
 		{
 			if(driver) RemoveDriver(driver, GetExitPos(driver));
+			Destroy();
 			return;
 		}
 		if(!driver) return;

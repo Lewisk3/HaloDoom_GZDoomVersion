@@ -209,13 +209,11 @@ class HaloProjectile : FastProjectile
 		super.PostBeginPlay();
 	}
 	
-	/*
 	override void Tick()
 	{
 		super.Tick();
 		if(target) SetOrigin(Vec3Offset(target.vel.x,target.vel.y,target.vel.z), true);
 	}
-	*/
 }
 
 class NeedleCounter : Inventory

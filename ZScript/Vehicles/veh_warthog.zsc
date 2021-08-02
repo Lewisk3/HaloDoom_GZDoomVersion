@@ -461,6 +461,7 @@ class HaloWarthog : HaloVehicle
 		{
 			if(driver) RemoveDriver(driver, GetExitPos(driver));
 			if(gunner) RemoveDriver(gunner, GetExitPos(gunner));
+			Destroy();
 			return;
 		}
 		if(!driver) return;

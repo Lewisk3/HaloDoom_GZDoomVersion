@@ -126,10 +126,8 @@ class HaloGhost : HaloVehicle
 		
 		if(health <= 0)  
 		{
-			if(driver) 
-				RemoveDriver(driver, GetExitPos(driver));
-			else 
-				ExplodeGhost();
+			if(driver) RemoveDriver(driver, GetExitPos(driver)); 
+			ExplodeGhost();
 			return;
 		}
 		if(!driver) return;
