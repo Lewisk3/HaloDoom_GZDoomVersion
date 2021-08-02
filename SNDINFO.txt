@@ -66,6 +66,21 @@ Halo/Powerup/Time    "Sounds/Items/power_time.wav"
 Halo/Powerup/Shield1 "Sounds/Items/power_shield1.wav"
 Halo/Powerup/Shield2 "Sounds/Items/power_shield2.wav"
 
+// Melee
+Halo/Melee/Punch1 "Sounds/Melee/PunchHit1.wav"
+Halo/Melee/Punch2 "Sounds/Melee/PunchHit2.wav"
+Halo/Melee/Punch3 "Sounds/Melee/PunchHit3.wav"
+Halo/Melee/Knife1 "Sounds/Melee/KnifeHit1.wav"
+Halo/Melee/Knife2 "Sounds/Melee/KnifeHit2.wav"
+Halo/Melee/Swing1 "Sounds/Melee/MeleeSwing1.wav"
+Halo/Melee/Swing2 "Sounds/Melee/MeleeSwing2.wav"
+Halo/Melee/Swing3 "Sounds/Melee/MeleeSwing3.wav"
+Halo/Melee/Ouch   "Sounds/Melee/MeleeMiss.wav"
+
+$random Halo/Melee/Punch { Halo/Melee/Punch1 Halo/Melee/Punch2 Halo/Melee/Punch3 }
+$random Halo/Melee/Swing { Halo/Melee/Swing1 Halo/Melee/Swing2 Halo/Melee/Swing3 }
+$random Halo/Melee/Knife { Halo/Melee/Knife1 Halo/Melee/Knife2 Halo/Melee/Knife3 }
+
 // Magnum
 HW_MAGF1 HW_MAGF1
 HW_MAGF2 HW_MAGF2
@@ -234,4 +249,5 @@ Shield/Explode shexp
 Shield/Warning shbip
 Shield/Low shlow
 
-$volume Shield/Low 0.5
+$volume Shield/Warning 0.7
+$volume Shield/Low 0.25

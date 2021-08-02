@@ -87,13 +87,20 @@ class HaloGun : RecoilWeapon
 		WeaponPickupProxy.BecomeWeaponProxy(self);
 	}
 	
+	action double A_CheckMeleeRange(double maxrange = 512)
+	{
+		FLineTraceData lt;
+		LineTrace(angle, maxrange, pitch, 0, player.viewheight, data:lt);
+		return lt.Distance;
+	}
+	
 	action Actor A_HaloMelee(int damage, double range = 48, vector2 fpthrust = (12,5), Sound hitsnd = "", Sound wallsnd = "")
 	{
 		FLineTraceData lt;
 		LineTrace(angle, range, pitch, 0, player.viewheight, data:lt);
 		Actor victim = lt.HitActor;
 		
-		if(victim && victim.bSHOOTABLE) 
+		if(victim && (victim.bISMONSTER || victim.player) && victim.bSHOOTABLE) 
 		{
 			double inertia = HaloMath.GetInertia(victim.mass);
 			victim.DamageMobJ(invoker, self, damage, "Melee", 0, angle);
@@ -318,6 +325,8 @@ class HaloGun : RecoilWeapon
 			return;
 		}
 		if(!Owner.player) return;
+		let vehman = Veh_Manager(Owner.FindInventory("Veh_Manager"));
+		if(vehman && vehman.disableweaps) return;
 				
 		// Get useful data
 		uint btns = Owner.player.cmd.buttons;
@@ -617,62 +626,69 @@ class HaloGun : RecoilWeapon
 		loop;
 		
 		DoMelee:
-			// TNT1 A 0 A_Jump(128, "DoMelee.Swipe");
+			TNT1 A 0 A_JumpIf(A_CheckMeleeRange() <= 64, "DoMelee.Swipe");
 			TNT1 A 0 
 			{
 				A_BeginMelee();
+				A_StartSound("Halo/Melee/Swing", flags:CHANF_OVERLAP);
 				A_OverlayFlags(OverlayID(), PSPF_ADDBOB|PSPF_ADDWEAPON, 0);
 				A_OverlayOffset(OverlayID(), -80, 130);
 			}
 			MELE CCC 1 
 			{
 				A_OverlayOffset(OverlayID(), 28, -28, WOF_ADD | WOF_INTERPOLATE);
+				// Remove this check for melee boost, lets you gain stupid speeds.
+				if(A_CheckMeleeRange() < 128) A_Recoil(-5); 
 				A_SetRecoil(0.4, 0.8, 3);
 			}
 			MELE C 12 
 			{
 				A_SetRecoil(3.30, 3.60, 1);
-				A_HaloMelee(30, 64);
+				A_HaloMelee(30, 70, hitsnd:"Halo/Melee/Punch", "Halo/Melee/Ouch");
 			}
 			MELE CCCC 1 
 			{
 				A_OverlayOffset(OverlayID(), -24, 24, WOF_ADD | WOF_INTERPOLATE);
 				A_SetRecoil(-0.3, -0.6, 5);
 			}
+			MELE C 5;
 			TNT1 A 0 A_FinishMelee();
 		stop;
 		DoMelee.Swipe:
 			TNT1 A 0 
 			{
 				A_BeginMelee();
-				A_OverlayOffset(OverlayID(), 0, 80);
+				A_StartSound("Halo/Melee/Swing", flags:CHANF_OVERLAP);
+				A_OverlayFlags(OverlayID(), PSPF_ADDBOB|PSPF_ADDWEAPON, 0);
+				A_OverlayOffset(OverlayID(), 40, 130);
 			}
-			MELE AAA 1 
+			MELE AA 1 
 			{
-				A_OverlayOffset(OverlayID(), 10, -15, WOF_ADD | WOF_INTERPOLATE);
+				A_OverlayOffset(OverlayID(), -20, -20, WOF_ADD | WOF_INTERPOLATE);
 				A_SetRecoil(0.4, 0.50, 3);
 			}
-			MELE BBB 1 
+			MELE BB 1 
 			{
-				A_OverlayOffset(OverlayID(), 15, -8, WOF_ADD | WOF_INTERPOLATE);
+				A_OverlayOffset(OverlayID(), -25, -12, WOF_ADD | WOF_INTERPOLATE);
 				A_SetRecoil(0.4, -1.25, 3);
 			}
 			MELE BB 1 
 			{
-				A_OverlayOffset(OverlayID(), -15, -8, WOF_ADD | WOF_INTERPOLATE);
+				A_OverlayOffset(OverlayID(), 35, -12, WOF_ADD | WOF_INTERPOLATE);
 				A_SetRecoil(0.3, -0.80, 2);
 			}
 			MELE CC 1 
 			{
-				A_OverlayOffset(OverlayID(), -25, 0, WOF_ADD | WOF_INTERPOLATE);
-				A_SetRecoil(-0.2, -0.50, 2);
-				A_HaloMelee(30, 64);
+				A_OverlayOffset(OverlayID(), 35, 0, WOF_ADD | WOF_INTERPOLATE);
+				A_SetRecoil(-2.0, -3.50, 1);
+				A_HaloMelee(20, 32, hitsnd:"Halo/Melee/Knife", "Halo/Melee/Ouch");
 			}
-			MELE CCCCC 1 
+			MELE CCCC 1 
 			{
-				A_OverlayOffset(OverlayID(), -15, 15, WOF_ADD | WOF_INTERPOLATE);
+				A_OverlayOffset(OverlayID(), 18, 18, WOF_ADD | WOF_INTERPOLATE);
 				A_SetRecoil(-0.4, -0.30, 5);
 			}
+			MELE CCCCC 1 A_SetRecoil(0.4, 0.80, 1);
 			TNT1 A 0 A_FinishMelee();
 		stop;
 		

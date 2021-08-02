@@ -11,6 +11,12 @@ class HaloSniper_Bullet : HaloBullet
 {
 	Default
 	{
+		Radius 8;
+		Height 4;
+	}
+	
+	Default
+	{
 		DamageType "SSG";
 		HaloProjectile.SetRanges SNIPER_RANGE1, SNIPER_RANGE2;
 		HaloProjectile.MinRangeDamage SNIPER_MINDMG; 

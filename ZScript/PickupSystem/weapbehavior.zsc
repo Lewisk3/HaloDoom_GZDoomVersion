@@ -32,15 +32,14 @@ class WeaponPickupProxy : Actor
 	int clipammo;
 	int use_hold; // How many tics the USE key has been down for.
 	
-	double visiblefov;
 	double visibledist;
-	Property VisibleParams : visiblefov, visibledist;
+	Property PickupRange : visibledist;
 	
 	Default
 	{
 		Radius PICKUP_RANGE*0.25;
 		Height PICKUP_RANGE;
-		WeaponPickupProxy.VisibleParams PICKUP_FOV, PICKUP_RANGE*2.;
+		WeaponPickupProxy.PickupRange PICKUP_RANGE*2.;
 	}
 	
 	static WeaponPickupProxy BecomeWeaponProxy(Weapon source, bool noammogive = false)
@@ -124,11 +123,8 @@ class WeaponPickupProxy : Actor
 		while(act = HaloPlayer(it.Next()))
 		{
 			// If player is colliding with a weaponproxy item, and looking at it.
-			if( Distance2DSquared(act) <= pickup_dist && 
-			    act.pos.z >= pos.z && 
-			    act.pos.z <= pos.z+(PICKUP_RANGE*distmod) )
+			if( Distance3DSquared(act) <= pickup_dist )
 			{
-				
 				CVar mustsee = CVar.GetCVar("pickup_checksight", act.player);
 				if(mustsee && mustsee.GetBool())
 				{
