@@ -149,7 +149,7 @@ class WeaponPickupProxy : Actor
 		while(curpickup = WeaponPickupProxy(it.Next()))
 		{
 			if(curpickup == self) continue;
-			double curdist = Distance3DSquared(curpickup);
+			double curdist = Distance2DSquared(curpickup);
 			if(curdist > (radius*radius)) continue;
 			double angto = frandom(0,360);
 			vector2 outpos = (
@@ -162,20 +162,21 @@ class WeaponPickupProxy : Actor
 		
 	override void Tick()
 	{
-		SetOrigin((pos.x,pos.y,floorz),true);
-		super.Tick();
-		
+		if(pos.z != floorz) SetOrigin((pos.x,pos.y,floorz), true);
+
 		ProcessPickupCollision();
 		bool hasweap = !plr ? false : plr.countinv(trueitem);
 		CheckPlrCollide(hasweap ? 0.5 : 1.0);
 		if(!plr || !plr.player) return;
 			
 		// If invalid sprite, use default.
-		if(sprite == GetSpriteIndex("TNT1") || !sprite) 
-		{
-			sprite = GetSpriteIndex(NOWEAPSPR);
-			frame = 0;
-		}
+		/*
+			if(sprite == GetSpriteIndex("TNT1") || !sprite) 
+			{
+				sprite = GetSpriteIndex(NOWEAPSPR);
+				frame = 0;
+			}
+		*/
 		
 		// Process pickup
 		bool isaimweap = (plr.pickuptarget == self);
@@ -242,7 +243,7 @@ class WeaponPickupProxy : Actor
 	{
 		Spawn:
 			"####" "#" 1;
-		loop;
+		stop;
 	}
 }
 

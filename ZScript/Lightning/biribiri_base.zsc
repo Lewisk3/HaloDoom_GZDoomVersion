@@ -128,3 +128,13 @@ class LightningActor : Actor abstract
 		}
 	}
 }
+
+class LightningLight : LightningActor
+{
+	States
+	{
+		Spawn:
+			TNT1 A 3;
+		stop;
+	}
+}

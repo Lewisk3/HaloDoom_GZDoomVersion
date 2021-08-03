@@ -43,12 +43,12 @@ class LaserEmitter : Actor
 	{
 		FLineTraceData lt;
 		if(!laser_on || !activelaser)
-			LineTrace(angle, maxdist, pitch, flags,0, source.radius+16,0, lt);
+			LineTrace(angle, maxdist, pitch, flags, 0, source.radius+16, data:lt);
 		else
-			LineTrace(activelaser.angle, maxdist, activelaser.pitch-90, flags,0, source.radius+16,0, lt);
+			LineTrace(activelaser.angle, maxdist, activelaser.pitch-90, flags, 0, source.radius+16, data:lt);
 		aimpos = lt.HitLocation;
-		aimactor = lt.HitActor;
-		return lt.Distance;
+		aimactor = lt.HitActor;		
+		return lt.Distance-(source.radius+16);
 	}
 	
 	override void OnDestroy()
@@ -99,10 +99,10 @@ class LaserEmitter : Actor
 		return lasersource;
 	}
 
-	Laser Fire(class<Laser> parts, class<Actor> puff = "", int maxdist = int.max, uint ltflags = 0, bool predict = false)
+	Laser Fire(class<Laser> parts, class<Actor> puff = "", int maxdist = int.max, uint ltflags = 0, bool predict = false, bool fixed_dist = false)
 	{
 		if(!source) return null;
-		curdist = GetDist(ltflags, maxdist);	
+		curdist = fixed_dist ? maxdist : GetDist(ltflags, maxdist);	
 		//vel.xy = source.vel.xy;
 		Actor spwnpuff;
 		if(puff)
@@ -142,18 +142,37 @@ class LaserEmitter : Actor
 class Laser : Actor
 {
 	LaserEmitter emitter;
+	vector3 spawnpos;
 	Actor aimpuff;
 	double dist;
 	bool predictaim;
+	bool bStatic;
+	
+	double interspd;
+	Property Interpolation : interspd;
 	
 	Default
 	{	
 		+NOINTERACTION;
 		+INTERPOLATEANGLES;
+		Laser.Interpolation 0.5;
 		Radius 6;
 	}
 
-	virtual void AdjustLaser() {}
+	virtual void AdjustLaser() 
+	{
+		bInvisible = GetAge() <= 1;
+	}
+
+	override void PostBeginPlay()
+	{
+		super.PostBeginPlay();
+		
+		vector2 toangles = (emitter.angle, emitter.pitch+90);
+		A_SetAngle(toangles.x, SPF_INTERPOLATE);
+		A_SetPitch(toangles.y, SPF_INTERPOLATE);
+		spawnpos = pos;
+	}
 
 	override void Tick() 
 	{
@@ -166,28 +185,35 @@ class Laser : Actor
 		AdjustLaser();
 		
 		// Carefully follow emitter.
-		vector2 paim = (0,0);
-		if(predictaim) paim = emitter.viewvel;
-		vector2 toangles = (emitter.angle + paim.x, emitter.pitch+90 + paim.y);
+		if(!bStatic)
+		{
+			vector2 paim = (0,0);
+			if(predictaim) paim = emitter.viewvel;
+			vector2 toangles = (emitter.angle + paim.x, emitter.pitch+90 + paim.y);
+			
+			A_SetAngle(HaloMath.Lerp(angle, toangles.x, interspd), SPF_INTERPOLATE);
+			A_SetPitch(HaloMath.Lerp(pitch, toangles.y, interspd), SPF_INTERPOLATE);
+		}
 		
-		A_SetAngle(HaloMath.Lerp(angle, toangles.x, 0.5), SPF_INTERPOLATE);
-		A_SetPitch(HaloMath.Lerp(pitch, toangles.y, 0.5), SPF_INTERPOLATE);
-		
-		double cosp = cos(pitch-90);
-		double dist_desired = emitter.curdist/2.;
-		vector3 posdir = (
-			cos(angle) * cosp,
-			sin(angle) * cosp,
-			sin(pitch+90)
-		) * dist_desired; 
+		// Project position out to center
+		double mid = emitter.curdist * 0.5;
+		double sinp = sin(pitch-90), cosp = cos(pitch-90);
+		double cosa = cos(angle), sina = sin(angle);
+		vector3 dir = (cosa*cosp, sina*cosp, -sinp) * mid;
 
-		// Scale to correct size.
-		double scalequanta = (double(radius)*default.scale.x) * 0.5;
-		double newscale = default.scale.x * (emitter.curdist / scalequanta);
-		Scale.Y = newscale;
+		// Scale to distance
+		double radi_units = emitter.curdist * 0.75;
+		Scale.Y = radi_units;
 		
 		// Warp to emitter.
-		posdir = level.Vec3Offset(posdir, emitter.UpdatePos());		
-		SetOrigin(posdir, true);
+		if(bStatic)
+		{
+			SetOrigin(level.vec3offset(spawnpos, dir), false);
+		}
+		else
+		{
+			dir = level.Vec3Offset(dir, emitter.UpdatePos());		
+			SetOrigin(dir, true);
+		}
 	}
 }

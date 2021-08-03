@@ -1,4 +1,5 @@
 #include "Models/defs/weapons.mdf"
 #include "Models/defs/vehicles.mdf"
 #include "Models/defs/energy.mdf"
+#include "Models/defs/lasers.mdf"
 #include "Models/defs/title.mdf"

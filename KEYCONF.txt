@@ -2,6 +2,7 @@ addkeysection "HaloDoom Controls" HaloDoomControls
 addmenukey "Fire Weapon" +ATTACK
 addmenukey "Weapon Zoom" +ALTATTACK
 addmenukey "Reload" +RELOAD
+addmenukey "Melee" +USER2
 addmenukey "Switch Weapons" +USER1
 alias "HDEall" "netevent HaloDoom_GiveAll"
 alias "HDEarbitercamo" "netevent HaloDoom_ArbiterCamo"

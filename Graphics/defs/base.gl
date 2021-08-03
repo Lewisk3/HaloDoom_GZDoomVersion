@@ -58,6 +58,11 @@ pulselight YellowPulseLight
 	secondarySize 4
     interval 2.5
 }
+pointlight BigBlueLight
+{
+    color 0.0 0.0 1.0
+    size 48
+}
 
 // Lit objects
 object HaloNeedleProjectile
@@ -99,6 +104,10 @@ object HaloCovYellowKey
 object Overshield_LV1 
 {
 	Frame PWSH { light GreenPulseLight }
+}
+object LightningLight
+{
+	Frame TNT1 { light BigBlueLight }
 }
 
 // Sprite brightmaps

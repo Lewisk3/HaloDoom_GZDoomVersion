@@ -44,6 +44,11 @@ class HaloDoom_Events : EventHandler
 		PlayerInfo src = players[e.Player];
 		if(!src || !src.mo) return;
 	
+		if(e.Name == "testrailgun")
+		{
+			RailgunProjectile.FireRailgun(src.mo, (20, 5, -5));
+		}
+	
 		if(e.Name == "HaloDoom_FireGrapple")
 		{
 			let hplr = HaloPlayer(src.mo);
@@ -134,32 +139,10 @@ struct engine_vars
 
 class HaloDoom_EngineEvents : StaticEventHandler 
 {		
-	ui double prevMS;
-	ui double deltatime;
-	ui double ui_tick;
 	engine_vars edata;
 
 	override void OnRegister()
 	{
 		edata.first_boot = true;
-	}
-	
-	override void UITick()
-	{
-		// Keeps track of relative time while in UI
-		// Every time ui_tick rolls over, approx 1 in-game tick has passed.
-		if(!prevMS)
-		{
-			prevMS = MSTime();
-			return;
-		}
-		double ftime = MSTime()-prevMS;
-		prevMS = MSTime();
-		double dtime = 1000.0 / 60.0;
-		deltatime = (ftime/dtime);
-		
-		ui_tick += 0.285 * deltatime;
-		
-		if(ui_tick >= 1.0) ui_tick = 0;
 	}
 }

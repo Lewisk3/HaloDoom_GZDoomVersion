@@ -88,11 +88,12 @@ class LightSmoke : LightningActor
 	}
 }
 
+
 class LightningBiri : LightningActor
 {
 	Default
 	{
-		-LightningActor.DOFLASH;
+		+LightningActor.DOFLASH;
 		LightningActor.FlashTic 2;
 
 		Scale 0.05;
@@ -102,7 +103,7 @@ class LightningBiri : LightningActor
 	States
 	{
 		Spawn:
-			BEAM A 1 A_FadeOut(0.04); // 0.14
+			BEAM A 1 Bright A_FadeOut(0.04); // 0.14
 		wait;
 	}
 }

@@ -36,9 +36,9 @@ class SmokeTrail : CheapActor
 		RenderStyle "AddShaded";
 	}
 	
-	static SmokeTrail Start(Color col, vector3 from, vector3 to, vector2 angles, double alpha)
+	static SmokeTrail Start(Color col, vector3 from, vector3 to, vector2 angles, double alpha, class<SmokeTrail> type = "SmokeTrail")
 	{
-		let trail = SmokeTrail(Spawn("SmokeTrail", from));
+		let trail = SmokeTrail(Spawn(type, from));
 		if(trail) 
 		{
 			trail.startpos = from;
