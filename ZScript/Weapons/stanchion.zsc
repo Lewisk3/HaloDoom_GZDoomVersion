@@ -66,6 +66,17 @@ class Halo_Stanchion : HaloGun replaces BFG9000
 	States
 	{
 		
+		DoSmoke:	
+			TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 3 
+			{
+				let psp = player.GetPSprite(OverlayID());
+				if(psp) psp.frame = random(3,8);
+				A_SetSFXPos(25,-5,-7);
+				for(int i = 0; i < random(1,5); i++)
+					A_SpawnSFX("MuzzleSmoke", 0,0);
+			}
+		stop;
+		
 		Ready:
 			TNT1 A 0 A_WeapSound("Halo/Weapons/Stanchion/Ready");
 			STCS ABCDE 1 A_DoSelectAnim();
@@ -105,7 +116,7 @@ class Halo_Stanchion : HaloGun replaces BFG9000
 			STCF DEEEEEE 1 A_SetZoom(1.0, 7);
 			STCF E 10 A_RecoilOffset(0,0,10);
 			STCF FGHI 1;
-			STCI A 20;
+			STCI A 20 A_Overlay(60, "DoSmoke");
 		goto Ready.Active;
 					
 		Reload:

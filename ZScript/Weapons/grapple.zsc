@@ -66,10 +66,20 @@ class GrapplingHook : Actor
 		SetState(FindState("Retract"));
 	}
 	
+	override void OnDestroy()
+	{
+		if(tail) 
+		{
+			tail.LaserOff();
+			tail.Destroy();
+		}
+	}
+	
 	override void Tick()
 	{
 		super.Tick();
-						
+		if(bDestroyed) return;
+		
 		// Step in direction, spawn tail.
 		vector3 origin = GetOrigin();
 		double dist = (origin-pos).Length();

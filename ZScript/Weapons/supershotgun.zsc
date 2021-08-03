@@ -29,6 +29,7 @@ class HaloDBLShotgun_Bullet : HaloBullet
 		HaloProjectile.BaseDamage DBLSHOTGUN_DMG;
 		HaloProjectile.Speed_MPS DBLSHOTGUN_BMPS;
 		HaloProjectile.HeadshotDMGFactor DBLSHOTGUN_HEDMOD;
+		HaloProjectile.RipperCount 3;
 	}
 }
 
