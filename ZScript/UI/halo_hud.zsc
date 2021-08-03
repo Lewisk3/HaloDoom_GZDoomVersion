@@ -77,6 +77,7 @@ class HaloStatusBar : BaseStatusBar
 	// Interpolated vars
 	double curshields;
 	double dimalpha;
+	double curbattery;
 	
 	// Timers
 	double lowshield_timer;
@@ -288,12 +289,27 @@ class HaloStatusBar : BaseStatusBar
 		}
 		
 		// Ammo display
-		if(curweap.AmmoType2 && curweap.AmmoType2 != curweap.AmmoType1)
+		vector2 ampos = (1640, 160);
+		if(halo_curweap && halo_curweap.uses_battery)
+		{
+			double cur_charge = haloplr.countinv(curweap.AmmoType2);
+			curbattery = HaloMath.Lerp(curbattery, cur_charge, 0.15 * deltatime);
+			
+			double max_charge = GetDefaultByType(curweap.AmmoType2).MaxAmount;
+			double charge_perc = curbattery/max_charge;
+
+			if(charge_perc > 0)
+			{
+				HLSBS.SetClipRect(1587, 150, 230 * charge_perc, 20);
+				HLSBS.DrawImage("WI_BTRY", ampos+(60,0), 0, 0.8, (2,1.5));
+				HLSBS.ClearClipRect();
+			}
+		}
+		else if(curweap.AmmoType2 && curweap.AmmoType2 != curweap.AmmoType1)
 		{
 			double cur_ammo  = haloplr.countinv(curweap.AmmoType2);
 			double clip_ammo = GetDefaultByType(curweap.AmmoType2).MaxAmount;
 			int ymax = ceil(cur_ammo/AMMO_MAX);
-			vector2 ampos = (1640, 160);
 			vector2 amoffs;
 			for(int i = 0; i < clip_ammo; i++)
 			{
@@ -307,7 +323,7 @@ class HaloStatusBar : BaseStatusBar
 				}
 			}
 		}
-		// Ammo Count
+	// Ammo Count
 		HLSBS.DrawString(fntHaloAmmo, haloplr.countinv(curweap.AmmoType1).."", (1732, 60), scale:(0.18,0.15));
 	}
 	

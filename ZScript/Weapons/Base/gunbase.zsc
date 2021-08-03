@@ -34,6 +34,8 @@ class HaloGun : RecoilWeapon
 	double scopezoom;
 	bool zoomed;
 	int zoom_btnstate;
+	bool uses_battery;
+	int battery_drain;
 	
 	// Sound Effects
 	const CHAN_RELOADING = CHAN_7;
@@ -53,6 +55,7 @@ class HaloGun : RecoilWeapon
 	Property SetupScope : scopezoom, scoperecoil;
 	Property ZoomSounds : snd_zoomin, snd_zoomout;
 	Property LowerOnMelee : meleelower;
+	Property HasBattery : uses_battery, battery_drain;
 
 	enum ButtonStates
 	{
@@ -405,6 +408,12 @@ class HaloGun : RecoilWeapon
 		pbtn_fire = A_ButtonPressed(BT_ATTACK, Owner);
 		pbtn_altfire = A_ButtonPressed(BT_ALTATTACK, Owner);
 		
+		// Drain battery if below optimal.
+		if( countinv(AmmoType2) < battery_drain && countinv(AmmoType2) > 0 ) 
+		{
+			TakeInventory(AmmoType2, 1);
+		}
+		
 		spreadmod -= bloomamt*bloomspd;
 		spreadmod = clamp(spreadmod, 0, 2);
 	}
@@ -525,7 +534,10 @@ class HaloGun : RecoilWeapon
 	// Check if we need to reload, if we do, jump to Reload.
 	action state A_GunCheckReload()
 	{
-		return !countinv(invoker.AmmoType2) ? ResolveState("Reload") : ResolveState(NULL);
+		if(!invoker.uses_battery)
+			return !countinv(invoker.AmmoType2) ? ResolveState("Reload") : ResolveState(NULL);
+		else
+			return countinv(invoker.AmmoType2) < invoker.battery_drain ? ResolveState("Reload") : ResolveState(NULL);
 	}
 	
 	// Validate that a reload should be done, returns fallback if mag is already full 

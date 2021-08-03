@@ -393,3 +393,269 @@ class HaloBullet : HaloProjectile
 		stop;
 	}
 }
+
+// Railgun Beam
+class RailgunProjectile : FastProjectile
+{
+	Actor source;
+	double biridist;
+	double aimdist;
+	double expdmg;
+	vector3 startpos;
+	vector3 endpos;
+	vector3 posoffs;
+	vector3 dir;
+	
+	Default
+	{
+		Radius 10;
+		Height 10;
+		Speed STANCHION_BMPS;
+		Projectile;
+	}
+	
+	override int SpecialMissileHit(Actor victim)
+	{
+		victim.DamageMobj(source, self, damage, "Railgun", DMG_THRUSTLESS, angle);
+		victim.BloodSplatter(pos, angle, true);
+		
+		double inertia = HaloMath.GetInertia(victim.mass);
+		inertia = clamp(inertia, 0.5, 2.0);
+		victim.Thrust(20*inertia, angle);
+		victim.vel.z += 10*inertia;
+		return 0;
+	}
+	
+	override bool CanCollideWith(Actor other, bool passive)
+	{
+		if(other == source) return false;
+		return super.CanCollideWith(other, passive);
+	}
+	
+	static RailgunProjectile FireRailgun(Actor source, double dmg, double expdmg, vector3 offs)
+	{
+		vector3 spawnpos = HaloMath.RelativeV3Offset(source, 0,0,0, offs.x, offs.y, offs.z, 1.);
+		let proj = RailgunProjectile(Actor.Spawn("RailgunProjectile", spawnpos));
+		if(proj)
+		{
+			proj.angle = source.angle;
+			proj.pitch = source.pitch;
+			proj.startpos = spawnpos;
+			proj.posoffs = offs;
+			proj.source = source;
+			proj.target = source;
+			
+			double cosp = cos(source.pitch);
+			proj.vel = (
+				cos(source.angle) * cosp,
+				sin(source.angle) * cosp,
+				-sin(source.pitch)
+			) * ((proj.default.speed / 35) * UNIT_METER);
+			proj.dir = proj.vel.Unit();
+	
+			FLineTraceData lt;
+			proj.LineTrace(proj.angle, int.max, proj.pitch, offsetforward:source.radius+16, data:lt);
+			vector3 hitpos = lt.HitLocation;
+			proj.endpos = hitpos;
+			proj.aimdist = lt.Distance;
+			proj.SetDamage(dmg);
+			proj.expdmg = expdmg;
+			
+			// Outer-most trail
+			let smok = SmokeTrail.Start(0xFFFF0000, spawnpos, hitpos, (proj.angle, proj.pitch), 0.5, "RailgunTrail");
+			if(smok)
+			{
+				smok.A_SetScale(10.0);
+			}
+			
+			// Outer trail
+			smok = SmokeTrail.Start(0xFFfc9d03, spawnpos, hitpos, (proj.angle, proj.pitch), 1.0, "RailgunTrail");
+			if(smok)
+			{
+				smok.A_SetScale(5.0);
+			}
+			
+			// Inner trail
+			smok = SmokeTrail.Start(0xFFFFFFFF, spawnpos, hitpos, (proj.angle, proj.pitch), 4.0);
+			
+			// Shockwave
+			proj.Shockwave(0.2, 0, 0xFF313de8); 
+			proj.Biri(10, 200, 0);
+			
+			proj.Shockwave(0.1, 0.1);
+			proj.Biri(5, 100, 0.1);
+			
+			proj.Shockwave(0.05, 0.25);
+			proj.Biri(5, 75, 0.25);
+		}
+		return proj;
+	}
+	
+	void Shockwave(double scale, double dist = 0.10, Color col = 0xFFfc9d03)
+	{
+		vector3 forward = HaloMath.V3Offset(angle, pitch, roll, 40, 0,0, 1.);
+		forward = level.vec3offset(forward, startpos);
+		vector3 shockpos = level.vec3offset(forward, dir * (aimdist * dist));
+		let shock = Spawn("Railgun_Shockwave", shockpos);
+		if(shock) 
+		{
+			shock.SetShade(col);
+			shock.A_SetScale(scale);
+		}
+	}
+	
+	void Biri(double amt = 5, double dist = 50, double fixed_dist = -1)
+	{
+		double ang = angle+180;
+		biridist = fixed_dist >= 0 ? fixed_dist : frandom(0, 1.0);
+		for(int i = 0; i < amt; i++)
+		{
+			vector3 biripos = level.vec3offset(startpos, dir * (aimdist * biridist));
+			BiriBiri.DoLightning(biripos, (ang + frandom(-60,60), 0), dist:dist, 1.0, 10.0, 5, 200);
+			if(fixed_dist < 0) biridist += frandom(-0.05, 0.05);
+			biripos.z -= 10;
+			Spawn("LightningLight", biripos);
+			if(i == 0) Spawn("LightSmoke", biripos);
+		}
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		Biri(6);
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 1;
+		loop;
+		
+		Crash:
+		XDeath:
+		Death:
+			TNT1 A 0 
+			{
+				Spawn("Railgun_Explosion", pos);
+				A_Explode(expdmg, expdmg, 0);
+			}
+		Death.FadeOut:
+			TNT1 A 1 
+			{
+				A_FadeOut(0.02);
+				for(int i = 0; i < 2; i++)
+					BiriBiri.DoLightning(pos, (angle+frandom(-45, 45)+180, frandom(-90,90)), dist:100, 1.0, 6.0, 10, 60);
+			}
+		wait;
+	}
+}
+
+class LSR_Railgun : Laser
+{
+	Default
+	{
+		Radius 2;
+		Scale 1.25;
+		RenderStyle "Add";
+		Alpha 0.75;
+		Laser.Interpolation 1.0;
+		Translation "0:255=@80[255,255,255]"; // 255 200 5
+	}
+	
+	States
+	{
+		Spawn:
+			BEAM A 1 Bright;
+		loop;
+	}	
+}
+
+class RailgunTrail : SmokeTrail
+{
+	Default
+	{
+		RenderStyle "AddShaded";
+	}
+	
+	States
+	{
+		Spawn:
+			BEAM A 10 Bright;
+		Spawn.Loop:
+			BEAM A 1 Bright A_FadeOut(0.02);
+		loop;
+	}
+}
+
+class Railgun_Shockwave : FastActor
+{
+	Default
+	{
+		RenderStyle "AddShaded";
+		Scale 0.25;
+	}
+	
+	States
+	{
+		Spawn:
+			BSW0 A 4 Bright;
+			BSW0 A 1 Bright A_FadeOut(0.035);
+		wait;
+	}
+}
+
+class Railgun_Explosion : FastActor
+{
+	Default
+	{
+		Scale 3.0;
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0;
+			TNT1 A 1
+			{
+				A_StartSound("Halo/Scorpion/MissileExplosion", flags:CHANF_OVERLAP, attenuation: 0.1);
+				Spawn("TankRocket_Sparks", pos);
+			}
+			SX04 A 1 Bright
+			{	
+				let flare = Spawn("TankRocket_Flare", pos);
+				if(flare) 
+				{
+					// flare.A_SetRenderStyle(1.0, STYLE_AddShaded);
+					// flare.SetShade(0xFF313de8);
+				}
+				
+				// Flying explosions
+				for(int i = 0; i < random(10,20); i++)
+				{
+					double spawnang = frandom(0,180);
+					double spawndist = frandom(-30, 30);
+					vector3 spawndir = (
+						cos(angle + spawnang),
+						sin(angle + spawnang),
+						0
+					) * spawndist;
+					
+					spawndir.z = frandom(-30,30);
+					let expl = Spawn("TankRocket_FlyingExplosion", level.vec3offset(pos, spawndir));
+					if(expl)
+					{
+						expl.A_SetScale(0.25);
+						double velang = frandom(-180,180);
+						vector3 veldir = (
+							cos(velang),
+							sin(velang),
+							sin(frandom(-45,45)) * 2
+						);
+						expl.vel = veldir * 15;
+					}
+				}
+			}
+			SX04 BCDEFGHIJKLMNOPQ 1 Bright;
+		stop;
+	}
+}

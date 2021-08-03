@@ -46,6 +46,7 @@ version "4.0"
 #include "ZScript/Weapons/assaultrifle.zsc"
 #include "ZScript/Weapons/battlerifle.zsc"
 #include "ZScript/Weapons/sniper_rifle.zsc"
+#include "ZScript/Weapons/stanchion.zsc"
 
 // Vehicles
 #include "ZScript/Vehicles/veh_parts.zsc"

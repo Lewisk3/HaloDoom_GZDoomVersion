@@ -386,13 +386,13 @@ class HLSBS Abstract ui
 			Screen.getWidth() / GetBaseWidth(), 
 			Screen.getHeight()/ GetBaseHeight()
 		);
-			
+		
+		if(visual) Fill(0xFFFF0000, x,y,w,h );	
 		x *= sc_res.x;
 		y *= sc_res.y;
 		w *= sc_res.x;
 		h *= sc_res.y;
 		
-		if(visual) Fill(Color(255,0,255,0), x,y,w,h );	
 		Screen.SetClipRect(x,y,w,h);
 	}
 	
