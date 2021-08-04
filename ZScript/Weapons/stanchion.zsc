@@ -35,7 +35,7 @@ class Halo_Stanchion : HaloGun replaces BFG9000
 		HaloGun.SetupScope 4.0, 0.25;
 		HaloGun.ZoomSounds "Halo/Weapons/Sniper/Zoom/IN", "Halo/Weapons/Sniper/Zoom/OUT";
 		
-		RecoilWeapon.YOffsetRange -10, 100;
+		RecoilWeapon.YOffsetRange 0, 100;
 	}
 	
 		

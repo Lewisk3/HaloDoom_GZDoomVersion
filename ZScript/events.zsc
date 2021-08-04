@@ -11,6 +11,54 @@ class HaloDoom_Events : EventHandler
 		engHandle = HaloDoom_EngineEvents(StaticEventHandler.Find("HaloDoom_EngineEvents"));
 	}
 	
+	override void WorldThingDamaged(WorldEvent e)
+	{
+		Actor source = e.DamageSource;
+		if(source.target) source = source.target;
+		
+		let victim = e.Thing;
+		let dmgobj = e.Inflictor;
+		bool headshot = HaloMath.CheckHeadshot(dmgobj, victim);
+		
+		// Play hit effects.
+		HaloPlayer plr = HaloPlayer(source);
+		if(plr)
+		{
+			uint plrnum = plr.PlayerNumber();
+			Sound hitsnd =  headshot ? "Hit/Crit" : "Hit/Normal";
+			Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Normal:0", plrnum);
+			
+			if(!plr.soundwait)
+			{
+				plr.A_StartSound(hitsnd, CHAN_BODY, CHANF_OVERLAP);
+				plr.soundwait = 2;
+			}
+		}
+	}
+	
+	override void WorldThingDied(WorldEvent e)
+	{
+		Actor source = e.Inflictor;
+		if(source.target) source = source.target;
+		
+		let victim = e.Thing;
+		let dmgobj = e.Inflictor;
+		bool headshot = HaloMath.CheckHeadshot(dmgobj, victim);
+		
+		// Play hit effects.
+		HaloPlayer plr = HaloPlayer(source);
+		if(plr)
+		{
+			uint plrnum = plr.PlayerNumber();			
+			if(headshot)
+				Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Headshot:1", plrnum);
+			else
+				Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Killed:1", plrnum);
+			
+			plr.A_StartSound("Hit/Killed", CHAN_VOICE, CHANF_OVERLAP);
+		}
+	}
+	
 	override void WorldTick()
 	{
 		let act_it = ThinkerIterator.Create();

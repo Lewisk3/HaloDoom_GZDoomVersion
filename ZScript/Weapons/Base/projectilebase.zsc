@@ -6,6 +6,8 @@ class HaloProjectile : FastProjectile
 	double range_max;
 	double falloff_minimum;
 	double headshot_multiplier;
+	double explode_dmg;
+	double explode_radius;
 	bool do_converge;
 	vector3 spawnpos;
 	Actor hitactor;
@@ -21,6 +23,7 @@ class HaloProjectile : FastProjectile
 	Property RipperCount : ripamount;
 	Property ConvergeToAim : do_converge;
 	Property HeadshotDMGFactor : headshot_multiplier;
+	Property DoExplosiveDamage : explode_dmg, explode_radius;
 	
 	Default
 	{
@@ -71,69 +74,34 @@ class HaloProjectile : FastProjectile
 	{	
 		// Skip these victims
 		if(victim == target || !victim.bSHOOTABLE) return 1;
+		
+		// Ripped through actors only take damage once.
+		if(act_hits.Find(victim) != act_hits.Size()) return 1;
+		
 		// Determine if victim is vehicle we're the driver of
 		if(target)
 		{
 			let curveh = Veh_Manager(target.FindInventory("Veh_Manager"));
 			if(curveh && curveh.veh == victim) return 1;
 		}
-		
 		hitactor = victim;
+		
+		// Adjust Damage
 		AdjustRangeDamage();
 		double scaled_damage = truedamage * GAMEPLAY_DAMAGEMOD;
-		
-		
-		// Ripped through actors only take damage once.
-		if(act_hits.Find(victim) != act_hits.Size()) return 1;
-				
-		//console.printf("Damage output: %f, Dist: %f", truedamage, getTravelDistance());
-		Sound hitsnd = "Hit/Normal";
-		
-		// Determine headshot
-        // Preform ray cast to determine where the shooter is aiming.
-        FLineTraceData lt;
-        LineTrace(angle,128,pitch,0,0,0,0,lt);
-        float dmgz = lt.HitLocation.z;
-        float headz    = (victim.pos.z + victim.height);
-        float head_top =  8;
-		bool headshot = dmgz <= headz && dmgz >= headz-head_top;
+		bool headshot = HaloMath.CheckHeadshot(self, victim);
 		if(headshot) scaled_damage *= headshot_multiplier;
 		
-		bool killed = victim.health-scaled_damage <= 0;	
-		
+		// Damage Victim
 		victim.DamageMobJ(self,target,scaled_damage,DamageType,0,angle);
-		act_hits.Push(victim);
+		if(explode_dmg > 0) A_Explode(explode_dmg, explode_radius, 0);
 
+		// Spawn Blood
 		class<Actor> blud = victim.GetBloodType(0);
 		if(blud && bBLOODSPLATTER && victim.bISMONSTER) victim.Spawn(blud,pos);
-
-		// Hit feedback
-		HaloPlayer plr = HaloPlayer(target);
-		if(plr && (!plr.soundwait || killed))
-		{
-			target.A_StartSound(hitsnd, killed ? CHAN_VOICE : CHAN_BODY, CHANF_OVERLAP);
-			plr.soundwait = 2;
-		}
-		
-		// Play hit effects.
-		if(plr)
-		{
-			uint plrnum = plr.PlayerNumber();
-			if(headshot) 
-			{
-				hitsnd = "Hit/Crit";
-				if(killed) Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Headshot:1", plrnum);
-			}
-			else if(killed)
-			{
-				hitsnd = "Hit/Killed";
-				Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Killed:1", plrnum);
-			}
-			
-			Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Normal:0", plrnum);
-		}
-		
+	
 		// Rip through actors
+		act_hits.Push(victim);
 		if(ripamount > 0) 
 		{
 			ripamount--;
@@ -506,13 +474,11 @@ class RailgunProjectile : FastProjectile
 			proj.Shockwave(0.2, 0, 0xFF313de8); 
 			proj.Biri(10, 200, 0);
 			
-			/*
-			proj.Shockwave(0.1, 0.1);
-			proj.Biri(5, 100, 0.1);
+			//proj.Shockwave(0.1, 0.1);
+			//proj.Biri(5, 100, 0.1);
 			
-			proj.Shockwave(0.05, 0.25);
-			proj.Biri(5, 75, 0.25);
-			*/
+			//proj.Shockwave(0.05, 0.25);
+			//proj.Biri(5, 75, 0.25);
 		}
 		return proj;
 	}

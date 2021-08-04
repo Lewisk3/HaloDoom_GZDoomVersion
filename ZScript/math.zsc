@@ -310,7 +310,16 @@ class HaloMath Abstract
 		double diff = ( angle2 - angle1 + 180 ) % 360 - 180;
 		return diff < -180 ? diff + 360 : diff;
 	}
-	
+
+	play static bool CheckHeadshot(Actor source, Actor victim, double headsize = 8)
+	{
+        // Preform ray cast to determine where the shooter is aiming.
+        FLineTraceData lt;
+        source.LineTrace(source.angle,128,source.pitch,0,0,0,0,lt);
+        float dmgz = lt.HitLocation.z;
+        float headz    = (victim.pos.z + victim.height);
+		return dmgz <= headz && dmgz >= headz-headsize;
+	}
 		
 	/* Summary:
     **  Simulates a damped spring.

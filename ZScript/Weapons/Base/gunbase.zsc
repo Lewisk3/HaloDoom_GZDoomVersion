@@ -110,11 +110,13 @@ class HaloGun : RecoilWeapon
 			victim.BloodSplatter(lt.HitLocation, angle, true);
 			victim.Thrust(fpthrust.x*inertia, angle);
 			victim.vel.z += fpthrust.y;
-			A_StartSound(hitsnd, flags:CHANF_OVERLAP);
+			A_Quake(2,3,0,20,"");
+			A_StartSound(hitsnd, CHAN_WEAPON, flags:CHANF_OVERLAP);
 		}
 		else if(lt.HitType != TRACE_HitNone) 
 		{
-			A_StartSound(wallsnd, flags:CHANF_OVERLAP);
+			A_Quake(2,3,0,20,"");
+			A_StartSound(wallsnd, CHAN_WEAPON, flags:CHANF_OVERLAP);
 		}
 		return victim;
 	}
@@ -656,7 +658,7 @@ class HaloGun : RecoilWeapon
 			MELE C 12 
 			{
 				A_SetRecoil(3.30, 3.60, 1);
-				A_HaloMelee(30, 70, hitsnd:"Halo/Melee/Punch", "Halo/Melee/Ouch");
+				A_HaloMelee(50, 70, hitsnd:"Halo/Melee/Punch", "Halo/Melee/Ouch");
 			}
 			MELE CCCC 1 
 			{
@@ -688,6 +690,7 @@ class HaloGun : RecoilWeapon
 			{
 				A_OverlayOffset(OverlayID(), 35, -12, WOF_ADD | WOF_INTERPOLATE);
 				A_SetRecoil(0.3, -0.80, 2);
+				A_HaloMelee(20, 32);
 			}
 			MELE CC 1 
 			{
