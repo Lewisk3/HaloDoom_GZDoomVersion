@@ -14,10 +14,12 @@ class HaloDoom_Events : EventHandler
 	override void WorldThingDamaged(WorldEvent e)
 	{
 		Actor source = e.DamageSource;
-		if(source.target) source = source.target;
+		if(source.target && source.bMISSILE) source = source.target;
 		
 		let victim = e.Thing;
 		let dmgobj = e.Inflictor;
+		if(!dmgobj || !victim) return;
+		
 		bool headshot = HaloMath.CheckHeadshot(dmgobj, victim);
 		
 		// Play hit effects.
@@ -42,7 +44,9 @@ class HaloDoom_Events : EventHandler
 		if(source.target) source = source.target;
 		
 		let victim = e.Thing;
-		let dmgobj = e.Inflictor;
+		let dmgobj = e.Inflictor;	
+		if(!dmgobj || !victim) return;
+	
 		bool headshot = HaloMath.CheckHeadshot(dmgobj, victim);
 		
 		// Play hit effects.

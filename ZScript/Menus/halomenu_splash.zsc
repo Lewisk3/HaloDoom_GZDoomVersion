@@ -25,7 +25,7 @@ class HaloDoom_IntroSeq : HaloMenuBase
 		if(intros.IsEmpty()) 
 		{
 			Close();
-			SetMenu("Mainmenu");
+			SetMenu("MainMenu");
 		}
 	}
 	

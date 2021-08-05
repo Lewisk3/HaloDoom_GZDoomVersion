@@ -383,7 +383,7 @@ class RailgunProjectile : FastProjectile
 	{
 		Radius 10;
 		Height 10;
-		RailgunProjectile.RipperCount 4;
+		RailgunProjectile.RipperCount 10;
 		Speed STANCHION_BMPS;
 		Projectile;
 	}
@@ -453,6 +453,8 @@ class RailgunProjectile : FastProjectile
 			proj.SetDamage(dmg);
 			proj.expdmg = expdmg;
 			
+			Spawn("Railgun_MuzzleExplosion", proj.pos);
+			
 			// Outer-most trail
 			let smok = SmokeTrail.Start(0xFFFF0000, spawnpos, hitpos, (proj.angle, proj.pitch), 0.5, "RailgunTrail");
 			if(smok)
@@ -514,7 +516,8 @@ class RailgunProjectile : FastProjectile
 	override void Tick()
 	{
 		super.Tick();
-		Biri(6);
+		if (isFrozen()) return;
+		Biri(3);
 	}
 	
 	States
@@ -590,6 +593,8 @@ class Railgun_Shockwave : FastActor
 	override void Tick()
 	{
 		super.Tick();
+		if(isFrozen()) return;
+		
 		A_SetScale(Scale.X + 0.008);
 	}
 	
@@ -655,6 +660,33 @@ class Railgun_Explosion : FastActor
 				}
 			}
 			SX04 BCDEFGHIJKLMNOPQ 1 Bright;
+		stop;
+	}
+}
+
+class Railgun_MuzzleExplosion : FastActor
+{
+	Default
+	{
+		+ROLLSPRITE;
+		Scale 0.5;
+	}
+	
+	States
+	{
+		Spawn:	
+			TNT1 A 0;
+			FX58 A 1 Bright
+			{
+				let flare = Spawn("TankRocket_Flare", pos);
+				if(flare) flare.A_SetScale(0.25);				
+			}
+			FX58 AAABCDEFGHIJKLMNOP 2 Bright
+			{
+				roll += 0.01;
+				A_FadeOut(0.005);
+			}
+			FX58 Q 1 Bright A_FadeOut(0.05);
 		stop;
 	}
 }

@@ -53,7 +53,7 @@ class Halo_Stanchion : HaloGun replaces BFG9000
 		A_Light(4);
 		A_WeapSound("Halo/Weapons/Stanchion/Fire", CHANF_OVERLAP, true);
 		A_WeapSound("Halo/Weapons/Stanchion/Fire/Bass", CHANF_OVERLAP, true);
-		RailgunProjectile.FireRailgun(self, STANCHION_DMG, STANCHION_DMG*0.25, (30, 8, -6));
+		RailgunProjectile.FireRailgun(self, STANCHION_DMG, STANCHION_DMG*0.25, (50, 8, -6));
 		
 		A_SetSFXPos(25,-5,-7);
 		for(int i = 0; i < 15; i++)
