@@ -59,6 +59,27 @@ Halo/Scorpion/MissileExplosion3 "Sounds/Vehicles/Scorpion/projexplode3.wav"
 $random Halo/Scorpion/MissileExplosion { Halo/Scorpion/MissileExplosion1 Halo/Scorpion/MissileExplosion2 Halo/Scorpion/MissileExplosion3 }
 $volume Halo/Scorpion/Treads 0.30;
 
+// Wraith
+Halo/Wraith/Fire1 "Sounds/Vehicles/Wraith/fire_mortar1.wav"
+Halo/Wraith/Fire2 "Sounds/Vehicles/Wraith/fire_mortar2.wav"
+Halo/Wraith/Fire3 "Sounds/Vehicles/Wraith/fire_mortar3.wav"
+Halo/Wraith/BoostBegin "Sounds/Vehicles/Wraith/boost_start.wav"
+Halo/Wraith/BoostLoop "Sounds/Vehicles/Wraith/boost_loop.wav"
+Halo/Wraith/MortarFlight1 "Sounds/Vehicles/Wraith/mortar_travel1.wav"
+Halo/Wraith/MortarFlight2 "Sounds/Vehicles/Wraith/mortar_travel2.wav"
+Halo/Wraith/MortarFlight3 "Sounds/Vehicles/Wraith/mortar_travel3.wav"
+Halo/Wraith/EngineLoop "Sounds/Vehicles/Wraith/engine_loop1.wav"
+Halo/Wraith/EngineOn_L1 "Sounds/Vehicles/Wraith/engine_on1.wav"
+Halo/Wraith/EngineOn_L2 "Sounds/Vehicles/Wraith/engine_on2.wav"
+Halo/Wraith/EngineOff_L1 "Sounds/Vehicles/Wraith/engine_off1.wav"
+Halo/Wraith/EngineOff_L2 "Sounds/Vehicles/Wraith/engine_off2.wav"
+Halo/Wraith/MissileExplosion1 "Sounds/Vehicles/Wraith/mortar_explode1.wav"
+Halo/Wraith/MissileExplosion2 "Sounds/Vehicles/Wraith/mortar_explode2.wav"
+Halo/Wraith/MissileExplosion3 "Sounds/Vehicles/Wraith/mortar_explode3.wav"
+$random Halo/Wraith/MissileExplosion { Halo/Wraith/MissileExplosion1 Halo/Wraith/MissileExplosion2 Halo/Wraith/MissileExplosion3 }
+$random Halo/Wraith/Fire { Halo/Wraith/Fire1 Halo/Wraith/Fire2 Halo/Wraith/Fire3 }
+$random Halo/Wraith/MortarFlight { Halo/Wraith/MortarFlight1 Halo/Wraith/MortarFlight2 Halo/Wraith/MortarFlight3 }
+
 // Items
 Halo/Powerup/Camo    "Sounds/Items/power_camo.wav"
 Halo/Powerup/Damage  "Sounds/Items/power_damage.wav"

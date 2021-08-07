@@ -42,6 +42,7 @@ class Wraith_Cannon : VehPart
 		if(!base.driver) return;
 		if(CheckButtons(BT_ATTACK, VehButtons.BTS_DOWN) && !cooldown)
 		{
+			A_StartSound("Halo/Wraith/Fire", CHAN_WEAPON, CHANF_OVERLAP);
 			let plasma = WraithPlasma.Fire(self, (30,0,30));
 			if(plasma) plasma.target = base.driver;
 			AnimatePos(-20, 0, -10);
@@ -74,6 +75,7 @@ class WraithFin : VehPart
 		FloatBobPhase = base.FloatBobPhase;
 		A_SetAngle(base.angle, SPF_INTERPOLATE);
 		A_SetRoll(base.roll, SPF_INTERPOLATE);
+		pitch = clamp(pitch, -45, 45);
 	}
 		
 	override void DoUpdate(VehCamera cam)
@@ -95,6 +97,8 @@ class Wraith_FinBR : WraithFin {}
 
 class HaloWraith : HaloVehicle
 {
+	double boostburn;
+	bool boost_wait;
 	WraithFin FinFL, FinFR, FinBL, FinBR;
 	Wraith_Cannon gun;
 	
@@ -127,7 +131,13 @@ class HaloWraith : HaloVehicle
 	
 	override bool RemoveDriver(PlayerPawn user, vector3 exitpos)
 	{
-		return super.RemoveDriver(user, exitpos);
+		bool success = super.RemoveDriver(user, exitpos);
+		if(success)
+		{
+			A_StartSound("Halo/Wraith/EngineOFF_L1", CHAN_VOICE, CHANF_OVERLAP);
+			A_StartSound("Halo/Wraith/EngineOFF_L2", CHAN_VOICE, CHANF_OVERLAP);
+		}
+		return success;
 	}
 	
 	override void TakeDriver(PlayerPawn user)
@@ -136,6 +146,9 @@ class HaloWraith : HaloVehicle
 		if(user) driver = user;
 		SetupHaloCamera(dist:-280,130,120,150);
 		ReadyDriver(user);
+		SetCrosshair(user, "WrathRET", (0.5,0.7));
+		A_StartSound("Halo/Wraith/EngineON_L1", CHAN_VOICE, CHANF_OVERLAP);
+		A_StartSound("Halo/Wraith/EngineON_L2", CHAN_VOICE, CHANF_OVERLAP);
 	}
 	
 	override vector3 GetDrivePos()
@@ -152,16 +165,24 @@ class HaloWraith : HaloVehicle
 	override void DoMove(float forwardmove, float sidemove)
 	{	
 		vel.xy *= 0.97;
+		if(abs(boostburn) <= 0.1) boost_wait = false;
 	
 		if(health <= 0)  
 		{
 			if(driver) RemoveDriver(driver, GetExitPos(driver));
 			return;
 		}
-		if(!driver) return;
+		
+		if(!driver) 
+		{
+			A_StopSound(CHAN_5); // Engine
+			A_StopSound(CHAN_7); // Boost
+			return;
+		}
+		A_StartSound("Halo/Wraith/EngineLoop", CHAN_5, CHANF_LOOPING);
 		
 		// Rotation
-		double turnspd = 0.15;
+		double turnspd = 0.08;
 		double accel = 0.45;
 		double angdiff = HaloMath.AngleDiff(angle, driver.angle);
 		A_SetAngle(HaloMath.Lerp(angle, angle+angdiff, turnspd), SPF_INTERPOLATE);
@@ -171,12 +192,44 @@ class HaloWraith : HaloVehicle
 		FinBL.A_SetPitch(FinBL.pitch - turnstr, SPF_INTERPOLATE);
 		FinBR.A_SetPitch(FinBR.pitch + turnstr, SPF_INTERPOLATE);
 		
+		// Boost
+		bool boosting;
+		if(CheckButtons(BT_ALTATTACK, VehButtons.BTS_DOWN) && !boost_wait)
+		{
+			if(boostburn <= 1) 
+				A_StartSound("Halo/Wraith/BoostBegin", flags:CHANF_OVERLAP);
+			else
+				A_StartSound("Halo/Wraith/BoostLoop", CHAN_7, flags:CHANF_LOOPING);
+			
+			boosting = true;
+			boostburn++;
+			// Boost particles
+			let trail = Spawn("WraithPlasma_Trail", HaloMath.RelativeV3Offset(self, 180,0,0, 150,0,10, 1.));
+			if(trail) trail.A_SetScale(0.4);
+			
+			if(boostburn >= 60) boost_wait = true;
+		}
+		else
+		{
+			boostburn *= 0.9;
+			boosting = false;
+			A_StopSound(CHAN_7);
+		}
+		
 		// Movement
 		if(forwardmove || sidemove)
 		{
 			vector2 movedir = (forwardmove, -sidemove).Unit();
-			vel.xy += AngleToVector(angle, accel * movedir.x);
-			vel.xy += AngleToVector(angle + 90, (accel * movedir.y) * 0.75);
+			if(!boosting)
+			{
+				vel.xy += AngleToVector(angle, accel * movedir.x);
+				vel.xy += AngleToVector(angle + 90, (accel * movedir.y) * 0.75);
+			}
+		} 
+		
+		if(boosting)
+		{
+			vel.xy += AngleToVector(angle, accel * 2.0);
 		}
 		
 		DoCollisionDamage();

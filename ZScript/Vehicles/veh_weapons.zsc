@@ -435,6 +435,7 @@ class WraithPlasma : Actor
 				sin(view.x) * cosp,
 				-sin(view.y)
 			) * ((proj.default.speed / 35) * UNIT_METER); 
+			proj.A_StartSound("Halo/Wraith/MortarFlight", CHAN_BODY, CHANF_LOOPING);
 		}
 		
 		return proj;
@@ -460,6 +461,7 @@ class WraithPlasma : Actor
 	
 	void DoExplosion()
 	{
+		A_StopSound(CHAN_BODY);
 		A_Explode(250, 512);
 		
 		vector3 fxoffs = (-30, 0, 10);
@@ -550,7 +552,7 @@ class WraithPlasma_Explosion : FastActor
 			TNT1 A 0;
 			TNT1 A 1 
 			{
-				A_StartSound("Halo/Scorpion/MissileExplosion", flags:CHANF_OVERLAP, attenuation: 0.1);
+				A_StartSound("Halo/Wraith/MissileExplosion", flags:CHANF_OVERLAP, attenuation: 0.1);
 				Spawn("ImpactSparks", pos);
 			}
 			SX04 A 1 

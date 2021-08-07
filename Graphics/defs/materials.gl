@@ -34,4 +34,8 @@ material texture models/Vehicles/Scorpion/scorpion_treads.png {
 	shader "shaders/simsun.fp"
 }
 
+material texture models/Vehicles/Wraith/wraith.png {
+	shader "shaders/simsun.fp"
+}
+
 
