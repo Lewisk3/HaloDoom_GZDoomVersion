@@ -621,7 +621,7 @@ class Railgun_Explosion : FastActor
 			TNT1 A 1
 			{
 				A_StartSound("Halo/Scorpion/MissileExplosion", flags:CHANF_OVERLAP, attenuation: 0.1);
-				Spawn("TankRocket_Sparks", pos);
+				Spawn("ImpactSparks", pos);
 			}
 			SX04 A 1 Bright
 			{	

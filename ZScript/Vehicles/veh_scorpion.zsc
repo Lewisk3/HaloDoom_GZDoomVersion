@@ -71,7 +71,9 @@ class Scorpion_TurretCannon : VehPart
 		}
 		if(CheckButtons(BT_ATTACK, VehButtons.BTS_PRESSED) && !cooldown)
 		{
-			TankRocket.Fire(self, (350, 0, 30));
+			let misl = TankRocket.Fire(self, (350, 0, 30));
+			if(misl) misl.target = base.driver;
+			
 			A_StartSound("Halo/Scorpion/Fire", CHAN_WEAPON, CHANF_OVERLAP);
 			
 			double kickback = -0.1 * cos(base.angle-angle);
@@ -191,7 +193,7 @@ class HaloScorpion : HaloVehicle
 		Height 100;
 	
 		Mass 2400;
-		Health 3000;
+		Health 2000;
 		HaloVehicle.Armored 4000;
 		HaloScorpion.TreadFriction 0.90;
 		MaxSlopeSteepness 0.4;
@@ -224,7 +226,7 @@ class HaloScorpion : HaloVehicle
 	{
 		if(health <= 0) return;
 		if(user) driver = user;
-		let cam = SetupHaloCamera("HaloVehCamera", dist:-260,100,40,200);
+		let cam = SetupHaloCamera(dist:-260,100,40,200);
 		cam.followact = turret;
 		cam.source = driver;
 		

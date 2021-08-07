@@ -1,0 +1,195 @@
+class Wraith_Cannon : VehPart
+{
+	double raisez;
+	double curz;
+	uint cooldown;
+	
+	Default
+	{
+		Radius 16;
+		Height 16;
+		+FLOATBOB; 
+		FloatBobStrength 0.125;
+	}
+	
+	override void UpdatePos(bool moving)
+	{
+		if(!base) return;
+		vector3 finalpos = GetOffsetPos(base);
+		finalpos.z += curz;
+		SetOrigin(finalpos, moving);
+		raisez = base.driver ? 15 : 0;
+		
+		curz = HaloMath.Lerp(curz, raisez, 0.15);
+		
+		FloatBobPhase = base.FloatBobPhase;
+		A_SetAngle(base.angle, SPF_INTERPOLATE);
+		A_SetRoll(base.roll, SPF_INTERPOLATE);
+		
+		if(!base.driver) return;
+		A_SetPitch(base.driver.pitch, SPF_INTERPOLATE);
+		pitch = clamp(pitch, -75, 0);
+	}
+		
+	override void DoUpdate(VehCamera cam)
+	{
+		if(cooldown) 
+		{
+			if(cam) cam.SetZoom(1.0, 0.1);
+			cooldown--;
+		}		
+		
+		if(!base.driver) return;
+		if(CheckButtons(BT_ATTACK, VehButtons.BTS_DOWN) && !cooldown)
+		{
+			let plasma = WraithPlasma.Fire(self, (30,0,30));
+			if(plasma) plasma.target = base.driver;
+			AnimatePos(-20, 0, -10);
+			cam.SetZoom(0.975, 0.5);
+			cooldown = 35;
+		}
+	}
+	
+	States
+	{
+		Spawn:
+			MODL A 1;
+		loop;
+	}
+}
+
+class WraithFin : VehPart
+{
+	Default
+	{
+		Radius 16;
+		Height 16;		
+		+FLOATBOB;
+		FloatBobStrength 0.125;
+	}
+	
+	override void UpdatePos(bool moving)
+	{
+		super.UpdatePos(moving);
+		FloatBobPhase = base.FloatBobPhase;
+		A_SetAngle(base.angle, SPF_INTERPOLATE);
+		A_SetRoll(base.roll, SPF_INTERPOLATE);
+	}
+		
+	override void DoUpdate(VehCamera cam)
+	{
+	}
+	
+	States
+	{
+		Spawn:
+			MODL A 1;
+		loop;
+	}
+}
+
+class Wraith_FinFL : WraithFin {}
+class Wraith_FinFR : WraithFin {}
+class Wraith_FinBL : WraithFin {}
+class Wraith_FinBR : WraithFin {}
+
+class HaloWraith : HaloVehicle
+{
+	WraithFin FinFL, FinFR, FinBL, FinBR;
+	Wraith_Cannon gun;
+	
+	Default
+	{
+		Radius 100;
+		Height 80;
+	
+		Mass 1800;
+		Health 2000;
+		HaloVehicle.Armored 4000;
+		MaxSlopeSteepness 0.2;
+		+FLOATBOB; 
+		FloatBobStrength 0.125;
+	}
+	
+	override void BeginPlay()
+	{
+		super.BeginPlay();
+		FinFL = WraithFin(VehPart.Attach("Wraith_FinFL", self, (63, -142,0)));
+		FinFR = WraithFin(VehPart.Attach("Wraith_FinFR", self, (63,  140,0)));
+		FinBL = WraithFin(VehPart.Attach("Wraith_FinBL", self, (-70, -90,0)));
+		FinBR = WraithFin(VehPart.Attach("Wraith_FinBR", self, (-70,  90,0)));
+		gun   = Wraith_Cannon(VehPart.Attach("Wraith_Cannon", self, (-80, 0,70)));
+	}
+	
+	override void OnDestroy()
+	{
+	}
+	
+	override bool RemoveDriver(PlayerPawn user, vector3 exitpos)
+	{
+		return super.RemoveDriver(user, exitpos);
+	}
+	
+	override void TakeDriver(PlayerPawn user)
+	{
+		if(health <= 0) return;
+		if(user) driver = user;
+		SetupHaloCamera(dist:-280,130,120,150);
+		ReadyDriver(user);
+	}
+	
+	override vector3 GetDrivePos()
+	{
+		return (-20,-5,20);
+	}
+	
+	override vector3 GetExitPos(PlayerPawn user)
+	{
+		if(user == driver) return (200,0,10);
+		return super.GetExitPos(user);
+	}
+	
+	override void DoMove(float forwardmove, float sidemove)
+	{	
+		vel.xy *= 0.97;
+	
+		if(health <= 0)  
+		{
+			if(driver) RemoveDriver(driver, GetExitPos(driver));
+			return;
+		}
+		if(!driver) return;
+		
+		// Rotation
+		double turnspd = 0.15;
+		double accel = 0.45;
+		double angdiff = HaloMath.AngleDiff(angle, driver.angle);
+		A_SetAngle(HaloMath.Lerp(angle, angle+angdiff, turnspd), SPF_INTERPOLATE);
+		
+		// Animate back fins
+		double turnstr = clamp(angdiff * 0.10, -4.0, 4.0);
+		FinBL.A_SetPitch(FinBL.pitch - turnstr, SPF_INTERPOLATE);
+		FinBR.A_SetPitch(FinBR.pitch + turnstr, SPF_INTERPOLATE);
+		
+		// Movement
+		if(forwardmove || sidemove)
+		{
+			vector2 movedir = (forwardmove, -sidemove).Unit();
+			vel.xy += AngleToVector(angle, accel * movedir.x);
+			vel.xy += AngleToVector(angle + 90, (accel * movedir.y) * 0.75);
+		}
+		
+		DoCollisionDamage();
+	}
+	
+	States
+	{
+		Spawn:
+			MODL A 1;
+		loop;
+		
+		Death:
+			MODL A -1;
+		stop;
+	}
+}

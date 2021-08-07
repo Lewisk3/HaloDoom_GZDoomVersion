@@ -169,3 +169,72 @@ Model Scorpion_TurretCannon
    
    FrameIndex MODL A 0 0 
 }
+
+// Wraith
+Model HaloWraith
+{ 
+   Path "Models/Vehicles/Wraith"
+   Skin 0 "wraith.png" 
+   Model 0 "chassis.obj" 
+   Scale 5.0 5.0 5.0
+   USEACTORPITCH
+   USEACTORROLL
+   ZOffset 0.15;
+   
+   FrameIndex MODL A 0 0 
+}
+Model Wraith_FinFL
+{ 
+   Path "Models/Vehicles/Wraith"
+   Skin 0 "wraith.png" 
+   Model 0 "fin_tl.obj" 
+   Scale 50.0 50.0 50.0
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}
+Model Wraith_FinFR
+{ 
+   Path "Models/Vehicles/Wraith"
+   Skin 0 "wraith.png" 
+   Model 0 "fin_tr.obj" 
+   Scale 50.0 50.0 50.0
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}
+Model Wraith_FinBL
+{ 
+   Path "Models/Vehicles/Wraith"
+   Skin 0 "wraith.png" 
+   Model 0 "fin_bl.obj" 
+   Scale 50.0 50.0 50.0
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}
+Model Wraith_FinBR
+{ 
+   Path "Models/Vehicles/Wraith"
+   Skin 0 "wraith.png" 
+   Model 0 "fin_br.obj" 
+   Scale 50.0 50.0 50.0
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}
+Model Wraith_Cannon
+{ 
+   Path "Models/Vehicles/Wraith"
+   Skin 0 "wraith.png" 
+   Model 0 "cannon.obj" 
+   Scale 50.0 50.0 50.0
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}

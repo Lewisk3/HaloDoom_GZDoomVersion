@@ -14,7 +14,7 @@ class HaloDoom_Events : EventHandler
 	override void WorldThingDamaged(WorldEvent e)
 	{
 		Actor source = e.DamageSource;
-		if(source.target && source.bMISSILE) source = source.target;
+		if(source && source.target && source.bMISSILE) source = source.target;
 		
 		let victim = e.Thing;
 		let dmgobj = e.Inflictor;
@@ -41,7 +41,7 @@ class HaloDoom_Events : EventHandler
 	override void WorldThingDied(WorldEvent e)
 	{
 		Actor source = e.Inflictor;
-		if(source.target) source = source.target;
+		if(source && source.target) source = source.target;
 		
 		let victim = e.Thing;
 		let dmgobj = e.Inflictor;	
@@ -110,7 +110,12 @@ class HaloDoom_Events : EventHandler
 				
 			hplr.grapple = GrapplingHook.Deploy(hplr, 20, (0,-2,-3));
 		}
-				
+		
+		if(e.Name == "testwraith")
+		{
+			WraithPlasma.Fire(src.mo, (-30,0,30));
+		}
+		
 		Array<String> args;
 		String cmd = e.Name;
 		cmd.Split(args, ":");
