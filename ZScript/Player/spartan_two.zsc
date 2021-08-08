@@ -1,0 +1,23 @@
+class HaloSpartan_II : HaloPlayer
+{	
+	Default
+	{
+		// UI
+		Player.DisplayName "Spartan II";
+
+		// Vitals
+		Health 45; 
+		Player.MaxHealth 45;
+		
+		// Inventory
+		Player.StartItem "Halo_AssaultRifle", 1;
+		Player.StartItem "Halo_Magnum", 1;
+		Player.StartItem "Halo_Clip", 120;
+		
+		// Movement
+		HaloPlayer.MovementBob 0;
+		HaloPlayer.CanBunnyHop true;
+		HaloPlayer.MaxJumps 1;
+		HaloPlayer.AirControl 1.0;
+	}
+}

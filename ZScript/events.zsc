@@ -108,7 +108,7 @@ class HaloDoom_Events : EventHandler
 				return;
 			}
 				
-			hplr.grapple = GrapplingHook.Deploy(hplr, 20, (0,-2,-3));
+			hplr.grapple = GrapplingHook.Deploy(hplr, 60, (-10,-2,-2));
 		}
 		
 		if(e.Name == "testwraith")

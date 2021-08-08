@@ -28,24 +28,37 @@ class HaloPlayer : DoomPlayer
 	Property Shields : maxshields, shield_regentime, shield_regenrate;
 	Property MovementBob : movebob;
 	Property LowerCrosshairY : xhair_lowpos;
+	Property MaxJumps : maxjumps;
+	Property CanBunnyHop : enable_bhop;
+	Property AirControl : aircontrol;
+	Property SetupDashes : enable_dash, dashmax, dashpower;
 	
 	Default
 	{
-		Player.ViewHeight 41;
 		Speed 1;
-		Health 45; // 45
-		Player.StartItem "Halo_AssaultRifle", 1;
-		Player.StartItem "Halo_Magnum", 1;
-		//Player.StartItem "Halo_Shotgun", 1;
-		Player.StartItem "Halo_Clip", 120;
-		Player.StartItem "Shell", 12;
-		HaloPlayer.Shields 70, 5, 4; // 5 seconds to recharge, 4 seconds to max.
-		HaloPlayer.MovementBob 0;
-		HaloPlayer.LowerCrosshairY 60;
-		Player.MaxHealth 45;
-		Player.JumpZ 9;
 		Gravity 0.75;
+		Player.JumpZ 9;
+		Player.ViewHeight 41;		
+		Player.SoundClass "Spartan";
 		-DONTTRANSLATE;
+		
+		// UI
+		Player.DisplayName "Spartan Template";
+		
+		// Vitals
+		Health 45; 
+		Player.MaxHealth 45;
+		HaloPlayer.Shields 70, 3, 4; // 3 seconds to recharge, 4 seconds to max.
+		
+		// Inventory
+		Player.StartItem "Halo_Magnum", 1;
+		Player.StartItem "Halo_Clip", 120;
+		
+		// Movement
+		HaloPlayer.LowerCrosshairY 60;
+		HaloPlayer.MovementBob 0;
+		HaloPlayer.AirControl 0.5;
+		HaloPlayer.MaxJumps 1;
 	}
 	
 	override void BeginPlay()

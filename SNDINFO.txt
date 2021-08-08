@@ -283,3 +283,38 @@ Shield/Low shlow
 
 $volume Shield/Warning 0.7
 $volume Shield/Low 0.25
+
+// Player sounds
+Halo/Spartan/Death1 "Sounds/Players/death1.wav" 
+Halo/Spartan/Death2 "Sounds/Players/death2.wav" 
+Halo/Spartan/Death3 "Sounds/Players/death3.wav" 
+Halo/Spartan/Death4 "Sounds/Players/death4.wav" 
+Halo/Spartan/Death5 "Sounds/Players/death5.wav" 
+Halo/Spartan/PainLow "Sounds/Players/pain_low.wav" 
+Halo/Spartan/PainMed "Sounds/Players/pain_med.wav" 
+Halo/Spartan/PainHigh "Sounds/Players/pain_high.wav" 
+Halo/Spartan/Jump1 "Sounds/Players/jump1.wav"
+Halo/Spartan/Jump2 "Sounds/Players/jump2.wav"
+Halo/Spartan/DoubleJump1 "Sounds/Players/Abilities/dbljump1.wav"
+Halo/Spartan/DoubleJump2 "Sounds/Players/Abilities/dbljump2.wav"
+Halo/Spartan/Dash1 "Sounds/Players/Abilities/dash1.wav"
+Halo/Spartan/Dash2 "Sounds/Players/Abilities/dash2.wav"
+Halo/Spartan/Dash3 "Sounds/Players/Abilities/dash3.wav"
+
+$random Halo/Spartan/Dash { Halo/Spartan/Dash1 Halo/Spartan/Dash2 Halo/Spartan/Dash3 }
+$random Halo/Spartan/DoubleJump { Halo/Spartan/DoubleJump1 Halo/Spartan/DoubleJump2 }
+$random Halo/Spartan/Jump { Halo/Spartan/Jump1 Halo/Spartan/Jump2 }
+$random Halo/Spartan/Death { Halo/Spartan/Death1 Halo/Spartan/Death2 Halo/Spartan/Death3 Halo/Spartan/Death4 Halo/Spartan/Death5 }
+
+$playersound	Spartan  male	*death 	  "Sounds/Players/death2.wav" 
+$playersound	Spartan  male	*xdeath	  "Sounds/Players/death4.wav" 
+$playersound	Spartan  male	*gibbed	  "Sounds/Players/death5.wav" 
+$playersound	Spartan  male	*pain100  "Sounds/Players/pain_high.wav" 
+$playersound	Spartan  male	*pain75	  "Sounds/Players/pain_high.wav" 
+$playersound	Spartan  male	*pain50	  "Sounds/Players/pain_med.wav" 
+$playersound	Spartan  male	*pain25	  "Sounds/Players/pain_low.wav" 
+$playersound	Spartan  male	grunt	  dsempty
+$playersound	Spartan  male	*land	  "Sounds/Players/jump2.wav"
+$playersound	Spartan  male	*jump	  "Sounds/Players/jump1.wav"
+$playersound	Spartan  male	*fist	  dspunch
+$playersound	Spartan  male	*usefail  dsnoway

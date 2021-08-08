@@ -4,10 +4,14 @@ extend class HaloPlayer
 	const GNDMAX   = 12;
 	const GNDACCEL = 80;
 	const GNDFRIC  = 7.0;
+	const BT_DASH = BT_USER3;
 	
 	const AIRMAX     = 10;
 	const AIRACCEL   = 40;
-	const AIRCONTROL = 1.0; // 0.20
+	
+	// Switches
+	bool enable_bhop;
+	double aircontrol;
 	
 	// Input device(s)
 	bool using_controller;
@@ -15,6 +19,18 @@ extend class HaloPlayer
 	// Jump delay
 	int prevjump;
 	int fricwait;
+	int maxjumps;
+	
+	// Presistent values
+	double lastmovedir;
+	int jumpcounter;
+	
+	// Dash
+	bool enable_dash;
+	double dashcooldown;
+	double dashpower;
+	int dashmax;
+	int dashcounter;
 	
 
 	void DoQuakeGroundAccel(vector3 wishdir, double spd)
@@ -25,27 +41,38 @@ extend class HaloPlayer
 		vel += addspd * wishdir;
 	}
 	
-	void DoQuakeAirAccel(vector3 wishdir, double spd)
+	void DoQuakeAirAccel(vector3 wishdir, double spd, bool dobhop)
 	{
-		double curspd = wishdir dot vel;
-		double addspd = clamp(AIRMAX - curspd, 0, (AIRACCEL*spd) / TICRATE);
-				
-		vel += (addspd*AIRCONTROL) * wishdir;
-		if(AIRCONTROL < 1.) 
+		if(dobhop)
 		{
-			vector2 forward = (
-				cos(angle),
-				sin(angle)
-			) * addspd;
-			vel += forward * 0.1;
+			double curspd = wishdir dot vel;
+			double addspd = clamp(AIRMAX - curspd, 0, (AIRACCEL*spd) / TICRATE);
+					
+			vel += (addspd*AIRCONTROL) * wishdir;
+			if(AIRCONTROL < 1.) 
+			{
+				vector2 forward = (
+					cos(angle),
+					sin(angle)
+				) * addspd;
+				vel += forward * 0.1;
+			}
+		}
+		else
+		{
+			double curspd = vel.xy.Length();
+			double addspd = clamp(AIRMAX - curspd, 0, (AIRACCEL*spd) / TICRATE);
+			vel += (addspd*AIRCONTROL) * wishdir;
 		}
 	}
+	
+	
 	
 	override void MovePlayer ()
 	{
 		let player = self.player;
 		UserCmd cmd = player.cmd;
-		bool moving = (cmd.forwardmove | cmd.sidemove);
+		bool moving = (cmd.forwardmove || cmd.sidemove);
 	
 		// [RH] 180-degree turn overrides all other yaws
 		if (player.turnticks)
@@ -59,7 +86,7 @@ extend class HaloPlayer
 		}
 		
 		// Process friction every couple of tics.
-		if( player.onground && (fricwait > 4 || !halodoom_allowbhop) ) 
+		if( player.onground && (fricwait > 4 || !halodoom_allowbhop || !enable_bhop) ) 
 			DoQuakeFriction(6.0);
 			
 		player.onground = (pos.z <= floorz) || bOnMobj || bMBFBouncer || (player.cheats & CF_NOCLIP2);
@@ -76,14 +103,15 @@ extend class HaloPlayer
 			vector3 wishdir;
 			wishdir.xy = RotateVector((cmd.forwardmove, -cmd.sidemove), angle);
 			wishdir.z = 0;
+		    lastmovedir = atan2(wishdir.y, wishdir.x);
 			
 			if(wishdir.Length())
 			{
 				wishdir = wishdir.Unit();
 				if(player.onground) 
 					DoQuakeGroundAccel(wishdir, Speed);
-				else if(halodoom_allowbhop)
-					DoQuakeAirAccel(wishdir, Speed);
+				else
+					DoQuakeAirAccel(wishdir, Speed, halodoom_allowbhop && enable_bhop);
 			}
 			
 			if (!(player.cheats & CF_PREDICTING)) PlayRunning ();
@@ -93,7 +121,26 @@ extend class HaloPlayer
 				player.camera = player.mo;
 			}
 		}
+		
+		uint btns = player.cmd.buttons;
+		uint obtns = player.oldbuttons;
+		if( (btns & BT_DASH) && !(obtns & BT_DASH) && dashcounter < dashmax )
+		{
+			vel.xy *= 0;
+			DashAnimator.DoDash(self, lastmovedir, dashpower);
+			if (!(player.cheats & CF_PREDICTING)) A_StartSound("Halo/Spartan/Dash", CHAN_BODY, CHANF_OVERLAP);
+			dashcounter++;
+			dashcooldown = 20;
+		}
+		
+		if(dashcooldown) 
+		{
+			dashcooldown--;
+			if(dashcooldown <= 0) dashcounter = 0;
+		}
+		
 		player.vel = vel.xy;
+		
 	}		
 	
 	void DetectController()
@@ -114,32 +161,50 @@ extend class HaloPlayer
 		uint btns = player.cmd.buttons;
 		uint obtns = player.oldbuttons;
 		bool doholdjump = halodoom_holdjump && halodoom_allowbhop;
-		// [RH] check for jump
-		if ( (btns & BT_JUMP) && (!(obtns & BT_JUMP) || doholdjump) )
+		if(player.onground) jumpcounter = 0;
+		
+		if(!player.onground && (btns & BT_JUMP) && !(obtns & BT_JUMP) && jumpcounter < maxjumps)
 		{
-			if (player.crouchoffset != 0) player.crouching = 1;
-			if (waterlevel >= 2) Vel.Z = 4 * Speed;
-			if (bNoGravity) Vel.Z = 3.;
+			// Double jump
+			vel.z = 0;	
+			doJump();
+			if (!(player.cheats & CF_PREDICTING)) A_StartSound("Halo/Spartan/DoubleJump", CHAN_BODY, CHANF_OVERLAP);
+			jumpcounter++;
+		} 
+		else if ( player.onground && (btns & BT_JUMP) && (!(obtns & BT_JUMP) || doholdjump) )
+		{
+			// Normal jump
+			doJump();
+			if (!(player.cheats & CF_PREDICTING)) A_StartSound("*jump", CHAN_BODY, CHANF_OVERLAP);
+			jumpcounter++;
+		}
+	}
+	
+	void doJump(double forcemod = 1.0)
+	{
+		if (player.crouchoffset != 0) player.crouching = 1;
+		if (waterlevel >= 2) Vel.Z = 4 * Speed;
+		if (bNoGravity) Vel.Z = 3.;
+		
+		if (level.IsJumpingAllowed())
+		{
+			if(abs(level.time - prevjump) <= 4) return;
+			prevjump = level.time;
 			
-			if (level.IsJumpingAllowed() && player.onground)
+			double jumpvelz = JumpZ * 35 / TICRATE;
+			double jumpfac = 0;
+			prevjump = level.time;
+
+			for (let p = Inv; p != null; p = p.Inv)
 			{
-				if(abs(level.time - prevjump) <= 4) return;
-				double jumpvelz = JumpZ * 35 / TICRATE;
-				double jumpfac = 0;
-				prevjump = level.time;
-
-				for (let p = Inv; p != null; p = p.Inv)
-				{
-					let pp = PowerHighJump(p);
-					if (pp) jumpfac = pp.Strength > jumpfac ? pp.Strength : jumpfac;
-				}
-				if (jumpfac > 0) jumpvelz *= jumpfac;
-
-				Vel.Z += jumpvelz;
-				bOnMobj = false;
-				player.jumpTics = -1;
-				if (!(player.cheats & CF_PREDICTING)) A_StartSound("*jump", CHAN_BODY);
+				let pp = PowerHighJump(p);
+				if (pp) jumpfac = pp.Strength > jumpfac ? pp.Strength : jumpfac;
 			}
+			if (jumpfac > 0) jumpvelz *= jumpfac;
+	
+			Vel.Z += jumpvelz * forcemod;
+			bOnMobj = false;
+			player.jumpTics = -1;
 		}
 	}
 	
@@ -193,6 +258,50 @@ extend class HaloPlayer
 		
 			vel.xy *= frictionmod;
 			if(swimming) vel.z *= frictionmod;
+		}
+	}
+}
+
+class DashAnimator : Inventory
+{
+	double dashdir;
+	double dashstr;
+	double timeout;
+	
+	Default
+	{
+		+INVENTORY.UNDROPPABLE;
+		inventory.maxamount 1;
+	}
+	
+	static DashAnimator DoDash(Actor src, double dir, double spd, double dur = 5)
+	{
+		if(src.FindInventory("DashAnimator")) return null;
+		let dash = DashAnimator(Actor.Spawn("DashAnimator"));
+		if(dash)
+		{
+			dash.dashdir = dir;
+			dash.dashstr = spd;
+			dash.timeout = dur;
+			src.AddInventory(dash);
+		}
+		return dash;
+	}
+	
+	override void DoEffect()
+	{
+		super.DoEffect();
+		vector2 addvel = AngleToVector(dashdir, dashstr);
+		
+		Owner.vel.z = 0;
+		Owner.vel.xy += addvel;
+		Owner.bNOGRAVITY = true;		
+		
+		if(GetAge() > timeout) 
+		{
+			Owner.bNOGRAVITY = Owner.default.bNOGRAVITY;
+			Owner.RemoveInventory(self);
+			GoAwayAndDie();
 		}
 	}
 }
