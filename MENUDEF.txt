@@ -46,11 +46,15 @@ OptionMenu "HaloDoomControlsMenu"
 	ScrollTop 2
 	StaticTextSwitchable "$CNTRLMNU_SWITCHTEXT1", "$CNTRLMNU_SWITCHTEXT2", "ControlMessage"	
 	StaticText " "
+	StaticText "General Spartan Controls", "Black"
 	Control    "Fire Weapon (M1)"		, "+attack"
 	Control    "Weapon Zoom (M2)"    	, "+altattack"
 	Control    "Reload (R)"         	, "+reload"
 	Control    "Melee  (F)"         	, "+user2"
 	Control    "Switch Weapons(Q)"   	, "+user1"
+	StaticText " "
+	StaticText "Spartan III", "Black"
+	Control    "Dash (Shift)"      	    , "+user3"
 	StaticText " "
 }
 
