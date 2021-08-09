@@ -39,6 +39,7 @@ class Wraith_Cannon : VehPart
 			cooldown--;
 		}		
 		
+		if(!cam) return;
 		if(!base.driver) return;
 		if(CheckButtons(BT_ATTACK, VehButtons.BTS_DOWN) && !cooldown)
 		{

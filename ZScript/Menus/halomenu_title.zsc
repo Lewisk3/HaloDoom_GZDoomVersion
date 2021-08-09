@@ -108,7 +108,7 @@ class HaloDoom_TitleMenu : HaloMenuBase
 				Switch(i)
 				{
 					case 0:	 	// New Game
-						Menu.SetMenu('PlayerclassMenu');
+						Menu.SetMenu('HaloPlayerClassMenu');
 					break;
 					case 1:		// Load Game
 						Menu.SetMenu('LoadGameMenu');

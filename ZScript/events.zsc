@@ -192,4 +192,5 @@ class HaloDoom_EngineEvents : StaticEventHandler
 	{
 		edata.first_boot = true;
 	}
+	
 }

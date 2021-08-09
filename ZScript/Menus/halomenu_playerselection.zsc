@@ -1,0 +1,143 @@
+class HaloDoom_PlayerClassMenu : HaloMenuBase
+{
+	double fadein;
+	override void Init(Menu parent, ListMenuDescriptor desc)
+	{
+		Super.Init(parent, desc);
+		
+		mMouse = Mouse.Create("", 0,0,32,32);
+		
+		// Build class buttons
+		vector2 btnpos = (520, 480);
+		for(int i = 0; i < PlayerClasses.Size(); i++)
+		{
+			class<Actor> cls = PlayerClasses[i].Type;
+			if(cls)
+			{
+				let defs = GetDefaultByType(cls);
+				string clsname = PlayerPawn.GetPrintableDisplayName(cls);
+				
+				TextElement btntxt = newBtnText(clsname, "HaloFont");
+				buttons.push(Button.Create("BTN_OFF" ,  "BTN_ON" , btnpos.x, btnpos.y, 0.8, 0.25, btntxt));
+				btnpos.y += 90;
+			}
+		}
+		
+		for(int i = 0; i < buttons.Size(); i++)
+			buttons[i].ScaleCollider(0.9, 0.7);
+		
+		DontDim = true;
+		mMouse.SetPos(buttons[0].btnrect.pos);
+		btn_selected = 0;
+	}
+	
+	void DStr(String str, vector2 pos, uint flags = 0, Color col = Font.CR_WHITE, vector2 scale=(1.15,1.15), Font fnt = "HaloFont")
+	{
+		double len = (fnt.StringWidth(str) * scale.x);
+		pos.x -= len;
+		
+		HLSBS.DrawString(fnt,str,pos,flags,col,1.0,scale);
+	}
+	
+	override void Drawer()
+	{
+		super.Drawer();
+		mMouse.Draw();
+		
+		DStr("Select Spartan", (0,100), HLSBS.SS_SCREEN_TOP_CENTER, Font.CR_BLUE, scale:(2.0,2.0), fnt:"BigFont");
+				
+		for(int i = 0; i < buttons.Size(); i++)
+		{
+			if(buttons[i].btntext)
+			{
+				if(buttons[i].pressed)
+					buttons[i].btntext.font_color = Font.CR_BLACK;
+				else if(buttons[i].hovered)
+					buttons[i].btntext.font_color = Font.CR_BLUE;
+				else
+					buttons[i].btntext.font_color = Font.CR_WHITE;
+			}
+		}
+		
+		DrawSelectedPlayer();
+		HLSBS.Dim(Color(255,0,0,0), 0.15);
+	}
+	
+	void DrawSelectedPlayer()
+	{	
+		vector2 plrpos = (1200,500);
+		Color bgcol = 0x266f03fc;
+		uint index = -1;
+		for(int i = 0; i < buttons.Size(); i++)
+		{
+			bool btnactive = (buttons[i].hovered || buttons[i].pressed);
+			if(btnactive)			
+			{
+				index = i;
+				break;
+			}
+		}
+		
+		// Backdrop
+		HLSBS.DrawImage("B@CKDROP", plrpos, alpha:0.70, scale:(3.0,4.0), tint:bgcol);
+		
+		// Description
+		vector2 desc_pos = (plrpos.x+190, plrpos.y-256);
+		HLSBS.Fill(0xFF000000, desc_pos.x,desc_pos.y, 370,520);
+		DStr("Spartan Info", (desc_pos.x+100,desc_pos.y), 0, Font.CR_BLUE, scale:(1.0,1.0), fnt:"HaloFont");
+	
+		if(index >= 0)
+		{
+			// Why does the syntax here need to be sooo specific?
+			let plr = (class<HaloPlayer>) (PlayerClasses[index].Type);
+			if(plr)
+			{
+				let plrdefs = GetDefaultByType(plr);
+				State seestate = plrdefs.SeeState;
+				if (seestate)
+				{
+					Vector2 Scale;
+					TextureID sprite;
+					bool flip;
+					
+					[sprite, flip, Scale] = seestate.GetSpriteTexture(0, 0, plrdefs.Scale);
+				
+					if (sprite.IsValid())
+					{
+						vector2 posoffs = (130,300);
+						vector2 basescale = (6.0, 6.0);
+						Scale.X *= basescale.X;
+						Scale.Y *= basescale.Y;
+						HLSBS.DrawTexture(sprite, plrpos+posoffs, scale:Scale);
+					}
+					
+					// Write Description
+					string desc = plrdefs.class_desc;
+					HLSBS.DrawString("HaloFont", desc, (desc_pos.x+20,desc_pos.y+50), 0, Font.CR_WHITE, scale:(0.75,0.75));
+				}
+			}
+		}
+	}
+	
+	override void Ticker()
+	{
+		uint selected_class;
+		if(btn_selected != -1) mMouse.left_pressed = true;
+	
+		for(int i = 0; i < buttons.Size(); i++)
+		{
+			buttons[i].Update(mMouse, btn_selected == -1);
+				
+			if(buttons[i].clicked)
+			{
+				MenuSound("UI/PressButton");
+				buttons[i].clicked = false;
+				selected_class = i;
+				
+				// Enter skill menu with selected player class.
+				Menu.SetMenu("episodemenu", selected_class);
+				break;
+			}
+		}
+	}
+}

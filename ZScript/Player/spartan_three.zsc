@@ -4,6 +4,15 @@ class HaloSpartan_III : HaloPlayer
 	{
 		// UI
 		Player.DisplayName "Spartan III";
+		HaloPlayer.Description (
+			"During times of high stress and,\n"
+			"pain the 2nd generation of\n"
+			"spartans can become the very\n"
+			"embodyment of rage.\n\n"
+			"Employing thruster packs for\n"
+			"added mobility to accomodate\n"
+			"their pugilist fighting style."
+		);
 		
 		// Vitals
 		Health 45; 

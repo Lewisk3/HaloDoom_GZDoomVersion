@@ -35,6 +35,11 @@ ListMenu "Intro"
 	class "HaloDoom_IntroSeq"
 }
 
+ListMenu "HaloPlayerClassMenu"
+{
+	class "HaloDoom_PlayerClassMenu"
+}
+
 AddListMenu "MainMenu" 
 {
    	class "HaloDoom_TitleMenu"	

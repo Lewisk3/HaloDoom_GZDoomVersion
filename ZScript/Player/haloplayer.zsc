@@ -9,6 +9,7 @@ class HaloPlayer : DoomPlayer
 	double soundwait;
 	double aimdist;
 	bool shields_recharging;
+	string class_desc;
 	
 	// Shields
 	double shield_regentime;
@@ -32,6 +33,7 @@ class HaloPlayer : DoomPlayer
 	Property CanBunnyHop : enable_bhop;
 	Property AirControl : aircontrol;
 	Property SetupDashes : enable_dash, dashmax, dashpower;
+	Property Description : class_desc;
 	
 	Default
 	{
@@ -44,6 +46,7 @@ class HaloPlayer : DoomPlayer
 		
 		// UI
 		Player.DisplayName "Spartan Template";
+		HaloPlayer.Description "Template Spartan class.";
 		
 		// Vitals
 		Health 45; 

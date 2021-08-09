@@ -4,6 +4,13 @@ class HaloSpartan_II : HaloPlayer
 	{
 		// UI
 		Player.DisplayName "Spartan II";
+		HaloPlayer.Description (
+			"The First Series of Spartan\n"
+			"Super Soldiers.\n\n"
+			"Not as mobile as their sucessors,\n"
+			"but make up for it in durability."
+		);
+
 
 		// Vitals
 		Health 45; 
