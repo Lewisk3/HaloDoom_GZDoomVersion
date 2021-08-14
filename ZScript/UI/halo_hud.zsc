@@ -78,6 +78,7 @@ class HaloStatusBar : BaseStatusBar
 	double curshields;
 	double dimalpha;
 	double curbattery;
+	double dashmeter;
 	
 	// Timers
 	double lowshield_timer;
@@ -196,6 +197,7 @@ class HaloStatusBar : BaseStatusBar
 			if(!automapactive)
 			{
 				DrawCompass();
+				DrawAbilities();
 				DrawCrosshairs();
 				DrawWeaponsAmmo();
 				DrawRadar();
@@ -444,6 +446,23 @@ class HaloStatusBar : BaseStatusBar
 			); 
 			
 			HLSBS.DrawImage(sight, midpos, 0, 1.0, scale:(scale,scale));
+		}
+	}
+	
+	void DrawAbilities()
+	{
+		vector2 dashpos = (200,600);
+		if(haloplr.enable_dash)
+		{
+			double dashperc = (haloplr.dashcounter / double(haloplr.dashmax));
+			double fullpos = 52 * (1.0 - dashperc);
+			dashmeter = HaloMath.Lerp(dashmeter, fullpos, 0.10 * deltatime);
+			
+			HLSBS.DrawImage("DASHBG", dashpos);
+			HLSBS.SetClipRect(dashpos.x - 24, dashpos.y - 32, dashmeter, 64);
+			HLSBS.DrawImage("DASHCRGE", dashpos);
+			HLSBS.ClearClipRect();
+			if(dashperc <= 0) HLSBS.DrawImage("DASHFULL", dashpos);
 		}
 	}
 

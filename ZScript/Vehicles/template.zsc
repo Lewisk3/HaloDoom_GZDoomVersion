@@ -49,9 +49,10 @@ class HaloVehName : HaloVehicle
 	{
 	}
 	
-	override void RemoveDriver()
+	override bool RemoveDriver(PlayerPawn user, vector3 exitpos)
 	{
-		super.RemoveDriver();
+		bool success = super.RemoveDriver(user, exitpos);
+		return success;
 	}
 	
 	override void TakeDriver(PlayerPawn user)
@@ -59,7 +60,7 @@ class HaloVehName : HaloVehicle
 		if(health <= 0) return;
 		if(user) driver = user;
 		SetupHaloCamera(dist:80,50,30,50);
-		ReadyDriver();
+		ReadyDriver(user);
 	}
 	
 	override vector3 GetDrivePos()
@@ -73,7 +74,7 @@ class HaloVehName : HaloVehicle
 
 		if(health <= 0)  
 		{
-			if(driver) RemoveDriver();
+			if(driver) RemoveDriver(driver, GetExitPos(driver));
 			return;
 		}
 		if(!driver) return;

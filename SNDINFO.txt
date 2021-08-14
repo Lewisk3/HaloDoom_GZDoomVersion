@@ -127,7 +127,8 @@ Halo/Weapons/Mag_MD6/Melee 		  HW_MAGM
 Halo/Weapons/Mag_MD6/Reload 	  HW_MAGR
 Halo/Weapons/Mag_MD6/Reload/Empty HW_MAGRE
 
-$volume Halo/Weapons/Mag_MD6/Fire 0.5;
+$volume Halo/Weapons/Mag_MD6/Fire 0.9;
+$volume Halo/Weapons/Mag_MD6/Fire/Bass 0.6;
 
 // AssaultRifle
 ARFIRE1 ARFire1
@@ -174,9 +175,9 @@ $random Halo/Weapons/BattleRifle/Fire      { BARFIRE1 BARFIRE2 BARFIRE3 BARFIRE4
 $random Halo/Weapons/BattleRifle/Mech      { BARMECH1 BARMECH2 BARMECH3 BARMECH4 }
 $random Halo/Weapons/BattleRifle/Fire/Bass { BARLOW1 BARLOW2 BARLOW3 }
 
-$volume Halo/Weapons/BattleRifle/Fire 0.4;
-$volume Halo/Weapons/BattleRifle/Fire/Bass 1.0;
-$volume Halo/Weapons/BattleRifle/Mech 0.6;
+$volume Halo/Weapons/BattleRifle/Fire 0.9;
+$volume Halo/Weapons/BattleRifle/Fire/Bass 0.9;
+$volume Halo/Weapons/BattleRifle/Mech 0.7;
 
 // SuperShotgun
 DBFIRE1 DBFIRE1
@@ -313,8 +314,8 @@ $playersound	Spartan  male	*pain100  "Sounds/Players/pain_high.wav"
 $playersound	Spartan  male	*pain75	  "Sounds/Players/pain_high.wav" 
 $playersound	Spartan  male	*pain50	  "Sounds/Players/pain_med.wav" 
 $playersound	Spartan  male	*pain25	  "Sounds/Players/pain_low.wav" 
-$playersound	Spartan  male	grunt	  dsempty
-$playersound	Spartan  male	*land	  "Sounds/Players/jump2.wav"
+$playersound	Spartan  male	grunt	  "Sounds/Players/jump2.wav"
+$playersound	Spartan  male	*land	  dsempty
 $playersound	Spartan  male	*jump	  "Sounds/Players/jump1.wav"
 $playersound	Spartan  male	*fist	  dspunch
 $playersound	Spartan  male	*usefail  dsnoway

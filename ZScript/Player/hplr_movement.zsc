@@ -73,6 +73,7 @@ extend class HaloPlayer
 		let player = self.player;
 		UserCmd cmd = player.cmd;
 		bool moving = (cmd.forwardmove || cmd.sidemove);
+		bool dashing = !!FindInventory("DashAnimator");
 	
 		// [RH] 180-degree turn overrides all other yaws
 		if (player.turnticks)
@@ -87,7 +88,7 @@ extend class HaloPlayer
 		
 		// Process friction every couple of tics.
 		if( player.onground && (fricwait > 4 || !halodoom_allowbhop || !enable_bhop) ) 
-			DoQuakeFriction(6.0);
+			DoQuakeFriction(dashing ? 0.5 : 6.0);
 			
 		player.onground = (pos.z <= floorz) || bOnMobj || bMBFBouncer || (player.cheats & CF_NOCLIP2);
 		if(player.onground) 
@@ -130,14 +131,11 @@ extend class HaloPlayer
 			DashAnimator.DoDash(self, lastmovedir, dashpower);
 			if (!(player.cheats & CF_PREDICTING)) A_StartSound("Halo/Spartan/Dash", CHAN_BODY, CHANF_OVERLAP);
 			dashcounter++;
-			dashcooldown = 20;
+			dashcooldown = 35;
 		}
 		
-		if(dashcooldown) 
-		{
-			dashcooldown--;
-			if(dashcooldown <= 0) dashcounter = 0;
-		}
+		if(dashcooldown) dashcooldown--;
+		if(dashcooldown <= 0 && player.onground) dashcounter = 0;
 		
 		player.vel = vel.xy;
 		

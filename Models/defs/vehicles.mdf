@@ -238,3 +238,147 @@ Model Wraith_Cannon
    
    FrameIndex MODL A 0 0 
 }
+
+// Mantis
+Model MantisTorso
+{ 
+   Path "Models/Vehicles/Mantis"
+   Skin 0 "generic_metal.png" 
+   Model 0 "mantis_torso.obj" 
+   Scale 3.0 3.0 3.0
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}
+Model MantisLeftArm
+{ 
+   Path "Models/Vehicles/Mantis"
+   Skin 0 "generic_metal.png" 
+   Model 0 "mantis_leftarm.obj" 
+   Scale 3.0 3.0 3.0
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}
+Model MantisRightArm
+{ 
+   Path "Models/Vehicles/Mantis"
+   Skin 0 "generic_metal.png" 
+   Model 0 "mantis_rightarm.obj" 
+   Scale 3.0 3.0 3.0
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}
+
+// Mantis leg assembly.
+Model MantisLegs_Base
+{ 
+   Path "Models/Vehicles/Mantis"
+   Skin 0 "generic_metal.png" 
+   Model 0 "mantis_hips.obj" 
+   Scale 3.0 3.0 3.0
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}
+Model MantisLegs_Hips
+{ 
+   Path "Models/Vehicles/Mantis"
+   Skin 0 "generic_metal.png" 
+   Model 0 "mantis_prehip.obj" 
+   Scale 3.0 3.0 3.0
+   PitchOffset 45
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}
+Model MantisLegs_Thighs
+{ 
+   Path "Models/Vehicles/Mantis"
+   Skin 0 "generic_metal.png" 
+   Model 0 "mantis_thighs.obj" 
+   Scale 3.0 3.0 3.0
+   PitchOffset 180
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}
+Model MantisLegs_Legs
+{ 
+   Path "Models/Vehicles/Mantis"
+   Skin 0 "generic_metal.png" 
+   Model 0 "mantis_legs.obj" 
+   Scale 3.0 3.0 3.0
+   PitchOffset 90
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}
+Model MantisLegs_Feet
+{ 
+   Path "Models/Vehicles/Mantis"
+   Skin 0 "generic_metal.png" 
+   Model 0 "mantis_foot.obj" 
+   Scale 3.0 3.0 3.0
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}
+
+// Left
+Model MantisLegs_HipsLeft
+{ 
+   Path "Models/Vehicles/Mantis"
+   Skin 0 "generic_metal.png" 
+   Model 0 "mantis_prehip.obj" 
+   Scale 3.0 -3.0 3.0
+   PitchOffset 45
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}
+Model MantisLegs_ThighsLeft
+{ 
+   Path "Models/Vehicles/Mantis"
+   Skin 0 "generic_metal.png" 
+   Model 0 "mantis_thighs.obj" 
+   Scale 3.0 -3.0 3.0
+   PitchOffset 180
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}
+Model MantisLegs_LegsLeft
+{ 
+   Path "Models/Vehicles/Mantis"
+   Skin 0 "generic_metal.png" 
+   Model 0 "mantis_legs.obj" 
+   Scale 3.0 -3.0 3.0
+   PitchOffset 90
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}
+Model MantisLegs_FeetLeft
+{ 
+   Path "Models/Vehicles/Mantis"
+   Skin 0 "generic_metal.png" 
+   Model 0 "mantis_foot.obj" 
+   Scale 3.0 -3.0 3.0
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}

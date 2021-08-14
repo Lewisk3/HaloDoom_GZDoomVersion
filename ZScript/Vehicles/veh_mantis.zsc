@@ -1,0 +1,384 @@
+class MantisTorso : VehPart
+{
+	Default
+	{
+		Radius 16;
+		Height 16;
+		Scale 10.0;
+	}
+	
+	override void UpdatePos(bool moving)
+	{
+		if(!base) return;
+		super.UpdatePos(moving);
+		
+		let mantis = HaloMantis(base);
+		if(!mantis) return;
+		
+		if(!base.driver) return;		
+		A_SetAngle(base.driver.angle, SPF_INTERPOLATE);
+		A_SetPitch(mantis.legs.pitch, SPF_INTERPOLATE);
+	}
+
+	States
+	{
+		Spawn:
+			MODL A 1;
+		loop;
+	}
+}
+
+class MantisLeftArm : VehPart
+{
+	Default
+	{
+		Radius 16;
+		Height 16;
+		Scale 10.0;
+	}
+	
+	override void UpdatePos(bool moving)
+	{
+		if(!base) return;
+		let mantis = HaloMantis(base);
+		if(!mantis) return;
+		vector3 finalpos = GetOffsetPos(mantis.torso);
+		SetOrigin(finalpos, moving);
+		
+		if(!base.driver) return;
+		A_SetAngle(mantis.torso.angle, SPF_INTERPOLATE);
+		A_SetPitch(base.driver.pitch, SPF_INTERPOLATE);
+	}
+		
+	override void DoUpdate(VehCamera cam)
+	{
+	}
+	
+	States
+	{
+		Spawn:
+			MODL A 1;
+		loop;
+	}
+}
+
+class MantisRightArm : MantisLeftArm
+{
+	Default
+	{
+		Radius 16;
+		Height 16;
+		Scale 10.0;
+	}
+		
+	override void DoUpdate(VehCamera cam)
+	{
+	}
+	
+	States
+	{
+		Spawn:
+			MODL A 1;
+		loop;
+	}
+}
+
+// Legs
+class MantisLegPiece : Segment 
+{
+	Default
+	{
+		Segment.FollowAngles false, true;
+		Segment.AngleOffsets 0, 0;
+		Scale 10.0;
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+	//	DrawPoints();
+	}
+}
+class MantisLegs_Base : MantisLegPiece
+{
+	Default
+	{
+		Segment.FollowAngles false, false;
+	}
+
+	override vector3 GetEndOffs()
+	{
+		return (0,18,70);
+	}	
+	
+	override void Tick()
+	{
+		super.Tick();
+		if(onground) HaloMath.AlignToPlane(self);
+		
+	}
+}
+class MantisLegs_Hips : MantisLegPiece
+{
+	Default
+	{
+		Segment.AngleOffsets 0, 0;
+	}
+	
+	
+	override vector3 GetEndOffs()
+	{
+		// return (20,14,-20);
+		return (30, 14, 0);
+	}
+}
+class MantisLegs_Thighs : MantisLegPiece
+{	
+	Default
+	{
+		Segment.AngleOffsets 0, 150;
+	}
+	
+	override vector3 GetEndOffs()
+	{
+		//return (-34,0,-8);
+		return (35,0,5);
+	}
+}
+class MantisLegs_Legs : MantisLegPiece
+{
+	Default
+	{
+		Segment.AngleOffsets 0, 40;
+	}
+	
+
+	override vector3 GetEndOffs()
+	{
+		// return (0,9,-30);
+		return (30,8,0);
+	}
+
+}
+class MantisLegs_Feet : MantisLegPiece
+{
+	Default
+	{
+		Segment.FollowAngles false, true;
+		Segment.AngleOffsets 0, -90;
+	}
+
+	override vector3 GetEndOffs()
+	{
+		return (0,0,0);
+	}
+	
+	
+}
+class MantisLegs_HipsLeft : MantisLegs_Hips {}
+class MantisLegs_ThighsLeft : MantisLegs_Thighs {}
+class MantisLegs_LegsLeft : MantisLegs_Legs {}
+class MantisLegs_FeetLeft : MantisLegs_Feet {}
+
+class LegsKineLimb : KineLimb
+{
+	LegsKineLimb parent;
+	VehBase base;
+	vector3 top_pos;
+	vector3 top_offs;
+	vector3 attachoffs; 
+	vector3 followoffs;
+	vector3 footpos;
+	double poffs;
+	
+	Default
+	{
+		-NOGRAVITY;
+	}	
+	
+	static LegsKineLimb AttachToVeh(class<LegsKineLimb> type, VehBase veh, vector3 offs)
+	{
+		let klmb = LegsKineLimb(Actor.Spawn(type, veh.pos));
+		if(klmb)
+		{
+			klmb.attachoffs = offs;
+			klmb.base = veh;
+		}
+		return klmb;
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		
+		if(base)
+		{
+			pitch = base.pitch;
+			roll = base.roll;
+			vector3 offspos = HaloMath.V3Offset(angle, pitch, roll, attachoffs.x, attachoffs.y, attachoffs.z, 1.0);
+			SetOrigin(level.vec3offset(base.pos, offspos), true);
+			
+			vector3 ftoppos = HaloMath.V3Offset(angle, pitch, roll, top_offs.x, top_offs.y, top_offs.z, 1.0);
+			top_pos = level.vec3offset(base.pos, ftoppos);
+		}
+		fixedpos = pos;
+		
+		if(parent) 
+		{
+			base = parent.base;
+			attachoffs = parent.attachoffs;
+			angle = parent.angle;
+			pitch = parent.pitch;
+			vel = parent.vel;
+		}
+		
+		for(int i = 0; i < segs.Size(); i++)
+		{
+			segs[i].angleoffs = angle;
+		}
+		footpos = segs[4].pos;
+
+		vector3 flooroffs = HaloMath.V3Offset(angle,pitch + poffs,roll, followoffs.x,followoffs.y,followoffs.z, 1.0);
+		vector3 floorpos = level.vec3offset(footpos, flooroffs);
+		followpos = (floorpos.xy, floorz + followoffs.z);
+		// UpdateFollow();
+
+		Spawn("BulletPuff", followpos);
+	}
+	
+	virtual void UpdateFollow()
+	{
+		//vel.x = 3;
+		//let plr = players[consoleplayer].mo;
+		//followpos = plr.pos;
+		//segs[1].pitchoffs -= sin(GetAge() * 3.0) * 2.0;
+		//segs[2].pitchoffs -= sin(GetAge() * 3.0) * 1.0;
+		//segs[3].pitchoffs += sin(GetAge() * 3.0) * 0.25;
+		followoffs.x -= sin(GetAge() * 8.0) * 8.0;
+		followoffs.z += sin(GetAge() * 8.0) * 4.0;
+	}	
+}
+
+
+class MantisLegs_Left : LegsKineLimb
+{	
+	override void OnCreate()
+	{
+		AddSegment("MantisLegs_Base", flipx:true);
+		AddSegment("MantisLegs_HipsLeft", flipx:true);
+		AddSegment("MantisLegs_ThighsLeft", flipx:true);
+		AddSegment("MantisLegs_LegsLeft", flipx:true);	
+		AddSegment("MantisLegs_FeetLeft", flipx:true);
+		followoffs = (0,0,0);
+	}
+	
+	override void UpdateFollow()
+	{
+		//segs[1].pitchoffs -= sin(GetAge() * 3.0) * 3.0;
+		//segs[2].pitchoffs += sin(GetAge() * 3.0) * 1.0;
+		//segs[3].pitchoffs -= sin(GetAge() * 3.0) * 1.0;
+		followoffs.x -= sin((GetAge() * 8.0) + 60) * 8.0;
+		followoffs.z += sin((GetAge() * 8.0) + 60) * 4.0;
+	}	
+}
+
+class MantisLegs : LegsKineLimb
+{	
+	override void OnCreate()
+	{
+		let left = LegsKineLimb(Spawn("MantisLegs_Left", pos));
+		left.parent = self;
+		
+		top_offs = (0, 0, 80);
+		AddSegment("MantisLegs_Base");
+		AddSegment("MantisLegs_Hips");
+		AddSegment("MantisLegs_Thighs");
+		AddSegment("MantisLegs_Legs");	
+		AddSegment("MantisLegs_Feet");	
+		followoffs = (0,0,0);
+	}
+}
+
+
+class HaloMantis : HaloVehicle
+{
+	MantisLegs legs;
+	MantisTorso torso;
+	MantisLeftArm leftarm;
+	MantisRightArm rightarm;
+
+	Default
+	{
+		Radius 40;
+		Height 40;
+	
+		Mass 800;
+		Health 1000;
+		HaloVehicle.Armored 500;
+		MaxSlopeSteepness 0.4;
+	}
+	
+	override void BeginPlay()
+	{
+		legs = MantisLegs(LegsKineLimb.AttachToVeh("MantisLegs", self, (0,0,0)));
+		torso = MantisTorso(VehPart.Attach("MantisTorso", self, (-8,0,80)));
+		leftarm = MantisLeftArm(VehPart.Attach("MantisLeftArm", self, (13,-55,5)));
+		rightarm = MantisRightArm(VehPart.Attach("MantisRightArm", self, (13,55,5)));
+		super.BeginPlay();
+	}
+	
+	override bool RemoveDriver(PlayerPawn user, vector3 exitpos)
+	{
+		bool success = super.RemoveDriver(user, exitpos);
+		return success;
+	}
+	
+	override void TakeDriver(PlayerPawn user)
+	{
+		if(health <= 0) return;
+		if(user) driver = user;
+		SetupHaloCamera(dist:-120,120,120,140);
+		ReadyDriver(user);
+	}
+	
+	override vector3 GetDrivePos()
+	{
+		return (-20,-5,0);
+	}
+	
+	override void DoMove(float forwardmove, float sidemove)
+	{	
+		vel.xy *= 0.90;
+
+		if(health <= 0)  
+		{
+			if(driver) RemoveDriver(driver, GetExitPos(driver));
+			return;
+		}
+		if(!driver) return;
+		
+		if(forwardmove || sidemove)
+		{
+			vector2 movedir = (forwardmove, -sidemove).Unit();
+			movedir = RotateVector(movedir, torso.angle);
+			double walkdir = atan2(movedir.y, movedir.x);
+			legs.angle = HaloMath.LerpDegrees(legs.angle, walkdir, 0.15);
+			angle = legs.angle;
+			
+			vel.xy = ( cos(angle),sin(angle) ) * 5;
+		}
+		
+		DoCollisionDamage();
+	}
+	
+	States
+	{
+		Spawn:
+			MODL A 1;
+		loop;
+		
+		Death:
+			MODL A -1;
+		stop;
+	}
+}
