@@ -11,6 +11,7 @@ extend class HaloPlayer
 	const AIRACCEL   = 40;
 	
 	// Switches
+	bool enable_grapple;
 	bool enable_bhop;
 	bool canslide;
 	double aircontrol;
@@ -36,6 +37,9 @@ extend class HaloPlayer
 	int dashcooldown_time;
 	int dashmax;
 	int dashcounter;
+	
+	// Grapple
+	bool gpl_validsurface;
 	
 
 	void DoQuakeGroundAccel(vector3 wishdir, double spd)
@@ -156,7 +160,7 @@ extend class HaloPlayer
 		if(dashcooldown <= 0 && player.onground) dashcounter = 0;
 		
 		// Grappling hook
-		if( (btns & BT_GRAPPLE) && !(obtns & BT_GRAPPLE) )
+		if( (btns & BT_GRAPPLE) && !(obtns & BT_GRAPPLE) && enable_grapple )
 		{
 			if(grapple)
 			{
@@ -168,6 +172,10 @@ extend class HaloPlayer
 				grapple = GrapplingHook.Deploy(self, 60, (-10,-2,-2));
 			}
 		}
+		
+		// Determine if grapple is deployable.
+		if(enable_grapple && !grapple)
+			gpl_validsurface = GrapplingHook.CanDeployGrapple(self, (-10,-2,-2));
 		
 		player.vel = vel.xy;
 		if(block_moveinput) player.vel *= 0;

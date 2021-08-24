@@ -31,5 +31,6 @@ class HaloSpartan_IV : HaloPlayer
 		HaloPlayer.MaxJumps 1;
 		HaloPlayer.AirControl 2.0;
 		HaloPlayer.EnableSlide true;
+		HaloPlayer.EnableGrapple true;
 	}
 }

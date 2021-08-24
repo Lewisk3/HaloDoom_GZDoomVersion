@@ -42,6 +42,14 @@ class GrapplingHook : Actor
 		SetOrigin((dest.pos.xy, dest.pos.z + hitoffs.z), false);
 	}
 	
+	static bool CanDeployGrapple(Actor source, vector3 offsets = (0,0,0), class<GrapplingHook> type = "GrapplingHook")
+	{
+		let defs = GetDefaultByType(type);
+		FLineTraceData hitdata;
+		source.LineTrace(source.angle, defs.maxdist, source.pitch, TRF_ALLACTORS, offsetz:offsets.z, offsets.x+64, offsets.y, data:hitdata);
+		return !(hitdata.HitType == TRACE_HitNone || hitdata.HitType == TRACE_HasHitSky);
+	}
+	
 	static GrapplingHook Deploy(Actor source, double speed, vector3 offsets = (0,0,0), class<GrapplingHook> type = "GrapplingHook")
 	{
 		vector3 truepos = HaloMath.RelativeV3Offset(source, 0, 0, 0, offsets.x, offsets.y, offsets.z, 1.);

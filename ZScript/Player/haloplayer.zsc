@@ -35,6 +35,7 @@ class HaloPlayer : DoomPlayer
 	Property AirControl : aircontrol;
 	Property SetupDashes : enable_dash, dashmax, dashpower, dashcooldown_time;
 	Property EnableSlide : canslide;
+	Property EnableGrapple : enable_grapple;
 	Property Description : class_desc;
 	
 	Default
