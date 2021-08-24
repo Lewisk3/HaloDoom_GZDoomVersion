@@ -171,6 +171,7 @@ class HaloWraith : HaloVehicle
 		if(health <= 0)  
 		{
 			if(driver) RemoveDriver(driver, GetExitPos(driver));
+			Destroy();
 			return;
 		}
 		

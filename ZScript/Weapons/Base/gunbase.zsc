@@ -87,7 +87,8 @@ class HaloGun : RecoilWeapon
 	
 	override void OnDrop (Actor dropper) 
 	{
-		WeaponPickupProxy.BecomeWeaponProxy(self);
+		let wp = WeaponPickupProxy.BecomeWeaponProxy(self, !!dropper.player);
+		if(wp) wp.clipammo = dropper.countinv(ammotype2);
 	}
 	
 	action double A_CheckMeleeRange(double maxrange = 512)

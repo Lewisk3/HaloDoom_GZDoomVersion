@@ -301,8 +301,17 @@ Halo/Spartan/DoubleJump2 "Sounds/Players/Abilities/dbljump2.wav"
 Halo/Spartan/Dash1 "Sounds/Players/Abilities/dash1.wav"
 Halo/Spartan/Dash2 "Sounds/Players/Abilities/dash2.wav"
 Halo/Spartan/Dash3 "Sounds/Players/Abilities/dash3.wav"
+Halo/Spartan/Slide1 "Sounds/Players/Abilities/slide1.wav"
+Halo/Spartan/Slide2 "Sounds/Players/Abilities/slide2.wav"
+Halo/Spartan/Slide3 "Sounds/Players/Abilities/slide3.wav"
+Halo/Spartan/Grapple/Deploy "Sounds/Players/Abilities/grapple_deploy.wav"
+Halo/Spartan/Grapple/Latch "Sounds/Players/Abilities/grapple_latch.wav"
+Halo/Spartan/ZipLine/Start "Sounds/Players/Abilities/zip_begin.wav"
+Halo/Spartan/ZipLine/Loop "Sounds/Players/Abilities/zip_loop.wav"
+Halo/Spartan/ZipLine/End "Sounds/Players/Abilities/zip_end.wav"
 
 $random Halo/Spartan/Dash { Halo/Spartan/Dash1 Halo/Spartan/Dash2 Halo/Spartan/Dash3 }
+$random Halo/Spartan/Slide { Halo/Spartan/Slide1 Halo/Spartan/Slide2 Halo/Spartan/Slide3 }
 $random Halo/Spartan/DoubleJump { Halo/Spartan/DoubleJump1 Halo/Spartan/DoubleJump2 }
 $random Halo/Spartan/Jump { Halo/Spartan/Jump1 Halo/Spartan/Jump2 }
 $random Halo/Spartan/Death { Halo/Spartan/Death1 Halo/Spartan/Death2 Halo/Spartan/Death3 Halo/Spartan/Death4 Halo/Spartan/Death5 }

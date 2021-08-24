@@ -5,16 +5,20 @@ extend class HaloPlayer
 	const GNDACCEL = 80;
 	const GNDFRIC  = 7.0;
 	const BT_DASH = BT_USER3;
+	const BT_GRAPPLE = BT_USER4;
 	
 	const AIRMAX     = 10;
 	const AIRACCEL   = 40;
 	
 	// Switches
 	bool enable_bhop;
+	bool canslide;
 	double aircontrol;
+	double fricmod; // Inverse friction mod; 1.0 = no friction applied.
 	
 	// Input device(s)
 	bool using_controller;
+	bool block_moveinput;
 	
 	// Jump delay
 	int prevjump;
@@ -29,6 +33,7 @@ extend class HaloPlayer
 	bool enable_dash;
 	double dashcooldown;
 	double dashpower;
+	int dashcooldown_time;
 	int dashmax;
 	int dashcounter;
 	
@@ -73,8 +78,7 @@ extend class HaloPlayer
 		let player = self.player;
 		UserCmd cmd = player.cmd;
 		bool moving = (cmd.forwardmove || cmd.sidemove);
-		bool dashing = !!FindInventory("DashAnimator");
-	
+		
 		// [RH] 180-degree turn overrides all other yaws
 		if (player.turnticks)
 		{
@@ -87,8 +91,9 @@ extend class HaloPlayer
 		}
 		
 		// Process friction every couple of tics.
+		double fric = 6.0 * (1.0-fricmod);
 		if( player.onground && (fricwait > 4 || !halodoom_allowbhop || !enable_bhop) ) 
-			DoQuakeFriction(dashing ? 0.5 : 6.0);
+			DoQuakeFriction(fric);
 			
 		player.onground = (pos.z <= floorz) || bOnMobj || bMBFBouncer || (player.cheats & CF_NOCLIP2);
 		if(player.onground) 
@@ -103,7 +108,9 @@ extend class HaloPlayer
 			UserCmd cmd = player.cmd;
 			vector3 wishdir;
 			wishdir.xy = RotateVector((cmd.forwardmove, -cmd.sidemove), angle);
+			if(block_moveinput) wishdir.xy = (0,0);
 			wishdir.z = 0;
+			
 		    lastmovedir = atan2(wishdir.y, wishdir.x);
 			
 			if(wishdir.Length())
@@ -125,20 +132,45 @@ extend class HaloPlayer
 		
 		uint btns = player.cmd.buttons;
 		uint obtns = player.oldbuttons;
+		// Slide
+		if( (btns & BT_CROUCH) && vel.length() > 5 && player.onground && canslide )
+		{
+			// If slide success and not predicting movement, play slide sound.
+			if( SlideAnimator.DoSlide(self, 35) && !(player.cheats & CF_PREDICTING) )
+			{
+				A_StartSound("Halo/Spartan/Slide", CHAN_BODY, CHANF_OVERLAP);
+			}
+		}
+		
+		// Dash
 		if( (btns & BT_DASH) && !(obtns & BT_DASH) && dashcounter < dashmax )
 		{
 			vel.xy *= 0;
 			DashAnimator.DoDash(self, lastmovedir, dashpower);
 			if (!(player.cheats & CF_PREDICTING)) A_StartSound("Halo/Spartan/Dash", CHAN_BODY, CHANF_OVERLAP);
 			dashcounter++;
-			dashcooldown = 35;
+			dashcooldown = dashcooldown_time * 35.0;
 		}
 		
 		if(dashcooldown) dashcooldown--;
 		if(dashcooldown <= 0 && player.onground) dashcounter = 0;
 		
-		player.vel = vel.xy;
+		// Grappling hook
+		if( (btns & BT_GRAPPLE) && !(obtns & BT_GRAPPLE) )
+		{
+			if(grapple)
+			{
+				grapple.Retract();
+				return;
+			}
+			else
+			{
+				grapple = GrapplingHook.Deploy(self, 60, (-10,-2,-2));
+			}
+		}
 		
+		player.vel = vel.xy;
+		if(block_moveinput) player.vel *= 0;
 	}		
 	
 	void DetectController()
@@ -289,16 +321,86 @@ class DashAnimator : Inventory
 	override void DoEffect()
 	{
 		super.DoEffect();
+		let plr = HaloPlayer(Owner);
+		if(!plr) return;
+		
 		vector2 addvel = AngleToVector(dashdir, dashstr);
 		
-		Owner.vel.z = 0;
-		Owner.vel.xy += addvel;
-		Owner.bNOGRAVITY = true;		
+		plr.vel.z = 0;
+		plr.vel.xy += addvel;
+		plr.fricmod = 0.998;
+		plr.bNOGRAVITY = true;		
 		
 		if(GetAge() > timeout) 
 		{
-			Owner.bNOGRAVITY = Owner.default.bNOGRAVITY;
-			Owner.RemoveInventory(self);
+			plr.bNOGRAVITY = Owner.default.bNOGRAVITY;
+			plr.RemoveInventory(self);
+			plr.fricmod = 0;
+			GoAwayAndDie();
+		}
+	}
+}
+
+class SlideAnimator : Inventory
+{
+	double timeout;
+	double animtimer;
+	double def_fov; 
+	
+	Default
+	{
+		+INVENTORY.UNDROPPABLE;
+		inventory.maxamount 1;
+	}
+	
+	static SlideAnimator DoSlide(Actor src, double dur = 35)
+	{
+		if(src.FindInventory("SlideAnimator")) return null;
+		let slide = SlideAnimator(Actor.Spawn("SlideAnimator"));
+		if(slide)
+		{
+			slide.timeout = dur;
+			src.AddInventory(slide);
+			src.vel.xy *= 3.0;
+		}
+		return slide;
+	}
+	
+	override void DoEffect()
+	{
+		super.DoEffect();
+		let plr = HaloPlayer(Owner);
+		if(!plr) return;
+		
+		if(!def_fov) def_fov = plr.player.DesiredFOV;
+		
+		vector2 addvel = AngleToVector(atan2(plr.vel.y, plr.vel.x), 1.0);
+		
+		if(plr.player.onground) plr.vel.xy += addvel;
+		plr.fricmod = 1.0;
+		plr.block_moveinput = true;
+		
+		if(animtimer < 10)
+		{
+			plr.viewoffs -= 2.0;
+			plr.A_SetPitch(plr.pitch - 0.45, SPF_INTERPOLATE);
+			plr.player.DesiredFOV = HaloMath.Lerp(plr.player.DesiredFOV, def_fov*1.15, 0.10);
+		} 
+		else if(animtimer > timeout-10)
+		{
+			plr.A_SetPitch(plr.pitch + 0.45, SPF_INTERPOLATE);
+			plr.viewoffs = HaloMath.Lerp(plr.viewoffs, 0, 0.1);
+			plr.player.DesiredFOV = HaloMath.Lerp(plr.player.DesiredFOV, def_fov, 0.10);
+		}
+		animtimer++;
+		
+		if(GetAge() > timeout) 
+		{
+			plr.RemoveInventory(self);
+			plr.fricmod = 0;
+			plr.viewoffs = 0;
+			plr.block_moveinput = false;
+			plr.player.DesiredFOV = def_fov;
 			GoAwayAndDie();
 		}
 	}

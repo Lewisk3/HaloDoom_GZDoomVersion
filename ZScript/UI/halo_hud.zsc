@@ -451,18 +451,20 @@ class HaloStatusBar : BaseStatusBar
 	
 	void DrawAbilities()
 	{
-		vector2 dashpos = (200,600);
+		vector2 dashpos = (160,740);
+		double dashscale = 0.85;
 		if(haloplr.enable_dash)
 		{
 			double dashperc = (haloplr.dashcounter / double(haloplr.dashmax));
 			double fullpos = 52 * (1.0 - dashperc);
 			dashmeter = HaloMath.Lerp(dashmeter, fullpos, 0.10 * deltatime);
 			
-			HLSBS.DrawImage("DASHBG", dashpos);
+			HLSBS.DrawImage("DASHBG", dashpos, scale:(dashscale,dashscale));
 			HLSBS.SetClipRect(dashpos.x - 24, dashpos.y - 32, dashmeter, 64);
-			HLSBS.DrawImage("DASHCRGE", dashpos);
+			HLSBS.DrawImage("DASHCRGE", dashpos, scale:(dashscale,dashscale));
 			HLSBS.ClearClipRect();
-			if(dashperc <= 0) HLSBS.DrawImage("DASHFULL", dashpos);
+			if(dashperc <= 0)
+				HLSBS.DrawImage("DASHFULL", dashpos, scale:(dashscale,dashscale));
 		}
 	}
 

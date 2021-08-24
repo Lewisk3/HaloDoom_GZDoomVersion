@@ -100,22 +100,7 @@ class HaloDoom_Events : EventHandler
 	{
 		PlayerInfo src = players[e.Player];
 		if(!src || !src.mo) return;
-	
-		if(e.Name == "HaloDoom_FireGrapple")
-		{
-			let hplr = HaloPlayer(src.mo);
-			if(!hplr) return;
-			let gpl = hplr.grapple;
 			
-			if(gpl)
-			{
-				gpl.Retract();
-				return;
-			}
-				
-			hplr.grapple = GrapplingHook.Deploy(hplr, 60, (-10,-2,-2));
-		}
-		
 		if(e.Name == "testwraith")
 		{
 			WraithPlasma.Fire(src.mo, (-30,0,30));

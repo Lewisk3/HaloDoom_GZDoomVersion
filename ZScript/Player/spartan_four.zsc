@@ -1,1 +1,35 @@
-// TODO
+// TODO: Grapple hook
+class HaloSpartan_IV : HaloPlayer
+{	
+	Default
+	{
+		// UI
+		Player.DisplayName "Spartan IV";
+		HaloPlayer.Description (
+			"Made from the best of the best \n"
+			"the UNSC has to offer.\n\n"
+			
+			"Free from the narrow minded \n" 
+			"thinking of UNSC indoctrination \n"
+			"they are the most creative \n"
+			"and make use of the limited \n" 
+			"resources they have. \n"
+		);
+		
+		// Vitals
+		Health 45; 
+		Player.MaxHealth 45;
+
+		// Inventory
+		Player.StartItem "Halo_AssaultRifle", 1;
+		Player.StartItem "Halo_Magnum", 1;
+		Player.StartItem "Halo_Clip", 120;
+		
+		// Movement
+		HaloPlayer.MovementBob 0;
+		HaloPlayer.CanBunnyHop false;
+		HaloPlayer.MaxJumps 1;
+		HaloPlayer.AirControl 2.0;
+		HaloPlayer.EnableSlide true;
+	}
+}

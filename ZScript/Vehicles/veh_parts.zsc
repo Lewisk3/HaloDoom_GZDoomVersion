@@ -258,8 +258,16 @@ class VehBase : Actor
 		bool canexit = user.CheckMove(outpos.xy);
 		if(!canexit) 
 		{
-			DoHudMessage.Send(user, "No room to exit.");
-			return false;
+			if(health <= 0) 
+			{
+				// Don't prevent exit when vehicle is destroyed.
+				outpos = pos;
+			}
+			else
+			{
+				DoHudMessage.Send(user, "No room to exit.");
+				return false;
+			}
 		}
 		
 		user.SetOrigin(outpos, true);
