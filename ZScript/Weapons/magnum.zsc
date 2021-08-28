@@ -129,7 +129,7 @@ class Halo_Magnum : HaloGun replaces Pistol
 				A_Light(0);
 				A_SetRecoil(-0.18, 0, 8);
 			}
-			TNT1 A 0 A_MechanismSound("Halo/Weapons/Mag_MD6/Mech");
+			TNT1 A 0 A_WeapSound("Halo/Weapons/Mag_MD6/Mech", CHANF_OVERLAP);
 			MAGF DEF 1 A_RecoilOffset(0,0,4);
 			MAGF GH 1 A_CheckRapidFire();
 		Hold:

@@ -18,11 +18,12 @@ class HaloGun : RecoilWeapon
 	double rotation_range;
 	double rotation_sens;
 	bool donefirstdrawanim; 
-	bool punching; // Keep track of melee stuff.
+	bool handsbusy; // Keep track of melee stuff and other hand actions.
 	
 	// UI Stuff
 	const SIGHT_OVERLAY = 0xFF;
 	const MELEE_OVERLAY = 0xA0;
+	const FEET_OVERLAY = -0xB0;
 	string wcrosshair;
 	string UI_Icon;
 	string UI_Sight;
@@ -307,10 +308,10 @@ class HaloGun : RecoilWeapon
 		
 		if(!CheckWeaponSelected()) 
 		{
-			if(punching) 
+			if(handsbusy) 
 			{
 				staticoffs.y -= meleelower;
-				punching = false;
+				handsbusy = false;
 			}
 			if(backpack_reloading)
 			{
@@ -333,7 +334,7 @@ class HaloGun : RecoilWeapon
 		if(!Owner.player) return;
 		let vehman = Veh_Manager(Owner.FindInventory("Veh_Manager"));
 		if(vehman && vehman.disableweaps) return;
-				
+						
 		// Get useful data
 		uint btns = Owner.player.cmd.buttons;
 		uint oldbtns = Owner.player.oldbuttons;
@@ -361,7 +362,7 @@ class HaloGun : RecoilWeapon
 		
 		// Process weapon switch
 		bool inreload = psp && InStateSequence(psp.CurState,FindState("Reload"));
-		if(A_ButtonStatus(BTN_SWITCHWEAP, BTS_PRESSED, Owner) && !InStateSequence(psp.CurState,FindState("Deselect.Quick")))
+		if(A_ButtonStatus(BTN_SWITCHWEAP, BTS_PRESSED, Owner) && !InStateSequence(psp.CurState,FindState("Deselect.Quick")) && !handsbusy)
 		{
 			// Deselect weapon.
 			let nextweap = FindNextWeapon();
@@ -373,16 +374,47 @@ class HaloGun : RecoilWeapon
 				nextweap.Use(false);
 			}
 		}
-		
+				
 		// De-scope if reload detected.
 		if(inreload && zoomed) enablezoom = false;
 		
 		// Melee attack
-		if(A_ButtonStatus(BT_USER2, BTS_PRESSED, Owner) && !punching)
+		let meleepsp = Owner.player.GetPSprite(MELEE_OVERLAY);
+		let feetpsp = Owner.player.GetPSprite(FEET_OVERLAY);
+		if(A_ButtonStatus(BT_USER2, BTS_PRESSED, Owner) && !handsbusy)
 		{
-			Owner.A_StopSound(CHAN_RELOADING);
-			Owner.player.SetPSprite(MELEE_OVERLAY, FindState("DoMelee"));
+			// Only melee if hands are not already being used for something else.
+			if(meleepsp.CurState == NULL)
+			{
+				Owner.A_StopSound(CHAN_RELOADING);
+				Owner.player.SetPSprite(MELEE_OVERLAY, FindState("DoMelee"));
+				if(inreload) psp.SetState(FindState("Ready.Active"));
+			}
+		}
+		
+		// Slide
+		if( !!Owner.FindInventory("SlideAnimator") && !InStateSequence(feetpsp.CurState, FindState("SlideStart")) )
+		{
+			Owner.player.SetPSprite(FEET_OVERLAY, FindState("SlideStart"));
+		}
+		
+		// Grapple
+		if(HaloPlayer(Owner).grapple && !handsbusy)
+		{
+			Owner.player.SetPSprite(MELEE_OVERLAY, FindState("GrappleStart"));
 			if(inreload) psp.SetState(FindState("Ready.Active"));
+		}
+		
+		// Verify handsbusy status
+		if(meleepsp.CurState && !handsbusy)
+		{
+			staticoffs.y += meleelower;
+			handsbusy = true;
+		}
+		else if(meleepsp.CurState == NULL && handsbusy)
+		{
+			staticoffs.y -= meleelower;
+			handsbusy = false;
 		}
 		
 		// Force weapon to be deselected.
@@ -547,7 +579,7 @@ class HaloGun : RecoilWeapon
 	// or if no reserve ammo is found.
 	action state A_ValidateReload(StateLabel fallback="Ready")
 	{
-		if(invoker.punching) return ResolveState(fallback);
+		if(invoker.handsbusy) return ResolveState(fallback);
 		let rammo = GetDefaultByType(invoker.AmmoType2);
 		if(countinv(invoker.AmmoType2) == rammo.maxamount || countinv(invoker.AmmoType1) == 0)
 			return ResolveState(fallback);
@@ -604,12 +636,12 @@ class HaloGun : RecoilWeapon
 	action void A_BeginMelee()
 	{
 		invoker.staticoffs.y += invoker.meleelower;
-		invoker.punching = true;
+		invoker.handsbusy = true;
 	}
 	action void A_FinishMelee()
 	{
 		invoker.staticoffs.y -= invoker.meleelower;
-		invoker.punching = false;
+		invoker.handsbusy = false;
 	}
 	
 	// Custom lower and raise.
@@ -643,7 +675,6 @@ class HaloGun : RecoilWeapon
 		DoMelee:
 			TNT1 A 0 
 			{
-				A_BeginMelee();
 				A_StartSound("Halo/Melee/Swing", flags:CHANF_OVERLAP);
 				A_OverlayFlags(OverlayID(), PSPF_ADDBOB|PSPF_ADDWEAPON, 0);
 				A_OverlayOffset(OverlayID(), -30, 25);
@@ -667,49 +698,59 @@ class HaloGun : RecoilWeapon
 			{
 				A_OverlayOffset(OverlayID(), 3, 3, WOF_ADD | WOF_INTERPOLATE);
 			}
-			TNT1 A 0 A_FinishMelee();
 		stop;
 		
-				
-		DoMelee.Swipe:
-			TNT1 A 0 
+		// I would use an inventory item to animate this but, GZDoom's
+		// PSprite system is a broken mess due to the devs implementing pointless 
+		// "restrictions" in the name of "Security" in a games engine already
+		// restricted enough by nature. 
+		GrappleStart:
+			GRPL A 1 
 			{
-				A_BeginMelee();
-				A_StartSound("Halo/Melee/Swing", flags:CHANF_OVERLAP);
+				 A_OverlayFlags(OverlayID(), PSPF_ADDBOB|PSPF_ADDWEAPON, 0);
+				A_OverlayOffset(OverlayID(), -50, 50);
+			}
+			GRPL AAAA 1 A_OverlayOffset(OverlayID(), 14, -12, WOF_ADD|WOF_INTERPOLATE); 
+		goto GrappleWait;
+		
+		GrappleWait:
+			GRPL A 1;
+			TNT1 A 0
+			{
+				if(HaloPlayer(self).grapple) return ResolveState("GrappleWait");
+				return ResolveState(null);
+			}
+		goto GrappleFinish;
+		
+		GrappleFinish:
+			GRPL AAAA 1 A_OverlayOffset(OverlayID(), -14, 12, WOF_ADD|WOF_INTERPOLATE); 
+		stop;
+		
+		// Slide
+		SlideStart:
+			SLID A 1 
+			{
 				A_OverlayFlags(OverlayID(), PSPF_ADDBOB|PSPF_ADDWEAPON, 0);
-				A_OverlayOffset(OverlayID(), 40, 130);
+				A_OverlayOffset(OverlayID(), 0, 80);
 			}
-			MELE AA 1 
-			{
-				A_OverlayOffset(OverlayID(), -20, -20, WOF_ADD | WOF_INTERPOLATE);
-				A_SetRecoil(0.4, 0.50, 3);
-			}
-			MELE BB 1 
-			{
-				A_OverlayOffset(OverlayID(), -25, -12, WOF_ADD | WOF_INTERPOLATE);
-				A_SetRecoil(0.4, -1.25, 3);
-			}
-			MELE BB 1 
-			{
-				A_OverlayOffset(OverlayID(), 35, -12, WOF_ADD | WOF_INTERPOLATE);
-				A_SetRecoil(0.3, -0.80, 2);
-				A_HaloMelee(20, 32);
-			}
-			MELE CC 1 
-			{
-				A_OverlayOffset(OverlayID(), 35, 0, WOF_ADD | WOF_INTERPOLATE);
-				A_SetRecoil(-2.0, -3.50, 1);
-				A_HaloMelee(20, 32, hitsnd:"Halo/Melee/Knife", "Halo/Melee/Ouch");
-			}
-			MELE CCCC 1 
-			{
-				A_OverlayOffset(OverlayID(), 18, 18, WOF_ADD | WOF_INTERPOLATE);
-				A_SetRecoil(-0.4, -0.30, 5);
-			}
-			MELE CCCCC 1 A_SetRecoil(0.4, 0.80, 1);
-			TNT1 A 0 A_FinishMelee();
-		stop;
+			SLID AAA 1 A_OverlayOffset(OverlayID(), 0, -20, WOF_ADD|WOF_INTERPOLATE); 
+		goto SlideWait;
 		
+		SlideWait:
+			SLID A 1;
+			TNT1 A 0
+			{
+				if(!!FindInventory("SlideAnimator")) return ResolveState("SlideWait");
+				return ResolveState(null);
+			}
+		goto SlideFinish;
+		
+		SlideFinish:
+			SLID AAA 1 A_OverlayOffset(OverlayID(), 0, 30, WOF_ADD|WOF_INTERPOLATE); 
+		stop;
+				
+				
+		// Scope
 		Scope.Ready:
 			TNT1 A 1
 			{	
@@ -785,4 +826,43 @@ class HaloGun : RecoilWeapon
 	}
 	MELE C 5;
 	TNT1 A 0 A_FinishMelee();
+	
+	DoMelee.Swipe:
+		TNT1 A 0 
+		{
+			A_BeginMelee();
+			A_StartSound("Halo/Melee/Swing", flags:CHANF_OVERLAP);
+			A_OverlayFlags(OverlayID(), PSPF_ADDBOB|PSPF_ADDWEAPON, 0);
+			A_OverlayOffset(OverlayID(), 40, 130);
+		}
+		MELE AA 1 
+		{
+			A_OverlayOffset(OverlayID(), -20, -20, WOF_ADD | WOF_INTERPOLATE);
+			A_SetRecoil(0.4, 0.50, 3);
+		}
+		MELE BB 1 
+		{
+			A_OverlayOffset(OverlayID(), -25, -12, WOF_ADD | WOF_INTERPOLATE);
+			A_SetRecoil(0.4, -1.25, 3);
+		}
+		MELE BB 1 
+		{
+			A_OverlayOffset(OverlayID(), 35, -12, WOF_ADD | WOF_INTERPOLATE);
+			A_SetRecoil(0.3, -0.80, 2);
+			A_HaloMelee(20, 32);
+		}
+		MELE CC 1 
+		{
+			A_OverlayOffset(OverlayID(), 35, 0, WOF_ADD | WOF_INTERPOLATE);
+			A_SetRecoil(-2.0, -3.50, 1);
+			A_HaloMelee(20, 32, hitsnd:"Halo/Melee/Knife", "Halo/Melee/Ouch");
+		}
+		MELE CCCC 1 
+		{
+			A_OverlayOffset(OverlayID(), 18, 18, WOF_ADD | WOF_INTERPOLATE);
+			A_SetRecoil(-0.4, -0.30, 5);
+		}
+		MELE CCCCC 1 A_SetRecoil(0.4, 0.80, 1);
+		TNT1 A 0 A_FinishMelee();
+	stop;
 */

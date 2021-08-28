@@ -6,6 +6,8 @@ extend class HaloPlayer
 	const GNDFRIC  = 7.0;
 	const BT_DASH = BT_USER3;
 	const BT_GRAPPLE = BT_USER4;
+	const SLIDE_TICS = 20;
+	const SLIDE_COOL = 35;
 	
 	const AIRMAX     = 10;
 	const AIRACCEL   = 40;
@@ -37,6 +39,9 @@ extend class HaloPlayer
 	int dashcooldown_time;
 	int dashmax;
 	int dashcounter;
+	
+	// Slide
+	double slidecooldown;
 	
 	// Grapple
 	bool gpl_validsurface;
@@ -94,6 +99,8 @@ extend class HaloPlayer
 			Angle += cmd.yaw * (360./65536.);
 		}
 		
+		if(curvehicle) return;
+		
 		// Process friction every couple of tics.
 		double fric = 6.0 * (1.0-fricmod);
 		if( player.onground && (fricwait > 4 || !halodoom_allowbhop || !enable_bhop) ) 
@@ -136,12 +143,14 @@ extend class HaloPlayer
 		
 		uint btns = player.cmd.buttons;
 		uint obtns = player.oldbuttons;
+		
 		// Slide
-		if( (btns & BT_CROUCH) && vel.length() > 5 && player.onground && canslide )
+		if( (btns & BT_CROUCH) && !(obtns & BT_CROUCH) && vel.length() > 5 && player.onground && canslide && slidecooldown <= 0)
 		{
 			// If slide success and not predicting movement, play slide sound.
-			if( SlideAnimator.DoSlide(self, 35) && !(player.cheats & CF_PREDICTING) )
+			if( SlideAnimator.DoSlide(self, SLIDE_TICS) && !(player.cheats & CF_PREDICTING) )
 			{
+				slidecooldown = SLIDE_COOL;
 				A_StartSound("Halo/Spartan/Slide", CHAN_BODY, CHANF_OVERLAP);
 			}
 		}
@@ -156,6 +165,7 @@ extend class HaloPlayer
 			dashcooldown = dashcooldown_time * 35.0;
 		}
 		
+		if(slidecooldown) slidecooldown--;
 		if(dashcooldown) dashcooldown--;
 		if(dashcooldown <= 0 && player.onground) dashcounter = 0;
 		
@@ -382,7 +392,7 @@ class SlideAnimator : Inventory
 		
 		if(!def_fov) def_fov = plr.player.DesiredFOV;
 		
-		vector2 addvel = AngleToVector(atan2(plr.vel.y, plr.vel.x), 1.0);
+		vector2 addvel = AngleToVector(atan2(plr.vel.y, plr.vel.x), 1.5);
 		
 		if(plr.player.onground) plr.vel.xy += addvel;
 		plr.fricmod = 1.0;
@@ -390,7 +400,7 @@ class SlideAnimator : Inventory
 		
 		if(animtimer < 10)
 		{
-			plr.viewoffs -= 2.0;
+			plr.viewoffs -= 2.5;
 			plr.A_SetPitch(plr.pitch - 0.45, SPF_INTERPOLATE);
 			plr.player.DesiredFOV = HaloMath.Lerp(plr.player.DesiredFOV, def_fov*1.15, 0.10);
 		} 
