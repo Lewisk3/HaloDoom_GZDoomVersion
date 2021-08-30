@@ -1,29 +1,43 @@
 class HaloDoom_TitleMenu : HaloMenuBase
 {
 	double fadein;
+	bool title;
+	
 	override void Init(Menu parent, ListMenuDescriptor desc)
 	{
 		Super.Init(parent, desc);
 		
+		title = (gamestate == GS_TITLELEVEL);
 		MainBG = MenuTexture.Create("Graphics/UI/Title/TitleLogo.png",(0,-200),(0.5,0.5));
 		mMouse = Mouse.Create("", 0,0,32,32);
 		
+		double btnY = 680; 
+		
 		TextElement btntxt = newBtnText("CAMPAIGN", "HaloFont");
-		buttons.push(Button.Create("BTN_OFF" ,  "BTN_ON" , 960, 680, 0.8, 0.25, btntxt));
+		buttons.push(Button.Create('NewGame', "BTN_OFF" ,  "BTN_ON" , 960, btnY, 0.8, 0.25, btntxt));
+		btnY += 80;
+		
+		if(!title)
+		{
+			btntxt = newBtnText("SAVE GAME", "HaloFont");
+			buttons.push(Button.Create('SaveGame', "BTN_OFF" ,  "BTN_ON" , 960, btnY, 0.8, 0.25, btntxt));
+			btnY += 80;	
+		}
 		
 		btntxt = newBtnText("LOAD GAME", "HaloFont");
-		buttons.push(Button.Create("BTN_OFF" ,  "BTN_ON" , 960, 760, 0.8, 0.25, btntxt));
+		buttons.push(Button.Create('LoadGame', "BTN_OFF" ,  "BTN_ON" , 960, btnY, 0.8, 0.25, btntxt));
+		btnY += 80;
 		
 		btntxt = newBtnText("OPTIONS", "HaloFont");
-		buttons.push(Button.Create("BTN_OFF" ,  "BTN_ON" , 960, 840, 0.8, 0.25, btntxt));
+		buttons.push(Button.Create('Options', "BTN_OFF" ,  "BTN_ON" , 960, btnY, 0.8, 0.25, btntxt));
+		btnY += 80;
 		
 		btntxt = newBtnText("QUIT", "HaloFont");
-		buttons.push(Button.Create("BTN_OFF" ,  "BTN_ON" , 960, 920, 0.8, 0.25, btntxt));
+		buttons.push(Button.Create('Quit', "BTN_OFF" ,  "BTN_ON" , 960, btnY, 0.8, 0.25, btntxt));
 		
 		for(int i = 0; i < buttons.Size(); i++)
 			buttons[i].ScaleCollider(0.9, 0.7);
 		
-		bool title = (gamestate == GS_TITLELEVEL);
 		if(title) S_ChangeMusic("Music/TITLEMUS" .. random[TMUS](1,5) .. ".ogg", force:true);
 		
 		DontDim = true;
@@ -105,18 +119,21 @@ class HaloDoom_TitleMenu : HaloMenuBase
 				MenuSound("UI/PressButton");
 				buttons[i].clicked = false;
 				
-				Switch(i)
+				Switch(buttons[i].type)
 				{
-					case 0:	 	// New Game
+					case 'NewGame':	 	// New Game
 						Menu.SetMenu('HaloPlayerClassMenu');
 					break;
-					case 1:		// Load Game
+					case 'SaveGame':		// Save Game
+						Menu.SetMenu('SaveGameMenu');
+					break;
+					case 'LoadGame':		// Load Game
 						Menu.SetMenu('LoadGameMenu');
 					break;
-					case 2:     // Options
+					case 'Options':     // Options
 						Menu.SetMenu('OptionsMenu');
 					break;
-					case 3:		// Exit
+					case 'Quit':		// Exit
 						Menu.SetMenu("QuitMenu");
 					break;
 					default:

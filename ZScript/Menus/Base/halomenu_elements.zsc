@@ -109,6 +109,7 @@ class TextElement ui
 
 class Button ui
 {
+	Name type;
 	bool pressed;
 	bool clicked;
 	bool hovered;
@@ -120,12 +121,13 @@ class Button ui
 	TextElement btntext;
 	vector2 texsize;
 	
-	static Button Create(String offtex, String ontex, 
+	static Button Create(Name type, String offtex, String ontex, 
 						 double x, double y, double sw, double sh, TextElement txt=NULL)
 	{
 		let btn = new("Button");
 		if(btn)
 		{
+			btn.type = type;
 			btn.off_tex = TexMan.CheckForTexture(offtex,TexMan.Type_Any);
 			btn.on_tex  = TexMan.CheckForTexture(ontex,TexMan.Type_Any);
 			btn.btnrect = MenuRect.Create(x,y,sw,sh,true);

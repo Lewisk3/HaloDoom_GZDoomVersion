@@ -232,7 +232,10 @@ class GrapplingHook : Actor
 				
 		Retract:
 			TNT1 A 1 
-			{
+			{	
+				// Somehow dest can be invalid here.
+				if(!dest) return ResolveState("Death.Real");
+				
 				// Restore actor properties
 				if(!retracting) dest.A_StartSound("Halo/Spartan/ZipLine/End", flags:CHANF_OVERLAP);
 				if(dest.player) dest.A_StopSound(CHAN_7);
@@ -248,8 +251,11 @@ class GrapplingHook : Actor
 				vel = HaloMath.VecFromAngles(angle-head_diff.x, pitch-head_diff.y, -retract_spd);
 				
 				retracting = true;
+				
+				double dist = (GetOrigin()-pos).Length();
+				if(dist <= mindist) return ResolveState("Death.Real");
+				return ResolveState(null);
 			}
-			TNT1 A 1 A_JumpIf( (GetOrigin()-pos).Length() <= mindist, "Death.Real"); 
 		loop;
 				
 		Death.Real:

@@ -18,7 +18,7 @@ class HaloDoom_PlayerClassMenu : HaloMenuBase
 				string clsname = PlayerPawn.GetPrintableDisplayName(cls);
 				
 				TextElement btntxt = newBtnText(clsname, "HaloFont");
-				buttons.push(Button.Create("BTN_OFF" ,  "BTN_ON" , btnpos.x, btnpos.y, 0.8, 0.25, btntxt));
+				buttons.push(Button.Create('ClassBtn', "BTN_OFF" ,  "BTN_ON" , btnpos.x, btnpos.y, 0.8, 0.25, btntxt));
 				btnpos.y += 90;
 			}
 		}
