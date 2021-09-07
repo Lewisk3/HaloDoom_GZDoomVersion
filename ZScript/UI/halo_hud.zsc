@@ -382,7 +382,7 @@ class HaloStatusBar : BaseStatusBar
 		bool lowerxhair = haloplr.CheckCrosshairLowered();
 		string crosshair = weap.wcrosshair;
 		double bloom = clamp(weap.spreadmod, 0, 1.25);
-		vector2 retsize = (0.65,0.65);
+		vector2 retsize = (0.65,0.65) * weap.wcrosshairscale;
 		vector2 midpos = (0,0);
 		if(lowerxhair) midpos.y = haloplr.xhair_lowpos;
 		retsize *= 1.0+curbloom;
@@ -395,6 +395,26 @@ class HaloStatusBar : BaseStatusBar
 		{
 			string dist = String.Format("%.0f", haloplr.aimdist);
 			HLSBS.DrawString("BigFont", dist, midpos+(0,32), HLSBS.SS_SCREEN_CENTER); 
+		}
+		
+		// Crosshair Warnings
+		String warnGraphic = "";
+		double curAmmo = haloplr.countinv(weap.AmmoType2);			
+		double maxAmmo = GetDefaultByType(weap.AmmoType2).MaxAmount;
+		bool lowammo = (curAmmo / maxAmmo) <= 0.5; // 50% or less.
+		if(weap.uses_battery) 
+			warnGraphic = (curAmmo <= 0 ? "NoBattery" : (lowammo ? "LowBattery" : ""));
+		else
+			warnGraphic = (curAmmo <= 0 ? "NoAmmo" : (lowammo ? "LowAmmo" : ""));
+		
+		if(warnGraphic != "")
+		{
+			HLSBS.DrawImage(
+				"Graphics/UI/ReticleWarnings/" .. warnGraphic .. ".png", 
+				(midpos.x,midpos.y+64), 
+				HLSBS.SS_SCREEN_CENTER,
+				scale:(0.65,0.65)
+			);
 		}
 	}
 

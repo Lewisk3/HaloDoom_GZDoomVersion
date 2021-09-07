@@ -50,6 +50,8 @@ class HaloCarbine_Bullet : HaloBullet
 class Halo_Carbine : HaloGun replaces PlasmaRifle
 {
 	const LCD = 22;
+	LaserEmitter projBeam;
+	
 	Default
 	{
 		Weapon.SlotNumber 2;
@@ -67,7 +69,9 @@ class Halo_Carbine : HaloGun replaces PlasmaRifle
 		HaloGun.BloomSpeed 0.18;
 		HaloGun.BaseRecoil CARBINE_RECOIL;
 		HaloGun.Inaccuracy CARBINE_ACCMOD;
-		HaloGun.Crosshair "CarbRet";
+		HaloGun.Crosshair "CarbRet", 0.8;
+		HaloGun.UISight "SI_CARB", 1.0, 0.6;
+		HaloGun.SetupScope 2.0, 0.5;
 		HaloGun.UIGraphic "MISSNG";
 		
 		RecoilWeapon.YOffsetRange -5, 40;
@@ -78,18 +82,57 @@ class Halo_Carbine : HaloGun replaces PlasmaRifle
 		// Prevent stutters by precaching weapon sounds.
 	}
 	
+	action void FireLaser(vector3 hitpos)
+	{
+		if(!invoker.projBeam) invoker.projBeam = LaserEmitter.Attach(self);
+		
+		vector3 localOffs = (10, 4.5, -5.30);
+		A_SetSFXPos(localOffs.x, localOffs.y, localOffs.z);
+		
+		double yoffs = A_GetWeapYOffs() * 0.25;
+		vector3 frompos = (
+			invoker.sfx_pos.xy,
+			invoker.sfx_pos.z - yoffs
+		);
+		
+		vector3 toHitpos = level.SphericalCoords(frompos, hitpos, (angle,pitch));
+		invoker.projBeam.SetPos(localOffs, (toHitpos.x, -toHitpos.y));
+		
+		let beam = invoker.projBeam.Fire("LSR_CarbineTrail", "");
+		if(beam)
+		{
+			beam.SetShade(0x11f220);
+			beam.A_SetScale(2.0);
+			beam.alpha = 1.0;
+		}
+	}
+	
+	action void RemoveLaser()
+	{
+		if(invoker.projBeam)
+		{
+			invoker.projBeam.LaserOff();
+			invoker.projBeam.Destroy();
+		}
+	}
+	
 	action void A_FireCarbine()
 	{
 		A_WeapSound("Halo/Weapons/Carbine/Fire", CHANF_OVERLAP, true);
 		A_WeapSound("Halo/Weapons/Carbine/Fire/Bass", CHANF_OVERLAP, true);
 		vector3 shootpos = A_ShootProjectile("HaloCarbine_Bullet", 1, 0);
 		A_SetSFXPos(25,-5, -5);
+		
+		FireLaser(shootpos);
+
+		/*
 		let trail = A_TrailSFX(shootpos, 1.25, 0x11f220);
 		if(trail) 
 		{
 			trail.A_SetScale(2.0);
 			trail.fadespd = 0.30;
 		}
+		*/
 					
 		A_TakeAmmo(1);
 		A_UpdateSpread();
@@ -130,7 +173,11 @@ class Halo_Carbine : HaloGun replaces PlasmaRifle
 		wait;
 
 		Deselect:
-			TNT1 A 0 A_DisableLCD();
+			TNT1 A 0 
+			{
+				A_DisableLCD();
+				RemoveLaser();
+			}
 			CRBS DCBA 1;
 			CRBS A 1 A_GunLower();
 		wait;
@@ -143,9 +190,10 @@ class Halo_Carbine : HaloGun replaces PlasmaRifle
 			}
 			TNT1 A 0 
 			{
+				A_ModifyRecoil(A_CheckInScope() ? 0.5 : 1.0);
 				A_FireCarbine();
 				A_SetRecoil(1.0, 0, 2);
-				A_RQuakeEx(2,1,0,3,0,20,"",QF_RELATIVE|QF_WAVE);
+				A_RQuakeEx(3,1,0,3,0,20,"",QF_RELATIVE|QF_WAVE);
 			}
 			CRBF B 1 bright A_RecoilOffset(8,-10,4);
 			CRBF C 1 

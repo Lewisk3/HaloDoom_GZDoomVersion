@@ -31,6 +31,7 @@ class HaloGun : RecoilWeapon
 	double scoperecoil;
 	double sightalpha;
 	double meleelower;
+	double wcrosshairscale;
 	bool enablezoom;
 	double scopezoom;
 	bool zoomed;
@@ -45,7 +46,7 @@ class HaloGun : RecoilWeapon
 	
 	Property Bloom : bloomamt;
 	Property BloomSpeed : bloomspd;
-	Property Crosshair : wcrosshair;
+	Property Crosshair : wcrosshair, wcrosshairscale;
 	Property BaseRecoil : baserecoil;
 	Property Inaccuracy : accmod;
 	Property SwayRange : rotation_range;
@@ -71,7 +72,7 @@ class HaloGun : RecoilWeapon
 	{
 		RecoilWeapon.RecoilSpeed 16;
 		HaloGun.Bloom 0.32;
-		HaloGun.Crosshair "";
+		HaloGun.Crosshair "", 1;
 		HaloGun.BaseRecoil 2;
 		HaloGun.BackpackReloadTime 35;
 		HaloGun.UISight "SI_DEF", 0.3, 0.75;
@@ -153,8 +154,6 @@ class HaloGun : RecoilWeapon
 	action vector3 A_ShootProjectile(class<HaloProjectile> proj, double leftright = 0, double updown = 0, double spreadmod = 1.0)
 	{
 		vector3 hitpos = pos;
-		double yoffs = A_GetWeapYOffs() * 0.25;
-		bool lowered = yoffs > 0;
 		double scopemod = (invoker.scoperecoil == 0) ? 1.0 : invoker.scoperecoil;
 		
 		let aproj = HaloProjectile(A_FireProjectile(proj,0, false, leftright, updown, 0,0));	
@@ -244,8 +243,9 @@ class HaloGun : RecoilWeapon
 		let src_psp = player.GetPSprite(SRC_LAYER);
 		vector2 rvec = (cos(src_psp.rotation+90)*max.x, sin(src_psp.rotation+90)*max.y) * mul;
 		if(!invoker.handsbusy) rvec.y -= invoker.staticoffs.y;
+		bool hidezoom = invoker.scopezoom >= 2.0 && invoker.zoomed;
 		
-		A_OverlayOffset(DEST_LAYER, rvec.x, rvec.y);
+		A_OverlayOffset(DEST_LAYER, rvec.x, rvec.y + (hidezoom ? 0x7FFFFF : 0));
 	}
 	
 	action void A_UpdateCrosshair(string nxhair)

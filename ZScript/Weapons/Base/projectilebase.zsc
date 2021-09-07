@@ -424,24 +424,24 @@ class RailgunProjectile : FastProjectile
 		return super.CanCollideWith(other, passive);
 	}
 	
-	static RailgunProjectile FireRailgun(Actor source, double dmg, double expdmg, vector3 offs)
+	static RailgunProjectile FireRailgun(Actor source, double dmg, double expdmg, vector3 offs, vector2 viewoffs = (0,0))
 	{
 		vector3 spawnpos = HaloMath.RelativeV3Offset(source, 0,0,0, offs.x, offs.y, offs.z, 1.);
 		let proj = RailgunProjectile(Actor.Spawn("RailgunProjectile", spawnpos));
 		if(proj)
 		{
-			proj.angle = source.angle;
-			proj.pitch = source.pitch;
+			proj.angle = source.angle+viewoffs.x;
+			proj.pitch = source.pitch+viewoffs.y;
 			proj.startpos = spawnpos;
 			proj.posoffs = offs;
 			proj.source = source;
 			proj.target = source;
 			
-			double cosp = cos(source.pitch);
+			double cosp = cos(proj.pitch);
 			proj.vel = (
-				cos(source.angle) * cosp,
-				sin(source.angle) * cosp,
-				-sin(source.pitch)
+				cos(proj.angle) * cosp,
+				sin(proj.angle) * cosp,
+				-sin(proj.pitch)
 			) * ((proj.default.speed / 35) * UNIT_METER);
 			proj.dir = proj.vel.Unit();
 	

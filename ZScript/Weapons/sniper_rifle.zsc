@@ -48,7 +48,7 @@ class Halo_SniperRifle : HaloGun replaces RocketLauncher
 		HaloGun.BloomSpeed 0.08;
 		HaloGun.BaseRecoil SNIPER_RECOIL;
 		HaloGun.Inaccuracy SNIPER_ACCMOD;
-		HaloGun.Crosshair "SNPRet";
+		HaloGun.Crosshair "SNPRet", 1.0;
 		HaloGun.UIGraphic "WI_SNPR";
 		HaloGun.UISight "SI_SNPR", 1.0, 0.8;
 		HaloGun.SetupScope 4.0, 0.25;

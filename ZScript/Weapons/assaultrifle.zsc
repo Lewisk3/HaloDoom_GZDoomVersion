@@ -44,7 +44,7 @@ class Halo_AssaultRifle : HaloGun
 		HaloGun.BloomSpeed 0.24;
 		HaloGun.BaseRecoil ARIFLE_RECOIL;
 		HaloGun.Inaccuracy ARIFLE_ACCMOD;
-		HaloGun.Crosshair "RifleRet";
+		HaloGun.Crosshair "RifleRet", 1.0;
 		HaloGun.UIGraphic "WI_AR";
 		
 		RecoilWeapon.YOffsetRange -10, 40;

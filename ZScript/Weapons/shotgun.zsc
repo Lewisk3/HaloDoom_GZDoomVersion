@@ -38,7 +38,7 @@ class Halo_Shotgun : HaloGun replaces Shotgun
 		HaloGun.BloomSpeed 0.08;
 		HaloGun.BaseRecoil SHOTGUN_RECOIL;
 		HaloGun.Inaccuracy SHOTGUN_ACCMOD;
-		HaloGun.Crosshair "SGRet";
+		HaloGun.Crosshair "SGRet", 1.0;
 		HaloGun.UIGraphic "WI_SG";
 	}
 	

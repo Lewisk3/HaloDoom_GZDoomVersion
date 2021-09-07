@@ -23,3 +23,26 @@ class LSR_GrappleTail : Laser
 		loop;
 	}	
 }
+
+class LSR_CarbineTrail : Laser
+{
+	Default
+	{
+		Radius 2;
+		Scale 0.8;
+		RenderStyle "AddShaded";
+		Alpha 1.0;
+	}
+	
+	override void AdjustLaser()
+	{
+		alpha -= 0.20;
+	}
+	
+	States
+	{
+		Spawn:
+			BEAM A 1;
+		loop;
+	}	
+}

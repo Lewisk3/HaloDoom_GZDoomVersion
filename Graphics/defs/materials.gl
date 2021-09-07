@@ -1,6 +1,7 @@
 
 material texture models/Lasers/BEAM.png {
 	brightmap models/Lasers/BEAM.png
+	glossiness 1.0
 }
 
 material texture models/Title/Halo_Ring_Outer.png {

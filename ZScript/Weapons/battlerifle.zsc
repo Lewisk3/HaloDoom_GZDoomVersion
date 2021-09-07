@@ -38,7 +38,7 @@ class Halo_BattleRifle : HaloGun replaces Chaingun
 		HaloGun.BloomSpeed 0.30;
 		HaloGun.BaseRecoil BARIFLE_RECOIL;
 		HaloGun.Inaccuracy BARIFLE_ACCMOD;
-		HaloGun.Crosshair "BarRet";
+		HaloGun.Crosshair "BarRet", 1.0;
 		HaloGun.UIGraphic "WI_DMR";
 		HaloGun.UISight "SI_BR", 0.3, 0.7;
 		HaloGun.SetupScope 2.0, 0.25;
