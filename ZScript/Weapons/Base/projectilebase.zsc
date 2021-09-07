@@ -456,21 +456,25 @@ class RailgunProjectile : FastProjectile
 			Spawn("Railgun_MuzzleExplosion", proj.pos);
 			
 			// Outer-most trail
-			let smok = SmokeTrail.Start(0xFFFF0000, spawnpos, hitpos, (proj.angle, proj.pitch), 0.5, "RailgunTrail");
+			let smok = SmokeTrail.Start(0xFFFF0000, spawnpos, hitpos, (proj.angle, proj.pitch), 0.5, type:"RailgunTrail");
+			if(smok)
+			{
+				smok.A_SetScale(20.0);
+			}
+			
+			// Outer trail
+			smok = SmokeTrail.Start(0xFFfc9d03, spawnpos, hitpos, (proj.angle, proj.pitch), 1.0, type:"RailgunTrail");
 			if(smok)
 			{
 				smok.A_SetScale(10.0);
 			}
 			
-			// Outer trail
-			smok = SmokeTrail.Start(0xFFfc9d03, spawnpos, hitpos, (proj.angle, proj.pitch), 1.0, "RailgunTrail");
+			// Inner trail
+			smok = SmokeTrail.Start(0xFFFFFFFF, spawnpos, hitpos, (proj.angle, proj.pitch), 3.0);
 			if(smok)
 			{
 				smok.A_SetScale(5.0);
 			}
-			
-			// Inner trail
-			smok = SmokeTrail.Start(0xFFFFFFFF, spawnpos, hitpos, (proj.angle, proj.pitch), 4.0);
 			
 			// Shockwave
 			proj.Shockwave(0.2, 0, 0xFF313de8); 

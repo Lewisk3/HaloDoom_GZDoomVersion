@@ -105,7 +105,7 @@ class HaloGun : RecoilWeapon
 		LineTrace(angle, range, pitch, 0, player.viewheight, data:lt);
 		Actor victim = lt.HitActor;
 		
-		if(victim && (victim.bISMONSTER || victim.player) && victim.bSHOOTABLE) 
+		if(victim && victim.bSHOOTABLE) 
 		{
 			double inertia = HaloMath.GetInertia(victim.mass);
 			victim.DamageMobJ(invoker, self, damage, "Melee", 0, angle);
@@ -194,14 +194,14 @@ class HaloGun : RecoilWeapon
 		invoker.sfx_pos = relpos;
 	}
 	
-	action void A_TrailSFX(vector3 hitpos, double startalpha = 1.0, Color col = 0x969696)
+	action SmokeTrail A_TrailSFX(vector3 hitpos, double startalpha = 1.0, Color col = 0x969696, class<SmokeTrail> type = "SmokeTrail")
 	{	
 		double yoffs = A_GetWeapYOffs() * 0.25;
 		vector3 frompos = (
 			invoker.sfx_pos.xy,
 			invoker.sfx_pos.z - yoffs
 		);
-		SmokeTrail.Start(col, frompos, hitpos, (angle, pitch), startalpha);
+		return SmokeTrail.Start(col, frompos, hitpos, (angle, pitch), startalpha, type:type);
 	}
 	
 	action Actor A_SpawnSFX(class<Actor> sfxtype, double projangle, double projpitch, double spd = -1)
@@ -243,6 +243,8 @@ class HaloGun : RecoilWeapon
 	{
 		let src_psp = player.GetPSprite(SRC_LAYER);
 		vector2 rvec = (cos(src_psp.rotation+90)*max.x, sin(src_psp.rotation+90)*max.y) * mul;
+		if(!invoker.handsbusy) rvec.y -= invoker.staticoffs.y;
+		
 		A_OverlayOffset(DEST_LAYER, rvec.x, rvec.y);
 	}
 	
@@ -323,7 +325,7 @@ class HaloGun : RecoilWeapon
 					int takeammo = rammo.maxamount - countinv(AmmoType2); 
 					if(takeammo > reserves) takeammo = reserves;
 					GiveInventory(AmmoType2,takeammo);
-					TakeInventory(AmmoType1,takeammo);
+					DepleteAmmo(takeammo);
 					backpack_reloading = false;
 					backpack_reloadtimer = 0;
 					// console.printf("Finished backpack reload");
@@ -522,6 +524,11 @@ class HaloGun : RecoilWeapon
 		);
 	}
 	
+	action void DepleteAmmo(int amt)
+	{
+		if(!sv_infiniteammo) TakeInventory(invoker.AmmoType1, amt);
+	}
+	
 	// For reloading clips/magazines
 	action void A_ReloadClip()
 	{
@@ -531,8 +538,8 @@ class HaloGun : RecoilWeapon
 		int takeammo = rammo.maxamount - countinv(invoker.AmmoType2); 
 		if(takeammo > reserves) takeammo = reserves;
 		
-		GiveInventory(invoker.AmmoType2,takeammo);
-		TakeInventory(invoker.AmmoType1,takeammo);
+		GiveInventory(invoker.AmmoType2, sv_infiniteammo ? rammo.MaxAmount : takeammo);
+		DepleteAmmo(takeammo);
 		A_CancelBackpackReload();
 	}
 	
@@ -550,7 +557,7 @@ class HaloGun : RecoilWeapon
 	{
 		if(countinv(invoker.AmmoType1) > 0)
 		{
-			TakeInventory(invoker.AmmoType1,1);
+			DepleteAmmo(1);
 			GiveInventory(invoker.AmmoType2,1);
 			A_CancelBackpackReload();
 		}
@@ -581,7 +588,8 @@ class HaloGun : RecoilWeapon
 	{
 		if(invoker.handsbusy) return ResolveState(fallback);
 		let rammo = GetDefaultByType(invoker.AmmoType2);
-		if(countinv(invoker.AmmoType2) == rammo.maxamount || countinv(invoker.AmmoType1) == 0)
+		if( countinv(invoker.AmmoType2) == rammo.maxamount || 
+		    countinv(invoker.AmmoType1) == 0 && !sv_infiniteammo )
 			return ResolveState(fallback);
 		return ResolveState(NULL);
 	}

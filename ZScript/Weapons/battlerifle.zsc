@@ -19,7 +19,7 @@ class HaloBattleRifle_Bullet : HaloBullet
 	}
 }
 
-class Halo_BattleRifle : HaloGun replaces PlasmaRifle
+class Halo_BattleRifle : HaloGun replaces Chaingun
 {	
 	Default
 	{

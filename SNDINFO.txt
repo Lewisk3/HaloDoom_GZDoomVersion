@@ -259,6 +259,30 @@ $random Halo/Weapons/Stanchion/Fire      { Stanchion_Fire1 Stanchion_Fire2 Stanc
 
 $volume Halo/Weapons/Sniper/Fire/Bass 0.6;
 
+// Carbine
+CARBINE_FIRE1 "Sounds/Carbine/CarbineFire1.wav"
+CARBINE_FIRE2 "Sounds/Carbine/CarbineFire2.wav"
+CARBINE_FIRE3 "Sounds/Carbine/CarbineFire3.wav"
+CARBINE_LOW1 "Sounds/Carbine/CarbineLow1.wav"
+CARBINE_LOW2 "Sounds/Carbine/CarbineLow2.wav"
+CARBINE_LOW3 "Sounds/Carbine/CarbineLow3.wav"
+CARBINE_LOW4 "Sounds/Carbine/CarbineLow4.wav"
+CARBINE_MECH1 "Sounds/Carbine/CarbineMech1.wav"
+CARBINE_MECH2 "Sounds/Carbine/CarbineMech2.wav"
+CARBINE_MECH3 "Sounds/Carbine/CarbineMech3.wav"
+CARBINE_MECH4 "Sounds/Carbine/CarbineMech4.wav"
+
+Halo/Weapons/Carbine/Select   "Sounds/Carbine/CarbineDraw.wav"
+Halo/Weapons/Carbine/Reload   "Sounds/Carbine/CarbineReload.wav"
+
+$random Halo/Weapons/Carbine/Fire      { CARBINE_FIRE1 CARBINE_FIRE2 CARBINE_FIRE3 }
+$random Halo/Weapons/Carbine/Fire/Bass { CARBINE_LOW1 CARBINE_LOW2 CARBINE_LOW3 CARBINE_LOW4 }
+$random Halo/Weapons/Carbine/Fire/Mech { CARBINE_MECH1 CARBINE_MECH2 CARBINE_MECH3 CARBINE_MECH4 }
+
+$volume Halo/Weapons/Sniper/Fire/Bass 1.0;
+$volume Halo/Weapons/Sniper/Fire 1.0;
+
+
 // Hit feedback
 HMHIT1 HMHit1
 HMHIT2 HMHit2

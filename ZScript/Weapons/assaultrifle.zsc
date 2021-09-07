@@ -19,7 +19,7 @@ class HaloRifle_Bullet : HaloBullet
 	}
 }
 
-class Halo_AssaultRifle : HaloGun replaces Chaingun
+class Halo_AssaultRifle : HaloGun 
 {
 	const LCD_LLayer = 20;
 	const LCD_RLayer = 21;

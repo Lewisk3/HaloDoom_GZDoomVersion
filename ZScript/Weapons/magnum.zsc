@@ -106,7 +106,6 @@ class Halo_Magnum : HaloGun replaces Pistol
 			MAGD A 1 A_GunLower();
 		wait;
 		
-		
 		//  - 210RPM -
 		// 210/60 = 3.5
 		// 35/3.5 = 10 frames.
