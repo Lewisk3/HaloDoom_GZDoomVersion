@@ -336,7 +336,7 @@ class HaloStatusBar : BaseStatusBar
 		let haloweap = HaloGun(weap);
 		if(haloweap) 
 		{
-			return haloweap.UI_Icon, uiscale;
+			return haloweap.UI_Icon, uiscale * haloweap.iconScale;
 		}
 	
 		State wspawn = weap.FindState("Spawn");
@@ -397,25 +397,43 @@ class HaloStatusBar : BaseStatusBar
 			HLSBS.DrawString("BigFont", dist, midpos+(0,32), HLSBS.SS_SCREEN_CENTER); 
 		}
 		
-		// Crosshair Warnings
+		// Crosshair Warnings		
 		String warnGraphic = "";
 		double curAmmo = haloplr.countinv(weap.AmmoType2);			
 		double maxAmmo = GetDefaultByType(weap.AmmoType2).MaxAmount;
-		bool lowammo = (curAmmo / maxAmmo) <= 0.5; // 50% or less.
-		if(weap.uses_battery) 
-			warnGraphic = (curAmmo <= 0 ? "NoBattery" : (lowammo ? "LowBattery" : ""));
-		else
-			warnGraphic = (curAmmo <= 0 ? "NoAmmo" : (lowammo ? "LowAmmo" : ""));
+		double curReserveAmmo = haloplr.countinv(weap.AmmoType1);			
+		double maxReserveAmmo = GetDefaultByType(weap.AmmoType1).MaxAmount;
 		
+		// Reserve ammo
+		bool lowammo = (curReserveAmmo / maxReserveAmmo) <= 0.2; // 20% or less.
+		if(weap.uses_battery) 
+			warnGraphic = (curReserveAmmo <= 0 ? "NoBattery" : (lowammo ? "LowBattery" : ""));
+		else
+			warnGraphic = (curReserveAmmo <= 0 ? "NoAmmo" : (lowammo ? "LowAmmo" : ""));
+				
+		// Reload warning
+		if( (curAmmo / maxAmmo) <= 0.5 )
+		{
+			HLSBS.DrawImage(
+				"Graphics/UI/ReticleWarnings/DoReload.png", 
+				(midpos.x,midpos.y+80), 
+				HLSBS.SS_SCREEN_CENTER,
+				scale:(0.65,0.65)
+			);
+			midpos.x += 32;
+		}
+		
+		// Reserve ammo warning
 		if(warnGraphic != "")
 		{
 			HLSBS.DrawImage(
 				"Graphics/UI/ReticleWarnings/" .. warnGraphic .. ".png", 
-				(midpos.x,midpos.y+64), 
+				(midpos.x,midpos.y+80), 
 				HLSBS.SS_SCREEN_CENTER,
 				scale:(0.65,0.65)
 			);
 		}
+		
 	}
 
 	void DrawSight()

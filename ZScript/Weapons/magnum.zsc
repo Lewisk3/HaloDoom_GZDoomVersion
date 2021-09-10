@@ -41,7 +41,7 @@ class Halo_Magnum : HaloGun replaces Pistol
 		HaloGun.BaseRecoil MAGNUM_RECOIL;
 		HaloGun.Inaccuracy MAGNUM_ACCMOD;
 		HaloGun.Crosshair "MagRet", 1.0;
-		HaloGun.UIGraphic "WI_MAGNM";
+		HaloGun.UIGraphic "WI_MAGNM", 1.0;
 		HaloGun.UISight "SI_MAG", 1.0, 0.7;
 		HaloGun.SetupScope 1.25, 0.5;
 		

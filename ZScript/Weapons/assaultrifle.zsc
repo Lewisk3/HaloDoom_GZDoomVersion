@@ -45,7 +45,7 @@ class Halo_AssaultRifle : HaloGun
 		HaloGun.BaseRecoil ARIFLE_RECOIL;
 		HaloGun.Inaccuracy ARIFLE_ACCMOD;
 		HaloGun.Crosshair "RifleRet", 1.0;
-		HaloGun.UIGraphic "WI_AR";
+		HaloGun.UIGraphic "WI_AR", 1.0;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
 	}

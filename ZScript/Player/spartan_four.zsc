@@ -28,7 +28,7 @@ class HaloSpartan_IV : HaloPlayer
 		HaloPlayer.MovementBob 0;
 		HaloPlayer.CanBunnyHop false;
 		HaloPlayer.MaxJumps 1;
-		HaloPlayer.AirControl 2.0;
+		HaloPlayer.AirControl 1.0;
 		HaloPlayer.EnableSlide true;
 		HaloPlayer.EnableGrapple true;
 	}

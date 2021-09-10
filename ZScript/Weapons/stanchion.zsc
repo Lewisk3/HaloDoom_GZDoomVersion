@@ -30,7 +30,7 @@ class Halo_Stanchion : HaloGun replaces BFG9000
 		HaloGun.BaseRecoil STANCHION_RECOIL;
 		HaloGun.Inaccuracy STANCHION_ACCMOD;
 		HaloGun.Crosshair "SNPRet", 1.0;
-		HaloGun.UIGraphic "MISSNG";
+		HaloGun.UIGraphic "MISSNG", 1.0;
 		HaloGun.UISight "SI_SNPR", 1.0, 0.8;
 		HaloGun.SetupScope 4.0, 0.25;
 		HaloGun.ZoomSounds "Halo/Weapons/Sniper/Zoom/IN", "Halo/Weapons/Sniper/Zoom/OUT";

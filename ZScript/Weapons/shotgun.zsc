@@ -38,8 +38,8 @@ class Halo_Shotgun : HaloGun replaces Shotgun
 		HaloGun.BloomSpeed 0.08;
 		HaloGun.BaseRecoil SHOTGUN_RECOIL;
 		HaloGun.Inaccuracy SHOTGUN_ACCMOD;
-		HaloGun.Crosshair "SGRet", 1.0;
-		HaloGun.UIGraphic "WI_SG";
+		HaloGun.Crosshair "SGRet", 0.8;
+		HaloGun.UIGraphic "WI_SG", 1.0;
 	}
 	
 	override void MarkPrecacheSounds()

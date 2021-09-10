@@ -74,7 +74,10 @@ extend class HaloPlayer
 		}
 		else
 		{
-			double curspd = vel.xy.Length();
+			double accel = (AIRACCEL*spd) / TICRATE;
+			vector3 wishvel = vel + (wishdir * accel);
+			double curspd = wishvel.Length();
+
 			double addspd = clamp(AIRMAX - curspd, 0, (AIRACCEL*spd) / TICRATE);
 			vel += (addspd*AIRCONTROL) * wishdir;
 		}
@@ -103,7 +106,7 @@ extend class HaloPlayer
 		
 		// Process friction every couple of tics.
 		double fric = 6.0 * (1.0-fricmod);
-		if( player.onground && (fricwait > 4 || !halodoom_allowbhop || !enable_bhop) ) 
+		if( player.onground && (fricwait > 4 || !halodoom_allowbhop || !enable_bhop) && fric > 0) 
 			DoQuakeFriction(fric);
 			
 		player.onground = (pos.z <= floorz) || bOnMobj || bMBFBouncer || (player.cheats & CF_NOCLIP2);
@@ -215,20 +218,24 @@ extend class HaloPlayer
 		{
 			// Double jump
 			vel.z = 0;	
-			doJump();
-			if (!(player.cheats & CF_PREDICTING)) A_StartSound("Halo/Spartan/DoubleJump", CHAN_BODY, CHANF_OVERLAP);
-			jumpcounter++;
+			if(doJump())
+			{
+				if (!(player.cheats & CF_PREDICTING)) A_StartSound("Halo/Spartan/DoubleJump", CHAN_BODY, CHANF_OVERLAP);
+				jumpcounter++;
+			}
 		} 
 		else if ( player.onground && (btns & BT_JUMP) && (!(obtns & BT_JUMP) || doholdjump) )
 		{
 			// Normal jump
-			doJump();
-			if (!(player.cheats & CF_PREDICTING)) A_StartSound("*jump", CHAN_BODY, CHANF_OVERLAP);
-			jumpcounter++;
+			if(doJump())
+			{
+				if (!(player.cheats & CF_PREDICTING)) A_StartSound("*jump", CHAN_BODY, CHANF_OVERLAP);
+				jumpcounter++;
+			}
 		}
 	}
 	
-	void doJump(double forcemod = 1.0)
+	bool doJump(double forcemod = 1.0)
 	{
 		if (player.crouchoffset != 0) player.crouching = 1;
 		if (waterlevel >= 2) Vel.Z = 4 * Speed;
@@ -236,7 +243,7 @@ extend class HaloPlayer
 		
 		if (level.IsJumpingAllowed())
 		{
-			if(abs(level.time - prevjump) <= 4) return;
+			if(abs(level.time - prevjump) <= 4) return false;
 			prevjump = level.time;
 			
 			double jumpvelz = JumpZ * 35 / TICRATE;
@@ -249,11 +256,18 @@ extend class HaloPlayer
 				if (pp) jumpfac = pp.Strength > jumpfac ? pp.Strength : jumpfac;
 			}
 			if (jumpfac > 0) jumpvelz *= jumpfac;
-	
-			Vel.Z += jumpvelz * forcemod;
-			bOnMobj = false;
-			player.jumpTics = -1;
+			
+			bool canJumpHere = (pos.z+height < ceilingz);
+		
+			if(canJumpHere)
+			{
+				Vel.Z += jumpvelz * forcemod;
+				bOnMobj = false;
+				player.jumpTics = -1;
+			}
+			return canJumpHere;
 		}
+		return false;
 	}
 	
 	// Credits: Ivory Duke (ZMovement)
@@ -332,6 +346,7 @@ class DashAnimator : Inventory
 			dash.dashstr = spd;
 			dash.timeout = dur;
 			src.AddInventory(dash);
+			src.vel.z = 0;
 		}
 		return dash;
 	}
@@ -342,19 +357,24 @@ class DashAnimator : Inventory
 		let plr = HaloPlayer(Owner);
 		if(!plr) return;
 		
-		vector2 addvel = AngleToVector(dashdir, dashstr);
-		
-		plr.vel.z = 0;
-		plr.vel.xy += addvel;
-		plr.fricmod = 0.998;
-		plr.bNOGRAVITY = true;		
-		
 		if(GetAge() > timeout) 
 		{
 			plr.bNOGRAVITY = Owner.default.bNOGRAVITY;
-			plr.RemoveInventory(self);
-			plr.fricmod = 0;
-			GoAwayAndDie();
+			if(GetAge() > timeout*2.0)
+			{
+				plr.RemoveInventory(self);
+				plr.fricmod = 0;
+				plr.enable_bhop = plr.default.enable_bhop;
+				GoAwayAndDie();
+			}
+		}
+		else
+		{
+			vector2 addvel = AngleToVector(dashdir, dashstr);
+			plr.vel.xy += addvel;
+			plr.fricmod = 1.0;
+			plr.enable_bhop = true;
+			plr.bNOGRAVITY = true;		
 		}
 	}
 }

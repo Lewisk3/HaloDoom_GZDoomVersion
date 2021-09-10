@@ -54,7 +54,7 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 		HaloGun.BaseRecoil DBLSHOTGUN_RECOIL;
 		HaloGun.Inaccuracy DBLSHOTGUN_ACCMOD;
 		HaloGun.Crosshair "DBLSRet1", 1.0;
-		HaloGun.UIGraphic "WI_DBL";
+		HaloGun.UIGraphic "WI_DBL", 1.0;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
 	}
