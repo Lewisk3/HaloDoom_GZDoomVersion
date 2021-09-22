@@ -128,7 +128,7 @@ Halo/Weapons/Mag_MD6/Reload 	  HW_MAGR
 Halo/Weapons/Mag_MD6/Reload/Empty HW_MAGRE
 
 $volume Halo/Weapons/Mag_MD6/Fire 0.9;
-$volume Halo/Weapons/Mag_MD6/Fire/Bass 0.6;
+$volume Halo/Weapons/Mag_MD6/Fire/Bass 1.0;
 
 // AssaultRifle
 ARFIRE1 ARFire1
@@ -222,7 +222,8 @@ $random Halo/Weapons/Shotgun/Pump      { SGPUMP1 SGPUMP2 SGPUMP3 }
 $random Halo/Weapons/Shotgun/Fire/Bass { SGBASS1 SGBASS2 SGBASS3 }
 $random Halo/Weapons/Shotgun/Reload    { SGRELOAD1 SGRELOAD2 SGRELOAD3 SGRELOAD4 }
 
-$volume Halo/Weapons/Shotgun/Fire/Bass 0.8;
+$volume Halo/Weapons/Shotgun/Fire/Bass 1.0;
+$volume Halo/Weapons/Shotgun/Fire 0.7;
 
 // Sniper
 SNIPER_FIRE1 SNPRFIR1
@@ -257,7 +258,8 @@ Stanchion_Fire4 "Sounds/Stanchion/StanchionFire4.wav"
 Halo/Weapons/Stanchion/Fire/Bass  "Sounds/Stanchion/StanchionBass.wav"
 $random Halo/Weapons/Stanchion/Fire      { Stanchion_Fire1 Stanchion_Fire2 Stanchion_Fire3 Stanchion_Fire4 }
 
-$volume Halo/Weapons/Sniper/Fire/Bass 0.6;
+$volume Halo/Weapons/Sniper/Fire/Bass 1.0;
+$volume Halo/Weapons/Sniper/Fire 0.8;
 
 // Carbine
 CARBINE_FIRE1 "Sounds/Carbine/CarbineFire1.wav"
@@ -278,9 +280,6 @@ Halo/Weapons/Carbine/Reload   "Sounds/Carbine/CarbineReload.wav"
 $random Halo/Weapons/Carbine/Fire      { CARBINE_FIRE1 CARBINE_FIRE2 CARBINE_FIRE3 }
 $random Halo/Weapons/Carbine/Fire/Bass { CARBINE_LOW1 CARBINE_LOW2 CARBINE_LOW3 CARBINE_LOW4 }
 $random Halo/Weapons/Carbine/Fire/Mech { CARBINE_MECH1 CARBINE_MECH2 CARBINE_MECH3 CARBINE_MECH4 }
-
-$volume Halo/Weapons/Sniper/Fire/Bass 1.0;
-$volume Halo/Weapons/Sniper/Fire 1.0;
 
 
 // Hit feedback

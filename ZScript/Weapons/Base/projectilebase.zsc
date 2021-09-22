@@ -32,6 +32,7 @@ class HaloProjectile : FastProjectile
 		Speed 0;
 		Projectile;
 		+INTERPOLATEANGLES;
+		+BLOODSPLATTER;
 		DamageType "Bullet";
 		
 		HaloProjectile.SetRanges 61, 123;
@@ -245,6 +246,7 @@ class HaloNeedleProjectile : Actor
 		-BOUNCEONACTORS;
 		+SEEKERMISSILE;
 		+SCREENSEEKER;
+		+BLOODSPLATTER;
 		Scale 0.25;
 		HaloNeedleProjectile.ExplodeDelay 100;
 		HaloNeedleProjectile.ExplodeCount 10;
