@@ -34,6 +34,21 @@ class Overshield_LV1 : Inventory replaces GreenArmor
 		return false;
 	}
 	
+	virtual void DoLightning(int amt = 5)
+	{
+		// Only display lightning effects if visible.
+		// This helps quite a lot with performance.
+		let viewer = players[consoleplayer].mo;
+		if(!viewer.IsVisible(self, false)) return;
+		
+		if( (GetAge() % randompick(10,25,50)) != 0 ) return;
+		for(int i = 0; i < amt; i++)
+		{
+			vector2 angles = (frandom(0,360), frandom(-40,40));
+			BiriBiri.DoLightning(pos + (0,0, GetBobOffset() + 12), angles, dist:50, 1.0, 14.0, 10.0, 50, 0);
+		}
+	}
+	
 	virtual void DoParticles(Color pcol = 0xFF21c24c)
 	{
 		double phase = cos(GetAge());
@@ -86,7 +101,11 @@ class Overshield_LV1 : Inventory replaces GreenArmor
 	States
 	{
 		Spawn:
-			PWSH A 1 DoParticles();
+			PWSH A 1 
+			{
+				DoParticles();
+			//	DoLightning();
+			}
 		loop;
 	}
 }
@@ -103,7 +122,11 @@ class Overshield_LV2 : Overshield_LV1 replaces BlueArmor
 	States
 	{
 		Spawn:
-			PWSH B 1 DoParticles(0xFFffa9ff);
+			PWSH B 1 
+			{
+				DoParticles(0xFFffa9ff);
+			//	DoLightning(10);
+			}
 		loop;
 	}
 }

@@ -55,7 +55,6 @@ class Halo_Magnum : HaloGun replaces Pistol
 		MarkSound("Halo/Weapons/Mag_MD6/Fire/Bass");
 		MarkSound("Halo/Weapons/Mag_MD6/Mech");
 		MarkSound("Halo/Weapons/Mag_MD6/Reload");
-		MarkSound("Halo/Weapons/BattleRifle/Reload/Empty");
 		MarkSound("Halo/Weapons/Mag_MD6/Select");
 	}
 	
@@ -88,7 +87,7 @@ class Halo_Magnum : HaloGun replaces Pistol
 			MAGS ABCDEFGHIJKLMNOPQRSTUV 1 A_DoSelectAnim(-5, true);
 		goto Ready.Active;
 		Ready.Chambered:
-			MAGD ABCE 1 A_DoSelectAnim(-5);
+			MAGD ABCDE 1 A_DoSelectAnim(-5);
 		Ready.Active:
 			MAR1 A 1 A_HaloWeaponReady(WRF_ALLOWRELOAD, true);
 		loop;

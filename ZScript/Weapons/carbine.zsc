@@ -232,7 +232,7 @@ class Halo_Carbine : HaloGun replaces PlasmaRifle
 		goto Ready.Active;
 		
 		
-		// Compass 
+		// Weapon Status 
 		LCD_Ammo:
 			CRBL "#" 1
 			{

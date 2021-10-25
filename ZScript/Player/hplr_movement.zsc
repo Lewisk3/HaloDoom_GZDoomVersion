@@ -83,8 +83,6 @@ extend class HaloPlayer
 		}
 	}
 	
-	
-	
 	override void MovePlayer ()
 	{
 		let player = self.player;

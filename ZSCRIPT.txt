@@ -52,6 +52,7 @@ version "4.0"
 #include "ZScript/Weapons/sniper_rifle.zsc"
 #include "ZScript/Weapons/stanchion.zsc"
 #include "ZScript/Weapons/carbine.zsc"
+#include "ZScript/Weapons/PlasmaPistol.zsc"
 
 // Vehicles
 #include "ZScript/Vehicles/Kinematics/kine_parts.zsc" 
