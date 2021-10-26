@@ -143,6 +143,8 @@ ARBASS1 ARBass1
 ARBASS2 ARBass2 
 ARBASS3 ARBass3 
 ARBASS4 ARBass4 
+Halo/WeaponIntro "Sounds/AssaultRifle/HelmetIntro.wav"
+
 
 $random Halo/Weapons/Rifle/Fire      { ARFIRE1 ARFIRE2 ARFIRE3 ARFIRE4 }
 $random Halo/Weapons/Rifle/Mech      { ARMECH1 ARMECH2 ARMECH3 ARMECH4 }
