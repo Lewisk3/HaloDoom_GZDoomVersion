@@ -190,6 +190,10 @@ class HaloStatusBar : BaseStatusBar
 				return;	
 			}
 			
+			// Hide HUD if weapon says so.
+			let curweap = HaloGun(haloplr.player.ReadyWeapon);
+			if(curweap && curweap.HUD_Hide) return;
+			
 			// Vitals
 			DrawBars(); 
 			
@@ -377,7 +381,7 @@ class HaloStatusBar : BaseStatusBar
 		}
 		
 		HaloGun weap = HaloGun(haloplr.player.ReadyWeapon);
-		if(!weap) return;
+		if(!weap || weap.HUD_Hide) return;
 		
 		bool lowerxhair = haloplr.CheckCrosshairLowered();
 		string crosshair = weap.wcrosshair;

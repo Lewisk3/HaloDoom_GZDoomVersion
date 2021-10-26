@@ -28,11 +28,13 @@ class HaloPlasma_Proj : HaloBullet
 	States
 	{
 		Spawn:
+			FSP3 A 4;
+		SpawnLoop:
 			FSP3 A 1 Bright
 			{
 				for(double i = 0; i < 4; i++)
 				{
-					double backoffs = 17 + ( (i/4.) * 18 );
+					double backoffs = 32 + ( (i/4.) * 18 );
 					vector3 worldOffs = HaloMath.V3Offset(angle, pitch, roll, backoffs,0,0, 1.0);
 					let trail = Spawn("HaloPlasma_Trail", level.vec3offset(pos, -worldOffs));
 					if(trail) 

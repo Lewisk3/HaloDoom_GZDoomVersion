@@ -17,6 +17,7 @@ class HaloSpartan_II : HaloPlayer
 		Player.MaxHealth 45;
 		
 		// Inventory
+		Player.StartItem "DoHelmetAnimation", 1;
 		Player.StartItem "Halo_AssaultRifle", 1;
 		Player.StartItem "Halo_Magnum", 1;
 		Player.StartItem "Halo_Clip", 120;

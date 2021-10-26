@@ -171,7 +171,9 @@ extend class HaloPlayer
 		if(dashcooldown <= 0 && player.onground) dashcounter = 0;
 		
 		// Grappling hook
-		if( (btns & BT_GRAPPLE) && !(obtns & BT_GRAPPLE) && enable_grapple )
+		let weap = HaloGun(player.ReadyWeapon);
+		
+		if( (btns & BT_GRAPPLE) && !(obtns & BT_GRAPPLE) && enable_grapple && (weap && !weap.handsbusy) )
 		{
 			if(grapple)
 			{
