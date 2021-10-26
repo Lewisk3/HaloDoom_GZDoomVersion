@@ -281,6 +281,29 @@ $random Halo/Weapons/Carbine/Fire      { CARBINE_FIRE1 CARBINE_FIRE2 CARBINE_FIR
 $random Halo/Weapons/Carbine/Fire/Bass { CARBINE_LOW1 CARBINE_LOW2 CARBINE_LOW3 CARBINE_LOW4 }
 $random Halo/Weapons/Carbine/Fire/Mech { CARBINE_MECH1 CARBINE_MECH2 CARBINE_MECH3 CARBINE_MECH4 }
 
+// Plasma Pistol
+PP_FIRE1 "Sounds/PlasmaPistol/fire_normal1.wav"
+PP_FIRE2 "Sounds/PlasmaPistol/fire_normal2.wav"
+PP_FIRE3 "Sounds/PlasmaPistol/fire_normal3.wav"
+PP_FIRELOW1 "Sounds/PlasmaPistol/fire_normal_low1.wav"
+PP_FIRELOW2 "Sounds/PlasmaPistol/fire_normal_low2.wav"
+PP_FIRELOW3 "Sounds/PlasmaPistol/fire_normal_low3.wav"
+PP_FIRECHARGEDLOW1 "Sounds/PlasmaPistol/fire_charged_low1.wav"
+PP_FIRECHARGEDLOW2 "Sounds/PlasmaPistol/fire_charged_low2.wav"
+PP_FIRECHARGEDLOW3 "Sounds/PlasmaPistol/fire_charged_low3.wav"
+
+Halo/Weapons/PlasmaPistol/Overheat "Sounds/PlasmaPistol/overheat.wav"
+Halo/Weapons/PlasmaPistol/Charge/Start "Sounds/PlasmaPistol/charge_start.wav"
+Halo/Weapons/PlasmaPistol/Charge/Loop "Sounds/PlasmaPistol/charge_loop.wav"
+Halo/Weapons/PlasmaPistol/Fire/Charged "Sounds/PlasmaPistol/fire_charged.wav"
+Halo/Weapons/PlasmaPistol/Select "Sounds/PlasmaPistol/raise_lower.wav"
+
+$Random Halo/Weapons/PlasmaPistol/Fire 		 { PP_FIRE1 PP_FIRE2 PP_FIRE3 }
+$Random Halo/Weapons/PlasmaPistol/Fire/Bass  { PP_FIRELOW1 PP_FIRELOW2 PP_FIRELOW3 }
+$Random Halo/Weapons/PlasmaPistol/Fire/Charged/Bass  { PP_FIRECHARGEDLOW1 PP_FIRECHARGEDLOW2 PP_FIRECHARGEDLOW3 }
+
+$volume Halo/Weapons/PlasmaPistol/Charge/Start 0.35;
+$volume Halo/Weapons/PlasmaPistol/Charge/Loop 0.35;
 
 // Hit feedback
 HMHIT1 HMHit1
