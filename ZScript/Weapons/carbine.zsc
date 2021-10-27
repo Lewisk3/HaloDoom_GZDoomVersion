@@ -248,7 +248,7 @@ class Halo_Carbine : HaloGun replaces PlasmaRifle
 		
 		
 		Spawn:
-			MSNG A -1;
+			CARF A -1;
 		stop;
 	}
 }
