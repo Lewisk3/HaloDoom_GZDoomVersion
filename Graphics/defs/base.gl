@@ -129,3 +129,8 @@ object TankRocket_Explosion
 {
 	Frame SX04 { light BigYellowPointLight }
 }
+
+object FragGrenadeExplosion
+{
+	Frame SX04 { light YellowPointLight }
+}

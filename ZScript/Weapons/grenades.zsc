@@ -1,0 +1,118 @@
+// Nade items
+class FragGrenades : Inventory
+{
+	Default
+	{
+		Inventory.MaxAmount 4;
+	}
+}
+class PlasmaGrenades : FragGrenades {}
+
+// Nade projectiles
+class FragGrenade_Proj : Actor
+{
+	Default
+	{	
+		BounceType "Doom";
+		BounceCount 2;
+		+BOUNCEONWALLS;
+		+BOUNCEONFLOORS;
+		+BOUNCEONCEILINGS;
+		+USEBOUNCESTATE;
+		BounceFactor 0.6;
+		Projectile;
+		Gravity 0.67;
+		+ROLLSPRITE;
+		
+		-NOGRAVITY;
+		Speed 20;
+		
+		Radius 5;
+		Height 5;
+		Scale 0.08;
+	}	
+	
+	States
+	{
+		Spawn:
+			FRAG A 1
+			{
+				roll += 5;
+			}
+		loop;
+		
+		Bounce:
+			FRAG A 1 
+			{
+				roll -= 20;
+			}
+		goto Spawn;
+		
+		Crash:
+		XDeath:
+		goto Detonate;
+		
+		Death:
+			FRAG A 28; 
+		Detonate:
+			TNT1 A 1
+			{
+				Spawn("FragGrenadeExplosion", pos);
+			}
+		stop;
+	}
+}
+
+
+class FragGrenade_Smoke : TankRocket_Smoke
+{
+	Default
+	{	
+		Scale 0.75;
+	}
+}
+
+class FragGrenade_FlyingExplosion : TankRocket_FlyingExplosion
+{
+	Default
+	{
+		Scale 0.20;
+	}
+}
+class FragGrenadeExplosion : CheapActor
+{	
+	Default
+	{
+		Scale 0.75;
+		Alpha 0.8;
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0;
+			TNT1 A 1 
+			{
+				let sparks = Spawn("ImpactSparks", pos);
+				if(sparks) sparks.A_SetScale(0.35);
+				
+				let flare = Spawn("TankRocket_Flare", (pos.xy, pos.z+20));
+				if(flare) flare.A_SetScale(0.5);
+				
+				A_QuakeEx(2,2,2,10,0,256);
+			}
+			SX04 ABCD 1 Bright;
+			TNT1 A 0 
+			{
+				vector3 fxpos = (pos.xy, pos.z+40);
+				HaloMath.SpawnFX("FragGrenade_FlyingExplosion", fxpos, angle, random(5,12), 10, 20, 180,45, 25);
+				A_Explode(86, 200);
+			}
+			SX04 EFGHIJKLMNOPQ 1 Bright
+			{
+				vector3 fxpos = (pos.xy, pos.z+20);
+				HaloMath.SpawnFX("FragGrenade_Smoke", fxpos, angle, 1, 20, 20, rstyle:STYLE_Subtract);
+			}
+		stop;
+	}
+}

@@ -134,6 +134,34 @@ class HaloMath Abstract
 		return proj;
 	}
 
+	play static void SpawnFX(class<Actor> type, vector3 frompos, double sangle, double amt, double maxdist, double ydist, double vel_angle = 0, double vel_pitch = 0, double vel_spd = 0, int rstyle = -1)
+	{
+		for(int i = 0; i < amt; i++)
+		{
+			double spawnang = frandom(0,180);
+			double spawndist = frandom(-maxdist, maxdist);
+			vector3 spawndir = (
+				cos(sangle + spawnang),
+				sin(sangle + spawnang),
+				0
+			) * spawndist;
+			
+			spawndir.z = frandom(-ydist,ydist);
+			let obj = Actor.Spawn(type, level.vec3offset(frompos, spawndir));
+			if(obj && vel_spd != 0)
+			{
+				double velang = frandom(-vel_angle,vel_angle);
+				vector3 veldir = (
+					cos(velang),
+					sin(velang),
+					sin(frandom(-vel_pitch,vel_pitch))
+				);
+				obj.vel = veldir * vel_spd;
+			}
+			if(rstyle >= 0) obj.A_SetRenderStyle(obj.alpha, rstyle);
+		}
+	}
+
 	static double sign(double num)
 	{
 		return num < 0 ? -1 : 1;

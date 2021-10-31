@@ -101,9 +101,10 @@ class HaloDoom_Events : EventHandler
 		PlayerInfo src = players[e.Player];
 		if(!src || !src.mo) return;
 			
-		if(e.Name == "testwraith")
+		// Extra keys
+		if(e.Name ~== "throwgrenade")
 		{
-			WraithPlasma.Fire(src.mo, (-30,0,30));
+			src.mo.GiveInventory("Action_ThrowGrenade", 1);
 		}
 		
 		Array<String> args;

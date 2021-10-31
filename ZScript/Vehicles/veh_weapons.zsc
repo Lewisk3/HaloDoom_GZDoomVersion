@@ -1,4 +1,4 @@
-class FastActor : Actor abstract
+class FastActor : CheapActor abstract
 {
 	Default
 	{
@@ -6,24 +6,6 @@ class FastActor : Actor abstract
 		+NOINTERACTION;
 		RenderStyle "Add";
 		Alpha 1.0;
-	}
-	
-	override void Tick()
-	{			
-		if (alpha < 0)
-		{
-			destroy();
-			return;
-		}
-		if (isFrozen()) return;
-				
-		//animation:
-		if (tics != -1) 
-		{
-			if(tics > 0) tics--;
-			while (!tics) 
-				if(!SetState(CurState.NextState)) return;
-		}
 	}
 }
 
@@ -81,25 +63,6 @@ class TankRocket : FastProjectile
 		return proj;
 	}
 	
-	
-	void SpawnFX(class<Actor> type, vector3 frompos, double amt, double maxdist, double ydist, int rstyle = -1)
-	{
-		for(int i = 0; i < amt; i++)
-		{
-			double spawnang = frandom(0,180);
-			double spawndist = frandom(-maxdist, maxdist);
-			vector3 spawndir = (
-				cos(angle + spawnang),
-				sin(angle + spawnang),
-				0
-			) * spawndist;
-			
-			spawndir.z = frandom(-ydist,ydist);
-			let obj = Spawn(type, level.vec3offset(frompos, spawndir));
-			if(rstyle >= 0) obj.A_SetRenderStyle(obj.alpha, rstyle);
-		}
-	}
-	
 	void DoExplosion()
 	{
 		A_Explode(250, 512);
@@ -128,9 +91,9 @@ class TankRocket : FastProjectile
 		vector3 fxpos = level.vec3offset(pos, fxoffs);
 		Spawn("TankRocket_Explosion", fxpos);
 		
-		SpawnFX("TankRocket_MiniExplosion", fxpos, random(5,15), 160, 40);
-		SpawnFX("TankRocket_Smoke", fxpos, random(10,30), 120, 60);
-		SpawnFX("TankRocket_Smoke", fxpos, random(10,30), 80, 60, STYLE_Subtract);
+		HaloMath.SpawnFX("TankRocket_MiniExplosion", fxpos, angle, random(5,15), 160, 40);
+		HaloMath.SpawnFX("TankRocket_Smoke", fxpos, angle, random(10,30), 120, 60);
+		HaloMath.SpawnFX("TankRocket_Smoke", fxpos, angle, random(10,30), 80, 60, rstyle:STYLE_Subtract);
 		
 		// Flying explosions
 		for(int i = 0; i < random(20,30); i++)
@@ -256,14 +219,14 @@ class TankRocket_Smoke : FastActor
 	vector2 wind_dir;
 	Default
 	{
+		Scale 1.0;
 		+ROLLSPRITE;
 	}
-	
 	
 	override void BeginPlay()
 	{	
 		alpha = frandom(0.5, 1.0);
-		A_SetScale(frandom(0.15,1.0));
+		A_SetScale(frandom(default.scale.x * 0.15, default.scale.x));
 		rollvel = frandom(-2.0, 2.0);
 		upforce = frandom(0.015, 0.08);
 		wind_dir = AngleToVector(frandom(0,180), frandom(-0.005, 0.005)); 
@@ -361,10 +324,15 @@ class TankRocket_MiniExplosion : TankRocket_Smoke
 
 class TankRocket_FlyingExplosion : FastActor
 {
+	Default
+	{
+		Scale 0.5;
+	}
+
 	override void BeginPlay()
 	{	
 		super.BeginPlay();	
-		A_SetScale(frandom(0.15, 0.50));
+		A_SetScale(frandom(default.scale.x * 0.3, default.scale.x));
 	}
 	
 	override void Tick()
@@ -381,12 +349,14 @@ class TankRocket_FlyingExplosion : FastActor
 		SpawnLoop_One:
 			FX58 ABCDEFGHIJKLMNOP 2 Bright
 			{
-				Actor.Spawn("TankRocket_DarkSmoke", pos);
+				let trail = Actor.Spawn("TankRocket_DarkSmoke", pos);
+				if(trail) trail.A_SetScale(Scale.X);
 			}
 			FX58 Q 2 Bright
 			{
 				A_FadeOut(0.006);
-				Actor.Spawn("TankRocket_DarkSmoke", pos);
+				let trail = Actor.Spawn("TankRocket_DarkSmoke", pos);
+				if(trail) trail.A_SetScale(Scale.X);
 			}
 		wait;
 	}
@@ -441,24 +411,6 @@ class WraithPlasma : Actor
 		return proj;
 	}
 	
-	void SpawnFX(class<Actor> type, vector3 frompos, double amt, double maxdist, double ydist, int rstyle = -1)
-	{
-		for(int i = 0; i < amt; i++)
-		{
-			double spawnang = frandom(0,180);
-			double spawndist = frandom(-maxdist, maxdist);
-			vector3 spawndir = (
-				cos(angle + spawnang),
-				sin(angle + spawnang),
-				0
-			) * spawndist;
-			
-			spawndir.z = frandom(-ydist,ydist);
-			let obj = Spawn(type, level.vec3offset(frompos, spawndir));
-			if(rstyle >= 0) obj.A_SetRenderStyle(obj.alpha, rstyle);
-		}
-	}
-	
 	void DoExplosion()
 	{
 		A_StopSound(CHAN_BODY);
@@ -475,7 +427,7 @@ class WraithPlasma : Actor
 			expl.SetShade(0xFF1051de);
 		}
 		
-		SpawnFX("TankRocket_Smoke", fxpos, random(4,12), 120, 60);
+		HaloMath.SpawnFX("TankRocket_Smoke", fxpos, angle, random(4,12), 120, 60);
 		
 		// Flying explosions
 		for(int i = 0; i < random(20,30); i++)
