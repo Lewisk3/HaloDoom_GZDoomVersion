@@ -204,7 +204,7 @@ class ImpactSparks : FastActor
 	{
 		Spawn:
 			TNT1 A 0; 
-			IPF2 "#" 2 Bright
+			IPF2 "#" 4 Bright
 			{
 				frame = random(0,3);
 			}

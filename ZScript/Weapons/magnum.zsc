@@ -44,6 +44,7 @@ class Halo_Magnum : HaloGun replaces Pistol
 		HaloGun.UIGraphic "WI_MAGNM", 1.0;
 		HaloGun.UISight "SI_MAG", 1.0, 0.7;
 		HaloGun.SetupScope 1.25, 0.5;
+		HaloGun.ZoomSounds "Halo/Weapons/Zoom/IN", "Halo/Weapons/Zoom/OUT";
 		
 		RecoilWeapon.YOffsetRange -10, 40;
 	}
@@ -79,14 +80,13 @@ class Halo_Magnum : HaloGun replaces Pistol
 	States
 	{
 		Ready:
-			TNT1 A 0 
- 			{
-				A_WeapSound("Halo/Weapons/Mag_MD6/Select");
-				return A_JumpIf(!A_DoFullSelectAnimation(), "Ready.Chambered");
-			}
-			MAGS ABCDEFGHIJKLMNOPQRSTUV 1 A_DoSelectAnim(-5, true);
+			TNT1 A 0 A_JumpIf(!A_DoFullSelectAnimation(), "Ready.Chambered");
+			TNT1 A 4 A_WeapSound("Halo/Weapons/Mag_MD6/Draw");
+			MAGS ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoSelectAnim(-5, true);
+			MGS1 ABCDEF 1;
 		goto Ready.Active;
 		Ready.Chambered:
+			TNT1 A 0 A_WeapSound("Halo/Weapons/Mag_MD6/Select");
 			MAGD ABCDE 1 A_DoSelectAnim(-5);
 		Ready.Active:
 			MAR1 A 1 A_HaloWeaponReady(WRF_ALLOWRELOAD, true);

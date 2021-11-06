@@ -75,6 +75,7 @@ class Halo_Carbine : HaloGun replaces PlasmaRifle
 		HaloGun.UISight "SI_CARB", 1.0, 0.6;
 		HaloGun.SetupScope 2.0, 0.5;
 		HaloGun.UIGraphic "WI_CARB", 0.50;
+		HaloGun.ZoomSounds "Halo/Weapons/Zoom/IN", "Halo/Weapons/Zoom/OUT";
 		
 		RecoilWeapon.YOffsetRange -5, 40;
 	}

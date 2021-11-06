@@ -42,6 +42,7 @@ class Halo_BattleRifle : HaloGun replaces Chaingun
 		HaloGun.UIGraphic "WI_DMR", 1.0;
 		HaloGun.UISight "SI_BR", 0.3, 0.7;
 		HaloGun.SetupScope 2.0, 0.25;
+		HaloGun.ZoomSounds "Halo/Weapons/Zoom/IN", "Halo/Weapons/Zoom/OUT";
 		
 		RecoilWeapon.YOffsetRange -10, 40;
 	}

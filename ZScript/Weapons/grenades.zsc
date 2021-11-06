@@ -4,9 +4,25 @@ class FragGrenades : Inventory
 	Default
 	{
 		Inventory.MaxAmount 4;
+		Inventory.PickupMessage "Picked up a frag grenade.";
+		Inventory.PickupSound "Halo/Grenade/Frag/Pickup";
+	}
+	
+	States
+	{
+		Spawn:
+			FRAG A -1;
+		stop;
 	}
 }
-class PlasmaGrenades : FragGrenades {}
+class PlasmaGrenades : FragGrenades 
+{
+	Default
+	{
+		Inventory.PickupMessage "Picked up a plasma grenade.";
+		Inventory.PickupSound "Halo/Grenade/Plasma/Pickup";
+	}
+}
 
 // Nade projectiles
 class FragGrenade_Proj : Actor
@@ -32,6 +48,20 @@ class FragGrenade_Proj : Actor
 		Scale 0.08;
 	}	
 	
+	override void Tick()
+	{
+		super.Tick();
+		
+		if(waterlevel > 0)
+		{
+			vel.xy *= 0.9;
+			A_SetGravity(default.gravity * 0.75);
+			
+			if(!InStateSequence(CurState, FindState("Death"))) 
+				SetState(FindState("Death"));
+		}
+	}
+	
 	States
 	{
 		Spawn:
@@ -44,6 +74,7 @@ class FragGrenade_Proj : Actor
 		Bounce:
 			FRAG A 1 
 			{
+				A_StartSound("Halo/Grenade/Frag/Bounce");
 				roll -= 20;
 			}
 		goto Spawn;
@@ -57,6 +88,11 @@ class FragGrenade_Proj : Actor
 		Detonate:
 			TNT1 A 1
 			{
+				if(waterlevel > 0 || HitWater(CurSector, pos))
+					A_StartSound("Halo/Grenade/Frag/ExplodeWater");
+				else
+					A_StartSound("Halo/Grenade/Frag/Explode");
+					
 				Spawn("FragGrenadeExplosion", pos);
 			}
 		stop;
@@ -68,7 +104,7 @@ class FragGrenade_Smoke : TankRocket_Smoke
 {
 	Default
 	{	
-		Scale 0.75;
+		Scale 1.0;
 	}
 }
 
@@ -76,14 +112,14 @@ class FragGrenade_FlyingExplosion : TankRocket_FlyingExplosion
 {
 	Default
 	{
-		Scale 0.20;
+		Scale 0.40;
 	}
 }
 class FragGrenadeExplosion : CheapActor
 {	
 	Default
 	{
-		Scale 0.75;
+		Scale 1.0;
 		Alpha 0.8;
 	}
 	
@@ -94,24 +130,25 @@ class FragGrenadeExplosion : CheapActor
 			TNT1 A 1 
 			{
 				let sparks = Spawn("ImpactSparks", pos);
-				if(sparks) sparks.A_SetScale(0.35);
+				if(sparks) sparks.A_SetScale(1.0);
 				
 				let flare = Spawn("TankRocket_Flare", (pos.xy, pos.z+20));
-				if(flare) flare.A_SetScale(0.5);
+				if(flare) flare.A_SetScale(0.75);
 				
-				A_QuakeEx(2,2,2,10,0,256);
+				A_QuakeEx(2,2,2,10,0,1024);
 			}
 			SX04 ABCD 1 Bright;
 			TNT1 A 0 
 			{
 				vector3 fxpos = (pos.xy, pos.z+40);
 				HaloMath.SpawnFX("FragGrenade_FlyingExplosion", fxpos, angle, random(5,12), 10, 20, 180,45, 25);
-				A_Explode(86, 200);
+				A_Explode(86, 256);
 			}
 			SX04 EFGHIJKLMNOPQ 1 Bright
 			{
 				vector3 fxpos = (pos.xy, pos.z+20);
-				HaloMath.SpawnFX("FragGrenade_Smoke", fxpos, angle, 1, 20, 20, rstyle:STYLE_Subtract);
+				if(!(frame%2))
+					HaloMath.SpawnFX("FragGrenade_Smoke", fxpos, angle, 1, 20, 20, rstyle:STYLE_Subtract);
 			}
 		stop;
 	}

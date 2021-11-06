@@ -2,6 +2,8 @@
 Halo/Weapons/Zoom/In  Zoom_IN
 Halo/Weapons/Zoom/Out Zoom_OUT
 Halo/Weapons/DryFire  HW_DRYF
+Halo/Weapons/SuitZoom/IN  "Sounds/SFX/Suit_Zoom_IN.wav"
+Halo/Weapons/SuitZoom/OUT "Sounds/SFX/Suit_Zoom_OUT.wav"
 UI/PressButton BTNPRESS
 
 // Vehicles
@@ -123,6 +125,7 @@ $Random Halo/Weapons/Mag_MD6/Fire/Bass 	{ HW_MAGL1 HW_MAGL2 HW_MAGL3 }
 $Random Halo/Weapons/Mag_MD6/Mech 	    { HW_MAGM1 HW_MAGM2 HW_MAGM3 }
 $Random Halo/Weapons/Mag_MD6/Select     { HW_MAGS1 HW_MAGS2 }
 
+Halo/Weapons/Mag_MD6/Draw 		  "Sounds/Magnum/MagDraw.wav"
 Halo/Weapons/Mag_MD6/Melee 		  HW_MAGM
 Halo/Weapons/Mag_MD6/Reload 	  HW_MAGR
 Halo/Weapons/Mag_MD6/Reload/Empty HW_MAGRE
@@ -332,6 +335,13 @@ Shield/Low shlow
 
 $volume Shield/Warning 0.7
 $volume Shield/Low 0.25
+
+// Grenades
+Halo/Grenade/Frag/Pickup "Sounds/Grenades/Frag_Pickup.wav"
+Halo/Grenade/Frag/Throw "Sounds/Grenades/Frag_Throw.wav"
+Halo/Grenade/Frag/Bounce "Sounds/Grenades/Frag_Bounce.wav"
+Halo/Grenade/Frag/Explode "Sounds/Grenades/Frag_Explode.wav"
+Halo/Grenade/Frag/ExplodeWater "Sounds/Grenades/Frag_ExplodeWater.wav"
 
 // Player sounds
 Halo/Spartan/Death1 "Sounds/Players/death1.wav" 
