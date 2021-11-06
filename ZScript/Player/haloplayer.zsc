@@ -12,6 +12,10 @@ class HaloPlayer : DoomPlayer
 	bool shields_recharging;
 	string class_desc;
 	
+	// Door to be activated once animation finishes.
+	Line pendingDoor; 
+	string pendingDoorColor;
+	
 	// Shields
 	double shield_regentime;
 	double shield_regenrate;
@@ -66,6 +70,14 @@ class HaloPlayer : DoomPlayer
 		HaloPlayer.MovementBob 0;
 		HaloPlayer.AirControl 0.5;
 		HaloPlayer.MaxJumps 1;
+	}
+	
+	// Open locked door.
+	void OpenPendingDoor()
+	{
+		if(!pendingDoor) return;
+		pendingDoor.Activate(self, 1, SPAC_Use);
+		pendingDoor = null;
 	}
 	
 	override void BeginPlay()

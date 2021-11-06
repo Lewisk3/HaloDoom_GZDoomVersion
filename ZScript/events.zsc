@@ -161,6 +161,70 @@ class HaloDoom_Events : EventHandler
 			hplr.shields = hplr.maxshields * 3.0;
 		}
 	}
+	
+	// Key stuff
+	override void WorldLinePreActivated(WorldEvent e)
+	{
+		let plr = HaloPlayer(e.Thing);
+		if( !plr ) return;
+		Line ln = e.ActivatedLine;
+		
+		// 13 is apparently the "locked" door special.
+		bool locked = ln.special == 13; 
+		if(!locked) return;
+		
+		// Check line key code.
+		uint keyNum = ln.args[3]; 
+		bool canOpen = false;
+		String keyColor = "";
+		[canOpen, keyColor] = CheckKey(plr, keyNum);
+		
+		// Queue door.
+		let weap = HaloGun(plr.player.ReadyWeapon);
+		if(canOpen && weap && !plr.pendingDoor)
+		{
+			plr.pendingDoor = ln;
+			plr.pendingDoorColor = keyColor;
+			e.shouldActivate = false;
+			
+			// Setup door animation
+			weap.CallMeleeState("Use_Cortana");
+		}
+	}
+	
+	bool hasKey(Actor src, string species)
+	{
+		// I'm really, really hating how Doom handles keys about now...
+		class<Key> parentKey = species;
+		for(let item = src.Inv; item; item = item.Inv)
+		{
+			if(!Key(item)) continue;
+			if(item.species == species || item is parentKey) return true;
+		}
+		return false;
+	}
+	
+	bool, string CheckKey(Actor src, int keyNum)
+	{
+		bool success = false;
+		string keyCol = "";
+		
+		switch(keyNum)
+		{
+			case   1: if(hasKey(src, "RedCard"    )) success = true; keyCol = "Red";    break;
+			case   2: if(hasKey(src, "BlueCard"   )) success = true; keyCol = "Blue";   break;
+			case   3: if(hasKey(src, "YellowCard" )) success = true; keyCol = "Yellow"; break;
+			case   4: if(hasKey(src, "RedSkull"   )) success = true; keyCol = "Red";    break;
+			case   5: if(hasKey(src, "BlueSkull"  )) success = true; keyCol = "Blue";   break; 
+			case   6: if(hasKey(src, "YellowSkull")) success = true; keyCol = "Yellow"; break;
+			
+			case 129: if(hasKey(src, "RedCard")    || hasKey(src, "RedSkull"   )) success = true; keyCol = "Red";    break;
+			case 130: if(hasKey(src, "BlueCard")   || hasKey(src, "BlueSkull"  )) success = true; keyCol = "Blue";   break;
+			case 131: if(hasKey(src, "YellowCard") || hasKey(src, "YellowSkull")) success = true; keyCol = "Yellow"; break;
+		}
+		
+		return success, keyCol;
+	}
 }
 
 
