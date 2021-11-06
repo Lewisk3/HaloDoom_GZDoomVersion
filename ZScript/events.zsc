@@ -28,14 +28,14 @@ class HaloDoom_Events : EventHandler
 		if(plr)
 		{
 			uint plrnum = plr.PlayerNumber();
-			Sound hitsnd =  headshot ? "Hit/Crit" : "Hit/Normal";
-			Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Normal:0", plrnum);
+			String hitsnd =  headshot ? "Hit/Crit" : "Hit/Normal";
+			if(plr.soundwait) hitsnd = "";
 			
-			if(!plr.soundwait)
-			{
-				plr.A_StartSound(hitsnd, CHAN_BODY, CHANF_OVERLAP);
-				plr.soundwait = 2;
-			}
+			Halo_OverlayUI.SendNetworkEvent(
+				String.Format("hitmark:HitM_Normal:0:%s", hitsnd), 
+				plrnum
+			);
+			if(!plr.soundwait) plr.soundwait = 2;
 		}
 	}
 	
@@ -60,11 +60,9 @@ class HaloDoom_Events : EventHandler
 		{
 			uint plrnum = plr.PlayerNumber();			
 			if(headshot)
-				Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Headshot:1", plrnum);
+				Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Headshot:1:Hit/Killed", plrnum);
 			else
-				Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Killed:1", plrnum);
-			
-			plr.A_StartSound("Hit/Killed", CHAN_VOICE, CHANF_OVERLAP);
+				Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Killed:1:Hit/Killed", plrnum);
 		}
 	}
 	

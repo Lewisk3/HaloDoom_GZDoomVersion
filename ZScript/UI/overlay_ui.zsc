@@ -80,6 +80,11 @@ class Halo_OverlayUI : EventHandler
 				{
 					class<Hitmarker> type = args[1];
 					uint layer = args[2].ToInt();
+					if(args.Size() >= 4)
+					{
+						Sound snd = args[3];
+						plr.A_StartSound(snd, CHAN_VOICE, CHANF_OVERLAP);
+					}
 					if(type) ui_hitmarkers[plrnum].Queue(layer, type);
 				}
 			}

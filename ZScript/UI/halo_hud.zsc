@@ -100,6 +100,7 @@ class HaloStatusBar : BaseStatusBar
 	
 	// CVars
 	transient CVar showminimap;
+	transient CVar showAmmoWarnings;
 	
 	// Basic Functions
 	mixin BasicHUDFeatures;
@@ -174,6 +175,7 @@ class HaloStatusBar : BaseStatusBar
 		
 		// Fetch CVars
 		if(!showminimap) showminimap = CVar.GetCVar("halodoom_showminimap", CPlayer);
+		if(!showAmmoWarnings ) showAmmoWarnings = CVar.GetCVar("halodoom_doammowarnings", CPlayer);
 		
 		// Always draw HUD
 		BeginHUD();
@@ -401,7 +403,9 @@ class HaloStatusBar : BaseStatusBar
 			HLSBS.DrawString("BigFont", dist, midpos+(0,32), HLSBS.SS_SCREEN_CENTER); 
 		}
 		
-		// Crosshair Warnings		
+		if(!showAmmoWarnings.getBool()) return;
+				
+		// Crosshair Warnings				
 		String warnGraphic = "";
 		double curAmmo = haloplr.countinv(weap.AmmoType2);			
 		double maxAmmo = GetDefaultByType(weap.AmmoType2).MaxAmount;
