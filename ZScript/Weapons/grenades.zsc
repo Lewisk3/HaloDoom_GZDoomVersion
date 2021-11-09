@@ -6,12 +6,21 @@ class FragGrenades : Inventory
 		Inventory.MaxAmount 4;
 		Inventory.PickupMessage "Picked up a frag grenade.";
 		Inventory.PickupSound "Halo/Grenade/Frag/Pickup";
+		+FLOATBOB;
+		+ROLLSPRITE;
+		FloatBobStrength 0.25;
+		
+		Scale 0.10;
 	}
 	
 	States
 	{
 		Spawn:
-			FRAG A -1;
+			FRAG A -1 NoDelay 
+			{
+				A_SpriteOffset(0, -20);
+				roll = 45;
+			}
 		stop;
 	}
 }
@@ -112,7 +121,7 @@ class FragGrenade_FlyingExplosion : TankRocket_FlyingExplosion
 {
 	Default
 	{
-		Scale 0.40;
+		Scale 0.20;
 	}
 }
 class FragGrenadeExplosion : CheapActor

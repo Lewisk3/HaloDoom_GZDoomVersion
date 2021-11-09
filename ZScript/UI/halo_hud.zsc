@@ -101,6 +101,7 @@ class HaloStatusBar : BaseStatusBar
 	// CVars
 	transient CVar showminimap;
 	transient CVar showAmmoWarnings;
+	transient CVar hideCrosshair;
 	
 	// Basic Functions
 	mixin BasicHUDFeatures;
@@ -176,6 +177,7 @@ class HaloStatusBar : BaseStatusBar
 		// Fetch CVars
 		if(!showminimap) showminimap = CVar.GetCVar("halodoom_showminimap", CPlayer);
 		if(!showAmmoWarnings ) showAmmoWarnings = CVar.GetCVar("halodoom_doammowarnings", CPlayer);
+		if(!hideCrosshair ) hideCrosshair = CVar.GetCVar("halodoom_hidecrosshair", CPlayer); 
 		
 		// Always draw HUD
 		BeginHUD();
@@ -204,7 +206,10 @@ class HaloStatusBar : BaseStatusBar
 			{
 				DrawCompass();
 				DrawAbilities();
-				DrawCrosshairs();
+				
+				if(!hideCrosshair.getBool())
+					DrawCrosshairs();
+					
 				DrawWeaponsAmmo();
 				DrawRadar();
 				DrawSight();
@@ -331,8 +336,18 @@ class HaloStatusBar : BaseStatusBar
 				}
 			}
 		}
-	// Ammo Count
+		// Ammo Count
 		HLSBS.DrawString(fntHaloAmmo, haloplr.countinv(curweap.AmmoType1).."", (1732, 60), scale:(0.18,0.15));
+		
+		// Draw grenades
+		vector2 nadepos   = (215, 80);
+		vector2 nadescale = (1.0, 1.0);
+		
+		HLSBS.DrawImage("Graphics/UI/Grenades/frag.png", nadepos, scale:nadescale);
+		HLSBS.DrawString(fntHaloAmmo, haloplr.countinv("FragGrenades").."", nadepos+(32,0), scale:(0.18,0.15) * 0.75);
+		
+		HLSBS.DrawImage("Graphics/UI/Grenades/plasma.png", nadepos + (160,0), scale:nadescale);
+		HLSBS.DrawString(fntHaloAmmo, haloplr.countinv("PlasmaGrenades").."", nadepos+(160+32,0), scale:(0.18,0.15) * 0.75);
 	}
 	
 	string, vector2 GetWeaponUIDetails(Weapon weap, vector2 uiscale = (1,1), vector2 desired_scale = (128,64))

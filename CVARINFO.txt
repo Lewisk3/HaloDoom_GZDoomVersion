@@ -7,6 +7,7 @@ user bool halodoom_loweredcrosshair = false;
 user bool halodoom_dofullselectanim = false;
 user bool halodoom_dohelmetintro = true;
 user bool halodoom_doammowarnings = true;
+user bool halodoom_hidecrosshair = false;
 user float halodoom_recoil_intensity = 1.0;
 server bool halodoom_allowbhop = true;
 server bool halodoom_holdjump = true;

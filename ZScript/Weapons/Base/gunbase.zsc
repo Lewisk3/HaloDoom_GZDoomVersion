@@ -420,6 +420,8 @@ class HaloGun : RecoilWeapon
 		{
 			if(Owner.countinv("FragGrenades") && CallMeleeState("ThrowFrag"))
 				Owner.TakeInventory("FragGrenades", 1);
+			else
+				HaloPlayer(Owner).SendHUDMessage("Grenade depleted!");
 				
 			Owner.TakeInventory("Action_ThrowGrenade", 999);
 		}

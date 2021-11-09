@@ -87,6 +87,12 @@ class HaloPlayer : DoomPlayer
 		super.BeginPlay();
 	}
 	
+	void SendHUDMessage(String msg)
+	{
+		// Feels like hax but, kinda clean ngl.
+		Inventory.PrintPickupMessage(CheckLocalView(), msg);
+	}
+	
 	override void Tick()
 	{
 		// In vehicle?
