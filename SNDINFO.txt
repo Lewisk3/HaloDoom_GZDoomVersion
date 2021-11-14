@@ -310,6 +310,21 @@ $Random Halo/Weapons/PlasmaPistol/Fire/Charged/Bass  { PP_FIRECHARGEDLOW1 PP_FIR
 $volume Halo/Weapons/PlasmaPistol/Charge/Start 0.35;
 $volume Halo/Weapons/PlasmaPistol/Charge/Loop 0.35;
 
+// Needler 
+NDFIRE1 "Sounds/Needler/Needler_Fire1.wav"
+NDFIRE2 "Sounds/Needler/Needler_Fire2.wav"
+NDFIRE3 "Sounds/Needler/Needler_Fire3.wav"
+NDLOW1 "Sounds/Needler/Needler_Low1.wav" 
+NDLOW2 "Sounds/Needler/Needler_Low2.wav" 
+NDLOW3 "Sounds/Needler/Needler_Low3.wav" 
+
+$random Halo/Weapons/Needler/Fire      { NDFIRE1 NDFIRE2 NDFIRE3 }
+$random Halo/Weapons/Needler/Fire/Bass { NDLOW1 NDLOW2 NDLOW3 }
+
+Halo/Weapons/Needler/Reload/Full  "Sounds/Needler/Needler_Reload.wav"
+Halo/Weapons/Needler/Reload/Empty "Sounds/Needler/Needler_ReloadEmpty.wav"
+Halo/Weapons/Needler/Select       "Sounds/Needler/Needler_Select.wav"
+
 // Hit feedback
 HMHIT1 HMHit1
 HMHIT2 HMHit2
