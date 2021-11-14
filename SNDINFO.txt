@@ -324,6 +324,7 @@ $random Halo/Weapons/Needler/Fire/Bass { NDLOW1 NDLOW2 NDLOW3 }
 Halo/Weapons/Needler/Reload/Full  "Sounds/Needler/Needler_Reload.wav"
 Halo/Weapons/Needler/Reload/Empty "Sounds/Needler/Needler_ReloadEmpty.wav"
 Halo/Weapons/Needler/Select       "Sounds/Needler/Needler_Select.wav"
+Halo/Weapons/Needler/SuperCombine "Sounds/Needler/SuperCombine.wav"
 
 // Hit feedback
 HMHIT1 HMHit1

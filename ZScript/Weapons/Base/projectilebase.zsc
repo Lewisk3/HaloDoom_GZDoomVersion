@@ -454,6 +454,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 			{
 				if((needlecount && needlecount.CountNeedles() >= explodecount) && !doexplode) 
 				{
+					A_StartSound("Halo/Weapons/Needler/SuperCombine", flags:CHANF_OVERLAP);
 					needlecount.ExplodeNeedles();
 					hitactor.DamageMobJ(self, self.target, shatterdmg * explodecount, "Explosive", 0, angle);
 				}

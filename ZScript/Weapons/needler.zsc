@@ -6,6 +6,14 @@ class Halo_Needler_Mag : Ammo
 	}
 }
 
+class NeedlerAmmo : Ammo
+{
+	Default 
+	{
+		Inventory.MaxAmount 80;
+	}
+}
+
 class HaloNeedler_Proj : HaloNeedleProjectile 
 {
 	Default
@@ -34,9 +42,9 @@ class Halo_Needler : HaloGun
 		Tag "Needler";
 		Weapon.BobSpeed 1.86;
 		Weapon.BobRangeX 0.30;
-		Weapon.AmmoType1 "Cell"; // Temp ammo resource
+		Weapon.AmmoType1 "NeedlerAmmo";
 		Weapon.AmmoType2 "Halo_Needler_Mag";
-		Weapon.AmmoGive 10;
+		Weapon.AmmoGive 30;
 				
 		// Recoil
 		HaloGun.Bloom 0.32;
@@ -44,8 +52,8 @@ class Halo_Needler : HaloGun
 		HaloGun.BaseRecoil 1.5;
 		HaloGun.Inaccuracy 7;
 		
-		HaloGun.Crosshair "RifleRet", 1.0;
-		HaloGun.UIGraphic "WI_AR", 1.0;
+		HaloGun.Crosshair "NedleRet", 1.0;
+		HaloGun.UIGraphic "WI_NEDL", 0.65;
 		
 		RecoilWeapon.YOffsetRange 0, 40;
 	}
@@ -197,7 +205,7 @@ class Halo_Needler : HaloGun
 		goto Ready.Active;
 		
 		Spawn:
-			MSNG A -1;
+			NDFL A -1;
 		stop;
 	}
 
