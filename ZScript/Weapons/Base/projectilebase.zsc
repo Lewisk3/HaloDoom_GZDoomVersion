@@ -454,12 +454,31 @@ class HaloNeedleProjectile : HaloSlowProjectile
 			{
 				if((needlecount && needlecount.CountNeedles() >= explodecount) && !doexplode) 
 				{
+					if(hitactor)
+					{
+						vector3 explodePos = hitactor.pos + (0,0,hitactor.height*0.5);
+						Spawn("NeedleExplosion_Flare", explodePos);
+						Spawn("NeedleExplosion", explodePos);
+					}
 					A_StartSound("Halo/Weapons/Needler/SuperCombine", flags:CHANF_OVERLAP);
 					needlecount.ExplodeNeedles();
 					hitactor.DamageMobJ(self, self.target, shatterdmg * explodecount, "Explosive", 0, angle);
+					
+					for(int i = 0; i < 50; i++) 
+					{
+						A_SpawnParticle(
+							"Purple", SPF_FULLBRIGHT|SPF_RELVEL,
+							 35,5,
+							 angle+frandom(-90,90), 
+							 frandom(-20,20),frandom(-20,20),frandom(-10,10),
+							 10,10,frandom(-8,8),0,0,-0.1,1.0,0.14,0.15);
+					}
 				}
+				
 				if(hitactor) hitactor.DamageMobJ(self, self.target, shatterdmg, "Explosive", 0, angle);
 				if(needlecount) needlecount.RemoveNeedle(self);
+				Spawn("NeedleMiniExplosion", pos);
+				
 				for(int i = 0; i < 10; i++) 
 				{
 					A_SpawnParticle(
@@ -472,7 +491,42 @@ class HaloNeedleProjectile : HaloSlowProjectile
 			}
 		stop;
 	}
-	
+}
+
+
+class NeedleExplosion_Flare : TankRocket_Flare
+{
+	Default
+	{
+		Scale 0.30;
+		RenderStyle "Add";
+		Alpha 1.0;
+		Translation "0:255=@60[248, 67, 255]";
+	}
+}
+class NeedleExplosion : FastActor
+{
+	Default
+	{
+		Scale 0.65;
+		Alpha 1.0;
+		RenderStyle "Add";
+		Translation "0:255=@60[248, 67, 255]";
+	}
+		
+	States
+	{
+		Spawn:
+			FX58 ABCDEFGHIJKLMNOPQ 1 Bright;
+		stop;
+	}
+}
+class NeedleMiniExplosion : NeedleExplosion
+{
+	Default
+	{
+		Scale 0.25;
+	}
 }
 
 class HaloBullet : HaloProjectile

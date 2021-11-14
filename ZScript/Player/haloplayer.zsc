@@ -226,7 +226,7 @@ class HaloPlayer : DoomPlayer
 		{
 			// Get target under aim.
 			let act = AimTarget();
-			if(!act) return;
+			if(!act || act is "VehBase" || act is "VehPart") return;
 			
 			// Gather pitch and angular difference and interpolate
 			// aim to target.

@@ -69,6 +69,10 @@ object HaloNeedleProjectile
 {
 	Frame TRAC { light BlueBrightLight }
 }
+object HaloNeedler_Proj
+{
+	Frame TRAC { light BlueBrightLight }
+}
 object HaloBullet
 {
 	Frame TRAC { light YellowPointLight }
@@ -119,6 +123,19 @@ brightmap sprite PWSHB0 {
 }
 
 // Explosions
+object NeedlerExplosion 
+{
+	Frame FX58 { light BlueBrightLight }
+}
+object NeedlerMiniExplosion 
+{
+	Frame FX58 { light BlueBrightLight }
+}
+object NeedleExplosion_Flare
+{
+	Frame FSH1 { light BigBlueLight }
+}
+
 object TankRocket_MiniExplosion 
 {
 	Frame FRME { light BigOrangePointLight }
