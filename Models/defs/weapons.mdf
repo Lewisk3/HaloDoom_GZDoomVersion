@@ -21,6 +21,18 @@ Model HaloNeedleProjectile
    FrameIndex TRAC A 0 0 
 }
 
+Model HaloNeedler_Proj
+{ 
+   Path "Models/Weapons"
+   SKIN 0 "needle_crystal.png" 
+   MODEL 0 "needle_crystal.md3" 
+   Scale 4.0 4.0 2.5 
+   PITCHFROMMOMENTUM 
+   AngleOffset 90
+   
+   FrameIndex TRAC A 0 0 
+}
+
 Model HaloMagnum_Bullet
 { 
    Path "Models/Weapons"

@@ -225,6 +225,95 @@ class HaloProjectile : FastProjectile
 	}
 }
 
+class HaloSlowProjectile : Actor
+{
+	bool do_converge;
+	double meterspeed;
+	vector3 spawnpos;
+	
+	Property ConvergeToAim : do_converge;
+	Property Speed_MPS : meterspeed;
+
+	Default
+	{
+		Projectile;
+		+INTERPOLATEANGLES;
+		+BLOODSPLATTER;
+		
+		HaloSlowProjectile.ConvergeToAim true;
+		HaloSlowProjectile.Speed_MPS 10;
+	}
+	
+	// I should really just make this a static method somewhere, lol.
+	void Particles(Color col = 0xFFF0E11A, double amt = 30, double size = 2, double spd = 5, vector3 pos_spread = (30,30,30), vector2 ang_spread = (90,30))
+	{
+		for(int i = 0; i < amt; i++)
+		{
+			double part_angle = (angle+180)+frandom(-ang_spread.x,ang_spread.x);
+			double part_pitch = pitch+frandom(-ang_spread.y,ang_spread.y);
+
+			vector3 partpos = (
+				cos(part_angle)*frandom(-pos_spread.x,pos_spread.x),
+				sin(part_angle)*frandom(-pos_spread.y,pos_spread.y),
+				sin(part_pitch)*frandom(-pos_spread.z,pos_spread.z)
+			);
+			
+			vector3 partvel = (
+				sin(part_angle)  * cos(part_pitch+90),
+				sin(part_angle)  * cos(part_pitch+90),
+				sin(part_pitch)) * spd;
+		
+			A_SpawnParticle(
+				col,SPF_FULLBRIGHT | SPF_RELATIVE,16,size,
+				part_angle,
+				partpos.x,partpos.y,partpos.z,
+				partvel.x,partvel.y,partvel.z
+			);
+		}
+	}
+	
+	double getTravelDistance(bool tometers = true)
+	{
+		double convert = tometers ? UNIT_METER : 1.0;
+		return clamp(HaloMath.Distance3D(pos, spawnpos),1,int.max) / convert;
+	}	
+	
+	virtual void Init()
+	{
+		spawnpos = pos;
+		A_SetSpeed((meterspeed / 35.)*UNIT_METER);
+		
+		// Re-calculate velocity with new speed.
+		double cosp = cos(pitch);
+		vel = (
+			cos(angle) * cosp,
+			sin(angle) * cosp,
+			-sin(pitch)
+		) * speed;
+	}
+	
+	void DoConverge(vector3 aimpos, vector2 offs)
+	{
+		// Do not follow crosshair converge for vehicles
+		let curveh = Veh_Manager(target.FindInventory("Veh_Manager"));
+		if(curveh) return;
+		
+		// Converge
+		if(do_converge)
+		{
+			vector3 toaim = level.SphericalCoords(pos, aimpos, (angle-offs.x, pitch-offs.y));
+			angle -= toaim.x;
+			pitch -= toaim.y;
+		}
+	}
+	
+	override void PostBeginPlay()
+	{
+		Init();
+		super.PostBeginPlay();
+	}
+}
+
 class NeedleCounter : Inventory
 {
 	Array<HaloNeedleProjectile> needles;
@@ -256,26 +345,29 @@ class NeedleCounter : Inventory
 		for(int i = 0; i < needles.Size(); i++)	needles[i].doexplode = true;
 	}
 }
-class HaloNeedleProjectile : Actor
+class HaloNeedleProjectile : HaloSlowProjectile
 {
+	double hitdmg;
+	double shatterdmg;
 	bool doexplode;
 	Actor hitactor;
 	vector3 hitoffs;
-	double hitz;
+	vector3 hitrelpos;
 	double hitangle;
 	double hitpitch;
 	int explodetimer, explodedelay, explodecount;
 	NeedleCounter needlecount;
 	Property ExplodeDelay : explodedelay;
 	Property ExplodeCount : explodecount;
+	Property NeedleDamages : hitdmg, shatterdmg;
 
 	Default
 	{
 		Radius 2;
 		Height 5;
 		Projectile;
-		Speed 40; // Don't increase speed, otherwise they can bounce through walls.
-		Damage 1;
+		// Speed 40; Don't increase speed, otherwise they can bounce through walls.
+		DamageFunction getNeedleDamage();
 		BounceType "Doom";
 		BounceCount 4;
 		RenderStyle "Add";
@@ -288,9 +380,17 @@ class HaloNeedleProjectile : Actor
 		+SCREENSEEKER;
 		+BLOODSPLATTER;
 		Scale 0.25;
-		HaloNeedleProjectile.ExplodeDelay 100;
-		HaloNeedleProjectile.ExplodeCount 10;
+		HaloSlowProjectile.Speed_MPS 33;
+		HaloNeedleProjectile.NeedleDamages 2, 10;
+		HaloNeedleProjectile.ExplodeDelay 35; // 1 second.
+		HaloNeedleProjectile.ExplodeCount 7; 
+		HaloSlowProjectile.ConvergeToAim false;
 		Translation "0:255=@70[128, 17, 247]";
+	}
+	
+	virtual int getNeedleDamage()
+	{
+		return hitdmg;
 	}
 	
 	override int SpecialMissileHit(Actor victim)
@@ -303,7 +403,9 @@ class HaloNeedleProjectile : Actor
 		hitoffs = Level.SphericalCoords(pos, victim.pos, (angle, pitch));
 		hitangle = angle-victim.angle;
 		hitpitch = pitch-victim.pitch;
-		hitz = pos.z-victim.pos.z;
+		hitrelpos = level.Vec3Diff(victim.pos, pos);
+		hitrelpos.z += frandom(-victim.height*0.35,victim.height*0.35);
+		hitangle += frandom(-15,15);
 		explodetimer = explodedelay;
 		needlecount = NeedleCounter(victim.FindInventory("NeedleCounter"));
 		if(!needlecount) 
@@ -322,12 +424,12 @@ class HaloNeedleProjectile : Actor
 		if(!hitactor) return;
 		double hitdist = hitoffs.z*0.25;
 		double realang = hitactor.angle+hitoffs.x+hitangle;
-		vector3 newpos = hitactor.Vec3Offset(cos(realang)*-hitdist, sin(realang)*-hitdist, hitz);
+		vector3 newpos = hitactor.Vec3Offset(cos(realang)*-hitdist, sin(realang)*-hitdist, hitrelpos.z);
 		angle = realang;
 		pitch = hitactor.pitch+hitpitch;
 		SetOrigin(newpos, true);
 	}
-	
+		
 	States
 	{
 		Spawn:	
@@ -353,9 +455,9 @@ class HaloNeedleProjectile : Actor
 				if((needlecount && needlecount.CountNeedles() >= explodecount) && !doexplode) 
 				{
 					needlecount.ExplodeNeedles();
-					hitactor.DamageMobJ(self, self.target, 60, "Explosive", 0, angle);
+					hitactor.DamageMobJ(self, self.target, shatterdmg * explodecount, "Explosive", 0, angle);
 				}
-				if(hitactor) hitactor.DamageMobJ(self, self.target, 20, "Explosive", 0, angle);
+				if(hitactor) hitactor.DamageMobJ(self, self.target, shatterdmg, "Explosive", 0, angle);
 				if(needlecount) needlecount.RemoveNeedle(self);
 				for(int i = 0; i < 10; i++) 
 				{

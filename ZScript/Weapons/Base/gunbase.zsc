@@ -161,12 +161,15 @@ class HaloGun : RecoilWeapon
 		invoker.HUD_Hide = !onoff;
 	}
 	
-	action vector3 A_ShootProjectile(class<HaloProjectile> proj, double leftright = 0, double updown = 0, double spreadmod = 1.0)
+	action vector3 A_ShootProjectile(class<Actor> proj, double leftright = 0, double updown = 0, double spreadmod = 1.0)
 	{
 		vector3 hitpos = pos;
 		double scopemod = (invoker.scoperecoil == 0) ? 1.0 : invoker.scoperecoil;
 		
-		let aproj = HaloProjectile(A_FireProjectile(proj,0, false, leftright, updown, 0,0));	
+		let aproj = A_FireProjectile(proj,0, false, leftright, updown, 0,0);
+		let haloProj = HaloProjectile(aproj);
+		let haloSlowProj = HaloSlowProjectile(aproj);
+		
 		if(aproj)
 		{
 			let plr = HaloPlayer(self);
@@ -182,7 +185,8 @@ class HaloGun : RecoilWeapon
 			
 			aproj.angle = angle;
 			aproj.pitch = pitch;
-			aproj.DoConverge(plr.aimpos, recoil);
+			if(haloProj	   ) haloProj.DoConverge(plr.aimpos, recoil);
+			if(haloSlowProj) haloSlowProj.DoConverge(plr.aimpos, recoil);
 			
 			FLineTraceData lt;
 			aproj.LineTrace(aproj.angle, 1024*64, aproj.pitch, 0, offsetforward: 20, data:lt);
