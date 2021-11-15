@@ -19,12 +19,12 @@ class HaloNeedler_Proj : HaloNeedleProjectile
 	Default
 	{
 		Scale 0.25;
-		HaloSlowProjectile.Speed_MPS 33;
+		HaloSlowProjectile.Speed_MPS NEEDLER_BMPS;
 		HaloSlowProjectile.ConvergeToAim false;
 		
-		HaloNeedleProjectile.NeedleDamages 2, 10; // Hit, Explode
-		HaloNeedleProjectile.ExplodeDelay 35;	  // 1 second.
-		HaloNeedleProjectile.ExplodeCount 7; 
+		HaloNeedleProjectile.NeedleDamages NEEDLER_DMG, NEEDLER_EXPDMG; // Hit, Explode
+		HaloNeedleProjectile.ExplodeDelay NEEDLER_EXPDELAY;	 // In tics
+		HaloNeedleProjectile.ExplodeCount NEEDLER_COMBINEAMT; 
 		Translation "0:255=@70[128, 17, 247]";
 	}
 }

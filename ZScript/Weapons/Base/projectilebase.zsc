@@ -463,6 +463,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 					A_StartSound("Halo/Weapons/Needler/SuperCombine", flags:CHANF_OVERLAP);
 					needlecount.ExplodeNeedles();
 					hitactor.DamageMobJ(self, self.target, shatterdmg * explodecount, "Explosive", 0, angle);
+					A_Explode(128,128,0);
 					
 					for(int i = 0; i < 50; i++) 
 					{
@@ -498,7 +499,7 @@ class NeedleExplosion_Flare : TankRocket_Flare
 {
 	Default
 	{
-		Scale 0.30;
+		Scale 0.75;
 		RenderStyle "Add";
 		Alpha 1.0;
 		Translation "0:255=@60[248, 67, 255]";
@@ -508,7 +509,7 @@ class NeedleExplosion : FastActor
 {
 	Default
 	{
-		Scale 0.65;
+		Scale 1.0;
 		Alpha 1.0;
 		RenderStyle "Add";
 		Translation "0:255=@60[248, 67, 255]";
