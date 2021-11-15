@@ -28,7 +28,7 @@ class HaloSniper_Bullet : HaloBullet
 	}
 }
 
-class Halo_SniperRifle : HaloGun replaces RocketLauncher
+class Halo_SniperRifle : HaloGun
 {
 	Default
 	{
@@ -41,6 +41,7 @@ class Halo_SniperRifle : HaloGun replaces RocketLauncher
 		Weapon.AmmoType1 "RocketAmmo";
 		Weapon.AmmoGive 4;
 		Weapon.AmmoType2 "Halo_SniperClip";
+		HaloGun.PowerTier P_MID;
 				
 		// Recoil
 		RecoilWeapon.RecoilSpeed 20;

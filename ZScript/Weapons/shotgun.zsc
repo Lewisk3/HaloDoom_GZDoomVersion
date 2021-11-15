@@ -19,7 +19,7 @@ class HaloShotgun_Bullet : HaloBullet
 	}
 }
 
-class Halo_Shotgun : HaloGun replaces Shotgun
+class Halo_Shotgun : HaloGun
 {
 	Default
 	{
@@ -32,6 +32,7 @@ class Halo_Shotgun : HaloGun replaces Shotgun
 		Weapon.AmmoType1 "Shell";
 		Weapon.AmmoGive 4;
 		Weapon.AmmoType2 "Halo_Shotgun_Shells";
+		HaloGun.PowerTier P_NORM;
 				
 		// Recoil
 		HaloGun.Bloom 1.10;

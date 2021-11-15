@@ -5,6 +5,7 @@ version "4.0"
 // Essentials
 #include "ZScript/math.zsc"
 #include "ZScript/events.zsc"
+#include "ZScript/spawns.zsc"
 #include "skill.cfg"
 #include "ZScript/PickupSystem/halopickup_events.zsc"
 #include "ZScript/PickupSystem/weapbehavior.zsc"

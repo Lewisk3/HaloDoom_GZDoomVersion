@@ -49,7 +49,7 @@ class HaloCarbine_Bullet : HaloBullet
 }
 
 
-class Halo_Carbine : HaloGun replaces PlasmaRifle
+class Halo_Carbine : HaloGun
 {
 	const LCD = 22;
 	LaserEmitter projBeam;
@@ -65,6 +65,7 @@ class Halo_Carbine : HaloGun replaces PlasmaRifle
 		Weapon.AmmoType1 "Cell";
 		Weapon.AmmoType2 "Halo_CarbineClip";
 		Weapon.AmmoGive 36;
+		HaloGun.PowerTier P_NORM;
 
 		// Recoil
 		HaloGun.Bloom 0.32;

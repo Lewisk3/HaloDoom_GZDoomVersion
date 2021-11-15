@@ -45,6 +45,7 @@ class Halo_Needler : HaloGun
 		Weapon.AmmoType1 "NeedlerAmmo";
 		Weapon.AmmoType2 "Halo_Needler_Mag";
 		Weapon.AmmoGive 30;
+		HaloGun.PowerTier P_MID;
 				
 		// Recoil
 		HaloGun.Bloom 0.32;

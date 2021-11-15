@@ -19,7 +19,7 @@ class HaloBattleRifle_Bullet : HaloBullet
 	}
 }
 
-class Halo_BattleRifle : HaloGun replaces Chaingun
+class Halo_BattleRifle : HaloGun
 {	
 	Default
 	{
@@ -43,6 +43,7 @@ class Halo_BattleRifle : HaloGun replaces Chaingun
 		HaloGun.UISight "SI_BR", 0.3, 0.7;
 		HaloGun.SetupScope 2.0, 0.25;
 		HaloGun.ZoomSounds "Halo/Weapons/Zoom/IN", "Halo/Weapons/Zoom/OUT";
+		HaloGun.PowerTier P_NORM;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
 	}

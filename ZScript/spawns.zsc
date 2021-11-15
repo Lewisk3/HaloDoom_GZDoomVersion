@@ -1,0 +1,57 @@
+extend class HaloDoom_Events
+{
+	Array<String> weaps_basic;
+	Array<String> weaps_mid;
+	Array<String> weaps_power;
+	
+	void populateSpawnArrays()
+	{
+		for(int i = 0; i < AllActorClasses.Size(); i++)
+		{
+			let actType = HaloGun(GetDefaultByType(AllActorClasses[i]));
+			if( !actType || actType.getClass() == "HaloGun") continue;
+			
+			String gunName = actType.GetClassName();
+			switch(actType.SpawnTier)
+			{
+				case HaloGun.P_NORM:  weaps_basic.Push(gunName); break;
+				case HaloGun.P_MID:	  weaps_mid.Push(gunName);   break;
+				case HaloGun.P_POWER: weaps_power.Push(gunName); break;	
+			}
+		}
+	}
+	
+	override void CheckReplacement(ReplaceEvent e)
+	{
+		Array<String> weapSpawns;
+		let item = e.Replacee;
+		int tier = 0;
+		
+		// Weapon Spawning
+		if( item is "Pistol" || item is "Shotgun" || item is "Chaingun" ) 
+			weapSpawns.Append(weaps_basic);
+			
+		if( item is "SuperShotgun" || item is "RocketLauncher" || item is "PlasmaRifle" ) 
+			weapSpawns.Append(weaps_mid);
+			
+		if( item is "BFG9000" ) 
+			weapSpawns.Append(weaps_power);
+		
+		if(weapSpawns.Size() > 0)
+			e.Replacement = weapSpawns[random[WeapSpawner](0, weapSpawns.Size()-1)];
+			
+		// Nade spawning
+		if( item is "ArmorBonus" && random[NadeSpawner](0,3) == 3 )
+			e.Replacement = "FragGrenades";
+		if( item is "HealthBonus" && random[NadeSpawner](0,3) == 3 )
+			e.Replacement = "PlasmaGrenades";	
+		
+		
+		// Powerup Spawning
+		if( item is "SoulSphere" )
+			e.Replacement = "Overshield_LV1";
+		if( item is "MegaSphere" )
+			e.Replacement = "Overshield_LV2";
+		
+	}
+}

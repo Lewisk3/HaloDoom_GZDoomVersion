@@ -9,6 +9,7 @@ class HaloDoom_Events : EventHandler
 	override void OnRegister()
 	{
 		engHandle = HaloDoom_EngineEvents(StaticEventHandler.Find("HaloDoom_EngineEvents"));
+		populateSpawnArrays();
 	}
 	
 	override void WorldThingDamaged(WorldEvent e)

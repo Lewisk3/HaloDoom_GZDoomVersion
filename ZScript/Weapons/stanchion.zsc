@@ -8,7 +8,7 @@ class Halo_StanchionClip : Ammo
 }
 
 
-class Halo_Stanchion : HaloGun replaces BFG9000
+class Halo_Stanchion : HaloGun
 {
 	Default
 	{
@@ -21,6 +21,7 @@ class Halo_Stanchion : HaloGun replaces BFG9000
 		Weapon.AmmoType1 "Cell";
 		Weapon.AmmoGive 100;
 		Weapon.AmmoType2 "Halo_StanchionClip";
+		HaloGun.PowerTier P_POWER;
 				
 		// Recoil
 		RecoilWeapon.RecoilSpeed 20;

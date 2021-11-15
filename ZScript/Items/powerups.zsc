@@ -1,4 +1,4 @@
-class Overshield_LV1 : Inventory replaces GreenArmor
+class Overshield_LV1 : Inventory
 {	
 	double shieldbuff;
 	Property ShieldBoost : shieldbuff;
@@ -110,7 +110,7 @@ class Overshield_LV1 : Inventory replaces GreenArmor
 	}
 }
 
-class Overshield_LV2 : Overshield_LV1 replaces BlueArmor
+class Overshield_LV2 : Overshield_LV1
 {
 	Default
 	{

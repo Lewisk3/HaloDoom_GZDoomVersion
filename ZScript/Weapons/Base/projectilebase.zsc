@@ -433,7 +433,12 @@ class HaloNeedleProjectile : HaloSlowProjectile
 	States
 	{
 		Spawn:	
-			TRAC A 1 Bright A_SeekerMissile(30, 50, SMF_PRECISE|SMF_LOOK); 
+			TRAC A 1 Bright 
+			{
+				A_SeekerMissile(30, 50, SMF_PRECISE|SMF_LOOK); 
+				
+				SmokeTrail.Start("Purple", pos, pos - (vel * 5), (-angle, -pitch), 0.5);
+			}
 		loop;
 		Spawn.HitActor:
 			TRAC A 1 Bright 
@@ -494,15 +499,19 @@ class HaloNeedleProjectile : HaloSlowProjectile
 	}
 }
 
-
 class NeedleExplosion_Flare : TankRocket_Flare
 {
 	Default
 	{
 		Scale 0.75;
-		RenderStyle "Add";
+		RenderStyle "AddShaded";
 		Alpha 1.0;
-		Translation "0:255=@60[248, 67, 255]";
+	}
+	
+	override void BeginPlay()
+	{
+		super.BeginPlay();
+		SetShade(0xD6F843FF);
 	}
 }
 class NeedleExplosion : FastActor
@@ -512,7 +521,7 @@ class NeedleExplosion : FastActor
 		Scale 1.0;
 		Alpha 1.0;
 		RenderStyle "Add";
-		Translation "0:255=@60[248, 67, 255]";
+		//Translation "0:255=@60[248, 67, 255]";
 	}
 		
 	States
@@ -527,6 +536,7 @@ class NeedleMiniExplosion : NeedleExplosion
 	Default
 	{
 		Scale 0.25;
+		Translation "0:255=@60[248, 67, 255]";
 	}
 }
 
