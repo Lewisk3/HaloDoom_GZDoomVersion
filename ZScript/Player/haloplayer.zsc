@@ -174,7 +174,7 @@ class HaloPlayer : DoomPlayer
 		
 		// Get Distance under crosshair.
 		FLineTraceData lt;
-		LineTrace(angle, 1024*1024, pitch+aimheight, 0, viewheight, 0, data:lt);
+		LineTrace(angle, 1024*1024, pitch+aimheight, 0, player.viewz-pos.z, 0, data:lt);
 		
 		aimdist = lt.Distance / UNIT_METER; 
 		aimpos = lt.HitLocation;
