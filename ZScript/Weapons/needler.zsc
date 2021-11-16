@@ -154,6 +154,7 @@ class Halo_Needler : HaloGun
 				A_RecoilOffset(0,0,2);
 			}
 			NDLF E 1 A_NeedleOffset(10, 5);
+			TNT1 A 0 A_ReFire();
 			NDLF F 1 A_NeedleOffset(0, 0);
 		goto Ready.Active;
 		

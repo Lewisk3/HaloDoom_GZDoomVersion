@@ -173,6 +173,11 @@ class HaloProjectile : FastProjectile
 			angle -= toaim.x;
 			pitch -= toaim.y;
 		}
+		else
+		{
+			angle -= offs.x;
+			pitch -= offs.y;
+		}
 	}
 	
 	override void PostBeginPlay()
@@ -305,6 +310,11 @@ class HaloSlowProjectile : Actor
 			angle -= toaim.x;
 			pitch -= toaim.y;
 		}
+		else
+		{
+			angle -= offs.x;
+			pitch -= offs.y;
+		}
 	}
 	
 	override void PostBeginPlay()
@@ -355,11 +365,13 @@ class HaloNeedleProjectile : HaloSlowProjectile
 	vector3 hitrelpos;
 	double hitangle;
 	double hitpitch;
+	double homTurnMax, homStrength;
 	int explodetimer, explodedelay, explodecount;
 	NeedleCounter needlecount;
 	Property ExplodeDelay : explodedelay;
 	Property ExplodeCount : explodecount;
 	Property NeedleDamages : hitdmg, shatterdmg;
+	Property NeedleHoming : homTurnMax, homStrength;
 
 	Default
 	{
@@ -384,7 +396,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 		HaloNeedleProjectile.NeedleDamages 2, 10;
 		HaloNeedleProjectile.ExplodeDelay 35; // 1 second.
 		HaloNeedleProjectile.ExplodeCount 7; 
-		HaloSlowProjectile.ConvergeToAim false;
+		HaloNeedleProjectile.NeedleHoming 40, 0.05;
 		Translation "0:255=@70[128, 17, 247]";
 	}
 	
@@ -421,13 +433,52 @@ class HaloNeedleProjectile : HaloSlowProjectile
 	override void Tick()
 	{
 		super.Tick();
-		if(!hitactor) return;
-		double hitdist = hitoffs.z*0.25;
-		double realang = hitactor.angle+hitoffs.x+hitangle;
-		vector3 newpos = hitactor.Vec3Offset(cos(realang)*-hitdist, sin(realang)*-hitdist, hitrelpos.z);
-		angle = realang;
-		pitch = hitactor.pitch+hitpitch;
-		SetOrigin(newpos, true);
+		if(hitactor)
+		{
+			double hitdist = hitoffs.z*0.25;
+			double realang = hitactor.angle+hitoffs.x+hitangle;
+			vector3 newpos = hitactor.Vec3Offset(cos(realang)*-hitdist, sin(realang)*-hitdist, hitrelpos.z);
+			angle = realang;
+			pitch = hitactor.pitch+hitpitch;
+			SetOrigin(newpos, true);
+		}
+		else // Do homing
+		{
+			// Find nearest viable target, track target.
+			if(tracer)
+			{
+				vector3 dest = (tracer.pos.xy, tracer.pos.z+(tracer.height*0.5));
+				vector3 trackingAngles = level.SphericalCoords(pos, dest, (angle, pitch));
+				if( abs(trackingAngles.x) > homTurnMax ) return;
+				
+				A_SetAngle(angle - (trackingAngles.x * homStrength), SPF_INTERPOLATE);
+				A_SetPitch(pitch - (trackingAngles.y * homStrength), SPF_INTERPOLATE);
+				
+				// Update velocity
+				vector3 newVel = HaloMath.V3Offset(angle, pitch, roll, 1.0,0,0, vel.Length());
+				vel = newVel;
+			}
+			else
+			{
+				let it = ThinkerIterator.Create();
+				Actor act;
+				int mindist = int.max;
+				while(act = Actor(it.Next()))
+				{
+					LookExParams look;
+					look.FOV = 30;
+					if(target && !target.IsVisible(act, false, look)) continue;
+					if(!act.bSHOOTABLE) continue;
+					if(target && !act.isHostile(target)) continue;
+					int dist = Distance3DSquared(act);
+					if(dist < mindist) 
+					{
+						tracer = act;
+						mindist = dist;
+					}
+				}
+			}
+		}
 	}
 		
 	States
@@ -435,8 +486,6 @@ class HaloNeedleProjectile : HaloSlowProjectile
 		Spawn:	
 			TRAC A 1 Bright 
 			{
-				A_SeekerMissile(30, 50, SMF_PRECISE|SMF_LOOK); 
-				
 				SmokeTrail.Start("Purple", pos, pos - (vel * 5), (-angle, -pitch), 0.5);
 			}
 		loop;
@@ -470,14 +519,21 @@ class HaloNeedleProjectile : HaloSlowProjectile
 					hitactor.DamageMobJ(self, self.target, shatterdmg * explodecount, "Explosive", 0, angle);
 					A_Explode(128,128,0);
 					
-					for(int i = 0; i < 50; i++) 
+					for(int i = 0; i < 100; i++) 
 					{
+						double ang = frandom(0,360);
+						double pit = frandom(-45,45);
+						vector3 rdir = (
+							cos(ang),
+							sin(ang),
+							-sin(pit)
+						) * frandom(20,35);
+						
 						A_SpawnParticle(
-							"Purple", SPF_FULLBRIGHT|SPF_RELVEL,
-							 35,5,
-							 angle+frandom(-90,90), 
-							 frandom(-20,20),frandom(-20,20),frandom(-10,10),
-							 10,10,frandom(-8,8),0,0,-0.1,1.0,0.14,0.15);
+							"Purple", SPF_FULLBRIGHT, 20, 10.0, ang,
+							0,0, hitactor.height*0.5, rdir.x,rdir.y,rdir.z,0,0,0,
+							frandom(0.5,1.0), 0.0125
+						);
 					}
 				}
 				
