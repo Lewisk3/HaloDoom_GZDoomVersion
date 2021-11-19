@@ -253,6 +253,32 @@ class HaloGun : RecoilWeapon
 		return proj;
 	}
 	
+	action void A_MuzzleSparks(double amt, double spd, double sp_horz, double sp_vert, class<Actor> sparks = "MuzzleSparks")
+	{
+		if(!invoker.cvfx_smoke.GetBool()) return;
+		for(int i = 0; i < amt; i++)
+		{
+			let mspark = Spawn(sparks, invoker.sfx_pos);
+			if(mspark)
+			{
+				double sparkAngle = frandom[WeapSFX](-sp_horz, sp_horz) + angle;
+				double sparkPitch = frandom[WeapSFX](-sp_vert, sp_vert) + pitch;
+				double cosp = cos(sparkPitch);
+				vector3 projvel = (
+					cos(sparkAngle) * cosp,
+					sin(sparkAngle) * cosp,
+				   -sin(sparkPitch)
+				) * spd;
+				projvel += vel;
+				
+				mspark.vel = projvel;
+				mspark.angle = sparkAngle;
+				mspark.pitch = sparkPitch;
+				mspark.target = self;
+			}
+		}
+	}
+	
 	bool CheckWeaponSelected()
 	{
 		return (Owner.player && Owner.player.ReadyWeapon == self);

@@ -326,6 +326,21 @@ Halo/Weapons/Needler/Reload/Empty "Sounds/Needler/Needler_ReloadEmpty.wav"
 Halo/Weapons/Needler/Select       "Sounds/Needler/Needler_Select.wav"
 Halo/Weapons/Needler/SuperCombine "Sounds/Needler/SuperCombine.wav"
 
+// Bulldog
+BLDFIRE1 "Sounds/Bulldog/bulldog_fire1.wav"
+BLDFIRE2 "Sounds/Bulldog/bulldog_fire2.wav"
+BLDFIRE3 "Sounds/Bulldog/bulldog_fire3.wav"
+BLDBASS1 "Sounds/Bulldog/bulldog_low1.wav"
+BLDBASS2 "Sounds/Bulldog/bulldog_low2.wav"
+BLDBASS3 "Sounds/Bulldog/bulldog_low3.wav"
+
+Halo/Weapons/Bulldog/ReloadPump "Sounds/Bulldog/bulldog_reload_full.wav"
+Halo/Weapons/Bulldog/Reload     "Sounds/Bulldog/bulldog_reload_partial.wav" 
+Halo/Weapons/Bulldog/Ready      "Sounds/Bulldog/bulldog_draw.wav"
+
+$random Halo/Weapons/Bulldog/Fire      { BLDFIRE1 BLDFIRE2 BLDFIRE3 }
+$random Halo/Weapons/Bulldog/Fire/Bass { BLDBASS1 BLDBASS2 BLDBASS3 }
+
 // Hit feedback
 HMHIT1 HMHit1
 HMHIT2 HMHit2

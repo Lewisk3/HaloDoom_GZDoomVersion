@@ -47,33 +47,6 @@ class HaloProjectile : FastProjectile
 		HaloProjectile.HeadshotDMGFactor 1.0;
 	}
 	
-	void Particles(Color col = 0xFFF0E11A, double amt = 30, double size = 2, double spd = 5, vector3 pos_spread = (30,30,30), vector2 ang_spread = (90,30))
-	{
-		for(int i = 0; i < amt; i++)
-		{
-			double part_angle = (angle+180)+frandom(-ang_spread.x,ang_spread.x);
-			double part_pitch = pitch+frandom(-ang_spread.y,ang_spread.y);
-
-			vector3 partpos = (
-				cos(part_angle)*frandom(-pos_spread.x,pos_spread.x),
-				sin(part_angle)*frandom(-pos_spread.y,pos_spread.y),
-				sin(part_pitch)*frandom(-pos_spread.z,pos_spread.z)
-			);
-			
-			vector3 partvel = (
-				sin(part_angle)  * cos(part_pitch+90),
-				sin(part_angle)  * cos(part_pitch+90),
-				sin(part_pitch)) * spd;
-		
-			A_SpawnParticle(
-				col,SPF_FULLBRIGHT | SPF_RELATIVE,16,size,
-				part_angle,
-				partpos.x,partpos.y,partpos.z,
-				partvel.x,partvel.y,partvel.z
-			);
-		}
-	}
-	
 	override int SpecialMissileHit(Actor victim)
 	{	
 		// Skip these victims
@@ -249,34 +222,6 @@ class HaloSlowProjectile : Actor
 		HaloSlowProjectile.Speed_MPS 10;
 	}
 	
-	// I should really just make this a static method somewhere, lol.
-	void Particles(Color col = 0xFFF0E11A, double amt = 30, double size = 2, double spd = 5, vector3 pos_spread = (30,30,30), vector2 ang_spread = (90,30))
-	{
-		for(int i = 0; i < amt; i++)
-		{
-			double part_angle = (angle+180)+frandom(-ang_spread.x,ang_spread.x);
-			double part_pitch = pitch+frandom(-ang_spread.y,ang_spread.y);
-
-			vector3 partpos = (
-				cos(part_angle)*frandom(-pos_spread.x,pos_spread.x),
-				sin(part_angle)*frandom(-pos_spread.y,pos_spread.y),
-				sin(part_pitch)*frandom(-pos_spread.z,pos_spread.z)
-			);
-			
-			vector3 partvel = (
-				sin(part_angle)  * cos(part_pitch+90),
-				sin(part_angle)  * cos(part_pitch+90),
-				sin(part_pitch)) * spd;
-		
-			A_SpawnParticle(
-				col,SPF_FULLBRIGHT | SPF_RELATIVE,16,size,
-				part_angle,
-				partpos.x,partpos.y,partpos.z,
-				partvel.x,partvel.y,partvel.z
-			);
-		}
-	}
-	
 	double getTravelDistance(bool tometers = true)
 	{
 		double convert = tometers ? UNIT_METER : 1.0;
@@ -352,7 +297,7 @@ class NeedleCounter : Inventory
 	}
 	void ExplodeNeedles()
 	{
-		for(int i = 0; i < needles.Size(); i++)	needles[i].doexplode = true;
+		for(int i = needles.Size()-1; i >= 0; i--)	needles[i].doexplode = true;
 	}
 }
 class HaloNeedleProjectile : HaloSlowProjectile
@@ -620,7 +565,7 @@ class HaloBullet : HaloProjectile
 			{
 				if(!hitactor) 
 				{
-					Particles(0xFFfaf611,15,2,10);
+					HaloMath.ParticlesFX(self, 0xFFfaf611,15,2,10);
 					Spawn("MuzzleSmoke", pos);
 				}
 			}

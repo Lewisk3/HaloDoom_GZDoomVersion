@@ -51,7 +51,7 @@ class HaloPlasma_Proj : HaloBullet
 		Crash:
 			TNT1 A 1 
 			{	
-				Particles("Green", 30, 3, 10);
+				HaloMath.ParticlesFX(self, "Green", 30, 3, 10);
 			}
 		stop;
 	}
@@ -75,7 +75,7 @@ class HaloChargedPlasma_Proj : HaloPlasma_Proj
 	override void Tick()
 	{
 		super.Tick();
-		if( !(GetAge() % 2) ) Particles("Green", 7, 3, 5);
+		if( !(GetAge() % 2) ) HaloMath.ParticlesFX(self, "Green", 7, 3, 5);
 	}	
 }
 

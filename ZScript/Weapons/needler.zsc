@@ -145,7 +145,6 @@ class Halo_Needler : HaloGun
 			{
 				A_Light(0);
 				A_NeedleOffset(10, 5);
-				A_MechanismSound("Halo/Weapons/Needler/Mech");
 			}
 			NDLF D 1 
 			{

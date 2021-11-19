@@ -1,0 +1,185 @@
+class Halo_Bulldog_Shells : Ammo 
+{
+	Default 
+	{
+		Inventory.MaxAmount 16;
+	}
+}
+
+class HaloBulldog_Bullet : HaloBullet
+{
+	Default
+	{
+		DamageType "Shotgun";
+		HaloProjectile.SetRanges BULLDOG_RANGE1, BULLDOG_RANGE2;
+		HaloProjectile.MinRangeDamage BULLDOG_MINDMG; 
+		HaloProjectile.BaseDamage BULLDOG_DMG;
+		HaloProjectile.Speed_MPS BULLDOG_BMPS;
+		HaloProjectile.HeadshotDMGFactor BULLDOG_HEDMOD;
+	}
+}
+
+class Halo_Bulldog : HaloGun
+{
+	Default
+	{
+		Weapon.SlotNumber 1;
+		Obituary "%o was nommed by %k's Bulldog.";
+		Inventory.PickupMessage	"Bulldog Acquired.";
+		Tag "Bulldog";
+		Weapon.BobSpeed 1.68;
+		Weapon.BobRangeX 0.10;
+		Weapon.AmmoType1 "Shell";
+		Weapon.AmmoGive 4;
+		Weapon.AmmoType2 "Halo_Bulldog_Shells";
+		HaloGun.PowerTier P_NORM;
+				
+		// Recoil
+		HaloGun.Bloom 1.0;
+		HaloGun.BloomSpeed 0.12;
+		HaloGun.BaseRecoil BULLDOG_RECOIL;
+		HaloGun.Inaccuracy BULLDOG_ACCMOD;
+		HaloGun.Crosshair "SGRet", 0.8;
+		HaloGun.UIGraphic "WI_SG", 1.0;
+		
+		RecoilWeapon.YOffsetRange -10, 40;
+	}
+	
+	override void MarkPrecacheSounds()
+	{
+		// Prevent stutters by precaching weapon sounds.
+		MarkSound("Halo/Weapons/Bulldog/Fire");
+		MarkSound("Halo/Weapons/Bulldog/Fire/Bass");
+		MarkSound("Halo/Weapons/Bulldog/ReloadPump");
+		MarkSound("Halo/Weapons/Bulldog/Reload");
+		MarkSound("Halo/Weapons/Bulldog/Ready");
+	}
+	
+	action void A_FireShotgun()
+	{
+		A_Light(2);
+		A_WeapSound("Halo/Weapons/Bulldog/Fire", CHANF_OVERLAP, true);
+		A_WeapSound("Halo/Weapons/Bulldog/Fire/Bass", CHANF_OVERLAP, true);
+		A_SetSFXPos(25,-10,-10);
+		for(int i = 0; i < 12; i++)
+		{
+			A_ShootProjectile("HaloBulldog_Bullet", 8);		
+			A_SpawnSFX("MuzzleSmoke", 0,0);
+		}
+		A_MuzzleSparks(30, 60, 12,12);
+		A_TakeAmmo(1);
+		A_UpdateSpread();
+	}
+	
+	action void A_ReloadSound()
+	{
+		Sound reload_snd = "Halo/Weapons/Bulldog/Reload";
+		if(!CountLoadedAmmo()) reload_snd = "Halo/Weapons/Bulldog/ReloadPump";
+		A_StartSound(reload_snd, CHAN_RELOADING, CHANF_OVERLAP);
+	}
+	
+	action state A_CheckRapidFire()
+	{
+		return A_JumpIf(A_FirePressed(), "Fire");
+	}
+	
+	States
+	{
+		Ready:
+			TNT1 A 0 
+			{
+				A_WeapSound("Halo/Weapons/Bulldog/Ready");
+				return A_JumpIf(A_DoFullSelectAnimation(), "Ready.Pump");
+			}
+			BULS ABCDEFG 1 A_DoSelectAnim();
+		goto Ready.Active;
+		
+		Ready.Pump:
+			BULP ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoSelectAnim(0, true);
+			BLP2 ABCD 1;
+		goto Reload.Pump;
+		
+		Ready.Active:
+			BULI A 1 A_HaloWeaponReady(WRF_ALLOWRELOAD);
+		loop;
+		
+		Ready.Dryfire:
+			BULI A 1;
+		goto Ready.Active;
+
+		Select:
+			TNT1 A 1 A_GunRaise();
+		wait;
+
+		Deselect:
+			BULI A 1;
+			BULS GFEDCB 1;
+			BULS A 1 A_GunLower();
+		wait;
+		
+		Fire:
+			TNT1 A 0 A_GunCheckReload();
+			BULF A 1 Bright
+			{
+				A_SetRecoil(7.80, 0, 2);
+				A_FireShotgun();
+				//A_RQuakeEx(2,3,2,6,0,20,"",QF_RELATIVE|QF_WAVE);
+				A_RQuakeEx(3,1,0,3,0,20,"",QF_RELATIVE|QF_WAVE);
+				A_RollQuake(3,6,4);
+				A_RecoilOffset(0, 15, 4);
+			}
+			BULF B 1 Bright
+			{
+				A_SetRecoil(-2.05, 0, 2);
+			}
+			BULF C 1;
+			TNT1 A 0 A_Light(0);
+			BULF D 1 A_RecoilOffset(0, 20, 4);
+			BULF EF 1;
+			BULF GHIJ 1 
+			{
+				A_RecoilOffset(0,10,6);
+				return A_CheckRapidFire();
+			}
+			BULF K 1 A_RecoilOffset(0,0,8);
+		Hold:
+			BULI A 1;
+			TNT1 A 0 A_Refire("Hold");
+		goto Ready.Active;
+		
+		Reload:
+			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
+		Reload.Ready:
+			TNT1 A 0 A_ReloadSound();
+			BDR1 ABCDEFGHIJKLM 1;
+			BDR1 N 6;
+			BDR1 O 1 A_SetRecoil(-1.0, 0, 2);
+			BDR1 PQRST 1;
+			BDR1 UVWXYZ 2;
+			BDR2 ABC 2;
+			BDR2 DEFGHIJKLMN 1; 
+			BDR2 O 1 A_SetRecoil(1.0, 0, 2);
+			BDR2 PQRSTUV 1;
+			BDR2 W 2;
+			BDR2 XYZ 1;
+			BDR3 ABCD 1 A_JumpIf(CountLoadedAmmo(), "Reload.Finish");
+		Reload.Pump:
+			BDR3 EFGH 1;
+			BDR3 I 1 A_SetRecoil(-0.36, 0.13, 6);
+			BDR3 JKLMNOPQRSTU 1;
+			BDR3 V 1 A_SetRecoil(0.36, -0.13, 6);
+			BDR3 WXYZ 1;
+		Reload.Finish:
+			TNT1 A 0 
+			{
+				A_SetRecoil(-0.36, 0.13, 3);
+				A_ReloadClip();
+			}
+			BDR4 ABCDE 1;
+		goto Ready.Active;
+		
+		Spawn:
+			SGFL A -1;
+		stop;
+	}
+}

@@ -113,6 +113,10 @@ object LightningLight
 {
 	Frame TNT1 { light BigBlueLight }
 }
+object MuzzleSparks
+{	
+	Frame IPF2 { light OrangePointLight }
+}
 
 // Sprite brightmaps
 brightmap sprite PWSHA0 {

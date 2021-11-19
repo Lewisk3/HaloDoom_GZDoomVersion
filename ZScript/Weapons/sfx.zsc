@@ -238,6 +238,64 @@ class ShellCasing : BulletCasing
 	}
 }
 
+class MuzzleSparks : Actor
+{	
+	double grav;
+	Property FXGravity : grav;
+	
+	Default
+	{
+		+NOINTERACTION;
+		RenderStyle "Add";
+		Scale 0.04;
+		MuzzleSparks.FXGravity 1.2;
+	}
+	
+	override void BeginPlay()
+	{
+		super.BeginPlay();
+		grav += frandom(-grav*0.1, grav*0.1);
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		
+		vel.z -= grav;
+		if(pos.z <= floorz) 
+		{
+			HaloMath.ParticlesFX(self, "Yellow", 10);
+			Destroy();
+			return;
+		}
+		
+		let smoke = Spawn("CasingSmoke", pos);
+		if(smoke) 
+		{
+		//	smoke.vel = vel;
+			smoke.A_SetScale(frandom(0.10,0.15));
+			smoke.alpha = frandom(0.07,0.14);
+		}
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay 
+			{
+				vel *= frandom(0.8, 1.2);
+			}
+		SpawnLoop:
+			IPF2 "#" 1 Bright 
+			{
+				if(++frame > 3) frame = 0;
+				A_FadeOut(1. / 25.);
+			}
+			TNT1 A 0 A_JumpIf(GetAge() > 25, "Null");
+		loop;
+	}
+}
+
 class SmallCasing : BulletCasing
 {
 	Default
