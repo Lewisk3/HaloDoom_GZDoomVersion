@@ -86,16 +86,15 @@ class Halo_Bulldog : HaloGun
 	States
 	{
 		Ready:
-			TNT1 A 0 
-			{
-				A_WeapSound("Halo/Weapons/Bulldog/Ready");
-				return A_JumpIf(A_DoFullSelectAnimation(), "Ready.Pump");
-			}
+			TNT1 A 0 A_JumpIf(A_DoFullSelectAnimation(), "Ready.Pump");
+			TNT1 A 0 A_WeapSound("Halo/Weapons/Bulldog/Ready");
 			BULS ABCDEFG 1 A_DoSelectAnim();
 		goto Ready.Active;
 		
 		Ready.Pump:
-			BULP ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoSelectAnim(0, true);
+			BULP ABCDEFGHIJKLMNOPQRSTUV 1 A_DoSelectAnim(0, true);
+			BULP W 1 A_WeapSound("Halo/Weapons/Bulldog/Ready");
+			BULP XYZ 1;
 			BLP2 ABCD 1;
 		goto Reload.Pump;
 		

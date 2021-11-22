@@ -310,6 +310,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 	vector3 hitrelpos;
 	double hitangle;
 	double hitpitch;
+	double maxhomdist;
 	double homTurnMax, homStrength;
 	int explodetimer, explodedelay, explodecount;
 	NeedleCounter needlecount;
@@ -317,6 +318,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 	Property ExplodeCount : explodecount;
 	Property NeedleDamages : hitdmg, shatterdmg;
 	Property NeedleHoming : homTurnMax, homStrength;
+	Property NeedleHomRange : maxhomdist;
 
 	Default
 	{
@@ -342,6 +344,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 		HaloNeedleProjectile.ExplodeDelay 35; // 1 second.
 		HaloNeedleProjectile.ExplodeCount 7; 
 		HaloNeedleProjectile.NeedleHoming 40, 0.05;
+		HaloNeedleProjectile.NeedleHomRange 61;
 		Translation "0:255=@70[128, 17, 247]";
 	}
 	
@@ -378,6 +381,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 	override void Tick()
 	{
 		super.Tick();
+		
 		if(hitactor)
 		{
 			double hitdist = hitoffs.z*0.25;
@@ -387,7 +391,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 			pitch = hitactor.pitch+hitpitch;
 			SetOrigin(newpos, true);
 		}
-		else // Do homing
+		else if(getTravelDistance() < maxhomdist) // Do homing
 		{
 			// Find nearest viable target, track target.
 			if(tracer)
@@ -408,13 +412,14 @@ class HaloNeedleProjectile : HaloSlowProjectile
 				let it = ThinkerIterator.Create();
 				Actor act;
 				int mindist = int.max;
+				LookExParams look;
+				look.FOV = 30;
 				while(act = Actor(it.Next()))
 				{
-					LookExParams look;
-					look.FOV = 30;
-					if(target && !target.IsVisible(act, false, look)) continue;
 					if(!act.bSHOOTABLE) continue;
 					if(target && !act.isHostile(target)) continue;
+					if(target && !target.IsVisible(act, false, look)) continue;
+					
 					int dist = Distance3DSquared(act);
 					if(dist < mindist) 
 					{
@@ -429,7 +434,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 	States
 	{
 		Spawn:	
-			TRAC A 1 Bright 
+			TRAC A 2 Bright 
 			{
 				SmokeTrail.Start("Purple", pos, pos - (vel * 5), (-angle, -pitch), 0.5);
 			}
