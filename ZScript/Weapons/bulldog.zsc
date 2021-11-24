@@ -2,7 +2,7 @@ class Halo_Bulldog_Shells : Ammo
 {
 	Default 
 	{
-		Inventory.MaxAmount 16;
+		Inventory.MaxAmount 8;
 	}
 }
 

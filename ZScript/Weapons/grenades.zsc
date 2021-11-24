@@ -1,20 +1,45 @@
 // Nade items
 class FragGrenades : Inventory
 {
+	class<Actor> nadeType;
+	String throwSprite;
+	String hudIcon;
+	int nadeSlot;
+	
+	Property ThrowSprite : throwSprite;
+	Property HudIcon : hudIcon;
+	Property Slot : nadeSlot;
+	Property Type : nadeType;
+
 	Default
 	{
 		Inventory.MaxAmount 4;
 		Inventory.PickupMessage "Picked up a frag grenade.";
 		Inventory.PickupSound "Halo/Grenade/Frag/Pickup";
+		+Inventory.KEEPDEPLETED;
 		+FLOATBOB;
 		+ROLLSPRITE;
+		
 		FloatBobStrength 0.25;
+		
+		FragGrenades.Slot 1;
+		FragGrenades.ThrowSprite "HFRG";
+		FragGrenades.HudIcon "Grenades/frag.png";
+		FragGrenades.Type "FragGrenade_Proj";
 		
 		Scale 0.10;
 	}
 	
 	States
 	{
+		// Make sure to cache all "throwSprite" here.
+		// Otherwise, you'll be very strange issues, from GZDoom hard crashing
+		// to graphics data being completely invalid.
+		Cache:
+			HFRG A 0;
+			HPLS A 0;
+		stop;
+		
 		Spawn:
 			FRAG A -1 NoDelay 
 			{
@@ -30,6 +55,11 @@ class PlasmaGrenades : FragGrenades
 	{
 		Inventory.PickupMessage "Picked up a plasma grenade.";
 		Inventory.PickupSound "Halo/Grenade/Plasma/Pickup";
+		
+		FragGrenades.Slot 2;
+		FragGrenades.ThrowSprite "HPLS";
+		FragGrenades.HudIcon "Grenades/plasma.png";
+		FragGrenades.Type "FragGrenade_Proj";
 	}
 }
 

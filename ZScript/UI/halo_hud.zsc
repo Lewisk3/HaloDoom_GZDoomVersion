@@ -96,6 +96,8 @@ class HaloStatusBar : BaseStatusBar
 	const MSGMAX = 4;
 	double msgfade;
 	Array<HaloMessage> messages;
+	Array<class<FragGrenades> > grenadeTypes;
+	
 	vector2 msgpos;
 	
 	// CVars
@@ -117,6 +119,26 @@ class HaloStatusBar : BaseStatusBar
 		fntHaloAmmo = "HaloAmmoFont";
 		mHUDFont = HUDFont.Create(fnt);
 		
+		// Populate grenadeTypes
+		int curSlot = 0;
+		
+		while(true)
+		{
+			for(int i = 0; i < AllActorClasses.Size(); i++)
+			{
+				let defs = FragGrenades(GetDefaultByType(AllActorClasses[i]));
+				if(!defs) continue;
+				
+				if(defs.nadeSlot == curSlot) 
+				{
+					grenadeTypes.push(defs.getClass());
+					break;
+				}
+			}
+			curSlot++;
+			if(curSlot > 9) break;
+		}
+				
 		// Messages setup
 		msgpos = (80, 600);
 	}
@@ -343,11 +365,15 @@ class HaloStatusBar : BaseStatusBar
 		vector2 nadepos   = (215, 80);
 		vector2 nadescale = (1.0, 1.0);
 		
-		HLSBS.DrawImage("Graphics/UI/Grenades/frag.png", nadepos, scale:nadescale);
-		HLSBS.DrawString(fntHaloAmmo, haloplr.countinv("FragGrenades").."", nadepos+(32,0), scale:(0.18,0.15) * 0.75);
-		
-		HLSBS.DrawImage("Graphics/UI/Grenades/plasma.png", nadepos + (160,0), scale:nadescale);
-		HLSBS.DrawString(fntHaloAmmo, haloplr.countinv("PlasmaGrenades").."", nadepos+(160+32,0), scale:(0.18,0.15) * 0.75);
+		for(int i = 0; i < grenadeTypes.Size(); i++)
+		{
+			let nade = FragGrenades(GetDefaultByType(grenadeTypes[i]));
+			String graphic = String.Format("Graphics/UI/%s", nade.hudIcon);
+			HLSBS.DrawImage(graphic, nadepos, scale:nadescale);
+			HLSBS.DrawString(fntHaloAmmo, haloplr.countinv(nade.GetClass()).."", nadepos+(32,0), scale:(0.18,0.15) * 0.75);
+			
+			nadepos.x += 160;
+		}
 	}
 	
 	string, vector2 GetWeaponUIDetails(Weapon weap, vector2 uiscale = (1,1), vector2 desired_scale = (128,64))

@@ -365,6 +365,12 @@ class HaloGun : RecoilWeapon
 		return false;
 	}
 	
+	action void A_RWeaponReady(uint flags=0)
+	{
+		A_RecoilSetupWeaponReady(flags);
+		if(invoker.handsbusy) player.WeaponState &= ~WF_WEAPONSWITCHOK;
+	}
+	
 	override void DoEffect()
 	{
 		super.DoEffect();
@@ -458,10 +464,11 @@ class HaloGun : RecoilWeapon
 		}
 		
 		// Throw nades
-		if(Owner.countinv("Action_ThrowGrenade") && !handsbusy)
+		let curNade = HaloPlayer(Owner).activeGrenade;
+		if(Owner.countinv("Action_ThrowGrenade") && !handsbusy && curNade)
 		{
-			if(Owner.countinv("FragGrenades") && CallMeleeState("ThrowFrag"))
-				Owner.TakeInventory("FragGrenades", 1);
+			if(curNade.amount > 0 && CallMeleeState("ThrowFrag"))
+				curNade.amount--;
 			else
 				HaloPlayer(Owner).SendHUDMessage("Grenade depleted!");
 				
@@ -750,12 +757,15 @@ class HaloGun : RecoilWeapon
 				A_OverlayFlags(OverlayID(), PSPF_ADDBOB|PSPF_ADDWEAPON, 0);
 				A_OverlayOffset(OverlayID(), 0, 30);
 			}
-			TNT1 A 8;
-			HFRG ABCD 1;
-			HFRG E 2 
+			TNT1 A 8 A_JumpIf(!HaloPlayer(self).activeGrenade, "ThrowFrag.Abort");
+			
+			TNT1 A 0 A_SetSprite(HaloPlayer(self).activeGrenade.throwSprite, OverlayID());
+			"####" ABCD 1;
+			"####" E 2 
 			{
 				A_SetSFXPos(20,17,-15);
-				let nade = Spawn("FragGrenade_Proj", invoker.sfx_pos);
+				let nadeItem = HaloPlayer(self).activeGrenade;
+				let nade = Spawn(nadeItem.nadeType, invoker.sfx_pos);
 				if(nade) 
 				{
 					nade.vel = HaloMath.V3Offset(angle, pitch, roll, 1,0,0, 20);
@@ -764,7 +774,8 @@ class HaloGun : RecoilWeapon
 				
 				A_SetRecoil(-0.75, 0, 3);
 			}
-			HFRG FGHIJK 1;
+			"####" FGHIJK 1;
+		ThrowFrag.Abort:
 			TNT1 A 0 A_FinishMelee();
 		stop;
 		

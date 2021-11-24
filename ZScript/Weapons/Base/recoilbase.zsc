@@ -49,7 +49,7 @@ class RecoilWeapon : Weapon
 		return (num < 0 ? -1 : 1);
 	}
 	
-	action void A_RWeaponReady(uint flags=0)
+	action void A_RecoilSetupWeaponReady(uint flags=0)
 	{
 		let psp = player.GetPSprite(PSP_WEAPON);
 		if(!psp) return;

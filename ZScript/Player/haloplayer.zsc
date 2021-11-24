@@ -11,6 +11,7 @@ class HaloPlayer : DoomPlayer
 	double aimdist;
 	bool shields_recharging;
 	string class_desc;
+	FragGrenades activeGrenade;
 	
 	// Door to be activated once animation finishes.
 	Line pendingDoor; 
@@ -93,10 +94,49 @@ class HaloPlayer : DoomPlayer
 		Inventory.PrintPickupMessage(CheckLocalView(), msg);
 	}
 	
+	FragGrenades nextGrenade(bool select, bool skipDepleted = true, bool forceSwitch = false)
+	{
+		int curSlot = -1;
+		FragGrenades nade = NULL;
+		if(activeGrenade) curSlot = activeGrenade.nadeSlot + 1;
+		
+		let curWeap = HaloGun(player.ReadyWeapon);
+		bool canSwap = (curWeap && !curWeap.handsbusy) || forceSwitch;
+		if(!canSwap) return activeGrenade;
+		
+		while(!nade)
+		{
+			bool hasNade = false;
+			for(let item = Inv; item; item = item.Inv)
+			{
+				let curNade = FragGrenades(item);
+				if( !curNade || curNade == activeGrenade ||
+					(curNade.amount <= 0 && skipDepleted && curSlot >= 0) )
+					continue;
+					
+				hasNade = true;
+				if( curSlot < 0 || (curNade.nadeSlot == curSlot) ) 
+				{
+					nade = curNade;
+					break;
+				}
+			}
+			curSlot++;
+			if(curSlot > 9) curSlot = 0;
+			if(!hasNade) break;
+		}
+		
+		if(select) activeGrenade = nade;
+		return nade;
+	}
+	
 	override void Tick()
 	{
 		// In vehicle?
 		curvehicle = Veh_Manager(FindInventory("Veh_Manager"));
+		
+		// No valid grenade?
+		if(!activeGrenade || activeGrenade.amount <= 0) nextGrenade(true);
 		
 		// Don't do stuff when dead.
 		if(health <= 0 || !player) 

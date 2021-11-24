@@ -456,14 +456,11 @@ class HaloNeedleProjectile : HaloSlowProjectile
 		Death.Explode:
 			TRAC A 1 
 			{
-				if((needlecount && needlecount.CountNeedles() >= explodecount) && !doexplode) 
+				if((needlecount && needlecount.CountNeedles() >= explodecount) && !doexplode && hitactor) 
 				{
-					if(hitactor)
-					{
-						vector3 explodePos = hitactor.pos + (0,0,hitactor.height*0.5);
-						Spawn("NeedleExplosion_Flare", explodePos);
-						Spawn("NeedleExplosion", explodePos);
-					}
+					vector3 explodePos = hitactor.pos + (0,0,hitactor.height*0.5);
+					Spawn("NeedleExplosion_Flare", explodePos);
+					Spawn("NeedleExplosion", explodePos);
 					A_StartSound("Halo/Weapons/Needler/SuperCombine", flags:CHANF_OVERLAP);
 					needlecount.ExplodeNeedles();
 					hitactor.DamageMobJ(self, self.target, shatterdmg * explodecount, "Explosive", 0, angle);
