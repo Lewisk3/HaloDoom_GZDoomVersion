@@ -373,6 +373,13 @@ Halo/Grenade/Frag/Throw "Sounds/Grenades/Frag_Throw.wav"
 Halo/Grenade/Frag/Bounce "Sounds/Grenades/Frag_Bounce.wav"
 Halo/Grenade/Frag/Explode "Sounds/Grenades/Frag_Explode.wav"
 Halo/Grenade/Frag/ExplodeWater "Sounds/Grenades/Frag_ExplodeWater.wav"
+Halo/Grenade/Plasma/Pickup "Sounds/Grenades/Sticky_Pickup.wav"
+Halo/Grenade/Plasma/Throw "Sounds/Grenades/Sticky_Throw.wav"
+Halo/Grenade/Plasma/Explode "Sounds/Grenades/Sticky_Explode.wav"
+Halo/Grenade/Plasma/ExplodeWater "Sounds/Grenades/Sticky_ExplodeWater.wav"
+Halo/Grenade/Plasma/Armed "Sounds/Grenades/Sticky_Armed.wav"
+Halo/Grenade/Plasma/FuseLoop "Sounds/Grenades/Sticky_Fuse.wav"
+
 
 // Player sounds
 Halo/Spartan/Death1 "Sounds/Players/death1.wav" 

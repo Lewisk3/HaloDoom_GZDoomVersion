@@ -40,8 +40,8 @@ class HaloMath Abstract
 	
 	static Vector3 GetLocalPos(Actor a, Vector3 offset)
 	{
-		vector3 forwards  = (cos(a.angle),      sin(a.angle),      0);
-		vector3 sideways  = (cos(a.angle - 90), sin(a.angle - 90), 0);
+		vector3 forwards  = (cos(-a.angle),      sin(-a.angle),      0);
+		vector3 sideways  = (cos(-a.angle - 90), sin(-a.angle - 90), 0);
 		vector3 upwards = (0,0,1);
 		vector3 offsetPos = a.pos + offset.x * forwards + offset.y * sideways + offset.z * upwards;
 		return offsetPos;
@@ -318,6 +318,19 @@ class HaloMath Abstract
 	{
 		return ( xoffs * cos(angle) - yoffs * sin(angle),
 				 yoffs * cos(angle) + xoffs * sin(angle) )*dist;
+	}
+	
+	// Thanks to: Boondorl for the math here! 
+	static vector3 DiffToLocal(vector3 one, vector3 two, vector2 angles)
+	{
+		vector3 forward = (Actor.AngleToVector(angles.x, cos(angles.y)), -sin(angles.y));
+		vector3 right   = (Actor.AngleToVector(angles.x-90),0);
+		vector3 up      = (Actor.AngleToVector(angles.x, cos(angles.y-90)), -sin(angles.y-90));
+		
+		vector3 diff = level.Vec3Diff(two, one);
+		vector3 rel  = (diff dot forward, diff dot right, diff dot up);
+	
+		return rel;
 	}
 	
 	// 3D Vector offset. Utilizes Gutamatrix matrixes
