@@ -178,7 +178,7 @@ class Halo_Bulldog : HaloGun
 		goto Ready.Active;
 		
 		Spawn:
-			SGFL A -1;
+			BLDF A -1;
 		stop;
 	}
 }

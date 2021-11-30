@@ -181,7 +181,7 @@ class Halo_Stanchion : HaloGun
 		loop;
 
 		Spawn:
-			MSNG A -1;
+			STNF A -1;
 		stop;
 	}
 }

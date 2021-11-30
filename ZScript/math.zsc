@@ -354,6 +354,52 @@ class HaloMath Abstract
 		
 		return level.vec3offset(frompos, vec);
     }
+	
+	play static Actor Fire3DProjectile(Actor shooter, class<Actor> proj, double forward, double leftright, double updown, bool crosshairConverge = true, double angleoffs = 0, double pitchoffs = 0)
+	{
+		double a = shooter.angle + angleoffs;
+		double p = shooter.pitch + pitchoffs;
+		double r = shooter.roll;
+		let mat = HaloMatrix.fromEulerAngles(a, p, r);
+		mat = mat.multiplyVector3((forward, -leftright, updown));
+		vector3 offsetPos = mat.asVector3(false);
+		
+		vector3 shooterPos = (shooter.pos.xy, shooter.pos.z + shooter.height * 0.5);
+		if(shooter.player) shooterPos.z = shooter.player.viewz;
+		offsetPos = level.vec3offset(offsetPos, shooterPos);
+		
+		// Get velocity
+		if(shooter.player && crosshairConverge)
+		{
+			FLineTraceData lt;
+			shooter.LineTrace(
+				shooter.angle+angleoffs, 1024*1024, shooter.pitch+pitchoffs, 
+				0, shooter.player.viewz-shooter.pos.z, 0, data:lt
+			);
+			vector3 aimPos = lt.HitLocation;
+		
+			vector3 aimAngles = level.SphericalCoords(offsetPos, aimPos, (a, p));
+			
+			a -= aimAngles.x;
+			p -= aimAngles.y;
+		}
+		
+		mat = HaloMatrix.fromEulerAngles(a, p, r);
+		mat = mat.multiplyVector3((1.0,0,0));
+		
+		vector3 projVel = mat.asVector3(false) * GetDefaultByType(proj).Speed;
+		
+		// Spawn projectile
+		let proj = Actor.Spawn(proj, offsetPos);
+		if(proj)
+		{
+			proj.angle = a;
+			proj.pitch = p;
+			proj.roll = r;
+			proj.vel = projVel;
+		}
+		return proj;
+	}
 
 	// Intertial calculations for thrust on monsters.
 	static double GetInertia(double emass)
