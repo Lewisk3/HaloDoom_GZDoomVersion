@@ -7,6 +7,8 @@ addmenukey "Switch Weapons" +USER1
 addmenukey "Dash" +USER3
 addmenukey "Grapple" +USER4
 addmenukey "Throw Grenade" "ThrowGrenade"
+addmenukey "Cycle Grenade" "NextGrenade"
+alias "NextGrenade" "netevent nextgrenade"
 alias "ThrowGrenade" "netevent throwgrenade"
 alias "HDEall" "netevent HaloDoom_GiveAll"
 alias "HDEarbitercamo" "netevent HaloDoom_ArbiterCamo"

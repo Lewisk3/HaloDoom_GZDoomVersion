@@ -8,6 +8,8 @@ class HaloProjectile : FastProjectile
 	double headshot_multiplier;
 	double explode_dmg;
 	double explode_radius;
+	double rip_dmgmod;
+	double rip_falloff;
 	bool do_converge;
 	vector3 spawnpos;
 	Actor hitactor;
@@ -23,6 +25,7 @@ class HaloProjectile : FastProjectile
 	Property BaseDamage : truedamage;
 	Property Speed_MPS : meterspeed;
 	Property RipperCount : ripamount;
+	Property RipperDamageFalloff : rip_falloff;
 	Property ConvergeToAim : do_converge;
 	Property HeadshotDMGFactor : headshot_multiplier;
 	Property DoExplosiveDamage : explode_dmg, explode_radius;
@@ -65,7 +68,7 @@ class HaloProjectile : FastProjectile
 		
 		// Adjust Damage
 		AdjustRangeDamage();
-		double scaled_damage = truedamage * GAMEPLAY_DAMAGEMOD;
+		double scaled_damage = truedamage * GAMEPLAY_DAMAGEMOD * (1.0-rip_dmgmod);
 		bool headshot = HaloMath.CheckHeadshot(self, victim);
 		if(headshot) scaled_damage *= headshot_multiplier;
 		
@@ -82,6 +85,8 @@ class HaloProjectile : FastProjectile
 		if(ripamount > 0) 
 		{
 			ripamount--;
+			rip_dmgmod += rip_falloff;
+			rip_dmgmod = clamp(rip_dmgmod, 0, 1.0); 
 			return 1;
 		}
 		
@@ -297,7 +302,8 @@ class NeedleCounter : Inventory
 	}
 	void ExplodeNeedles()
 	{
-		for(int i = needles.Size()-1; i >= 0; i--)	needles[i].doexplode = true;
+		for(int i = needles.Size()-1; i >= 0; i--)	
+			if(needles[i]) needles[i].doexplode = true;
 	}
 }
 class HaloNeedleProjectile : HaloSlowProjectile
@@ -462,9 +468,6 @@ class HaloNeedleProjectile : HaloSlowProjectile
 					Spawn("NeedleExplosion_Flare", explodePos);
 					Spawn("NeedleExplosion", explodePos);
 					A_StartSound("Halo/Weapons/Needler/SuperCombine", flags:CHANF_OVERLAP);
-					needlecount.ExplodeNeedles();
-					hitactor.DamageMobJ(self, self.target, shatterdmg * explodecount, "Explosive", 0, angle);
-					A_Explode(128,128,0);
 					
 					for(int i = 0; i < 100; i++) 
 					{
@@ -482,6 +485,10 @@ class HaloNeedleProjectile : HaloSlowProjectile
 							frandom(0.5,1.0), 0.0125
 						);
 					}
+					
+					needlecount.ExplodeNeedles();
+					hitactor.DamageMobJ(self, self.target, shatterdmg * explodecount, "Explosive", 0, angle);
+					A_Explode(128,128,0);
 				}
 				
 				if(hitactor) hitactor.DamageMobJ(self, self.target, shatterdmg, "Explosive", 0, angle);

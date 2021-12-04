@@ -14,6 +14,8 @@ class HaloBattleRifle_Bullet : HaloBullet
 		HaloProjectile.MinRangeDamage BARIFLE_MINDMG; 
 		HaloProjectile.BaseDamage BARIFLE_DMG;
 		HaloProjectile.Speed_MPS BARIFLE_BMPS;
+		HaloProjectile.RipperDamageFalloff 0.25;
+		HaloProjectile.RipperCount 3;
 		HaloProjectile.HeadshotDMGFactor BARIFLE_HEDMOD;
 		Scale 0.5;
 	}
@@ -38,7 +40,7 @@ class Halo_BattleRifle : HaloGun
 		HaloGun.BloomSpeed 0.30;
 		HaloGun.BaseRecoil BARIFLE_RECOIL;
 		HaloGun.Inaccuracy BARIFLE_ACCMOD;
-		HaloGun.Crosshair "BarRet", 1.0;
+		HaloGun.Crosshair "BARRet", 1.0;
 		HaloGun.UIGraphic "WI_DMR", 1.0;
 		HaloGun.UISight "SI_BR", 0.3, 0.7;
 		HaloGun.SetupScope 2.0, 0.25;
@@ -88,16 +90,16 @@ class Halo_BattleRifle : HaloGun
 				A_WeapSound("Halo/Weapons/BattleRifle/Select");
 				return A_JumpIf(A_DoFullSelectAnimation(), "Ready.Chamber");
 			}
-			BARD IHGFDCBA 1 A_DoSelectAnim();
+			BTRD IHGFDCBA 1 A_DoSelectAnim();
 		goto Ready.Active;
 		Ready.Chamber:
-			BARS ABCDEFGHIJKLMNOPQRSTUVWXYZ[] 1 A_DoSelectAnim(0, true);
+			BTRS ABCDEFGHIJKLMNOPQRSTUVWXYZ[] 1 A_DoSelectAnim(0, true);
 		Ready.Active:
-			BARI A 1 A_HaloWeaponReady(WRF_ALLOWRELOAD, true);
+			BTRI A 1 A_HaloWeaponReady(WRF_ALLOWRELOAD, true);
 		loop;
 		
 		Ready.Dryfire:
-			BARI A 4 A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
+			BTRI A 4 A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
 		goto Ready.Active;
 
 		Select:
@@ -105,8 +107,8 @@ class Halo_BattleRifle : HaloGun
 		wait;
 
 		Deselect:
-			BARD ABCDEFGH 1;
-			BARD I 1 A_GunLower();
+			BTRD ABCDEFGH 1;
+			BTRD I 1 A_GunLower();
 		wait;
 		
 		

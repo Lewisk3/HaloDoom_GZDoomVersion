@@ -259,6 +259,7 @@ Stanchion_Fire1 "Sounds/Stanchion/StanchionFire1.wav"
 Stanchion_Fire2 "Sounds/Stanchion/StanchionFire2.wav"
 Stanchion_Fire3 "Sounds/Stanchion/StanchionFire3.wav"
 Stanchion_Fire4 "Sounds/Stanchion/StanchionFire4.wav"
+Halo/Weapons/Stanchion/Reload "Sounds/Stanchion/StanchionReload.wav"
 
 Halo/Weapons/Stanchion/Fire/Bass  "Sounds/Stanchion/StanchionBass.wav"
 $random Halo/Weapons/Stanchion/Fire      { Stanchion_Fire1 Stanchion_Fire2 Stanchion_Fire3 Stanchion_Fire4 }

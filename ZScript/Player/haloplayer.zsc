@@ -137,7 +137,7 @@ class HaloPlayer : DoomPlayer
 		
 		// No valid grenade?
 		if(!activeGrenade || activeGrenade.amount <= 0) nextGrenade(true);
-		
+			
 		// Don't do stuff when dead.
 		if(health <= 0 || !player) 
 		{
@@ -231,6 +231,8 @@ class HaloPlayer : DoomPlayer
 		// Get real damage amount, taking into account modified damage.
 		double dmg = GetModifiedDamage(mod, damage, true);
 		double truedamage = dmg / GAMEPLAY_DAMAGEMOD;
+		
+		if(bInvulnerable) return 0;
 		
 		if(shields > 0)
 		{

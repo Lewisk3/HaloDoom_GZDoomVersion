@@ -438,55 +438,8 @@ class HaloGun : RecoilWeapon
 			
 		psp.rotation = clamp(psp.rotation, -rotation_range, rotation_range);
 		
-		// Process weapon switch
-		if(A_ButtonStatus(BTN_SWITCHWEAP, BTS_PRESSED, Owner) && !InStateSequence(psp.CurState,FindState("Deselect.Quick")) && !handsbusy)
-		{
-			// Deselect weapon.
-			let nextweap = FindNextWeapon();
-			if(nextweap) 
-			{
-				Owner.player.WeaponState |= WF_WEAPONSWITCHOK | WF_REFIRESWITCHOK;
-				State tostate = !inreload ? FindState("Deselect") : FindState("Deselect.Quick");
-				psp.SetState(tostate);
-				nextweap.Use(false);
-			}
-		}
-				
-		// De-scope if reload detected.
-		if(inreload && zoomed) enablezoom = false;
-		
-		// Melee attack
-		let feetpsp = Owner.player.GetPSprite(FEET_OVERLAY);
-		if(A_ButtonStatus(BT_USER2, BTS_PRESSED, Owner) && !handsbusy)
-		{
-			// Only melee if hands are not already being used for something else.
-			CallMeleeState("DoMelee");
-		}
-		
-		// Throw nades
-		let curNade = HaloPlayer(Owner).activeGrenade;
-		if(Owner.countinv("Action_ThrowGrenade") && !handsbusy && curNade)
-		{
-			if(curNade.amount > 0 && CallMeleeState("ThrowFrag"))
-				curNade.amount--;
-			else
-				HaloPlayer(Owner).SendHUDMessage("Grenade depleted!");
-				
-			Owner.TakeInventory("Action_ThrowGrenade", 999);
-		}
-		
-		// Slide
-		if( !!Owner.FindInventory("SlideAnimator") && !InStateSequence(feetpsp.CurState, FindState("SlideStart")) )
-		{
-			Owner.player.SetPSprite(FEET_OVERLAY, FindState("SlideStart"));
-		}
-		
-		// Grapple
-		if(HaloPlayer(Owner).grapple && !handsbusy)
-		{
-			Owner.player.SetPSprite(MELEE_OVERLAY, FindState("GrappleStart"));
-			if(inreload) psp.SetState(FindState("Ready.Active"));
-		}
+		if(Owner.health > 0)
+			DoActionButtons();
 				
 		// Force weapon to be deselected.
 		if(force_deselect && !InStateSequence(psp.CurState,FindState("Deselect")))
@@ -538,6 +491,62 @@ class HaloGun : RecoilWeapon
 			}
 		}
 		return super.TryPickup(toucher);;
+	}
+	
+	void DoActionButtons()
+	{
+		let psp  = Owner.player.GetPSprite(PSP_WEAPON);
+		bool inreload = psp && InStateSequence(psp.CurState,FindState("Reload"));
+	
+		// Process weapon switch
+		if(A_ButtonStatus(BTN_SWITCHWEAP, BTS_PRESSED, Owner) && !InStateSequence(psp.CurState,FindState("Deselect.Quick")) && !handsbusy)
+		{
+			// Deselect weapon.
+			let nextweap = FindNextWeapon();
+			if(nextweap) 
+			{
+				Owner.player.WeaponState |= WF_WEAPONSWITCHOK | WF_REFIRESWITCHOK;
+				State tostate = !inreload ? FindState("Deselect") : FindState("Deselect.Quick");
+				psp.SetState(tostate);
+				nextweap.Use(false);
+			}
+		}
+				
+		// De-scope if reload detected.
+		if(inreload && zoomed) enablezoom = false;
+		
+		// Melee attack
+		let feetpsp = Owner.player.GetPSprite(FEET_OVERLAY);
+		if(A_ButtonStatus(BT_USER2, BTS_PRESSED, Owner) && !handsbusy)
+		{
+			// Only melee if hands are not already being used for something else.
+			CallMeleeState("DoMelee");
+		}
+		
+		// Throw nades
+		let curNade = HaloPlayer(Owner).activeGrenade;
+		if(Owner.countinv("Action_ThrowGrenade") && !handsbusy && curNade)
+		{
+			if(curNade.amount > 0 && CallMeleeState("ThrowFrag"))
+				curNade.amount--;
+			else
+				HaloPlayer(Owner).SendHUDMessage("Grenade depleted!");
+				
+			Owner.TakeInventory("Action_ThrowGrenade", 999);
+		}
+		
+		// Slide
+		if( !!Owner.FindInventory("SlideAnimator") && !InStateSequence(feetpsp.CurState, FindState("SlideStart")) )
+		{
+			Owner.player.SetPSprite(FEET_OVERLAY, FindState("SlideStart"));
+		}
+		
+		// Grapple
+		if(HaloPlayer(Owner).grapple && !handsbusy)
+		{
+			Owner.player.SetPSprite(MELEE_OVERLAY, FindState("GrappleStart"));
+			if(inreload) psp.SetState(FindState("Ready.Active"));
+		}
 	}
 	
 	// [Lewisk3] Checks if a button was recently pressed.

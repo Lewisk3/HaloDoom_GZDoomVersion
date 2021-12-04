@@ -220,6 +220,10 @@ class HaloStatusBar : BaseStatusBar
 			let curweap = HaloGun(haloplr.player.ReadyWeapon);
 			if(curweap && curweap.HUD_Hide) return;
 			
+			// Hide HUD if viewing from a different camera.
+			if(!haloplr.FindInventory("Veh_Manager") && haloplr.player.camera != haloplr)
+				return;
+			
 			// Vitals
 			DrawBars(); 
 			
@@ -365,10 +369,21 @@ class HaloStatusBar : BaseStatusBar
 		vector2 nadepos   = (215, 80);
 		vector2 nadescale = (1.0, 1.0);
 		
+		let curNade = haloplr.activeGrenade;
 		for(int i = 0; i < grenadeTypes.Size(); i++)
 		{
 			let nade = FragGrenades(GetDefaultByType(grenadeTypes[i]));
 			String graphic = String.Format("Graphics/UI/%s", nade.hudIcon);
+			String borderGraphic = "border_inactive.png";
+			
+			// Check if grenade is valid and selected.
+			if( curNade && curNade.getClass() == nade.GetClass() && curNade.amount > 0	)
+				borderGraphic = "border_active.png";
+			
+			// Border
+			HLSBS.DrawImage("Graphics/UI/Grenades/" .. borderGraphic, nadePos + (24,0), scale:(2.0,1.0));
+			
+			// Icon
 			HLSBS.DrawImage(graphic, nadepos, scale:nadescale);
 			HLSBS.DrawString(fntHaloAmmo, haloplr.countinv(nade.GetClass()).."", nadepos+(32,0), scale:(0.18,0.15) * 0.75);
 			

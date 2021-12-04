@@ -324,3 +324,47 @@ class FXFollower : Actor
 		stop;
 	}
 }
+
+// TODO: Implement this shield stuff.
+class TestShield : Actor
+{
+	Default
+	{	
+		Radius 10;
+		Height 10;
+		+SOLID;
+		+SHOOTABLE;
+		+INTERPOLATEANGLES;
+	}
+	
+	override bool CanCollideWith(Actor other, bool passive)
+	{
+		if( !passive && (other.target == master || other == master) ) return false;
+		return super.CanCollideWith(other, passive);
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		if(master)
+		{	
+			vector3 offs = HaloMath.V3Offset(master.angle, master.pitch, master.roll, 30,0, 0, 1.0);
+			vector3 followPos = (master.pos.xy, master.pos.z + (master.height*0.5));
+			SetOrigin(level.vec3offset(followPos, offs), true);
+		}
+	}
+	
+	static TestShield attach(Actor to)
+	{	
+		let sh = TestShield(Spawn("TestShield", to.pos));
+		if(sh) sh.master = to;
+		return sh;
+	}
+	
+	States
+	{
+		Spawn:
+			PLSS A -1;
+		stop;
+	}
+}

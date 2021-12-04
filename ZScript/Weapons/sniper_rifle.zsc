@@ -11,8 +11,8 @@ class HaloSniper_Bullet : HaloBullet
 {
 	Default
 	{
-		Radius 4;
-		Height 4;
+		Radius 2;
+		Height 2;
 	}
 	
 	Default

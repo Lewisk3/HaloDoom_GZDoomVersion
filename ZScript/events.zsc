@@ -1,5 +1,4 @@
 // For generalized HaloDoom Events.
-
 class HaloDoom_Events : EventHandler
 {
 	bool nevertarget;
@@ -104,6 +103,11 @@ class HaloDoom_Events : EventHandler
 		if(e.Name ~== "throwgrenade")
 		{
 			src.mo.GiveInventory("Action_ThrowGrenade", 1);
+		}
+		if(e.Name ~== "nextgrenade")
+		{
+			let plr = HaloPlayer(src.mo);
+			if(plr) plr.nextGrenade(true);
 		}
 		
 		Array<String> args;

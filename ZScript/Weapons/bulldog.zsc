@@ -92,7 +92,7 @@ class Halo_Bulldog : HaloGun
 		goto Ready.Active;
 		
 		Ready.Pump:
-			BULP ABCDEFGHIJKLMNOPQRSTUV 1 A_DoSelectAnim(0, true);
+			BULP ACEGIKMOQSUV 1 A_DoSelectAnim(0, true);
 			BULP W 1 A_WeapSound("Halo/Weapons/Bulldog/Ready");
 			BULP XYZ 1;
 			BLP2 ABCD 1;
@@ -140,7 +140,11 @@ class Halo_Bulldog : HaloGun
 				A_RecoilOffset(0,10,6);
 				return A_CheckRapidFire();
 			}
-			BULF K 1 A_RecoilOffset(0,0,8);
+			BULF K 1 
+			{
+				A_RecoilOffset(0,0,8);
+				return A_CheckRapidFire();
+			}
 		Hold:
 			BULI A 1;
 			TNT1 A 0 A_Refire("Hold");

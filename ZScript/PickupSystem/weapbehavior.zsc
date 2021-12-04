@@ -165,7 +165,7 @@ class WeaponPickupProxy : Actor
 		if(pos.z != floorz) SetOrigin((pos.x,pos.y,floorz), true);
 
 		ProcessPickupCollision();
-		bool hasweap = !plr ? false : plr.countinv(trueitem);
+		bool hasweap = !plr ? false : !!plr.FindInventory(trueitem);
 		CheckPlrCollide(hasweap ? 0.5 : 1.0);
 		if(!plr || !plr.player) return;
 			
@@ -177,6 +177,14 @@ class WeaponPickupProxy : Actor
 				frame = 0;
 			}
 		*/
+		
+		// Determine if current weapon is busy
+		let haloweap = HaloGun(plr.player.ReadyWeapon);
+		if(haloweap && haloweap.handsbusy) 
+		{
+			use_hold = -1;
+			return; 
+		}
 		
 		// Process pickup
 		bool isaimweap = (plr.pickuptarget == self);

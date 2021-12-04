@@ -58,17 +58,7 @@ class Halo_AssaultRifle : HaloGun
 		
 		RecoilWeapon.YOffsetRange -10, 40;
 	}
-	
-	/*
-		vector3 muzzlepos = HaloMath.RelativeV3Offset(self, 0,0, 25,10,-8, 1.);
-		vector2 view = (angle, pitch);
-		for(int i = 0; i < 5; i++)
-		{
-			view.x = angle + frandom(-20,20);
-			BiriBiri.DoLightning(muzzlepos, view, dist:150, 1.0, 8.0, 10.0, 30, 0);
-		}
-	*/
-	
+
 	override void MarkPrecacheSounds()
 	{
 		// Prevent stutters by precaching weapon sounds.
