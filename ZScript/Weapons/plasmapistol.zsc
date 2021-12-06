@@ -28,9 +28,9 @@ class HaloPlasma_Proj : HaloBullet
 	States
 	{
 		Spawn:
-			FSP3 A 4;
+			HPLB A 4;
 		SpawnLoop:
-			FSP3 A 1 Bright
+			HPLB A 1 Bright
 			{
 				for(double i = 0; i < 4; i++)
 				{

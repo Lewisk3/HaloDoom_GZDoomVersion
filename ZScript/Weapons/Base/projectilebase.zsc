@@ -192,9 +192,8 @@ class HaloProjectile : FastProjectile
 				{
 					LookExParams look;
 					look.FOV = 30;
+					if(!act.bSHOOTABLE || act.bCORPSE || !act.bISMONSTER) continue;
 					if(target && !target.IsVisible(act, false, look)) continue;
-					if(!act.bSHOOTABLE) continue;
-					if(target && !act.isHostile(target)) continue;
 					int dist = Distance3DSquared(act);
 					if(dist < mindist) 
 					{
@@ -422,7 +421,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 				look.FOV = 30;
 				while(act = Actor(it.Next()))
 				{
-					if(!act.bSHOOTABLE) continue;
+					if(!act.bSHOOTABLE || act.bCORPSE || !act.bISMONSTER) continue;
 					if(target && !act.isHostile(target)) continue;
 					if(target && !target.IsVisible(act, false, look)) continue;
 					
