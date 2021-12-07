@@ -16,7 +16,7 @@ class GrapplingHook : KineLimb
 	
 	Default
 	{
-		GrapplingHook.Setup 70, 20, 512;
+		GrapplingHook.Setup 70, 20, 2048;
 	}
 	
 	static bool CanDeploy(Actor source, vector3 offsets = (0,0,0))
