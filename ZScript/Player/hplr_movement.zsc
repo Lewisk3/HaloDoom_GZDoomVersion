@@ -182,13 +182,13 @@ extend class HaloPlayer
 			}
 			else
 			{
-				grapple = GrapplingHook.Deploy(self, 60, (-5,-2,-2));
+				grapple = GrapplingHook.Deploy(self, (-5,-8,-10));
 			}
 		}
 		
 		// Determine if grapple is deployable.
 		if(enable_grapple && !grapple)
-			gpl_validsurface = GrapplingHook.CanDeployGrapple(self, (-5,-2,-2));
+			gpl_validsurface = GrapplingHook.CanDeploy(self, (-5,-2,-2));
 		
 		player.vel = vel.xy;
 		if(block_moveinput) player.vel *= 0;
