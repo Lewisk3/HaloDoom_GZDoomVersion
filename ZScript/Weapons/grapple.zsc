@@ -1,290 +1,197 @@
-
-class GrapplingHook : Actor
+class GrapplingHook : KineLimb
 {
-	LaserEmitter tail;
-	FLineTraceData hitdata;
-	vector3 hitpos;
-	vector3 hitoffs;
-	vector3 pos_offs;
-	Actor source, dest;
-	double spring_vel;
-	double retract_spd;
 	bool retracting;
+	double lerp, spring_vel;
 	
-	double maxspd, accel, mindist, maxdist;
+	vector3 fixedoffs;
+	vector3 endpos;
+	vector3 hookpos;
 	
-	Property MaxSpeed_Accel_CloseDist : maxspd, accel, mindist, maxdist;
+	Actor hitactor;
+	PlayerPawn plr;
+	
+	
+	double accel, maxspeed, maxdist;
+	Property Setup : accel, maxspeed, maxdist;
 	
 	Default
 	{
-		Radius 3;
-		Height 2;
-		Projectile;
-		Scale 0.5;
-		GrapplingHook.MaxSpeed_Accel_CloseDist 60, 80, 75, 1500;
-		
-		+INTERPOLATEANGLES;
+		GrapplingHook.Setup 70, 20, 512;
 	}
 	
-	override bool CanCollideWith(Actor other, bool passive)
+	static bool CanDeploy(Actor source, vector3 offsets = (0,0,0))
 	{
-		if(other is "PlayerPawn") return false;
-		return true;
-	}
-	
-	vector3 GetOrigin()
-	{
-		return HaloMath.RelativeV3Offset(source, 0, 0, 0, pos_offs.x, pos_offs.y, pos_offs.z, 1.);
-	}
-	
-	void FollowDest()
-	{
-		SetOrigin((dest.pos.xy, dest.pos.z + hitoffs.z), false);
-	}
-	
-	static bool CanDeployGrapple(Actor source, vector3 offsets = (0,0,0), class<GrapplingHook> type = "GrapplingHook")
-	{
-		let defs = GetDefaultByType(type);
+		let defs = GetDefaultByType("GrapplingHook");
 		FLineTraceData hitdata;
+		if(source.player) offsets.z += source.player.viewz-source.pos.z;
 		source.LineTrace(source.angle, defs.maxdist, source.pitch, TRF_ALLACTORS, offsetz:offsets.z, offsets.x+64, offsets.y, data:hitdata);
 		return !(hitdata.HitType == TRACE_HitNone || hitdata.HitType == TRACE_HasHitSky);
 	}
 	
-	static GrapplingHook Deploy(Actor source, double speed, vector3 offsets = (0,0,0), class<GrapplingHook> type = "GrapplingHook")
+	static GrapplingHook Deploy(PlayerPawn source, vector3 offsets)
 	{
-		vector3 truepos = HaloMath.RelativeV3Offset(source, 0, 0, 0, offsets.x, offsets.y, offsets.z, 1.);
+		if(!CanDeploy(source, offsets)) return null;
 		
-		let gpl = GrapplingHook(Actor.Spawn(type, truepos));
-		if(gpl)
+		let fRope = GrapplingHook(Spawn("GrapplingHook", source.pos));
+		if(fRope)
 		{
-			vector3 grapple_vel = HaloMath.VecFromAngles(source.angle, source.pitch, speed);
-			gpl.pos_offs = offsets;
-			gpl.angle = source.angle;
-			gpl.pitch = source.pitch;
-			gpl.vel = grapple_vel;
-			gpl.retract_spd = speed;
-			gpl.source = source;
-			
-			// Do not deploy if nothing to grapple on to. 
-			gpl.LineTrace(gpl.angle, gpl.maxdist, gpl.pitch, TRF_ALLACTORS, offsetforward:64, data:gpl.hitdata);
-			if(gpl.hitdata.HitType == TRACE_HitNone || gpl.hitdata.HitType == TRACE_HasHitSky)
-			{
-				gpl.Destroy();
-				return null;
-			}
-			
-			source.A_StartSound("Halo/Spartan/Grapple/Deploy", CHAN_BODY, CHANF_OVERLAP);
+			fRope.plr = source;
+			fRope.fixedoffs = offsets;
 		}
-		return gpl;
+		return fRope;
+	}	
+	
+	override void OnCreate()
+	{
+		if(!plr) return;
+		lerp = 0.1;
+		GetRelPos();
+		
+		FLineTraceData lt;
+		double zoffs = (plr.player.viewz-plr.pos.z) + fixedoffs.z;
+		plr.LineTrace(plr.angle, 1024 * 32, plr.pitch, TRF_ALLACTORS, offsetz:zoffs, fixedoffs.x+64, fixedoffs.y, data:lt);	
+		hookpos = lt.HitLocation;
+		hitactor = lt.HitActor;
+		
+		plr.A_StartSound("Halo/Spartan/Grapple/Deploy", CHAN_BODY, CHANF_OVERLAP);
+		PopulateSegs();
 	}
 	
-	void Retract()
+	virtual void ClearSegs()
 	{
-		if(tail) tail.LaserOff();
-		SetState(FindState("Retract"));
-	}
-	
-	override void OnDestroy()
-	{
-		if(tail) 
+		for(int i = segs.Size()-1; i >= 0; i--)
 		{
-			tail.LaserOff();
-			tail.Destroy();
+			segs[i].Destroy();
+			segs.Delete(i);
 		}
 	}
 	
-	override void Tick()
+	virtual void Retract()
 	{
-		super.Tick();
-		if(bDestroyed) return;
-		
-		// Step in direction, spawn tail.
-		vector3 origin = GetOrigin();
-		double dist = (origin-pos).Length();
-		
-		if(dist > maxdist) Retract();
-		
-		
-		// Stop deployment if an actor was in the way.
-		if(dist > 64 && !dest)
+		retracting = true;
+		if(plr) 
 		{
-			LineTrace(angle, radius*radius, pitch, TRF_ALLACTORS, data:hitdata);
-			if(hitdata.HitType == TRACE_HitActor) 
-			{
-				vel *= 0;
-				SetStateLabel("Death");
-			}
-		}		
-		if(dest && !dest.player && !retracting) FollowDest();
-		if(!tail && !retracting) tail = LaserEmitter.Attach(source);
-		if(tail)
-		{
-			vector3 head_diff = level.SphericalCoords(origin, pos, (source.angle, source.pitch));
-			vector2 angles = -(head_diff.x, head_diff.y);
-			vector3 finaloffs = pos_offs;
-			
-			tail.SetPos(finaloffs, angles);
-			tail.Fire("LSR_GrappleTail", maxdist: dist * 0.25);
-		}		
+			plr.A_StopSound(CHAN_7);
+			plr.A_StartSound("Halo/Spartan/ZipLine/End", flags:CHANF_OVERLAP);
+		}
 	}
 	
-	States
+	virtual void PopulateSegs()
 	{
-		Spawn:
-			TNT1 A 1;
-		loop;
+		for(int i = 0; i < 200; i++)
+			AddSegment("RopeSegment");
+	}
+			
+	virtual void GetRelPos()
+	{
+		fixedpos = HaloMath.RelativeV3Offset(plr, 0,0,0, fixedoffs.x, fixedoffs.y, fixedoffs.z, 1.0);
+		followpos = endpos;
 		
-		Death:
-			TNT1 A 1 
+		if(hitactor)
+			hookpos = hitactor.pos + (0,0, hitactor.height * 0.5);
+	}
+	
+	override void Update()
+	{
+		endpos = HaloMath.Lerp3D(fixedpos, hookpos, lerp);
+		GetRelPos();
+		
+		Actor src = plr;
+		if(hitactor && HaloMath.GetInertia(hitactor.mass) >= 0.5)
+			src = hitactor;
+		
+		vector3 diff = fixedpos-followpos;
+		if(diff ~== (0,0,0)) return;
+		double dist = diff.length();
+		
+		// Resize
+		double segCount = segs.Size()-1;
+		double segSize = dist / segCount;
+		for(int i = 0; i < segCount; i++)
+		{
+			let seg = segs[i];
+			seg.A_SetScale(seg.Scale.X, segSize);
+		}
+		
+		// Retract
+		if(retracting) 
+		{	
+			src.gravity = src.default.gravity;
+			lerp -= 0.05;
+			if(lerp <= 0.25)
 			{
-				// Sometimes this state can be retriggered while retracting
-				// the grapple
-				if(retracting) return ResolveState("Retract");
-				
-				// Get collision data
-				LineTrace(angle, radius*radius, pitch, TRF_ALLACTORS, data:hitdata);
-				vel *= 0;
-				
-				// Find target of velocity exchange.
-				dest = source;
+				ClearSegs();
+				Destroy();
+			}
+			return;
+		}
+		
+		// Extend and pull
+		if(lerp < 1.0)
+		{
+			lerp += 0.067;
+			if(lerp >= 1.0) 
+			{
 				A_StartSound("Halo/Spartan/Grapple/Latch", flags:CHANF_OVERLAP);
-				dest.A_StartSound("Halo/Spartan/ZipLine/Start", flags:CHANF_OVERLAP);
-				
-				if(hitdata.HitType == TRACE_HitActor)
-				{
-					Actor act = hitdata.HitActor;
-					double weight = HaloMath.GetInertia(act.mass);
-					if(weight > 0.5)
-					{
-						dest = act;
-						act.A_ChangeLinkFlags(0,0);
-						hitoffs.z = hitdata.HitLocation.z - dest.pos.z;
-						FollowDest();
-					}
-				}
-				
-				if(hitdata.HitType) 
-				{
-					hitpos = hitdata.HitLocation;	
-					SetOrigin(hitpos, false);
-					return ResolveState("DoGrapple");
-				}
-				else
-				{
-					return ResolveState("Retract");
-				}	
+				src.A_StartSound("Halo/Spartan/ZipLine/Start", flags:CHANF_OVERLAP);
 			}
-		goto DoGrapple;
-		
-		DoGrapple:
-			TNT1 A 1 
+		}
+		else // Pull
+		{
+			diff = followpos-fixedpos;
+			if(diff ~== (0,0,0)) return;
+			vector3 dir = diff.Unit();
+			
+			if(src == plr)
 			{
-				// If nothing was hit, don't grapple.
-				if(!hitdata.HitType) return ResolveState(null);
-				
-				// Pull items.
-				bool dopull = !dest.player;
-				
-				// Get unit vector facing accel direction.
-				vector3 origin = GetOrigin();
-				vector3 dir = (pos-origin).Unit();
-				if(dopull) dir = -dir;
-				
-				// Spring physics
-				double spring_curpos = (origin - pos).Length();
-				spring_vel += HaloMath.DampedSpring(spring_curpos, 0, spring_vel, 4.5, 7);
-				
-				// Acceleration
-				double addspd = clamp(maxspd - spring_vel, 0, accel / TICRATE);
-				
-				// Apply velocity
-				dir.z *= 0.8;
-				dest.vel += dir * addspd;
-				
-				// Slow gravity temporarily 
-				dest.gravity = 0;
-				
-				// Process jump to detach
-				if(dest.player)
+				uint btns = plr.player.cmd.buttons; 
+				if(btns & BT_JUMP) 
 				{
-					dest.A_StartSound("Halo/Spartan/ZipLine/Loop", CHAN_7, CHANF_OVERLAP|CHANF_LOOPING);
-					UserCmd cmds = dest.player.cmd;
-					if(cmds.buttons & BT_JUMP) 
-					{
-						dest.vel.z += dest.player.mo.jumpz * 0.5;
-						dest.vel += (dir * addspd * 1.5);
-						return ResolveState("Retract");
-					}
+					plr.vel.z += 5;
+					Retract();
+					return;
 				}
-				
-				// Remove grapple if movement is obstructed.
-				if(!dest.CheckMove(level.vec2offset(dest.pos.xy, dest.vel.xy*1.5)))
-					return ResolveState("Retract");
-				
-				// Remove grapple if source is close enough.
-				double dist = (pos-origin).Length();
-				if( dist <= mindist ) return ResolveState("Retract");
-				
-				// Continue
-				return ResolveState(null);
-			}
-		loop;
-				
-		Retract:
-			TNT1 A 1 
-			{	
-				// Somehow dest can be invalid here.
-				if(!dest) return ResolveState("Death.Real");
-				
-				// Restore actor properties
-				if(!retracting) dest.A_StartSound("Halo/Spartan/ZipLine/End", flags:CHANF_OVERLAP);
-				if(dest.player) dest.A_StopSound(CHAN_7);
-				if(dest)
+				if(btns & HaloPlayer.BT_GRAPPLE) 
 				{
-					dest.gravity = dest.default.gravity;
-					dest.A_ChangeLinkFlags(dest.default.bNOBLOCKMAP, dest.default.bNOSECTOR);
+					Retract();
+					return;
 				}
-				
-				bNOINTERACTION = true;
-				A_ChangeLinkFlags(0, 0);
-				vector3 head_diff = level.SphericalCoords(GetOrigin(), pos, (angle, pitch));
-				vel = HaloMath.VecFromAngles(angle-head_diff.x, pitch-head_diff.y, -retract_spd);
-				
-				retracting = true;
-				
-				double dist = (GetOrigin()-pos).Length();
-				if(dist <= mindist) return ResolveState("Death.Real");
-				return ResolveState(null);
 			}
-		loop;
-				
-		Death.Real:
-			TNT1 A 1
+			else
 			{
-				if(tail) 
-				{
-					tail.LaserOff();
-					tail.Destroy();
-				}
+				dir = -dir;
 			}
-		stop;
+			
+			// Spring physics
+			spring_vel += HaloMath.DampedSpring(dist, 0, spring_vel, 4.5, 7);
+			
+			// Acceleration
+			src.gravity = src.default.gravity * 0.25;
+			double addspd = clamp(20 - spring_vel, 0, 70 / TICRATE);
+			
+			// Apply velocity
+			dir.z *= 0.8;
+			src.vel += dir * addspd;
+			plr.A_StartSound("Halo/Spartan/ZipLine/Loop", CHAN_7, CHANF_OVERLAP|CHANF_LOOPING);
+			
+			if(dist <= 96) Retract();
+		}
 	}
 }
 
-class GrappleHook_Tail : Actor
+class RopeSegment : Segment
 {
-	
 	Default
 	{
-		Scale 0.1;
-		+NOINTERACTION;
+		YScale 1;
+		XScale 1.5;
+		
+		RenderStyle "Normal";
+		Translation "0:255=@80[0,0,0]";
 	}
-	
-	States
+
+	override vector3 GetEndOffs()
 	{
-		Spawn:
-			PLSS A 2;
-		stop;
+		return (Scale.Y,0,0);
 	}
 }
-

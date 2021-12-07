@@ -60,7 +60,7 @@ class Segment : Actor
 			angle = angleoffs;
 			
 		if( followpitch || forcefollow ) 
-			pitch = (dirangles.y - 90) + pitchoffs;
+			pitch = dirangles.y + pitchoffs;
 		else
 			pitch = pitchoffs;
 		
@@ -85,7 +85,7 @@ class Segment : Actor
 		vector3 localoffs = GetEndOffs();
 		if(flipped) localoffs.y *= -1;
 		
-		vector3 worldoffs = HaloMath.V3Offset(angle,pitch,roll, localoffs.x,localoffs.y,localoffs.z, 1.0);
+		vector3 worldoffs = HaloMath.V3Offset(angle,pitch - 90,roll, localoffs.x,localoffs.y,localoffs.z, 1.0);
 		endpos = level.vec3offset(pos, worldoffs); 
 	}
 	
@@ -100,10 +100,11 @@ class Segment : Actor
 	override void Tick()
 	{
 		super.Tick();
+		bInvisible = GetAge() <= 2;
 		onground = ((pos.z <= floorz) || (pos.z-height <= floorz) || bOnMobj || bMBFBouncer);
 		GetEndPos();
 		
-	//	DrawPoints();	
+// 		DrawPoints();
 	}
 	
 	States
@@ -126,15 +127,16 @@ class KineLimb : Actor
 		+NOGRAVITY;
 	}
 	
-	override void BeginPlay()
+	override void PostBeginPlay()
 	{
-		super.BeginPlay();
+		super.PostBeginPlay();
 		
 		fixedpos = pos;
 		followpos = pos;
 		OnCreate();
 	}
 	
+	virtual void Update() {}
 	virtual void OnCreate() {}
 	
 	Segment AddSegment(class<Segment> type = "Segment", vector2 viewoffs = (0,0), bool flipx = false)
@@ -159,6 +161,8 @@ class KineLimb : Actor
 		
 		segs[0].MovePos(fixedpos);
 		for(int i = 1; i <= end; i++) segs[i].MovePos(segs[i-1].endpos);
+		
+		Update();
 	}
 	
 	

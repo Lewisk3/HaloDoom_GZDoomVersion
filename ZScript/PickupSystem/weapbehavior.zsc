@@ -186,22 +186,23 @@ class WeaponPickupProxy : Actor
 			return; 
 		}
 		
-		// Process pickup
-		bool isaimweap = (plr.pickuptarget == self);
-		if(!plr.player.ReadyWeapon || (!isaimweap && !hasweap)) 
-		{
-			use_hold = -1;
-			return;
-		}
-		
+		// Count weapons
 		let wcontrol = WeaponLimitProxy(plr.FindInventory("WeaponLimitProxy"));
 		if(!wcontrol) 
 		{
 			plr.GiveInventory("WeaponLimitProxy",1);
 			return;
 		}
-		
 		int wcount = wcontrol.CountWeapons();
+		
+		// Process pickup
+		bool isaimweap = (plr.pickuptarget == self);
+		if( (!plr.player.ReadyWeapon && wcount > 0) || (!isaimweap && !hasweap)) 
+		{
+			use_hold = -1;
+			return;
+		}
+		
 		int btns = plr.player.cmd.buttons;
 		int oldbtns = plr.player.oldbuttons;
 		

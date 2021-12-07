@@ -65,6 +65,293 @@ class SmokeTrail : CheapActor
 		wait;
 	}
 }
+			
+// Old static grappling hook code.
+class GrapplingHook : Actor
+{
+	LaserEmitter tail;
+	FLineTraceData hitdata;
+	vector3 hitpos;
+	vector3 hitoffs;
+	vector3 pos_offs;
+	Actor source, dest;
+	double spring_vel;
+	double retract_spd;
+	bool retracting;
+	
+	double maxspd, accel, mindist, maxdist;
+	
+	Property MaxSpeed_Accel_CloseDist : maxspd, accel, mindist, maxdist;
+	
+	Default
+	{
+		Radius 3;
+		Height 2;
+		Projectile;
+		Scale 0.5;
+		GrapplingHook.MaxSpeed_Accel_CloseDist 60, 80, 75, 1500;
+		
+		+INTERPOLATEANGLES;
+	}
+	
+	override bool CanCollideWith(Actor other, bool passive)
+	{
+		if(other is "PlayerPawn") return false;
+		return true;
+	}
+	
+	vector3 GetOrigin()
+	{
+		return HaloMath.RelativeV3Offset(source, 0, 0, 0, pos_offs.x, pos_offs.y, pos_offs.z, 1.);
+	}
+	
+	void FollowDest()
+	{
+		SetOrigin((dest.pos.xy, dest.pos.z + hitoffs.z), false);
+	}
+	
+	static bool CanDeployGrapple(Actor source, vector3 offsets = (0,0,0), class<GrapplingHook> type = "GrapplingHook")
+	{
+		let defs = GetDefaultByType(type);
+		FLineTraceData hitdata;
+		source.LineTrace(source.angle, defs.maxdist, source.pitch, TRF_ALLACTORS, offsetz:offsets.z, offsets.x+64, offsets.y, data:hitdata);
+		return !(hitdata.HitType == TRACE_HitNone || hitdata.HitType == TRACE_HasHitSky);
+	}
+	
+	static GrapplingHook Deploy(Actor source, double speed, vector3 offsets = (0,0,0), class<GrapplingHook> type = "GrapplingHook")
+	{
+		vector3 truepos = HaloMath.RelativeV3Offset(source, 0, 0, 0, offsets.x, offsets.y, offsets.z, 1.);
+		
+		let gpl = GrapplingHook(Actor.Spawn(type, truepos));
+		if(gpl)
+		{
+			vector3 grapple_vel = HaloMath.VecFromAngles(source.angle, source.pitch, speed);
+			gpl.pos_offs = offsets;
+			gpl.angle = source.angle;
+			gpl.pitch = source.pitch;
+			gpl.vel = grapple_vel;
+			gpl.retract_spd = speed;
+			gpl.source = source;
+			
+			// Do not deploy if nothing to grapple on to. 
+			gpl.LineTrace(gpl.angle, gpl.maxdist, gpl.pitch, TRF_ALLACTORS, offsetforward:64, data:gpl.hitdata);
+			if(gpl.hitdata.HitType == TRACE_HitNone || gpl.hitdata.HitType == TRACE_HasHitSky)
+			{
+				gpl.Destroy();
+				return null;
+			}
+			
+			source.A_StartSound("Halo/Spartan/Grapple/Deploy", CHAN_BODY, CHANF_OVERLAP);
+		}
+		return gpl;
+	}
+	
+	void Retract()
+	{
+		if(tail) tail.LaserOff();
+		SetState(FindState("Retract"));
+	}
+	
+	override void OnDestroy()
+	{
+		if(tail) 
+		{
+			tail.LaserOff();
+			tail.Destroy();
+		}
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		if(bDestroyed) return;
+		
+		// Step in direction, spawn tail.
+		vector3 origin = GetOrigin();
+		double dist = (origin-pos).Length();
+		
+		if(dist > maxdist) Retract();
+		
+		
+		// Stop deployment if an actor was in the way.
+		if(dist > 64 && !dest)
+		{
+			LineTrace(angle, radius*radius, pitch, TRF_ALLACTORS, data:hitdata);
+			if(hitdata.HitType == TRACE_HitActor) 
+			{
+				vel *= 0;
+				SetStateLabel("Death");
+			}
+		}		
+		if(dest && !dest.player && !retracting) FollowDest();
+		if(!tail && !retracting) tail = LaserEmitter.Attach(source);
+		if(tail)
+		{
+			vector3 head_diff = level.SphericalCoords(origin, pos, (source.angle, source.pitch));
+			vector2 angles = -(head_diff.x, head_diff.y);
+			vector3 finaloffs = pos_offs;
+			
+			tail.SetPos(finaloffs, angles);
+			tail.Fire("LSR_GrappleTail", maxdist: dist * 0.75);
+		}		
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 1;
+		loop;
+		
+		Death:
+			TNT1 A 1 
+			{
+				// Sometimes this state can be retriggered while retracting
+				// the grapple
+				if(retracting) return ResolveState("Retract");
+				
+				// Get collision data
+				LineTrace(angle, radius*radius, pitch, TRF_ALLACTORS, data:hitdata);
+				vel *= 0;
+				
+				// Find target of velocity exchange.
+				dest = source;
+				A_StartSound("Halo/Spartan/Grapple/Latch", flags:CHANF_OVERLAP);
+				dest.A_StartSound("Halo/Spartan/ZipLine/Start", flags:CHANF_OVERLAP);
+				
+				if(hitdata.HitType == TRACE_HitActor)
+				{
+					Actor act = hitdata.HitActor;
+					double weight = HaloMath.GetInertia(act.mass);
+					if(weight > 0.5)
+					{
+						dest = act;
+						act.A_ChangeLinkFlags(0,0);
+						hitoffs.z = hitdata.HitLocation.z - dest.pos.z;
+						FollowDest();
+					}
+				}
+				
+				if(hitdata.HitType) 
+				{
+					hitpos = hitdata.HitLocation;	
+					SetOrigin(hitpos, false);
+					return ResolveState("DoGrapple");
+				}
+				else
+				{
+					return ResolveState("Retract");
+				}	
+			}
+		goto DoGrapple;
+		
+		DoGrapple:
+			TNT1 A 1 
+			{
+				// If nothing was hit, don't grapple.
+				if(!hitdata.HitType) return ResolveState(null);
+				
+				// Pull items.
+				bool dopull = !dest.player;
+				
+				// Get unit vector facing accel direction.
+				vector3 origin = GetOrigin();
+				vector3 dir = (pos-origin).Unit();
+				if(dopull) dir = -dir;
+				
+				// Spring physics
+				double spring_curpos = (origin - pos).Length();
+				spring_vel += HaloMath.DampedSpring(spring_curpos, 0, spring_vel, 4.5, 7);
+				
+				// Acceleration
+				double addspd = clamp(maxspd - spring_vel, 0, accel / TICRATE);
+				
+				// Apply velocity
+				dir.z *= 0.8;
+				dest.vel += dir * addspd;
+				
+				// Slow gravity temporarily 
+				dest.gravity = 0;
+				
+				// Process jump to detach
+				if(dest.player)
+				{
+					dest.A_StartSound("Halo/Spartan/ZipLine/Loop", CHAN_7, CHANF_OVERLAP|CHANF_LOOPING);
+					UserCmd cmds = dest.player.cmd;
+					if(cmds.buttons & BT_JUMP) 
+					{
+						dest.vel.z += dest.player.mo.jumpz * 0.5;
+						dest.vel += (dir * addspd * 1.5);
+						return ResolveState("Retract");
+					}
+				}
+				
+				// Remove grapple if movement is obstructed.
+				if(!dest.CheckMove(level.vec2offset(dest.pos.xy, dest.vel.xy*1.5)))
+					return ResolveState("Retract");
+				
+				// Remove grapple if source is close enough.
+				double dist = (pos-origin).Length();
+				if( dist <= mindist ) return ResolveState("Retract");
+				
+				// Continue
+				return ResolveState(null);
+			}
+		loop;
+				
+		Retract:
+			TNT1 A 1 
+			{	
+				// Somehow dest can be invalid here.
+				if(!dest) return ResolveState("Death.Real");
+				
+				// Restore actor properties
+				if(!retracting) dest.A_StartSound("Halo/Spartan/ZipLine/End", flags:CHANF_OVERLAP);
+				if(dest.player) dest.A_StopSound(CHAN_7);
+				if(dest)
+				{
+					dest.gravity = dest.default.gravity;
+					dest.A_ChangeLinkFlags(dest.default.bNOBLOCKMAP, dest.default.bNOSECTOR);
+				}
+				
+				bNOINTERACTION = true;
+				A_ChangeLinkFlags(0, 0);
+				vector3 head_diff = level.SphericalCoords(GetOrigin(), pos, (angle, pitch));
+				vel = HaloMath.VecFromAngles(angle-head_diff.x, pitch-head_diff.y, -retract_spd);
+				
+				retracting = true;
+				
+				double dist = (GetOrigin()-pos).Length();
+				if(dist <= mindist) return ResolveState("Death.Real");
+				return ResolveState(null);
+			}
+		loop;
+				
+		Death.Real:
+			TNT1 A 1
+			{
+				if(tail) 
+				{
+					tail.LaserOff();
+					tail.Destroy();
+				}
+			}
+		stop;
+	}
+}
 
-			
-			
+class GrappleHook_Tail : Actor
+{
+	
+	Default
+	{
+		Scale 0.1;
+		+NOINTERACTION;
+	}
+	
+	States
+	{
+		Spawn:
+			PLSS A 2;
+		stop;
+	}
+}

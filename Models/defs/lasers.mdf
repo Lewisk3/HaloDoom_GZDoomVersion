@@ -62,3 +62,17 @@ Model RailgunTrail
 	
    FrameIndex BEAM A 0 0
 }
+
+Model RopeSegment
+{	
+   Path "Models/lasers"
+   Skin 0 "BEAM.png" 
+   Model 0 "beam_complex.md3" 
+   Scale 1.0 1.0 1.0
+   PitchOffset 0
+   ZOffset 2;
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}
