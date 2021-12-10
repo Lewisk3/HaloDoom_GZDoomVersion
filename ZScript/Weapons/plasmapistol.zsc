@@ -87,7 +87,7 @@ class HaloChargedPlasma_Proj : HaloPlasma_Proj
 	override int SpecialMissileHit(Actor victim)
 	{
 		int res = super.SpecialMissileHit(victim);
-		if(res == -1 && victim) 
+		if(res == -1 && victim && victim.health > 0) 
 		{
 			A_DoLightning(10);
 			victim.GiveInventory("EMP_DeBuff", 1);

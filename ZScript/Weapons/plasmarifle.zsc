@@ -159,7 +159,6 @@ class Halo_PlasmaRifle : HaloGun
 				A_RecoilOffset(frandom(-4,4),frandom(3,9),2);
 				A_RollQuake(2,10,2);
 				A_RQuakeEx(1,2,0,3,0,20,"",QF_RELATIVE|QF_WAVE);
-				A_SetFrame(A_GetFrame()+1);
 			}
 			PSRI A 1 
 			{
@@ -168,6 +167,7 @@ class Halo_PlasmaRifle : HaloGun
 			}
 			PSRF "#" 2
 			{	
+				A_SetFrame(A_GetFrame()+1);
 				A_FireHaloPlasma(false, (A_GetFrame() >= 3));
 				A_SetRecoil(0.25, 0, 2);
 				A_RollQuake(-2,10,2);
