@@ -117,12 +117,12 @@ class Halo_BattleRifle : HaloGun
 		// 35/15 = ~2 frames.
 		Fire:
 			TNT1 A 0 A_GunCheckReload();
-			BRFI A 1
+			BRFI A 1 Bright
 			{
 				A_RecoilOffset(0,8,1);
 				A_ModifyRecoil(A_CheckInScope() ? 0.25 : 1.0);
 			}
-			BRFI B 2
+			BRFI B 2 
 			{
 				A_FireRifle();
 				A_SetRecoil(0.3, 0, 4);
@@ -131,20 +131,20 @@ class Halo_BattleRifle : HaloGun
 				A_RecoilOffset(8,10,2);
 				A_UpdateSpread();
 			}
-			BRFI C 1
+			BRFI C 1 Bright
 			{
 				A_RecoilOffset(0,8,2);
 				A_MechanismSound("Halo/Weapons/BattleRifle/Mech");
 				A_GunCheckReload();
 				A_Light(0);
 			}
-			BRFI D 2
+			BRFI D 2 
 			{
 				A_FireRifle();
 				A_SetRecoil(0.3, 0, 4);
 				A_RQuakeEx(1,2,0,3,0,20,"",QF_RELATIVE);
 			}
-			BRFI E 1
+			BRFI E 1 Bright
 			{
 				A_RollQuake(-4,6,2);
 				A_RecoilOffset(0,8,1);
@@ -152,7 +152,7 @@ class Halo_BattleRifle : HaloGun
 				A_GunCheckReload();
 				A_Light(0);
 			}
-			BRFI F 2
+			BRFI F 2 
 			{
 				A_FireRifle();
 				A_SetRecoil(-0.15, 0, 8);

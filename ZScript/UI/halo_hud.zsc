@@ -204,6 +204,7 @@ class HaloStatusBar : BaseStatusBar
 		// Always draw HUD
 		BeginHUD();
 		DrawMainBar (TicFrac);
+		
 	}
 	
 	void DrawMainBar (double TicFrac)
@@ -258,6 +259,7 @@ class HaloStatusBar : BaseStatusBar
 			prevMS = MSTime();
 			double dtime = 1000.0 / ANIM_FPS;
 			deltatime = (ftime/dtime);
+			
 		}
 	}
 	

@@ -1,6 +1,3 @@
-// [Samu] Man! Setting a good resolution was a true hassle!
-// 		  Made it a bit faster, and also, replaced the reloading sound for a faster version.
-//		  Gun's centered properly, and now contains a reloading function!
 class Halo_PlasmaPistol_Clip : Ammo 
 {
 	Default 
@@ -20,15 +17,27 @@ class HaloPlasma_Proj : HaloBullet
 		HaloProjectile.HeadshotDMGFactor PLASMAPISTOL_HEDMOD;
 		
 		RenderStyle "Add";
-		Translation "0:255=@50[5,240,44]";
-		Alpha 0.65;
+		DamageType "Fire";
+		Translation "0:255=@65[5,240,44]";
+		Alpha 0.90;
 		Scale 0.12;
+	}
+	
+	virtual void A_DoLightning(double amt = 4)
+	{
+		vector2 view;
+		for(int i = 0; i < amt; i++)
+		{
+			view.x = angle + frandom(-60,60) + 180;
+			view.y = pitch + frandom(-35,35);
+			BiriBiri.DoLightning(pos, view, dist:25, 0.5, 20.0, 10.0, 30, 0);
+		}
 	}
 	
 	States
 	{
 		Spawn:
-			HPLB A 4;
+			HPLB A 4 Bright;
 		SpawnLoop:
 			HPLB A 1 Bright
 			{
@@ -41,6 +50,7 @@ class HaloPlasma_Proj : HaloBullet
 					{
 						trail.A_SetScale(0.06 - (0.04 * (i/4.)));
 						trail.vel = vel;
+						trail.translation = translation;
 					}
 				}
 			}
@@ -52,6 +62,7 @@ class HaloPlasma_Proj : HaloBullet
 			TNT1 A 1 
 			{	
 				HaloMath.ParticlesFX(self, "Green", 30, 3, 10);
+				A_DoLightning();
 			}
 		stop;
 	}
@@ -76,7 +87,11 @@ class HaloChargedPlasma_Proj : HaloPlasma_Proj
 	override int SpecialMissileHit(Actor victim)
 	{
 		int res = super.SpecialMissileHit(victim);
-		if(res == -1 && victim) victim.GiveInventory("EMP_DeBuff", 1);
+		if(res == -1 && victim) 
+		{
+			A_DoLightning(10);
+			victim.GiveInventory("EMP_DeBuff", 1);
+		}
 		
 		return res;
 	}
@@ -160,7 +175,7 @@ class Halo_PlasmaPistol : HaloGun
 	Default
 	{
 		Weapon.SlotNumber 2;
-		Obituary "%o was took down by %k's Magnum.";
+		Obituary "%o was took down by %k's Plasma Pistol.";
 		Inventory.PickupMessage	"Plasma Pistol Acquired.";
 		Tag "Plasma Pistol";
 		Weapon.BobSpeed 1.86;
@@ -174,8 +189,8 @@ class Halo_PlasmaPistol : HaloGun
 		// Recoil
 		HaloGun.Bloom 0.15;
 		HaloGun.BloomSpeed 0.35;
-		HaloGun.BaseRecoil MAGNUM_RECOIL;
-		HaloGun.Inaccuracy MAGNUM_ACCMOD;
+		HaloGun.BaseRecoil PLASMAPISTOL_RECOIL;
+		HaloGun.Inaccuracy PLASMAPISTOL_ACCMOD;
 		HaloGun.Crosshair "PlsPRet", 0.75;
 		HaloGun.UIGraphic "WI_PLSP", 1.0;
 		

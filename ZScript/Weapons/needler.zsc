@@ -135,13 +135,13 @@ class Halo_Needler : HaloGun
 		
 		Fire:
 			TNT1 A 0 A_GunCheckReload();
-			NDLF B 1
+			NDLF B 1 Bright
 			{
 				A_FireNeedler();
 				A_SetRecoil(0.8, 0, 1);
 				A_RollQuake(2,10,3, true);
 			}
-			NDLF C 1
+			NDLF C 1 Bright
 			{
 				A_Light(0);
 				A_NeedleOffset(10, 5);

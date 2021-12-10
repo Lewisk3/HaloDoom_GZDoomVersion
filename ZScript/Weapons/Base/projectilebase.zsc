@@ -745,6 +745,10 @@ class RailgunProjectile : FastProjectile
 	
 	States
 	{
+		Cache:
+			LITA A 1;
+		stop;
+		
 		Spawn:
 			TNT1 A 1;
 		loop;
@@ -758,8 +762,14 @@ class RailgunProjectile : FastProjectile
 				A_Explode(expdmg, expdmg*0.5, 0);
 			}
 		Death.FadeOut:
-			TNT1 A 1 
+			"####" A 1 
 			{
+				bool blink = random(0,1);
+				if(blink) 
+					sprite = GetSpriteIndex("LITA");
+				else
+					sprite = GetSpriteIndex("TNT1");
+	
 				A_FadeOut(0.02);
 				if(GetAge()%5 == 0)
 				{

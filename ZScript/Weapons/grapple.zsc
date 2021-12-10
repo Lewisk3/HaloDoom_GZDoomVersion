@@ -96,6 +96,9 @@ class GrapplingHook : KineLimb
 		endpos = HaloMath.Lerp3D(fixedpos, hookpos, lerp);
 		GetRelPos();
 		
+		let haloplr = HaloPlayer(plr);
+		uint btns = plr.player.cmd.buttons; 
+		
 		Actor src = plr;
 		if(hitactor && HaloMath.GetInertia(hitactor.mass) >= 0.5)
 			src = hitactor;
@@ -116,6 +119,7 @@ class GrapplingHook : KineLimb
 		// Retract
 		if(retracting) 
 		{	
+			if(haloplr) haloplr.fricmod = 0; 
 			src.gravity = src.default.gravity;
 			lerp -= 0.05;
 			if(lerp <= 0.25)
@@ -144,29 +148,30 @@ class GrapplingHook : KineLimb
 			
 			if(src == plr)
 			{
-				uint btns = plr.player.cmd.buttons; 
 				if(btns & BT_JUMP) 
 				{
 					plr.vel.z += 5;
 					Retract();
 					return;
 				}
-				if(btns & HaloPlayer.BT_GRAPPLE) 
-				{
-					Retract();
-					return;
-				}
+				if(haloplr) haloplr.fricmod = 1.0; 
 			}
 			else
 			{
 				dir = -dir;
 			}
 			
+			if(btns & HaloPlayer.BT_GRAPPLE) 
+			{
+				Retract();
+				return;
+			}
+			
 			// Spring physics
 			spring_vel += HaloMath.DampedSpring(dist, 0, spring_vel, 4.5, 7);
 			
 			// Acceleration
-			src.gravity = src.default.gravity * 0.25;
+			src.gravity = 0;
 			double addspd = clamp(20 - spring_vel, 0, 70 / TICRATE);
 			
 			// Apply velocity

@@ -311,6 +311,20 @@ $Random Halo/Weapons/PlasmaPistol/Fire/Charged/Bass  { PP_FIRECHARGEDLOW1 PP_FIR
 $volume Halo/Weapons/PlasmaPistol/Charge/Start 0.35;
 $volume Halo/Weapons/PlasmaPistol/Charge/Loop 0.35;
 
+// Plasma Rifle
+PR_FIRE1 "Sounds/PlasmaRifle/pr_fire1.ogg"
+PR_FIRE2 "Sounds/PlasmaRifle/pr_fire2.ogg"
+PR_FIRE3 "Sounds/PlasmaRifle/pr_fire3.ogg"
+PR_FIRELOW1 "Sounds/PlasmaRifle/pr_low1.ogg"
+PR_FIRELOW2 "Sounds/PlasmaRifle/pr_low2.ogg"
+PR_FIRELOW3 "Sounds/PlasmaRifle/pr_low3.ogg"
+
+Halo/Weapons/PlasmaRifle/Overheat "Sounds/PlasmaRifle/pr_overheat.ogg"
+Halo/Weapons/PlasmaRifle/Select "Sounds/PlasmaRifle/pr_draw.ogg"
+
+$Random Halo/Weapons/PlasmaRifle/Fire 		 { PR_FIRE1 PR_FIRE2 PR_FIRE3 }
+$Random Halo/Weapons/PlasmaRifle/Fire/Bass  { PR_FIRELOW1 PR_FIRELOW2 PR_FIRELOW3 }
+
 // Needler 
 NDFIRE1 "Sounds/Needler/Needler_Fire1.wav"
 NDFIRE2 "Sounds/Needler/Needler_Fire2.wav"

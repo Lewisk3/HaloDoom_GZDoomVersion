@@ -293,7 +293,7 @@ class HaloGun : RecoilWeapon
 	action void A_FollowRotatedPos(int DEST_LAYER, int SRC_LAYER, vector2 max, double mul = 1.0)
 	{
 		let src_psp = player.GetPSprite(SRC_LAYER);
-		vector2 rvec = (cos(src_psp.rotation+90)*max.x, sin(src_psp.rotation+90)*max.y) * mul;
+		vector2 rvec = (cos(src_psp.rotation+90)*max.x, sin(src_psp.rotation)*max.y) * mul;
 		if(!invoker.handsbusy) rvec.y -= invoker.staticoffs.y;
 		bool hidezoom = invoker.scopezoom >= 2.0 && invoker.zoomed;
 		
@@ -320,6 +320,19 @@ class HaloGun : RecoilWeapon
 		if(!player) return;
 		let psp = player.GetPSprite(layer);
 		if(psp) psp.Sprite = spr;
+	}
+	
+	action void A_SetFrameTics(int tics, uint layer = PSP_WEAPON)
+	{
+		if(!player) return;
+		let psp = player.GetPSprite(layer);
+		if(psp) psp.Tics = tics;
+	}
+	action int A_GetFrame(uint layer = PSP_WEAPON)
+	{
+		if(!player) return 0;
+		let psp = player.GetPSprite(layer);
+		return psp ? psp.Frame : 0;
 	}
 	action void A_SetFrame(int frm, uint layer = PSP_WEAPON)
 	{

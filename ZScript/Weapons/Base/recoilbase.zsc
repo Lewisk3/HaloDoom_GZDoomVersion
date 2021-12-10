@@ -15,7 +15,7 @@ class RecoilWeapon : Weapon
 	double yoff_min, yoff_max;
 	double basezoom;
 	double recoilmod;
-	double rollshake_str, rollshake_time, rollshake_freq;
+	double rollshake_str, rollshake_time, rollshake_freq, rollshake_dirfreq;
 
 	int deftimer, recoil_timer, newtimer, looksway;
 	double swayspd, pitchmax, anglemax;
@@ -255,6 +255,7 @@ class RecoilWeapon : Weapon
 			invoker.rollshake_str = str;
 			invoker.rollshake_time = dur;
 			invoker.rollshake_freq = freq;
+			invoker.rollshake_dirfreq = 0;
 		}
 		else
 		{
@@ -286,9 +287,14 @@ class RecoilWeapon : Weapon
 		if(rollshake_time > 0)
 		{
 			double strmod = HaloMath.fmap(rollshake_time, 0, 20, 0.1, 1.0);
-			if(!(level.time%rollshake_freq)) rollshake_str *= -1;
-			double rshake = rollshake_str * strmod * cv_recoil.GetFloat();
+			if(rollshake_dirfreq >= rollshake_freq) 
+			{
+				rollshake_str *= -1;
+				rollshake_dirfreq = 0;
+			}
+			rollshake_dirfreq++;
 			
+			double rshake = rollshake_str * strmod * cv_recoil.GetFloat();
 			Owner.A_SetRoll(Owner.roll + rshake, SPF_INTERPOLATE);
 			rollshake_time--;
 		}
