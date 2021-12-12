@@ -23,6 +23,7 @@ class HaloPlasma_Proj : HaloBullet
 		Translation "0:255=@50[5,240,44]";
 		Alpha 0.65;
 		Scale 0.12;
+		DamageType "Plasma";
 	}
 	
 	States
