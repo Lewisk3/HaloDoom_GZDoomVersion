@@ -161,7 +161,7 @@ class Halo_Needler : HaloGun
 		// Needles Count 
 		Needles_On:
 			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Needles_NoAmmo");
-			NEDL "#" 1
+			NEDL "#" 1 Bright
 			{
 				A_SetFrame(clamp(CountLoadedAmmo()-1, 0, 19), OverlayID());
 				A_FollowRotatedPos(OverlayID(), PSP_WEAPON, (50,0), 1);

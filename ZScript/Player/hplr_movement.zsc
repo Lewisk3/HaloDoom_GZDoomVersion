@@ -83,6 +83,11 @@ extend class HaloPlayer
 		}
 	}
 	
+	bool CheckBuoyant()
+	{
+		return waterlevel >= 2 || player.cheats & CF_FLY || bFly;
+	}
+	
 	override void MovePlayer ()
 	{
 		let player = self.player;
@@ -128,7 +133,7 @@ extend class HaloPlayer
 			if(wishdir.Length())
 			{
 				wishdir = wishdir.Unit();
-				if(player.onground) 
+				if(player.onground || bFly) 
 					DoQuakeGroundAccel(wishdir, Speed);
 				else
 					DoQuakeAirAccel(wishdir, Speed, halodoom_allowbhop && enable_bhop);
@@ -206,11 +211,33 @@ extend class HaloPlayer
 		if(moving) using_controller = !moving_digital;
 	}
 	
+	override void CheckCrouch(bool totallyfrozen)
+	{	
+		let player = self.player;
+		uint btns = player.cmd.buttons;
+		uint obtns = player.oldbuttons;
+		
+		if(CheckBuoyant() && (btns & BT_CROUCH))
+		{
+			vel.z -= bFly ? 1 : 0.25;
+			return;
+		}
+		
+		super.CheckCrouch(totallyfrozen);
+	}
+	
 	override void CheckJump()
 	{
 		let player = self.player;
 		uint btns = player.cmd.buttons;
 		uint obtns = player.oldbuttons;
+		
+		if(CheckBuoyant() && (btns & BT_JUMP))
+		{
+			vel.z += 1;
+			return;
+		}
+		
 		bool doholdjump = halodoom_holdjump && halodoom_allowbhop;
 		if(player.onground) jumpcounter = 0;
 		

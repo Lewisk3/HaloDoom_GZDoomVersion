@@ -222,7 +222,7 @@ class Halo_AssaultRifle : HaloGun
 		
 		// Ammo 10s count
 		LCD_AmmoCount.Left:
-			LCDL "#" 1 
+			LCDL "#" 1 Bright
 			{
 				A_SetFrame(floor(countinv(invoker.AmmoType2)/10.), LCD_LLayer);
 				A_FollowRotatedPos(LCD_LLayer, PSP_WEAPON, (30,0));
@@ -232,7 +232,7 @@ class Halo_AssaultRifle : HaloGun
 		loop;
 		// Ammo 1s count
 		LCD_AmmoCount.Right:
-			LCDR "#" 1 
+			LCDR "#" 1 Bright
 			{
 				A_SetFrame(floor(countinv(invoker.AmmoType2)%10.), LCD_RLayer);
 				A_FollowRotatedPos(LCD_RLayer, PSP_WEAPON, (30,0));
@@ -243,7 +243,7 @@ class Halo_AssaultRifle : HaloGun
 		
 		// Compass 
 		LCD_Compass:
-			LCDC A 1
+			LCDC A 1 Bright
 			{
 				A_FollowRotatedPos(LCD_CLayer, PSP_WEAPON, (40,0));
 				A_OverlayPivotAlign(LCD_CLayer, PSPA_CENTER, PSPA_CENTER);

@@ -402,10 +402,10 @@ class HaloMath Abstract
 	}
 
 	// Intertial calculations for thrust on monsters.
-	static double GetInertia(double emass)
+	static double GetInertia(double emass, double smallmass = 200)
 	{
 		// Deviation from small weight, 0 means no deviation.
-		double m = 200; // Base mass
+		double m = smallmass; // Base mass
 		double d = 0.15; // Mass dropoff
 		double x = (1. - (emass/m));
 		double y = -d*(x**2) + 1;
@@ -433,6 +433,16 @@ class HaloMath Abstract
         float dmgz = lt.HitLocation.z;
         float headz    = (victim.pos.z + victim.height);
 		return dmgz <= headz && dmgz >= headz-headsize;
+	}
+	
+	clearscope static vector3 SphereBetween(vector3 one, vector3 two)
+	{
+		vector3 diff = level.Vec3Diff(one, two);
+		return (
+			atan2(diff.y, diff.x),
+			atan2(diff.z, sqrt(diff.x**2 + diff.y**2)),
+			diff.Length()
+		);
 	}
 		
 	/* Summary:

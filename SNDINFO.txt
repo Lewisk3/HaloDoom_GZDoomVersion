@@ -366,12 +366,13 @@ HMHEAD1 HMHead1
 HMHEAD2 HMHead2
 HMHEAD3 HMHead3
 HMHEAD4 HMHead4
-HMKILL1 HMKill1
-HMKILL2 HMKill2
+Hit/Killed HMKill1
+
+// $random Hit/Killed  { HMKILL1 HMKILL2 }
+// HMKILL2 HMKill2
 
 $random Hit/Normal  { HMHIT1 HMHIT2 HMHIT3 HMHIT4 }
 $random Hit/Crit    { HMHEAD1 HMHEAD2 HMHEAD3 HMHEAD4 }
-$random Hit/Killed  { HMKILL1 HMKILL2 }
 
 // Shield
 Shield/TakeDamage shdmg
@@ -413,6 +414,7 @@ Halo/Spartan/DoubleJump2 "Sounds/Players/Abilities/dbljump2.wav"
 Halo/Spartan/Dash1 "Sounds/Players/Abilities/dash1.wav"
 Halo/Spartan/Dash2 "Sounds/Players/Abilities/dash2.wav"
 Halo/Spartan/Dash3 "Sounds/Players/Abilities/dash3.wav"
+Halo/Spartan/Dash4 "Sounds/Players/Abilities/dash4.wav"
 Halo/Spartan/Slide1 "Sounds/Players/Abilities/slide1.wav"
 Halo/Spartan/Slide2 "Sounds/Players/Abilities/slide2.wav"
 Halo/Spartan/Slide3 "Sounds/Players/Abilities/slide3.wav"
@@ -422,7 +424,7 @@ Halo/Spartan/ZipLine/Start "Sounds/Players/Abilities/zip_begin.wav"
 Halo/Spartan/ZipLine/Loop "Sounds/Players/Abilities/zip_loop.wav"
 Halo/Spartan/ZipLine/End "Sounds/Players/Abilities/zip_end.wav"
 
-$random Halo/Spartan/Dash { Halo/Spartan/Dash1 Halo/Spartan/Dash2 Halo/Spartan/Dash3 }
+$random Halo/Spartan/Dash { Halo/Spartan/Dash1 Halo/Spartan/Dash2 Halo/Spartan/Dash3 Halo/Spartan/Dash4 }
 $random Halo/Spartan/Slide { Halo/Spartan/Slide1 Halo/Spartan/Slide2 Halo/Spartan/Slide3 }
 $random Halo/Spartan/DoubleJump { Halo/Spartan/DoubleJump1 Halo/Spartan/DoubleJump2 }
 $random Halo/Spartan/Jump { Halo/Spartan/Jump1 Halo/Spartan/Jump2 }

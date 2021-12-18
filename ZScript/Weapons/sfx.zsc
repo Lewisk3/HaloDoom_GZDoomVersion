@@ -51,7 +51,7 @@ class SmokeTrail : CheapActor
 			trail.dist = aim.z;
 			trail.angle = (angles.x - aim.x);
 			trail.pitch = (angles.y - aim.y) + 90;
-			trail.fadespd = 0.05;
+			trail.fadespd = fadespd;
 			trail.SetShade(col);
 		}
 		return trail;
@@ -361,6 +361,95 @@ class TestShield : Actor
 		return sh;
 	}
 	
+	States
+	{
+		Spawn:
+			PLSS A -1;
+		stop;
+	}
+}
+
+// TODO: Gravity Hammer stuff
+class RepulsorField : Actor
+{
+	// Constant(s)
+	double gForce, maxDist;
+	
+	Property GravityConstant : gForce;
+	Property FieldSize : maxDist;
+
+	Default
+	{
+		+NOINTERACTION;
+		Radius 16;
+		Height 16;
+		Mass 3000;
+		RepulsorField.GravityConstant 0.06;
+		RepulsorField.FieldSize 128.;
+	}
+	
+	void DrawField()
+	{
+		double density = 10;
+		for(double p = -90; p < 90; p += density)
+		{
+			for(double a = -180; a < 180; a += density)
+			{
+				vector3 radialPos = HaloMath.V3Offset(a, p, 0, 1.0,0,0, maxDist);
+				radialPos.z /= 1.2;
+				radialPos = level.Vec3Offset(pos, radialPos);
+				Spawn("FieldParticle", radialPos);
+			}
+		}
+	}
+	
+	void A_DoRepulse(double limit = 6)
+	{
+		double ZDoomToReal = 1.0;
+			
+		// Repulse things
+		let physIt = ThinkerIterator.Create();
+		Actor act;
+		while(act = Actor(physIt.Next()))
+		{
+			if(!act.bSOLID) continue;
+			if(!act.IsVisible(self, true)) continue;
+			
+			vector3 affectorPos = (act.pos.xy, act.pos.z + (act.height*0.5));
+			vector3 forceDir = HaloMath.SphereBetween(pos, affectorPos);
+			if(forceDir.z > maxDist) continue;
+			// SmokeTrail.Start("Blue", pos, affectorPos, forceDir.xy, 1.0);
+			
+			double dist = forceDir.z ** 2;
+			double force = gForce * ( 
+				((mass * act.mass) * ZDoomToReal) / dist 
+			);
+			force = clamp(force, -limit, limit);
+			force *= clamp(HaloMath.GetInertia(act.mass), 0.5, 1.0);
+			
+			vector3 pushForce = HaloMath.VecFromAngles(forceDir.x, forceDir.y, force); 
+			pushForce.xy *= 0.8;
+			pushForce.z *= -1;
+			act.vel += pushForce;
+		}
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 2;
+		Repulse:
+			TNT1 AAAAAAAA 1 A_DoRepulse();
+		stop;
+	}
+}
+class FieldParticle : CheapActor
+{
+	Default
+	{
+		Scale 0.5;
+	}
+
 	States
 	{
 		Spawn:
