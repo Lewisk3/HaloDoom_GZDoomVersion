@@ -289,10 +289,12 @@ class Halo_PlasmaPistol : HaloGun
 		wait;
 		
 		Fire:
+		/*
 		Hold:
 			TNT1 A 0 A_JumpIf(invoker.holdtimer >= 10, "BeginCharge");
 			PLPI A 1 A_JumpIf(A_ButtonStatus(BT_ATTACK, BTS_UP), "Fire.Normal");
-			TNT1 A 0 A_JumpIf(A_ButtonStatus(BT_ATTACK, BTS_HELD), "Hold");
+			TNT1 A 0 A_JumpIf(A_ButtonStatus(BT_ATTACK, BTS_HELD), "Hold"); 
+		*/
 		Fire.Normal:
 			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Ready.Dryfire");
 			PLPF A 1 A_RecoilOffset(0,8,1);
@@ -316,11 +318,9 @@ class Halo_PlasmaPistol : HaloGun
 				return A_CheckRapidFire();
 			}
 			PLPF EF 1 A_CheckRapidFire();
-		/*
 		Hold:
-			PLPI A 1;
+			PLPI A 1 A_CheckRapidFire();
 			TNT1 A 0 A_ReFire();
-		*/
 		goto Ready.Active;
 		
 		Fire.Charged:

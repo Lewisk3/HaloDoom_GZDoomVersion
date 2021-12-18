@@ -73,7 +73,7 @@ class Halo_AssaultRifle : HaloGun
 	action void A_FireRifle()
 	{
 		A_Light(2);
-		A_WeapSound("Halo/Weapons/Rifle/Fire", 0, true);
+		A_WeapSound("Halo/Weapons/Rifle/Fire", CHANF_OVERLAP, true);
 		A_WeapSound("Halo/Weapons/Rifle/Fire/Bass", CHANF_OVERLAP, true);
 		A_ShootProjectile("HaloRifle_Bullet", 6);		
 		A_SetSFXPos(20,-18,-12);

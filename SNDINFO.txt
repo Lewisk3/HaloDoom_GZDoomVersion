@@ -135,18 +135,18 @@ $volume Halo/Weapons/Mag_MD6/Fire/Bass 6.5;
 $volume Halo/Weapons/Mag_MD6/Mech 0.9;
 
 // AssaultRifle
-ARFIRE1 ARFire1
-ARFIRE2 ARFire2
-ARFIRE3 ARFire3
-ARFIRE4 ARFire4
-ARMECH1 ARMech1
-ARMECH2 ARMech2
-ARMECH3 ARMech3
-ARMECH4 ARMech4
-ARBASS1 ARBass1 
-ARBASS2 ARBass2 
-ARBASS3 ARBass3 
-ARBASS4 ARBass4 
+ARFIRE1 "Sounds/AssaultRifle/ARFire1.wav"
+ARFIRE2 "Sounds/AssaultRifle/ARFire2.wav"
+ARFIRE3 "Sounds/AssaultRifle/ARFire3.wav"
+ARFIRE4 "Sounds/AssaultRifle/ARFire4.wav"
+ARMECH1 "Sounds/AssaultRifle/ARMech1.wav"
+ARMECH2 "Sounds/AssaultRifle/ARMech2.wav"
+ARMECH3 "Sounds/AssaultRifle/ARMech3.wav"
+ARMECH4 "Sounds/AssaultRifle/ARMech4.wav"
+ARBASS1 "Sounds/AssaultRifle/ARBass1.wav"
+ARBASS2 "Sounds/AssaultRifle/ARBass2.wav" 
+ARBASS3 "Sounds/AssaultRifle/ARBass3.wav"
+ARBASS4 "Sounds/AssaultRifle/ARBass4.wav" 
 Halo/WeaponIntro "Sounds/AssaultRifle/HelmetIntro.wav"
 
 

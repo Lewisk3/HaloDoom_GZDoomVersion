@@ -75,8 +75,8 @@ class Halo_PlasmaRifle : HaloGun
 		A_WeapSound("Halo/Weapons/PlasmaRifle/Fire", 0, true);
 		A_WeapSound("Halo/Weapons/PlasmaRifle/Fire/Bass", CHANF_OVERLAP, true);
 		A_ShootProjectile("HaloPlasmaRifle_Proj", 12, bottom ? -10 : 0);
-		invoker.heat += 0.06;
-		invoker.firespeed += 0.08;
+		invoker.heat += 0.03;
+		invoker.firespeed += 0.14;
 		if(useammo) A_TakeAmmo(1);
 		A_UpdateSpread();
 	}
@@ -86,12 +86,12 @@ class Halo_PlasmaRifle : HaloGun
 		super.DoEffect();
 		
 		heat = clamp(heat, 0, 1.5);
-		heat *= 0.98;
 		
-		firespeed = clamp(firespeed, 0, 4);
+		firespeed = clamp(firespeed, 0, 3);
 		lcd_offspd = clamp(lcd_offspd, 0.01, 1.0);
 		lcd_offs_real.x = HaloMath.Lerp(lcd_offs_real.x, lcd_offs.x, lcd_offspd); 
 		lcd_offs_real.y = HaloMath.Lerp(lcd_offs_real.y, lcd_offs.y, lcd_offspd);
+		
 	}
 	
 	action void A_DisableLCD()
@@ -121,6 +121,7 @@ class Halo_PlasmaRifle : HaloGun
 		Ready.Active:
 			PSRI A 1 
 			{
+				invoker.heat *= 0.96;
 				invoker.firespeed *= 0.75;
 				A_HaloWeaponReady(0);
 				A_Overlay(LCD, "LCD_HeatLow");
@@ -233,7 +234,7 @@ class Halo_PlasmaRifle : HaloGun
 		stop;
 		
 		Spawn:
-			PPFL A -1;
+			PRSF A -1;
 		stop;
 	}
 }
