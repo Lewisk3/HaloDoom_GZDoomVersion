@@ -1,6 +1,3 @@
-// [Samu] Man! Setting a good resolution was a true hassle!
-// 		  Made it a bit faster, and also, replaced the reloading sound for a faster version.
-//		  Gun's centered properly, and now contains a reloading function!
 class Halo_CarbineClip : Ammo 
 {
 	Default 

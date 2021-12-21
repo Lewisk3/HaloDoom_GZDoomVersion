@@ -29,6 +29,11 @@ class HaloPlayer : DoomPlayer
 	// Weapon values
 	double weap_yoffs;
 	double xhair_lowpos;
+	
+	// UI 
+	Color screen_color;
+	double screen_fade;
+	const FADE_RATE = 0.96;
 		
 	// CVar(s)
 	transient CVar lowered_xhair;
@@ -222,6 +227,9 @@ class HaloPlayer : DoomPlayer
 		// Update next weapon.
 		let wnext = PickNextWeapon();
 		if( player.ReadyWeapon != wnext ) NextWeapon = wnext;
+		
+		// Screen flash colors
+		screen_fade *= FADE_RATE;
 		
 		super.Tick();
 	}

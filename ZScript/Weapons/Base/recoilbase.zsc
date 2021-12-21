@@ -141,8 +141,13 @@ class RecoilWeapon : Weapon
 		invoker.recoilmod = mod;
 	}
 	
-	action void A_RecoilOffset(double x, double y, double spd)
+	action void A_RecoilOffset(double x, double y, double spd, bool add = false)
 	{
+		if(add) 
+		{
+			x += invoker.woffsx;
+			y += invoker.woffsy;
+		}
 		invoker.woffsx = x;
 		invoker.woffsy = y;
 		invoker.wofftimer = spd;

@@ -357,6 +357,18 @@ Halo/Weapons/Bulldog/Ready      "Sounds/Bulldog/bulldog_draw.wav"
 $random Halo/Weapons/Bulldog/Fire      { BLDFIRE1 BLDFIRE2 BLDFIRE3 }
 $random Halo/Weapons/Bulldog/Fire/Bass { BLDBASS1 BLDBASS2 BLDBASS3 }
 
+// Gravity Hammer
+GRAVFIRE1 "Sounds/GravityHammer/GravHammer_Hit1.ogg"
+GRAVFIRE2 "Sounds/GravityHammer/GravHammer_Hit2.ogg"
+GRAVFIRE3 "Sounds/GravityHammer/GravHammer_Hit3.ogg"
+GRAVLOW1 "Sounds/GravityHammer/GravHammer_Low1.ogg"
+GRAVLOW2 "Sounds/GravityHammer/GravHammer_Low2.ogg"
+GRAVLOW3 "Sounds/GravityHammer/GravHammer_Low3.ogg"
+Halo/Weapons/GravityHammer/Select "Sounds/GravityHammer/GravHammer_Select.ogg"
+
+$random Halo/Weapons/GravityHammer/Fire      { GRAVFIRE1 GRAVFIRE2 GRAVFIRE3 }
+$random Halo/Weapons/GravityHammer/Fire/Bass { GRAVLOW1 GRAVLOW2 GRAVLOW3 }
+
 // Hit feedback
 HMHIT1 HMHit1
 HMHIT2 HMHit2

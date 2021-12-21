@@ -89,6 +89,11 @@ class HaloStatusBar : BaseStatusBar
 	Font fnt;
 	Font fntHaloAmmo;
 	
+	// UI 
+	Color screen_color;
+	double screen_fade;
+	const FADE_RATE = 0.96;
+	
 	// Opt Features
 	bool draw_distance;
 	
@@ -248,6 +253,10 @@ class HaloStatusBar : BaseStatusBar
 			// Keys and Objectives
 			DrawKeys(CPlayer, 50, 10, 30,30);			
 			DrawObjectives();
+			
+			// Screen colors
+			if(haloplr.screen_fade > 0)
+				Screen.Dim(haloplr.screen_color, haloplr.screen_fade, 0,0, Screen.GetWidth(), Screen.GetHeight());
 			
 			// Keep track of time, always.
 			if(!prevMS)

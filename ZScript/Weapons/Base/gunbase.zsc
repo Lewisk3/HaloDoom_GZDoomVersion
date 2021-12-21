@@ -160,6 +160,17 @@ class HaloGun : RecoilWeapon
 		return finalspread;
 	}
 	
+	action void A_SetFlashColor(Color col, double alpha)
+	{
+		let plr = HaloPlayer(self);
+		if(plr)
+		{
+			plr.screen_color = col;
+			plr.screen_fade  = alpha;
+		}
+	}
+	
+	
 	action double A_GetWeapYOffs()
 	{
 		// Primarily used to offset weapon SFX and projectiles

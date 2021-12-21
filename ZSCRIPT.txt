@@ -58,6 +58,7 @@ version "4.5"
 #include "ZScript/Weapons/Needler.zsc"
 #include "ZScript/Weapons/bulldog.zsc"
 #include "ZScript/Weapons/grenades.zsc"
+#include "ZScript/Weapons/gravityhammer.zsc"
 
 // Vehicles
 #include "ZScript/Vehicles/Kinematics/kine_parts.zsc" 

@@ -412,7 +412,7 @@ class RepulsorField : Actor
 		Actor act;
 		while(act = Actor(physIt.Next()))
 		{
-			if(!act.bSOLID) continue;
+			if(!act.bSOLID && !act.bMISSILE) continue;
 			if(!act.IsVisible(self, true)) continue;
 			
 			vector3 affectorPos = (act.pos.xy, act.pos.z + (act.height*0.5));
