@@ -3,6 +3,7 @@ extend class HaloDoom_Events
 	Array<String> weaps_basic;
 	Array<String> weaps_mid;
 	Array<String> weaps_power;
+	Array<String> weaps_melee;
 	
 	void populateSpawnArrays()
 	{
@@ -17,6 +18,7 @@ extend class HaloDoom_Events
 				case HaloGun.P_NORM:  weaps_basic.Push(gunName); break;
 				case HaloGun.P_MID:	  weaps_mid.Push(gunName);   break;
 				case HaloGun.P_POWER: weaps_power.Push(gunName); break;	
+				case HaloGun.P_MELEE: weaps_melee.Push(gunName); break;
 			}
 		}
 	}
@@ -28,6 +30,9 @@ extend class HaloDoom_Events
 		int tier = 0;
 		
 		// Weapon Spawning
+		if( item is "Chainsaw" || item is "Fist" || item is "Berserk" )
+			weapSpawns.Append(weaps_melee);
+			
 		if( item is "Pistol" || item is "Shotgun" || item is "Chaingun" ) 
 			weapSpawns.Append(weaps_basic);
 			

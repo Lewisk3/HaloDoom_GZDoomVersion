@@ -6,7 +6,8 @@ class HaloGun : RecoilWeapon
 		P_WEAK,
 		P_NORM,
 		P_MID,
-		P_POWER
+		P_POWER,
+		P_MELEE
 	}
 
 	transient CVar cvfx_smoke;
@@ -86,6 +87,7 @@ class HaloGun : RecoilWeapon
 	
 	Default
 	{
+		Height 56;
 		RecoilWeapon.RecoilSpeed 16;
 		HaloGun.Bloom 0.32;
 		HaloGun.Crosshair "", 1;
