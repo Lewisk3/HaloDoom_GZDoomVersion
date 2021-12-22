@@ -129,21 +129,13 @@ class Halo_GravityHammer : HaloGun
 			BiriBiri.DoLightning(invoker.sfx_pos, view, dist:50, 0.5, 20.0, 10.0, 30, 0);
 		}*/
 		
-		double layerOffs;
 		uint boltlen = 100;
-		double layerTop = 500; //-(amt * boltlen);
 		vector2 muzzlePos = (280,20) + posoffs;
-		for(int i = 0; i < amt; i++)
-		{
-			muzzlePos += (frandom(0,20), frandom(-10,10));
-			BiriPSprite.DoLightning(
-				PlayerPawn(self), ResolveState("GunLightning"), 
-				frandom(-180,180), muzzlePos, boltlen:boltlen, 
-				stepsize:2.5, roughness:14, layerTop + layerOffs, 
-				caller:invoker
-			);
-			layerOffs += boltlen;
-		}
+		DoSpriteLightning(
+			amt,
+			frandom(-180,180), muzzlePos, boltlen:boltlen, 
+			stepsize:2.5, roughness:14
+		);
 	}
 		
 	action bool A_FireHammer(double range = 128)
