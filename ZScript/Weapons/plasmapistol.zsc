@@ -117,8 +117,8 @@ class EMP_DeBuff : Inventory
 	
 	override void DoEffect()
 	{
-		super.DoEffect();
-		if(--timer <= 0)
+		super.DoEffect();		
+		if(--timer <= 0 || Owner.health <= 0)
 		{
 			Owner.A_SetSpeed(Owner.default.Speed);
 			Owner.RemoveInventory(self);

@@ -79,6 +79,7 @@ version "4.5"
 // BiriBiri (Lightning)
 #include "ZScript/Lightning/biribiri_base.zsc"
 #include "ZScript/Lightning/biribiri_parts.zsc"
+#include "ZScript/Lightning/biribiri_psprite.zsc"
 
 // [>> Gameplay Constants <<]
 const UNIT_METER = 8.f;

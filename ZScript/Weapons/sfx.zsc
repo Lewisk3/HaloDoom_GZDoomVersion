@@ -418,14 +418,17 @@ class RepulsorField : Actor
 			vector3 affectorPos = (act.pos.xy, act.pos.z + (act.height*0.5));
 			vector3 forceDir = HaloMath.SphereBetween(pos, affectorPos);
 			if(forceDir.z > maxDist) continue;
-			// SmokeTrail.Start("Blue", pos, affectorPos, forceDir.xy, 1.0);
+			SmokeTrail.Start("Blue", pos, affectorPos, forceDir.xy, 1.0);
 			
 			double dist = forceDir.z ** 2;
 			double force = gForce * ( 
 				((mass * act.mass) * ZDoomToReal) / dist 
 			);
 			force = clamp(force, -limit, limit);
-			force *= clamp(HaloMath.GetInertia(act.mass), 0.5, 1.0);
+			force *= clamp(HaloMath.GetInertia(act.mass), 0.75, 2.0);
+			
+			if(!act.FindInventory("EMP_DeBuff") && act != target) 
+				act.GiveInventory("EMP_DeBuff", 1);
 			
 			vector3 pushForce = HaloMath.VecFromAngles(forceDir.x, forceDir.y, force); 
 			pushForce.xy *= 0.8;

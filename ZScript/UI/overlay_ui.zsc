@@ -73,6 +73,8 @@ class Halo_OverlayUI : EventHandler
 		if(args[0] == "hitmark")
 		{
 			uint plrnum = e.Args[0];
+			bool doOverlap = args.Size() < 5 || !(args[4] ~== "replace");
+			uint sndflag = doOverlap ? CHANF_OVERLAP : 0;
 			if(plrnum == plr.PlayerNumber())
 			{
 				let dohitmarkers = CVar.GetCVar("halodoom_fx_hitmarkers", players[plrnum]);
@@ -83,7 +85,7 @@ class Halo_OverlayUI : EventHandler
 					if(args.Size() >= 4)
 					{
 						Sound snd = args[3];
-						plr.A_StartSound(snd, CHAN_VOICE, CHANF_OVERLAP);
+						plr.A_StartSound(snd, CHAN_VOICE, sndflag);
 					}
 					if(type) ui_hitmarkers[plrnum].Queue(layer, type);
 				}

@@ -60,9 +60,9 @@ class HaloDoom_Events : EventHandler
 		{
 			uint plrnum = plr.PlayerNumber();			
 			if(headshot)
-				Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Headshot:1:Hit/Killed", plrnum);
+				Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Headshot:1:Hit/Killed:replace", plrnum);
 			else
-				Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Killed:1:Hit/Killed", plrnum);
+				Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Killed:1:Hit/Killed:replace", plrnum);
 		}
 	}
 	

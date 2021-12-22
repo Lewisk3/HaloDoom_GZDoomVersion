@@ -1,0 +1,43 @@
+class BiriPSprite : Actor abstract
+{
+	static void DoLightning(PlayerPawn plr, State lightningState, double boltAngle, vector2 startPos, double boltlen = 100, double stepsize = 1.0, double roughness = 10, uint layerStart = 500, Actor caller = NULL)
+	{
+		uint curLayer = layerStart;
+		double boltSize = 0.5;
+		double curAngle = boltAngle;
+		vector2 curPos = startPos;
+		PSprite prevBiri;
+
+		for(int i = 0; i < boltlen; i++)
+		{
+			curAngle += frandom(-roughness, roughness);
+			vector2 dir = ( cos(curAngle), sin(curAngle) ) * (boltSize * stepsize);
+			curPos += dir;
+			
+			plr.player.SetPSprite(curLayer, lightningState);			
+			PSprite curBiri = plr.player.GetPSprite(curLayer);
+			if(curBiri)
+			{
+				curBiri.x = curPos.x;
+				curBiri.y = curPos.y;
+				curBiri.bPivotPercent = true;
+				curBiri.bAddWeapon = true;
+				curBiri.bAddBob = true;
+				curBiri.pivot = (0.5, 0.5);
+				curBiri.scale = (1.0,1.0) * (1.0 - (double(i)/boltLen));
+				curBiri.rotation = curAngle;
+				curBiri.alpha = 1.0;
+				if(caller) curBiri.Caller = caller;
+				
+				if(prevBiri)
+				{
+					double facingAngle = atan2( prevBiri.y - curBiri.y, prevBiri.x - curBiri.x );
+					curBiri.rotation = facingAngle;
+				}
+				
+				prevBiri = curBiri;
+			}
+			curLayer++;
+		}
+	}
+}
