@@ -265,8 +265,6 @@ Halo/Weapons/Stanchion/Reload "Sounds/Stanchion/StanchionReload.wav"
 Halo/Weapons/Stanchion/Fire/Bass  "Sounds/Stanchion/StanchionBass.wav"
 $random Halo/Weapons/Stanchion/Fire      { Stanchion_Fire1 Stanchion_Fire2 Stanchion_Fire3 Stanchion_Fire4 }
 
-$volume Halo/Weapons/Sniper/Fire/Bass 1.0;
-$volume Halo/Weapons/Sniper/Fire 0.8;
 
 // Carbine
 CARBINE_FIRE1 "Sounds/Carbine/CarbineFire1.wav"
