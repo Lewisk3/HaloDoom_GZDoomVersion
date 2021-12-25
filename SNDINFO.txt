@@ -228,7 +228,7 @@ $random Halo/Weapons/Shotgun/Pump      { SGPUMP1 SGPUMP2 SGPUMP3 }
 $random Halo/Weapons/Shotgun/Fire/Bass { SGBASS1 SGBASS2 SGBASS3 }
 $random Halo/Weapons/Shotgun/Reload    { SGRELOAD1 SGRELOAD2 SGRELOAD3 SGRELOAD4 }
 
-$volume Halo/Weapons/Shotgun/Fire/Bass 1.0;
+$volume Halo/Weapons/Shotgun/Fire/Bass 0.8;
 $volume Halo/Weapons/Shotgun/Fire 0.8;
 
 // Sniper
