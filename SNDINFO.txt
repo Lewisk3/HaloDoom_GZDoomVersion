@@ -228,7 +228,7 @@ $random Halo/Weapons/Shotgun/Pump      { SGPUMP1 SGPUMP2 SGPUMP3 }
 $random Halo/Weapons/Shotgun/Fire/Bass { SGBASS1 SGBASS2 SGBASS3 }
 $random Halo/Weapons/Shotgun/Reload    { SGRELOAD1 SGRELOAD2 SGRELOAD3 SGRELOAD4 }
 
-$volume Halo/Weapons/Shotgun/Fire/Bass 1.0;
+$volume Halo/Weapons/Shotgun/Fire/Bass 0.8;
 $volume Halo/Weapons/Shotgun/Fire 0.8;
 
 // Sniper
@@ -323,6 +323,8 @@ Halo/Weapons/PlasmaRifle/Select "Sounds/PlasmaRifle/pr_draw.ogg"
 
 $Random Halo/Weapons/PlasmaRifle/Fire 		 { PR_FIRE1 PR_FIRE2 PR_FIRE3 }
 $Random Halo/Weapons/PlasmaRifle/Fire/Bass  { PR_FIRELOW1 PR_FIRELOW2 PR_FIRELOW3 }
+
+$Volume Halo/Weapons/PlasmaRifle/Fire 0.4;
 
 // Needler 
 NDFIRE1 "Sounds/Needler/Needler_Fire1.wav"
