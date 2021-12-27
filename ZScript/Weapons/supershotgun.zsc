@@ -184,13 +184,13 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 			}
 			DBR1 TUVWXYYYYYYYZ 1;
 			DBR2 ABCDEFGHI 1;
-			DBR2 J 1 A_SetRecoil(-1.0, 0, 4);
-			DBR2 KLMMMMMNNNNNNO 1;
-			DBR2 P 1 
+			DBR2 J 1 
 			{
-				A_SetRecoil(0.25, 0, 4);
+				A_SetRecoil(-1.0, 0, 4);
 				A_ReloadClip();
 			}
+			DBR2 KLMMMMMNNNNNNO 1;
+			DBR2 P 1 A_SetRecoil(0.25, 0, 4);
 			DBR2 QRSTUVWXYZ 1;
 			DBR3 ABCDEFGHIJ 1;
 		goto Ready.Active;

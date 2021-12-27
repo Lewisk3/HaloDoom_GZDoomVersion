@@ -65,7 +65,7 @@ class Halo_PlasmaRifle : HaloGun
 		HaloGun.BaseRecoil PLASMAPISTOL_RECOIL;
 		HaloGun.Inaccuracy PLASMAPISTOL_ACCMOD;
 		HaloGun.Crosshair "PlsRRet", 0.75;
-		HaloGun.UIGraphic "MISSNG", 1.0;
+		HaloGun.UIGraphic "WI_PRFLE", 1.0;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
 	}

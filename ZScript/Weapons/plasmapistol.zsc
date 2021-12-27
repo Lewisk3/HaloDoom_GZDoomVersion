@@ -42,16 +42,19 @@ class HaloPlasma_Proj : HaloBullet
 		SpawnLoop:
 			HPLB A 1 Bright
 			{
+				double curScale = 0.06;
+				double backOffs = -8 - abs(vel.Length());
 				for(double i = 0; i < 4; i++)
 				{
-					double backoffs = 32 + ( (i/4.) * 18 );
-					vector3 worldOffs = HaloMath.V3Offset(angle, pitch, roll, backoffs,0,0, 1.0);
-					let trail = Spawn("HaloPlasma_Trail", level.vec3offset(pos, -worldOffs));
+					vector3 worldOffs = HaloMath.V3Offset(angle, pitch, roll, backOffs,0,0, 1.0);
+					let trail = Spawn("HaloPlasma_Trail", level.vec3offset(pos, worldOffs));
 					if(trail) 
 					{
-						trail.A_SetScale(0.06 - (0.04 * (i/4.)));
+						trail.A_SetScale(curScale);
 						trail.vel = vel;
 						trail.translation = translation;
+						curScale *= 0.80;
+						backOffs -= 4;
 					}
 				}
 			}

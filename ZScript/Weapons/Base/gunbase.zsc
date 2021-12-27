@@ -23,6 +23,7 @@ class HaloGun : RecoilWeapon
 	uint backpack_reloadtimer;
 	uint backpack_reloadmaxtime;
 	uint SpawnTier;
+	int reload_ammoleft;
 	double baserecoil;
 	double spreadmod; // Spread introduced by continuous fire
 	double bloomamt, bloomspd, accmod;
@@ -120,7 +121,7 @@ class HaloGun : RecoilWeapon
 		return lt.Distance;
 	}
 	
-	action void DoSpriteLightning(double amt, double boltAngle, vector2 startPos, vector2 xy_spread = (20,20), double boltlen = 100, double stepsize = 1.0, double roughness = 10, uint layerStart = -100)
+	action void DoSpriteLightning(double amt, double boltAngle, vector2 startPos, vector2 xy_spread = (20,20), double boltlen = 100, double stepsize = 1.0, double roughness = 10, uint layerStart = -200)
 	{
 		uint curLayer = layerStart;
 		double boltSize = 0.5;
@@ -750,7 +751,13 @@ class HaloGun : RecoilWeapon
 		if( countinv(invoker.AmmoType2) == rammo.maxamount || 
 		    countinv(invoker.AmmoType1) == 0 && !sv_infiniteammo )
 			return ResolveState(fallback);
+		
+		invoker.reload_ammoleft = CountLoadedAmmo();
 		return ResolveState(NULL);
+	}
+	action int CountReloadAmmo()
+	{
+		return invoker.reload_ammoleft;
 	}
 	
 	// Getters and Setters for readability.

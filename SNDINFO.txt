@@ -410,6 +410,27 @@ Halo/Grenade/Plasma/ExplodeWater "Sounds/Grenades/Sticky_ExplodeWater.wav"
 Halo/Grenade/Plasma/Armed "Sounds/Grenades/Sticky_Armed.wav"
 Halo/Grenade/Plasma/FuseLoop "Sounds/Grenades/Sticky_Fuse.wav"
 
+// Surface Sounds
+WALKWATER1 "Sounds/SurfaceSound/Walk Water 1.ogg"
+WALKWATER2 "Sounds/SurfaceSound/Walk Water 2.ogg"
+WALKWATER3 "Sounds/SurfaceSound/Walk Water 3.ogg"
+WALKWATER4 "Sounds/SurfaceSound/Walk Water 4.ogg"
+WALKNATURE1 "Sounds/SurfaceSound/Walk Nature 1.ogg"
+WALKNATURE2 "Sounds/SurfaceSound/Walk Nature 2.ogg"
+WALKNATURE3 "Sounds/SurfaceSound/Walk Nature 3.ogg"
+WALKNATURE4 "Sounds/SurfaceSound/Walk Nature 4.ogg"
+WALKNORMAL1 "Sounds/SurfaceSound/Walk Normal 1.ogg"
+WALKNORMAL2 "Sounds/SurfaceSound/Walk Normal 2.ogg"
+WALKNORMAL3 "Sounds/SurfaceSound/Walk Normal 3.ogg"
+WALKNORMAL4 "Sounds/SurfaceSound/Walk Normal 4.ogg"
+
+Halo/Surface/Normal/Jumped  "Sounds/SurfaceSound/Jump Normal.ogg"
+Halo/Surface/Nature/Jumped  "Sounds/SurfaceSound/Jump Nature.ogg"
+Halo/Surface/Water/Jumped   "Sounds/SurfaceSound/Jump Water.ogg"
+
+$random Halo/Surface/Normal/Footstep { WALKNORMAL1 WALKNORMAL2 WALKNORMAL3 WALKNORMAL4 }
+$random Halo/Surface/Nature/Footstep { WALKNATURE1 WALKNATURE2 WALKNATURE3 WALKNATURE4 }
+$random Halo/Surface/Water/Footstep  { WALKWATER1 WALKWATER2 WALKWATER3 WALKWATER4 }
 
 // Player sounds
 Halo/Spartan/Death1 "Sounds/Players/death1.wav" 
@@ -436,6 +457,8 @@ Halo/Spartan/Grapple/Latch "Sounds/Players/Abilities/grapple_latch.wav"
 Halo/Spartan/ZipLine/Start "Sounds/Players/Abilities/zip_begin.wav"
 Halo/Spartan/ZipLine/Loop "Sounds/Players/Abilities/zip_loop.wav"
 Halo/Spartan/ZipLine/End "Sounds/Players/Abilities/zip_end.wav"
+Halo/Spartan/Land/Normal "Sounds/Players/land_normal.ogg"
+Halo/Spartan/Land/Hard "Sounds/Players/land_hard.ogg"
 
 $random Halo/Spartan/Dash { Halo/Spartan/Dash1 Halo/Spartan/Dash2 Halo/Spartan/Dash3 Halo/Spartan/Dash4 }
 $random Halo/Spartan/Slide { Halo/Spartan/Slide1 Halo/Spartan/Slide2 Halo/Spartan/Slide3 }
@@ -451,7 +474,7 @@ $playersound	Spartan  male	*pain75	  "Sounds/Players/pain_high.wav"
 $playersound	Spartan  male	*pain50	  "Sounds/Players/pain_med.wav" 
 $playersound	Spartan  male	*pain25	  "Sounds/Players/pain_low.wav" 
 $playersound	Spartan  male	grunt	  "Sounds/Players/jump2.wav"
-$playersound	Spartan  male	*land	  dsempty
+$playersound	Spartan  male	*land	  "Sounds/Players/land_normal.ogg"
 $playersound	Spartan  male	*jump	  "Sounds/Players/jump1.wav"
 $playersound	Spartan  male	*fist	  dspunch
 $playersound	Spartan  male	*usefail  dsnoway

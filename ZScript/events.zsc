@@ -1,14 +1,88 @@
 // For generalized HaloDoom Events.
 class HaloDoom_Events : EventHandler
 {
+	const TOK_EndOfLine = 13;
 	bool nevertarget;
 	bool alwaysautoaim;
 	HaloDoom_EngineEvents engHandle;
+	Dictionary surfacesDatabase;
+	
+	static Dictionary GetSurfacesData()
+	{
+		let haloEvents = HaloDoom_Events(EventHandler.Find("HaloDoom_Events"));
+		if(haloEvents) return haloEvents.surfacesDatabase;
+		return null;
+	}
 	
 	override void OnRegister()
 	{
 		engHandle = HaloDoom_EngineEvents(StaticEventHandler.Find("HaloDoom_EngineEvents"));
 		populateSpawnArrays();
+		
+		// Initialize footsteps
+		surfacesDatabase = Dictionary.Create();
+		PopulateFootsteps();
+	}
+	
+	void StringFilterEOL(out string src)
+	{
+		for(int i = src.Length(); i >= 0; i--)
+			if(src.ByteAt(i) == TOK_EndOfLine) src.Remove(i,1);
+	}
+	void PopulateFootsteps()
+	{
+		// Read stepdefs 
+		for(int lump = -1; (lump = Wads.FindLump("SURFDEFS", lump+1)) != -1;)
+		{
+			string data = Wads.ReadLump(lump);
+			
+			// Filter spaces, tabs, etc.
+			data.Replace(" ", "");
+			data.Replace("\t", "");
+			data.Replace("\"", "");
+			
+			// Filter comments
+			Array<String> lines;
+			data.Split(lines, "\n");
+			data = "";
+			for(int i = 0; i < lines.Size(); i++)
+			{
+				string ln = lines[i];
+				int comPos = ln.IndexOf("#");
+				if(comPos >= 0) ln.Remove(comPos, ln.Length()-comPos);
+				data.AppendFormat("%s", ln);
+			}
+			
+			// Parse data
+			Array<String> dataPoints;
+			data.Split(dataPoints, "}");
+			
+			for(int i = 0; i < dataPoints.Size(); i++)
+			{
+				string defs = dataPoints[i];
+				if(defs == "" || defs.Length() <= 0) continue;
+				
+				int argStart = defs.IndexOf("{");
+				if(argStart < 0) 
+					ThrowAbortException("STEPDEFS Error, expecting { following sound name.");
+					
+				string soundname = defs.Left(argStart);
+				string textures = defs.Mid(argStart+1, defs.Length()-argStart);
+				StringFilterEOL(soundname);
+				
+				// Read textures
+				Array<String> textureNames; 
+				textures.Split(textureNames, ",");
+				
+				for(int t = 0; t < textureNames.Size(); t++)
+				{
+					string texName = textureNames[t];
+					StringFilterEOL(texName);
+					
+					surfacesDatabase.Insert(texName, soundName);
+				}
+			}
+		}
 	}
 	
 	override void WorldThingDamaged(WorldEvent e)

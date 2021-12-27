@@ -183,15 +183,14 @@ class Halo_BattleRifle : HaloGun
 			BRR1 PQRSTUV 2;
 			BRR1 W 1;
 			BRR1 X 1 A_SetRecoil(0, 0.4, 3);
+			TNT1 A 0 A_ReloadClip();
 			BRR1 YZ 1;
 			BRR2 ABCDEFGHHHH 1;
-			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Reload.Rechamber");
+			TNT1 A 0 A_JumpIf(!CountReloadAmmo(), "Reload.Rechamber");
 		Reload.Finish: // 7
-			TNT1 A 0 A_ReloadClip();
 			BRR3 ABCDEFG 1;
 		goto Ready.Active;
 		Reload.Rechamber: // 25
-			TNT1 A 0 A_ReloadClip();
 			BRR4 ABCDEF 1;
 			BRR4 G 1 A_SetRecoil(0.4, 0, 3);
 			BRR4 HIJK 1 A_SetRecoil(-0.4, 0, 4);
