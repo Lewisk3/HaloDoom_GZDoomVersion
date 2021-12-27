@@ -25,7 +25,7 @@ class Halo_Bulldog : HaloGun
 	{
 		Weapon.SlotNumber 1;
 		Obituary "%o was nommed by %k's Bulldog.";
-		Inventory.PickupMessage	"Bulldog Acquired.";
+		Inventory.PickupMessage	"Picked up the Riot Shotgun.";
 		Tag "Bulldog";
 		Weapon.BobSpeed 1.68;
 		Weapon.BobRangeX 0.10;
