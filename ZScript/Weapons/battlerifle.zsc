@@ -27,7 +27,7 @@ class Halo_BattleRifle : HaloGun
 	{
 		Weapon.SlotNumber 1;
 		Obituary "%o was took down by %k's Battle Rifle.";
-		Inventory.PickupMessage	"Battle Rifle Acquired.";
+		Inventory.PickupMessage	"Picked up the Battle Rifle.";
 		Tag "Battle Rifle";
 		Weapon.BobSpeed 1.86;
 		Weapon.BobRangeX 0.30;
