@@ -26,7 +26,7 @@ class Halo_BattleRifle : HaloGun
 	Default
 	{
 		Weapon.SlotNumber 1;
-		Obituary "%o was took down by %k's Battle Rifle.";
+		Obituary "%o got a taste of competitive halo by %k's Battle Rifle.";
 		Inventory.PickupMessage	"Picked up the Battle Rifle.";
 		Tag "Battle Rifle";
 		Weapon.BobSpeed 1.86;
