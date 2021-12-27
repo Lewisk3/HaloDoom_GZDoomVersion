@@ -55,7 +55,7 @@ class Halo_Carbine : HaloGun
 	{
 		Weapon.SlotNumber 2;
 		Obituary "%o was took down by %k's Carbine.";
-		Inventory.PickupMessage	"Carbine Acquired.";
+		Inventory.PickupMessage	"Picked up the Type-51 Carbine.";
 		Tag "Carbine";
 		Weapon.BobSpeed 1.86;
 		Weapon.BobRangeX 0.30;
