@@ -96,7 +96,7 @@ class Halo_GravityHammer : HaloGun
 		Height 127;
 		Weapon.SlotNumber 2;
 		Obituary "%o was flattened by %k's Gravity Hammer.";
-		Inventory.PickupMessage	"Gravity Hammer Acquired.";
+		Inventory.PickupMessage	"Picked up the Type-2 Gravity Hammer.";
 		Tag "Gravity Hammer";
 		Weapon.BobSpeed 1.86;
 		Weapon.BobRangeX 0.30;
