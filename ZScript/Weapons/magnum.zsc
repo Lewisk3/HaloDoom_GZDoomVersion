@@ -26,8 +26,8 @@ class Halo_Magnum : HaloGun
 	Default
 	{
 		Weapon.SlotNumber 2;
-		Obituary "%o was took down by %k's Magnum.";
-		Inventory.PickupMessage	"Magnum Md6 Acquired.";
+		Obituary "%o got a taste of Halo CE Competitive from %k's Magnum.";
+		Inventory.PickupMessage	"Picked up the M6D-PD Magnum.";
 		Tag "Magnum";
 		Weapon.BobSpeed 1.86;
 		Weapon.BobRangeX 0.30;
