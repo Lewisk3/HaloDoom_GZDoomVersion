@@ -147,11 +147,12 @@ class WeaponPickupProxy : Actor
 		// Determine if colliding with another weapon, move outside bounds.
 		let it = ThinkerIterator.Create("WeaponPickupProxy");
 		WeaponPickupProxy curpickup;
+		double maxdist = radius*radius;
 		while(curpickup = WeaponPickupProxy(it.Next()))
 		{
 			if(curpickup == self) continue;
 			double curdist = Distance2DSquared(curpickup);
-			if(curdist > (radius*radius)) continue;
+			if(curdist > maxdist) continue;
 			double angto = frandom(0,360);
 			vector2 outpos = (
 				cos(angto) * -4,

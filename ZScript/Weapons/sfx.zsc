@@ -8,7 +8,7 @@ class CheapActor : Actor
 	
 	override void Tick()
 	{			
-		if (alpha < 0)
+		if (alpha <= 0)
 		{
 			destroy();
 			return;

@@ -29,6 +29,6 @@ class HaloSpartan_III : HaloPlayer
 		HaloPlayer.CanBunnyHop false;
 		HaloPlayer.MaxJumps 2;
 		HaloPlayer.AirControl 2.0;
-		HaloPlayer.SetupDashes true, 2, 4, 2;
+		HaloPlayer.SetupDashes true, 2, 5, 2;
 	}
 }

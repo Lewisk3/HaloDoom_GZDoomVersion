@@ -52,7 +52,7 @@ class HaloPlayer : DoomPlayer
 	Default
 	{
 		Speed 1;
-		Gravity 0.75;
+		Gravity 0.60;
 		Player.JumpZ 9;
 		Player.ViewHeight 41;		
 		Player.SoundClass "Spartan";

@@ -283,7 +283,7 @@ class TankRocket_DarkSmoke : FastActor
 	States
 	{
 		Spawn:	
-			SMK5 H 1 A_FadeOut(0.01);
+			SMK5 H 1 NoDelay A_FadeOut(0.01);
 		wait;
 	}
 }
@@ -354,9 +354,12 @@ class TankRocket_FlyingExplosion : FastActor
 			}
 			FX58 Q 2 Bright
 			{
-				A_FadeOut(0.006);
-				let trail = Actor.Spawn("TankRocket_DarkSmoke", pos);
-				if(trail) trail.A_SetScale(Scale.X);
+				A_FadeOut(0.08);
+				if(pos.z > floorz)
+				{
+					let trail = Actor.Spawn("TankRocket_DarkSmoke", pos);
+					if(trail) trail.A_SetScale(Scale.X);
+				}
 			}
 		wait;
 	}

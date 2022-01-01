@@ -1,8 +1,8 @@
 extend class HaloPlayer
 {
 	// Movement constants
-	const GNDMAX   = 12;
-	const GNDACCEL = 80;
+	const GNDMAX   = 14;
+	const GNDACCEL = 85;
 	const GNDFRIC  = 7.0;
 	const BT_DASH = BT_USER3;
 	const BT_GRAPPLE = BT_USER4;
