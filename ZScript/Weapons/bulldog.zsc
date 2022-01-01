@@ -24,9 +24,9 @@ class Halo_Bulldog : HaloGun
 	Default
 	{
 		Weapon.SlotNumber 1;
-		Obituary "%o was nommed by %k's Bulldog.";
-		Inventory.PickupMessage	"Bulldog Acquired.";
-		Tag "Bulldog";
+		Obituary "%o's riot was controlled by %k's Riot Shotgun.";
+		Inventory.PickupMessage	"Picked up the CQS-48 Riot Shotgun.";
+		Tag "Riot Shotgun";
 		Weapon.BobSpeed 1.68;
 		Weapon.BobRangeX 0.10;
 		Weapon.AmmoType1 "Shell";

@@ -38,8 +38,8 @@ class Halo_AssaultRifle : HaloGun
 	Default
 	{
 		Weapon.SlotNumber 1;
-		Obituary "%o was took down by %k's Assault Rifle.";
-		Inventory.PickupMessage	"Assault Rifle Acquired.";
+		Obituary "%o learned the Rifleman's Creed from %k's Assault Rifle.";
+		Inventory.PickupMessage	"Picked up the MA40 Assault Rifle.";
 		Tag "Assault Rifle";
 		Weapon.BobSpeed 1.86;
 		Weapon.BobRangeX 0.30;

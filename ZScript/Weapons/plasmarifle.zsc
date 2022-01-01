@@ -48,8 +48,8 @@ class Halo_PlasmaRifle : HaloGun
 	Default
 	{
 		Weapon.SlotNumber 1;
-		Obituary "%o was took down by %k's Plasma Rifle.";
-		Inventory.PickupMessage	"Plasma Rifle Acquired.";
+		Obituary "%o got the boomer shooter treatment by %k's Plasma Rifle.";
+		Inventory.PickupMessage	"Picked up the Type-25 Plasma Rifle.";
 		Tag "Plasma Rifle";
 		Weapon.BobSpeed 1.86;
 		Weapon.BobRangeX 0.30;
@@ -65,7 +65,7 @@ class Halo_PlasmaRifle : HaloGun
 		HaloGun.BaseRecoil PLASMAPISTOL_RECOIL;
 		HaloGun.Inaccuracy PLASMAPISTOL_ACCMOD;
 		HaloGun.Crosshair "PlsRRet", 0.75;
-		HaloGun.UIGraphic "WI_PRFLE", 1.0;
+		HaloGun.UIGraphic "WI_PRFLE", 0.6;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
 	}

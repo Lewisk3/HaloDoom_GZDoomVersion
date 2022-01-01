@@ -13,8 +13,8 @@ class Halo_Stanchion : HaloGun
 	Default
 	{
 		Weapon.SlotNumber 2;
-		Obituary "%o was eviscerated by %k's Railgun.";
-		Inventory.PickupMessage	"Stanchion Acquired.";
+		Obituary "%o got the Quake 2 Treatment from %k's Stanchion.";
+		Inventory.PickupMessage	"Picked up the M99 SAR Stantion.";
 		Tag "Stanchion";
 		Weapon.BobSpeed 1.87;
 		Weapon.BobRangeX 0.63;

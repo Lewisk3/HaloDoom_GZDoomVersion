@@ -24,8 +24,8 @@ class Halo_Shotgun : HaloGun
 	Default
 	{
 		Weapon.SlotNumber 1;
-		Obituary "%o was took down by %k's Shotgun.";
-		Inventory.PickupMessage	"Shotgun Acquired.";
+		Obituary "%o got an 8-Gauge Breakfast from %k's Shotgun.";
+		Inventory.PickupMessage	"Picked up the M35 Tactical Shotgun.";
 		Tag "Shotgun";
 		Weapon.BobSpeed 2.0;
 		Weapon.BobRangeX 0.10;
