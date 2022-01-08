@@ -86,7 +86,7 @@ extend class HaloPlayer
 			vector3 wishvel = vel + (wishdir * accel);
 			double curspd = wishvel.Length();
 
-			double addspd = clamp(AIRMAX - curspd, 0, (AIRACCEL*spd) / TICRATE);
+			double addspd = clamp(AIRMAX - curspd, 0, accel);
 			vel += (addspd*AIRCONTROL) * wishdir;
 		}
 	}

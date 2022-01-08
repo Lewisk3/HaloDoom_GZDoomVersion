@@ -192,7 +192,8 @@ class HaloProjectile : FastProjectile
 				{
 					LookExParams look;
 					look.FOV = 30;
-					if(!act.bSHOOTABLE || act.bCORPSE || !act.bISMONSTER) continue;
+					if(act == target) continue;
+					if(!act.bSHOOTABLE || act.bCORPSE) continue;
 					if(target && !target.IsVisible(act, false, look)) continue;
 					int dist = Distance3DSquared(act);
 					if(dist < mindist) 
@@ -348,7 +349,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 		HaloNeedleProjectile.NeedleDamages 2, 10;
 		HaloNeedleProjectile.ExplodeDelay 35; // 1 second.
 		HaloNeedleProjectile.ExplodeCount 7; 
-		HaloNeedleProjectile.NeedleHoming 40, 0.05;
+		HaloNeedleProjectile.NeedleHoming 40, 0.15;
 		HaloNeedleProjectile.NeedleHomRange 61;
 		Translation "0:255=@70[128, 17, 247]";
 	}
@@ -365,12 +366,11 @@ class HaloNeedleProjectile : HaloSlowProjectile
 		bSOLID = false;
 		bMISSILE = false;
 		vel *= 0;
-		hitoffs = Level.SphericalCoords(pos, victim.pos, (angle, pitch));
+
+		hitoffs = HaloMath.DiffToLocal(pos, victim.pos, (victim.angle, victim.pitch));
 		hitangle = angle-victim.angle;
 		hitpitch = pitch-victim.pitch;
-		hitrelpos = level.Vec3Diff(victim.pos, pos);
-		hitrelpos.z += frandom(-victim.height*0.35,victim.height*0.35);
-		hitangle += frandom(-15,15);
+
 		explodetimer = explodedelay;
 		needlecount = NeedleCounter(victim.FindInventory("NeedleCounter"));
 		if(!needlecount) 
@@ -389,12 +389,12 @@ class HaloNeedleProjectile : HaloSlowProjectile
 		
 		if(hitactor)
 		{
-			double hitdist = hitoffs.z*0.25;
-			double realang = hitactor.angle+hitoffs.x+hitangle;
-			vector3 newpos = hitactor.Vec3Offset(cos(realang)*-hitdist, sin(realang)*-hitdist, hitrelpos.z);
-			angle = realang;
+			vector3 followPos = HaloMath.V3Offset(hitactor.angle, hitactor.pitch, hitactor.roll, hitoffs.x * 0.25, hitoffs.y * 0.75, hitoffs.z, 1.0);
+			followPos = level.Vec3Offset(hitactor.pos, followPos);
+
+			angle = hitactor.angle+hitangle;
 			pitch = hitactor.pitch+hitpitch;
-			SetOrigin(newpos, true);
+			SetOrigin(followPos, true);
 		}
 		else if(getTravelDistance() < maxhomdist) // Do homing
 		{
@@ -421,7 +421,8 @@ class HaloNeedleProjectile : HaloSlowProjectile
 				look.FOV = 30;
 				while(act = Actor(it.Next()))
 				{
-					if(!act.bSHOOTABLE || act.bCORPSE || !act.bISMONSTER) continue;
+					if(act == target) continue;
+					if(!act.bSHOOTABLE || act.bCORPSE) continue;
 					if(target && !act.isHostile(target)) continue;
 					if(target && !target.IsVisible(act, false, look)) continue;
 					

@@ -177,27 +177,34 @@ class HaloGun : RecoilWeapon
 	
 	action Actor A_HaloMelee(int damage, double range = 48, vector2 fpthrust = (12,5), Sound hitsnd = "", Sound wallsnd = "")
 	{
+		return DoHaloMelee(self, damage,range,fpthrust,hitsnd,wallsnd);
+	}
+	
+	static Actor DoHaloMelee(Actor source, int damage, double range = 48, vector2 fpthrust = (12,5), Sound hitsnd = "", Sound wallsnd = "")
+	{	
 		FLineTraceData lt;
-		LineTrace(angle, range, pitch, 0, player.viewheight, data:lt);
+		double aimz = source.player ? source.player.viewheight : (source.height * 0.5);
+		source.LineTrace(source.angle, range, source.pitch, 0, aimz, data:lt);
 		Actor victim = lt.HitActor;
 		
 		if(victim && victim.bSHOOTABLE) 
 		{
 			double inertia = HaloMath.GetInertia(victim.mass);
-			victim.DamageMobJ(invoker, self, damage, "Melee", 0, angle);
-			victim.BloodSplatter(lt.HitLocation, angle, true);
-			victim.Thrust(fpthrust.x*inertia, angle);
+			victim.DamageMobJ(source, source, damage, "Melee", 0, source.angle);
+			victim.BloodSplatter(lt.HitLocation, source.angle, true);
+			victim.Thrust(fpthrust.x*inertia, source.angle);
 			victim.vel.z += fpthrust.y;
-			A_Quake(2,3,0,20,"");
-			A_StartSound(hitsnd, CHAN_WEAPON, flags:CHANF_OVERLAP);
+			source.A_Quake(2,3,0,20,"");
+			source.A_StartSound(hitsnd, CHAN_WEAPON, flags:CHANF_OVERLAP);
 		}
 		else if(lt.HitType != TRACE_HitNone) 
 		{
-			A_Quake(2,3,0,20,"");
-			A_StartSound(wallsnd, CHAN_WEAPON, flags:CHANF_OVERLAP);
+			source.A_Quake(2,3,0,20,"");
+			source.A_StartSound(wallsnd, CHAN_WEAPON, flags:CHANF_OVERLAP);
 		}
 		return victim;
 	}
+	
 	
 	// For some reason weapons start with an odd offset.
 	action void A_DoSelectAnim(double yoffs = 0., bool first_time_draw = false)
@@ -431,13 +438,13 @@ class HaloGun : RecoilWeapon
 		return result;
 	}
 	
-	bool CallMeleeState(StateLabel stateName)
+	bool CallMeleeState(StateLabel stateName, bool force = false)
 	{
 		let psp  = Owner.player.GetPSprite(PSP_WEAPON);
 		let meleepsp = Owner.player.GetPSprite(MELEE_OVERLAY);
 		bool inreload = psp && InStateSequence(psp.CurState,FindState("Reload"));
 		
-		if(meleepsp.CurState == NULL)
+		if(meleepsp.CurState == NULL || force)
 		{
 			Owner.A_StopSound(CHAN_RELOADING);
 			Owner.player.SetPSprite(MELEE_OVERLAY, FindState(stateName));
@@ -445,6 +452,12 @@ class HaloGun : RecoilWeapon
 			return true;
 		}
 		return false;
+	}
+	
+	bool CheckMeleeState(StateLabel stateName)
+	{
+		let meleepsp = Owner.player.GetPSprite(MELEE_OVERLAY);
+		return meleepsp && InStateSequence(meleepsp.CurState, FindState(stateName));
 	}
 	
 	action void A_RWeaponReady(uint flags=0)
@@ -599,10 +612,10 @@ class HaloGun : RecoilWeapon
 		
 		// Melee attack
 		let feetpsp = Owner.player.GetPSprite(FEET_OVERLAY);
-		if(A_ButtonStatus(BT_USER2, BTS_PRESSED, Owner) && !handsbusy)
+		if( A_ButtonStatus(BT_USER2, BTS_PRESSED, Owner) && (!handsbusy || CheckMeleeState("GrappleWait")) )
 		{
 			// Only melee if hands are not already being used for something else.
-			CallMeleeState("DoMelee");
+			CallMeleeState("DoMelee", true);
 		}
 		
 		// Throw nades
@@ -809,11 +822,13 @@ class HaloGun : RecoilWeapon
 	}
 	action void A_BeginMelee()
 	{
+		if(invoker.handsbusy) return;
 		invoker.staticoffs.y += invoker.meleelower;
 		invoker.handsbusy = true;
 	}
 	action void A_FinishMelee()
 	{
+		if(!invoker.handsbusy) return;
 		invoker.staticoffs.y -= invoker.meleelower;
 		invoker.handsbusy = false;
 	}

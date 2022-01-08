@@ -49,7 +49,7 @@ class GrapplingHook : KineLimb
 		
 		FLineTraceData lt;
 		double zoffs = (plr.player.viewz-plr.pos.z);
-		plr.LineTrace(plr.angle, 1024 * 32, plr.pitch, TRF_ALLACTORS, offsetz:zoffs, data:lt);	
+		plr.LineTrace(plr.angle, 1024 * 32, plr.pitch, TRF_ALLACTORS, offsetz:zoffs, offsetforward:64, data:lt);	
 		hookpos = lt.HitLocation;
 		hitactor = lt.HitActor;
 		
@@ -170,7 +170,8 @@ class GrapplingHook : KineLimb
 				dir = -dir;
 			}
 			
-			if(btns & HaloPlayer.BT_GRAPPLE) 
+			// Cancel on melee or if grapple is pressed again.
+			if( (btns & HaloPlayer.BT_GRAPPLE) || (btns & BT_USER2) ) 
 			{
 				Retract();
 				return;
