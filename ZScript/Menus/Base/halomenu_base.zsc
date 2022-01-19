@@ -8,7 +8,7 @@ class HaloMenuBase : ListMenu
 	MenuTexture MainBG;
 	Mouse mMouse;
 	Array<Button> buttons;
-
+		
 	virtual TextElement newBtnText(String txt, Font fnt = "BigFont")
 	{
 		return TextElement.Create(fnt, txt, (0,0), (1.0,1.0), Font.CR_WHITE);
@@ -57,6 +57,24 @@ class HaloMenuBase : ListMenu
 
 	override bool OnUIEvent(UiEvent ev)
 	{
+		if(ev.Type == UIEvent.Type_KeyDown)
+		{
+			string menuKeyStr = ev.KeyString;
+			Array<int> consoleKeys; 
+			Bindings.GetAllKeysForCommand(consoleKeys, "toggleconsole");
+			
+			for(int i = 0; i < consoleKeys.Size(); i++)
+			{
+				int keyScan = consoleKeys[i];
+				string keyStr = Bindings.NameKeys(keyScan,0);
+				if(menuKeyStr ~== keyStr)
+				{
+					Close();
+					return false;
+				}
+			}
+		}
+		
 		if(mMouse) 
 		{
 			mMouse.Update(ev);

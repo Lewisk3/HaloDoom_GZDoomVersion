@@ -121,6 +121,13 @@ class HaloGun : RecoilWeapon
 		return lt.Distance;
 	}
 	
+	// Compatibility
+	override State GetReadyState ()
+	{
+		return FindState('Ready.Active');
+	}
+	
+	
 	action void DoSpriteLightning(double amt, double boltAngle, vector2 startPos, vector2 xy_spread = (20,20), double boltlen = 100, double stepsize = 1.0, double roughness = 10, uint layerStart = -200)
 	{
 		uint curLayer = layerStart;
@@ -469,7 +476,7 @@ class HaloGun : RecoilWeapon
 	override void DoEffect()
 	{
 		super.DoEffect();
-
+		
 		if(!cvfx_smoke)
 			cvfx_smoke = CVar.GetCVar("halodoom_fx_smoke", Owner.player);
 		if(!cvfx_casings) 
@@ -611,7 +618,6 @@ class HaloGun : RecoilWeapon
 		if(inreload && zoomed) enablezoom = false;
 		
 		// Melee attack
-		let feetpsp = Owner.player.GetPSprite(FEET_OVERLAY);
 		if( A_ButtonStatus(BT_USER2, BTS_PRESSED, Owner) && (!handsbusy || CheckMeleeState("GrappleWait")) )
 		{
 			// Only melee if hands are not already being used for something else.
@@ -631,6 +637,7 @@ class HaloGun : RecoilWeapon
 		}
 		
 		// Slide
+		let feetpsp = Owner.player.GetPSprite(FEET_OVERLAY);
 		if( !!Owner.FindInventory("SlideAnimator") && !InStateSequence(feetpsp.CurState, FindState("SlideStart")) )
 		{
 			Owner.player.SetPSprite(FEET_OVERLAY, FindState("SlideStart"));

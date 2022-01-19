@@ -356,6 +356,10 @@ class RecoilWeapon : Weapon
 			Owner.A_setPitch( ipitch );
 			Owner.A_setAngle( iangle );	
 		}
+		
+		// Idle Bob
+		double bobz = cos(level.maptime * 3) * 0.5;
+		woffsy += bobz; 
 				
 		double velz = Owner.vel.z * 0.6;
 		velz = clamp(velz, -10, 10);

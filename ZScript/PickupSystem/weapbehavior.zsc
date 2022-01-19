@@ -83,8 +83,16 @@ class WeaponPickupProxy : Actor
 			}
 			else
 			{
-				if(ammodef1) togive += ammodef1.backpackmaxamount-to.countinv(ammotype1);
-				if(ammodef2) togive += ammodef2.backpackmaxamount-to.countinv(ammotype2);
+				if(ammodef1) 
+				{
+					double ammomax = max(ammodef1.backpackmaxamount, ammodef1.maxamount);
+					togive += ammomax-to.countinv(ammotype1);
+				}
+				if(ammodef2) 
+				{
+					double ammomax = max(ammodef2.backpackmaxamount, ammodef2.maxamount);
+					togive += ammomax-to.countinv(ammotype2);
+				}
 			}
 			if(togive <= 0) return Null;
 		}

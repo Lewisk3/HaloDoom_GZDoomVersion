@@ -12,6 +12,7 @@ class GravityHammerExplosion : CheapActor
 	{
 		Scale 1.0;
 		Alpha 0.8;
+		RenderStyle "Add";
 	}
 	
 	States
