@@ -114,7 +114,7 @@ class HaloMath Abstract
 	}
 	
 	// Spawn helpers
-	play static Actor FireProjectile(class<Actor> proj, vector3 pos, double angle, double pitch, double leftright, double forwardback, double updown, double distance, double speed)
+	play static Actor FireProjectile(class<Actor> proj, vector3 pos, double angle, double pitch, double leftright = 0, double forwardback = 0, double updown = 0, double distance = 1.0, double speed = 0)
 	{
 		vector3 finalpos;
 		finalpos = V3Offset(angle, pitch, 0, forwardback, leftright, updown, distance);
@@ -122,6 +122,7 @@ class HaloMath Abstract
 		let proj = Actor.Spawn(proj, finalpos);
 		if(proj)
 		{
+			if(!speed) speed = proj.default.Speed;
 			proj.angle = angle;
 			proj.pitch = pitch;
 			double cosp = cos(pitch);
@@ -186,6 +187,26 @@ class HaloMath Abstract
 				partpos.x,partpos.y,partpos.z,
 				partvel.x,partvel.y,partvel.z
 			);
+		}
+	}
+	
+	play static void ExplodeEx(Actor src, double pow, double dist, double dmgfalloffmod = 1.0, Name damageType = "Explosive", bool damageSelf = false, bool damageBosses = true)
+	{
+		let it = ThinkerIterator.Create("Actor");
+		Actor act;
+		let shooter = src.target ? src.target : src;
+		while(act = Actor(it.Next()))
+		{
+			if(!act.bSHOOTABLE) continue;
+			if(!damageSelf && act == shooter) continue;
+			if(!damageBosses && act.bBOSS) continue; 
+			double todist = src.Distance2DSquared(act) - act.radius;
+			double dmgfalloff = pow * (1. - (1./(todist - (dist*dist))));
+			if(todist > dist*dist) continue; 
+			dmgfalloff *= dmgfalloffmod;
+			
+			if(dmgfalloff > 0)
+				act.DamageMobJ(src, shooter, dmgfalloff, damageType, 0, src.angle); 
 		}
 	}
 

@@ -120,14 +120,7 @@ class HaloGun : RecoilWeapon
 		LineTrace(angle, maxrange, pitch, 0, player.viewheight, data:lt);
 		return lt.Distance;
 	}
-	
-	// Compatibility
-	override State GetReadyState ()
-	{
-		return FindState('Ready.Active');
-	}
-	
-	
+		
 	action void DoSpriteLightning(double amt, double boltAngle, vector2 startPos, vector2 xy_spread = (20,20), double boltlen = 100, double stepsize = 1.0, double roughness = 10, uint layerStart = -200)
 	{
 		uint curLayer = layerStart;
@@ -256,7 +249,7 @@ class HaloGun : RecoilWeapon
 		invoker.HUD_Hide = !onoff;
 	}
 	
-	action vector3 A_ShootProjectile(class<Actor> proj, double leftright = 0, double updown = 0, double spreadmod = 1.0)
+	action vector3, actor A_ShootProjectile(class<Actor> proj, double leftright = 0, double updown = 0, double spreadmod = 1.0)
 	{
 		vector3 hitpos = pos;
 		double scopemod = (invoker.scoperecoil == 0) ? 1.0 : invoker.scoperecoil;
@@ -287,7 +280,7 @@ class HaloGun : RecoilWeapon
 			aproj.LineTrace(aproj.angle, 1024*64, aproj.pitch, 0, offsetforward: 20, data:lt);
 			hitpos = lt.HitLocation;
 		}
-		return hitpos;
+		return hitpos, aproj;
 	}
 	
 	action void A_DebugSFX(bool onoff = true)
@@ -817,7 +810,7 @@ class HaloGun : RecoilWeapon
 	{
 		return invoker.zoomed;
 	}
-	action void A_HaloWeaponReady(uint flags, bool usescope = true)
+	action void A_HaloWeaponReady(uint flags = 0, bool usescope = true)
 	{
 		if(usescope) A_ScopeEnable();
 		A_RWeaponReady(flags);

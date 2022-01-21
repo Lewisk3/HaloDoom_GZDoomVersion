@@ -144,6 +144,15 @@ object RailgunProjectile
 	Frame LITA { light StupidlyBrightAndHUGELight }
 }
 
+object WraithPlasma
+{
+	frame FSP2 { light BigBlueLight }
+}
+object FuelRodPlasma
+{
+	frame FSP2 { light GreenPointLight }
+}
+
 // Sprite brightmaps
 brightmap sprite PWSHA0 {
 	map PWSBA0

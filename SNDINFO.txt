@@ -372,6 +372,28 @@ Halo/Weapons/GravityHammer/Select "Sounds/GravityHammer/GravHammer_Select.ogg"
 $random Halo/Weapons/GravityHammer/Fire      { GRAVFIRE1 GRAVFIRE2 GRAVFIRE3 }
 $random Halo/Weapons/GravityHammer/Fire/Bass { GRAVLOW1 GRAVLOW2 GRAVLOW3 }
 
+// Fuel Rod
+FUELROD_FIRE1 "Sounds/FuelRod/fr_fire1.ogg"
+FUELROD_FIRE2 "Sounds/FuelRod/fr_fire2.ogg"
+FUELROD_FIRE3 "Sounds/FuelRod/fr_fire3.ogg"
+FUELROD_LOW1 "Sounds/FuelRod/fr_firebass1.ogg"
+FUELROD_LOW2 "Sounds/FuelRod/fr_firebass2.ogg"
+FUELROD_LOW3 "Sounds/FuelRod/fr_firebass3.ogg"
+FUELROD_MECH1 "Sounds/FuelRod/fr_mech1.ogg"
+FUELROD_MECH2 "Sounds/FuelRod/fr_mech2.ogg"
+FUELROD_MECH3 "Sounds/FuelRod/fr_mech3.ogg"
+FUELROD_IMPACT1 "Sounds/FuelRod/fr_explosion1.ogg"
+FUELROD_IMPACT2 "Sounds/FuelRod/fr_explosion2.ogg"
+FUELROD_IMPACT3 "Sounds/FuelRod/fr_explosion3.ogg"
+
+Halo/Weapons/FuelRod/Overheat "Sounds/FuelRod/fr_overheat.ogg"
+Halo/Weapons/FuelRod/Select "Sounds/FuelRod/fr_select.ogg"
+
+$random Halo/Weapons/FuelRod/Fire      { FUELROD_FIRE1 FUELROD_FIRE2 FUELROD_FIRE3 }
+$random Halo/Weapons/FuelRod/Fire/Bass { FUELROD_LOW1 FUELROD_LOW2 FUELROD_LOW3 }
+$random Halo/Weapons/FuelRod/Fire/Mech { FUELROD_MECH1 FUELROD_MECH2 FUELROD_MECH3 }
+$random Halo/Weapons/Fuelrod/Explosion  { FUELROD_IMPACT1 FUELROD_IMPACT2 FUELROD_IMPACT3 }
+
 // Hit feedback
 HMHIT1 HMHit1
 HMHIT2 HMHit2

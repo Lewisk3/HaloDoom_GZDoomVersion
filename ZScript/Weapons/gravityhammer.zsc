@@ -77,9 +77,10 @@ class GravityHammerField : RepulsorField
 	States
 	{
 		Spawn:
-			TNT1 A 2 NoDelay 
+			TNT1 A 0;
+			TNT1 A 2
 			{
-				A_Explode(256,128,0, damagetype:"Crush");
+				A_Explode(400,128,0, damagetype:"Crush");
 				let expl = Spawn("GravityHammerExplosion", pos);
 			}
 		Repulse:

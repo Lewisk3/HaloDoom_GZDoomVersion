@@ -2,8 +2,6 @@ class FastActor : CheapActor abstract
 {
 	Default
 	{
-		Radius 1;
-		+NOINTERACTION;
 		RenderStyle "Add";
 		Alpha 1.0;
 	}
@@ -368,6 +366,14 @@ class TankRocket_FlyingExplosion : FastActor
 // Wraith Plasma
 class WraithPlasma : Actor
 {
+	Color effectShade;
+	Color projShade;
+	class<Actor> explosionActor;
+	
+	Property EffectColor : effectShade;
+	Property ProjectileColor : projShade;
+	Property ExplosionType : explosionActor;
+
 	Default
 	{
 		Radius 16;
@@ -379,6 +385,9 @@ class WraithPlasma : Actor
 		Projectile;
 		-NOGRAVITY;
 		Gravity 0.8;
+		// Color 1051de
+		WraithPlasma.ExplosionType "WraithPlasma_Explosion"; 
+		WraithPlasma.EffectColor "1051de";
 	}
 	
 	override bool CanCollideWith(Actor other, bool passive)
@@ -387,20 +396,29 @@ class WraithPlasma : Actor
 		return super.CanCollideWith(other, passive);
 	}
 	
-	static WraithPlasma Fire(Actor from, vector3 posoffs, vector3 viewoffs = (0,0,0))
+	virtual void UpdateFXColor(Actor dest, Color shade)
+	{
+		if(shade)
+		{
+			dest.A_SetRenderStyle(1.0, STYLE_AddShaded);
+			dest.SetShade(shade);
+		}
+	}
+	
+	static WraithPlasma Fire(Actor from, vector3 posoffs, vector3 viewoffs = (0,0,0), class<WraithPlasma> projType = "WraithPlasma")
 	{
 		vector3 view = (from.angle + viewoffs.x, from.pitch + viewoffs.y, from.roll + viewoffs.z);
 		vector3 offs = HaloMath.V3Offset(view.x, view.y, view.z, posoffs.x, posoffs.y, posoffs.z, 1.);
 		vector3 spawnpos = level.vec3offset(from.pos, offs);
 		
-		let proj = WraithPlasma(Actor.Spawn("WraithPlasma", spawnpos));
+		let proj = WraithPlasma(Actor.Spawn(projType, spawnpos));
 		if(proj)
 		{
-			proj.SetDamage(proj.default.damage);
+			proj.SetDamage(proj.default.Damage);
 			proj.target = from;
 			proj.angle = view.x;
 			proj.pitch = view.y;
-			
+
 			// Assign velocity vector
 			double cosp = cos(view.y);
 			proj.vel = (
@@ -414,23 +432,24 @@ class WraithPlasma : Actor
 		return proj;
 	}
 	
-	void DoExplosion()
+	virtual void DoExplosion()
 	{
 		A_StopSound(CHAN_BODY);
-		A_Explode(250, 512);
 		
 		vector3 fxoffs = (-30, 0, 10);
 		fxoffs = HaloMath.V3Offset(angle, pitch, roll, fxoffs.x, fxoffs.y, fxoffs.z, 1.);
 		
 		vector3 fxpos = level.vec3offset(pos, fxoffs);
-		let expl = Spawn("WraithPlasma_Explosion", fxpos);
+		let expl = Spawn(explosionActor, fxpos);
 		if(expl)
 		{
-			expl.A_SetRenderStyle(1.0, STYLE_AddShaded);
-			expl.SetShade(0xFF1051de);
+			UpdateFXColor(expl, effectShade);
+			expl.A_SetScale( 
+				expl.default.Scale.X * Scale.X,
+				expl.default.Scale.Y * Scale.Y 
+			);
+			expl.target = target; // Prevent self-damage.
 		}
-		
-		HaloMath.SpawnFX("TankRocket_Smoke", fxpos, angle, random(4,12), 120, 60);
 		
 		// Flying explosions
 		for(int i = 0; i < random(20,30); i++)
@@ -447,8 +466,7 @@ class WraithPlasma : Actor
 			let expl = Spawn("WraithPlasma_FlyingPlasma", level.vec3offset(fxpos, spawndir));
 			if(expl)
 			{
-				expl.A_SetRenderStyle(1.0, STYLE_AddShaded);
-				expl.SetShade(0xFF1051de);
+				UpdateFXColor(expl, effectShade);
 				double velang = frandom(-180,180);
 				vector3 veldir = (
 					cos(velang),
@@ -456,6 +474,8 @@ class WraithPlasma : Actor
 					sin(frandom(-45,45))
 				);
 				expl.vel = veldir * 15;
+				expl.Scale.X *= Scale.X;
+				expl.Scale.Y *= Scale.Y;
 			}
 		}
 	}
@@ -463,8 +483,24 @@ class WraithPlasma : Actor
 	States
 	{
 		Spawn:
+			TNT1 A 0 NoDelay
+			{
+				UpdateFXColor(self, projShade);
+			}
+		SpawnLoop:
 			FSP2 A 1 Bright;
-			TNT1 A 0 Spawn("WraithPlasma_Trail", pos);
+			TNT1 A 0 
+			{
+				let trail = Spawn("WraithPlasma_Trail", pos);
+				if(trail) 
+				{
+					UpdateFXColor(trail, projShade);
+					trail.A_SetScale( 
+						trail.default.Scale.X * Scale.X,
+						trail.default.Scale.Y * Scale.Y 
+					);
+				}
+			}
 		loop;
 		
 		Death:
@@ -506,17 +542,33 @@ class WraithPlasma_Explosion : FastActor
 		Spawn:
 			TNT1 A 0;
 			TNT1 A 1 
-			{
+			{		
+				A_Explode(250, 300);
 				A_StartSound("Halo/Wraith/MissileExplosion", flags:CHANF_OVERLAP, attenuation: 0.1);
-				Spawn("ImpactSparks", pos);
+				HaloMath.SpawnFX("TankRocket_Smoke", (pos.xy, pos.z+30), angle, random(4,12), 120, 60);
+				let sparks = Spawn("ImpactSparks", pos);
+				if(sparks)
+				{
+					sparks.A_SetScale( 
+						sparks.default.Scale.X * (Scale.X*0.25),
+						sparks.default.Scale.Y * (Scale.Y*0.25)
+					);
+				}
 			}
 			SX04 A 1 
 			{	
 				let flare = Spawn("TankRocket_Flare", (pos.xy, pos.z+30));
 				if(flare)
 				{
-					flare.A_SetRenderStyle(1.0, STYLE_AddShaded);
-					flare.SetShade(0xFF1051de);
+					flare.A_SetScale( 
+						flare.default.Scale.X * (Scale.X*0.25),
+						flare.default.Scale.Y * (Scale.Y*0.25)
+					);
+					if(fillcolor)
+					{
+						flare.A_SetRenderStyle(1.0, STYLE_AddShaded);
+						flare.SetShade(fillcolor);
+					}
 				}
 			}
 			SX04 BCDEFGHIJKLMNOPQ 1 Bright;
@@ -529,7 +581,7 @@ class WraithPlasma_FlyingPlasma : FastActor
 	override void BeginPlay()
 	{	
 		super.BeginPlay();	
-		A_SetScale(frandom(0.15, 0.50));
+		A_SetScale(frandom(default.scale.x * 0.15, default.scale.x * 0.50));
 	}
 	
 	override void Tick()
@@ -549,7 +601,15 @@ class WraithPlasma_FlyingPlasma : FastActor
 				A_FadeOut(0.006);
 				A_SetScale(Scale.X * 0.95);
 				let trail = Actor.Spawn("WraithPlasma_Trail", pos);
-				if(trail) trail.A_SetScale(Scale.X);
+				if(trail) 
+				{
+					if(fillcolor)
+					{
+						trail.A_SetScale(Scale.X);
+						trail.A_SetRenderStyle(1.0, STYLE_AddShaded);
+					}
+					trail.SetShade(fillcolor);
+				}
 			}
 		wait;
 	}
