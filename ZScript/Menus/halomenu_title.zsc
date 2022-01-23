@@ -28,6 +28,13 @@ class HaloDoom_TitleMenu : HaloMenuBase
 		buttons.push(Button.Create('LoadGame', "BTN_OFF" ,  "BTN_ON" , 960, btnY, 0.8, 0.25, btntxt));
 		btnY += 80;
 		
+		if(title)
+		{
+			btntxt = newBtnText("CONFIGURE", "HaloFont");
+			buttons.push(Button.Create('Configure', "BTN_OFF" ,  "BTN_ON" , 960, btnY, 0.8, 0.25, btntxt));
+			btnY += 80;
+		}
+		
 		btntxt = newBtnText("OPTIONS", "HaloFont");
 		buttons.push(Button.Create('Options', "BTN_OFF" ,  "BTN_ON" , 960, btnY, 0.8, 0.25, btntxt));
 		btnY += 80;
@@ -129,6 +136,9 @@ class HaloDoom_TitleMenu : HaloMenuBase
 					break;
 					case 'LoadGame':		// Load Game
 						Menu.SetMenu('LoadGameMenu');
+					break;
+					case 'Configure':
+						Menu.Setmenu("HaloDoomGameplayOptions");
 					break;
 					case 'Options':     // Options
 						Menu.SetMenu('OptionsMenu');

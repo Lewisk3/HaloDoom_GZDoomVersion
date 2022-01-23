@@ -129,6 +129,7 @@ class HaloGun : RecoilWeapon
 		vector2 curPos = startPos;
 		PSprite prevBiri;
 		
+		int adjustedAmt = max(amt * halodoom_effectintensity, 0);
 		for(int x = 0; x < amt; x++)
 		{
 			curAngle = boltAngle;
@@ -332,6 +333,7 @@ class HaloGun : RecoilWeapon
 	action void A_MuzzleSparks(double amt, double spd, double sp_horz, double sp_vert, class<Actor> sparks = "MuzzleSparks")
 	{
 		if(!invoker.cvfx_smoke.GetBool()) return;
+		int adjustedAmt = max(amt * halodoom_effectintensity, 0);
 		for(int i = 0; i < amt; i++)
 		{
 			let mspark = Spawn(sparks, invoker.sfx_pos);

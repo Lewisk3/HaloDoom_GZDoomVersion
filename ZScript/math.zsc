@@ -137,7 +137,8 @@ class HaloMath Abstract
 
 	play static void SpawnFX(class<Actor> type, vector3 frompos, double sangle, double amt, double maxdist, double ydist, double vel_angle = 0, double vel_pitch = 0, double vel_spd = 0, int rstyle = -1)
 	{
-		for(int i = 0; i < amt; i++)
+		int adjustedAmt = max(amt * halodoom_effectintensity, 0);
+		for(int i = 0; i < adjustedAmt; i++)
 		{
 			double spawnang = frandom(0,180);
 			double spawndist = frandom(-maxdist, maxdist);
@@ -165,7 +166,8 @@ class HaloMath Abstract
 
 	play static void ParticlesFX(Actor ptr, Color col = 0xFFF0E11A, double amt = 30, double size = 2, double spd = 5, vector3 pos_spread = (30,30,30), vector2 ang_spread = (90,30))
 	{
-		for(int i = 0; i < amt; i++)
+		int adjustedAmt = max(amt * halodoom_effectintensity, 0);
+		for(int i = 0; i < adjustedAmt; i++)
 		{
 			double part_angle = (ptr.angle+180)+frandom(-ang_spread.x,ang_spread.x);
 			double part_pitch = ptr.pitch+frandom(-ang_spread.y,ang_spread.y);

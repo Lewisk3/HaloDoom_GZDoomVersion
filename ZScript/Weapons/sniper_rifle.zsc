@@ -126,7 +126,7 @@ class Halo_SniperRifle : HaloGun
 				A_SetRecoil(4.42, 3.42, 2);
 				A_SetZoom(0.90, 2);
 				A_FireSniper();
-				A_RollQuake(-4, 20, 3);
+				A_RollQuake(4, 20, 3);
 				A_RQuakeEx(3,3,3,10,0,20,"",QF_RELATIVE);
 			}
 			HSNF BC 1 Bright;

@@ -208,7 +208,7 @@ class HaloDoom_Events : EventHandler
 			for(int i = 0; i < guns.Size(); i++)
 			{
 				let gun = guns[i];
-				vector2 spawnpos = Actor.AngleToVector(i*spacing, 64);
+				vector2 spawnpos = Actor.AngleToVector(i*spacing, 80);
 				Actor.Spawn(gun, src.mo.Vec3Offset(spawnpos.x,spawnpos.y, src.mo.floorz));
 			}
 		}
@@ -256,6 +256,12 @@ class HaloDoom_Events : EventHandler
 		String keyColor = "";
 		[canOpen, keyColor] = CheckKey(plr, keyNum);
 		
+		// Add key to used keys if not already in list.
+		bool usedKey = plr.cortana.usedKeys.Find(keyNum) != plr.cortana.usedKeys.Size();
+		if(!usedKey) plr.cortana.usedKeys.push(keyNum);
+			
+		int cortanaMode = CVar.GetCVar("halodoom_cortanamode", plr.player).GetInt();
+		
 		// Queue door.
 		let weap = HaloGun(plr.player.ReadyWeapon);
 		if(canOpen && weap && !plr.pendingDoor)
@@ -265,7 +271,33 @@ class HaloDoom_Events : EventHandler
 			e.shouldActivate = false;
 			
 			// Setup door animation
-			weap.CallMeleeState("Use_Cortana");
+			switch(cortanaMode)
+			{
+				// Normal
+				default: case 0: weap.CallMeleeState("Use_Cortana"); break;
+				// Conditional
+				case 1: if(!usedKey) weap.CallMeleeState("Use_Cortana"); break;
+				// Off
+				case 2: break; 
+			}
+		}
+	}
+	
+	override void WorldLoaded(WorldEvent e)
+	{
+		if(!e.IsSaveGame)
+		{
+			// Clear used keys
+			for(int i = 0; i < MAXPLAYERS; i++)
+			{
+				PlayerInfo plrInfo = players[i];
+				if(!plrInfo || !playerInGame[i]) continue;
+				let haloplr = HaloPlayer(players[i].mo);
+				if(!haloplr) continue;
+				
+				// Clear keys
+				haloplr.cortana.usedKeys.Clear();
+			}
 		}
 	}
 	

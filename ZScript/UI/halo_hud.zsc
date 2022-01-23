@@ -105,10 +105,14 @@ class HaloStatusBar : BaseStatusBar
 	
 	vector2 msgpos;
 	
+	// Helmet
+	double helmbobPhase;
+	
 	// CVars
-	transient CVar showminimap;
+	transient CVar showMinimap;
 	transient CVar showAmmoWarnings;
 	transient CVar hideCrosshair;
+	transient CVar showHelmet;
 	
 	// Basic Functions
 	mixin BasicHUDFeatures;
@@ -202,9 +206,10 @@ class HaloStatusBar : BaseStatusBar
 		if(!automapactive) Super.Draw(state, TicFrac);
 		
 		// Fetch CVars
-		if(!showminimap) showminimap = CVar.GetCVar("halodoom_showminimap", CPlayer);
+		if(!showMinimap) showMinimap = CVar.GetCVar("halodoom_showminimap", CPlayer);
 		if(!showAmmoWarnings ) showAmmoWarnings = CVar.GetCVar("halodoom_doammowarnings", CPlayer);
 		if(!hideCrosshair ) hideCrosshair = CVar.GetCVar("halodoom_hidecrosshair", CPlayer); 
+		if(!showHelmet) showHelmet = CVar.GetCVar("halodoom_showhelmet", CPlayer);
 		
 		// Always draw HUD
 		BeginHUD();
@@ -230,6 +235,10 @@ class HaloStatusBar : BaseStatusBar
 			if(!haloplr.FindInventory("Veh_Manager") && haloplr.player.camera != haloplr)
 				return;
 			
+			// Draw helmet
+			if(showHelmet && showHelmet.getBool()) 
+				DrawHelmet();
+			
 			// Vitals
 			DrawBars(); 
 			
@@ -253,7 +262,7 @@ class HaloStatusBar : BaseStatusBar
 			// Keys and Objectives
 			DrawKeys(CPlayer, 50, 10, 30,30);			
 			DrawObjectives();
-			
+					
 			// Screen colors
 			if(haloplr.screen_fade > 0)
 				Screen.Dim(haloplr.screen_color, haloplr.screen_fade, 0,0, Screen.GetWidth(), Screen.GetHeight());
@@ -270,6 +279,22 @@ class HaloStatusBar : BaseStatusBar
 			deltatime = (ftime/dtime);
 			
 		}
+	}
+	
+	void DrawHelmet()
+	{
+		string helmetImg = "Graphics/UI/HelmetBG.png";
+		let weapPSP = haloplr.player.GetPSprite(PSP_WEAPON);
+		if(!weapPSP) return;
+		
+		double plrSpeed = haloplr.vel.xy.Length();
+		double rotation = weapPSP.rotation * 0.25;
+		double yoffs = clamp(haloplr.vel.z * 3, -50, 50);
+		
+		double ybob = 0.65 * (sin(helmbobPhase * 15) * plrSpeed);
+		if(plrSpeed > 1) helmbobPhase += 1 * deltaTime; 
+		
+		HLSBS.DrawImage(helmetImg, (0,yoffs + ybob), 1.0, scale:(4.25,4.25), rotation:rotation, texoffs:(0,0));
 	}
 	
 	// 24 ammo per line.
@@ -735,7 +760,7 @@ class HaloStatusBar : BaseStatusBar
 		HLSBS.DrawImage("RADARBG", baseoffs);
 		
 		// Draw Minimap
-		if( showminimap && showminimap.getBool() )
+		if( showMinimap && showMinimap.getBool() )
 		{
 			for (int i = 0; i < Level.Lines.Size(); i++)
 			{

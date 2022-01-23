@@ -42,7 +42,7 @@ class GravityHammerExplosion : CheapActor
 			}
 			SX04 EFGHIJKLMNOPQ 1 Bright
 			{
-				if(!(frame%2))
+				if(!(frame%3))
 				{
 					for(int i = 0; i < 8; i++)
 					{
@@ -57,7 +57,7 @@ class GravityHammerExplosion : CheapActor
 						) * 30;
 						
 						vector3 spawnpos = level.Vec3Offset(pos, posOffs);
-						BiriBiri.DoLightning(spawnpos, biriView, dist:100, stepsize:0.5, strength:20.0, 10, 30, 0);
+						BiriBiri.DoLightning(spawnpos, biriView, dist:100, stepsize:1.0, strength:20.0, 10, 30, 0);
 					}
 				}
 			}
@@ -214,7 +214,7 @@ class Halo_GravityHammer : HaloGun
 				A_SetFlashColor("White", 0.78);
 				A_Overlay(60, "MuzzleBiris");
 				A_SetZoom(0.80, 4);
-				A_RollQuake(-4, 30, 2);
+				A_RollQuake(4, 40, 2);
 				A_RQuakeEx(2,3,2,15,0,20,"",QF_RELATIVE);
 			}
 		stop;

@@ -299,6 +299,11 @@ class RecoilWeapon : Weapon
 			}
 			rollshake_dirfreq++;
 			
+			// Negative roll directions happen at uneven time intervals
+			// and are more likely to scaled lower than positive ones,
+			// by strmod, so compenstate for that.
+			if(rollshake_str < 0) strmod *= 1.1;
+			
 			double rshake = rollshake_str * strmod * cv_recoil.GetFloat();
 			Owner.A_SetRoll(Owner.roll + rshake, SPF_INTERPOLATE);
 			rollshake_time--;

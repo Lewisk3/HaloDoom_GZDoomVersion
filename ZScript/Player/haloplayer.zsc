@@ -1,3 +1,8 @@
+struct CortanaInfo
+{
+	Array<int> usedKeys;
+}
+
 
 class HaloPlayer : DoomPlayer
 {
@@ -5,6 +10,7 @@ class HaloPlayer : DoomPlayer
 	Veh_Manager curvehicle;
 	GrapplingHook grapple;
 	WeaponPickupProxy pickuptarget;
+	CortanaInfo cortana;
 	Weapon NextWeapon;
 	vector3 aimpos;
 	double soundwait;
@@ -139,10 +145,7 @@ class HaloPlayer : DoomPlayer
 	{
 		// In vehicle?
 		curvehicle = Veh_Manager(FindInventory("Veh_Manager"));
-		
-		// No valid grenade?
-		if(!activeGrenade || activeGrenade.amount <= 0) nextGrenade(true);
-			
+					
 		// Don't do stuff when dead.
 		if(health <= 0 || !player) 
 		{
@@ -150,6 +153,9 @@ class HaloPlayer : DoomPlayer
 			super.Tick();
 			return;
 		}
+		
+		// No valid grenade?
+		if(!activeGrenade || activeGrenade.amount <= 0) nextGrenade(true);
 		
 		// Get CVar(s)
 		if(!lowered_xhair)

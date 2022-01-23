@@ -488,7 +488,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 					
 					needlecount.ExplodeNeedles();
 					hitactor.DamageMobJ(self, self.target, shatterdmg * explodecount, "Explosive", 0, angle);
-					A_Explode(128,128,0);
+					A_Explode(128,200,0);
 				}
 				
 				if(hitactor) hitactor.DamageMobJ(self, self.target, shatterdmg, "Explosive", 0, angle);
@@ -679,21 +679,21 @@ class RailgunProjectile : FastProjectile
 			let smok = SmokeTrail.Start(0xFFFF0000, spawnpos, hitpos, (proj.angle, proj.pitch), 0.5, type:"RailgunTrail");
 			if(smok)
 			{
-				smok.A_SetScale(20.0);
+				smok.A_SetScale(15.0 * 0.7);
 			}
 			
 			// Outer trail
 			smok = SmokeTrail.Start(0xFFfc9d03, spawnpos, hitpos, (proj.angle, proj.pitch), 1.0, type:"RailgunTrail");
 			if(smok)
 			{
-				smok.A_SetScale(10.0);
+				smok.A_SetScale(10.0 * 0.7);
 			}
 			
 			// Inner trail
 			smok = SmokeTrail.Start(0xFFFFFFFF, spawnpos, hitpos, (proj.angle, proj.pitch), 3.0);
 			if(smok)
 			{
-				smok.A_SetScale(5.0);
+				smok.A_SetScale(5.0 * 0.7);
 			}
 			
 			// Shockwave
@@ -726,6 +726,7 @@ class RailgunProjectile : FastProjectile
 	{
 		double ang = angle+180;
 		biridist = fixed_dist >= 0 ? fixed_dist : frandom(0, 1.0);
+		int adjustedAmt = max(5 * halodoom_effectintensity, 0);
 		for(int i = 0; i < amt; i++)
 		{
 			vector3 biripos = level.vec3offset(startpos, dir * (aimdist * biridist));
@@ -871,7 +872,8 @@ class Railgun_Explosion : FastActor
 				}
 				
 				// Flying explosions
-				for(int i = 0; i < random(15,30); i++)
+				double adjustedAmt = max(random[railExplode](15,30) * halodoom_effectintensity, 0);
+				for(int i = 0; i < adjustedAmt; i++)
 				{
 					double spawnang = frandom(0,180);
 					double spawndist = frandom(-10, 10);

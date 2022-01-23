@@ -43,7 +43,8 @@ class Halo_Stanchion : HaloGun
 	{
 		vector3 muzzlepos = HaloMath.RelativeV3Offset(self, 0,0,0, 25,10,-8, 1.);
 		vector2 view = (angle, pitch);
-		for(int i = 0; i < 5; i++)
+		int adjustedAmt = max(5 * halodoom_effectintensity, 0);
+		for(int i = 0; i < adjustedAmt; i++)
 		{
 			view.x = angle + frandom(-20,20);
 			BiriBiri.DoLightning(muzzlepos, view, dist:50, 0.5, 8.0, 10.0, 30, 0);
@@ -122,14 +123,14 @@ class Halo_Stanchion : HaloGun
 			{
 				A_RecoilOffset(60,60,6);
 				A_SetRecoil(4.42, 0, 2);
-				A_SetZoom(0.87, 2);
+				A_SetZoom(0.82, 2);
 				A_FireStanchion();
-				A_RollQuake(-3, 30, 3);
-				A_RQuakeEx(2,2,2,10,0,20,"",QF_RELATIVE|QF_WAVE);
+				A_RollQuake(3, 44, 2);
+				A_RQuakeEx(4,4,4,10,0,20,"",QF_RELATIVE|QF_WAVE);
 			}
-			STCF BC 1 Bright A_RecoilOffset(60,60,6);
+			STCF BCD 1 Bright A_RecoilOffset(60,60,6);
 			TNT1 A 0 A_Light(0);
-			STCF DEEEEEE 1 A_SetZoom(1.0, 7);
+			STCF EEEEEE 1 A_SetZoom(1.0, 12);
 			STCF E 10 A_RecoilOffset(0,0,10);
 			STCF FGHI 1;
 			STCI A 20 A_Overlay(60, "DoSmoke");

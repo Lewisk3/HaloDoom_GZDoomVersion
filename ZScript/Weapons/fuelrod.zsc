@@ -35,7 +35,7 @@ class Fuelrod_Explosion : FastActor
 			TNT1 A 1 
 			{		
 				A_Explode(128, 256);
-				A_StartSound("Halo/Weapons/Fuelrod/Explosion", flags:CHANF_OVERLAP);
+				A_StartSound("Halo/Weapons/Fuelrod/Explosion", flags:CHANF_OVERLAP, attenuation:0.1);
 				let toxicSmoke = Spawn("Fuelrod_Damager", (pos.xy, pos.z+10));
 				if(toxicSmoke) toxicSmoke.target = target;
 				
@@ -154,7 +154,7 @@ class Halo_FuelRod : HaloGun
 		HaloGun.BloomSpeed 0.08;
 		HaloGun.BaseRecoil FUELROD_RECOIL;
 		HaloGun.Inaccuracy FUELROD_ACCMOD;
-		HaloGun.Crosshair "SNPRet", 1.0;
+		HaloGun.Crosshair "FuelRET", 1.0;
 		HaloGun.UIGraphic "MISSNG", 1.0;
 
 		RecoilWeapon.YOffsetRange -5, 100;
