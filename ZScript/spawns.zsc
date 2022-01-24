@@ -51,12 +51,14 @@ extend class HaloDoom_Events
 		if( item is "HealthBonus" && random[NadeSpawner](0,3) == 3 )
 			e.Replacement = "PlasmaGrenades";	
 		
-		
 		// Powerup Spawning
 		if( item is "SoulSphere" )
 			e.Replacement = "Overshield_LV1";
 		if( item is "MegaSphere" )
 			e.Replacement = "Overshield_LV2";
-		
+		if( item is "GreenArmor" )
+			e.Replacement = "Overshield_LV1";
+		if( item is "BlueArmor" )
+			e.Replacement = "Overshield_LV2";
 	}
 }

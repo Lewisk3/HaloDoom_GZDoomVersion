@@ -2,46 +2,46 @@
 Halo/Weapons/Zoom/In  Zoom_IN
 Halo/Weapons/Zoom/Out Zoom_OUT
 Halo/Weapons/DryFire  HW_DRYF
-Halo/Weapons/SuitZoom/IN  "Sounds/SFX/Suit_Zoom_IN.wav"
-Halo/Weapons/SuitZoom/OUT "Sounds/SFX/Suit_Zoom_OUT.wav"
+Halo/Weapons/SuitZoom/IN  "Sounds/SFX/Suit_Zoom_IN.ogg"
+Halo/Weapons/SuitZoom/OUT "Sounds/SFX/Suit_Zoom_OUT.ogg"
 UI/PressButton BTNPRESS
 
 // Vehicles
 
 // Ghost
-Halo/Ghost/Fire      "Sounds/Vehicles/Ghost/Ghost_Fire.wav"
-Halo/Ghost/DoExplode "Sounds/Vehicles/Ghost/Ghost_DoExplode.wav"
-Halo/Ghost/Explosion "Sounds/Vehicles/Ghost/Ghost_Explosion.wav"
-Halo/Ghost/EngineOn  "Sounds/Vehicles/Ghost/Ghost_EngineOn.wav"
-Halo/Ghost/EngineOff "Sounds/Vehicles/Ghost/Ghost_EngineOff.wav"
-Halo/Ghost/EngineHum "Sounds/Vehicles/Ghost/Ghost_EngineHum.wav"
-Halo/Ghost/Boost1    "Sounds/Vehicles/Ghost/Ghost_Boost1.wav"
-Halo/Ghost/Boost2    "Sounds/Vehicles/Ghost/Ghost_Boost2.wav"
-Halo/Ghost/BoostHum1 "Sounds/Vehicles/Ghost/Ghost_BoostHum1.wav"
-Halo/Ghost/BoostHum2 "Sounds/Vehicles/Ghost/Ghost_BoostHum2.wav"
+Halo/Ghost/Fire      "Sounds/Vehicles/Ghost/Ghost_Fire.ogg"
+Halo/Ghost/DoExplode "Sounds/Vehicles/Ghost/Ghost_DoExplode.ogg"
+Halo/Ghost/Explosion "Sounds/Vehicles/Ghost/Ghost_Explosion.ogg"
+Halo/Ghost/EngineOn  "Sounds/Vehicles/Ghost/Ghost_EngineOn.ogg"
+Halo/Ghost/EngineOff "Sounds/Vehicles/Ghost/Ghost_EngineOff.ogg"
+Halo/Ghost/EngineHum "Sounds/Vehicles/Ghost/Ghost_EngineHum.ogg"
+Halo/Ghost/Boost1    "Sounds/Vehicles/Ghost/Ghost_Boost1.ogg"
+Halo/Ghost/Boost2    "Sounds/Vehicles/Ghost/Ghost_Boost2.ogg"
+Halo/Ghost/BoostHum1 "Sounds/Vehicles/Ghost/Ghost_BoostHum1.ogg"
+Halo/Ghost/BoostHum2 "Sounds/Vehicles/Ghost/Ghost_BoostHum2.ogg"
 $random Halo/Ghost/Boost { Halo/Ghost/Boost1 Halo/Ghost/Boost2 }
 $random Halo/Ghost/BoostHum { Halo/Ghost/BoostHum1 Halo/Ghost/BoostHum2 }
 
 // Warthog
-Halo/Warthog/EngineOn  "Sounds/Vehicles/Warthog/engine_on.wav"
-Halo/Warthog/EngineOff "Sounds/Vehicles/Warthog/engine_off.wav"
-Halo/Warthog/EngineHum "Sounds/Vehicles/Warthog/engine_loop.wav"
-Halo/Warthog/DriveHum1 "Sounds/Vehicles/Warthog/driving_loop1.wav"
-Halo/Warthog/DriveHum2 "Sounds/Vehicles/Warthog/driving_loop2.wav"
-Halo/Warthog/Suspension1 "Sounds/Vehicles/Warthog/suspension1.wav"
-Halo/Warthog/Suspension2 "Sounds/Vehicles/Warthog/suspension2.wav"
-Halo/Warthog/Suspension3 "Sounds/Vehicles/Warthog/suspension3.wav"
-Halo/Warthog/Collision1 "Sounds/Vehicles/Warthog/collision1.wav"
-Halo/Warthog/Collision2 "Sounds/Vehicles/Warthog/collision2.wav"
-Halo/Warthog/Collision3 "Sounds/Vehicles/Warthog/collision3.wav"
-Halo/Warthog/Horn "Sounds/Vehicles/Warthog/horn_start.wav"
-Halo/Warthog/HornLoop "Sounds/Vehicles/Warthog/horn_loop.wav"
-Halo/Warthog/Chaingun/Start "Sounds/Vehicles/Warthog/CGSpin_Start.wav"
-Halo/Warthog/Chaingun/Loop "Sounds/Vehicles/Warthog/CGSpin_Loop.wav"
-Halo/Warthog/Chaingun/Stop "Sounds/Vehicles/Warthog/CGSpin_End.wav"
-Halo/Warthog/Chaingun/Fire1 "Sounds/Vehicles/Warthog/CGFire1.wav"
-Halo/Warthog/Chaingun/Fire2 "Sounds/Vehicles/Warthog/CGFire2.wav"
-Halo/Warthog/Chaingun/Fire3 "Sounds/Vehicles/Warthog/CGFire3.wav"
+Halo/Warthog/EngineOn  "Sounds/Vehicles/Warthog/engine_on.ogg"
+Halo/Warthog/EngineOff "Sounds/Vehicles/Warthog/engine_off.ogg"
+Halo/Warthog/EngineHum "Sounds/Vehicles/Warthog/engine_loop.ogg"
+Halo/Warthog/DriveHum1 "Sounds/Vehicles/Warthog/driving_loop1.ogg"
+Halo/Warthog/DriveHum2 "Sounds/Vehicles/Warthog/driving_loop2.ogg"
+Halo/Warthog/Suspension1 "Sounds/Vehicles/Warthog/suspension1.ogg"
+Halo/Warthog/Suspension2 "Sounds/Vehicles/Warthog/suspension2.ogg"
+Halo/Warthog/Suspension3 "Sounds/Vehicles/Warthog/suspension3.ogg"
+Halo/Warthog/Collision1 "Sounds/Vehicles/Warthog/collision1.ogg"
+Halo/Warthog/Collision2 "Sounds/Vehicles/Warthog/collision2.ogg"
+Halo/Warthog/Collision3 "Sounds/Vehicles/Warthog/collision3.ogg"
+Halo/Warthog/Horn "Sounds/Vehicles/Warthog/horn_start.ogg"
+Halo/Warthog/HornLoop "Sounds/Vehicles/Warthog/horn_loop.ogg"
+Halo/Warthog/Chaingun/Start "Sounds/Vehicles/Warthog/CGSpin_Start.ogg"
+Halo/Warthog/Chaingun/Loop "Sounds/Vehicles/Warthog/CGSpin_Loop.ogg"
+Halo/Warthog/Chaingun/Stop "Sounds/Vehicles/Warthog/CGSpin_End.ogg"
+Halo/Warthog/Chaingun/Fire1 "Sounds/Vehicles/Warthog/CGFire1.ogg"
+Halo/Warthog/Chaingun/Fire2 "Sounds/Vehicles/Warthog/CGFire2.ogg"
+Halo/Warthog/Chaingun/Fire3 "Sounds/Vehicles/Warthog/CGFire3.ogg"
 $random Halo/Warthog/Suspension { Halo/Warthog/Suspension1 Halo/Warthog/Suspension2 Halo/Warthog/Suspension3 }
 $random Halo/Warthog/Collision { Halo/Warthog/Collision1 Halo/Warthog/Collision2 Halo/Warthog/Collision3 }
 $random Halo/Warthog/Chaingun/Fire { Halo/Warthog/Chaingun/Fire1 Halo/Warthog/Chaingun/Fire2 Halo/Warthog/Chaingun/Fire3 }
@@ -50,55 +50,55 @@ $volume Halo/Warthog/DriveHum2 0.35;
 $volume Halo/Warthog/Suspension 0.25;
 
 // Scorpion
-Halo/Scorpion/Fire "Sounds/Vehicles/Scorpion/cannon_fire.wav"
-Halo/Scorpion/EngineLoop "Sounds/Vehicles/Scorpion/engine_loop.wav"
-Halo/Scorpion/EngineOn "Sounds/Vehicles/Scorpion/scorpion_on.wav"
-Halo/Scorpion/EngineOff "Sounds/Vehicles/Scorpion/scorpion_off.wav"
-Halo/Scorpion/Treads "Sounds/Vehicles/Scorpion/treads_loop.wav"
-Halo/Scorpion/MissileExplosion1 "Sounds/Vehicles/Scorpion/projexplode1.wav"
-Halo/Scorpion/MissileExplosion2 "Sounds/Vehicles/Scorpion/projexplode2.wav"
-Halo/Scorpion/MissileExplosion3 "Sounds/Vehicles/Scorpion/projexplode3.wav"
+Halo/Scorpion/Fire "Sounds/Vehicles/Scorpion/cannon_fire.ogg"
+Halo/Scorpion/EngineLoop "Sounds/Vehicles/Scorpion/engine_loop.ogg"
+Halo/Scorpion/EngineOn "Sounds/Vehicles/Scorpion/scorpion_on.ogg"
+Halo/Scorpion/EngineOff "Sounds/Vehicles/Scorpion/scorpion_off.ogg"
+Halo/Scorpion/Treads "Sounds/Vehicles/Scorpion/treads_loop.ogg"
+Halo/Scorpion/MissileExplosion1 "Sounds/Vehicles/Scorpion/projexplode1.ogg"
+Halo/Scorpion/MissileExplosion2 "Sounds/Vehicles/Scorpion/projexplode2.ogg"
+Halo/Scorpion/MissileExplosion3 "Sounds/Vehicles/Scorpion/projexplode3.ogg"
 $random Halo/Scorpion/MissileExplosion { Halo/Scorpion/MissileExplosion1 Halo/Scorpion/MissileExplosion2 Halo/Scorpion/MissileExplosion3 }
 $volume Halo/Scorpion/Treads 0.30;
 
 // Wraith
-Halo/Wraith/Fire1 "Sounds/Vehicles/Wraith/fire_mortar1.wav"
-Halo/Wraith/Fire2 "Sounds/Vehicles/Wraith/fire_mortar2.wav"
-Halo/Wraith/Fire3 "Sounds/Vehicles/Wraith/fire_mortar3.wav"
-Halo/Wraith/BoostBegin "Sounds/Vehicles/Wraith/boost_start.wav"
-Halo/Wraith/BoostLoop "Sounds/Vehicles/Wraith/boost_loop.wav"
-Halo/Wraith/MortarFlight1 "Sounds/Vehicles/Wraith/mortar_travel1.wav"
-Halo/Wraith/MortarFlight2 "Sounds/Vehicles/Wraith/mortar_travel2.wav"
-Halo/Wraith/MortarFlight3 "Sounds/Vehicles/Wraith/mortar_travel3.wav"
-Halo/Wraith/EngineLoop "Sounds/Vehicles/Wraith/engine_loop1.wav"
-Halo/Wraith/EngineOn_L1 "Sounds/Vehicles/Wraith/engine_on1.wav"
-Halo/Wraith/EngineOn_L2 "Sounds/Vehicles/Wraith/engine_on2.wav"
-Halo/Wraith/EngineOff_L1 "Sounds/Vehicles/Wraith/engine_off1.wav"
-Halo/Wraith/EngineOff_L2 "Sounds/Vehicles/Wraith/engine_off2.wav"
-Halo/Wraith/MissileExplosion1 "Sounds/Vehicles/Wraith/mortar_explode1.wav"
-Halo/Wraith/MissileExplosion2 "Sounds/Vehicles/Wraith/mortar_explode2.wav"
-Halo/Wraith/MissileExplosion3 "Sounds/Vehicles/Wraith/mortar_explode3.wav"
+Halo/Wraith/Fire1 "Sounds/Vehicles/Wraith/fire_mortar1.ogg"
+Halo/Wraith/Fire2 "Sounds/Vehicles/Wraith/fire_mortar2.ogg"
+Halo/Wraith/Fire3 "Sounds/Vehicles/Wraith/fire_mortar3.ogg"
+Halo/Wraith/BoostBegin "Sounds/Vehicles/Wraith/boost_start.ogg"
+Halo/Wraith/BoostLoop "Sounds/Vehicles/Wraith/boost_loop.ogg"
+Halo/Wraith/MortarFlight1 "Sounds/Vehicles/Wraith/mortar_travel1.ogg"
+Halo/Wraith/MortarFlight2 "Sounds/Vehicles/Wraith/mortar_travel2.ogg"
+Halo/Wraith/MortarFlight3 "Sounds/Vehicles/Wraith/mortar_travel3.ogg"
+Halo/Wraith/EngineLoop "Sounds/Vehicles/Wraith/engine_loop1.ogg"
+Halo/Wraith/EngineOn_L1 "Sounds/Vehicles/Wraith/engine_on1.ogg"
+Halo/Wraith/EngineOn_L2 "Sounds/Vehicles/Wraith/engine_on2.ogg"
+Halo/Wraith/EngineOff_L1 "Sounds/Vehicles/Wraith/engine_off1.ogg"
+Halo/Wraith/EngineOff_L2 "Sounds/Vehicles/Wraith/engine_off2.ogg"
+Halo/Wraith/MissileExplosion1 "Sounds/Vehicles/Wraith/mortar_explode1.ogg"
+Halo/Wraith/MissileExplosion2 "Sounds/Vehicles/Wraith/mortar_explode2.ogg"
+Halo/Wraith/MissileExplosion3 "Sounds/Vehicles/Wraith/mortar_explode3.ogg"
 $random Halo/Wraith/MissileExplosion { Halo/Wraith/MissileExplosion1 Halo/Wraith/MissileExplosion2 Halo/Wraith/MissileExplosion3 }
 $random Halo/Wraith/Fire { Halo/Wraith/Fire1 Halo/Wraith/Fire2 Halo/Wraith/Fire3 }
 $random Halo/Wraith/MortarFlight { Halo/Wraith/MortarFlight1 Halo/Wraith/MortarFlight2 Halo/Wraith/MortarFlight3 }
 
 // Items
-Halo/Powerup/Camo    "Sounds/Items/power_camo.wav"
-Halo/Powerup/Damage  "Sounds/Items/power_damage.wav"
-Halo/Powerup/Time    "Sounds/Items/power_time.wav"
-Halo/Powerup/Shield1 "Sounds/Items/power_shield1.wav"
-Halo/Powerup/Shield2 "Sounds/Items/power_shield2.wav"
+Halo/Powerup/Camo    "Sounds/Items/power_camo.ogg"
+Halo/Powerup/Damage  "Sounds/Items/power_damage.ogg"
+Halo/Powerup/Time    "Sounds/Items/power_time.ogg"
+Halo/Powerup/Shield1 "Sounds/Items/power_shield1.ogg"
+Halo/Powerup/Shield2 "Sounds/Items/power_shield2.ogg"
 
 // Melee
-Halo/Melee/Punch1 "Sounds/Melee/PunchHit1.wav"
-Halo/Melee/Punch2 "Sounds/Melee/PunchHit2.wav"
-Halo/Melee/Punch3 "Sounds/Melee/PunchHit3.wav"
-Halo/Melee/Knife1 "Sounds/Melee/KnifeHit1.wav"
-Halo/Melee/Knife2 "Sounds/Melee/KnifeHit2.wav"
-Halo/Melee/Swing1 "Sounds/Melee/MeleeSwing1.wav"
-Halo/Melee/Swing2 "Sounds/Melee/MeleeSwing2.wav"
-Halo/Melee/Swing3 "Sounds/Melee/MeleeSwing3.wav"
-Halo/Melee/Ouch   "Sounds/Melee/MeleeMiss.wav"
+Halo/Melee/Punch1 "Sounds/Melee/PunchHit1.ogg"
+Halo/Melee/Punch2 "Sounds/Melee/PunchHit2.ogg"
+Halo/Melee/Punch3 "Sounds/Melee/PunchHit3.ogg"
+Halo/Melee/Knife1 "Sounds/Melee/KnifeHit1.ogg"
+Halo/Melee/Knife2 "Sounds/Melee/KnifeHit2.ogg"
+Halo/Melee/Swing1 "Sounds/Melee/MeleeSwing1.ogg"
+Halo/Melee/Swing2 "Sounds/Melee/MeleeSwing2.ogg"
+Halo/Melee/Swing3 "Sounds/Melee/MeleeSwing3.ogg"
+Halo/Melee/Ouch   "Sounds/Melee/MeleeMiss.ogg"
 
 $random Halo/Melee/Punch { Halo/Melee/Punch1 Halo/Melee/Punch2 Halo/Melee/Punch3 }
 $random Halo/Melee/Swing { Halo/Melee/Swing1 Halo/Melee/Swing2 Halo/Melee/Swing3 }
@@ -125,7 +125,7 @@ $Random Halo/Weapons/Mag_MD6/Fire/Bass 	{ HW_MAGL1 HW_MAGL2 HW_MAGL3 }
 $Random Halo/Weapons/Mag_MD6/Mech 	    { HW_MAGM1 HW_MAGM2 HW_MAGM3 }
 $Random Halo/Weapons/Mag_MD6/Select     { HW_MAGS1 HW_MAGS2 }
 
-Halo/Weapons/Mag_MD6/Draw 		  "Sounds/Magnum/MagDraw.wav"
+Halo/Weapons/Mag_MD6/Draw 		  "Sounds/Magnum/MagDraw.ogg"
 Halo/Weapons/Mag_MD6/Melee 		  HW_MAGM
 Halo/Weapons/Mag_MD6/Reload 	  HW_MAGR
 Halo/Weapons/Mag_MD6/Reload/Empty HW_MAGRE
@@ -135,19 +135,19 @@ $volume Halo/Weapons/Mag_MD6/Fire/Bass 1.0;
 $volume Halo/Weapons/Mag_MD6/Mech 0.9;
 
 // AssaultRifle
-ARFIRE1 "Sounds/AssaultRifle/ARFire1.wav"
-ARFIRE2 "Sounds/AssaultRifle/ARFire2.wav"
-ARFIRE3 "Sounds/AssaultRifle/ARFire3.wav"
-ARFIRE4 "Sounds/AssaultRifle/ARFire4.wav"
-ARMECH1 "Sounds/AssaultRifle/ARMech1.wav"
-ARMECH2 "Sounds/AssaultRifle/ARMech2.wav"
-ARMECH3 "Sounds/AssaultRifle/ARMech3.wav"
-ARMECH4 "Sounds/AssaultRifle/ARMech4.wav"
-ARBASS1 "Sounds/AssaultRifle/ARBass1.wav"
-ARBASS2 "Sounds/AssaultRifle/ARBass2.wav" 
-ARBASS3 "Sounds/AssaultRifle/ARBass3.wav"
-ARBASS4 "Sounds/AssaultRifle/ARBass4.wav" 
-Halo/WeaponIntro "Sounds/AssaultRifle/HelmetIntro.wav"
+ARFIRE1 "Sounds/AssaultRifle/ARFire1.ogg"
+ARFIRE2 "Sounds/AssaultRifle/ARFire2.ogg"
+ARFIRE3 "Sounds/AssaultRifle/ARFire3.ogg"
+ARFIRE4 "Sounds/AssaultRifle/ARFire4.ogg"
+ARMECH1 "Sounds/AssaultRifle/ARMech1.ogg"
+ARMECH2 "Sounds/AssaultRifle/ARMech2.ogg"
+ARMECH3 "Sounds/AssaultRifle/ARMech3.ogg"
+ARMECH4 "Sounds/AssaultRifle/ARMech4.ogg"
+ARBASS1 "Sounds/AssaultRifle/ARBass1.ogg"
+ARBASS2 "Sounds/AssaultRifle/ARBass2.ogg" 
+ARBASS3 "Sounds/AssaultRifle/ARBass3.ogg"
+ARBASS4 "Sounds/AssaultRifle/ARBass4.ogg" 
+Halo/WeaponIntro "Sounds/AssaultRifle/HelmetIntro.ogg"
 
 
 $random Halo/Weapons/Rifle/Fire      { ARFIRE1 ARFIRE2 ARFIRE3 ARFIRE4 }
@@ -256,52 +256,52 @@ $volume Halo/Weapons/Sniper/Fire/Bass 1.0;
 $volume Halo/Weapons/Sniper/Fire 0.6;
 
 // Stanchion
-Stanchion_Fire1 "Sounds/Stanchion/StanchionFire1.wav"
-Stanchion_Fire2 "Sounds/Stanchion/StanchionFire2.wav"
-Stanchion_Fire3 "Sounds/Stanchion/StanchionFire3.wav"
-Stanchion_Fire4 "Sounds/Stanchion/StanchionFire4.wav"
-Halo/Weapons/Stanchion/Reload "Sounds/Stanchion/StanchionReload.wav"
+Stanchion_Fire1 "Sounds/Stanchion/StanchionFire1.ogg"
+Stanchion_Fire2 "Sounds/Stanchion/StanchionFire2.ogg"
+Stanchion_Fire3 "Sounds/Stanchion/StanchionFire3.ogg"
+Stanchion_Fire4 "Sounds/Stanchion/StanchionFire4.ogg"
+Halo/Weapons/Stanchion/Reload "Sounds/Stanchion/StanchionReload.ogg"
 
-Halo/Weapons/Stanchion/Fire/Bass  "Sounds/Stanchion/StanchionBass.wav"
+Halo/Weapons/Stanchion/Fire/Bass  "Sounds/Stanchion/StanchionBass.ogg"
 $random Halo/Weapons/Stanchion/Fire      { Stanchion_Fire1 Stanchion_Fire2 Stanchion_Fire3 Stanchion_Fire4 }
 
 
 // Carbine
-CARBINE_FIRE1 "Sounds/Carbine/CarbineFire1.wav"
-CARBINE_FIRE2 "Sounds/Carbine/CarbineFire2.wav"
-CARBINE_FIRE3 "Sounds/Carbine/CarbineFire3.wav"
-CARBINE_LOW1 "Sounds/Carbine/CarbineLow1.wav"
-CARBINE_LOW2 "Sounds/Carbine/CarbineLow2.wav"
-CARBINE_LOW3 "Sounds/Carbine/CarbineLow3.wav"
-CARBINE_LOW4 "Sounds/Carbine/CarbineLow4.wav"
-CARBINE_MECH1 "Sounds/Carbine/CarbineMech1.wav"
-CARBINE_MECH2 "Sounds/Carbine/CarbineMech2.wav"
-CARBINE_MECH3 "Sounds/Carbine/CarbineMech3.wav"
-CARBINE_MECH4 "Sounds/Carbine/CarbineMech4.wav"
+CARBINE_FIRE1 "Sounds/Carbine/CarbineFire1.ogg"
+CARBINE_FIRE2 "Sounds/Carbine/CarbineFire2.ogg"
+CARBINE_FIRE3 "Sounds/Carbine/CarbineFire3.ogg"
+CARBINE_LOW1 "Sounds/Carbine/CarbineLow1.ogg"
+CARBINE_LOW2 "Sounds/Carbine/CarbineLow2.ogg"
+CARBINE_LOW3 "Sounds/Carbine/CarbineLow3.ogg"
+CARBINE_LOW4 "Sounds/Carbine/CarbineLow4.ogg"
+CARBINE_MECH1 "Sounds/Carbine/CarbineMech1.ogg"
+CARBINE_MECH2 "Sounds/Carbine/CarbineMech2.ogg"
+CARBINE_MECH3 "Sounds/Carbine/CarbineMech3.ogg"
+CARBINE_MECH4 "Sounds/Carbine/CarbineMech4.ogg"
 
-Halo/Weapons/Carbine/Select   "Sounds/Carbine/CarbineDraw.wav"
-Halo/Weapons/Carbine/Reload   "Sounds/Carbine/CarbineReload.wav"
+Halo/Weapons/Carbine/Select   "Sounds/Carbine/CarbineDraw.ogg"
+Halo/Weapons/Carbine/Reload   "Sounds/Carbine/CarbineReload.ogg"
 
 $random Halo/Weapons/Carbine/Fire      { CARBINE_FIRE1 CARBINE_FIRE2 CARBINE_FIRE3 }
 $random Halo/Weapons/Carbine/Fire/Bass { CARBINE_LOW1 CARBINE_LOW2 CARBINE_LOW3 CARBINE_LOW4 }
 $random Halo/Weapons/Carbine/Fire/Mech { CARBINE_MECH1 CARBINE_MECH2 CARBINE_MECH3 CARBINE_MECH4 }
 
 // Plasma Pistol
-PP_FIRE1 "Sounds/PlasmaPistol/fire_normal1.wav"
-PP_FIRE2 "Sounds/PlasmaPistol/fire_normal2.wav"
-PP_FIRE3 "Sounds/PlasmaPistol/fire_normal3.wav"
-PP_FIRELOW1 "Sounds/PlasmaPistol/fire_normal_low1.wav"
-PP_FIRELOW2 "Sounds/PlasmaPistol/fire_normal_low2.wav"
-PP_FIRELOW3 "Sounds/PlasmaPistol/fire_normal_low3.wav"
-PP_FIRECHARGEDLOW1 "Sounds/PlasmaPistol/fire_charged_low1.wav"
-PP_FIRECHARGEDLOW2 "Sounds/PlasmaPistol/fire_charged_low2.wav"
-PP_FIRECHARGEDLOW3 "Sounds/PlasmaPistol/fire_charged_low3.wav"
+PP_FIRE1 "Sounds/PlasmaPistol/fire_normal1.ogg"
+PP_FIRE2 "Sounds/PlasmaPistol/fire_normal2.ogg"
+PP_FIRE3 "Sounds/PlasmaPistol/fire_normal3.ogg"
+PP_FIRELOW1 "Sounds/PlasmaPistol/fire_normal_low1.ogg"
+PP_FIRELOW2 "Sounds/PlasmaPistol/fire_normal_low2.ogg"
+PP_FIRELOW3 "Sounds/PlasmaPistol/fire_normal_low3.ogg"
+PP_FIRECHARGEDLOW1 "Sounds/PlasmaPistol/fire_charged_low1.ogg"
+PP_FIRECHARGEDLOW2 "Sounds/PlasmaPistol/fire_charged_low2.ogg"
+PP_FIRECHARGEDLOW3 "Sounds/PlasmaPistol/fire_charged_low3.ogg"
 
-Halo/Weapons/PlasmaPistol/Overheat "Sounds/PlasmaPistol/overheat.wav"
-Halo/Weapons/PlasmaPistol/Charge/Start "Sounds/PlasmaPistol/charge_start.wav"
-Halo/Weapons/PlasmaPistol/Charge/Loop "Sounds/PlasmaPistol/charge_loop.wav"
-Halo/Weapons/PlasmaPistol/Fire/Charged "Sounds/PlasmaPistol/fire_charged.wav"
-Halo/Weapons/PlasmaPistol/Select "Sounds/PlasmaPistol/raise_lower.wav"
+Halo/Weapons/PlasmaPistol/Overheat "Sounds/PlasmaPistol/overheat.ogg"
+Halo/Weapons/PlasmaPistol/Charge/Start "Sounds/PlasmaPistol/charge_start.ogg"
+Halo/Weapons/PlasmaPistol/Charge/Loop "Sounds/PlasmaPistol/charge_loop.ogg"
+Halo/Weapons/PlasmaPistol/Fire/Charged "Sounds/PlasmaPistol/fire_charged.ogg"
+Halo/Weapons/PlasmaPistol/Select "Sounds/PlasmaPistol/raise_lower.ogg"
 
 $Random Halo/Weapons/PlasmaPistol/Fire 		 { PP_FIRE1 PP_FIRE2 PP_FIRE3 }
 $Random Halo/Weapons/PlasmaPistol/Fire/Bass  { PP_FIRELOW1 PP_FIRELOW2 PP_FIRELOW3 }
@@ -327,32 +327,32 @@ $Random Halo/Weapons/PlasmaRifle/Fire/Bass  { PR_FIRELOW1 PR_FIRELOW2 PR_FIRELOW
 $Volume Halo/Weapons/PlasmaRifle/Fire 0.4;
 
 // Needler 
-NDFIRE1 "Sounds/Needler/Needler_Fire1.wav"
-NDFIRE2 "Sounds/Needler/Needler_Fire2.wav"
-NDFIRE3 "Sounds/Needler/Needler_Fire3.wav"
-NDLOW1 "Sounds/Needler/Needler_Low1.wav" 
-NDLOW2 "Sounds/Needler/Needler_Low2.wav" 
-NDLOW3 "Sounds/Needler/Needler_Low3.wav" 
+NDFIRE1 "Sounds/Needler/Needler_Fire1.ogg"
+NDFIRE2 "Sounds/Needler/Needler_Fire2.ogg"
+NDFIRE3 "Sounds/Needler/Needler_Fire3.ogg"
+NDLOW1 "Sounds/Needler/Needler_Low1.ogg" 
+NDLOW2 "Sounds/Needler/Needler_Low2.ogg" 
+NDLOW3 "Sounds/Needler/Needler_Low3.ogg" 
 
 $random Halo/Weapons/Needler/Fire      { NDFIRE1 NDFIRE2 NDFIRE3 }
 $random Halo/Weapons/Needler/Fire/Bass { NDLOW1 NDLOW2 NDLOW3 }
 
-Halo/Weapons/Needler/Reload/Full  "Sounds/Needler/Needler_Reload.wav"
-Halo/Weapons/Needler/Reload/Empty "Sounds/Needler/Needler_ReloadEmpty.wav"
-Halo/Weapons/Needler/Select       "Sounds/Needler/Needler_Select.wav"
-Halo/Weapons/Needler/SuperCombine "Sounds/Needler/SuperCombine.wav"
+Halo/Weapons/Needler/Reload/Full  "Sounds/Needler/Needler_Reload.ogg"
+Halo/Weapons/Needler/Reload/Empty "Sounds/Needler/Needler_ReloadEmpty.ogg"
+Halo/Weapons/Needler/Select       "Sounds/Needler/Needler_Select.ogg"
+Halo/Weapons/Needler/SuperCombine "Sounds/Needler/SuperCombine.ogg"
 
 // Bulldog
-BLDFIRE1 "Sounds/Bulldog/bulldog_fire1.wav"
-BLDFIRE2 "Sounds/Bulldog/bulldog_fire2.wav"
-BLDFIRE3 "Sounds/Bulldog/bulldog_fire3.wav"
-BLDBASS1 "Sounds/Bulldog/bulldog_low1.wav"
-BLDBASS2 "Sounds/Bulldog/bulldog_low2.wav"
-BLDBASS3 "Sounds/Bulldog/bulldog_low3.wav"
+BLDFIRE1 "Sounds/Bulldog/bulldog_fire1.ogg"
+BLDFIRE2 "Sounds/Bulldog/bulldog_fire2.ogg"
+BLDFIRE3 "Sounds/Bulldog/bulldog_fire3.ogg"
+BLDBASS1 "Sounds/Bulldog/bulldog_low1.ogg"
+BLDBASS2 "Sounds/Bulldog/bulldog_low2.ogg"
+BLDBASS3 "Sounds/Bulldog/bulldog_low3.ogg"
 
-Halo/Weapons/Bulldog/ReloadPump "Sounds/Bulldog/bulldog_reload_full.wav"
-Halo/Weapons/Bulldog/Reload     "Sounds/Bulldog/bulldog_reload_partial.wav" 
-Halo/Weapons/Bulldog/Ready      "Sounds/Bulldog/bulldog_draw.wav"
+Halo/Weapons/Bulldog/ReloadPump "Sounds/Bulldog/bulldog_reload_full.ogg"
+Halo/Weapons/Bulldog/Reload     "Sounds/Bulldog/bulldog_reload_partial.ogg" 
+Halo/Weapons/Bulldog/Ready      "Sounds/Bulldog/bulldog_draw.ogg"
 
 $random Halo/Weapons/Bulldog/Fire      { BLDFIRE1 BLDFIRE2 BLDFIRE3 }
 $random Halo/Weapons/Bulldog/Fire/Bass { BLDBASS1 BLDBASS2 BLDBASS3 }
@@ -422,17 +422,17 @@ $volume Shield/Warning 0.7
 $volume Shield/Low 0.25
 
 // Grenades
-Halo/Grenade/Frag/Pickup "Sounds/Grenades/Frag_Pickup.wav"
-Halo/Grenade/Frag/Throw "Sounds/Grenades/Frag_Throw.wav"
-Halo/Grenade/Frag/Bounce "Sounds/Grenades/Frag_Bounce.wav"
-Halo/Grenade/Frag/Explode "Sounds/Grenades/Frag_Explode.wav"
-Halo/Grenade/Frag/ExplodeWater "Sounds/Grenades/Frag_ExplodeWater.wav"
-Halo/Grenade/Plasma/Pickup "Sounds/Grenades/Sticky_Pickup.wav"
-Halo/Grenade/Plasma/Throw "Sounds/Grenades/Sticky_Throw.wav"
-Halo/Grenade/Plasma/Explode "Sounds/Grenades/Sticky_Explode.wav"
-Halo/Grenade/Plasma/ExplodeWater "Sounds/Grenades/Sticky_ExplodeWater.wav"
-Halo/Grenade/Plasma/Armed "Sounds/Grenades/Sticky_Armed.wav"
-Halo/Grenade/Plasma/FuseLoop "Sounds/Grenades/Sticky_Fuse.wav"
+Halo/Grenade/Frag/Pickup "Sounds/Grenades/Frag_Pickup.ogg"
+Halo/Grenade/Frag/Throw "Sounds/Grenades/Frag_Throw.ogg"
+Halo/Grenade/Frag/Bounce "Sounds/Grenades/Frag_Bounce.ogg"
+Halo/Grenade/Frag/Explode "Sounds/Grenades/Frag_Explode.ogg"
+Halo/Grenade/Frag/ExplodeWater "Sounds/Grenades/Frag_ExplodeWater.ogg"
+Halo/Grenade/Plasma/Pickup "Sounds/Grenades/Sticky_Pickup.ogg"
+Halo/Grenade/Plasma/Throw "Sounds/Grenades/Sticky_Throw.ogg"
+Halo/Grenade/Plasma/Explode "Sounds/Grenades/Sticky_Explode.ogg"
+Halo/Grenade/Plasma/ExplodeWater "Sounds/Grenades/Sticky_ExplodeWater.ogg"
+Halo/Grenade/Plasma/Armed "Sounds/Grenades/Sticky_Armed.ogg"
+Halo/Grenade/Plasma/FuseLoop "Sounds/Grenades/Sticky_Fuse.ogg"
 
 // Surface Sounds
 WALKWATER1 "Sounds/SurfaceSound/Walk Water 1.ogg"
@@ -457,30 +457,30 @@ $random Halo/Surface/Nature/Footstep { WALKNATURE1 WALKNATURE2 WALKNATURE3 WALKN
 $random Halo/Surface/Water/Footstep  { WALKWATER1 WALKWATER2 WALKWATER3 WALKWATER4 }
 
 // Player sounds
-Halo/Spartan/Death1 "Sounds/Players/death1.wav" 
-Halo/Spartan/Death2 "Sounds/Players/death2.wav" 
-Halo/Spartan/Death3 "Sounds/Players/death3.wav" 
-Halo/Spartan/Death4 "Sounds/Players/death4.wav" 
-Halo/Spartan/Death5 "Sounds/Players/death5.wav" 
-Halo/Spartan/PainLow "Sounds/Players/pain_low.wav" 
-Halo/Spartan/PainMed "Sounds/Players/pain_med.wav" 
-Halo/Spartan/PainHigh "Sounds/Players/pain_high.wav" 
-Halo/Spartan/Jump1 "Sounds/Players/jump1.wav"
-Halo/Spartan/Jump2 "Sounds/Players/jump2.wav"
-Halo/Spartan/DoubleJump1 "Sounds/Players/Abilities/dbljump1.wav"
-Halo/Spartan/DoubleJump2 "Sounds/Players/Abilities/dbljump2.wav"
-Halo/Spartan/Dash1 "Sounds/Players/Abilities/dash1.wav"
-Halo/Spartan/Dash2 "Sounds/Players/Abilities/dash2.wav"
-Halo/Spartan/Dash3 "Sounds/Players/Abilities/dash3.wav"
-Halo/Spartan/Dash4 "Sounds/Players/Abilities/dash4.wav"
-Halo/Spartan/Slide1 "Sounds/Players/Abilities/slide1.wav"
-Halo/Spartan/Slide2 "Sounds/Players/Abilities/slide2.wav"
-Halo/Spartan/Slide3 "Sounds/Players/Abilities/slide3.wav"
-Halo/Spartan/Grapple/Deploy "Sounds/Players/Abilities/grapple_deploy.wav"
-Halo/Spartan/Grapple/Latch "Sounds/Players/Abilities/grapple_latch.wav"
-Halo/Spartan/ZipLine/Start "Sounds/Players/Abilities/zip_begin.wav"
-Halo/Spartan/ZipLine/Loop "Sounds/Players/Abilities/zip_loop.wav"
-Halo/Spartan/ZipLine/End "Sounds/Players/Abilities/zip_end.wav"
+Halo/Spartan/Death1 "Sounds/Players/death1.ogg" 
+Halo/Spartan/Death2 "Sounds/Players/death2.ogg" 
+Halo/Spartan/Death3 "Sounds/Players/death3.ogg" 
+Halo/Spartan/Death4 "Sounds/Players/death4.ogg" 
+Halo/Spartan/Death5 "Sounds/Players/death5.ogg" 
+Halo/Spartan/PainLow "Sounds/Players/pain_low.ogg" 
+Halo/Spartan/PainMed "Sounds/Players/pain_med.ogg" 
+Halo/Spartan/PainHigh "Sounds/Players/pain_high.ogg" 
+Halo/Spartan/Jump1 "Sounds/Players/jump1.ogg"
+Halo/Spartan/Jump2 "Sounds/Players/jump2.ogg"
+Halo/Spartan/DoubleJump1 "Sounds/Players/Abilities/dbljump1.ogg"
+Halo/Spartan/DoubleJump2 "Sounds/Players/Abilities/dbljump2.ogg"
+Halo/Spartan/Dash1 "Sounds/Players/Abilities/dash1.ogg"
+Halo/Spartan/Dash2 "Sounds/Players/Abilities/dash2.ogg"
+Halo/Spartan/Dash3 "Sounds/Players/Abilities/dash3.ogg"
+Halo/Spartan/Dash4 "Sounds/Players/Abilities/dash4.ogg"
+Halo/Spartan/Slide1 "Sounds/Players/Abilities/slide1.ogg"
+Halo/Spartan/Slide2 "Sounds/Players/Abilities/slide2.ogg"
+Halo/Spartan/Slide3 "Sounds/Players/Abilities/slide3.ogg"
+Halo/Spartan/Grapple/Deploy "Sounds/Players/Abilities/grapple_deploy.ogg"
+Halo/Spartan/Grapple/Latch "Sounds/Players/Abilities/grapple_latch.ogg"
+Halo/Spartan/ZipLine/Start "Sounds/Players/Abilities/zip_begin.ogg"
+Halo/Spartan/ZipLine/Loop "Sounds/Players/Abilities/zip_loop.ogg"
+Halo/Spartan/ZipLine/End "Sounds/Players/Abilities/zip_end.ogg"
 Halo/Spartan/Land/Normal "Sounds/Players/land_normal.ogg"
 Halo/Spartan/Land/Hard "Sounds/Players/land_hard.ogg"
 
@@ -490,15 +490,15 @@ $random Halo/Spartan/DoubleJump { Halo/Spartan/DoubleJump1 Halo/Spartan/DoubleJu
 $random Halo/Spartan/Jump { Halo/Spartan/Jump1 Halo/Spartan/Jump2 }
 $random Halo/Spartan/Death { Halo/Spartan/Death1 Halo/Spartan/Death2 Halo/Spartan/Death3 Halo/Spartan/Death4 Halo/Spartan/Death5 }
 
-$playersound	Spartan  male	*death 	  "Sounds/Players/death2.wav" 
-$playersound	Spartan  male	*xdeath	  "Sounds/Players/death4.wav" 
-$playersound	Spartan  male	*gibbed	  "Sounds/Players/death5.wav" 
-$playersound	Spartan  male	*pain100  "Sounds/Players/pain_high.wav" 
-$playersound	Spartan  male	*pain75	  "Sounds/Players/pain_high.wav" 
-$playersound	Spartan  male	*pain50	  "Sounds/Players/pain_med.wav" 
-$playersound	Spartan  male	*pain25	  "Sounds/Players/pain_low.wav" 
-$playersound	Spartan  male	grunt	  "Sounds/Players/jump2.wav"
+$playersound	Spartan  male	*death 	  "Sounds/Players/death2.ogg" 
+$playersound	Spartan  male	*xdeath	  "Sounds/Players/death4.ogg" 
+$playersound	Spartan  male	*gibbed	  "Sounds/Players/death5.ogg" 
+$playersound	Spartan  male	*pain100  "Sounds/Players/pain_high.ogg" 
+$playersound	Spartan  male	*pain75	  "Sounds/Players/pain_high.ogg" 
+$playersound	Spartan  male	*pain50	  "Sounds/Players/pain_med.ogg" 
+$playersound	Spartan  male	*pain25	  "Sounds/Players/pain_low.ogg" 
+$playersound	Spartan  male	grunt	  "Sounds/Players/jump2.ogg"
 $playersound	Spartan  male	*land	  "Sounds/Players/land_normal.ogg"
-$playersound	Spartan  male	*jump	  "Sounds/Players/jump1.wav"
+$playersound	Spartan  male	*jump	  "Sounds/Players/jump1.ogg"
 $playersound	Spartan  male	*fist	  dspunch
 $playersound	Spartan  male	*usefail  dsnoway

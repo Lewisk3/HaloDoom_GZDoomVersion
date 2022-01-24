@@ -65,8 +65,8 @@ class Fuelrod_Damager : FastActor
 {
 	Default
 	{
-		Damage 3;
-		Radius 128;
+		Damage 5;
+		Radius 250;
 	}
 
 	States
@@ -225,6 +225,7 @@ class Halo_FuelRod : HaloGun
 		wait;
 		
 		Fire:
+			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Ready.Dryfire");
 			FRDF A 1 Bright
 			{
 				A_RecoilOffset(40,40,6);

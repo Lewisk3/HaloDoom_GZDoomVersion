@@ -134,15 +134,11 @@ class WeaponPickupProxy : Actor
 			// If player is colliding with a weaponproxy item, and looking at it.
 			if( Distance3DSquared(act) <= pickup_dist )
 			{
-				CVar mustsee = CVar.GetCVar("pickup_checksight", act.player);
-				if(mustsee && mustsee.GetBool())
-				{
-					FLineTraceData lt;
-					act.LineTrace(act.angle, visibledist, act.pitch, TRF_ALLACTORS|TRF_ABSOFFSET, act.player.viewheight,0,0, lt);
-					Actor hitact = lt.HitActor;
-					if(hitact != self) continue;
-				}
-				
+				FLineTraceData lt;
+				act.LineTrace(act.angle, visibledist, act.pitch, TRF_ALLACTORS|TRF_ABSOFFSET, act.player.viewheight,0,0, lt);
+				Actor hitact = lt.HitActor;
+				if(hitact != self) continue;
+
 				plr = act;
 				if(!plr.countinv(trueitem)) plr.pickuptarget = self;
 				break;
