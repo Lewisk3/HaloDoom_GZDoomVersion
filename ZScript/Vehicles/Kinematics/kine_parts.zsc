@@ -36,6 +36,7 @@ class Segment : Actor
 	{
 		parent.GetEndPos();
 		SetOrigin(parent.endpos, true);
+		FollowPos(parent.pos, true);
 		self.parent = parent;
 	}
 	
@@ -85,7 +86,7 @@ class Segment : Actor
 		vector3 localoffs = GetEndOffs();
 		if(flipped) localoffs.y *= -1;
 		
-		vector3 worldoffs = HaloMath.V3Offset(angle,pitch - 90,roll, localoffs.x,localoffs.y,localoffs.z, 1.0);
+		vector3 worldoffs = HaloMath.V3Offset(angle+angleoffs,pitch+pitchoffs - 90,roll, localoffs.x,localoffs.y,localoffs.z, 1.0);
 		endpos = level.vec3offset(pos, worldoffs); 
 	}
 	
@@ -146,7 +147,11 @@ class KineLimb : Actor
 		if(flipx) seg.flipped = true;
 		segs.Push(seg);
 		
-		if(end > 0) seg.Attach(segs[end-1]);
+		if(end > 0) 
+			seg.Attach(segs[end-1]);
+		else
+			seg.FollowPos(followpos);
+
 		return seg;
 	}
 	

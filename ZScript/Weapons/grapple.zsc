@@ -52,6 +52,7 @@ class GrapplingHook : KineLimb
 		plr.LineTrace(plr.angle, 1024 * 32, plr.pitch, TRF_ALLACTORS, offsetz:zoffs, offsetforward:64, data:lt);	
 		hookpos = lt.HitLocation;
 		hitactor = lt.HitActor;
+		angle = 0.25;
 		
 		plr.A_StartSound("Halo/Spartan/Grapple/Deploy", CHAN_BODY, CHANF_OVERLAP);
 		PopulateSegs();
@@ -78,7 +79,9 @@ class GrapplingHook : KineLimb
 	
 	virtual void PopulateSegs()
 	{
-		for(int i = 0; i < 200; i++)
+		let complexity = CVar.GetCVar("halodoom_grapplecomplexity", plr.player);
+		double segCount = max(20, 100 * complexity.getFloat());
+		for(int i = 0; i <= segCount; i++)
 			AddSegment("RopeSegment");
 	}
 			
@@ -110,7 +113,7 @@ class GrapplingHook : KineLimb
 		// Resize
 		double segCount = segs.Size()-1;
 		double segSize = dist / segCount;
-		for(int i = 0; i < segCount; i++)
+		for(int i = 0; i <= segCount; i++)
 		{
 			let seg = segs[i];
 			seg.A_SetScale(seg.Scale.X, segSize);

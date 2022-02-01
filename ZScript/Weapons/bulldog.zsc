@@ -40,7 +40,7 @@ class Halo_Bulldog : HaloGun
 		HaloGun.BaseRecoil BULLDOG_RECOIL;
 		HaloGun.Inaccuracy BULLDOG_ACCMOD;
 		HaloGun.Crosshair "SGRet", 0.8;
-		HaloGun.UIGraphic "WI_SG", 1.0;
+		HaloGun.UIGraphic "WI_BDOG", 0.75;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
 	}
@@ -66,7 +66,7 @@ class Halo_Bulldog : HaloGun
 			A_ShootProjectile("HaloBulldog_Bullet", 8);		
 			if(!(i%2)) A_SpawnSFX("MuzzleSmoke", 0,0);
 		}
-		A_MuzzleSparks(15, 60, 12,12);
+		A_MuzzleSparks(15, 60, 8,8);
 		A_TakeAmmo(1);
 		A_UpdateSpread();
 	}

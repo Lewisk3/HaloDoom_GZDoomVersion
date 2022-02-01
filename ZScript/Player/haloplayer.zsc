@@ -3,7 +3,6 @@ struct CortanaInfo
 	Array<int> usedKeys;
 }
 
-
 class HaloPlayer : DoomPlayer
 {
 	// Misc
@@ -63,7 +62,7 @@ class HaloPlayer : DoomPlayer
 		Player.ViewHeight 41;		
 		Player.SoundClass "Spartan";
 		-DONTTRANSLATE;
-		
+
 		// UI
 		Player.DisplayName "Spartan Template";
 		HaloPlayer.Description "Template Spartan class.";

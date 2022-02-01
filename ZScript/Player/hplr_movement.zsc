@@ -251,7 +251,7 @@ extend class HaloPlayer
 			}
 			else
 			{
-				grapple = GrapplingHook.Deploy(self, (-5,-8,-10));
+				grapple = GrapplingHook.Deploy(self, (-10,-8,-10));
 			}
 		}
 		

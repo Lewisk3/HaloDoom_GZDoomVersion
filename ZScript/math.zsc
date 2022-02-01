@@ -208,7 +208,7 @@ class HaloMath Abstract
 			dmgfalloff *= dmgfalloffmod;
 			
 			if(dmgfalloff > 0)
-				act.DamageMobJ(src, shooter, dmgfalloff, damageType, 0, src.angle); 
+				act.DamageMobJ(src, shooter, dmgfalloff * GAMEPLAY_DAMAGEMOD, damageType, 0, src.angle); 
 		}
 	}
 
@@ -487,6 +487,53 @@ class HaloMath Abstract
     }
 }
 
+class ActorTracer : Object 
+{
+	Actor source;
+	Actor currentActor;
+	uint traceFlags;
+	double maxDist;
+	vector3 offs;
+	vector2 angleOffs;
+	
+	static ActorTracer Create(Actor source, double dist = 1024, uint flags = TRF_ALLACTORS, double fw = 0, double lr = 0, double ud = 0, double angleOffs = 0, double pitchOffs = 0)
+	{
+		let aTrace = new("ActorTracer");
+		if(aTrace)
+		{
+			aTrace.maxDist = dist;
+			aTrace.source = source;
+			aTrace.currentActor = source;
+			aTrace.offs = (fw, lr, ud);
+			if(source.player) aTrace.offs.z += (source.player.viewz - source.pos.z);			
+			
+			aTrace.traceFlags = flags;
+			aTrace.angleOffs = (angleOffs, pitchOffs);
+		}
+		return aTrace;
+	}
+	
+	play Actor Next(bool keepOffsets = true)
+	{
+		vector3 realOffs = (0,0,0);
+		if(currentActor == source || keepOffsets)
+			realOffs = offs;
+	
+		FLineTraceData lt;
+		currentActor.LineTrace(
+			source.angle + angleOffs.x, maxDist, 
+			source.pitch + angleOffs.y, 
+			traceFlags, 
+			realOffs.z, realOffs.x + source.radius, realOffs.y, 
+			lt
+		);
+		if(lt.HitActor == currentActor || lt.HitActor == source) return null;
+				
+		currentActor = lt.HitActor;
+		
+		return currentActor;
+	}
+}
 
 // Matrix library from Gutamatics (https://gitlab.com/Gutawer/gzdoom-gutamatics/-/blob/master/Gutamatics/Matrix.zsc)
 enum HaloVectorType {

@@ -80,7 +80,7 @@ class GravityHammerField : RepulsorField
 			TNT1 A 0;
 			TNT1 A 2
 			{
-				A_Explode(400,128,0, damagetype:"Crush");
+				HaloMath.ExplodeEx(self, 400, 128, 1.0, damagetype:"Crush");
 				let expl = Spawn("GravityHammerExplosion", pos);
 			}
 		Repulse:

@@ -198,6 +198,7 @@ class RecoilWeapon : Weapon
 			invoker.realoffsy = clamp(invoker.realoffsy, yrange.x, yrange.y);
 		}
 		
+		invoker.staticoffs.y = max(invoker.yoff_min, invoker.staticoffs.y);
 		invoker.curstaticoffs.x = HaloMath.Lerp(invoker.curstaticoffs.x, invoker.staticoffs.x, 0.35);
 		invoker.curstaticoffs.y = HaloMath.Lerp(invoker.curstaticoffs.y, invoker.staticoffs.y, 0.35);
 		if( invoker.realoffsx == invoker.woffsx && invoker.realoffsy == invoker.woffsy+wyoffs) 
