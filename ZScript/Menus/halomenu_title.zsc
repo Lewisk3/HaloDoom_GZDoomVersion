@@ -12,35 +12,36 @@ class HaloDoom_TitleMenu : HaloMenuBase
 		mMouse = Mouse.Create("", 0,0,32,32);
 		
 		double btnY = 680; 
+		double btnW = 0.7;
 		
 		TextElement btntxt = newBtnText("CAMPAIGN", "HaloFont");
-		buttons.push(Button.Create('NewGame', "BTN_OFF" ,  "BTN_ON" , 960, btnY, 0.8, 0.25, btntxt));
+		buttons.push(Button.Create('NewGame', "BTN_OFF" ,  "BTN_ON" , 960, btnY, btnW, 0.25, btntxt));
 		btnY += 80;
 		
 		if(!title)
 		{
 			btntxt = newBtnText("SAVE GAME", "HaloFont");
-			buttons.push(Button.Create('SaveGame', "BTN_OFF" ,  "BTN_ON" , 960, btnY, 0.8, 0.25, btntxt));
+			buttons.push(Button.Create('SaveGame', "BTN_OFF" ,  "BTN_ON" , 960, btnY, btnW, 0.25, btntxt));
 			btnY += 80;	
 		}
 		
 		btntxt = newBtnText("LOAD GAME", "HaloFont");
-		buttons.push(Button.Create('LoadGame', "BTN_OFF" ,  "BTN_ON" , 960, btnY, 0.8, 0.25, btntxt));
+		buttons.push(Button.Create('LoadGame', "BTN_OFF" ,  "BTN_ON" , 960, btnY, btnW, 0.25, btntxt));
 		btnY += 80;
 		
 		if(title)
 		{
 			btntxt = newBtnText("CONFIGURE", "HaloFont");
-			buttons.push(Button.Create('Configure', "BTN_OFF" ,  "BTN_ON" , 960, btnY, 0.8, 0.25, btntxt));
+			buttons.push(Button.Create('Configure', "BTN_OFF" ,  "BTN_ON" , 960, btnY, btnW, 0.25, btntxt));
 			btnY += 80;
 		}
 		
 		btntxt = newBtnText("OPTIONS", "HaloFont");
-		buttons.push(Button.Create('Options', "BTN_OFF" ,  "BTN_ON" , 960, btnY, 0.8, 0.25, btntxt));
+		buttons.push(Button.Create('Options', "BTN_OFF" ,  "BTN_ON" , 960, btnY, btnW, 0.25, btntxt));
 		btnY += 80;
 		
 		btntxt = newBtnText("QUIT", "HaloFont");
-		buttons.push(Button.Create('Quit', "BTN_OFF" ,  "BTN_ON" , 960, btnY, 0.8, 0.25, btntxt));
+		buttons.push(Button.Create('Quit', "BTN_OFF" ,  "BTN_ON" , 960, btnY, btnW, 0.25, btntxt));
 		
 		for(int i = 0; i < buttons.Size(); i++)
 			buttons[i].ScaleCollider(0.9, 0.7);

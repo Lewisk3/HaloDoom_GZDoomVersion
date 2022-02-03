@@ -138,7 +138,7 @@ class Button ui
 			btn.texsize = HLSBS.GetImageSize(offtex);
 			btn.texsize.x *= sw;
 			btn.texsize.y *= sh;
-			btn.SetupCollider(x - btn.texsize.x/2,y - btn.texsize.y/2, btn.texsize.x,btn.texsize.y);
+			btn.SetupCollider(x - btn.texsize.x/2.0,y - btn.texsize.y/2.0, btn.texsize.x,btn.texsize.y);
 		}
 		return btn;
 	}
@@ -154,8 +154,8 @@ class Button ui
 		ntexsize.x *= wpart;
 		ntexsize.y *= hpart;
 		SetupCollider( 
-				btnrect.pos.x - ntexsize.x/2, 
-			    btnrect.pos.y - ntexsize.y/2, 
+				btnrect.pos.x - ntexsize.x/2.0, 
+			    btnrect.pos.y - ntexsize.y/2.0, 
 				ntexsize.x, ntexsize.y
 		);
 	}
@@ -174,22 +174,29 @@ class Button ui
 	
 	void Draw(double alpha=1.0, Color tint=Color(0,0,0,0))
 	{
-		HLSBS.DrawTexture(cur_tex,btnrect.pos,0,alpha,btnrect.size,tint);
+		uint baseFlags = HLSBS.SS_NOASPECTCORRECTION;
+		HLSBS.DrawTexture(cur_tex,btnrect.pos,baseFlags,alpha,btnrect.size,tint);
 		if(btntext)
 		{
 			vector2 tscale = btntext.scale;
+			vector2 bscale = btnrect.size;
+			
 			vector2 btn_mid = (
-				collider.pos.x + collider.size.x / 2.0,
-				collider.pos.y + collider.size.y / 2.0
+				btnrect.pos.x - (bscale.x*0.5), 
+				btnrect.pos.y - (bscale.y*0.5)
 			);
 			
 			// Get string size
+			vector2 fontSize = (
+				btntext.text_font.StringWidth(btntext.txt) * tscale.x,
+				btntext.text_font.GetHeight()
+			);
 			vector2 str_dm = (
-				 btntext.text_font.StringWidth(btntext.txt) * tscale.x,
-				 (btntext.text_font.GetHeight() / 2.0) * tscale.y
+				 0,
+				 (btntext.text_font.GetHeight() / 2.0) * tscale.y * level.pixelStretch
 			);
 			
-			HLSBS.DrawString(btntext.text_font, btntext.txt,btn_mid-str_dm,0,btntext.font_color,alpha,tscale,tint);
+			HLSBS.DrawString(btntext.text_font, btntext.txt,btn_mid-str_dm, HLSBS.SS_TEXT_CENTER | baseFlags, btntext.font_color,alpha,tscale,tint);
 		}
 	}
 	void DrawCollider()
@@ -426,10 +433,11 @@ extend class HLSBS
 		Screen.DrawThickLine(nposFrom.x, nposFrom.y, nposTo.x, nposTo.y, thickness, color, ceil(alpha*255.));
 	}
 	
-	static vector2 GetRelativePos(vector2 pos)
+	static vector2 GetRelativePos(vector2 pos, bool invert = false)
 	{
 		double sc_xres = Screen.getWidth()/statscr_base_width;
 		double sc_yres = Screen.getHeight()/statscr_base_height;	
+		if(invert) return (pos.x/sc_xres, pos.y/sc_yres);
 		return (pos.x*sc_xres, pos.y*sc_yres);
 	}
 
