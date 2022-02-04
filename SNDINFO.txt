@@ -45,9 +45,9 @@ Halo/Warthog/Chaingun/Fire3 "Sounds/Vehicles/Warthog/CGFire3.ogg"
 $random Halo/Warthog/Suspension { Halo/Warthog/Suspension1 Halo/Warthog/Suspension2 Halo/Warthog/Suspension3 }
 $random Halo/Warthog/Collision { Halo/Warthog/Collision1 Halo/Warthog/Collision2 Halo/Warthog/Collision3 }
 $random Halo/Warthog/Chaingun/Fire { Halo/Warthog/Chaingun/Fire1 Halo/Warthog/Chaingun/Fire2 Halo/Warthog/Chaingun/Fire3 }
-$volume Halo/Warthog/DriveHum1 0.35;
-$volume Halo/Warthog/DriveHum2 0.35;
-$volume Halo/Warthog/Suspension 0.25;
+$volume Halo/Warthog/DriveHum1 0.35
+$volume Halo/Warthog/DriveHum2 0.35
+$volume Halo/Warthog/Suspension 0.25
 
 // Scorpion
 Halo/Scorpion/Fire "Sounds/Vehicles/Scorpion/cannon_fire.ogg"
@@ -59,7 +59,7 @@ Halo/Scorpion/MissileExplosion1 "Sounds/Vehicles/Scorpion/projexplode1.ogg"
 Halo/Scorpion/MissileExplosion2 "Sounds/Vehicles/Scorpion/projexplode2.ogg"
 Halo/Scorpion/MissileExplosion3 "Sounds/Vehicles/Scorpion/projexplode3.ogg"
 $random Halo/Scorpion/MissileExplosion { Halo/Scorpion/MissileExplosion1 Halo/Scorpion/MissileExplosion2 Halo/Scorpion/MissileExplosion3 }
-$volume Halo/Scorpion/Treads 0.30;
+$volume Halo/Scorpion/Treads 0.30
 
 // Wraith
 Halo/Wraith/Fire1 "Sounds/Vehicles/Wraith/fire_mortar1.ogg"
@@ -130,9 +130,9 @@ Halo/Weapons/Mag_MD6/Melee 		  HW_MAGM
 Halo/Weapons/Mag_MD6/Reload 	  HW_MAGR
 Halo/Weapons/Mag_MD6/Reload/Empty HW_MAGRE
 
-$volume Halo/Weapons/Mag_MD6/Fire 1.0;
-$volume Halo/Weapons/Mag_MD6/Fire/Bass 1.0;
-$volume Halo/Weapons/Mag_MD6/Mech 0.9;
+$volume Halo/Weapons/Mag_MD6/Fire 1.0
+$volume Halo/Weapons/Mag_MD6/Fire/Bass 1.0
+$volume Halo/Weapons/Mag_MD6/Mech 0.9
 
 // AssaultRifle
 ARFIRE1 "Sounds/AssaultRifle/ARFire1.ogg"
@@ -158,8 +158,8 @@ Halo/Weapons/Rifle/Reload/Full  AReloadF
 Halo/Weapons/Rifle/Reload/Empty AReloadE
 Halo/Weapons/Rifle/Select       ARReady
 
-$volume Halo/Weapons/Rifle/Fire/Bass 0.9;
-$volume Halo/Weapons/Rifle/Mech 0.2;
+$volume Halo/Weapons/Rifle/Fire/Bass 0.9
+$volume Halo/Weapons/Rifle/Mech 0.2
 
 // Battle Rifle
 BARFIRE1 BARFIRE1
@@ -181,9 +181,9 @@ $random Halo/Weapons/BattleRifle/Fire      { BARFIRE1 BARFIRE2 BARFIRE3 BARFIRE4
 $random Halo/Weapons/BattleRifle/Mech      { BARMECH1 BARMECH2 BARMECH3 BARMECH4 }
 $random Halo/Weapons/BattleRifle/Fire/Bass { BARLOW1 BARLOW2 BARLOW3 }
 
-$volume Halo/Weapons/BattleRifle/Fire 0.9;
-$volume Halo/Weapons/BattleRifle/Fire/Bass 0.8;
-$volume Halo/Weapons/BattleRifle/Mech 1.0;
+$volume Halo/Weapons/BattleRifle/Fire 0.9
+$volume Halo/Weapons/BattleRifle/Fire/Bass 0.8
+$volume Halo/Weapons/BattleRifle/Mech 1.0
 
 // SuperShotgun
 DBFIRE1 DBFIRE1
@@ -228,8 +228,8 @@ $random Halo/Weapons/Shotgun/Pump      { SGPUMP1 SGPUMP2 SGPUMP3 }
 $random Halo/Weapons/Shotgun/Fire/Bass { SGBASS1 SGBASS2 SGBASS3 }
 $random Halo/Weapons/Shotgun/Reload    { SGRELOAD1 SGRELOAD2 SGRELOAD3 SGRELOAD4 }
 
-$volume Halo/Weapons/Shotgun/Fire/Bass 0.8;
-$volume Halo/Weapons/Shotgun/Fire 0.8;
+$volume Halo/Weapons/Shotgun/Fire/Bass 0.8
+$volume Halo/Weapons/Shotgun/Fire 0.8
 
 // Sniper
 SNIPER_FIRE1 SNPRFIR1
@@ -252,8 +252,8 @@ $random Halo/Weapons/Sniper/Bolt      { SNIPER_BOLT1 SNIPER_BOLT2 SNIPER_BOLT3 }
 $random Halo/Weapons/Sniper/Fire      { SNIPER_FIRE1 SNIPER_FIRE2 SNIPER_FIRE3 }
 $random Halo/Weapons/Sniper/Fire/Bass { SNIPER_LOW1 SNIPER_LOW2 SNIPER_LOW3 }
 
-$volume Halo/Weapons/Sniper/Fire/Bass 1.0;
-$volume Halo/Weapons/Sniper/Fire 0.6;
+$volume Halo/Weapons/Sniper/Fire/Bass 1.0
+$volume Halo/Weapons/Sniper/Fire 0.6
 
 // Stanchion
 Stanchion_Fire1 "Sounds/Stanchion/StanchionFire1.ogg"
@@ -307,8 +307,8 @@ $Random Halo/Weapons/PlasmaPistol/Fire 		 { PP_FIRE1 PP_FIRE2 PP_FIRE3 }
 $Random Halo/Weapons/PlasmaPistol/Fire/Bass  { PP_FIRELOW1 PP_FIRELOW2 PP_FIRELOW3 }
 $Random Halo/Weapons/PlasmaPistol/Fire/Charged/Bass  { PP_FIRECHARGEDLOW1 PP_FIRECHARGEDLOW2 PP_FIRECHARGEDLOW3 }
 
-$volume Halo/Weapons/PlasmaPistol/Charge/Start 0.35;
-$volume Halo/Weapons/PlasmaPistol/Charge/Loop 0.35;
+$volume Halo/Weapons/PlasmaPistol/Charge/Start 0.35
+$volume Halo/Weapons/PlasmaPistol/Charge/Loop 0.35
 
 // Plasma Rifle
 PR_FIRE1 "Sounds/PlasmaRifle/pr_fire1.ogg"
@@ -324,7 +324,7 @@ Halo/Weapons/PlasmaRifle/Select "Sounds/PlasmaRifle/pr_draw.ogg"
 $Random Halo/Weapons/PlasmaRifle/Fire 		 { PR_FIRE1 PR_FIRE2 PR_FIRE3 }
 $Random Halo/Weapons/PlasmaRifle/Fire/Bass  { PR_FIRELOW1 PR_FIRELOW2 PR_FIRELOW3 }
 
-$Volume Halo/Weapons/PlasmaRifle/Fire 0.4;
+$Volume Halo/Weapons/PlasmaRifle/Fire 0.4
 
 // Needler 
 NDFIRE1 "Sounds/Needler/Needler_Fire1.ogg"
@@ -357,8 +357,8 @@ Halo/Weapons/Bulldog/Ready      "Sounds/Bulldog/bulldog_draw.ogg"
 $random Halo/Weapons/Bulldog/Fire      { BLDFIRE1 BLDFIRE2 BLDFIRE3 }
 $random Halo/Weapons/Bulldog/Fire/Bass { BLDBASS1 BLDBASS2 BLDBASS3 }
 
-$volume Halo/Weapons/Bulldog/Fire 0.5;
-$volume Halo/Weapons/Bulldog/Fire/Bass 1.0;
+$volume Halo/Weapons/Bulldog/Fire 0.5
+$volume Halo/Weapons/Bulldog/Fire/Bass 1.0
 
 // Gravity Hammer
 GRAVFIRE1 "Sounds/GravityHammer/GravHammer_Hit1.ogg"
