@@ -86,8 +86,9 @@ class TextElement ui
 	vector2 pos;
 	vector2 scale;
 	uint font_color;
+	double alpha;
 	
-	static TextElement Create(Font fnt, string text, vector2 pos, vector2 scale=(1.0,1.0), uint translation=0)
+	static TextElement Create(Font fnt, string text, vector2 pos, vector2 scale=(1.0,1.0), double alpha = 1.0, uint translation=0)
 	{
 		let txt = new("TextElement");
 		if(txt)
@@ -95,15 +96,16 @@ class TextElement ui
 			txt.txt = text;
 			txt.pos = pos;
 			txt.scale = scale;
+			txt.alpha = alpha;
 			txt.text_font = fnt;
 			txt.font_color = translation;
 		}
 		return txt;
 	}
 	
-	void Draw(double alpha=1.0, Color tint=Color(0,0,0,0), int linespace=20)
+	void Draw(Color tint=Color(0,0,0,0), int linespace=20)
 	{
-		HLSBS.DrawString(text_font,txt,pos,0,font_color,alpha, scale, tint, linespace);
+		HLSBS.DrawString(text_font,txt,pos,0,font_color, alpha, scale, tint, linespace);
 	}
 }
 
@@ -115,13 +117,14 @@ class Button ui
 	bool hovered;
 	TextureID off_tex;
 	TextureID on_tex;
+	TextureID hover_tex;
 	TextureID cur_tex;
 	MenuRect collider;
 	MenuRect btnrect;
 	TextElement btntext;
 	vector2 texsize;
 	
-	static Button Create(Name type, String offtex, String ontex, 
+	static Button Create(Name type, String offtex, String ontex, String hoverTex, 
 						 double x, double y, double sw, double sh, TextElement txt=NULL)
 	{
 		let btn = new("Button");
@@ -130,12 +133,19 @@ class Button ui
 			btn.type = type;
 			btn.off_tex = TexMan.CheckForTexture(offtex,TexMan.Type_Any);
 			btn.on_tex  = TexMan.CheckForTexture(ontex,TexMan.Type_Any);
+			btn.hover_tex = TexMan.CheckForTexture(hoverTex,TexMan.Type_Any);
 			btn.btnrect = MenuRect.Create(x,y,sw,sh,true);
 			btn.cur_tex = btn.off_tex;
 			btn.btntext = txt;		
 			
+			TextureID unknownTex = TexMan.CheckForTexture("HaloDoom/GraphicsCheck/NoFile",TexMan.Type_Any);
+			
 			// Default collider mask
-			btn.texsize = HLSBS.GetImageSize(offtex);
+			let activeTex = offtex;
+			if(btn.off_tex == unknownTex) activeTex = ontex;
+			if(btn.on_tex  == unknownTex) activeTex = hoverTex;
+
+			btn.texsize = HLSBS.GetImageSize(activeTex);
 			btn.texsize.x *= sw;
 			btn.texsize.y *= sh;
 			btn.SetupCollider(x - btn.texsize.x/2.0,y - btn.texsize.y/2.0, btn.texsize.x,btn.texsize.y);
@@ -175,7 +185,7 @@ class Button ui
 	void Draw(double alpha=1.0, Color tint=Color(0,0,0,0))
 	{
 		uint baseFlags = HLSBS.SS_NOASPECTCORRECTION;
-		HLSBS.DrawTexture(cur_tex,btnrect.pos,baseFlags,alpha,btnrect.size,tint);
+		HLSBS.DrawTexture(cur_tex,btnrect.pos,baseFlags,alpha,btnrect.size,tint);		
 		if(btntext)
 		{
 			vector2 tscale = btntext.scale;
@@ -196,7 +206,7 @@ class Button ui
 				 (btntext.text_font.GetHeight() / 2.0) * tscale.y * level.pixelStretch
 			);
 			
-			HLSBS.DrawString(btntext.text_font, btntext.txt,btn_mid-str_dm, HLSBS.SS_TEXT_CENTER | baseFlags, btntext.font_color,alpha,tscale,tint);
+			HLSBS.DrawString(btntext.text_font, btntext.txt,btn_mid-str_dm, HLSBS.SS_TEXT_CENTER | baseFlags, btntext.font_color,btntext.alpha,tscale,tint);
 		}
 	}
 	void DrawCollider()
@@ -215,7 +225,7 @@ class Button ui
 			pressed = false;
 			if(hovered && usemouse) clicked = true;
 		}
-		cur_tex = pressed ? on_tex : off_tex;
+		cur_tex = hovered ? hover_tex : (pressed ? on_tex : off_tex);
 	}
 }
 

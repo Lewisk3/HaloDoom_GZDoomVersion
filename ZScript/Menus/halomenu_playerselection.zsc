@@ -7,8 +7,12 @@ class HaloDoom_PlayerClassMenu : HaloMenuBase
 		
 		mMouse = Mouse.Create("", 0,0,32,32);
 		
+		string btnON  = "Graphics/UI/Title/NONE.png";
+		string btnOFF = "Graphics/UI/Title/NONE.png";
+		string btnHover = "Graphics/UI/Title/btn_light.png";
+		
 		// Build class buttons
-		vector2 btnpos = (520, 480);
+		vector2 btnpos = (520, 400);
 		for(int i = 0; i < PlayerClasses.Size(); i++)
 		{
 			class<Actor> cls = PlayerClasses[i].Type;
@@ -18,8 +22,8 @@ class HaloDoom_PlayerClassMenu : HaloMenuBase
 				string clsname = PlayerPawn.GetPrintableDisplayName(cls);
 				
 				TextElement btntxt = newBtnText(clsname, "HaloFont");
-				buttons.push(Button.Create('ClassBtn', "BTN_OFF" ,  "BTN_ON" , btnpos.x, btnpos.y, 0.8, 0.25, btntxt));
-				btnpos.y += 90;
+				buttons.push(Button.Create('ClassBtn', btnOFF, btnON, btnHover, btnpos.x, btnpos.y, 0.60, 0.2, btntxt));
+				btnpos.y += 75;
 			}
 		}
 		
@@ -29,6 +33,7 @@ class HaloDoom_PlayerClassMenu : HaloMenuBase
 		DontDim = true;
 		mMouse.SetPos(buttons[0].btnrect.pos);
 		btn_selected = 0;
+		buttonAlpha = 0.7;
 	}
 	
 	void DStr(String str, vector2 pos, uint flags = 0, Color col = Font.CR_WHITE, vector2 scale=(1.15,1.15), Font fnt = "HaloFont")
@@ -51,9 +56,9 @@ class HaloDoom_PlayerClassMenu : HaloMenuBase
 			if(buttons[i].btntext)
 			{
 				if(buttons[i].pressed)
-					buttons[i].btntext.font_color = Font.CR_BLACK;
-				else if(buttons[i].hovered)
 					buttons[i].btntext.font_color = Font.CR_BLUE;
+				else if(buttons[i].hovered)
+					buttons[i].btntext.font_color = Font.CR_BLACK;
 				else
 					buttons[i].btntext.font_color = Font.CR_WHITE;
 			}
@@ -122,8 +127,6 @@ class HaloDoom_PlayerClassMenu : HaloMenuBase
 	override void Ticker()
 	{
 		uint selected_class;
-		if(btn_selected != -1) mMouse.left_pressed = true;
-	
 		for(int i = 0; i < buttons.Size(); i++)
 		{
 			buttons[i].Update(mMouse, btn_selected == -1);
