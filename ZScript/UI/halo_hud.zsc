@@ -171,7 +171,7 @@ class HaloStatusBar : BaseStatusBar
 		double msg_spacing = 30;
 		uint count = messages.Size()-1;
 		// Generate
-		let msg = HaloMessage.CreateMessage("HaloFont", msg, msgpos, msgscale, tint:msgcol);
+		let msg = HaloMessage.CreateMessage("Fonts/HaloSmallerFont.fon2", msg, msgpos, msgscale, tint:msgcol);
 		if(count >= MSGMAX) 
 		{
 			messages.Delete(0);

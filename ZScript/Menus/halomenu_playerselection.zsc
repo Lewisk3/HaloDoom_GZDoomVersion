@@ -58,9 +58,9 @@ class HaloDoom_PlayerClassMenu : HaloMenuBase
 				if(buttons[i].pressed)
 					buttons[i].btntext.font_color = Font.CR_BLUE;
 				else if(buttons[i].hovered)
-					buttons[i].btntext.font_color = Font.CR_BLACK;
-				else
 					buttons[i].btntext.font_color = Font.CR_WHITE;
+				else
+					buttons[i].btntext.font_color = Font.CR_BLACK;
 			}
 		}
 		
@@ -89,7 +89,8 @@ class HaloDoom_PlayerClassMenu : HaloMenuBase
 		// Description
 		vector2 desc_pos = (plrpos.x+190, plrpos.y-256);
 		HLSBS.Fill(0xFF000000, desc_pos.x,desc_pos.y, 370,520);
-		DStr("Spartan Info", (desc_pos.x+100,desc_pos.y), 0, Font.CR_BLUE, scale:(1.0,1.0), fnt:"HaloFont");
+		Font infoFont = "HaloFont";
+		DStr("Spartan Info", (desc_pos.x+130,desc_pos.y), 0, Font.CR_BLUE, scale:(0.25,0.25), fnt:infoFont);
 	
 		if(index >= 0)
 		{
@@ -118,7 +119,7 @@ class HaloDoom_PlayerClassMenu : HaloMenuBase
 					
 					// Write Description
 					string desc = plrdefs.class_desc;
-					HLSBS.DrawString("HaloFont", desc, (desc_pos.x+20,desc_pos.y+50), 0, Font.CR_WHITE, scale:(0.75,0.75));
+					HLSBS.DrawString(infoFont, desc, (desc_pos.x+20,desc_pos.y+80), 0, Font.CR_WHITE, scale:(0.125,0.125), linespacing:100);
 				}
 			}
 		}

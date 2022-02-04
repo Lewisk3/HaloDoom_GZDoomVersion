@@ -10,9 +10,9 @@ class HaloMenuBase : ListMenu
 	Mouse mMouse;
 	Array<Button> buttons;
 		
-	virtual TextElement newBtnText(String txt, Font fnt = "BigFont")
+	virtual TextElement newBtnText(String txt, Font fnt = "HaloFont", double scale = 0.25)
 	{
-		return TextElement.Create(fnt, txt, (0,0), (1.0,1.0), Font.CR_WHITE);
+		return TextElement.Create(fnt, txt, (0,0), (scale,scale), Font.CR_WHITE);
 	}
 	
 	override void Init(Menu parent, ListMenuDescriptor desc)

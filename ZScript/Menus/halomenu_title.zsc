@@ -9,7 +9,7 @@ class HaloDoom_TitleMenu : HaloMenuBase
 		
 		title = (gamestate == GS_TITLELEVEL);
 		MainBG = MenuTexture.Create("Graphics/UI/Title/TitleLogo.png",(0,-200),(0.5,0.5));
-		mMouse = Mouse.Create("", 0,0,32,32);
+		mMouse = Mouse.Create("", 0,0,8,8);
 		
 		double btnY = 680; 
 		double btnW = 0.7;
@@ -20,33 +20,33 @@ class HaloDoom_TitleMenu : HaloMenuBase
 		string btnOFF = "Graphics/UI/Title/NONE.png";
 		string btnHover = "Graphics/UI/Title/btn_light.png";
 		
-		TextElement btntxt = newBtnText("CAMPAIGN", "HaloFont");
+		TextElement btntxt = newBtnText("CAMPAIGN");
 		buttons.push(Button.Create('NewGame', btnOFF ,  btnON , btnHover, 960, btnY, btnW, btnH, btntxt));
 		btnY += itemSpacing;
 		
 		if(!title)
 		{
-			btntxt = newBtnText("SAVE GAME", "HaloFont");
+			btntxt = newBtnText("SAVE GAME");
 			buttons.push(Button.Create('SaveGame', btnOFF ,  btnON , btnHover, 960, btnY, btnW, btnH, btntxt));
 			btnY += itemSpacing;	
 		}
 		
-		btntxt = newBtnText("LOAD GAME", "HaloFont");
+		btntxt = newBtnText("LOAD GAME");
 		buttons.push(Button.Create('LoadGame', btnOFF ,  btnON , btnHover, 960, btnY, btnW, btnH, btntxt));
 		btnY += itemSpacing;
 		
 		if(title)
 		{
-			btntxt = newBtnText("CONFIGURE", "HaloFont");
+			btntxt = newBtnText("CONFIGURE");
 			buttons.push(Button.Create('Configure', btnOFF ,  btnON , btnHover, 960, btnY, btnW, btnH, btntxt));
 			btnY += itemSpacing;
 		}
 		
-		btntxt = newBtnText("OPTIONS", "HaloFont");
+		btntxt = newBtnText("OPTIONS");
 		buttons.push(Button.Create('Options', btnOFF ,  btnON , btnHover, 960, btnY, btnW, btnH, btntxt));
 		btnY += itemSpacing;
 		
-		btntxt = newBtnText("QUIT", "HaloFont");
+		btntxt = newBtnText("QUIT");
 		buttons.push(Button.Create('Quit', btnOFF ,  btnON , btnHover, 960, btnY, btnW, btnH, btntxt));
 		
 		for(int i = 0; i < buttons.Size(); i++)
@@ -106,9 +106,9 @@ class HaloDoom_TitleMenu : HaloMenuBase
 				if(buttons[i].pressed)
 					buttons[i].btntext.font_color = Font.CR_BLUE;
 				else if(buttons[i].hovered)
-					buttons[i].btntext.font_color = Font.CR_BLACK;
-				else
 					buttons[i].btntext.font_color = Font.CR_WHITE;
+				else
+					buttons[i].btntext.font_color = Font.CR_BLACK;
 			}
 		}
 		

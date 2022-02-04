@@ -199,14 +199,11 @@ class Button ui
 			// Get string size
 			vector2 fontSize = (
 				btntext.text_font.StringWidth(btntext.txt) * tscale.x,
-				btntext.text_font.GetHeight()
+				btntext.text_font.GetHeight() * tscale.y
 			);
-			vector2 str_dm = (
-				 0,
-				 (btntext.text_font.GetHeight() / 2.0) * tscale.y * level.pixelStretch
-			);
-			
-			HLSBS.DrawString(btntext.text_font, btntext.txt,btn_mid-str_dm, HLSBS.SS_TEXT_CENTER | baseFlags, btntext.font_color,btntext.alpha,tscale,tint);
+			btn_mid.y -= fontSize.y;
+
+			HLSBS.DrawString(btntext.text_font, btntext.txt,btn_mid, HLSBS.SS_TEXT_CENTER | baseFlags, btntext.font_color,btntext.alpha,tscale,tint);
 		}
 	}
 	void DrawCollider()
