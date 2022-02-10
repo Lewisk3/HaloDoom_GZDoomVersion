@@ -49,7 +49,7 @@ class HaloDoom_PlayerClassMenu : HaloMenuBase
 		super.Drawer();
 		mMouse.Draw();
 		
-		DStr("Select Spartan", (0,100), HLSBS.SS_SCREEN_TOP_CENTER, Font.CR_BLUE, scale:(2.0,2.0), fnt:"BigFont");
+		DStr("Select Spartan", (0,100), HLSBS.SS_SCREEN_TOP_CENTER, Font.CR_CYAN, scale:(2.0,2.0), fnt:"BigFont");
 				
 		for(int i = 0; i < buttons.Size(); i++)
 		{

@@ -1,0 +1,83 @@
+class HaloDoom_SkillMenu : HaloMenuBase
+{	
+	override void Init(Menu parent, ListMenuDescriptor desc)
+	{
+		Super.Init(parent, desc);
+		
+		mMouse = Mouse.Create("", 0,0,8,8);
+		
+		double btnY = 380; 
+		double btnW = 0.7;
+		double btnH = 0.2;
+		double itemSpacing = 70;
+		
+		string btnON  = "Graphics/UI/Title/NONE.png";
+		string btnOFF = "Graphics/UI/Title/NONE.png";
+		string btnHover = "Graphics/UI/Title/btn_light.png";
+		
+		int diffs = mDesc.mItems.Size();
+		static const String skillNames[] = 
+		{
+			"Easy",
+			"Normal",
+			"Heroic",
+			"Legendary",
+			"Mythic",
+			"American Healthcare"
+		};
+		
+		TextElement btntxt;
+		for(int i = 0; i < diffs-1; i++)
+		{
+			btntxt = newBtnText(skillNames[i]);
+			buttons.push(Button.Create('SkillBtn', btnOFF,  btnON, btnHover, 960, btnY, btnW, btnH, btntxt));
+			btnY += itemSpacing;
+		}
+		
+		DontDim = true;
+		mMouse.SetPos(buttons[2].btnrect.pos);
+		btn_selected = 2;
+	}
+	
+	override bool MenuEvent(int mkey, bool fromcontroller)
+	{	
+		return super.MenuEvent(mkey, fromcontroller);
+	}
+	
+	override void Drawer ()
+	{
+		Super.Drawer();
+		mMouse.Draw();
+		
+		uint strFlags = HLSBS.SS_SCREEN_TOP_CENTER | HLSBS.SS_TEXT_CENTER;
+		HLSBS.DrawString("BigFont", "Select Difficulty", (0,100), strFlags, Font.CR_CYAN, scale:(2.0,2.0));
+		
+		for(int i = 0; i < buttons.Size(); i++)
+		{
+			if(buttons[i].btntext)
+			{
+				if(buttons[i].pressed)
+					buttons[i].btntext.font_color = Font.CR_BLUE;
+				else if(buttons[i].hovered)
+					buttons[i].btntext.font_color = Font.CR_WHITE;
+				else
+					buttons[i].btntext.font_color = Font.CR_GOLD;
+			}
+		}
+	}
+
+	override void Ticker()
+	{		
+		for(int i = 0; i < buttons.Size(); i++)
+		{
+			buttons[i].Update(mMouse, btn_selected == -1);
+				
+			if(buttons[i].clicked)
+			{
+				MenuSound("UI/PressButton");
+				mDesc.mItems[i+1].Activate();
+				buttons[i].clicked = false;
+			}
+		}
+	}
+}

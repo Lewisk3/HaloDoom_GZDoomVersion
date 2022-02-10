@@ -34,7 +34,6 @@ AddOptionMenu "OptionsMenu"
 	Submenu "HaloDoom Options", "HaloDoomGameplayOptions"
 }
 
-
 ListMenu "Intro"
 {
 	class "HaloDoom_IntroSeq"
@@ -43,6 +42,14 @@ ListMenu "Intro"
 ListMenu "HaloPlayerClassMenu"
 {
 	class "HaloDoom_PlayerClassMenu"
+}
+
+ListMenu "SkillMenu"
+{
+	class "HaloDoom_SkillMenu"
+	
+	StaticPatch 54, 38, "M_SKILL"
+	Position 48, 63
 }
 
 AddListMenu "MainMenu" 
