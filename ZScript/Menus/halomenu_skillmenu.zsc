@@ -1,36 +1,75 @@
+class HaloSkill : Object
+{
+	string displayName, graphic, desc;
+	
+	static HaloSkill Init(string displayName, string graphic, string desc)
+	{
+		let hskill = new("HaloSkill");
+		hskill.displayName = displayName;
+		hskill.graphic = graphic;
+		hskill.desc = desc;
+		
+		return hskill;
+	}
+}
+
 class HaloDoom_SkillMenu : HaloMenuBase
 {	
+	Array<HaloSkill> HaloSkills;
+
 	override void Init(Menu parent, ListMenuDescriptor desc)
 	{
 		Super.Init(parent, desc);
 		
 		mMouse = Mouse.Create("", 0,0,8,8);
 		
-		double btnY = 380; 
+		double btnX = 500;
+		double btnY = 320; 
 		double btnW = 0.7;
 		double btnH = 0.2;
-		double itemSpacing = 70;
+		double itemSpacing = 80;
 		
 		string btnON  = "Graphics/UI/Title/NONE.png";
 		string btnOFF = "Graphics/UI/Title/NONE.png";
 		string btnHover = "Graphics/UI/Title/btn_light.png";
 		
 		int diffs = mDesc.mItems.Size();
-		static const String skillNames[] = 
-		{
-			"Easy",
-			"Normal",
-			"Heroic",
-			"Legendary",
-			"Mythic",
-			"American Healthcare"
-		};
+		HaloSkills.push(HaloSkill.Init(
+			"Easy", 
+			"Graphics/UI/Skills/Easy.png", 
+			"Your foes cower and fall before\nyour unstoppable onslaught yet\nfinal victory will leave you\nwanting more."
+		));
+		HaloSkills.push(HaloSkill.Init(
+			"Normal", 
+			"Graphics/UI/Skills/Normal.png", 
+			"Hordes of aliens vie to destroy\nyou, but nerves of steel and a\nquick trigger finger give you a \nsolid chance to prevail."
+		));
+		HaloSkills.push(HaloSkill.Init(
+			"Heroic", 
+			"Graphics/UI/Skills/Heroic.png", 
+			"Your enemies are as numerous \nas they are ferocious; their \nattacks are devastating. \n\nSurvival is not guaranteed."
+		));
+		HaloSkills.push(HaloSkill.Init(
+			"Legendary", 
+			"Graphics/UI/Skills/Legendary.png", 
+			"You face opponents who have \nnever known defeat, who laugh\nin alien tongues at your efforts \nto survive. \n\nThis is suicide."
+		));
+		HaloSkills.push(HaloSkill.Init(
+			"Mythic", 
+			"Graphics/UI/Skills/Mythic.png", 
+			"You stand in oppositions of \nan unstoppable force. \n\nYour enemies are ruthless and \nnever ending. \n\nYour death is all but certain."
+		));
+		HaloSkills.push(HaloSkill.Init(
+			"American Healthcare", 
+			"Graphics/UI/Skills/Merica.png", 
+			"You fight a fruitless battle,\neveryone around you couldn't give less a shit.\nWant health?\n That'll be 1000$ a medikit please."
+		));
 		
 		TextElement btntxt;
 		for(int i = 0; i < diffs-1; i++)
 		{
-			btntxt = newBtnText(skillNames[i]);
-			buttons.push(Button.Create('SkillBtn', btnOFF,  btnON, btnHover, 960, btnY, btnW, btnH, btntxt));
+			btntxt = newBtnText(HaloSkills[i].displayName);
+			buttons.push(Button.Create('SkillBtn', btnOFF,  btnON, btnHover, btnX, btnY, btnW, btnH, btntxt, 0xFFFF0000));
 			btnY += itemSpacing;
 		}
 		
@@ -46,24 +85,50 @@ class HaloDoom_SkillMenu : HaloMenuBase
 	
 	override void Drawer ()
 	{
-		Super.Drawer();
-		mMouse.Draw();
-		
 		uint strFlags = HLSBS.SS_SCREEN_TOP_CENTER | HLSBS.SS_TEXT_CENTER;
-		HLSBS.DrawString("BigFont", "Select Difficulty", (0,100), strFlags, Font.CR_CYAN, scale:(2.0,2.0));
+		
+		vector2 descPos = (1200,500);
+		
+		// Description
+		vector2 descOffs = (descPos.x+190, descPos.y-256);
+		HLSBS.Fill(0xFF000000, descOffs.x,descOffs.y, 370,520);
+		HLSBS.DrawString("HaloFont", "Difficulty Info", (descOffs.x + 20,descOffs.y + 10), 0, Font.CR_BLUE, scale:(0.20,0.20));
 		
 		for(int i = 0; i < buttons.Size(); i++)
 		{
+			string skillImg = HaloSkills[i].graphic;
+			vector2 imgPos = buttons[i].collider.pos;
+			imgPos.x += buttons[i].collider.size.x * 0.5;
+			imgPos.y += 32;
+			
+			HLSBS.DrawImage(skillImg, imgPos, scale:(0.4,0.4));
+		
 			if(buttons[i].btntext)
 			{
 				if(buttons[i].pressed)
-					buttons[i].btntext.font_color = Font.CR_BLUE;
+				{
+					buttons[i].btntext.font_color = Font.CR_BLACK;
+				}
 				else if(buttons[i].hovered)
+				{
 					buttons[i].btntext.font_color = Font.CR_WHITE;
+					HLSBS.DrawImage(skillImg, descPos, scale:(1.75,2.0));
+					HLSBS.DrawString("HaloFont", HaloSkills[i].desc, (descOffs.x + 20, descOffs.y + 70), 0, Font.CR_WHITE, scale:(0.15,0.15), linespacing:130);
+				}
 				else
-					buttons[i].btntext.font_color = Font.CR_GOLD;
+				{
+					buttons[i].btntext.font_color = Font.CR_RED;
+				}
 			}
 		}
+	
+		// Backdrop		
+		HLSBS.DrawImage("B@CKDROP", descPos, alpha:0.50, scale:(3.0,4.0), tint:0x3AFF0000);
+	
+		Super.Drawer();
+		mMouse.Draw();
+		
+		HLSBS.DrawString("BigFont", "Select Difficulty", (0,100), strFlags, Font.CR_BLACK, scale:(2.0,2.0));
 	}
 
 	override void Ticker()

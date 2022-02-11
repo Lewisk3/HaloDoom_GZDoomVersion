@@ -22,7 +22,7 @@ class HaloDoom_PlayerClassMenu : HaloMenuBase
 				string clsname = PlayerPawn.GetPrintableDisplayName(cls);
 				
 				TextElement btntxt = newBtnText(clsname, "HaloFont");
-				buttons.push(Button.Create('ClassBtn', btnOFF, btnON, btnHover, btnpos.x, btnpos.y, 0.60, 0.2, btntxt));
+				buttons.push(Button.Create('ClassBtn', btnOFF, btnON, btnHover, btnpos.x, btnpos.y, 0.60, 0.2, btntxt, 0xFF32006B));
 				btnpos.y += 75;
 			}
 		}
@@ -49,7 +49,7 @@ class HaloDoom_PlayerClassMenu : HaloMenuBase
 		super.Drawer();
 		mMouse.Draw();
 		
-		DStr("Select Spartan", (0,100), HLSBS.SS_SCREEN_TOP_CENTER, Font.CR_CYAN, scale:(2.0,2.0), fnt:"BigFont");
+		DStr("Select Spartan", (0,100), HLSBS.SS_SCREEN_TOP_CENTER, Font.CR_BLACK, scale:(2.0,2.0), fnt:"BigFont");
 				
 		for(int i = 0; i < buttons.Size(); i++)
 		{
@@ -60,7 +60,7 @@ class HaloDoom_PlayerClassMenu : HaloMenuBase
 				else if(buttons[i].hovered)
 					buttons[i].btntext.font_color = Font.CR_WHITE;
 				else
-					buttons[i].btntext.font_color = Font.CR_BLACK;
+					buttons[i].btntext.font_color = Font.CR_GOLD;
 			}
 		}
 		

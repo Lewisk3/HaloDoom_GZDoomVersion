@@ -119,13 +119,14 @@ class Button ui
 	TextureID on_tex;
 	TextureID hover_tex;
 	TextureID cur_tex;
+	Color btnTint;
 	MenuRect collider;
 	MenuRect btnrect;
 	TextElement btntext;
 	vector2 texsize;
 	
 	static Button Create(Name type, String offtex, String ontex, String hoverTex, 
-						 double x, double y, double sw, double sh, TextElement txt=NULL)
+						 double x, double y, double sw, double sh, TextElement txt=NULL, Color tint = 0)
 	{
 		let btn = new("Button");
 		if(btn)
@@ -137,6 +138,7 @@ class Button ui
 			btn.btnrect = MenuRect.Create(x,y,sw,sh,true);
 			btn.cur_tex = btn.off_tex;
 			btn.btntext = txt;		
+			btn.btnTint = tint;
 			
 			TextureID unknownTex = TexMan.CheckForTexture("HaloDoom/GraphicsCheck/NoFile",TexMan.Type_Any);
 			
@@ -185,7 +187,7 @@ class Button ui
 	void Draw(double alpha=1.0, Color tint=Color(0,0,0,0))
 	{
 		uint baseFlags = HLSBS.SS_NOASPECTCORRECTION;
-		HLSBS.DrawTexture(cur_tex,btnrect.pos,baseFlags,alpha,btnrect.size,tint);		
+		HLSBS.DrawTexture(cur_tex,btnrect.pos,baseFlags,alpha,btnrect.size,tint:btnTint);		
 		if(btntext)
 		{
 			vector2 tscale = btntext.scale;
