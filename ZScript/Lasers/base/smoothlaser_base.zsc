@@ -1,0 +1,148 @@
+
+class LaserBeam : Actor
+{	
+	const MAXDIST = 2048;
+	Color shade;
+
+	int ontics;
+	bool enabled;
+	Actor source;
+	vector3 offsets;
+	
+	bool trackingPos;
+	vector3 targetPos;
+	
+	bool followAngles;
+	Property TrackAngles : followAngles;
+	Property LaserColor : shade;
+	
+	Default
+	{
+		Scale 0.35;
+		+NOINTERACTION;
+		+INTERPOLATEANGLES;
+		RenderStyle "AddShaded";
+		
+		LaserBeam.LaserColor "Blue";
+		LaserBeam.TrackAngles true;
+	}
+	
+	static LaserBeam Create(Actor source, double fw, double lr, double ud, class<LaserBeam> type = "LaserBeam")
+	{
+		let laserb = LaserBeam(Spawn(type, source.pos));
+		if(laserb) 
+		{
+			laserb.source = source;
+			laserb.offsets = (fw, lr, ud);
+		}
+		
+		return laserb;
+	}
+	
+	void setEnabled(bool set)
+	{
+		enabled = set;
+	}
+	
+	void startTracking(vector3 toPos)
+	{
+		trackingPos = true;
+		targetPos = toPos;
+	}
+	
+	void stopTracking()
+	{
+		trackingPos = false;
+	}
+	
+	bool isTracking()
+	{
+		return trackingPos;
+	}
+	
+	virtual vector3 getSourcePos()
+	{
+		vector3 srcPos = (source.pos.xy, source.pos.z + (source.height * 0.5));
+		if(source.player) srcPos.z = source.player.viewz;
+		
+		return srcPos;
+	}
+	
+	virtual void UpdateLaser()
+	{
+		// Put custom laser logic here.
+	}
+	
+	override void Tick()
+	{
+		if(isFrozen()) return;
+		if(!enabled) 
+		{
+			ontics = 0;
+			bInvisible = true;
+			return;
+		}
+		ontics++;
+		bInvisible = ontics < 3;
+		SetShade(shade);
+				
+		// Update laser and tracking.
+		vector3 offsPos = HaloMath.V3Offset(
+			source.angle, source.pitch, source.roll,
+			offsets.x, offsets.y, offsets.z, 1.0
+		);
+		vector3 finalPos = level.vec3offset(getSourcePos(), offsPos);
+		SetOrigin(finalPos, true);
+		
+		if(trackingPos)
+		{
+			vector3 diff = level.vec3diff(finalPos, targetPos);
+			vector3 dir = diff.Unit();
+			
+			scale.y = diff.Length() * 0.32;
+			
+			double toAngle = atan2(dir.y, dir.x) + 180; 
+			double toPitch = asin(dir.z);
+			A_SetAngle(toAngle, SPF_INTERPOLATE);
+			A_SetPitch(toPitch - 90, SPF_INTERPOLATE);
+			return;
+		}
+		
+		// Update angles
+		if(followAngles)
+		{
+			// Credits: This interpolation magic was gleaned from Kodi's KLazer library
+			// code available in PainSlayer 
+			// (https://github.com/jekyllgrim/Painslayer/blob/master/ZPainkiller/klazer/KLAZ_Beam.zsc#L114)
+				
+			// First, track angles like normal.
+			A_SetAngle(source.angle, SPF_INTERPOLATE);
+			A_SetPitch(source.pitch+90, SPF_INTERPOLATE);
+		
+			// Odd interpolation magic.
+			double prevAngle = source.angle;
+			source.A_SetAngle(source.angle + 0.001, SPF_INTERPOLATE);
+			source.A_SetAngle(prevAngle, SPF_INTERPOLATE);
+		}
+		
+		// Do linetrace to determine out aim distance.
+		FLineTraceData lt;
+		double zoffs = source.player ? (source.player.viewz-source.pos.z) : source.height * 0.5;
+		source.LineTrace(angle, MAXDIST, pitch - 90, 0, zoffs+offsets.z, offsets.x, offsets.y, data:lt);
+		
+		double dist = lt.Distance;
+		double dirPitch = pitch - 90;
+		scale.y = (dist * 0.32);
+		
+		// SetOrigin(level.vec3offset(pos, dir), true);
+		
+		UpdateLaser();
+	}
+	
+	States
+	{
+		Spawn:
+			MODL A -1 Bright;
+		stop;
+	}
+}

@@ -1,48 +1,15 @@
 
-// Used as a simple line render.
-class LSR_GrappleTail : Laser
+class LSR_CarbineTrail : LaserBeam
 {
 	Default
 	{
-		Radius 2;
-		Scale 0.8;
-		RenderStyle "Normal";
-		Translation "0:255=@80[0,0,0]";
+		Alpha 2.0;
+		LaserBeam.LaserColor "Green"; 
 	}
 	
-	override void AdjustLaser()
+	override void UpdateLaser()
 	{
-		// Skip interpolation visisiblity
-		bInvisible = (GetAge() <= 4);
+		alpha -= 0.5;
+		if(alpha <= 0) Destroy();
 	}
-	
-	States
-	{
-		Spawn:
-			BEAM A 1;
-		loop;
-	}	
-}
-
-class LSR_CarbineTrail : Laser
-{
-	Default
-	{
-		Radius 2;
-		Scale 0.8;
-		RenderStyle "AddShaded";
-		Alpha 1.0;
-	}
-	
-	override void AdjustLaser()
-	{
-		alpha -= 0.20;
-	}
-	
-	States
-	{
-		Spawn:
-			BEAM A 1;
-		loop;
-	}	
 }
