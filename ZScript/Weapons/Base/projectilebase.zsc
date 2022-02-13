@@ -720,6 +720,7 @@ class RailgunProjectile : FastProjectile
 		forward = level.vec3offset(forward, startpos);
 		vector3 shockpos = level.vec3offset(forward, dir * (aimdist * dist));
 		let shock = Spawn("Railgun_Shockwave", shockpos);
+		Spawn("FX_Shockwave", pos);
 		if(shock) 
 		{
 			shock.SetShade(col);

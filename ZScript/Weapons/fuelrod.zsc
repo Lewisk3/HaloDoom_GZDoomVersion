@@ -199,7 +199,7 @@ class Halo_FuelRod : HaloGun
 				{
 					let smoke = A_SpawnSFX("MuzzleSmoke", -90,0);
 					// *crimes*
-					smoke.translation = invoker.translation;
+					if(smoke) smoke.translation = invoker.translation;
 				}
 			}
 		stop;

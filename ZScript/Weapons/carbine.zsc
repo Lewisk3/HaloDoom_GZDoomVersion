@@ -84,14 +84,10 @@ class Halo_Carbine : HaloGun
 	
 	action void FireLaser(vector3 hitpos)
 	{
-		vector3 localOffs = (10, 4.5, -5.30);
+		vector3 localOffs = (10, 4.5, 2.5);
 		A_SetSFXPos(localOffs.x, localOffs.y, localOffs.z);
 		
 		double yoffs = A_GetWeapYOffs() * 0.25;
-		vector3 frompos = (
-			invoker.sfx_pos.xy,
-			invoker.sfx_pos.z - yoffs
-		);
 
 		let beam = LaserBeam.Create(self, localOffs.x,localOffs.y,localOffs.z, type:"LSR_CarbineTrail");
 		beam.SetEnabled(true);

@@ -184,6 +184,9 @@ class FragGrenadeExplosion : CheapActor
 			TNT1 A 0;
 			TNT1 A 1 
 			{
+				let shockwave = Spawn("FX_Shockwave", pos);
+				if(shockwave) shockwave.alpha = 0.5;
+				
 				let sparks = Spawn("ImpactSparks", pos);
 				if(sparks) sparks.A_SetScale(1.0);
 				
@@ -400,6 +403,9 @@ class PlasmaGrenadeExplosion : CheapActor
 				vector3 fxpos = (pos.xy, pos.z+20);
 				HaloMath.SpawnFX("PlasmaGrenade_Smoke", fxpos, angle, 20, 20, 20, frandom(0,360), frandom(-30,30), frandom(-3, 3));
 				HaloMath.SpawnFX("WraithPlasma_FlyingPlasma", fxpos, angle, random(5,12), 10, 20, 180,45, 12);
+				
+				let shockwave = Spawn("FX_Shockwave", pos);
+				if(shockwave) shockwave.alpha = 0.5;
 				
 				let flare = Spawn("TankRocket_Flare", (pos.xy, pos.z+30));
 				if(flare)

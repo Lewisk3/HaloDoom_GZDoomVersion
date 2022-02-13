@@ -296,6 +296,46 @@ class MuzzleSparks : Actor
 	}
 }
 
+class FX_Shockwave : CheapActor
+{
+	double exSpeed;
+
+	Default
+	{
+		Scale 0.5;
+		Alpha 1.0;
+		RenderStyle "Add";
+		+INTERPOLATEANGLES;
+	}
+	
+	override void BeginPlay()
+	{
+		super.beginPlay();
+		exSpeed = 1.0;
+	}
+	
+	override void Tick()
+	{
+		if(isFrozen()) return;
+		scale *= 1.15 / max(exSpeed, 1.);
+		alpha *= 0.95 * exSpeed;
+		exSpeed *= 0.98;
+		
+		if(alpha <= 0) 
+		{
+			Destroy();
+			return;
+		}
+	}
+	
+	States
+	{
+		Spawn:
+			SWVE A -1;
+		stop;
+	}
+}
+
 class SmallCasing : BulletCasing
 {
 	Default

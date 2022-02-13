@@ -4,10 +4,13 @@ class LSR_CarbineTrail : LaserBeam
 	Default
 	{
 		Alpha 2.0;
+		Scale 2.0;
 		LaserBeam.LaserColor "Green"; 
+		LaserBeam.TrackWeapon true, PSP_WEAPON;
+		LaserBeam.AimFromWeapon false;
 	}
 	
-	override void UpdateLaser()
+	override void BeamTick()
 	{
 		alpha -= 0.5;
 		if(alpha <= 0) Destroy();

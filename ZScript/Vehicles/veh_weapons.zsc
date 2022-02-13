@@ -149,6 +149,7 @@ class TankRocket_Explosion : FastActor
 			{
 				A_StartSound("Halo/Scorpion/MissileExplosion", flags:CHANF_OVERLAP, attenuation: 0.1);
 				Spawn("ImpactSparks", pos);
+				Spawn("FX_Shockwave", pos);
 			}
 			SX04 A 1 
 			{	
@@ -435,7 +436,7 @@ class WraithPlasma : Actor
 	virtual void DoExplosion()
 	{
 		A_StopSound(CHAN_BODY);
-		
+
 		vector3 fxoffs = (-30, 0, 10);
 		fxoffs = HaloMath.V3Offset(angle, pitch, roll, fxoffs.x, fxoffs.y, fxoffs.z, 1.);
 		
@@ -546,6 +547,7 @@ class WraithPlasma_Explosion : FastActor
 				A_Explode(250, 300);
 				A_StartSound("Halo/Wraith/MissileExplosion", flags:CHANF_OVERLAP, attenuation: 0.1);
 				HaloMath.SpawnFX("TankRocket_Smoke", (pos.xy, pos.z+30), angle, random(4,12), 120, 60);
+				Spawn("FX_Shockwave", pos);
 				let sparks = Spawn("ImpactSparks", pos);
 				if(sparks)
 				{
