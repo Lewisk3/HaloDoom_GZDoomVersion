@@ -106,10 +106,10 @@ class LaserBeam : Actor
 			let psp = source.player.GetPSprite(trackPSLayer);
 			bob = PlayerPawn(source).BobWeapon(1.0);
 			
-			bob.x *= 0.031;
-			bob.y *= 0.035;
 			bob.x += psp.x;
 			bob.y += (psp.y - 32);
+			bob.x *= 0.031;
+			bob.y *= 0.035;
 		}
 		
 		// Update laser and tracking.
@@ -129,15 +129,6 @@ class LaserBeam : Actor
 			toPitch += (bob.y * 10);  
 		}	
 		
-		// Credits: This interpolation magic was gleaned from Kodi's KLazer library
-		// code available in PainSlayer 
-		// (https://github.com/jekyllgrim/Painslayer/blob/master/ZPainkiller/klazer/KLAZ_Beam.zsc#L114)
-		
-		// Odd interpolation magic.
-		double prevAngle = source.angle;
-		source.A_SetAngle(source.angle + 0.001, SPF_INTERPOLATE);
-		source.A_SetAngle(prevAngle, SPF_INTERPOLATE);
-
 		// Track target and source's angles.
 		if(trackingPos)
 		{
@@ -154,6 +145,15 @@ class LaserBeam : Actor
 			A_SetAngle(toAngle, SPF_INTERPOLATE);
 			A_SetPitch(toPitch+90, SPF_INTERPOLATE);
 		}
+		
+		// Credits: This interpolation magic was gleaned from Kodi's KLazer library
+		// code available in PainSlayer 
+		// (https://github.com/jekyllgrim/Painslayer/blob/master/ZPainkiller/klazer/KLAZ_Beam.zsc#L114)
+		
+		// Odd interpolation magic.
+		double prevAngle = source.angle;
+		source.A_SetAngle(source.angle + 0.001, SPF_INTERPOLATE);
+		source.A_SetAngle(prevAngle, SPF_INTERPOLATE);
 		
 		// Do linetrace to determine aim distance.
 		double zoffs = source.player ? (source.player.viewz-source.pos.z) : source.height * 0.5;

@@ -84,7 +84,7 @@ class Halo_Carbine : HaloGun
 	
 	action void FireLaser(vector3 hitpos)
 	{
-		vector3 localOffs = (10, 4.5, 2.5);
+		vector3 localOffs = (10, 3.0, -3.0);
 		A_SetSFXPos(localOffs.x, localOffs.y, localOffs.z);
 		
 		double yoffs = A_GetWeapYOffs() * 0.25;
