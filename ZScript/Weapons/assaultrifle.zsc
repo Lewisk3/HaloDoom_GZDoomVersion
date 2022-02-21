@@ -5,6 +5,31 @@ class Halo_AR_Clip : Ammo
 		Inventory.MaxAmount 32;
 	}
 }
+class Halo_AR_Reserves : Ammo
+{
+	mixin WorldAmmoBehavior;
+	
+	Default 
+	{
+		Radius 4;
+		Height 4;
+		Scale 0.5;
+		
+		Inventory.Amount 16;
+		Inventory.MaxAmount 320;
+		Inventory.Icon "HLAMA0";
+		Inventory.PickupMessage "+16 Assault Rifle Ammo.";
+		
+		Ammo.BackpackMaxAmount 480;
+	}
+	
+	States
+	{
+		Spawn:
+			HLAM A -1 Bright;
+		stop;
+	}
+}
 
 class HaloRifle_Bullet : HaloBullet 
 {
@@ -43,7 +68,7 @@ class Halo_AssaultRifle : HaloGun
 		Tag "Assault Rifle";
 		Weapon.BobSpeed 1.86;
 		Weapon.BobRangeX 0.30;
-		Weapon.AmmoType1 "Halo_Clip";
+		Weapon.AmmoType1 "Halo_AR_Reserves";
 		Weapon.AmmoType2 "Halo_AR_Clip";
 		Weapon.AmmoGive 16;
 				

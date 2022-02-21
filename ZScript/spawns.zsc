@@ -60,5 +60,43 @@ extend class HaloDoom_Events
 			e.Replacement = "Overshield_LV1";
 		if( item is "BlueArmor" )
 			e.Replacement = "Overshield_LV2";
+			
+		// Ammunition spawning
+		int ammoTier = 0;
+		
+		if( item is "Clip" || item is "ClipBox" || item is "Shell" ) 
+			ammoTier = 1;
+		if( item is "ShellBox" || item is "RocketAmmo" || item is "Cell" || item is "RocketBox") 
+			ammoTier = 2;
+		if( item is "CellPack" )
+			ammoTier = 3;
+			
+		string AmmoClasses[9] = 
+		{
+			"Halo_AR_Reserves",
+			"Halo_BAR_Reserves",
+			"Halo_Bulldog_Reserves",
+			"Halo_Shotgun_Reserves",
+			"Halo_CarbineReserves",
+			
+			"Halo_DBLShotgun_Reserves",
+			"Halo_Sniper_Reserves",
+			"Halo_Needler_Reserves",
+			
+			"Halo_StanchionReserves"
+		};
+			
+		switch(ammoTier)
+		{
+			case 1: // AR and Magnum, BR, Bulldog, Shotgun, Carbine
+				e.Replacement = AmmoClasses[random[HaloAmmoSpawns](0,4)];
+			break;
+			case 2: // Double Barrel, Sniper Rifle, Rocket Launcher (Season 2), Needler 
+				e.Replacement = AmmoClasses[random[HaloAmmoSpawns](5,7)];
+			break;
+			case 3: // Stanchion
+				e.Replacement = AmmoClasses[8];
+			break;
+		}
 	}
 }

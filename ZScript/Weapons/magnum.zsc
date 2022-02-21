@@ -31,7 +31,7 @@ class Halo_Magnum : HaloGun
 		Tag "Magnum";
 		Weapon.BobSpeed 1.86;
 		Weapon.BobRangeX 0.30;
-		Weapon.AmmoType1 "Halo_Clip";
+		Weapon.AmmoType1 "Halo_AR_Reserves";
 		Weapon.AmmoType2 "Halo_Magnum_Clip";
 		Weapon.AmmoGive 8;
 				

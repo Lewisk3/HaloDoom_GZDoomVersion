@@ -5,6 +5,31 @@ class Halo_Bulldog_Shells : Ammo
 		Inventory.MaxAmount 8;
 	}
 }
+class Halo_Bulldog_Reserves : Ammo
+{
+	mixin WorldAmmoBehavior;
+	
+	Default 
+	{
+		Radius 4;
+		Height 4;
+		Scale 0.35;
+		
+		Inventory.Amount 4;
+		Inventory.MaxAmount 40;
+		Inventory.Icon "HLAMC0";
+		Inventory.PickupMessage "+4 Bulldog Ammo.";
+		
+		Ammo.BackpackMaxAmount 80;
+	}
+	
+	States
+	{
+		Spawn:
+			HLAM C -1 Bright;
+		stop;
+	}
+}
 
 class HaloBulldog_Bullet : HaloBullet
 {
@@ -29,7 +54,7 @@ class Halo_Bulldog : HaloGun
 		Tag "Riot Shotgun";
 		Weapon.BobSpeed 1.68;
 		Weapon.BobRangeX 0.10;
-		Weapon.AmmoType1 "Shell";
+		Weapon.AmmoType1 "Halo_Bulldog_Reserves";
 		Weapon.AmmoGive 4;
 		Weapon.AmmoType2 "Halo_Bulldog_Shells";
 		HaloGun.PowerTier P_NORM;

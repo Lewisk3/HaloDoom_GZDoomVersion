@@ -6,6 +6,31 @@ class Halo_StanchionClip : Ammo
 		Inventory.MaxAmount 100;
 	}
 }
+class Halo_StanchionReserves : Ammo
+{
+	mixin WorldAmmoBehavior;
+	
+	Default 
+	{
+		Radius 4;
+		Height 4;
+		Scale 0.5;
+		
+		Inventory.Amount 50;
+		Inventory.MaxAmount 300;
+		Inventory.Icon "HLAMM0";
+		Inventory.PickupMessage "+1 Stanchion Battery (50% Charge)";
+		
+		Ammo.BackpackMaxAmount 600;
+	}
+	
+	States
+	{
+		Spawn:
+			HLAM M -1 Bright;
+		stop;
+	}
+}
 
 
 class Halo_Stanchion : HaloGun
@@ -18,7 +43,7 @@ class Halo_Stanchion : HaloGun
 		Tag "Stanchion";
 		Weapon.BobSpeed 1.87;
 		Weapon.BobRangeX 0.63;
-		Weapon.AmmoType1 "Cell";
+		Weapon.AmmoType1 "Halo_StanchionReserves";
 		Weapon.AmmoGive 100;
 		Weapon.AmmoType2 "Halo_StanchionClip";
 		HaloGun.PowerTier P_POWER;

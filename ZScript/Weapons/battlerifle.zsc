@@ -5,6 +5,31 @@ class Halo_BAR_Clip : Ammo
 		Inventory.MaxAmount 36;
 	}
 }
+class Halo_BAR_Reserves : Ammo
+{
+	mixin WorldAmmoBehavior;
+
+	Default 
+	{
+		Radius 4;
+		Height 4;
+		Scale 0.5;
+		
+		Inventory.Amount 18;
+		Inventory.MaxAmount 180;
+		Inventory.Icon "HLAMB0";
+		Inventory.PickupMessage "+18 Battle Rifle Ammo.";
+		
+		Ammo.BackpackMaxAmount 270;
+	}
+	
+	States
+	{
+		Spawn:
+			HLAM B -1 Bright;
+		stop;
+	}
+}
 
 class HaloBattleRifle_Bullet : HaloBullet 
 {
@@ -31,7 +56,7 @@ class Halo_BattleRifle : HaloGun
 		Tag "Battle Rifle";
 		Weapon.BobSpeed 1.86;
 		Weapon.BobRangeX 0.30;
-		Weapon.AmmoType1 "Halo_Clip";
+		Weapon.AmmoType1 "Halo_BAR_Reserves";
 		Weapon.AmmoType2 "Halo_BAR_Clip";
 		Weapon.AmmoGive 18;
 				

@@ -5,6 +5,31 @@ class Halo_Shotgun_Shells : Ammo
 		Inventory.MaxAmount 8;
 	}
 }
+class Halo_Shotgun_Reserves : Ammo
+{
+	mixin WorldAmmoBehavior;
+	
+	Default 
+	{
+		Radius 4;
+		Height 4;
+		Scale 0.5;
+		
+		Inventory.Amount 4;
+		Inventory.MaxAmount 60;
+		Inventory.Icon "HLAMK0";
+		Inventory.PickupMessage "+4 Shotgun Ammo.";
+		
+		Ammo.BackpackMaxAmount 120;
+	}
+	
+	States
+	{
+		Spawn:
+			HLAM K -1 Bright;
+		stop;
+	}
+}
 
 class HaloShotgun_Bullet : HaloBullet 
 {
@@ -29,7 +54,7 @@ class Halo_Shotgun : HaloGun
 		Tag "Shotgun";
 		Weapon.BobSpeed 2.0;
 		Weapon.BobRangeX 0.10;
-		Weapon.AmmoType1 "Shell";
+		Weapon.AmmoType1 "Halo_Shotgun_Reserves";
 		Weapon.AmmoGive 4;
 		Weapon.AmmoType2 "Halo_Shotgun_Shells";
 		HaloGun.PowerTier P_NORM;

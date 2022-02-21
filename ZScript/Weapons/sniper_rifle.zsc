@@ -6,6 +6,32 @@ class Halo_SniperClip : Ammo
 		Inventory.MaxAmount 4;
 	}
 }
+class Halo_Sniper_Reserves : Ammo
+{
+	mixin WorldAmmoBehavior;
+	
+	Default 
+	{
+		Radius 4;
+		Height 4;
+		Scale 0.5;
+		
+		Inventory.Amount 2;
+		Inventory.MaxAmount 40;
+		Inventory.Icon "HLAML0";
+		Inventory.PickupMessage "+2 Sniper Ammo.";
+		
+		Ammo.BackpackMaxAmount 80;
+	}
+	
+	States
+	{
+		Spawn:
+			HLAM L -1 Bright;
+		stop;
+	}
+}
+
 
 class HaloSniper_Bullet : HaloBullet 
 {
@@ -38,7 +64,7 @@ class Halo_SniperRifle : HaloGun
 		Tag "Sniper Rifle";
 		Weapon.BobSpeed 2.12;
 		Weapon.BobRangeX 0.63;
-		Weapon.AmmoType1 "RocketAmmo";
+		Weapon.AmmoType1 "Halo_Sniper_Reserves";
 		Weapon.AmmoGive 4;
 		Weapon.AmmoType2 "Halo_SniperClip";
 		HaloGun.PowerTier P_MID;

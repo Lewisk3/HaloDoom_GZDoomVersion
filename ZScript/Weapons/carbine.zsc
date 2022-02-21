@@ -5,6 +5,31 @@ class Halo_CarbineClip : Ammo
 		Inventory.MaxAmount 18;
 	}
 }
+class Halo_CarbineReserves : Ammo
+{
+	mixin WorldAmmoBehavior;
+	
+	Default 
+	{
+		Radius 4;
+		Height 4;
+		Scale 0.35;
+		
+		Inventory.Amount 9;
+		Inventory.MaxAmount 90;
+		Inventory.Icon "HLAME0";
+		Inventory.PickupMessage "+9 Carbine Ammo.";
+		
+		Ammo.BackpackMaxAmount 180;
+	}
+	
+	States
+	{
+		Spawn:
+			HLAM E -1 Bright;
+		stop;
+	}
+}
 
 class HaloCarbine_Bullet : HaloBullet 
 {
@@ -58,7 +83,7 @@ class Halo_Carbine : HaloGun
 		Tag "Carbine";
 		Weapon.BobSpeed 1.86;
 		Weapon.BobRangeX 0.30;
-		Weapon.AmmoType1 "Cell";
+		Weapon.AmmoType1 "Halo_CarbineReserves";
 		Weapon.AmmoType2 "Halo_CarbineClip";
 		Weapon.AmmoGive 36;
 		HaloGun.PowerTier P_NORM;
