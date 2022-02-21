@@ -1,3 +1,7 @@
+struct CortanaInfo
+{
+	Array<int> usedKeys;
+}
 
 class HaloPlayer : DoomPlayer
 {
@@ -5,6 +9,7 @@ class HaloPlayer : DoomPlayer
 	Veh_Manager curvehicle;
 	GrapplingHook grapple;
 	WeaponPickupProxy pickuptarget;
+	CortanaInfo cortana;
 	Weapon NextWeapon;
 	vector3 aimpos;
 	double soundwait;
@@ -29,6 +34,11 @@ class HaloPlayer : DoomPlayer
 	// Weapon values
 	double weap_yoffs;
 	double xhair_lowpos;
+	
+	// UI 
+	Color screen_color;
+	double screen_fade;
+	const FADE_RATE = 0.96;
 		
 	// CVar(s)
 	transient CVar lowered_xhair;
@@ -47,12 +57,12 @@ class HaloPlayer : DoomPlayer
 	Default
 	{
 		Speed 1;
-		Gravity 0.75;
+		Gravity 0.60;
 		Player.JumpZ 9;
 		Player.ViewHeight 41;		
 		Player.SoundClass "Spartan";
 		-DONTTRANSLATE;
-		
+
 		// UI
 		Player.DisplayName "Spartan Template";
 		HaloPlayer.Description "Template Spartan class.";
@@ -64,7 +74,7 @@ class HaloPlayer : DoomPlayer
 		
 		// Inventory
 		Player.StartItem "Halo_Magnum", 1;
-		Player.StartItem "Halo_Clip", 120;
+		Player.StartItem "Halo_AR_Reserves", 120;
 		
 		// Movement
 		HaloPlayer.LowerCrosshairY 60;
@@ -134,10 +144,7 @@ class HaloPlayer : DoomPlayer
 	{
 		// In vehicle?
 		curvehicle = Veh_Manager(FindInventory("Veh_Manager"));
-		
-		// No valid grenade?
-		if(!activeGrenade || activeGrenade.amount <= 0) nextGrenade(true);
-			
+					
 		// Don't do stuff when dead.
 		if(health <= 0 || !player) 
 		{
@@ -145,6 +152,9 @@ class HaloPlayer : DoomPlayer
 			super.Tick();
 			return;
 		}
+		
+		// No valid grenade?
+		if(!activeGrenade || activeGrenade.amount <= 0) nextGrenade(true);
 		
 		// Get CVar(s)
 		if(!lowered_xhair)
@@ -223,6 +233,9 @@ class HaloPlayer : DoomPlayer
 		let wnext = PickNextWeapon();
 		if( player.ReadyWeapon != wnext ) NextWeapon = wnext;
 		
+		// Screen flash colors
+		screen_fade *= FADE_RATE;
+		
 		super.Tick();
 	}
 	
@@ -232,7 +245,7 @@ class HaloPlayer : DoomPlayer
 		double dmg = GetModifiedDamage(mod, damage, true);
 		double truedamage = dmg / GAMEPLAY_DAMAGEMOD;
 		
-		if(bInvulnerable) return 0;
+		if( bInvulnerable || player.cheats & (CF_GODMODE|CF_GODMODE2) ) return 0;
 		
 		if(shields > 0)
 		{
@@ -326,5 +339,28 @@ class HaloPlayer : DoomPlayer
 			HALO RSTUV 5;
 			HALO W -1;
 			Stop;
+			
+		GunLightning:
+			TNT1 A 0 
+			{
+				A_OverlayFlags(OverlayID(), PSPF_RENDERSTYLE | PSPF_ALPHA, true);
+				A_OverlayRenderStyle(OverlayID(), STYLE_Add);
+				
+				/*let curPSprite = player.GetPSprite(OverlayID());
+				if(!(GetAge() % 2)) 
+					invoker.GunLightningFlash = !invoker.GunLightningFlash;
+				curPSprite.frame = invoker.GunLightningFlash ? 1 : 9;*/
+			}
+			BIRI B 1;
+			TNT1 A 0
+			{
+				let curPSprite = player.GetPSprite(OverlayID());
+				curPSprite.alpha *= 0.25;
+				
+				if(curPSprite.alpha <= 0) 
+					return ResolveState(null);
+				return ResolveState("GunLightning");
+			}
+		stop;
 	}
 }

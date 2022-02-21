@@ -89,6 +89,11 @@ class HaloStatusBar : BaseStatusBar
 	Font fnt;
 	Font fntHaloAmmo;
 	
+	// UI 
+	Color screen_color;
+	double screen_fade;
+	const FADE_RATE = 0.96;
+	
 	// Opt Features
 	bool draw_distance;
 	
@@ -100,10 +105,14 @@ class HaloStatusBar : BaseStatusBar
 	
 	vector2 msgpos;
 	
+	// Helmet
+	double helmbobPhase;
+	
 	// CVars
-	transient CVar showminimap;
+	transient CVar showMinimap;
 	transient CVar showAmmoWarnings;
 	transient CVar hideCrosshair;
+	transient CVar showHelmet;
 	
 	// Basic Functions
 	mixin BasicHUDFeatures;
@@ -162,7 +171,7 @@ class HaloStatusBar : BaseStatusBar
 		double msg_spacing = 30;
 		uint count = messages.Size()-1;
 		// Generate
-		let msg = HaloMessage.CreateMessage("HaloFont", msg, msgpos, msgscale, tint:msgcol);
+		let msg = HaloMessage.CreateMessage("Fonts/HaloSmallerFont.fon2", msg, msgpos, msgscale, tint:msgcol);
 		if(count >= MSGMAX) 
 		{
 			messages.Delete(0);
@@ -197,13 +206,15 @@ class HaloStatusBar : BaseStatusBar
 		if(!automapactive) Super.Draw(state, TicFrac);
 		
 		// Fetch CVars
-		if(!showminimap) showminimap = CVar.GetCVar("halodoom_showminimap", CPlayer);
+		if(!showMinimap) showMinimap = CVar.GetCVar("halodoom_showminimap", CPlayer);
 		if(!showAmmoWarnings ) showAmmoWarnings = CVar.GetCVar("halodoom_doammowarnings", CPlayer);
 		if(!hideCrosshair ) hideCrosshair = CVar.GetCVar("halodoom_hidecrosshair", CPlayer); 
+		if(!showHelmet) showHelmet = CVar.GetCVar("halodoom_showhelmet", CPlayer);
 		
 		// Always draw HUD
 		BeginHUD();
 		DrawMainBar (TicFrac);
+		
 	}
 	
 	void DrawMainBar (double TicFrac)
@@ -223,7 +234,15 @@ class HaloStatusBar : BaseStatusBar
 			// Hide HUD if viewing from a different camera.
 			if(!haloplr.FindInventory("Veh_Manager") && haloplr.player.camera != haloplr)
 				return;
-			
+				
+			// Screen colors
+			if(haloplr.screen_fade > 0)
+				Screen.Dim(haloplr.screen_color, haloplr.screen_fade, 0,0, Screen.GetWidth(), Screen.GetHeight());
+				
+			// Draw helmet
+			if(showHelmet && showHelmet.getBool()) 
+				DrawHelmet();
+						
 			// Vitals
 			DrawBars(); 
 			
@@ -247,6 +266,7 @@ class HaloStatusBar : BaseStatusBar
 			// Keys and Objectives
 			DrawKeys(CPlayer, 50, 10, 30,30);			
 			DrawObjectives();
+					
 			
 			// Keep track of time, always.
 			if(!prevMS)
@@ -258,7 +278,24 @@ class HaloStatusBar : BaseStatusBar
 			prevMS = MSTime();
 			double dtime = 1000.0 / ANIM_FPS;
 			deltatime = (ftime/dtime);
+			
 		}
+	}
+	
+	void DrawHelmet()
+	{
+		string helmetImg = "Graphics/UI/HelmetBG.png";
+		let weapPSP = haloplr.player.GetPSprite(PSP_WEAPON);
+		if(!weapPSP) return;
+		
+		double plrSpeed = haloplr.vel.xy.Length();
+		double rotation = weapPSP.rotation * 0.25;
+		double yoffs = clamp(haloplr.vel.z * 3, -50, 50);
+		
+		double ybob = 0.65 * (sin(helmbobPhase * 15) * plrSpeed);
+		if(plrSpeed > 1) helmbobPhase += 1 * deltaTime; 
+		
+		HLSBS.DrawImage(helmetImg, (0,yoffs + ybob), 1.0, scale:(4.25,4.25), rotation:rotation, texoffs:(0,0));
 	}
 	
 	// 24 ammo per line.
@@ -657,11 +694,14 @@ class HaloStatusBar : BaseStatusBar
 		HLSBS.ClearClipRect();	
 
 		// Health
-		double hpratio = haloplr.health / double(haloplr.GetMaxHealth()); 
-		int healthbars = clamp(ceil(hpratio * 9), 1, 9);
-		HLSBS.DrawImage("ui_hbar"..healthbars, healthpos, flags, 0.8, scale:(-1.0,1.15));
+		double maxHP = haloplr.GetMaxHealth();
+		double hpratio = haloplr.health / maxHP; 
+		int healthbars = clamp(ceil(hpratio * 9), 1, 25);
+		string hbar = String.Format("Graphics/UI/Healthbar/ui_hbar%d.png", healthbars);
+		
+		HLSBS.DrawImage(hbar, healthpos, flags, 0.8, scale:(-1.0,1.15));
 		healthpos += (508,0);
-		HLSBS.DrawImage("ui_hbar"..healthbars, healthpos, flags, 0.8, scale:(1.0,1.15));
+		HLSBS.DrawImage(hbar, healthpos, flags, 0.8, scale:(1.0,1.15));
 	}
 
 	void drawRadarLine( double x0, double y0, double x1, double y1, Color col, vector2 origin = (0,0), double maxdist = 128)
@@ -721,7 +761,7 @@ class HaloStatusBar : BaseStatusBar
 		HLSBS.DrawImage("RADARBG", baseoffs);
 		
 		// Draw Minimap
-		if( showminimap && showminimap.getBool() )
+		if( showMinimap && showMinimap.getBool() )
 		{
 			for (int i = 0; i < Level.Lines.Size(); i++)
 			{

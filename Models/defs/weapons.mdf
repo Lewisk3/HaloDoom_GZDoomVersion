@@ -123,3 +123,13 @@ Model SmokeTrail
 	
    FrameIndex BEAM A 0 0
 }
+
+Model FX_Shockwave
+{
+	Model 0 "Models/Title/sky_sphere.obj"
+	Skin 0 "Models/Lasers/lazer.png" // White pixel
+	Scale 50.0 50.0 50.0 
+	DONTCULLBACKFACES
+	
+	FrameIndex SWVE A 0 0
+}

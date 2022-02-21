@@ -5,6 +5,31 @@ class Halo_AR_Clip : Ammo
 		Inventory.MaxAmount 32;
 	}
 }
+class Halo_AR_Reserves : Ammo
+{
+	mixin WorldAmmoBehavior;
+	
+	Default 
+	{
+		Radius 4;
+		Height 4;
+		Scale 0.5;
+		
+		Inventory.Amount 16;
+		Inventory.MaxAmount 320;
+		Inventory.Icon "HLAMA0";
+		Inventory.PickupMessage "+16 Assault Rifle Ammo.";
+		
+		Ammo.BackpackMaxAmount 480;
+	}
+	
+	States
+	{
+		Spawn:
+			HLAM A -1 Bright;
+		stop;
+	}
+}
 
 class HaloRifle_Bullet : HaloBullet 
 {
@@ -38,12 +63,12 @@ class Halo_AssaultRifle : HaloGun
 	Default
 	{
 		Weapon.SlotNumber 1;
-		Obituary "%o was took down by %k's Assault Rifle.";
-		Inventory.PickupMessage	"Assault Rifle Acquired.";
+		Obituary "%o learned the Rifleman's Creed from %k's Assault Rifle.";
+		Inventory.PickupMessage	"Picked up the MA40 Assault Rifle.";
 		Tag "Assault Rifle";
 		Weapon.BobSpeed 1.86;
 		Weapon.BobRangeX 0.30;
-		Weapon.AmmoType1 "Halo_Clip";
+		Weapon.AmmoType1 "Halo_AR_Reserves";
 		Weapon.AmmoType2 "Halo_AR_Clip";
 		Weapon.AmmoGive 16;
 				
@@ -73,7 +98,7 @@ class Halo_AssaultRifle : HaloGun
 	action void A_FireRifle()
 	{
 		A_Light(2);
-		A_WeapSound("Halo/Weapons/Rifle/Fire", 0, true);
+		A_WeapSound("Halo/Weapons/Rifle/Fire", CHANF_OVERLAP, true);
 		A_WeapSound("Halo/Weapons/Rifle/Fire/Bass", CHANF_OVERLAP, true);
 		A_ShootProjectile("HaloRifle_Bullet", 6);		
 		A_SetSFXPos(20,-18,-12);
@@ -192,20 +217,21 @@ class Halo_AssaultRifle : HaloGun
 		// 35/9.17 = ~4 frames.
 		Fire:
 			TNT1 A 0 
-			{
+			{				
 				A_SetFrame(randompick(0,2));
 				return A_GunCheckReload();
 			}
-			HARF "#" 1
+			HARF "#" 1 Bright
 			{
 				A_FireRifle();
+				A_RecoilOffset(frandom(-12,12),frandom(3,9),2);
 				A_SetRecoil(0.8, 0, 1);
 				A_RQuakeEx(1,3,0,3,0,20,"",QF_RELATIVE|QF_WAVE);
 				A_LCDOffset(4, 0);
 				A_RollQuake(2,10,3, true);
 				A_SetFrame(randompick(1,3));
 			}
-			HARF "#" 1
+			HARF "#" 1 Bright
 			{
 				A_Light(0);
 				A_MechanismSound("Halo/Weapons/Rifle/Mech");
@@ -221,7 +247,7 @@ class Halo_AssaultRifle : HaloGun
 		
 		// Ammo 10s count
 		LCD_AmmoCount.Left:
-			LCDL "#" 1 
+			LCDL "#" 1 Bright
 			{
 				A_SetFrame(floor(countinv(invoker.AmmoType2)/10.), LCD_LLayer);
 				A_FollowRotatedPos(LCD_LLayer, PSP_WEAPON, (30,0));
@@ -231,7 +257,7 @@ class Halo_AssaultRifle : HaloGun
 		loop;
 		// Ammo 1s count
 		LCD_AmmoCount.Right:
-			LCDR "#" 1 
+			LCDR "#" 1 Bright
 			{
 				A_SetFrame(floor(countinv(invoker.AmmoType2)%10.), LCD_RLayer);
 				A_FollowRotatedPos(LCD_RLayer, PSP_WEAPON, (30,0));
@@ -242,7 +268,7 @@ class Halo_AssaultRifle : HaloGun
 		
 		// Compass 
 		LCD_Compass:
-			LCDC A 1
+			LCDC A 1 Bright
 			{
 				A_FollowRotatedPos(LCD_CLayer, PSP_WEAPON, (40,0));
 				A_OverlayPivotAlign(LCD_CLayer, PSPA_CENTER, PSPA_CENTER);
@@ -264,12 +290,12 @@ class Halo_AssaultRifle : HaloGun
 			HRR1 FGHIJ 2;
 			HRR1 KLMNOPQRS 2;
 			HRR1 T 2 A_SetRecoil(0.6, 0.8, 1);
+			TNT1 A 0 A_ReloadClip();
 			HRR1 "UVWXYZ[]" 2;
-			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Reload.Bolt");
+			TNT1 A 0 A_JumpIf(!CountReloadAmmo(), "Reload.Bolt");
 		Reload.Tactical:
 			HRR3 ABC 2;
 			HRR3 D 2 A_SetRecoil(-0.7, 0, 2);
-			TNT1 A 0 A_ReloadClip();
 			HRR3 EFGH 1;
 			HRR3 IJK 2;
 		goto Ready.Active;
@@ -278,7 +304,6 @@ class Halo_AssaultRifle : HaloGun
 			HRR2 G 2 A_SetRecoil(-1.0, 0.4, 4);
 			HRR2 HIJKLMNOPQRST 2;
 			HRR2 UVWX 1;
-			TNT1 A 0 A_ReloadClip();
 		goto Ready.Active;
 		
 		Spawn:

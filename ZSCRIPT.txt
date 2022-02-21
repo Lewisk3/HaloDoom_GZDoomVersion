@@ -31,6 +31,7 @@ version "4.5"
 #include "ZScript/Menus/halomenu_title.zsc"
 #include "ZScript/Menus/halomenu_splash.zsc"
 #include "ZScript/Menus/halomenu_playerselection.zsc"
+#include "ZScript/Menus/halomenu_skillmenu.zsc"
 
 // Items
 #include "ZScript/Items/keys.zsc"
@@ -54,9 +55,12 @@ version "4.5"
 #include "ZScript/Weapons/stanchion.zsc"
 #include "ZScript/Weapons/carbine.zsc"
 #include "ZScript/Weapons/PlasmaPistol.zsc"
+#include "ZScript/Weapons/PlasmaRifle.zsc"
 #include "ZScript/Weapons/Needler.zsc"
 #include "ZScript/Weapons/bulldog.zsc"
 #include "ZScript/Weapons/grenades.zsc"
+#include "ZScript/Weapons/gravityhammer.zsc"
+#include "ZScript/Weapons/fuelrod.zsc"
 
 // Vehicles
 #include "ZScript/Vehicles/Kinematics/kine_parts.zsc" 
@@ -70,6 +74,7 @@ version "4.5"
 #include "ZScript/Vehicles/veh_mantis.zsc" 
 
 // Laser(s)
+#include "ZScript/Lasers/base/smoothlaser_base.zsc"
 #include "ZScript/Lasers/base/laser_base.zsc"
 #include "ZScript/Lasers/base/laserfx_base.zsc"
 #include "ZScript/Lasers/halo_lasers.zsc"

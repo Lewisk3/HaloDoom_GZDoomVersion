@@ -6,6 +6,32 @@ class Halo_SniperClip : Ammo
 		Inventory.MaxAmount 4;
 	}
 }
+class Halo_Sniper_Reserves : Ammo
+{
+	mixin WorldAmmoBehavior;
+	
+	Default 
+	{
+		Radius 4;
+		Height 4;
+		Scale 0.5;
+		
+		Inventory.Amount 2;
+		Inventory.MaxAmount 40;
+		Inventory.Icon "HLAML0";
+		Inventory.PickupMessage "+2 Sniper Ammo.";
+		
+		Ammo.BackpackMaxAmount 80;
+	}
+	
+	States
+	{
+		Spawn:
+			HLAM L -1 Bright;
+		stop;
+	}
+}
+
 
 class HaloSniper_Bullet : HaloBullet 
 {
@@ -33,12 +59,12 @@ class Halo_SniperRifle : HaloGun
 	Default
 	{
 		Weapon.SlotNumber 2;
-		Obituary "%o was took down by %k's Sniper Rifle.";
-		Inventory.PickupMessage	"Sniper Rifle Acquired.";
+		Obituary "%o got the Call of Duty treatment from %k's Sniper Rifle.";
+		Inventory.PickupMessage	"Picked up the S99-Bolt-Action Siper Rifle.";
 		Tag "Sniper Rifle";
 		Weapon.BobSpeed 2.12;
 		Weapon.BobRangeX 0.63;
-		Weapon.AmmoType1 "RocketAmmo";
+		Weapon.AmmoType1 "Halo_Sniper_Reserves";
 		Weapon.AmmoGive 4;
 		Weapon.AmmoType2 "Halo_SniperClip";
 		HaloGun.PowerTier P_MID;
@@ -126,7 +152,7 @@ class Halo_SniperRifle : HaloGun
 				A_SetRecoil(4.42, 3.42, 2);
 				A_SetZoom(0.90, 2);
 				A_FireSniper();
-				A_RollQuake(-4, 20, 3);
+				A_RollQuake(4, 20, 3);
 				A_RQuakeEx(3,3,3,10,0,20,"",QF_RELATIVE);
 			}
 			HSNF BC 1 Bright;
@@ -165,15 +191,14 @@ class Halo_SniperRifle : HaloGun
 			HSR1 UVWXYZ 1;
 			HSR2 AB 2;
 			HSR2 CC 1 A_SetRecoil(2.0, 0, 3);
-		// This is... less than ideal but, I don't want to create a varible for this.
-			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Reload.Empty");
-		Reload.Full:
 			TNT1 A 0 A_ReloadClip();
+		// This is... less than ideal but, I don't want to create a varible for this.
+			TNT1 A 0 A_JumpIf(!CountReloadAmmo(), "Reload.Empty");
+		Reload.Full:
 			HSR2 CDEFGHIJ 1;
 			HSR2 KLMNOPQRST 2;
 		goto Ready.Active;
 		Reload.Empty:
-			TNT1 A 0 A_ReloadClip();
 			HSR2 CDEFGHIJ 1;
 			HSR2 KLMNOPQRST 2;
 		goto Bolt;

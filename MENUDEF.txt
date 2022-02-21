@@ -29,6 +29,10 @@ AddOptionMenu "CustomizeControls"
 	StaticText "↓ More Controls ↓"
 }
 
+AddOptionMenu "OptionsMenu"
+{
+	Submenu "HaloDoom Options", "HaloDoomGameplayOptions"
+}
 
 ListMenu "Intro"
 {
@@ -38,6 +42,14 @@ ListMenu "Intro"
 ListMenu "HaloPlayerClassMenu"
 {
 	class "HaloDoom_PlayerClassMenu"
+}
+
+ListMenu "SkillMenu"
+{
+	class "HaloDoom_SkillMenu"
+	
+	StaticPatch 54, 38, "M_SKILL"
+	Position 48, 63
 }
 
 AddListMenu "MainMenu" 
@@ -68,8 +80,57 @@ OptionMenu "HaloDoomControlsMenu"
 	StaticText " "
 }
 
+OptionMenu "HaloDoomGameplayOptions"
+{
+	Title "HaloDoom Gameplay Options"
+	ScrollTop 2
+	StaticText "Combat Feedback", "Sapphire"
+	Slider "Weapon recoil intensity", "halodoom_recoil_intensity", 0, 2.0, 0.1, 1
+	Slider "Effects intensity", "halodoom_effectintensity", 0, 3.0, 0.1, 1 
+	StaticText " "
+	StaticText "Effects", "Sapphire"
+	Option "Smoke", "halodoom_fx_smoke", "EnabledDisabled"
+	Option "Bullet Casings", "halodoom_fx_casings", "EnabledDisabled"
+	Option "Play Helmet intro animation", "halodoom_dohelmetintro", "EnabledDisabled"
+	Option "Use longer select animations", "halodoom_dofullselectanim", "EnabledDisabled"
+	Slider "Grappling Hook complexity", "halodoom_grapplecomplexity", 0.2, 2.0, 0.01, 2
+	StaticText " "
+	StaticText "HUD", "Sapphire"
+	Option "Minimap", "halodoom_showminimap", "EnabledDisabled"
+	Option "Helmet Overlay", "halodoom_showhelmet", "EnabledDisabled"
+	Option "Ammo warnings", "halodoom_doammowarnings", "EnabledDisabled"
+	Option "Crosshair", "halodoom_hidecrosshair", "DisabledEnabled"
+	Option "Hitmarkers", "halodoom_fx_hitmarkers", "EnabledDisabled"
+	StaticText " "
+	StaticText "General Gameplay", "Sapphire"
+	Option "Lowered crosshair", "halodoom_loweredcrosshair", "EnabledDisabled"
+	Option "Controller Aim Assist", "halodoom_doaimassist", "EnabledDisabled"	
+	Option "Cortana Mode", "halodoom_cortanamode", "CortanaTypes"
+	StaticText " "
+	StaticText "Movement", "Sapphire"
+	Option "Bunny hopping", "halodoom_allowbhop", "EnabledDisabled"	
+	Option "Persistent jumping", "halodoom_holdjump", "EnabledDisabled"	
+	StaticText " "
+	StaticText "Cheats", "Sapphire"
+	Option "Unlimited Weapon capacity", "halodoom_unlimitedbackpack", "EnabledDisabled"
+	Command "Spawn all weapons", "hdeall"
+	
+}
+
 OptionValue "EnabledDisabled"
 {
-	0, "Disabled"
-	1, "Enabled"
+	0, "Off"
+	1, "On"
 }
+OptionValue "DisabledEnabled"
+{
+	0, "On"
+	1, "Off"
+}
+OptionValue "CortanaTypes"
+{	
+	0, "Always On"
+	1, "Once per key"
+	2, "Disabled"
+}
+

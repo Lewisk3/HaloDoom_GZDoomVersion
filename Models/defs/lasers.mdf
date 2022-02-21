@@ -1,27 +1,10 @@
-Model LSR_GrappleTail
-{
-	Path "models/lasers"
-	Model 0 "beam_complex.md3"
-	Scale 1.0 1.0 1.0
-	USEACTORPITCH
-	SurfaceSkin 0 0 "BEAM.png" // Full mesh
-	AngleOffset 0
-	PitchOffset 0
-	
-   FrameIndex BEAM A 0 0
-} 
-
 Model LSR_CarbineTrail
 {
-	Path "models/lasers"
-	Model 0 "beam_complex.md3"
-	Scale 1.0 1.0 1.0
+	Model 0 "Models/Lasers/lazer.md3"
+	Skin 0 "Models/Lasers/lazer.png"
 	USEACTORPITCH
-	SurfaceSkin 0 0 "BEAM.png" // Full mesh
-	AngleOffset 0
-	PitchOffset 0
 	
-   FrameIndex BEAM A 0 0
+	FrameIndex MODL A 0 0
 } 
 
 Model LSR_Railgun
@@ -75,4 +58,13 @@ Model RopeSegment
    USEACTORROLL
    
    FrameIndex MODL A 0 0 
+}
+
+Model "LaserBeam"
+{
+	Model 0 "Models/Lasers/lazer.md3"
+	Skin 0 "Models/Lasers/lazer.png"
+	USEACTORPITCH
+	
+	FrameIndex MODL A 0 0
 }

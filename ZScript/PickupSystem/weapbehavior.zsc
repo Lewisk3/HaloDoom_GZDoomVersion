@@ -54,6 +54,7 @@ class WeaponPickupProxy : Actor
 			wp.noammogive = noammogive;
 			wp.trueitem = source.GetClass();
 			wp.clipammo = -1;
+			wp.A_SetSize(source.radius, source.height);
 			source.Destroy();
 		}
 		return wp;
@@ -82,8 +83,16 @@ class WeaponPickupProxy : Actor
 			}
 			else
 			{
-				if(ammodef1) togive += ammodef1.backpackmaxamount-to.countinv(ammotype1);
-				if(ammodef2) togive += ammodef2.backpackmaxamount-to.countinv(ammotype2);
+				if(ammodef1) 
+				{
+					double ammomax = max(ammodef1.backpackmaxamount, ammodef1.maxamount);
+					togive += ammomax-to.countinv(ammotype1);
+				}
+				if(ammodef2) 
+				{
+					double ammomax = max(ammodef2.backpackmaxamount, ammodef2.maxamount);
+					togive += ammomax-to.countinv(ammotype2);
+				}
 			}
 			if(togive <= 0) return Null;
 		}
@@ -125,15 +134,11 @@ class WeaponPickupProxy : Actor
 			// If player is colliding with a weaponproxy item, and looking at it.
 			if( Distance3DSquared(act) <= pickup_dist )
 			{
-				CVar mustsee = CVar.GetCVar("pickup_checksight", act.player);
-				if(mustsee && mustsee.GetBool())
-				{
-					FLineTraceData lt;
-					act.LineTrace(act.angle, visibledist, act.pitch, TRF_ALLACTORS|TRF_ABSOFFSET, act.player.viewheight,0,0, lt);
-					Actor hitact = lt.HitActor;
-					if(hitact != self) continue;
-				}
-				
+				FLineTraceData lt;
+				act.LineTrace(act.angle, visibledist, act.pitch, TRF_ALLACTORS|TRF_ABSOFFSET, act.player.viewheight,0,0, lt);
+				Actor hitact = lt.HitActor;
+				if(hitact != self) continue;
+
 				plr = act;
 				if(!plr.countinv(trueitem)) plr.pickuptarget = self;
 				break;
@@ -146,11 +151,12 @@ class WeaponPickupProxy : Actor
 		// Determine if colliding with another weapon, move outside bounds.
 		let it = ThinkerIterator.Create("WeaponPickupProxy");
 		WeaponPickupProxy curpickup;
+		double maxdist = radius*radius;
 		while(curpickup = WeaponPickupProxy(it.Next()))
 		{
 			if(curpickup == self) continue;
 			double curdist = Distance2DSquared(curpickup);
-			if(curdist > (radius*radius)) continue;
+			if(curdist > maxdist) continue;
 			double angto = frandom(0,360);
 			vector2 outpos = (
 				cos(angto) * -4,

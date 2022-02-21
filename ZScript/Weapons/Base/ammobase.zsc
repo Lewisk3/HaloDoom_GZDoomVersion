@@ -1,16 +1,15 @@
-class Halo_Clip : Ammo replaces Clip
+mixin class WorldAmmoBehavior
 {
-	Default
+	// Man, Mixins are really a god send for Ammo-based actors.
+	override bool SpecialDropAction (Actor dropper)
 	{
-		Inventory.PickupMessage "$GOTCLIP"; 
-		Inventory.Amount 10;
-		Inventory.MaxAmount 320;
-		Inventory.Icon "CLIPA0";
-	}
-	States
-	{
-		Spawn:
-			CLIP A -1;
-		Stop;
+		if(dropper is "PlayerPawn") return false;
+		
+		// Only keep dropped ammo 75% of the time.
+		if(random[WorldDroppedAmmo](0,100) < 75)
+		{
+			GoAwayAndDie();
+		}
+		return false;
 	}
 }

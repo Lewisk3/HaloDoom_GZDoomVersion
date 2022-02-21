@@ -1,4 +1,3 @@
-user bool pickup_checksight = true;
 user bool halodoom_showminimap = false;
 user bool halodoom_fx_smoke = true;
 user bool halodoom_fx_casings = true;
@@ -8,7 +7,11 @@ user bool halodoom_dofullselectanim = false;
 user bool halodoom_dohelmetintro = true;
 user bool halodoom_doammowarnings = true;
 user bool halodoom_hidecrosshair = false;
+user bool halodoom_showhelmet = false;
+user float halodoom_grapplecomplexity = 1.0;
 user float halodoom_recoil_intensity = 1.0;
+user int halodoom_cortanamode = 0;
+server float halodoom_effectintensity = 1.0;
 server bool halodoom_allowbhop = true;
 server bool halodoom_holdjump = true;
 server bool halodoom_doaimassist = false;

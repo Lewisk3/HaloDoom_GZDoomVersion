@@ -5,6 +5,31 @@ class Halo_BAR_Clip : Ammo
 		Inventory.MaxAmount 36;
 	}
 }
+class Halo_BAR_Reserves : Ammo
+{
+	mixin WorldAmmoBehavior;
+
+	Default 
+	{
+		Radius 4;
+		Height 4;
+		Scale 0.5;
+		
+		Inventory.Amount 18;
+		Inventory.MaxAmount 180;
+		Inventory.Icon "HLAMB0";
+		Inventory.PickupMessage "+18 Battle Rifle Ammo.";
+		
+		Ammo.BackpackMaxAmount 270;
+	}
+	
+	States
+	{
+		Spawn:
+			HLAM B -1 Bright;
+		stop;
+	}
+}
 
 class HaloBattleRifle_Bullet : HaloBullet 
 {
@@ -26,12 +51,12 @@ class Halo_BattleRifle : HaloGun
 	Default
 	{
 		Weapon.SlotNumber 1;
-		Obituary "%o was took down by %k's Battle Rifle.";
-		Inventory.PickupMessage	"Battle Rifle Acquired.";
+		Obituary "%o got a taste of competitive halo by %k's Battle Rifle.";
+		Inventory.PickupMessage	"Picked up the Battle Rifle.";
 		Tag "Battle Rifle";
 		Weapon.BobSpeed 1.86;
 		Weapon.BobRangeX 0.30;
-		Weapon.AmmoType1 "Halo_Clip";
+		Weapon.AmmoType1 "Halo_BAR_Reserves";
 		Weapon.AmmoType2 "Halo_BAR_Clip";
 		Weapon.AmmoGive 18;
 				
@@ -41,7 +66,7 @@ class Halo_BattleRifle : HaloGun
 		HaloGun.BaseRecoil BARIFLE_RECOIL;
 		HaloGun.Inaccuracy BARIFLE_ACCMOD;
 		HaloGun.Crosshair "BARRet", 1.0;
-		HaloGun.UIGraphic "WI_DMR", 1.0;
+		HaloGun.UIGraphic "WI_BTR", 1.0;
 		HaloGun.UISight "SI_BR", 0.3, 0.7;
 		HaloGun.SetupScope 2.0, 0.25;
 		HaloGun.ZoomSounds "Halo/Weapons/Zoom/IN", "Halo/Weapons/Zoom/OUT";
@@ -117,12 +142,12 @@ class Halo_BattleRifle : HaloGun
 		// 35/15 = ~2 frames.
 		Fire:
 			TNT1 A 0 A_GunCheckReload();
-			BRFI A 1
+			BRFI A 1 Bright
 			{
 				A_RecoilOffset(0,8,1);
 				A_ModifyRecoil(A_CheckInScope() ? 0.25 : 1.0);
 			}
-			BRFI B 2
+			BRFI B 2 
 			{
 				A_FireRifle();
 				A_SetRecoil(0.3, 0, 4);
@@ -131,20 +156,20 @@ class Halo_BattleRifle : HaloGun
 				A_RecoilOffset(8,10,2);
 				A_UpdateSpread();
 			}
-			BRFI C 1
+			BRFI C 1 Bright
 			{
 				A_RecoilOffset(0,8,2);
 				A_MechanismSound("Halo/Weapons/BattleRifle/Mech");
 				A_GunCheckReload();
 				A_Light(0);
 			}
-			BRFI D 2
+			BRFI D 2 
 			{
 				A_FireRifle();
 				A_SetRecoil(0.3, 0, 4);
 				A_RQuakeEx(1,2,0,3,0,20,"",QF_RELATIVE);
 			}
-			BRFI E 1
+			BRFI E 1 Bright
 			{
 				A_RollQuake(-4,6,2);
 				A_RecoilOffset(0,8,1);
@@ -152,7 +177,7 @@ class Halo_BattleRifle : HaloGun
 				A_GunCheckReload();
 				A_Light(0);
 			}
-			BRFI F 2
+			BRFI F 2 
 			{
 				A_FireRifle();
 				A_SetRecoil(-0.15, 0, 8);
@@ -183,15 +208,14 @@ class Halo_BattleRifle : HaloGun
 			BRR1 PQRSTUV 2;
 			BRR1 W 1;
 			BRR1 X 1 A_SetRecoil(0, 0.4, 3);
+			TNT1 A 0 A_ReloadClip();
 			BRR1 YZ 1;
 			BRR2 ABCDEFGHHHH 1;
-			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Reload.Rechamber");
+			TNT1 A 0 A_JumpIf(!CountReloadAmmo(), "Reload.Rechamber");
 		Reload.Finish: // 7
-			TNT1 A 0 A_ReloadClip();
 			BRR3 ABCDEFG 1;
 		goto Ready.Active;
 		Reload.Rechamber: // 25
-			TNT1 A 0 A_ReloadClip();
 			BRR4 ABCDEF 1;
 			BRR4 G 1 A_SetRecoil(0.4, 0, 3);
 			BRR4 HIJK 1 A_SetRecoil(-0.4, 0, 4);

@@ -24,8 +24,9 @@ class BiriBiri : Actor abstract
 		double str = strength;
 		double boltalpha = frandom(0.08, 1.0);
 		double pitchmov;
-				
-		for(double len = 0; len < dist; len+=stepsize)
+		
+		int adjustedDist = max(dist * halodoom_effectintensity, 5);
+		for(double len = 0; len < adjustedDist; len+=stepsize)
 		{	
 			// Get Lightning spawn position.
 			vector3 spawnpos;

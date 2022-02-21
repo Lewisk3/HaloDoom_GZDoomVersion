@@ -41,11 +41,11 @@ class HaloPickup_EVH : EventHandler
 			vector2 apos, bpos;
 			[infront, apos] = HLSBS.GetActorHUDPos (
 				viewproj,
-				aim_weap, 16, 0, (aim_weap.height/2)-5
+				aim_weap, 16, 0, (aim_weap.height/3)+5
 			);
 			[infront, bpos] = HLSBS.GetActorHUDPos (
 				viewproj,
-				aim_weap, 16, 0, (aim_weap.height/2)-10
+				aim_weap, 16, 0, (aim_weap.height/3)+10
 			);	
 
 			if(infront) 

@@ -3,21 +3,23 @@ class HaloMenuBase : ListMenu
 	int btn_selected;
 	double prevMS;
 	double deltatime;
+	double buttonAlpha;
 	
 	// Elements
 	MenuTexture MainBG;
 	Mouse mMouse;
 	Array<Button> buttons;
-
-	virtual TextElement newBtnText(String txt, Font fnt = "BigFont")
+		
+	virtual TextElement newBtnText(String txt, Font fnt = "HaloFont", double scale = 0.25)
 	{
-		return TextElement.Create(fnt, txt, (0,0), (1.0,1.0), Font.CR_WHITE);
+		return TextElement.Create(fnt, txt, (0,0), (scale,scale), Font.CR_WHITE);
 	}
 	
 	override void Init(Menu parent, ListMenuDescriptor desc)
 	{
 		Super.Init(parent, desc);
 		btn_selected = -1;
+		buttonAlpha = 1.0;
 	}
 
 	bool CanSave()
@@ -41,7 +43,7 @@ class HaloMenuBase : ListMenu
 		
 		for(int i = 0; i < buttons.Size(); i++) 
 		{
-			buttons[i].Draw();
+			buttons[i].Draw(buttonAlpha);
 		}
 		
 		if(!prevMS)
@@ -57,6 +59,24 @@ class HaloMenuBase : ListMenu
 
 	override bool OnUIEvent(UiEvent ev)
 	{
+		if(ev.Type == UIEvent.Type_KeyDown)
+		{
+			string menuKeyStr = ev.KeyString;
+			Array<int> consoleKeys; 
+			Bindings.GetAllKeysForCommand(consoleKeys, "toggleconsole");
+			
+			for(int i = 0; i < consoleKeys.Size(); i++)
+			{
+				int keyScan = consoleKeys[i];
+				string keyStr = Bindings.NameKeys(keyScan,0);
+				if(menuKeyStr ~== keyStr)
+				{
+					Close();
+					return false;
+				}
+			}
+		}
+		
 		if(mMouse) 
 		{
 			mMouse.Update(ev);

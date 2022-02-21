@@ -19,6 +19,11 @@ pointlight OrangePointLight
     color 1.0 0.5 0.0
     size 16
 }
+pointlight GreenPointLight
+{
+    color 0.0 1.0 0.0
+    size 64
+}
 pointlight BigOrangePointLight
 {
     color 1.0 0.5 0.0
@@ -28,7 +33,7 @@ pointlight BigOrangePointLight
 pointlight BlueBrightLight
 {
     color 0.0 0.0 1.0
-    size 8
+    size 64
 }
 pulselight GreenPulseLight
 {
@@ -63,8 +68,25 @@ pointlight BigBlueLight
     color 0.0 0.0 1.0
     size 48
 }
+pointlight StupidlyBrightAndHUGELight
+{
+	color 5.0 5.0 5.0
+    size 69420
+}
 
 // Lit objects
+object HaloPlasmaRifle_Proj
+{
+	Frame HPLB { light BlueBrightLight }
+}
+object HaloPlasma_Proj
+{
+	Frame HPLB { light GreenPointLight }
+}
+object HaloChargedPlasma_Proj
+{
+	Frame HPLB { light GreenPointLight }
+}
 object HaloNeedleProjectile
 {
 	Frame TRAC { light BlueBrightLight }
@@ -117,6 +139,19 @@ object MuzzleSparks
 {	
 	Frame IPF2 { light OrangePointLight }
 }
+object RailgunProjectile
+{
+	Frame LITA { light StupidlyBrightAndHUGELight }
+}
+
+object WraithPlasma
+{
+	frame FSP2 { light BigBlueLight }
+}
+object FuelRodPlasma
+{
+	frame FSP2 { light GreenPointLight }
+}
 
 // Sprite brightmaps
 brightmap sprite PWSHA0 {
@@ -127,11 +162,11 @@ brightmap sprite PWSHB0 {
 }
 
 // Explosions
-object NeedlerExplosion 
+object NeedleExplosion 
 {
 	Frame FX58 { light BlueBrightLight }
 }
-object NeedlerMiniExplosion 
+object NeedleMiniExplosion 
 {
 	Frame FX58 { light BlueBrightLight }
 }

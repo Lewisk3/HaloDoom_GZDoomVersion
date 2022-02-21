@@ -73,7 +73,10 @@ class HaloProjectile : FastProjectile
 		if(headshot) scaled_damage *= headshot_multiplier;
 		
 		// Damage Victim
-		victim.DamageMobJ(self,target,ceil(scaled_damage),DamageType,0,angle);
+		Name dmgType = headshot ? 'Headshot' : DamageType;
+	//	scaled_damage = target.GetModifiedDamage(dmgType, scaled_damage, false, self, target);
+		
+		victim.DamageMobJ(self, target, ceil(scaled_damage), dmgType, 0, angle);
 		if(explode_dmg > 0) A_Explode(explode_dmg, explode_radius, 0);
 
 		// Spawn Blood
@@ -192,7 +195,8 @@ class HaloProjectile : FastProjectile
 				{
 					LookExParams look;
 					look.FOV = 30;
-					if(!act.bSHOOTABLE || act.bCORPSE || !act.bISMONSTER) continue;
+					if(act == target) continue;
+					if(!act.bSHOOTABLE || act.bCORPSE) continue;
 					if(target && !target.IsVisible(act, false, look)) continue;
 					int dist = Distance3DSquared(act);
 					if(dist < mindist) 
@@ -348,7 +352,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 		HaloNeedleProjectile.NeedleDamages 2, 10;
 		HaloNeedleProjectile.ExplodeDelay 35; // 1 second.
 		HaloNeedleProjectile.ExplodeCount 7; 
-		HaloNeedleProjectile.NeedleHoming 40, 0.05;
+		HaloNeedleProjectile.NeedleHoming 40, 0.15;
 		HaloNeedleProjectile.NeedleHomRange 61;
 		Translation "0:255=@70[128, 17, 247]";
 	}
@@ -365,12 +369,11 @@ class HaloNeedleProjectile : HaloSlowProjectile
 		bSOLID = false;
 		bMISSILE = false;
 		vel *= 0;
-		hitoffs = Level.SphericalCoords(pos, victim.pos, (angle, pitch));
+
+		hitoffs = HaloMath.DiffToLocal(pos, victim.pos, (victim.angle, victim.pitch));
 		hitangle = angle-victim.angle;
 		hitpitch = pitch-victim.pitch;
-		hitrelpos = level.Vec3Diff(victim.pos, pos);
-		hitrelpos.z += frandom(-victim.height*0.35,victim.height*0.35);
-		hitangle += frandom(-15,15);
+
 		explodetimer = explodedelay;
 		needlecount = NeedleCounter(victim.FindInventory("NeedleCounter"));
 		if(!needlecount) 
@@ -389,12 +392,12 @@ class HaloNeedleProjectile : HaloSlowProjectile
 		
 		if(hitactor)
 		{
-			double hitdist = hitoffs.z*0.25;
-			double realang = hitactor.angle+hitoffs.x+hitangle;
-			vector3 newpos = hitactor.Vec3Offset(cos(realang)*-hitdist, sin(realang)*-hitdist, hitrelpos.z);
-			angle = realang;
+			vector3 followPos = HaloMath.V3Offset(hitactor.angle, hitactor.pitch, hitactor.roll, hitoffs.x * 0.25, hitoffs.y * 0.75, hitoffs.z, 1.0);
+			followPos = level.Vec3Offset(hitactor.pos, followPos);
+
+			angle = hitactor.angle+hitangle;
 			pitch = hitactor.pitch+hitpitch;
-			SetOrigin(newpos, true);
+			SetOrigin(followPos, true);
 		}
 		else if(getTravelDistance() < maxhomdist) // Do homing
 		{
@@ -421,7 +424,8 @@ class HaloNeedleProjectile : HaloSlowProjectile
 				look.FOV = 30;
 				while(act = Actor(it.Next()))
 				{
-					if(!act.bSHOOTABLE || act.bCORPSE || !act.bISMONSTER) continue;
+					if(act == target) continue;
+					if(!act.bSHOOTABLE || act.bCORPSE) continue;
 					if(target && !act.isHostile(target)) continue;
 					if(target && !target.IsVisible(act, false, look)) continue;
 					
@@ -487,7 +491,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 					
 					needlecount.ExplodeNeedles();
 					hitactor.DamageMobJ(self, self.target, shatterdmg * explodecount, "Explosive", 0, angle);
-					A_Explode(128,128,0);
+					A_Explode(128,200,0);
 				}
 				
 				if(hitactor) hitactor.DamageMobJ(self, self.target, shatterdmg, "Explosive", 0, angle);
@@ -669,7 +673,9 @@ class RailgunProjectile : FastProjectile
 			vector3 hitpos = lt.HitLocation;
 			proj.endpos = hitpos;
 			proj.aimdist = lt.Distance;
-			proj.SetDamage(dmg);
+			
+			double trueDamage = source.GetModifiedDamage("Railgun", dmg, false, proj, source);
+			proj.SetDamage(trueDamage);
 			proj.expdmg = expdmg;
 			
 			Spawn("Railgun_MuzzleExplosion", proj.pos);
@@ -678,21 +684,21 @@ class RailgunProjectile : FastProjectile
 			let smok = SmokeTrail.Start(0xFFFF0000, spawnpos, hitpos, (proj.angle, proj.pitch), 0.5, type:"RailgunTrail");
 			if(smok)
 			{
-				smok.A_SetScale(20.0);
+				smok.A_SetScale(15.0 * 0.7);
 			}
 			
 			// Outer trail
 			smok = SmokeTrail.Start(0xFFfc9d03, spawnpos, hitpos, (proj.angle, proj.pitch), 1.0, type:"RailgunTrail");
 			if(smok)
 			{
-				smok.A_SetScale(10.0);
+				smok.A_SetScale(10.0 * 0.7);
 			}
 			
 			// Inner trail
 			smok = SmokeTrail.Start(0xFFFFFFFF, spawnpos, hitpos, (proj.angle, proj.pitch), 3.0);
 			if(smok)
 			{
-				smok.A_SetScale(5.0);
+				smok.A_SetScale(5.0 * 0.7);
 			}
 			
 			// Shockwave
@@ -714,6 +720,7 @@ class RailgunProjectile : FastProjectile
 		forward = level.vec3offset(forward, startpos);
 		vector3 shockpos = level.vec3offset(forward, dir * (aimdist * dist));
 		let shock = Spawn("Railgun_Shockwave", shockpos);
+		Spawn("FX_Shockwave", pos);
 		if(shock) 
 		{
 			shock.SetShade(col);
@@ -725,6 +732,7 @@ class RailgunProjectile : FastProjectile
 	{
 		double ang = angle+180;
 		biridist = fixed_dist >= 0 ? fixed_dist : frandom(0, 1.0);
+		int adjustedAmt = max(5 * halodoom_effectintensity, 0);
 		for(int i = 0; i < amt; i++)
 		{
 			vector3 biripos = level.vec3offset(startpos, dir * (aimdist * biridist));
@@ -745,6 +753,10 @@ class RailgunProjectile : FastProjectile
 	
 	States
 	{
+		Cache:
+			LITA A 1;
+		stop;
+		
 		Spawn:
 			TNT1 A 1;
 		loop;
@@ -758,8 +770,14 @@ class RailgunProjectile : FastProjectile
 				A_Explode(expdmg, expdmg*0.5, 0);
 			}
 		Death.FadeOut:
-			TNT1 A 1 
+			"####" A 1 
 			{
+				bool blink = random(0,1);
+				if(blink) 
+					sprite = GetSpriteIndex("LITA");
+				else
+					sprite = GetSpriteIndex("TNT1");
+	
 				A_FadeOut(0.02);
 				if(GetAge()%5 == 0)
 				{
@@ -860,7 +878,8 @@ class Railgun_Explosion : FastActor
 				}
 				
 				// Flying explosions
-				for(int i = 0; i < random(15,30); i++)
+				double adjustedAmt = max(random[railExplode](15,30) * halodoom_effectintensity, 0);
+				for(int i = 0; i < adjustedAmt; i++)
 				{
 					double spawnang = frandom(0,180);
 					double spawndist = frandom(-10, 10);

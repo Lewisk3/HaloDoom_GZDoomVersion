@@ -22,13 +22,13 @@ class HaloSpartan_III : HaloPlayer
 		Player.StartItem "DoHelmetAnimation", 1;
 		Player.StartItem "Halo_AssaultRifle", 1;
 		Player.StartItem "Halo_Magnum", 1;
-		Player.StartItem "Halo_Clip", 120;
+		Player.StartItem "Halo_AR_Reserves", 120;
 		
 		// Movement
 		HaloPlayer.MovementBob 0;
 		HaloPlayer.CanBunnyHop false;
 		HaloPlayer.MaxJumps 2;
 		HaloPlayer.AirControl 2.0;
-		HaloPlayer.SetupDashes true, 2, 4, 2;
+		HaloPlayer.SetupDashes true, 2, 5, 2;
 	}
 }

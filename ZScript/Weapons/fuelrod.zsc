@@ -1,0 +1,261 @@
+
+class Halo_FuelClip : Ammo 
+{
+	Default
+	{
+		Inventory.MaxAmount 10;
+	}
+}
+
+class FuelrodPlasma : WraithPlasma
+{
+	Default
+	{
+		Damage FUELROD_DMG;
+		
+		Scale 0.5;
+		Speed FUELROD_BMPS * UNIT_METER;
+		WraithPlasma.EffectColor "05F02C";
+		WraithPlasma.ProjectileColor "0BE058";
+		WraithPlasma.ExplosionType "Fuelrod_Explosion";
+	}
+}
+
+class Fuelrod_Explosion : FastActor
+{
+	Default
+	{
+		Scale 4.0;
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0;
+			TNT1 A 1 
+			{		
+				A_Explode(128, 256);
+				A_StartSound("Halo/Weapons/Fuelrod/Explosion", flags:CHANF_OVERLAP, attenuation:0.1);
+				let toxicSmoke = Spawn("Fuelrod_Damager", (pos.xy, pos.z+10));
+				if(toxicSmoke) toxicSmoke.target = target;
+				
+				HaloMath.SpawnFX("Fuelrod_Smoke", (pos.xy, pos.z), angle, random(4,12), 120, 60);
+				let sparks = Spawn("ImpactSparks", pos);
+				if(sparks) sparks.A_SetScale(0.25,0.25);
+			}
+			SX04 A 1 
+			{	
+				let flare = Spawn("TankRocket_Flare", (pos.xy, pos.z+30));
+				if(flare)
+				{
+					flare.A_SetScale(0.25,0.25);
+					if(fillcolor)
+					{
+						flare.A_SetRenderStyle(1.0, STYLE_AddShaded);
+						flare.SetShade(fillcolor);
+					}
+				}
+			}
+			SX04 BCDEFGHIJKLMNOPQ 1 Bright;
+		stop;
+	}
+}
+
+class Fuelrod_Damager : FastActor
+{
+	Default
+	{
+		Damage 4;
+		Radius 200;
+	}
+
+	States
+	{
+		Spawn:
+			TNT1 A 1
+			{
+				if( !(level.maptime%2) )
+					HaloMath.ExplodeEx(self, Damage, Radius, damageType:"ToxicPlasma", damageSelf:false);
+			}
+			TNT1 A 0 A_JumpIf(GetAge() > 170, "Null"); 
+		loop;
+	}
+}
+
+class Fuelrod_Smoke : FastActor
+{
+	double rollvel;
+	double upforce;
+	vector2 wind_dir;
+	Default
+	{
+		Scale 2.0;
+		+ROLLSPRITE;
+	}
+	
+	override void BeginPlay()
+	{	
+		alpha = frandom(0.5, 1.0);
+		A_SetScale(frandom(default.scale.x * 0.5, default.scale.x * 1.0));
+		rollvel = frandom(-2.0, 2.0);
+		wind_dir = AngleToVector(frandom(0,180), frandom(-0.005, 0.005)); 
+		super.BeginPlay();
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		
+		SetOrigin(level.vec3offset(pos, vel), true);
+		A_SetRoll(roll + rollvel, SPF_INTERPOLATE);
+		vel += wind_dir * frandom(0.025, 0.5);
+	}
+	
+	States
+	{
+		Spawn:	
+			TNT1 A 0;
+			SMK5 "#" 1 
+			{ 
+				A_SetRenderStyle(1.0, STYLE_AddShaded);
+				SetShade(0xFF05F02C);
+				frame = random(0, 23); 
+			}
+		SpawnLoop:
+			SMK5 "#" 1 A_FadeOut(0.0047);
+		wait;
+	}
+}
+
+class Halo_FuelRod : HaloGun
+{
+	Default
+	{
+		Weapon.SlotNumber 2;
+		Obituary "%o felt %k's green rod.";
+		Inventory.PickupMessage	"Picked up the Type-33 Fuel-Rod gun.";
+		Tag "Fuel Rod";
+		Weapon.BobSpeed 1.87;
+		Weapon.BobRangeX 0.63;
+		Weapon.AmmoGive 2;
+		Weapon.AmmoType1 "Halo_FuelClip";
+		Weapon.AmmoType2 "Halo_FuelClip";
+		HaloGun.PowerTier P_POWER;
+		
+		// This is basically hacks
+		// It allows me to set the translation of any other
+		// actor spawned by this, to whatever I want.
+		Translation "0:255=@65[5,240,44]";
+		+DONTTRANSLATE;
+				
+		// Recoil
+		RecoilWeapon.RecoilSpeed 20;
+		HaloGun.Bloom 1.25;
+		HaloGun.BloomSpeed 0.08;
+		HaloGun.BaseRecoil FUELROD_RECOIL;
+		HaloGun.Inaccuracy FUELROD_ACCMOD;
+		HaloGun.Crosshair "FuelRET", 1.0;
+		HaloGun.UIGraphic "WI_FUELR", 0.5;
+
+		RecoilWeapon.YOffsetRange -5, 100;
+	}
+	
+	override void MarkPrecacheSounds()
+	{
+		// Prevent stutters by precaching weapon sounds.
+		MarkSound("Halo/Weapons/FuelRod/Fire");
+		MarkSound("Halo/Weapons/FuelRod/Fire/Bass");
+		MarkSound("Halo/Weapons/FuelRod/Fire/Mech");
+		MarkSound("Halo/Weapons/FuelRod/Overheat");
+	}
+	
+	action void A_FireFuelRod()
+	{
+		A_Light(4);
+		A_WeapSound("Halo/Weapons/FuelRod/Fire", CHANF_OVERLAP, true);
+		A_WeapSound("Halo/Weapons/FuelRod/Fire/Bass", CHANF_OVERLAP, true);
+		
+		A_SetSFXPos(8, -12, -8);
+		vector3 hitpos; Actor proj;
+		[hitpos, proj] = A_ShootProjectile("FuelrodPlasma");
+		if(proj) 
+		{
+			proj.target = self;
+			proj.vel.z -= 1;
+		}
+		
+		A_TakeAmmo();
+		A_UpdateSpread();
+	}
+
+	States
+	{
+		
+		DoSmoke:	
+			TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 3 
+			{
+				A_SetSFXPos(15,-7,-12);
+				for(int i = 0; i < random(1,5); i++)
+				{
+					let smoke = A_SpawnSFX("MuzzleSmoke", -90,0);
+					// *crimes*
+					if(smoke) smoke.translation = invoker.translation;
+				}
+			}
+		stop;
+		
+		Ready:
+			TNT1 A 0 A_WeapSound("Halo/Weapons/FuelRod/Select", CHANF_OVERLAP);
+			FRDS BCDEF 1 A_DoSelectAnim();
+		Ready.Active:
+			FRDI A 1 A_HaloWeaponReady();
+		loop;
+		
+		Ready.Dryfire:
+			FRDI A 4 A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
+		goto Ready.Active;
+
+		Select:
+			FRDS A 0 A_GunRaise();
+		wait;
+
+		Deselect:
+			FRDS FEDCB 1;
+			FRDS A 1 A_GunLower();
+		wait;
+		
+		Fire:
+			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Ready.Dryfire");
+			FRDF A 1 Bright
+			{
+				A_RecoilOffset(40,40,6);
+				A_SetRecoil(6.0, 0, 2);
+				A_SetZoom(0.87, 2);
+				A_FireFuelRod();
+				A_RQuakeEx(4,2,2,8,0,20,"",QF_RELATIVE|QF_WAVE);
+			}
+			FRDF BC 1 Bright A_RecoilOffset(40,40,6);
+			FRDF A 0 A_Light(0);
+			FRDF DDDDD 1 A_SetZoom(1.0, 16);
+			TNT1 A 0 A_WeapSound("Halo/Weapons/FuelRod/Fire/Mech", CHANF_OVERLAP);
+			FRDF EE 1 A_RecoilOffset(0,0,10);
+			FRDF FGHIJ 2;
+			FRDI A 1 A_Overlay(60, "DoSmoke");
+		goto Overheat;
+					
+		Overheat:
+			TNT1 A 0 A_ScopeDisable();
+			TNT1 A 0 A_StartSound("Halo/Weapons/FuelRod/Overheat", CHAN_RELOADING, CHANF_OVERLAP);
+			TNT1 A 0 A_Quake(2,16,0,20,"");
+			FRDH ABCDEGHI 2 A_RecoilOffset(frandom(-3,5),frandom(-3,3),2, add:true);
+			TNT1 A 0 A_Quake(1,20,0,20,"");
+			FRDH JKLMNOJKLMNOJKLMNOJKLMNOJKLMNO 2 A_RecoilOffset(frandom(-3,3),frandom(-3,3),2, add:true);
+			FRDH PQRSTU 2 A_RecoilOffset(0,0,6);
+		goto Ready.Active;
+
+		Spawn:
+			FRDG A -1;
+		stop;
+	}
+}
+

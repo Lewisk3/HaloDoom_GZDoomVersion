@@ -5,6 +5,31 @@ class Halo_Bulldog_Shells : Ammo
 		Inventory.MaxAmount 8;
 	}
 }
+class Halo_Bulldog_Reserves : Ammo
+{
+	mixin WorldAmmoBehavior;
+	
+	Default 
+	{
+		Radius 4;
+		Height 4;
+		Scale 0.35;
+		
+		Inventory.Amount 4;
+		Inventory.MaxAmount 40;
+		Inventory.Icon "HLAMC0";
+		Inventory.PickupMessage "+4 Bulldog Ammo.";
+		
+		Ammo.BackpackMaxAmount 80;
+	}
+	
+	States
+	{
+		Spawn:
+			HLAM C -1 Bright;
+		stop;
+	}
+}
 
 class HaloBulldog_Bullet : HaloBullet
 {
@@ -24,23 +49,23 @@ class Halo_Bulldog : HaloGun
 	Default
 	{
 		Weapon.SlotNumber 1;
-		Obituary "%o was nommed by %k's Bulldog.";
-		Inventory.PickupMessage	"Bulldog Acquired.";
-		Tag "Bulldog";
+		Obituary "%o's riot was controlled by %k's Riot Shotgun.";
+		Inventory.PickupMessage	"Picked up the CQS-48 Riot Shotgun.";
+		Tag "Riot Shotgun";
 		Weapon.BobSpeed 1.68;
 		Weapon.BobRangeX 0.10;
-		Weapon.AmmoType1 "Shell";
+		Weapon.AmmoType1 "Halo_Bulldog_Reserves";
 		Weapon.AmmoGive 4;
 		Weapon.AmmoType2 "Halo_Bulldog_Shells";
 		HaloGun.PowerTier P_NORM;
 				
 		// Recoil
 		HaloGun.Bloom 1.0;
-		HaloGun.BloomSpeed 0.12;
+		HaloGun.BloomSpeed 0.50;
 		HaloGun.BaseRecoil BULLDOG_RECOIL;
 		HaloGun.Inaccuracy BULLDOG_ACCMOD;
 		HaloGun.Crosshair "SGRet", 0.8;
-		HaloGun.UIGraphic "WI_SG", 1.0;
+		HaloGun.UIGraphic "WI_BDOG", 0.75;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
 	}
@@ -64,9 +89,9 @@ class Halo_Bulldog : HaloGun
 		for(int i = 0; i < 12; i++)
 		{
 			A_ShootProjectile("HaloBulldog_Bullet", 8);		
-			A_SpawnSFX("MuzzleSmoke", 0,0);
+			if(!(i%2)) A_SpawnSFX("MuzzleSmoke", 0,0);
 		}
-		A_MuzzleSparks(30, 60, 12,12);
+		A_MuzzleSparks(15, 60, 8,8);
 		A_TakeAmmo(1);
 		A_UpdateSpread();
 	}
@@ -162,10 +187,11 @@ class Halo_Bulldog : HaloGun
 			BDR2 ABC 2;
 			BDR2 DEFGHIJKLMN 1; 
 			BDR2 O 1 A_SetRecoil(1.0, 0, 2);
+			TNT1 A 0 A_ReloadClip();
 			BDR2 PQRSTUV 1;
 			BDR2 W 2;
 			BDR2 XYZ 1;
-			BDR3 ABCD 1 A_JumpIf(CountLoadedAmmo(), "Reload.Finish");
+			BDR3 ABCD 1 A_JumpIf(CountReloadAmmo(), "Reload.Finish");
 		Reload.Pump:
 			BDR3 EFGH 1;
 			BDR3 I 1 A_SetRecoil(-0.36, 0.13, 6);
@@ -173,11 +199,7 @@ class Halo_Bulldog : HaloGun
 			BDR3 V 1 A_SetRecoil(0.36, -0.13, 6);
 			BDR3 WXYZ 1;
 		Reload.Finish:
-			TNT1 A 0 
-			{
-				A_SetRecoil(-0.36, 0.13, 3);
-				A_ReloadClip();
-			}
+			TNT1 A 0 A_SetRecoil(-0.36, 0.13, 3);
 			BDR4 ABCDE 1;
 		goto Ready.Active;
 		

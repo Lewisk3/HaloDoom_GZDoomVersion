@@ -15,7 +15,7 @@ class RecoilWeapon : Weapon
 	double yoff_min, yoff_max;
 	double basezoom;
 	double recoilmod;
-	double rollshake_str, rollshake_time, rollshake_freq;
+	double rollshake_str, rollshake_time, rollshake_freq, rollshake_dirfreq;
 
 	int deftimer, recoil_timer, newtimer, looksway;
 	double swayspd, pitchmax, anglemax;
@@ -141,8 +141,13 @@ class RecoilWeapon : Weapon
 		invoker.recoilmod = mod;
 	}
 	
-	action void A_RecoilOffset(double x, double y, double spd)
+	action void A_RecoilOffset(double x, double y, double spd, bool add = false)
 	{
+		if(add) 
+		{
+			x += invoker.woffsx;
+			y += invoker.woffsy;
+		}
 		invoker.woffsx = x;
 		invoker.woffsy = y;
 		invoker.wofftimer = spd;
@@ -193,6 +198,7 @@ class RecoilWeapon : Weapon
 			invoker.realoffsy = clamp(invoker.realoffsy, yrange.x, yrange.y);
 		}
 		
+		invoker.staticoffs.y = max(invoker.yoff_min, invoker.staticoffs.y);
 		invoker.curstaticoffs.x = HaloMath.Lerp(invoker.curstaticoffs.x, invoker.staticoffs.x, 0.35);
 		invoker.curstaticoffs.y = HaloMath.Lerp(invoker.curstaticoffs.y, invoker.staticoffs.y, 0.35);
 		if( invoker.realoffsx == invoker.woffsx && invoker.realoffsy == invoker.woffsy+wyoffs) 
@@ -255,6 +261,7 @@ class RecoilWeapon : Weapon
 			invoker.rollshake_str = str;
 			invoker.rollshake_time = dur;
 			invoker.rollshake_freq = freq;
+			invoker.rollshake_dirfreq = 0;
 		}
 		else
 		{
@@ -286,9 +293,19 @@ class RecoilWeapon : Weapon
 		if(rollshake_time > 0)
 		{
 			double strmod = HaloMath.fmap(rollshake_time, 0, 20, 0.1, 1.0);
-			if(!(level.time%rollshake_freq)) rollshake_str *= -1;
-			double rshake = rollshake_str * strmod * cv_recoil.GetFloat();
+			if(rollshake_dirfreq >= rollshake_freq) 
+			{
+				rollshake_str *= -1;
+				rollshake_dirfreq = 0;
+			}
+			rollshake_dirfreq++;
 			
+			// Negative roll directions happen at uneven time intervals
+			// and are more likely to scaled lower than positive ones,
+			// by strmod, so compenstate for that.
+			if(rollshake_str < 0) strmod *= 1.1;
+			
+			double rshake = rollshake_str * strmod * cv_recoil.GetFloat();
 			Owner.A_SetRoll(Owner.roll + rshake, SPF_INTERPOLATE);
 			rollshake_time--;
 		}
@@ -345,6 +362,10 @@ class RecoilWeapon : Weapon
 			Owner.A_setPitch( ipitch );
 			Owner.A_setAngle( iangle );	
 		}
+		
+		// Idle Bob
+		double bobz = cos(level.maptime * 3) * 0.5;
+		woffsy += bobz; 
 				
 		double velz = Owner.vel.z * 0.6;
 		velz = clamp(velz, -10, 10);

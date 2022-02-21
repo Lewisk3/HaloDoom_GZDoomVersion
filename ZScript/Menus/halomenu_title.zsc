@@ -9,31 +9,45 @@ class HaloDoom_TitleMenu : HaloMenuBase
 		
 		title = (gamestate == GS_TITLELEVEL);
 		MainBG = MenuTexture.Create("Graphics/UI/Title/TitleLogo.png",(0,-200),(0.5,0.5));
-		mMouse = Mouse.Create("", 0,0,32,32);
+		mMouse = Mouse.Create("", 0,0,8,8);
 		
 		double btnY = 680; 
+		double btnW = 0.7;
+		double btnH = 0.2;
+		double itemSpacing = 70;
 		
-		TextElement btntxt = newBtnText("CAMPAIGN", "HaloFont");
-		buttons.push(Button.Create('NewGame', "BTN_OFF" ,  "BTN_ON" , 960, btnY, 0.8, 0.25, btntxt));
-		btnY += 80;
+		string btnON  = "Graphics/UI/Title/NONE.png";
+		string btnOFF = "Graphics/UI/Title/NONE.png";
+		string btnHover = "Graphics/UI/Title/btn_light.png";
+		
+		TextElement btntxt = newBtnText("CAMPAIGN");
+		buttons.push(Button.Create('NewGame', btnOFF ,  btnON , btnHover, 960, btnY, btnW, btnH, btntxt));
+		btnY += itemSpacing;
 		
 		if(!title)
 		{
-			btntxt = newBtnText("SAVE GAME", "HaloFont");
-			buttons.push(Button.Create('SaveGame', "BTN_OFF" ,  "BTN_ON" , 960, btnY, 0.8, 0.25, btntxt));
-			btnY += 80;	
+			btntxt = newBtnText("SAVE GAME");
+			buttons.push(Button.Create('SaveGame', btnOFF ,  btnON , btnHover, 960, btnY, btnW, btnH, btntxt));
+			btnY += itemSpacing;	
 		}
 		
-		btntxt = newBtnText("LOAD GAME", "HaloFont");
-		buttons.push(Button.Create('LoadGame', "BTN_OFF" ,  "BTN_ON" , 960, btnY, 0.8, 0.25, btntxt));
-		btnY += 80;
+		btntxt = newBtnText("LOAD GAME");
+		buttons.push(Button.Create('LoadGame', btnOFF ,  btnON , btnHover, 960, btnY, btnW, btnH, btntxt));
+		btnY += itemSpacing;
 		
-		btntxt = newBtnText("OPTIONS", "HaloFont");
-		buttons.push(Button.Create('Options', "BTN_OFF" ,  "BTN_ON" , 960, btnY, 0.8, 0.25, btntxt));
-		btnY += 80;
+		if(title)
+		{
+			btntxt = newBtnText("CONFIGURE");
+			buttons.push(Button.Create('Configure', btnOFF ,  btnON , btnHover, 960, btnY, btnW, btnH, btntxt));
+			btnY += itemSpacing;
+		}
 		
-		btntxt = newBtnText("QUIT", "HaloFont");
-		buttons.push(Button.Create('Quit', "BTN_OFF" ,  "BTN_ON" , 960, btnY, 0.8, 0.25, btntxt));
+		btntxt = newBtnText("OPTIONS");
+		buttons.push(Button.Create('Options', btnOFF ,  btnON , btnHover, 960, btnY, btnW, btnH, btntxt));
+		btnY += itemSpacing;
+		
+		btntxt = newBtnText("QUIT");
+		buttons.push(Button.Create('Quit', btnOFF ,  btnON , btnHover, 960, btnY, btnW, btnH, btntxt));
 		
 		for(int i = 0; i < buttons.Size(); i++)
 			buttons[i].ScaleCollider(0.9, 0.7);
@@ -43,6 +57,7 @@ class HaloDoom_TitleMenu : HaloMenuBase
 		DontDim = true;
 		mMouse.SetPos(buttons[0].btnrect.pos);
 		btn_selected = 0;
+		buttonAlpha = 0.6;
 		fadein = title ? 1.0 : 0.15;
 	}
 	
@@ -89,11 +104,11 @@ class HaloDoom_TitleMenu : HaloMenuBase
 			if(buttons[i].btntext)
 			{
 				if(buttons[i].pressed)
-					buttons[i].btntext.font_color = Font.CR_BLACK;
-				else if(buttons[i].hovered)
 					buttons[i].btntext.font_color = Font.CR_BLUE;
-				else
+				else if(buttons[i].hovered)
 					buttons[i].btntext.font_color = Font.CR_WHITE;
+				else
+					buttons[i].btntext.font_color = Font.CR_BLACK;
 			}
 		}
 		
@@ -108,8 +123,6 @@ class HaloDoom_TitleMenu : HaloMenuBase
 	
 	override void Ticker()
 	{
-		if(btn_selected != -1) mMouse.left_pressed = true;
-	
 		for(int i = 0; i < buttons.Size(); i++)
 		{
 			buttons[i].Update(mMouse, btn_selected == -1);
@@ -129,6 +142,9 @@ class HaloDoom_TitleMenu : HaloMenuBase
 					break;
 					case 'LoadGame':		// Load Game
 						Menu.SetMenu('LoadGameMenu');
+					break;
+					case 'Configure':
+						Menu.Setmenu("HaloDoomGameplayOptions");
 					break;
 					case 'Options':     // Options
 						Menu.SetMenu('OptionsMenu');
