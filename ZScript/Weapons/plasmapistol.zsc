@@ -24,6 +24,17 @@ class HaloPlasma_Proj : HaloBullet
 		DamageType "Plasma";
 	}
 	
+	virtual void A_DoLightning(double amt = 4)
+	{
+		vector2 view;
+		for(int i = 0; i < amt; i++)
+		{
+			view.x = angle + frandom(-60,60) + 180;
+			view.y = pitch + frandom(-35,35);
+			BiriBiri.DoLightning(pos, view, dist:25, 0.5, 20.0, 10.0, 30, 0);
+		}
+	}
+	
 	States
 	{
 		Spawn:
