@@ -85,7 +85,7 @@ class Halo_Carbine : HaloGun
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_CarbineReserves";
 		Weapon.AmmoType2 "Halo_CarbineClip";
-		Weapon.AmmoGive 36;
+		Weapon.AmmoGive 18;
 		HaloGun.PowerTier P_NORM;
 
 		// Recoil
