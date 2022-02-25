@@ -517,6 +517,7 @@ class VehLight : Spotlight
 	vector3 posoffs;
 	vector3 viewoffs;
 	double distoffs;
+	bool active;
 
 	Default
 	{
@@ -537,7 +538,7 @@ class VehLight : Spotlight
 		args[LIGHT_RED] = col.r;
 		args[LIGHT_GREEN] = col.g;
 		args[LIGHT_BLUE] = col.b;
-		args[LIGHT_INTENSITY] = aperture.x;
+		args[LIGHT_INTENSITY] = active ? aperture.x : 0;
 		SpotInnerAngle = aperture.y;
 		SpotOuterAngle = aperture.z;
 		
@@ -562,6 +563,7 @@ class VehLight : Spotlight
 			light.posoffs = offset;
 			light.distoffs = dist;
 			light.viewoffs = angles;
+			light.active = true;
 		}
 		return light;
 	}

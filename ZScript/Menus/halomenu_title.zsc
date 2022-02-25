@@ -35,12 +35,9 @@ class HaloDoom_TitleMenu : HaloMenuBase
 		buttons.push(Button.Create('LoadGame', btnOFF ,  btnON , btnHover, 960, btnY, btnW, btnH, btntxt));
 		btnY += itemSpacing;
 		
-		if(title)
-		{
-			btntxt = newBtnText("CONFIGURE");
-			buttons.push(Button.Create('Configure', btnOFF ,  btnON , btnHover, 960, btnY, btnW, btnH, btntxt));
-			btnY += itemSpacing;
-		}
+		btntxt = newBtnText("CONFIGURE");
+		buttons.push(Button.Create('Configure', btnOFF ,  btnON , btnHover, 960, btnY, btnW, btnH, btntxt));
+		btnY += itemSpacing;
 		
 		btntxt = newBtnText("OPTIONS");
 		buttons.push(Button.Create('Options', btnOFF ,  btnON , btnHover, 960, btnY, btnW, btnH, btntxt));

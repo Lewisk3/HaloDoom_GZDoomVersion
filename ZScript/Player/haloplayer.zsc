@@ -17,6 +17,7 @@ class HaloPlayer : DoomPlayer
 	bool shields_recharging;
 	string class_desc;
 	FragGrenades activeGrenade;
+	VehLight flashlight;
 	
 	// Door to be activated once animation finishes.
 	Line pendingDoor; 
@@ -142,6 +143,13 @@ class HaloPlayer : DoomPlayer
 	
 	override void Tick()
 	{
+		// Flashlight stuff
+		if(!flashlight) 
+		{
+			flashlight = VehLight.Attach( self, intense_in_out:(350,16,40), offset:(10,0,0) );
+			flashlight.active = false;
+		}
+		
 		// In vehicle?
 		curvehicle = Veh_Manager(FindInventory("Veh_Manager"));
 					

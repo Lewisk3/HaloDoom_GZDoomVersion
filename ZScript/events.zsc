@@ -172,26 +172,34 @@ class HaloDoom_Events : EventHandler
 	{
 		PlayerInfo src = players[e.Player];
 		if(!src || !src.mo) return;
+		let haloplr = HaloPlayer(src.mo);
 			
 		// Extra keys
-		if(e.Name ~== "throwgrenade")
+		if(haloplr)
 		{
-			src.mo.GiveInventory("Action_ThrowGrenade", 1);
-		}
-		if(e.Name ~== "nextgrenade")
-		{
-			let plr = HaloPlayer(src.mo);
-			if(plr) plr.nextGrenade(true);
+			if(e.Name ~== "throwgrenade")
+			{
+				let haloweap = HaloGun(haloplr.player.ReadyWeapon);
+				haloweap.ThrowCurrentGrenade();
+			}
+			if(e.Name ~== "nextgrenade")
+			{
+				haloplr.nextGrenade(true);
+			}
+			if(e.Name ~== "toggleflashlight")
+			{
+				if(haloplr.flashlight) 
+					haloplr.flashlight.active = !haloplr.flashlight.active;
+			}
 		}
 		
 		Array<String> args;
 		String cmd = e.Name;
 		cmd.Split(args, ":");
-		if(args[0] == "crosshairsummon")
+		if(args[0] == "crosshairsummon" && haloplr)
 		{
 			class<Actor> obj = args[1];
-			let plr = HaloPlayer(src.mo);
-			if(plr && obj) Actor.Spawn(obj, plr.aimpos);
+			if(obj) Actor.Spawn(obj, haloplr.aimpos);
 		}
 		
 		// if(multiplayer) return;
@@ -231,11 +239,9 @@ class HaloDoom_Events : EventHandler
 				console.printf("Autoaim now controller only.");
 		}
 		
-		if(e.Name == "HaloDoom_MaxShield")
+		if(e.Name == "HaloDoom_MaxShield" && haloplr)
 		{
-			let hplr = HaloPlayer(src.mo);
-			if(!hplr) return;
-			hplr.shields = hplr.maxshields * 3.0;
+			haloplr.shields = haloplr.maxshields * 3.0;
 		}
 	}
 	
