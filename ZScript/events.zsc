@@ -189,7 +189,11 @@ class HaloDoom_Events : EventHandler
 			if(e.Name ~== "toggleflashlight")
 			{
 				if(haloplr.flashlight) 
+				{
 					haloplr.flashlight.active = !haloplr.flashlight.active;
+					string flStatus = haloplr.flashlight.active ? "ON" : "OFF";
+					haloplr.A_StartSound("Halo/Flashlight/" .. flStatus, CHAN_AUTO);
+				}
 			}
 		}
 		

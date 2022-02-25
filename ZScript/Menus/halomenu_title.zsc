@@ -85,9 +85,9 @@ class HaloDoom_TitleMenu : HaloMenuBase
 		return false;
 	}
 	
-	void DStr(String str, vector2 pos, Color col = Font.CR_WHITE, vector2 scale=(1.15,1.15))
+	void DStr(String str, vector2 pos, Color col = Font.CR_WHITE, vector2 scale=(1.15,1.15), Font fnt = "BigFont")
 	{
-		HLSBS.DrawString("BigFont",str,pos,0,col,1.0,scale);
+		HLSBS.DrawString(fnt,str,pos,0,col,1.0,scale);
 	}
 	
 	override void Drawer()
@@ -116,6 +116,8 @@ class HaloDoom_TitleMenu : HaloMenuBase
 		
 		if(fadein > 0.15) fadein -= 0.02 * deltatime;
 		HLSBS.Dim(Color(255,0,0,0), fadein);
+		string versionInfo = String.Format("Version %s", StringTable.Localize("$MOD_VERSION"));
+		DStr(versionInfo, (20,20), Font.CR_BLACK, scale:(0.1,0.1), fnt:"HaloFont");
 	}
 	
 	override void Ticker()
