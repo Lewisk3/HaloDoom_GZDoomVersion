@@ -39,7 +39,7 @@ class Halo_Stanchion : HaloGun
 	{
 		Weapon.SlotNumber 2;
 		Obituary "%o got the Quake 2 Treatment from %k's Stanchion.";
-		Inventory.PickupMessage	"Picked up the M99 SAR Stantion.";
+		Inventory.PickupMessage	"Picked up the M99 SAR Stanchion.";
 		Tag "Stanchion";
 		Weapon.BobSpeed 1.87;
 		Weapon.BobRangeX 0.63;

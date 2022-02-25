@@ -60,7 +60,7 @@ class Halo_SniperRifle : HaloGun
 	{
 		Weapon.SlotNumber 2;
 		Obituary "%o got the Call of Duty treatment from %k's Sniper Rifle.";
-		Inventory.PickupMessage	"Picked up the S99-Bolt-Action Siper Rifle.";
+		Inventory.PickupMessage	"Picked up the S99-Bolt-Action Sniper Rifle.";
 		Tag "Sniper Rifle";
 		Weapon.BobSpeed 2.12;
 		Weapon.BobRangeX 0.63;
