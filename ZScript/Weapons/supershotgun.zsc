@@ -69,7 +69,7 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 		Weapon.BobSpeed 2.12;
 		Weapon.BobRangeX 0.63;
 		Weapon.AmmoType1 "Halo_DBLShotgun_Reserves";
-		Weapon.AmmoGive 2;
+		Weapon.AmmoGive 4;
 		Weapon.AmmoType2 "Halo_DBLShotgun_Shells";
 		HaloGun.PowerTier P_MID;
 				

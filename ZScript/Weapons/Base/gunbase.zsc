@@ -590,6 +590,20 @@ class HaloGun : RecoilWeapon
 		return super.TryPickup(toucher);;
 	}
 	
+	// Called from event handler, needed for extra action buttons, not limited to USER1-4.
+	void ThrowCurrentGrenade()
+	{
+		// Throw nades
+		let curNade = HaloPlayer(Owner).activeGrenade;
+		if(!handsbusy)
+		{
+			if(curNade && curNade.amount > 0 && CallMeleeState("ThrowFrag"))
+				curNade.amount--;
+			else
+				HaloPlayer(Owner).SendHUDMessage("Grenade depleted!");
+		}
+	}
+	
 	void DoActionButtons()
 	{
 		let psp  = Owner.player.GetPSprite(PSP_WEAPON);
@@ -618,19 +632,7 @@ class HaloGun : RecoilWeapon
 			// Only melee if hands are not already being used for something else.
 			CallMeleeState("DoMelee", true);
 		}
-		
-		// Throw nades
-		let curNade = HaloPlayer(Owner).activeGrenade;
-		if(Owner.countinv("Action_ThrowGrenade") && !handsbusy && curNade)
-		{
-			if(curNade.amount > 0 && CallMeleeState("ThrowFrag"))
-				curNade.amount--;
-			else
-				HaloPlayer(Owner).SendHUDMessage("Grenade depleted!");
 				
-			Owner.TakeInventory("Action_ThrowGrenade", 999);
-		}
-		
 		// Slide
 		let feetpsp = Owner.player.GetPSprite(FEET_OVERLAY);
 		if( !!Owner.FindInventory("SlideAnimator") && !InStateSequence(feetpsp.CurState, FindState("SlideStart")) )
@@ -1087,14 +1089,5 @@ class HaloGun : RecoilWeapon
 		Spawn:
 			MSNG A -1;
 		stop;
-	}
-}
-
-// Action tokens
-class Action_ThrowGrenade : Inventory
-{
-	Default
-	{
-		Inventory.MaxAmount 1;
 	}
 }

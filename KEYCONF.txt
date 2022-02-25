@@ -8,6 +8,8 @@ addmenukey "Dash" +USER3
 addmenukey "Grapple" +USER4
 addmenukey "Throw Grenade" "ThrowGrenade"
 addmenukey "Cycle Grenade" "NextGrenade"
+addmenukey "Toggle Flashlight" "ToggleFlashlight"
+alias "ToggleFlashlight" "netevent toggleflashlight"
 alias "NextGrenade" "netevent nextgrenade"
 alias "ThrowGrenade" "netevent throwgrenade"
 alias "HDEall" "netevent HaloDoom_GiveAll"
