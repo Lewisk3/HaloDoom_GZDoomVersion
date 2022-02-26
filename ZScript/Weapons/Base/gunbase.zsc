@@ -108,6 +108,12 @@ class HaloGun : RecoilWeapon
 		HaloGun.ZoomSounds "Halo/Weapons/SuitZoom/IN", "Halo/Weapons/SuitZoom/OUT";
 	}
 
+	// Called when a new level is loaded.
+	virtual void LevelLoaded()
+	{
+		if(handsbusy) A_FinishMelee();
+	}
+
 	override void OnDrop (Actor dropper) 
 	{
 		let wp = WeaponPickupProxy.BecomeWeaponProxy(self, !!dropper.player);
@@ -210,7 +216,7 @@ class HaloGun : RecoilWeapon
 	// For some reason weapons start with an odd offset.
 	action void A_DoSelectAnim(double yoffs = 0., bool first_time_draw = false)
 	{
-		 A_WeaponOffset(0, 45 + yoffs);
+		 A_RecoilOffset(0, 20 + yoffs, 2);
 		 if(first_time_draw) invoker.donefirstdrawanim = true;
 	}
 

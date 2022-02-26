@@ -307,6 +307,10 @@ class HaloDoom_Events : EventHandler
 				
 				// Clear keys
 				haloplr.cortana.usedKeys.Clear();
+				
+				// Call weapon virtual(s)
+				let haloweap = HaloGun(haloplr.player.ReadyWeapon);
+				if(haloweap) haloweap.LevelLoaded();
 			}
 		}
 	}

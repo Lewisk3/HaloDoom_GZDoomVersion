@@ -1,6 +1,8 @@
 class HaloDoom_PlayerClassMenu : HaloMenuBase
 {
 	double fadein;
+	uint selected_class;
+	
 	override void Init(Menu parent, ListMenuDescriptor desc)
 	{
 		Super.Init(parent, desc);
@@ -125,9 +127,21 @@ class HaloDoom_PlayerClassMenu : HaloMenuBase
 		}
 	}
 	
+	static void UpdatePlayerClass(int ind)
+	{
+		class<Actor> plrClass = PlayerClasses[ind].Type;
+		if(plrClass)
+		{
+			let defs = GetDefaultByType(plrClass);
+			string clsname = PlayerPawn.GetPrintableDisplayName(plrClass);
+			
+			let clsSetting = CVar.FindCVar("playerclass");
+			if(clsSetting) clsSetting.SetString(clsname);
+		}
+	}
+	
 	override void Ticker()
 	{
-		uint selected_class;
 		for(int i = 0; i < buttons.Size(); i++)
 		{
 			buttons[i].Update(mMouse, btn_selected == -1);
