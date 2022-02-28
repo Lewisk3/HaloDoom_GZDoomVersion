@@ -359,7 +359,7 @@ Halo/Weapons/Bulldog/Ready      "Sounds/Bulldog/bulldog_draw.ogg"
 $random Halo/Weapons/Bulldog/Fire      { BLDFIRE1 BLDFIRE2 BLDFIRE3 }
 $random Halo/Weapons/Bulldog/Fire/Bass { BLDBASS1 BLDBASS2 BLDBASS3 }
 
-$volume Halo/Weapons/Bulldog/Fire 0.5
+$volume Halo/Weapons/Bulldog/Fire 0.9
 $volume Halo/Weapons/Bulldog/Fire/Bass 1.0
 
 // Gravity Hammer
