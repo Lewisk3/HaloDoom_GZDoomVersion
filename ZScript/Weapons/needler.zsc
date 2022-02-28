@@ -11,14 +11,14 @@ class Halo_Needler_Reserves : Ammo
 	
 	Default 
 	{
-		Radius 4;
-		Height 4;
+		Radius 8;
+		Height 6;
 		Scale 0.5;
 		
-		Inventory.Amount 12;
+		Inventory.Amount 20;
 		Inventory.MaxAmount 80;
 		Inventory.Icon "HLAMI0";
-		Inventory.PickupMessage "+12 Needles.";
+		Inventory.PickupMessage "+20 Needles.";
 		
 		Ammo.BackpackMaxAmount 120;
 	}
@@ -62,7 +62,7 @@ class Halo_Needler : HaloGun
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_Needler_Reserves";
 		Weapon.AmmoType2 "Halo_Needler_Mag";
-		Weapon.AmmoGive 20;
+		Weapon.AmmoGive 30;
 		HaloGun.PowerTier P_MID;
 				
 		// Recoil

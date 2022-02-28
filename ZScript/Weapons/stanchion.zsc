@@ -12,8 +12,8 @@ class Halo_StanchionReserves : Ammo
 	
 	Default 
 	{
-		Radius 4;
-		Height 4;
+		Radius 8;
+		Height 6;
 		Scale 0.5;
 		
 		Inventory.Amount 50;

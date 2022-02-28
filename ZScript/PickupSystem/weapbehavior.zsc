@@ -222,7 +222,7 @@ class WeaponPickupProxy : Actor
 			use_hold = 0;
 		}
 		
-		if( use_hold > 4 || hasweap )
+		if( use_hold > 4 || hasweap || halodoom_unlimitedbackpack )
 		{
 			use_hold = 0;
 			if(wcount >= MAXWEAPS && !halodoom_unlimitedbackpack)

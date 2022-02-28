@@ -24,14 +24,14 @@ class Halo_DBLShotgun_Reserves : Ammo
 	
 	Default 
 	{
-		Radius 4;
-		Height 4;
+		Radius 8;
+		Height 6;
 		Scale 0.5;
 		
-		Inventory.Amount 2;
+		Inventory.Amount 4;
 		Inventory.MaxAmount 40;
 		Inventory.Icon "HLAMH0";
-		Inventory.PickupMessage "+2 Double Barreled Shotgun Ammo.";
+		Inventory.PickupMessage "+4 Double Barreled Shotgun Ammo.";
 		
 		Ammo.BackpackMaxAmount 60;
 	}
@@ -69,7 +69,7 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 		Weapon.BobSpeed 2.12;
 		Weapon.BobRangeX 0.63;
 		Weapon.AmmoType1 "Halo_DBLShotgun_Reserves";
-		Weapon.AmmoGive 4;
+		Weapon.AmmoGive 8;
 		Weapon.AmmoType2 "Halo_DBLShotgun_Shells";
 		HaloGun.PowerTier P_MID;
 				

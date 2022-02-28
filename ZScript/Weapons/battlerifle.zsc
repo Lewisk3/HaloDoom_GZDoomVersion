@@ -11,14 +11,14 @@ class Halo_BAR_Reserves : Ammo
 
 	Default 
 	{
-		Radius 4;
-		Height 4;
+		Radius 8;
+		Height 6;
 		Scale 0.5;
 		
-		Inventory.Amount 18;
+		Inventory.Amount 36;
 		Inventory.MaxAmount 180;
 		Inventory.Icon "HLAMB0";
-		Inventory.PickupMessage "+18 Battle Rifle Ammo.";
+		Inventory.PickupMessage "+36 Battle Rifle Ammo.";
 		
 		Ammo.BackpackMaxAmount 270;
 	}
@@ -58,7 +58,7 @@ class Halo_BattleRifle : HaloGun
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_BAR_Reserves";
 		Weapon.AmmoType2 "Halo_BAR_Clip";
-		Weapon.AmmoGive 18;
+		Weapon.AmmoGive 36;
 				
 		// Recoil
 		HaloGun.Bloom 0.8;

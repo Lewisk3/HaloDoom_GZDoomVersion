@@ -106,7 +106,7 @@ class GrapplingHook : KineLimb
 		if(hitactor && HaloMath.GetInertia(hitactor.mass) >= 0.5)
 			src = hitactor;
 		
-		vector3 diff = fixedpos-followpos;
+		vector3 diff = level.vec3diff(fixedpos, followpos);
 		if(diff ~== (0,0,0)) return;
 		double dist = diff.length();
 		
@@ -150,7 +150,7 @@ class GrapplingHook : KineLimb
 		}
 		else // Pull
 		{
-			diff = followpos-fixedpos;
+			diff = level.vec3diff(fixedpos, followpos);
 			if(diff ~== (0,0,0)) return;
 			vector3 dir = diff.Unit();
 			
@@ -181,11 +181,11 @@ class GrapplingHook : KineLimb
 			}
 			
 			// Spring physics
-			spring_vel += HaloMath.DampedSpring(dist, 0, spring_vel, 4.5, 7);
+			spring_vel = -HaloMath.DampedSpring(dist, 0, 1, 0.0008, 1);
 			
 			// Acceleration
 			src.gravity = 0;
-			double addspd = clamp(10 - spring_vel, 0, 80 / TICRATE);
+			double addspd = clamp(spring_vel, 0, 80.0 / TICRATE);
 			
 			// Apply velocity
 			dir.z *= 0.8;

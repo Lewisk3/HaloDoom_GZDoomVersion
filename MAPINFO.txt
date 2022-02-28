@@ -14,7 +14,7 @@ DoomEdNums
 
 map Titlemap "Titlemap"
 {
-	levelnum = 1
+	levelnum = 0
 	sky1 = "HDESKY", 0
 	Music = "Music/TITLEMUS.ogg"
 }

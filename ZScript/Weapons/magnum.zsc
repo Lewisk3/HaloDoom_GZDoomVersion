@@ -33,7 +33,7 @@ class Halo_Magnum : HaloGun
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_AR_Reserves";
 		Weapon.AmmoType2 "Halo_Magnum_Clip";
-		Weapon.AmmoGive 8;
+		Weapon.AmmoGive 12;
 				
 		// Recoil
 		HaloGun.Bloom 0.8;
