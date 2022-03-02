@@ -9,6 +9,7 @@ class LaserBeam : Actor
 	Actor source;
 	vector3 offsets;
 	vector2 angleOffsets;
+	vector3 curOffs;
 	transient FLineTraceData hitData;
 	
 	bool trackingPos;
@@ -113,12 +114,16 @@ class LaserBeam : Actor
 		}
 		
 		// Update laser and tracking.
-		vector3 offsPos = HaloMath.V3Offset(
-			source.angle, source.pitch, source.roll,
-			offsets.x, offsets.y + bob.x, offsets.z - bob.y, 
-			1.0
-		);
-		vector3 finalPos = level.vec3offset(getSourcePos(), offsPos);
+		if(!trackingPos || curOffs.Length() ~== 0)
+		{
+			curOffs = HaloMath.V3Offset(
+				source.angle, source.pitch, source.roll,
+				offsets.x, offsets.y + bob.x, offsets.z - bob.y, 
+				1.0
+			);
+		}
+		
+		vector3 finalPos = level.vec3offset(getSourcePos(), curOffs);
 		SetOrigin(finalPos, true);
 		
 		double toAngle = source.angle + angleOffsets.x;

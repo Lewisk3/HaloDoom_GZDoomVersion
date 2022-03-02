@@ -7,6 +7,15 @@ Model LSR_CarbineTrail
 	FrameIndex MODL A 0 0
 } 
 
+Model GrappleRopeTight
+{	
+	Model 0 "Models/Lasers/beam_complex.md3"
+	Skin 0 "Models/Lasers/BEAM.png"
+	USEACTORPITCH
+	
+	FrameIndex MODL A 0 0
+}
+
 Model LSR_Railgun
 {
 	Path "models/lasers"

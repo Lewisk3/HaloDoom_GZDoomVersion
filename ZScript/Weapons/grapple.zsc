@@ -1,3 +1,18 @@
+class GrappleRopeTight : LaserBeam
+{
+	Default
+	{
+		Alpha 1.0;
+		Scale 2.0;
+		RenderStyle "Normal";
+		Translation "0:255=@80[0,0,0]";
+		
+		LaserBeam.LaserColor "";
+		LaserBeam.TrackWeapon false, 0;
+		LaserBeam.AimFromWeapon true;
+	}
+}
+
 class GrapplingHook : KineLimb
 {
 	bool retracting;
@@ -9,6 +24,7 @@ class GrapplingHook : KineLimb
 	
 	Actor hitactor;
 	PlayerPawn plr;
+	LaserBeam grappleTight;
 	
 	
 	double accel, maxspeed, maxdist;
@@ -53,6 +69,7 @@ class GrapplingHook : KineLimb
 		hookpos = lt.HitLocation;
 		hitactor = lt.HitActor;
 		angle = 0.25;
+		grappleTight = LaserBeam.Create(plr, fixedoffs.x,fixedoffs.y,fixedoffs.z, type:"GrappleRopeTight");
 		
 		plr.A_StartSound("Halo/Spartan/Grapple/Deploy", CHAN_BODY, CHANF_OVERLAP);
 		PopulateSegs();
@@ -116,12 +133,16 @@ class GrapplingHook : KineLimb
 		for(int i = 0; i <= segCount; i++)
 		{
 			let seg = segs[i];
-			seg.A_SetScale(seg.Scale.X, segSize);
+			seg.A_SetScale(seg.default.Scale.X, segSize);
+			seg.bInvisible = bInvisible;
+			if(bInvisible) seg.A_SetScale(0);
 		}
 		
 		// Retract
 		if(retracting) 
 		{	
+			grappleTight.SetEnabled(false); 
+			bInvisible = false;
 			if(haloplr) 
 			{
 				haloplr.fricmod = 0; 
@@ -150,6 +171,10 @@ class GrapplingHook : KineLimb
 		}
 		else // Pull
 		{
+			grappleTight.SetEnabled(true);
+			grappleTight.startTracking(followpos);
+			
+			bInvisible = true;
 			diff = level.vec3diff(fixedpos, followpos);
 			if(diff ~== (0,0,0)) return;
 			vector3 dir = diff.Unit();
