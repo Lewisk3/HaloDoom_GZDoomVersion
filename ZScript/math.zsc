@@ -541,8 +541,16 @@ class HaloMath Abstract
 			// Look for `skill` keyword(s).
 			int skillIndex = 0;
 			int skillOffset = 0;
+			int loopCheck = 0;
 			while(skillIndex >= 0)
 			{
+				loopCheck++;
+				if(loopCheck > 100) 
+				{
+					console.printf("Error reading mapinfo.");
+					break;
+				}
+				
 				skillIndex = dataLower.IndexOf("skill", skillOffset);
 				if(skillIndex < 0) break;
 				
@@ -552,7 +560,7 @@ class HaloMath Abstract
 				if(blockStart < 0 || blockEnd < 0) break;
 				
 				int blockLen = blockEnd - blockStart;
-				skillOffset = skillIndex+blockLen; // Advance read "head".
+				skillOffset = blockEnd+1; // Advance read "head".
 				
 				string skillData = data.Mid(blockStart, blockLen);
 				string skillDataLower = skillData.MakeLower();

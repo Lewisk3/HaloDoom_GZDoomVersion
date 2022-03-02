@@ -157,6 +157,9 @@ class HLSBS Abstract ui
 		vector2 texsize;
 		[texsize.x, texsize.y] = TexMan.GetSize(texture);
 		scale = _ProcessScale(scale, flags);
+		
+		// Potential LZDoom "patch"?
+		// uint FLG_Rotate = 0x400013ce;
 
 		if(!absolute)
 		{

@@ -86,9 +86,9 @@ class HaloDoom_SkillMenu : HaloMenuBase
 		
 		// Turn skills into buttons.
 		TextElement btntxt;
-		for(int i = 0; i < diffs-1; i++)
+		for(int i = 0; i < HaloSkills.Size(); i++)
 		{
-			btntxt = newBtnText(HaloSkills[min(i,HaloSkills.Size()-1)].displayName);
+			btntxt = newBtnText(HaloSkills[i].displayName);
 			buttons.push(Button.Create('SkillBtn', btnOFF,  btnON, btnHover, btnX, btnY, btnW, btnH, btntxt, 0xFFFF0000));
 			btnY += itemSpacing;
 		}
@@ -162,7 +162,7 @@ class HaloDoom_SkillMenu : HaloMenuBase
 			if(buttons[i].clicked)
 			{
 				MenuSound("UI/PressButton");
-				mDesc.mItems[i+1].Activate();
+				mDesc.mItems[min(i+1, mDesc.mItems.Size()-1)].Activate();
 				buttons[i].clicked = false;
 			}
 		}
