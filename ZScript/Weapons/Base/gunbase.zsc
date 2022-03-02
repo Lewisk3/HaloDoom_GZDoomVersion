@@ -136,7 +136,7 @@ class HaloGun : RecoilWeapon
 		PSprite prevBiri;
 		
 		int adjustedAmt = max(amt * halodoom_effectintensity, 0);
-		for(int x = 0; x < amt; x++)
+		for(int x = 0; x < adjustedAmt; x++)
 		{
 			curAngle = boltAngle;
 			curPos = startPos + (

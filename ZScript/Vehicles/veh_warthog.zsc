@@ -380,8 +380,8 @@ class HaloWarthog : HaloVehicle
 		}
 		else
 		{
-			vel.xy *= 0.98;
-			accel *= 0.98;
+			vel.xy *= 0.992;
+			accel *= 0.992;
 		}
 		
 		if(pos.z+vel.z <= floorz && vel.z <= -3) 

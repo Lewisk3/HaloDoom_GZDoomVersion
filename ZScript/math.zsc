@@ -485,6 +485,132 @@ class HaloMath Abstract
 	{
         return -(d * v) - (k * (p - r));
     }
+		
+	// Attempt to automatically insert linebreaks in string.
+	static string formatStringLnBreaks(String str, int lineLen)
+	{
+		// Split string into words.
+		Array<string> words;
+		str.Split(words, " ");
+		
+		string outStr;
+		int carriage = 0;
+		for(int i = 0; i < words.Size(); i++)
+		{
+			string word = words[i];
+			int len = word.Length() + 1; // Add " " space at start of new word.
+			carriage += word.Length();
+			if(carriage > lineLen) 
+			{
+				outStr = outStr .. "\n";
+				carriage = len-1;
+			}
+			outStr = String.Format("%s %s", outStr, word);
+		}
+		
+		return outStr;
+	}
+	 
+	// Not really math but useful stuff.
+	static bool, string parseStrElement(String type, String ln)
+	{
+		string lnLower = ln.MakeLower();
+				
+		int element_S = lnLower.IndexOf(type);
+		int element_E = lnLower.IndexOf("\n", element_S);
+		if(element_S < 0 || element_E < 0) return false, "";
+		
+		string output = ln.Mid(element_S, element_E-element_S);
+		int strBegin = output.IndexOf("\"");
+		int strEnd = output.IndexOf("\"", strBegin+1);
+		
+		return true, output.Mid(strBegin+1, (strEnd-strBegin)-1);
+	}
+	 
+	static void getSkillsInfo(out Array<SkillInfo> skInfo)
+	{
+		// adwnawdlnkdawlknawdkln why isn't this just a feature??!?!!?!?!?
+		// ffs.
+		
+		skInfo.Clear();
+		for(int lump = -1; (lump = Wads.FindLump("MAPINFO", lump+1)) != -1;)
+		{
+			string data = Wads.ReadLump(lump);
+			string dataLower = data.MakeLower();
+	
+			// Look for `skill` keyword(s).
+			int skillIndex = 0;
+			int skillOffset = 0;
+			while(skillIndex >= 0)
+			{
+				skillIndex = dataLower.IndexOf("skill", skillOffset);
+				if(skillIndex < 0) break;
+				
+				// Grab skill block.
+				int blockStart = dataLower.IndexOf("{", skillIndex);
+				int blockEnd = dataLower.IndexOf("}", skillIndex);
+				if(blockStart < 0 || blockEnd < 0) break;
+				
+				int blockLen = blockEnd - blockStart;
+				skillOffset = skillIndex+blockLen; // Advance read "head".
+				
+				string skillData = data.Mid(blockStart, blockLen);
+				string skillDataLower = skillData.MakeLower();
+			
+				// Field to read from.
+				string skillPic;
+				string skillName;
+				string skillDesc;
+				
+				// Filter "confusing" fields.
+				int picName = skillDataLower.IndexOf("picname");
+				int className = skillDataLower.IndexOf("playerclassname");
+				bool gotStr;
+				
+				if(picName > -1)
+				{		
+					// Parse skillPic
+					[gotStr, skillPic] = parseStrElement("picname", skillData);
+					if(!gotStr) return;
+								
+					int picNameEnd = skillDataLower.IndexOf("\n", picName);
+					skillData.Remove(picName, picNameEnd-picName);
+				}
+				if(className > -1)
+				{
+					int classNameEnd = skillDataLower.IndexOf("\n", className);
+					skillData.Remove(picName, classNameEnd-className);
+				}
+				skillDataLower = skillData.MakeLower();
+				
+				// Get name
+				[gotStr, skillName] = parseStrElement("name", skillData);
+				if(!gotStr) return;
+				
+				// Localize name if needed.
+				bool specialName = skillName.IndexOf("$") >= 0; 
+				if(specialName) skillName = StringTable.Localize(skillName);
+				
+				// Get "desc" from `MustConfirm`
+				[gotStr, skillDesc] = parseStrElement("mustconfirm", skillData);
+				if(!gotStr) skillDesc = "";
+				
+				let curSkillInfo = new("SkillInfo");
+				curSkillInfo.displayName = skillName;
+				curSkillInfo.Description = skillDesc;
+				curSkillInfo.Pic = skillPic;
+						
+				skInfo.push(curSkillInfo);
+			}			
+		}
+	}
+}
+
+class SkillInfo : Object
+{
+	string displayName;
+	string Description;
+	string Pic;
 }
 
 class ActorTracer : Object 

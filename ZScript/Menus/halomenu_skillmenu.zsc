@@ -65,20 +65,34 @@ class HaloDoom_SkillMenu : HaloMenuBase
 			"Graphics/UI/Skills/Mythic.png", 
 			"You stand in oppositions of \nan unstoppable force. \n\nYour enemies are ruthless and \nnever ending. \n\nYour death is all but certain."
 		));
-		HaloSkills.push(HaloSkill.Init(
+		/*HaloSkills.push(HaloSkill.Init(
 			"American Healthcare", 
 			"Graphics/UI/Skills/Merica.png", 
 			"You fight a fruitless battle,\neveryone around you couldn't give less a shit.\nWant health?\n That'll be 1000$ a medikit please."
-		));
+		));*/
 		
+		Array<SkillInfo> skills;
+		HaloMath.getSkillsInfo(skills);
+		
+		// "Import" skills
+		for(int i = HaloSkills.Size(); i < skills.Size(); i++)
+		{
+			if(i > skills.Size()-1) break;
+			let curSkill = skills[i];
+			string adjustedDesc = HaloMath.formatStringLnBreaks(curSkill.Description, 23);
+			
+			HaloSkills.push(HaloSkill.Init(curSkill.displayName, "", adjustedDesc));
+		}
+		
+		// Turn skills into buttons.
 		TextElement btntxt;
 		for(int i = 0; i < diffs-1; i++)
 		{
-			btntxt = newBtnText(HaloSkills[i].displayName);
+			btntxt = newBtnText(HaloSkills[min(i,HaloSkills.Size()-1)].displayName);
 			buttons.push(Button.Create('SkillBtn', btnOFF,  btnON, btnHover, btnX, btnY, btnW, btnH, btntxt, 0xFFFF0000));
 			btnY += itemSpacing;
 		}
-		
+
 		DontDim = true;
 		mMouse.SetPos(buttons[2].btnrect.pos);
 		btn_selected = 2;
@@ -103,7 +117,8 @@ class HaloDoom_SkillMenu : HaloMenuBase
 		
 		for(int i = 0; i < buttons.Size(); i++)
 		{
-			string skillImg = HaloSkills[i].graphic;
+			int skillnum = min(i,HaloSkills.Size()-1);
+			string skillImg = HaloSkills[skillnum].graphic;
 			vector2 imgPos = buttons[i].collider.pos;
 			imgPos.x += buttons[i].collider.size.x * 0.5;
 			imgPos.y += 32;
@@ -120,7 +135,7 @@ class HaloDoom_SkillMenu : HaloMenuBase
 				{
 					buttons[i].btntext.font_color = Font.CR_WHITE;
 					HLSBS.DrawImage(skillImg, descPos, scale:(1.75,2.0));
-					HLSBS.DrawString("HaloFont", HaloSkills[i].desc, (descOffs.x + 20, descOffs.y + 70), 0, Font.CR_WHITE, scale:(0.15,0.15), linespacing:130);
+					HLSBS.DrawString("HaloFont", HaloSkills[skillnum].desc, (descOffs.x + 20, descOffs.y + 70), 0, Font.CR_WHITE, scale:(0.15,0.15), linespacing:130);
 				}
 				else
 				{
