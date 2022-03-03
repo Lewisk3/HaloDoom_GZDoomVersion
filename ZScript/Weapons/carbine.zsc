@@ -8,13 +8,12 @@ class Halo_CarbineClip : Ammo
 class Halo_CarbineReserves : Ammo
 {
 	mixin WorldAmmoBehavior;
-	
 	Default 
 	{
 		Radius 8;
 		Height 6;
-		Scale 0.35;
-		
+		Scale 0.65;
+
 		Inventory.Amount 9;
 		Inventory.MaxAmount 90;
 		Inventory.Icon "HLAME0";

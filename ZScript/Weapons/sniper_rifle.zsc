@@ -9,13 +9,12 @@ class Halo_SniperClip : Ammo
 class Halo_Sniper_Reserves : Ammo
 {
 	mixin WorldAmmoBehavior;
-	
 	Default 
 	{
 		Radius 8;
 		Height 6;
-		Scale 0.5;
-		
+		Scale 0.65;
+
 		Inventory.Amount 4;
 		Inventory.MaxAmount 40;
 		Inventory.Icon "HLAML0";

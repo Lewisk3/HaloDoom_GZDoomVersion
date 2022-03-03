@@ -206,7 +206,7 @@ class HaloDoom_Events : EventHandler
 			if(obj) Actor.Spawn(obj, haloplr.aimpos);
 		}
 		
-		// if(multiplayer) return;
+		if(multiplayer) return;
 		if(e.Name == "HaloDoom_GiveAll")
 		{	
 			Array<class<HaloGun> > guns;
@@ -222,6 +222,33 @@ class HaloDoom_Events : EventHandler
 				let gun = guns[i];
 				vector2 spawnpos = Actor.AngleToVector(i*spacing, 80);
 				Actor.Spawn(gun, src.mo.Vec3Offset(spawnpos.x,spawnpos.y, src.mo.floorz));
+			}
+		}
+		
+		if(e.Name == "HaloDoom_GiveAllAmmo") // twosticksandarock
+		{
+			Array<class<Ammo> > gunAmmo;
+			for(int i = 0; i < AllActorClasses.Size(); i++)
+			{
+				let classtype = AllActorClasses[i];
+				if(classtype is "Ammo" && classtype != "Ammo") 
+				{
+					// Hacky way to define halodoom ammo because
+					// the way Doom handles ammo is absolutely stupid.
+					class<Inventory> ammoItem = (class<Inventory>) (classtype);
+					let defs = GetDefaultByType(ammoItem);
+					String iconSprite = TexMan.GetName(defs.Icon);
+					if(iconSprite.IndexOf("HLAM") == -1) continue; 
+					
+					gunAmmo.Push(AllActorClasses[i]);
+				}
+			}
+			int spacing = 360./gunAmmo.Size();
+			for(int i = 0; i < gunAmmo.Size(); i++)
+			{
+				let ammoType = gunAmmo[i];
+				vector2 spawnpos = Actor.AngleToVector(i*spacing, 80);
+				Actor.Spawn(ammoType, src.mo.Vec3Offset(spawnpos.x,spawnpos.y, src.mo.floorz));
 			}
 		}
 		

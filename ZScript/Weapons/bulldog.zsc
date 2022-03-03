@@ -8,13 +8,11 @@ class Halo_Bulldog_Shells : Ammo
 class Halo_Bulldog_Reserves : Ammo
 {
 	mixin WorldAmmoBehavior;
-	
 	Default 
 	{
 		Radius 8;
 		Height 6;
-		Scale 0.35;
-		
+
 		Inventory.Amount 8;
 		Inventory.MaxAmount 40;
 		Inventory.Icon "HLAMC0";
