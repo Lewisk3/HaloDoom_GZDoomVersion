@@ -18,6 +18,7 @@ class Halo_Sniper_Reserves : Ammo
 		Inventory.Amount 4;
 		Inventory.MaxAmount 40;
 		Inventory.Icon "HLAML0";
+		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "+4 Sniper Ammo.";
 		
 		Ammo.BackpackMaxAmount 80;

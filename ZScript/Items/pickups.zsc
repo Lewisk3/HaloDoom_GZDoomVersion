@@ -1,0 +1,125 @@
+class HaloHealthBonus : HealthBonus replaces HealthBonus
+{
+	Default
+	{
+		Inventory.PickupSound "Halo/Pickup/Ammo";
+	}
+
+	States
+	{
+		Spawn:
+			HPBN A -1;
+		stop;
+	}
+}
+class HaloMedikit : Medikit replaces Medikit
+{	
+	Default
+	{
+		Inventory.PickupSound "Halo/Pickup/Ammo";
+	}
+	
+	States
+	{
+		Spawn:
+			HPKT A -1;
+		stop;
+	}
+}
+class HaloStimPack : StimPack replaces StimPack
+{
+	Default
+	{
+		Inventory.PickupSound "Halo/Pickup/Ammo";
+	}
+	
+	States
+	{
+		Spawn:
+			HPST A -1;
+		stop;
+	}
+}
+
+class HaloAmmoCrate : Actor replaces Backpack
+{
+	bool opened;
+	bool empty;
+	
+	override bool Used(Actor user)
+	{
+		if(!opened || empty) return false;
+		
+		// Get list of all HaloDoom ammunition.
+		Array<class<Ammo> > gunAmmo;
+		for(int i = 0; i < AllActorClasses.Size(); i++)
+		{
+			let classtype = AllActorClasses[i];
+			if(classtype is "Ammo" && classtype != "Ammo") 
+			{
+				class<Inventory> ammoItem = (class<Inventory>) (classtype);
+				let defs = GetDefaultByType(ammoItem);
+				String iconSprite = TexMan.GetName(defs.Icon);
+				if(iconSprite.IndexOf("HLAM") == -1) continue; 
+				
+				gunAmmo.Push(AllActorClasses[i]);
+			}
+		}
+		
+		double angTo = AngleTo(user);
+		for(int i = 0; i < gunAmmo.Size(); i++)
+		{
+			vector3 posOffs = (frandom[AmmoDrops](-20,20), frandom[AmmoDrops](-20,20), 12);
+			let ammoObject = Spawn(gunAmmo[i], pos + posOffs);
+			
+			double eAngle = angTo + frandom[AmmoDrops](-30,30);
+			double ePitch = -60;
+			if(ammoObject)
+			{
+				ammoObject.vel = (
+					cos(eAngle) * cos(ePitch),
+					sin(eAngle) * cos(ePitch),
+					-sin(ePitch)
+				) * 3;
+			}
+		}
+		
+		frame = 2;
+		empty = true;
+		user.GiveInventory("Backpack", 1);
+		A_StartSound("Halo/AmmoCrate/Use", CHAN_AUTO);
+		
+		return true;
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		if(isFrozen() || empty) return;
+		
+		let blockIt = BlockThingsIterator.Create(self, 8);
+		Actor act;
+
+		frame = opened ? 1 : 0;
+		while(blockIt.Next())
+		{
+			act = blockIt.Thing;
+			if(!act || !(act is "PlayerPawn")) continue;
+			if(!opened) 
+			{
+				vel.z += 5;
+				A_StartSound("Halo/AmmoCrate/Open", CHAN_AUTO);
+			}
+			opened = true;
+		}
+	}
+
+	States
+	{
+		Spawn:
+			AMCT A 1 Bright;
+		SpawnDisplay: 
+			AMCT "#" -1 Bright;
+		stop;
+	}
+}

@@ -16,6 +16,7 @@ class Halo_Bulldog_Reserves : Ammo
 		Inventory.Amount 8;
 		Inventory.MaxAmount 40;
 		Inventory.Icon "HLAMC0";
+		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "+8 Bulldog Ammo.";
 		
 		Ammo.BackpackMaxAmount 80;

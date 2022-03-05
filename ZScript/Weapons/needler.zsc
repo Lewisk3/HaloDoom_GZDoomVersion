@@ -17,6 +17,7 @@ class Halo_Needler_Reserves : Ammo
 		Inventory.Amount 20;
 		Inventory.MaxAmount 80;
 		Inventory.Icon "HLAMI0";
+		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "+20 Needles.";
 		
 		Ammo.BackpackMaxAmount 120;

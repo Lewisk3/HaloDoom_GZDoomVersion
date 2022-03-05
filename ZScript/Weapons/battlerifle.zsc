@@ -17,6 +17,7 @@ class Halo_BAR_Reserves : Ammo
 		Inventory.Amount 36;
 		Inventory.MaxAmount 180;
 		Inventory.Icon "HLAMB0";
+		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "+36 Battle Rifle Ammo.";
 		
 		Ammo.BackpackMaxAmount 270;

@@ -6,7 +6,13 @@ Halo/Weapons/SuitZoom/IN  "Sounds/SFX/Suit_Zoom_IN.ogg"
 Halo/Weapons/SuitZoom/OUT "Sounds/SFX/Suit_Zoom_OUT.ogg"
 Halo/Flashlight/ON "Sounds/SFX/Flashlight_On.ogg"
 Halo/Flashlight/OFF "Sounds/SFX/Flashlight_Off.ogg"
+Halo/Pickup/Weapon "Sounds/SFX/GunPickup.ogg"
+Halo/Pickup/Ammo "Sounds/Ammo/AmmoPickup.ogg"
 UI/PressButton BTNPRESS
+
+// Ammo Crate
+Halo/AmmoCrate/Open "Sounds/Ammo/AmmoCrate_Open.ogg"
+Halo/AmmoCrate/Use "Sounds/Ammo/AmmoCrate_TakeAmmo.ogg"
 
 // Vehicles
 

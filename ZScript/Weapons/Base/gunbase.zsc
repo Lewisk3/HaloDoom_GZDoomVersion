@@ -106,6 +106,7 @@ class HaloGun : RecoilWeapon
 		Weapon.BobRangeY 0.6;
 		Weapon.BobSpeed 0.5;
 		HaloGun.ZoomSounds "Halo/Weapons/SuitZoom/IN", "Halo/Weapons/SuitZoom/OUT";
+		Inventory.PickupSound "Halo/Pickup/Weapon";
 	}
 
 	// Called when a new level is loaded.

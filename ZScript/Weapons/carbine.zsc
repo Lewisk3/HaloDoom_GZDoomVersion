@@ -17,6 +17,7 @@ class Halo_CarbineReserves : Ammo
 		Inventory.Amount 9;
 		Inventory.MaxAmount 90;
 		Inventory.Icon "HLAME0";
+		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "+9 Carbine Ammo.";
 		
 		Ammo.BackpackMaxAmount 180;
