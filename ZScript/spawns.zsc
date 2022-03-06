@@ -48,6 +48,7 @@ extend class HaloDoom_Events
 		// Nade spawning
 		if( item is "ArmorBonus" && random[NadeSpawner](0,3) == 3 )
 			e.Replacement = "FragGrenades";
+			
 		if( item is "HealthBonus" && random[NadeSpawner](0,3) == 3 )
 			e.Replacement = "PlasmaGrenades";	
 		

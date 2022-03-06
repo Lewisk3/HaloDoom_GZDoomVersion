@@ -41,6 +41,18 @@ class HaloStimPack : StimPack replaces StimPack
 	}
 }
 
+// Nullify armor bonuses
+class HaloArmorBonus : ArmorBonus replaces ArmorBonus
+{
+	States
+	{
+		Spawn:
+			TNT1 A 1;
+		stop;
+	}
+}
+
+// Backpack or Ammo Crate
 class HaloAmmoCrate : Actor replaces Backpack
 {
 	bool opened;
