@@ -16,11 +16,12 @@ REVENGE
 Hammer Maniac
 
 
-Model Contributors:
+Model Ceditss:
 AbiSV (Double Barrel, Battle Rifle)
 Soda and Cherry / Primalweylamd (M99 Stanchion)
 Morbid Angel (Bulldog)
 Macus Lehto (Remastered MA5B coming in season 2!)
+SPV3 (Needler)
 
 UI Design:
 Alien WheelChair aka Pretzel Glasses
@@ -35,6 +36,11 @@ Warry (Interpolation)
 
 Item Sprites: 
 Craneo
+
+Special Thanks:
+Halo Archive
+Surasia
+Plastered Crab
 
 All Models used for spriting not mentioned in these credits are made by Bungie, and property of Microsoft and 343 Industries. HDE was created under microsoft's content usage rules which can be found here:
 https://www.xbox.com/en-US/developers/rules
