@@ -2,7 +2,7 @@ class HaloHealthBonus : HealthBonus replaces HealthBonus
 {
 	Default
 	{
-		Inventory.PickupSound "Halo/Pickup/Ammo";
+		Inventory.PickupSound "Halo/Pickup/HealthBonus";
 	}
 
 	States
@@ -16,7 +16,7 @@ class HaloMedikit : Medikit replaces Medikit
 {	
 	Default
 	{
-		Inventory.PickupSound "Halo/Pickup/Ammo";
+		Inventory.PickupSound "Halo/Pickup/Medikit";
 	}
 	
 	States
@@ -30,7 +30,7 @@ class HaloStimPack : StimPack replaces StimPack
 {
 	Default
 	{
-		Inventory.PickupSound "Halo/Pickup/Ammo";
+		Inventory.PickupSound "Halo/Pickup/Stimpack";
 	}
 	
 	States
