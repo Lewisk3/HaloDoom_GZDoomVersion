@@ -137,7 +137,7 @@ class HaloGun : RecoilWeapon
 		PSprite prevBiri;
 		
 		int adjustedAmt = max(amt * halodoom_effectintensity, 0);
-		for(int x = 0; x < adjustedAmt; x++)
+		for(int x = 0; x < min(adjustedAmt,15); x++)
 		{
 			curAngle = boltAngle;
 			curPos = startPos + (
@@ -204,6 +204,9 @@ class HaloGun : RecoilWeapon
 			victim.vel.z += fpthrust.y;
 			source.A_Quake(2,3,0,20,"");
 			source.A_StartSound(hitsnd, CHAN_WEAPON, flags:CHANF_OVERLAP);
+			
+			let haloplr = HaloPlayer(source);
+			if(haloplr) haloplr.OnMeleeHit(victim);
 		}
 		else if(lt.HitType != TRACE_HitNone) 
 		{

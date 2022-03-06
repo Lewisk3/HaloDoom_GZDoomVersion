@@ -186,7 +186,7 @@ class Halo_PlasmaPistol : HaloGun
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_PlasmaPistol_Clip";
 		Weapon.AmmoType2 "Halo_PlasmaPistol_Clip";
-		Weapon.AmmoGive 50;
+		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 1;
 		HaloGun.PowerTier P_NORM;
 				

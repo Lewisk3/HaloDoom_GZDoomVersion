@@ -13,8 +13,9 @@ class HaloSpartan_II : HaloPlayer
 
 
 		// Vitals
-		Health 45; 
-		Player.MaxHealth 45;
+		Health 75; 
+		Player.MaxHealth 75;
+		HaloPlayer.Shields 75, 3, 4; // 3 seconds to recharge, 4 seconds to max.
 		
 		// Inventory
 		Player.StartItem "DoHelmetAnimation", 1;

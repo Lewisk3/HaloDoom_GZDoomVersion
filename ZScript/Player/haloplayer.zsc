@@ -19,6 +19,9 @@ class HaloPlayer : DoomPlayer
 	FragGrenades activeGrenade;
 	VehLight flashlight;
 	
+	// Sound effects
+	Sound snd_ShieldRegen;
+	
 	// Door to be activated once animation finishes.
 	Line pendingDoor; 
 	string pendingDoorColor;
@@ -54,6 +57,7 @@ class HaloPlayer : DoomPlayer
 	Property EnableSlide : canslide;
 	Property EnableGrapple : enable_grapple;
 	Property Description : class_desc;
+	Property ShieldRegenSound : snd_ShieldRegen;
 	
 	Default
 	{
@@ -77,6 +81,9 @@ class HaloPlayer : DoomPlayer
 		Player.StartItem "Halo_Magnum", 1;
 		Player.StartItem "Halo_AR_Reserves", 120;
 		
+		// SFX
+		HaloPlayer.ShieldRegenSound "Shield/Regenerate";
+		
 		// Movement
 		HaloPlayer.LowerCrosshairY 60;
 		HaloPlayer.MovementBob 0;
@@ -91,6 +98,8 @@ class HaloPlayer : DoomPlayer
 		pendingDoor.Activate(self, 1, SPAC_Use);
 		pendingDoor = null;
 	}
+	
+	virtual void OnMeleeHit(Actor victim) {}
 	
 	override void BeginPlay()
 	{
@@ -207,7 +216,7 @@ class HaloPlayer : DoomPlayer
 			double recharge_perc = (shields / maxshields);
 			if(!shields_recharging)
 			{
-				A_StartSound("Shield/Regenerate", CHAN_5, flags:CHANF_MAYBE_LOCAL, startTime:recharge_perc*3.0);
+				A_StartSound(snd_ShieldRegen, CHAN_5, flags:CHANF_MAYBE_LOCAL, startTime:recharge_perc*3.0);
 				shields_recharging = true;
 			}
 			A_SoundVolume(CHAN_5, (1.0 - recharge_perc) + 0.1);

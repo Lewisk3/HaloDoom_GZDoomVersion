@@ -354,7 +354,7 @@ class TankRocket_FlyingExplosion : FastActor
 			FX58 Q 2 Bright
 			{
 				A_FadeOut(0.08);
-				if(pos.z > floorz)
+				if( pos.z > floorz && !(GetAge()%4) )
 				{
 					let trail = Actor.Spawn("TankRocket_DarkSmoke", pos);
 					if(trail) trail.A_SetScale(Scale.X);

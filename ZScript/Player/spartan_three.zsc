@@ -15,20 +15,28 @@ class HaloSpartan_III : HaloPlayer
 		);
 		
 		// Vitals
-		Health 45; 
-		Player.MaxHealth 45;
-
+		Health 100; 
+		Player.MaxHealth 100;
+		HaloPlayer.Shields 30, 5, 2; // 3 seconds to recharge, 2 seconds to max.
+		HaloPlayer.ShieldRegenSound "Shield/Regenerate/Fast";
+		
 		// Inventory
 		Player.StartItem "DoHelmetAnimation", 1;
 		Player.StartItem "Halo_AssaultRifle", 1;
 		Player.StartItem "Halo_Magnum", 1;
 		Player.StartItem "Halo_AR_Reserves", 120;
-		
+				
 		// Movement
 		HaloPlayer.MovementBob 0;
 		HaloPlayer.CanBunnyHop false;
 		HaloPlayer.MaxJumps 2;
 		HaloPlayer.AirControl 2.0;
 		HaloPlayer.SetupDashes true, 2, 5, 2;
+	}
+	
+	override void OnMeleeHit(Actor victim)
+	{
+		// Instantly recharge shields
+		regen_timer = shield_regentime*35.;
 	}
 }

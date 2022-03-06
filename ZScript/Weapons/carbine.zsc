@@ -233,7 +233,7 @@ class Halo_Carbine : HaloGun
 		
 		// Weapon Status 
 		LCD_Ammo:
-			CRBL "#" 1
+			CRBL "#" 1 Bright
 			{
 				A_FollowRotatedPos(OverlayID(), PSP_WEAPON, (40,0));
 				A_FollowRotation(OverlayID(), PSP_WEAPON);

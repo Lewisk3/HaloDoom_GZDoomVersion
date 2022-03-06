@@ -434,6 +434,8 @@ Shield/Low shlow
 $volume Shield/Warning 0.7
 $volume Shield/Low 0.25
 
+Shield/Regenerate/Fast "Sounds/Shield/SP3ShieldRegen.ogg"
+
 // Grenades
 Halo/Grenade/Frag/Pickup "Sounds/Grenades/Frag_Pickup.ogg"
 Halo/Grenade/Frag/Throw "Sounds/Grenades/Frag_Throw.ogg"
