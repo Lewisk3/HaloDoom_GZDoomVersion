@@ -72,9 +72,10 @@ extend class HaloDoom_Events
 		if( item is "CellPack" )
 			ammoTier = 3;
 			
-		string AmmoClasses[9] = 
+		string AmmoClasses[10] = 
 		{
 			"Halo_AR_Reserves",
+			"Halo_Magnum_Reserves",
 			"Halo_BAR_Reserves",
 			"Halo_Bulldog_Reserves",
 			"Halo_Shotgun_Reserves",
@@ -89,14 +90,14 @@ extend class HaloDoom_Events
 			
 		switch(ammoTier)
 		{
-			case 1: // AR and Magnum, BR, Bulldog, Shotgun, Carbine
-				e.Replacement = AmmoClasses[random[HaloAmmoSpawns](0,4)];
+			case 1: // AR, Magnum, BR, Bulldog, Shotgun, Carbine
+				e.Replacement = AmmoClasses[random[HaloAmmoSpawns](0,5)];
 			break;
 			case 2: // Double Barrel, Sniper Rifle, Rocket Launcher (Season 2), Needler 
-				e.Replacement = AmmoClasses[random[HaloAmmoSpawns](5,7)];
+				e.Replacement = AmmoClasses[random[HaloAmmoSpawns](6,8)];
 			break;
 			case 3: // Stanchion
-				e.Replacement = AmmoClasses[8];
+				e.Replacement = AmmoClasses[9];
 			break;
 		}
 	}

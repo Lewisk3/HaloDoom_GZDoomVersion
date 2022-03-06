@@ -13,7 +13,7 @@ class HaloSpartan_IV : HaloPlayer
 			"they are the most creative \n"
 			"and make use of the limited \n" 
 			"resources they have. \n"
-		);
+		), "Grapple Shot, Sliding";
 		
 		// Vitals
 		Health 45; 
@@ -24,6 +24,7 @@ class HaloSpartan_IV : HaloPlayer
 		Player.StartItem "Halo_AssaultRifle", 1;
 		Player.StartItem "Halo_Magnum", 1;
 		Player.StartItem "Halo_AR_Reserves", 120;
+		Player.StartItem "Halo_Magnum_Reserves", 32;
 		
 		// Movement
 		HaloPlayer.MovementBob 0;

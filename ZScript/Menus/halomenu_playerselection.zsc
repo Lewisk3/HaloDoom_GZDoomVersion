@@ -121,7 +121,12 @@ class HaloDoom_PlayerClassMenu : HaloMenuBase
 					
 					// Write Description
 					string desc = plrdefs.class_desc;
+					string features = plrdefs.feature_desc;
+					string stats = HaloPlayer.GetStatInfo(plr);
+					if(features) stats = String.Format("Perks: %s\n%s", features, stats); 
+					
 					HLSBS.DrawString(infoFont, desc, (desc_pos.x+20,desc_pos.y+80), 0, Font.CR_WHITE, scale:(0.125,0.125), linespacing:100);
+					HLSBS.DrawString(infoFont, stats, (desc_pos.x+20,desc_pos.y+370), 0, Font.CR_WHITE, scale:(0.125,0.125), linespacing:100);
 				}
 			}
 		}

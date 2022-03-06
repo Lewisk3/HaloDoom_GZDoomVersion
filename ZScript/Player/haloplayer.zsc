@@ -16,6 +16,7 @@ class HaloPlayer : DoomPlayer
 	double aimdist;
 	bool shields_recharging;
 	string class_desc;
+	string feature_desc;
 	FragGrenades activeGrenade;
 	VehLight flashlight;
 	
@@ -56,7 +57,7 @@ class HaloPlayer : DoomPlayer
 	Property SetupDashes : enable_dash, dashmax, dashpower, dashcooldown_time;
 	Property EnableSlide : canslide;
 	Property EnableGrapple : enable_grapple;
-	Property Description : class_desc;
+	Property Description : class_desc, feature_desc;
 	Property ShieldRegenSound : snd_ShieldRegen;
 	
 	Default
@@ -70,7 +71,7 @@ class HaloPlayer : DoomPlayer
 
 		// UI
 		Player.DisplayName "Spartan Template";
-		HaloPlayer.Description "Template Spartan class.";
+		HaloPlayer.Description "Template Spartan class.", "";
 		
 		// Vitals
 		Health 45; 
@@ -100,6 +101,18 @@ class HaloPlayer : DoomPlayer
 	}
 	
 	virtual void OnMeleeHit(Actor victim) {}
+	
+	clearscope static string GetStatInfo(class<HaloPlayer> plrType)
+	{
+		let defs = GetDefaultByType(plrType);
+		return String.Format(
+		(
+			"Health: %d\n"
+			"Shields: %d\n"
+			"Regen Speed: %ds\n"
+			"Regen Cooldown: %ds\n"
+		), defs.maxhealth, defs.maxshields, defs.shield_regenrate, defs.shield_regentime );
+	}
 	
 	override void BeginPlay()
 	{

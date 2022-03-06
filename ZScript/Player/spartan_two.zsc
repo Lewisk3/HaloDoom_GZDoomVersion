@@ -9,7 +9,7 @@ class HaloSpartan_II : HaloPlayer
 			"Super Soldiers.\n\n"
 			"Not as mobile as their sucessors,\n"
 			"but make up for it in durability."
-		);
+		), "Bunny Hopping, Air Control";
 
 
 		// Vitals
@@ -22,6 +22,7 @@ class HaloSpartan_II : HaloPlayer
 		Player.StartItem "Halo_AssaultRifle", 1;
 		Player.StartItem "Halo_Magnum", 1;
 		Player.StartItem "Halo_AR_Reserves", 120;
+		Player.StartItem "Halo_Magnum_Reserves", 32;
 		
 		// Movement
 		HaloPlayer.MovementBob 0;

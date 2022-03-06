@@ -12,7 +12,7 @@ class HaloSpartan_III : HaloPlayer
 			"Employing thruster packs for\n"
 			"added mobility to accomodate\n"
 			"their pugilist fighting style."
-		);
+		), "Dash, Double Jump, Black Eye";
 		
 		// Vitals
 		Health 100; 
@@ -25,6 +25,7 @@ class HaloSpartan_III : HaloPlayer
 		Player.StartItem "Halo_AssaultRifle", 1;
 		Player.StartItem "Halo_Magnum", 1;
 		Player.StartItem "Halo_AR_Reserves", 120;
+		Player.StartItem "Halo_Magnum_Reserves", 32;
 				
 		// Movement
 		HaloPlayer.MovementBob 0;
