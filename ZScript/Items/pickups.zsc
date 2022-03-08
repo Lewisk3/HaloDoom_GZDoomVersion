@@ -109,6 +109,11 @@ class HaloAmmoCrate : Actor replaces Backpack
 		super.Tick();
 		if(isFrozen() || empty) return;
 		
+		if(!opened) 
+			A_StartSound("Halo/AmmoCrate/Beacon", CHAN_BODY, CHANF_LOOPING);
+		else
+			A_StopSound(CHAN_BODY);
+	
 		let blockIt = BlockThingsIterator.Create(self, 8);
 		Actor act;
 

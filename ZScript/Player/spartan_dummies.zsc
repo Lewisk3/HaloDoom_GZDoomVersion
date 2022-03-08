@@ -133,8 +133,6 @@ class SpartanDummy_Moving : SpartanDummy
 	{
 		Spawn:
 			HALO A 1 NoDelay A_Jump(128, "WalkRight");
-		goto WalkLeft;
-		
 		WalkLeft:
 			HALO A 1 
 			{
@@ -144,7 +142,6 @@ class SpartanDummy_Moving : SpartanDummy
 			{
 				vel.xy += AngleToVector(angle, 3);
 			}
-		goto WalkRight;
 		WalkRight:
 			HALO A 1 
 			{

@@ -13,6 +13,7 @@ UI/PressButton BTNPRESS
 // Ammo Crate
 Halo/AmmoCrate/Open "Sounds/Ammo/AmmoCrate_Open.ogg"
 Halo/AmmoCrate/Use "Sounds/Ammo/AmmoCrate_TakeAmmo.ogg"
+Halo/AmmoCrate/Beacon "Sounds/Ammo/AmmoCrate_Beacon.ogg"
 
 // Health pickup(s)
 Halo/Pickup/HealthBonus "Sounds/HealthItems/HealthBonus.ogg"
