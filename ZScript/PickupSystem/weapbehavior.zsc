@@ -113,8 +113,14 @@ class WeaponPickupProxy : Actor
 		to.A_StartSound(truepickupsnd, CHAN_ITEM, CHANF_OVERLAP);
 		if(!noammogive) 
 		{
+			// Fresh weapon pick, give ammogive amounts.
 			to.GiveInventory(ammotype1, ammogive1);
 			to.GiveInventory(ammotype2, ammogive2);
+		}
+		else if(hasitem && clipammo != -1)
+		{
+			// Give amount of ammo loaded in weapon, to reserves.
+			to.GiveInventory(ammotype1, clipammo);
 		}
         return Weapon(to.FindInventory(trueitem));
 	}
