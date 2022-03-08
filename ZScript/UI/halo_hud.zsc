@@ -461,22 +461,35 @@ class HaloStatusBar : BaseStatusBar
 	}
 
 	void DrawCrosshairs()
-	{
+	{		
 		let curvehicle = Veh_Manager(haloplr.FindInventory("Veh_Manager"));
 		if(curvehicle && curvehicle.disableweaps)
 		{
 			bool lowerxhair = haloplr.CheckCrosshairLowered();
 			string crosshair = curvehicle.crosshair;
 			vector2 retsize = curvehicle.crosshair_scale;
+			
+			Color crossTint = 0;
+			if(HaloVehicle(curvehicle.veh))
+			{
+				Actor aimAct = HaloVehicle(curvehicle.veh).aimActor;
+				bool hostileAim = aimAct && aimAct.isHostile(haloplr) && aimAct.bISMONSTER && !(aimAct is "HaloVehicle");
+				if(hostileAim) crossTint = Color(0xC4, 0xD0,0,0);
+			}
 
 			vector2 midpos = (0,0);
 			if(lowerxhair) midpos.y = haloplr.xhair_lowpos;
-			HLSBS.DrawImage(crosshair, midpos, HLSBS.SS_SCREEN_CENTER, 0.65, scale:retsize);
+			HLSBS.DrawImage(crosshair, midpos, HLSBS.SS_SCREEN_CENTER, 0.65, scale:retsize, tint:crossTint);
 			return;
 		}
 		
 		HaloGun weap = HaloGun(haloplr.player.ReadyWeapon);
 		if(!weap || weap.HUD_Hide) return;
+		
+		Actor aimAct = haloplr.aimActor; 
+		bool hostileAim = aimAct && aimAct.isHostile(haloplr) && aimAct.bISMONSTER && !(aimAct is "HaloVehicle");
+		Color crossTint = 0;
+		if(hostileAim) crossTint = Color(0xC4, 0xD0,0,0);
 		
 		bool lowerxhair = haloplr.CheckCrosshairLowered();
 		string crosshair = weap.wcrosshair;
@@ -485,7 +498,7 @@ class HaloStatusBar : BaseStatusBar
 		vector2 midpos = (0,0);
 		if(lowerxhair) midpos.y = haloplr.xhair_lowpos;
 		retsize *= 1.0+curbloom;
-		HLSBS.DrawImage(crosshair, midpos, HLSBS.SS_SCREEN_CENTER, 0.65, scale:retsize);
+		HLSBS.DrawImage(crosshair, midpos, HLSBS.SS_SCREEN_CENTER, 0.65, scale:retsize, tint:crossTint);
 		double ispd = 0.12;
 		if(bloom > curbloom) ispd = 0.5; 
 		curbloom = HaloMath.Lerp(curbloom, bloom, ispd*deltatime);

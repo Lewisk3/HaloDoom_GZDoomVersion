@@ -13,6 +13,7 @@ class HaloPlayer : DoomPlayer
 	Weapon NextWeapon;
 	SpartanOverlay shieldOverlay;
 	
+	Actor aimActor;
 	vector3 aimpos;
 	double soundwait;
 	double aimdist;
@@ -71,6 +72,7 @@ class HaloPlayer : DoomPlayer
 		Player.ViewHeight 41;		
 		Player.SoundClass "Spartan";
 		-DONTTRANSLATE;
+		YScale 1.10;
 
 		// UI
 		Player.DisplayName "Spartan Template";
@@ -102,7 +104,6 @@ class HaloPlayer : DoomPlayer
 		pendingDoor.Activate(self, 1, SPAC_Use);
 		pendingDoor = null;
 	}
-	
 	
 	virtual bool CheckCanMelee()
 	{
@@ -275,6 +276,7 @@ class HaloPlayer : DoomPlayer
 		
 		aimdist = lt.Distance / UNIT_METER; 
 		aimpos = lt.HitLocation;
+		aimActor = lt.HitActor;
 		
 		// Update next weapon.
 		let wnext = PickNextWeapon();

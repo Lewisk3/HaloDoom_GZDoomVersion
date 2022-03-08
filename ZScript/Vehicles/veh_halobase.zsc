@@ -35,6 +35,14 @@ class HaloVehCamera : VehCamera
 		vector3 curpos = HaloMath.Lerp3D(pos, topos, 0.65);
 		curpos.z += base.GetBobOffset();
 		
+		let haloveh = HaloVehicle(base);
+		if(haloveh)
+		{
+			FLineTraceData lt;
+			LineTrace(angle, 2048, pitch, 0, offsetforward:16, data:lt);
+			haloveh.aimActor = lt.HitActor;
+		}
+		
 		A_SetAngle(a, SPF_INTERPOLATE);
 		A_SetPitch(p, SPF_INTERPOLATE);
 		SetOrigin(curpos, true);
@@ -45,6 +53,7 @@ class HaloVehicle : VehBase
 {
 	double veharmor;
 	Property Armored : veharmor;
+	Actor aimActor;
 	
 	Default
 	{

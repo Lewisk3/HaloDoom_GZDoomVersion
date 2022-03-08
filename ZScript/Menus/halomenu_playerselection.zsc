@@ -112,7 +112,7 @@ class HaloDoom_PlayerClassMenu : HaloMenuBase
 				
 					if (sprite.IsValid())
 					{
-						vector2 posoffs = (130,300);
+						vector2 posoffs = (130,400);
 						vector2 basescale = (6.0, 6.0);
 						Scale.X *= basescale.X;
 						Scale.Y *= basescale.Y;

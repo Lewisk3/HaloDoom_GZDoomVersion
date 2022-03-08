@@ -70,9 +70,13 @@ class Halo_OverlayUI : EventHandler
 		String cmd = e.Name;
 		Array<String> args;
 		cmd.Split(args, ":");
+				
 		if(args[0] == "hitmark")
 		{
 			uint plrnum = e.Args[0];
+			// Saftey check.
+			if(ui_hitmarkers.Size() < plrnum) return;
+			
 			bool doOverlap = args.Size() < 5 || !(args[4] ~== "replace");
 			uint sndflag = doOverlap ? CHANF_OVERLAP : 0;
 			if(plrnum == plr.PlayerNumber())

@@ -197,6 +197,9 @@ class HaloGun : RecoilWeapon
 		
 		if(victim && victim.bSHOOTABLE) 
 		{
+			vector3 victimAngles = level.sphericalCoords(victim.pos, source.pos, (victim.angle, victim.pitch));
+			if(abs(victimAngles.x) >= 120) damage *= 3.33; // Backstab!
+		
 			double inertia = HaloMath.GetInertia(victim.mass);
 			victim.DamageMobJ(source, source, damage, "Melee", 0, source.angle);
 			victim.BloodSplatter(lt.HitLocation, source.angle, true);
@@ -204,7 +207,7 @@ class HaloGun : RecoilWeapon
 			victim.vel.z += fpthrust.y;
 			source.A_Quake(2,3,0,20,"");
 			source.A_StartSound(hitsnd, CHAN_WEAPON, flags:CHANF_OVERLAP);
-			
+						
 			let haloplr = HaloPlayer(source);
 			if(haloplr) haloplr.OnMeleeHit(victim);
 		}
