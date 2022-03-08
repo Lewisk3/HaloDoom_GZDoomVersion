@@ -635,9 +635,11 @@ class HaloGun : RecoilWeapon
 				
 		// De-scope if reload detected.
 		if(inreload && zoomed) enablezoom = false;
+		let plr = HaloPlayer(Owner);
+		if(!plr) return;
 		
 		// Melee attack
-		if( A_ButtonStatus(BT_USER2, BTS_PRESSED, Owner) && (!handsbusy || CheckMeleeState("GrappleWait")) )
+		if( A_ButtonStatus(BT_USER2, BTS_PRESSED, Owner) && (!handsbusy || CheckMeleeState("GrappleWait")) && plr.CheckCanMelee() )
 		{
 			// Only melee if hands are not already being used for something else.
 			CallMeleeState("DoMelee", true);
@@ -651,7 +653,7 @@ class HaloGun : RecoilWeapon
 		}
 		
 		// Grapple
-		if(HaloPlayer(Owner).grapple && !handsbusy)
+		if(plr.grapple && !handsbusy)
 		{
 			Owner.player.SetPSprite(MELEE_OVERLAY, FindState("GrappleStart"));
 			if(inreload) psp.SetState(FindState("Ready.Active"));

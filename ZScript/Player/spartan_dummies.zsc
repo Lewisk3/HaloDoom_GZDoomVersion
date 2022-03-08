@@ -1,0 +1,154 @@
+// Shootable dummies for testing ttk and damage values.
+
+class SpartanDummy : Actor
+{
+	double maxshields;
+	double shields;
+	double killTimer;
+	Property Shields : maxshields;
+
+	SpartanOverlay shieldOverlay;
+
+	Default
+	{	
+		Radius 16;
+		Height 56;
+		+DONTTHRUST;
+		
+		Health 45;
+		SpartanDummy.Shields 70;
+		
+		+SHOOTABLE;
+		+SOLID;
+	}	
+	
+	override void BeginPlay()
+	{
+		super.BeginPlay();
+		shieldOverlay = SpartanOverlay.Attach(self);
+		
+		shields = maxshields;
+	}
+	
+	double regen_timer;
+	override void Tick()
+	{
+		super.Tick();
+		shieldOverlay.Update(shields, maxshields);
+		
+		// Friction
+		vel.xy *= 0.97;
+		
+		// Shield Regen
+		double shield_regenrate = 3;
+		double shregentime = (4)*35.;
+		
+		if(regen_timer < shregentime) 
+		{	
+			regen_timer += 1;
+			if(shields > maxshields) regen_timer = shregentime;
+		}
+		regen_timer = clamp(regen_timer, -shregentime, shregentime);
+		if(regen_timer >= shregentime && shields < maxshields) 
+		{
+			shields += maxshields/(shield_regenrate*35.);
+			shields = clamp(shields, 0, maxshields);
+		}
+		else if(shields >= maxshields)
+		{
+			health = GetMaxHealth();
+		}
+	}
+	
+	override int DamageMobJ(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle)
+	{	
+		// Get real damage amount, taking into account modified damage.
+		double dmg = GetModifiedDamage(mod, damage, true);
+		double truedamage = dmg / GAMEPLAY_DAMAGEMOD;
+		target = source;
+
+		let haloplr = HaloPlayer(source);
+		if(haloplr)
+		{
+			string dmgMsg = String.Format("Damage Dealt: %d", truedamage);
+			haloplr.SendHUDMessage(dmgMsg);
+		}
+		
+		if(shields >= maxshields) killTimer = GetAge();
+		if(shields > 0)
+		{
+			regen_timer = 0;
+			shields -= truedamage;
+			A_StopSound(CHAN_5);
+			A_StartSound("Shield/TakeDamage",flags:CHANF_NOSTOP);
+			if(shields <= 0) 
+			{	
+				A_StartSound("Shield/Explode",flags:CHANF_NOSTOP);
+				double truedmg = abs(shields);
+				shields = 0;
+				
+				if(mod != 'plasma') // Shield bleed damage, so long as source isn't plasma.
+					return super.DamageMobJ(inflictor, source, ceil(truedmg), mod, flags | DMG_FORCED, angle);
+			}
+			return 0;
+		}
+		return super.DamageMobJ(inflictor, source, ceil(truedamage), mod, flags | DMG_FORCED, angle);
+	}
+	
+	States
+	{
+		Spawn:
+			HALO ABCD 6;
+		loop;
+		
+		Death:
+			TNT1 A 0 
+			{
+				let haloplr = HaloPlayer(target);
+				if(haloplr)
+				{
+					string killMsg = String.Format("TTK: %.2fs", ((GetAge() - killTimer) * (1000/35.)) / 1000.);
+					haloplr.SendHUDMessage(killMsg);
+				}
+			}
+			HALO H 10;
+			HALO I 10 A_PlayerScream;
+			HALO J 10 A_NoBlocking;
+			HALO KLM 10;
+			HALO N 4;
+			TNT1 A 0 Spawn(getClass(), pos);
+		Stop;
+	}
+}
+
+
+class SpartanDummy_Moving : SpartanDummy
+{
+	States
+	{
+		Spawn:
+			HALO A 1 NoDelay A_Jump(128, "WalkRight");
+		goto WalkLeft;
+		
+		WalkLeft:
+			HALO A 1 
+			{
+				angle += 180;
+			}
+			HALO ABCDABCDABCDABCD 4
+			{
+				vel.xy += AngleToVector(angle, 3);
+			}
+		goto WalkRight;
+		WalkRight:
+			HALO A 1 
+			{
+				angle -= 180;
+			}
+			HALO ABCDABCDABCDABCD 4
+			{
+				vel.xy += AngleToVector(angle, 3);
+			}
+		goto WalkLeft;
+	}
+}

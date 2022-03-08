@@ -35,9 +35,25 @@ class HaloSpartan_III : HaloPlayer
 		HaloPlayer.SetupDashes true, 2, 5, 2;
 	}
 	
+	const MELEE_INVULN = 20;
+	const MELEE_COOLDOWN = 35;
+	
+	int meleeTimer;
+	override bool CheckCanMelee()
+	{
+		if( (GetAge() - meleeTimer) >= MELEE_COOLDOWN )
+		{
+			meleeTimer = getAge();
+			return true;
+		}
+		return false;
+	}
+	
 	override void OnMeleeHit(Actor victim)
 	{
 		// Instantly recharge shields
 		regen_timer = shield_regentime*35.;
+		shields_recharging = false; // Force recharge sound.
+		invulnTics = MELEE_INVULN; // 20 tics of invuln.
 	}
 }
