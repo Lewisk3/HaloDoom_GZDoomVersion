@@ -68,6 +68,10 @@ class SpartanDummy : Actor
 	{	
 		// Get real damage amount, taking into account modified damage.
 		double dmg = GetModifiedDamage(mod, damage, true);
+		
+		if(shields > 0)
+			dmg = HaloProjectile.ApplyShieldDamage(dmg, HaloProjectile(inflictor), mod == 'Headshot');
+		
 		double truedamage = dmg / GAMEPLAY_DAMAGEMOD;
 		target = source;
 

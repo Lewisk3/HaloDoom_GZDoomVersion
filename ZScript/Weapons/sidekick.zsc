@@ -38,7 +38,7 @@ class Halo_Sidekick : HaloGun
 		HaloGun.BaseRecoil SIDEKICK_RECOIL;
 		HaloGun.Inaccuracy SIDEKICK_ACCMOD;
 		HaloGun.Crosshair "MagRet", 1.0;
-		HaloGun.UIGraphic "WI_MAGNM", 1.0;
+		HaloGun.UIGraphic "WI_SDK", 0.4;
 		HaloGun.PowerTier P_NORM;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
@@ -140,16 +140,16 @@ class Halo_Sidekick : HaloGun
 		goto Ready.Active;
 		
 		Reload.Empty:
-			WER1 ABCDEFGHIJKLMNOPQ 1;
+			WER1 ABCDEFGHIJKL 1;
 			TNT1 A 0 A_WeapSound("Halo/Weapons/Sidekick/Reload/Empty", CHANF_OVERLAP);
-			WER1 RSTUVWXYZ 1;
+			WER1 MNOPQRSTUVWXYZ 1;
 			WER2 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1;
 			WER3 A 1 A_ReloadClip();
 			WER3 BCDEFGHIJKLMNOPQRSTUVWXY 1;
 		goto Ready.Active;
 		
 		Spawn:
-			MGFL A -1;
+			WEP1 A -1;
 		stop;
 	}
 }

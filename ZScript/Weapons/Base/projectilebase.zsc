@@ -17,6 +17,10 @@ class HaloProjectile : FastProjectile
 	bool isHoming;
 	double homingStrength;
 	
+	// Shield stuff
+	double shield_HeadshotDMG;
+	double shield_DamageMod;
+	
 	// Keep track of ripped-through targets so damage isn't done multiple times.
 	Array<Actor> act_hits;
 	
@@ -30,6 +34,7 @@ class HaloProjectile : FastProjectile
 	Property HeadshotDMGFactor : headshot_multiplier;
 	Property DoExplosiveDamage : explode_dmg, explode_radius;
 	Property SetupHoming : isHoming, homingStrength;
+	Property ShieldDamageFactors :  shield_DamageMod, shield_HeadshotDMG;
 	
 	Default
 	{
@@ -48,6 +53,15 @@ class HaloProjectile : FastProjectile
 		HaloProjectile.RipperCount 0;
 		HaloProjectile.ConvergeToAim true;
 		HaloProjectile.HeadshotDMGFactor 1.0;
+	}
+	
+	static double ApplyShieldDamage(double dmg, HaloProjectile proj, bool isHeadshot = false)
+	{
+		if(!proj) return dmg;
+		if(proj.shield_DamageMod > 0   && !isHeadshot) dmg *= proj.shield_DamageMod;
+		if(proj.shield_HeadshotDMG > 0 &&  isHeadshot) dmg *= proj.shield_HeadshotDMG;
+		
+		return dmg;
 	}
 	
 	override int SpecialMissileHit(Actor victim)

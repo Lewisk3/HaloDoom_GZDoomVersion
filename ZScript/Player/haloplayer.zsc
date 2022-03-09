@@ -293,8 +293,11 @@ class HaloPlayer : DoomPlayer
 		// Don't take damage if invuln tics are active.
 		if(invulnTics > 0) return 0;
 		
-		// Get real damage amount, taking into account modified damage.
 		double dmg = GetModifiedDamage(mod, damage, true);
+		if(shields > 0)
+			dmg = HaloProjectile.ApplyShieldDamage(dmg, HaloProjectile(inflictor), mod == 'Headshot');
+		
+		// Get real damage amount, taking into account modified damage.
 		double truedamage = dmg / GAMEPLAY_DAMAGEMOD;
 		
 		if( bInvulnerable || player.cheats & (CF_GODMODE|CF_GODMODE2) ) return 0;

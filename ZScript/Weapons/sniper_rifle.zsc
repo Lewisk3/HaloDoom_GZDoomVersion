@@ -51,6 +51,7 @@ class HaloSniper_Bullet : HaloBullet
 		HaloProjectile.HeadshotDMGFactor SNIPER_HEDMOD;
 		HaloProjectile.RipperCount 3;
 		HaloProjectile.DoExplosiveDamage 64, 128;
+		HaloProjectile.ShieldDamageFactors 0.5, 1.0;
 	}
 }
 
