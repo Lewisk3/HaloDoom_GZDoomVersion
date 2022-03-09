@@ -408,6 +408,25 @@ $random Halo/Weapons/FuelRod/Fire/Bass { FUELROD_LOW1 FUELROD_LOW2 FUELROD_LOW3 
 $random Halo/Weapons/FuelRod/Fire/Mech { FUELROD_MECH1 FUELROD_MECH2 FUELROD_MECH3 }
 $random Halo/Weapons/Fuelrod/Explosion  { FUELROD_IMPACT1 FUELROD_IMPACT2 FUELROD_IMPACT3 }
 
+// Sidekick
+SIDEKICK_FIRE1 "Sounds/Sidekick/Sidekick_Fire1.ogg"
+SIDEKICK_FIRE2 "Sounds/Sidekick/Sidekick_Fire2.ogg"
+SIDEKICK_FIRE3 "Sounds/Sidekick/Sidekick_Fire3.ogg"
+SIDEKICK_FIRE4 "Sounds/Sidekick/Sidekick_Fire4.ogg"
+SIDEKICK_LOW1 "Sounds/Sidekick/Sidekick_Low1.ogg"
+SIDEKICK_LOW2 "Sounds/Sidekick/Sidekick_Low2.ogg"
+SIDEKICK_LOW3 "Sounds/Sidekick/Sidekick_Low3.ogg"
+SIDEKICK_LOW4 "Sounds/Sidekick/Sidekick_Low4.ogg"
+SIDEKICK_MECH1 "Sounds/Sidekick/Sidekick_Mech1.ogg"
+SIDEKICK_MECH2 "Sounds/Sidekick/Sidekick_Mech2.ogg"
+SIDEKICK_MECH3 "Sounds/Sidekick/Sidekick_Mech3.ogg"
+Halo/Weapons/Sidekick/Reload "Sounds/Sidekick/Sidekick_Reload.ogg";
+Halo/Weapons/Sidekick/Reload/Empty "Sounds/Sidekick/Sidekick_ReloadEmpty.ogg";
+Halo/Weapons/Sidekick/Draw "Sounds/Sidekick/Sidekick_Draw.ogg";
+
+$random Halo/Weapons/Sidekick/Fire      { SIDEKICK_FIRE1 SIDEKICK_FIRE2 SIDEKICK_FIRE3 SIDEKICK_FIRE4 }
+$random Halo/Weapons/Sidekick/Fire/Bass { SIDEKICK_LOW1 SIDEKICK_LOW2 SIDEKICK_LOW3 SIDEKICK_LOW4 }
+
 // Hit feedback
 HMHIT1 HMHit1
 HMHIT2 HMHit2

@@ -62,6 +62,8 @@ version "4.5"
 #include "ZScript/Weapons/grenades.zsc"
 #include "ZScript/Weapons/gravityhammer.zsc"
 #include "ZScript/Weapons/fuelrod.zsc"
+// S2
+#include "ZScript/Weapons/sidekick.zsc"
 
 // Vehicles
 #include "ZScript/Vehicles/Kinematics/kine_parts.zsc" 
