@@ -35,7 +35,7 @@ class HaloSpartan_III : HaloPlayer
 		HaloPlayer.SetupDashes true, 2, 5, 2;
 	}
 	
-	const MELEE_INVULN = 65;
+	const MELEE_INVULN = 35;
 	const MELEE_COOLDOWN = 35;
 	
 	int meleeTimer;
