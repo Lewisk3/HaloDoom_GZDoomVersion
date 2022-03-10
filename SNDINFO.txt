@@ -426,7 +426,7 @@ Halo/Weapons/Sidekick/Draw "Sounds/Sidekick/Sidekick_Draw.ogg";
 
 $random Halo/Weapons/Sidekick/Fire      { SIDEKICK_FIRE1 SIDEKICK_FIRE2 SIDEKICK_FIRE3 SIDEKICK_FIRE4 }
 $random Halo/Weapons/Sidekick/Fire/Bass { SIDEKICK_LOW1 SIDEKICK_LOW2 SIDEKICK_LOW3 SIDEKICK_LOW4 }
-$random Halo/Weapons/Sidekick/Fire/Mech { SIDEKICK_MECH1 SIDEKICK_MECH2 SIDEKICK_MECH3 }
+$random Halo/Weapons/Sidekick/Mech { SIDEKICK_MECH1 SIDEKICK_MECH2 SIDEKICK_MECH3 }
 
 // Hit feedback
 HMHIT1 HMHit1
