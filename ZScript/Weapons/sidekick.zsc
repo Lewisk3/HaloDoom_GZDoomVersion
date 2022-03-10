@@ -23,8 +23,8 @@ class Halo_Sidekick : HaloGun
 	Default
 	{
 		Weapon.SlotNumber 2;
-		Obituary "%o was slapped by %k's Sidekick.";
-		Inventory.PickupMessage	"Picked up the Sidekick.";
+		Obituary "%o was flicked by %k's Sidekick.";
+		Inventory.PickupMessage	"Picked up the MK50 Sidekick.";
 		Tag "Sidekick";
 		Weapon.BobSpeed 1.86;
 		Weapon.BobRangeX 0.30;
