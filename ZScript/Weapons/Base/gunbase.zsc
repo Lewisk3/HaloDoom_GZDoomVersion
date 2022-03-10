@@ -287,8 +287,12 @@ class HaloGun : RecoilWeapon
 			
 			aproj.angle = angle;
 			aproj.pitch = pitch;
-			if(haloProj	   ) haloProj.DoConverge(plr.aimpos, recoil);
-			if(haloSlowProj) haloSlowProj.DoConverge(plr.aimpos, recoil);
+			
+			vector3 aimpos = plr.aimpos;
+			if(plr.aimActor) aimpos = (plr.aimActor.pos.xy, plr.aimpos.z);
+			
+			if(haloProj	   ) haloProj.DoConverge(aimpos, recoil);
+			if(haloSlowProj) haloSlowProj.DoConverge(aimpos, recoil);
 			
 			FLineTraceData lt;
 			aproj.LineTrace(aproj.angle, 1024*64, aproj.pitch, 0, offsetforward: 20, data:lt);

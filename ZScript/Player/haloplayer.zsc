@@ -194,6 +194,8 @@ class HaloPlayer : DoomPlayer
 		if(health <= 0 || !player) 
 		{
 			A_StopSound(CHAN_7);
+			A_StopSound(CHAN_5);
+			A_StopSound(CHAN_6);
 			super.Tick();
 			return;
 		}
