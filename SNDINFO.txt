@@ -430,7 +430,7 @@ $random Halo/Weapons/Sidekick/Mech { SIDEKICK_MECH1 SIDEKICK_MECH2 SIDEKICK_MECH
 
 $volume Halo/Weapons/Sidekick/Fire 0.7;
 $volume Halo/Weapons/Sidekick/Fire/Bass 1.0;
-$volume Halo/Weapons/Sidekick/Mech 0.8;
+$volume Halo/Weapons/Sidekick/Mech 0.7;
 
 // Hit feedback
 HMHIT1 HMHit1
