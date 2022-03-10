@@ -19,12 +19,12 @@ class Halo_Magnum_Reserves : Ammo
 		Scale 0.65;
 
 		Inventory.Amount 8;
-		Inventory.MaxAmount 240;
+		Inventory.MaxAmount 32;
 		Inventory.Icon "HLAMG0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "+8 Magnum Ammo.";
 		
-		Ammo.BackpackMaxAmount 320;
+		Ammo.BackpackMaxAmount 64;
 	}
 	
 	States

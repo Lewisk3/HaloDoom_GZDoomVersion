@@ -178,7 +178,7 @@ class Halo_PlasmaPistol : HaloGun
 	
 	Default
 	{
-		Weapon.SlotNumber 2;
+		Weapon.SlotNumber 4;
 		Obituary "%o was fried to a crisp by %k's Plasma Pistol.";
 		Inventory.PickupMessage	"Picked up the Type-25 Plasma Pistol.";
 		Tag "Plasma Pistol";

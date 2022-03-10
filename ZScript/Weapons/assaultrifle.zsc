@@ -15,12 +15,12 @@ class Halo_AR_Reserves : Ammo
 		Scale 0.65;
 
 		Inventory.Amount 32;
-		Inventory.MaxAmount 320;
+		Inventory.MaxAmount 128;
 		Inventory.Icon "HLAMA0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "+32 Assault Rifle Ammo.";
 		
-		Ammo.BackpackMaxAmount 480;
+		Ammo.BackpackMaxAmount 256;
 	}
 	
 	States

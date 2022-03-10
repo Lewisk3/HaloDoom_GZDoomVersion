@@ -16,12 +16,12 @@ class Halo_Sniper_Reserves : Ammo
 		Scale 0.65;
 
 		Inventory.Amount 4;
-		Inventory.MaxAmount 40;
+		Inventory.MaxAmount 16;
 		Inventory.Icon "HLAML0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "+4 Sniper Ammo.";
 		
-		Ammo.BackpackMaxAmount 80;
+		Ammo.BackpackMaxAmount 24;
 	}
 	
 	States
@@ -59,7 +59,7 @@ class Halo_SniperRifle : HaloGun
 {
 	Default
 	{
-		Weapon.SlotNumber 2;
+		Weapon.SlotNumber 5;
 		Obituary "%o got the Call of Duty treatment from %k's Sniper Rifle.";
 		Inventory.PickupMessage	"Picked up the S99-Bolt-Action Sniper Rifle.";
 		Tag "Sniper Rifle";

@@ -54,7 +54,7 @@ class Halo_Needler : HaloGun
 	
 	Default
 	{
-		Weapon.SlotNumber 1;
+		Weapon.SlotNumber 4;
 		Obituary "%o was super-combined by %k's Needler.";
 		Inventory.PickupMessage	"Picked up the Type-33 Needler.";
 		Tag "Needler";

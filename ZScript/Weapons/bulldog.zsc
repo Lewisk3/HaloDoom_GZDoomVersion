@@ -2,7 +2,7 @@ class Halo_Bulldog_Shells : Ammo
 {
 	Default 
 	{
-		Inventory.MaxAmount 8;
+		Inventory.MaxAmount 10;
 	}
 }
 class Halo_Bulldog_Reserves : Ammo
@@ -19,7 +19,7 @@ class Halo_Bulldog_Reserves : Ammo
 		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "+8 Bulldog Ammo.";
 		
-		Ammo.BackpackMaxAmount 80;
+		Ammo.BackpackMaxAmount 60;
 	}
 	
 	States
@@ -47,7 +47,7 @@ class Halo_Bulldog : HaloGun
 {
 	Default
 	{
-		Weapon.SlotNumber 1;
+		Weapon.SlotNumber 3;
 		Obituary "%o's riot was controlled by %k's Riot Shotgun.";
 		Inventory.PickupMessage	"Picked up the CQS-48 Riot Shotgun.";
 		Tag "Riot Shotgun";

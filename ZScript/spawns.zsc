@@ -5,6 +5,20 @@ extend class HaloDoom_Events
 	Array<String> weaps_power;
 	Array<String> weaps_melee;
 	
+	class<Actor> getWeaponFromAmmoType(class<Actor> type)
+	{
+		for(int i = 0; i < AllActorClasses.Size(); i++)
+		{
+			let weap = (class<Weapon>) (AllActorClasses[i]);
+			if(!weap) continue;
+			
+			let defs = GetDefaultByType(weap);
+			if(defs.ammotype1 == type || defs.ammotype2 == type)
+				return weap;
+		}
+		return null;
+	}
+	
 	void populateSpawnArrays()
 	{
 		for(int i = 0; i < AllActorClasses.Size(); i++)
@@ -46,11 +60,13 @@ extend class HaloDoom_Events
 			e.Replacement = weapSpawns[random[WeapSpawner](0, weapSpawns.Size()-1)];
 			
 		// Nade spawning
-		if( item is "ArmorBonus" && random[NadeSpawner](0,3) == 3 )
-			e.Replacement = "FragGrenades";
-			
-		if( item is "HealthBonus" && random[NadeSpawner](0,3) == 3 )
+		if( item is "HealthBonus" && random[NadeSpawner](0,6) == 6 )
 			e.Replacement = "PlasmaGrenades";	
+		
+		if( item is "ArmorBonus" && random[NadeSpawner](0,6) == 6 )
+			e.Replacement = "FragGrenades";
+		else if(item is "ArmorBonus" && random[NadeSpawner](0,2) == 2)
+			e.Replacement = "HealthBonus";
 		
 		// Powerup Spawning
 		if( item is "SoulSphere" )
@@ -88,13 +104,23 @@ extend class HaloDoom_Events
 			"Halo_StanchionReserves"
 		};
 			
+		int weapSpawnChance = 90; // (100 - n) = chance %;
+		class<Actor> spawnType;
 		switch(ammoTier)
 		{
-			case 1: // AR, Magnum, BR, Bulldog, Shotgun, Carbine
-				e.Replacement = AmmoClasses[random[HaloAmmoSpawns](0,5)];
+			case 1: // AR, Magnum, BR, Bulldog, Shotgun, Carbine	
+				spawnType = AmmoClasses[random[HaloAmmoSpawns](0,5)];
+				if(random[HaloAmmoWeaponSpawns](0,100) > weapSpawnChance) 
+					spawnType = getWeaponFromAmmoType(spawnType);
+					
+				e.Replacement = spawnType;
 			break;
 			case 2: // Double Barrel, Sniper Rifle, Rocket Launcher (Season 2), Needler 
-				e.Replacement = AmmoClasses[random[HaloAmmoSpawns](6,8)];
+				spawnType = AmmoClasses[random[HaloAmmoSpawns](6,8)];
+				if(random[HaloAmmoWeaponSpawns](0,100) > weapSpawnChance) 
+					spawnType = getWeaponFromAmmoType(spawnType);
+					
+				e.Replacement = spawnType;
 			break;
 			case 3: // Stanchion
 				e.Replacement = AmmoClasses[9];

@@ -47,7 +47,7 @@ class Halo_PlasmaRifle : HaloGun
 	
 	Default
 	{
-		Weapon.SlotNumber 1;
+		Weapon.SlotNumber 4;
 		Obituary "%o got the boomer shooter treatment by %k's Plasma Rifle.";
 		Inventory.PickupMessage	"Picked up the Type-25 Plasma Rifle.";
 		Tag "Plasma Rifle";

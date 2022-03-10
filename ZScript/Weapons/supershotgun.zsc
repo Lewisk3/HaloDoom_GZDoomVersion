@@ -28,12 +28,12 @@ class Halo_DBLShotgun_Reserves : Ammo
 		Scale 0.65;
 
 		Inventory.Amount 4;
-		Inventory.MaxAmount 40;
+		Inventory.MaxAmount 24;
 		Inventory.Icon "HLAMH0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "+4 Double Barreled Shotgun Ammo.";
 		
-		Ammo.BackpackMaxAmount 60;
+		Ammo.BackpackMaxAmount 36;
 	}
 	
 	States
@@ -62,7 +62,7 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 {
 	Default
 	{
-		Weapon.SlotNumber 2;
+		Weapon.SlotNumber 3;
 		Obituary "%o's existance took a 180 from %k's Double Barreled Shotgun.";
 		Inventory.PickupMessage	"Picked up the M180 Double Barrel.";
 		Tag "Super Shotgun";

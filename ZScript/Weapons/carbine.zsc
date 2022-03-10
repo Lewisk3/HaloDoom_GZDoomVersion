@@ -15,12 +15,12 @@ class Halo_CarbineReserves : Ammo
 		Scale 0.65;
 
 		Inventory.Amount 9;
-		Inventory.MaxAmount 90;
+		Inventory.MaxAmount 72;
 		Inventory.Icon "HLAME0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "+9 Carbine Ammo.";
 		
-		Ammo.BackpackMaxAmount 180;
+		Ammo.BackpackMaxAmount 144;
 	}
 	
 	States
@@ -77,7 +77,7 @@ class Halo_Carbine : HaloGun
 
 	Default
 	{
-		Weapon.SlotNumber 2;
+		Weapon.SlotNumber 4;
 		Obituary "%o was took down by %k's Carbine.";
 		Inventory.PickupMessage	"Picked up the Type-51 Carbine.";
 		Tag "Carbine";

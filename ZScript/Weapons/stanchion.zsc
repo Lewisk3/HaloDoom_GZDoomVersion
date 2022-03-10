@@ -37,7 +37,7 @@ class Halo_Stanchion : HaloGun
 {
 	Default
 	{
-		Weapon.SlotNumber 2;
+		Weapon.SlotNumber 5;
 		Obituary "%o got the Quake 2 Treatment from %k's Stanchion.";
 		Inventory.PickupMessage	"Picked up the M99 SAR Stanchion.";
 		Tag "Stanchion";

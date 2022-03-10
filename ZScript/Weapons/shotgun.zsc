@@ -15,12 +15,12 @@ class Halo_Shotgun_Reserves : Ammo
 		Scale 0.65;
 		
 		Inventory.Amount 8;
-		Inventory.MaxAmount 60;
+		Inventory.MaxAmount 32;
 		Inventory.Icon "HLAMK0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "+8 Shotgun Ammo.";
 		
-		Ammo.BackpackMaxAmount 120;
+		Ammo.BackpackMaxAmount 50;
 	}
 	
 	States
@@ -48,7 +48,7 @@ class Halo_Shotgun : HaloGun
 {
 	Default
 	{
-		Weapon.SlotNumber 1;
+		Weapon.SlotNumber 3;
 		Obituary "%o got an 8-Gauge Breakfast from %k's Shotgun.";
 		Inventory.PickupMessage	"Picked up the M35 Tactical Shotgun.";
 		Tag "Shotgun";
