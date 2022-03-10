@@ -152,8 +152,6 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 			}
 		loop;
 		
-
-		
 		Ready.Dryfire:
 			DBSI A 4 A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
 		goto Ready.Active;

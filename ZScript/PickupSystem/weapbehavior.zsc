@@ -138,7 +138,7 @@ class WeaponPickupProxy : Actor
 		while(act = HaloPlayer(it.Next()))
 		{
 			// If player is colliding with a weaponproxy item, and looking at it.
-			if( Distance3DSquared(act) <= pickup_dist )
+			if(act && Distance3DSquared(act) <= pickup_dist && act.player)
 			{
 				FLineTraceData lt;
 				act.LineTrace(act.angle, visibledist, act.pitch, TRF_ALLACTORS|TRF_ABSOFFSET, act.player.viewheight,0,0, lt);
