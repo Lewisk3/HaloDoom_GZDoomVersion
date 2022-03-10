@@ -116,7 +116,9 @@ class HaloDoom_TitleMenu : HaloMenuBase
 		
 		if(fadein > 0.15) fadein -= 0.02 * deltatime;
 		HLSBS.Dim(Color(255,0,0,0), fadein);
+		string branch = HaloMath.GetGitBranch();
 		string versionInfo = String.Format("Version %s", StringTable.Localize("$MOD_VERSION"));
+		if(branch != "") versionInfo = String.Format("%s \c[Black][\c[Blue]%s\c[Black]]\c[White]", versionInfo, branch);
 		DStr(versionInfo, (20,20), Font.CR_BLACK, scale:(0.1,0.1), fnt:"HaloFont");
 	}
 	

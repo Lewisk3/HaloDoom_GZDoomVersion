@@ -612,6 +612,14 @@ class HaloMath Abstract
 			}			
 		}
 	}
+		
+	static string GetGitBranch()
+	{
+		int lump = Wads.CheckNumForFullName("gitbranch.txt");
+		if(lump == -1) return "";
+		
+		return Wads.ReadLump(lump);
+	}
 }
 
 class SkillInfo : Object
