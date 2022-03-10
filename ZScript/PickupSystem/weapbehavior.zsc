@@ -186,11 +186,11 @@ class WeaponPickupProxy : Actor
 	override void Tick()
 	{
 		if(pos.z != floorz) SetOrigin((pos.x,pos.y,floorz), true);
-
-		ProcessPickupCollision();
+		
 		bool hasweap = !plr ? false : !!plr.FindInventory(trueitem);
 		CheckPlrCollide(hasweap ? 0.5 : 1.0);
 		if(!plr || !plr.player) return;
+		ProcessPickupCollision();
 			
 		// If invalid sprite, use default.
 		/*

@@ -57,7 +57,7 @@ class Halo_PlasmaRifle : HaloGun
 		Weapon.AmmoType2 "Halo_PlasmaRifle_Clip";
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 1;
-		HaloGun.PowerTier P_NORM;
+		HaloGun.PowerTier P_MID;
 				
 		// Recoil
 		HaloGun.Bloom 0.16;

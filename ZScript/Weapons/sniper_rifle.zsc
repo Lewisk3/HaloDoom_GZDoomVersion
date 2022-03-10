@@ -68,7 +68,7 @@ class Halo_SniperRifle : HaloGun
 		Weapon.AmmoType1 "Halo_Sniper_Reserves";
 		Weapon.AmmoGive 6;
 		Weapon.AmmoType2 "Halo_SniperClip";
-		HaloGun.PowerTier P_MID;
+		HaloGun.PowerTier P_POWER;
 				
 		// Recoil
 		RecoilWeapon.RecoilSpeed 20;

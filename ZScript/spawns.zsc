@@ -1,8 +1,10 @@
 extend class HaloDoom_Events
 {
+	Array<String> weaps_weak;
 	Array<String> weaps_basic;
 	Array<String> weaps_mid;
 	Array<String> weaps_power;
+	Array<String> weaps_uber;
 	Array<String> weaps_melee;
 	
 	class<Actor> getWeaponFromAmmoType(class<Actor> type)
@@ -29,12 +31,24 @@ extend class HaloDoom_Events
 			String gunName = actType.GetClassName();
 			switch(actType.SpawnTier)
 			{
+				case HaloGun.P_WEAK:  weaps_weak.Push(gunName);  break;
 				case HaloGun.P_NORM:  weaps_basic.Push(gunName); break;
 				case HaloGun.P_MID:	  weaps_mid.Push(gunName);   break;
 				case HaloGun.P_POWER: weaps_power.Push(gunName); break;	
+				case HaloGun.P_UBER:  weaps_uber.Push(gunName);  break;
 				case HaloGun.P_MELEE: weaps_melee.Push(gunName); break;
 			}
 		}
+	}
+	
+	bool checkItemType(class<Actor> item, string type)
+	{
+		string itemName = item.getClassname();
+		type = type.MakeLower();
+		itemName = itemName.MakeLower();
+		bool success = (item is type) || (itemName.IndexOf(type) != -1);
+		
+		return success;
 	}
 	
 	override void CheckReplacement(ReplaceEvent e)
@@ -43,22 +57,36 @@ extend class HaloDoom_Events
 		let item = e.Replacee;
 		int tier = 0;
 		
+		// Do not touch HaloGuns for replacement.
+		if(item is "HaloGun") return;
+				
 		// Weapon Spawning
-		if( item is "Chainsaw" || item is "Fist" || item is "Berserk" )
+		if(item is "Weapon") // If this check isn't performed then projectiles can be turned into guns?!?! 
+		{
+			if(checkItemType(item, "Chainsaw") || checkItemType(item, "Fist"))
+				weapSpawns.Append(weaps_melee);
+				
+			if(checkItemType(item, "Pistol") || checkItemType(item, "Chaingun")) 
+				weapSpawns.Append(weaps_basic);
+				
+			if(checkItemType(item, "SuperShotgun") || checkItemType(item, "Shotgun") ) 
+				weapSpawns.Append(weaps_mid);
+				
+			if(checkItemType(item, "RocketLauncher") || checkItemType(item, "PlasmaRifle"))
+				weapSpawns.Append(weaps_power);
+				
+			if(checkItemType(item, "BFG9000") || checkItemType(item, "BFG")) 
+				weapSpawns.Append(weaps_uber);
+		} 
+		else if(item is "Berserk")
 			weapSpawns.Append(weaps_melee);
 			
-		if( item is "Pistol" || item is "Shotgun" || item is "Chaingun" ) 
-			weapSpawns.Append(weaps_basic);
-			
-		if( item is "SuperShotgun" || item is "RocketLauncher" || item is "PlasmaRifle" ) 
-			weapSpawns.Append(weaps_mid);
-			
-		if( item is "BFG9000" ) 
-			weapSpawns.Append(weaps_power);
-		
 		if(weapSpawns.Size() > 0)
+		{
 			e.Replacement = weapSpawns[random[WeapSpawner](0, weapSpawns.Size()-1)];
-			
+			return;
+		}
+		
 		// Nade spawning
 		if( item is "HealthBonus" && random[NadeSpawner](0,6) == 6 )
 			e.Replacement = "PlasmaGrenades";	

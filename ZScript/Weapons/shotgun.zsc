@@ -57,7 +57,7 @@ class Halo_Shotgun : HaloGun
 		Weapon.AmmoType1 "Halo_Shotgun_Reserves";
 		Weapon.AmmoGive 12;
 		Weapon.AmmoType2 "Halo_Shotgun_Shells";
-		HaloGun.PowerTier P_NORM;
+		HaloGun.PowerTier P_MID;
 				
 		// Recoil
 		HaloGun.Bloom 1.10;
