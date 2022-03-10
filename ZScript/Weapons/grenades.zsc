@@ -255,7 +255,7 @@ class PlasmaGrenade_Proj : Actor
 			if(!bMISSILE)
 			{
 				smoke.vel.z = 1;
-				smoke.vel.xy = (1,1) * frandom(-1.0,1.0);
+				smoke.vel.xy = (1,1) * frandom[PlasGrenTrail](-1.0,1.0);
 			}
 		}
 		
@@ -401,8 +401,8 @@ class PlasmaGrenadeExplosion : CheapActor
 			TNT1 A 1 
 			{
 				vector3 fxpos = (pos.xy, pos.z+20);
-				HaloMath.SpawnFX("PlasmaGrenade_Smoke", fxpos, angle, 20, 20, 20, frandom(0,360), frandom(-30,30), frandom(-3, 3));
-				HaloMath.SpawnFX("WraithPlasma_FlyingPlasma", fxpos, angle, random(5,12), 10, 20, 180,45, 12);
+				HaloMath.SpawnFX("PlasmaGrenade_Smoke", fxpos, angle, 20, 20, 20, frandom[SFX](0,360), frandom[SFX](-30,30), frandom[SFX](-3, 3));
+				HaloMath.SpawnFX("WraithPlasma_FlyingPlasma", fxpos, angle, random[SFX](5,12), 10, 20, 180,45, 12);
 				
 				let shockwave = Spawn("FX_Shockwave", pos);
 				if(shockwave) shockwave.alpha = 0.5;
