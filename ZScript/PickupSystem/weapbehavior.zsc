@@ -42,6 +42,17 @@ class WeaponPickupProxy : Actor
 		WeaponPickupProxy.PickupRange PICKUP_RANGE*2.;
 	}
 	
+	static bool ProcessDroppedWeapon(Weapon weap)
+	{
+		// Remove weapon 50% of the time.
+		if(random[WorldDroppedWeapon](0,100) < 50)
+		{
+			weap.Destroy();
+			return true;
+		}
+		return false;
+	}
+	
 	static WeaponPickupProxy BecomeWeaponProxy(Weapon source, bool noammogive = false)
 	{
 		let wp = WeaponPickupProxy(Actor.Spawn("WeaponPickupProxy", source.pos));

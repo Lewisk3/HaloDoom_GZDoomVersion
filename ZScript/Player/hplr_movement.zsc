@@ -128,6 +128,13 @@ extend class HaloPlayer
 		A_StartSound(String.Format("%s/%s", surfaceType, type), CHAN_AUTO);
 	}
 	
+	void ResetMovementMods()
+	{	
+		fricmod = 0; 
+		aircontrol = default.aircontrol;
+		gravity = default.gravity;
+	}
+	
 	void PlayFootsteps()
 	{
 		double curSpeed = vel.xy.Length();
@@ -156,7 +163,7 @@ extend class HaloPlayer
 		
 		// Play sound if landed from a fall.
 		double zdiff = vel.z-oldvel.z;
-		if(zdiff >= 10) A_StartSound("Halo/Spartan/Land/Hard", CHAN_AUTO);
+		if(zdiff >= 10 && pos.z <= floorz) A_StartSound("Halo/Spartan/Land/Hard", CHAN_AUTO);
 		
 		// [RH] 180-degree turn overrides all other yaws
 		if (player.turnticks)

@@ -112,7 +112,13 @@ class HaloGun : RecoilWeapon
 	// Called when a new level is loaded.
 	virtual void LevelLoaded()
 	{
-		if(handsbusy) A_FinishMelee();
+		if(handsbusy) 
+		{
+			let haloplr = HaloPlayer(Owner);
+			if(haloplr) haloplr.ResetMovementMods();
+			
+			A_FinishMelee();
+		}
 	}
 
 	override void OnDrop (Actor dropper) 

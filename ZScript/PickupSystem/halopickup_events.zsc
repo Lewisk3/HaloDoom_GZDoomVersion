@@ -87,6 +87,25 @@ class HaloPickup_EVH : EventHandler
 		let it = Weapon(e.Thing);
 		if(!it) return;
 		
+		if(it.GetAge() <= 1)
+		{
+			// Attempt to look-up dropper.
+			let actIt = ThinkerIterator.Create();
+			Actor act;
+			double dist = it.radius * it.radius;
+			while(act = Actor(actIt.Next()))
+			{
+				bool isDying = ( act.InStateSequence(act.CurState, act.FindState("Death")) ||
+								 act.InStateSequence(act.CurState, act.FindState("XDeath")) );
+				if(!isDying || it.Distance3DSquared(act) > dist) continue;
+				break;
+			}
+			
+			// Weapon was dropped by actor, who isn't a player.
+			if(act && !act.player)
+				if(WeaponPickupProxy.ProcessDroppedWeapon(it)) return;
+		}
+		
 		if(!it.Owner && !(it is "WeaponPickupProxy"))
 		{
 			WeaponPickupProxy.BecomeWeaponProxy(it);

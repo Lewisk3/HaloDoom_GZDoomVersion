@@ -196,7 +196,7 @@ class HaloDoom_Events : EventHandler
 				}
 			}
 		}
-		
+				
 		Array<String> args;
 		String cmd = e.Name;
 		cmd.Split(args, ":");
