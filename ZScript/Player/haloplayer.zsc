@@ -28,7 +28,7 @@ class HaloPlayer : DoomPlayer
 	Sound snd_ShieldRegen;
 	
 	// Door to be activated once animation finishes.
-	Line pendingDoor; 
+	transient Line pendingDoor; 
 	string pendingDoorColor;
 	
 	// Shields
