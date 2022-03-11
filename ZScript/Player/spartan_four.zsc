@@ -22,9 +22,9 @@ class HaloSpartan_IV : HaloPlayer
 		// Inventory
 		Player.StartItem "DoHelmetAnimation", 1;
 		Player.StartItem "Halo_AssaultRifle", 1;
-		Player.StartItem "Halo_Magnum", 1;
+		Player.StartItem "Halo_Sidekick", 1;
 		Player.StartItem "Halo_AR_Reserves", 120;
-		Player.StartItem "Halo_Magnum_Reserves", 32;
+		Player.StartItem "Halo_Sidekick_Reserves", 48;
 		
 		// Movement
 		HaloPlayer.MovementBob 0;

@@ -84,7 +84,7 @@ class HaloPlayer : DoomPlayer
 		HaloPlayer.Shields 70, 3, 4; // 3 seconds to recharge, 4 seconds to max.
 		
 		// Inventory
-		Player.StartItem "Halo_Magnum", 1;
+		Player.StartItem "Halo_Sidekick", 1;
 		Player.StartItem "Halo_AR_Reserves", 120;
 		
 		// SFX
