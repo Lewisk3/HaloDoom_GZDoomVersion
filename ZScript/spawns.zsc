@@ -116,15 +116,16 @@ extend class HaloDoom_Events
 		if( item is "CellPack" )
 			ammoTier = 3;
 			
-		string AmmoClasses[10] = 
+		string AmmoClasses[11] = 
 		{
 			"Halo_AR_Reserves",
-			"Halo_Magnum_Reserves",
+			"Halo_Sidekick_Reserves",
 			"Halo_BAR_Reserves",
 			"Halo_Bulldog_Reserves",
 			"Halo_Shotgun_Reserves",
 			"Halo_CarbineReserves",
 			
+			"Halo_Magnum_Reserves",
 			"Halo_DBLShotgun_Reserves",
 			"Halo_Sniper_Reserves",
 			"Halo_Needler_Reserves",
@@ -144,14 +145,14 @@ extend class HaloDoom_Events
 				e.Replacement = spawnType;
 			break;
 			case 2: // Double Barrel, Sniper Rifle, Rocket Launcher (Season 2), Needler 
-				spawnType = AmmoClasses[random[HaloAmmoSpawns](6,8)];
+				spawnType = AmmoClasses[random[HaloAmmoSpawns](6,9)];
 				if(random[HaloAmmoWeaponSpawns](0,100) > weapSpawnChance) 
 					spawnType = getWeaponFromAmmoType(spawnType);
 					
 				e.Replacement = spawnType;
 			break;
 			case 3: // Stanchion
-				e.Replacement = AmmoClasses[9];
+				e.Replacement = AmmoClasses[10];
 			break;
 		}
 	}

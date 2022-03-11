@@ -18,6 +18,32 @@ class HaloSidekick_Bullet : HaloBullet
 	}
 }
 
+class Halo_Sidekick_Reserves : Ammo
+{
+	mixin WorldAmmoBehavior;
+	Default 
+	{
+		Radius 8;
+		Height 6;
+		Scale 0.65;
+
+		Inventory.Amount 8;
+		Inventory.MaxAmount 64;
+		Inventory.Icon "HLAMG0";
+		Inventory.PickupSound "Halo/Pickup/Ammo";
+		Inventory.PickupMessage "+8 Sidekick Ammo.";
+		
+		Ammo.BackpackMaxAmount 128;
+	}
+	
+	States
+	{
+		Spawn:
+			HLAM G -1 Bright;
+		stop;
+	}
+}
+
 class Halo_Sidekick : HaloGun
 {
 	Default
@@ -28,7 +54,7 @@ class Halo_Sidekick : HaloGun
 		Tag "Sidekick";
 		Weapon.BobSpeed 1.86;
 		Weapon.BobRangeX 0.30;
-		Weapon.AmmoType1 "Halo_Magnum_Reserves";
+		Weapon.AmmoType1 "Halo_Sidekick_Reserves";
 		Weapon.AmmoType2 "Halo_Sidekick_Clip";
 		Weapon.AmmoGive 12;
 				
