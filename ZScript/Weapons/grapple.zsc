@@ -166,6 +166,8 @@ class GrapplingHook : KineLimb
 			{
 				A_StartSound("Halo/Spartan/Grapple/Latch", flags:CHANF_OVERLAP);
 				src.A_StartSound("Halo/Spartan/ZipLine/Start", flags:CHANF_OVERLAP);
+				
+				if(hitactor) hitactor.DamageMobJ(plr, self, 1, 'Grapple');
 				if(src == plr) plr.vel.z += 3; // Provide inital Z boost.
 			}
 		}
