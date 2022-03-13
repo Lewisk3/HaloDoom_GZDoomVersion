@@ -450,6 +450,10 @@ $random Halo/Weapons/SMG/Fire      { SMG_FIRE1 SMG_FIRE2 SMG_FIRE3 }
 $random Halo/Weapons/SMG/Fire/Bass { SMG_LOW1 SMG_LOW2 SMG_LOW3 }
 $random Halo/Weapons/SMG/Mech { SMG_MECH1 SMG_MECH2 SMG_MECH3 }
 
+$volume Halo/Weapons/SMG/Fire 1.0;
+$volume Halo/Weapons/SMG/Fire/Bass 1.0;
+$volume Halo/Weapons/SMG/Mech 0.35;
+
 // Hit feedback
 HMHIT1 HMHit1
 HMHIT2 HMHit2
