@@ -138,17 +138,19 @@ class WeaponPickupProxy : Actor
 	
 	void CheckPlrCollide(double distmod=1.0)
 	{
-		let it = ThinkerIterator.Create("HaloPlayer");
 		HaloPlayer act;	
-		
 		if(plr) plr.pickuptarget = NULL;
 		plr = NULL;
 		
 		double pickup_dist = (PICKUP_RANGE*distmod)*(PICKUP_RANGE*distmod);
-		while(act = HaloPlayer(it.Next()))
+		
+		for(int i = 0; i < MAXPLAYERS; i++)
 		{
+			if(!playerInGame[i]) continue;
+			act = HaloPlayer(players[i].mo);
+			
 			// If player is colliding with a weaponproxy item, and looking at it.
-			if(act && Distance3DSquared(act) <= pickup_dist && act.player)
+			if(act && Distance3DSquared(act) <= pickup_dist)
 			{
 				FLineTraceData lt;
 				act.LineTrace(act.angle, visibledist, act.pitch, TRF_ALLACTORS|TRF_ABSOFFSET, act.player.viewheight,0,0, lt);

@@ -360,7 +360,7 @@ class HaloGun : RecoilWeapon
 	
 	action void A_MuzzleSparks(double amt, double spd, double sp_horz, double sp_vert, class<Actor> sparks = "MuzzleSparks")
 	{
-		if(!invoker.cvfx_smoke.GetBool()) return;
+		if(!invoker.cvfx_smoke || !invoker.cvfx_smoke.GetBool()) return;
 		int adjustedAmt = max(amt * halodoom_effectintensity, 0);
 		for(int i = 0; i < amt; i++)
 		{
