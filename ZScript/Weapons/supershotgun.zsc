@@ -102,7 +102,7 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 			}
 		}
 		A_MuzzleSparks(45, 40, 12,12);
-		A_TakeAmmo(2);
+		A_TakeAmmo(2, false);
 		A_UpdateSpread();
 	}
 	

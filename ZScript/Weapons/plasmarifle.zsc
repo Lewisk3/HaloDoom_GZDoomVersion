@@ -78,7 +78,7 @@ class Halo_PlasmaRifle : HaloGun
 		A_ShootProjectile("HaloPlasmaRifle_Proj", 12, bottom ? -10 : 0);
 		invoker.heat += 0.03;
 		invoker.firespeed += 0.14;
-		if(useammo) A_TakeAmmo(1);
+		if(useammo) A_TakeAmmo(1, false);
 		A_UpdateSpread();
 	}
 	

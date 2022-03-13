@@ -211,7 +211,7 @@ class Halo_PlasmaPistol : HaloGun
 			A_WeapSound("Halo/Weapons/PlasmaPistol/Fire/Bass", CHANF_OVERLAP, true);
 			A_ShootProjectile("HaloPlasma_Proj", 12);
 			invoker.heat += 0.14;
-			A_TakeAmmo(1);
+			A_TakeAmmo(1, false);
 		}
 		else
 		{
@@ -219,7 +219,7 @@ class Halo_PlasmaPistol : HaloGun
 			A_WeapSound("Halo/Weapons/PlasmaPistol/Fire/Charged/Bass", CHANF_OVERLAP, true);
 			A_ShootProjectile("HaloChargedPlasma_Proj", 12);
 			invoker.heat = 1.0;
-			A_TakeAmmo(15);
+			A_TakeAmmo(15, false);
 		}
 		A_UpdateSpread();
 	}

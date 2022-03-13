@@ -2,6 +2,7 @@
 Halo/Weapons/Zoom/In  Zoom_IN
 Halo/Weapons/Zoom/Out Zoom_OUT
 Halo/Weapons/DryFire  HW_DRYF
+Halo/Weapons/MagEmpty "Sounds/SFX/WeaponEmpty.wav";
 Halo/Weapons/SuitZoom/IN  "Sounds/SFX/Suit_Zoom_IN.ogg"
 Halo/Weapons/SuitZoom/OUT "Sounds/SFX/Suit_Zoom_OUT.ogg"
 Halo/Flashlight/ON "Sounds/SFX/Flashlight_On.ogg"

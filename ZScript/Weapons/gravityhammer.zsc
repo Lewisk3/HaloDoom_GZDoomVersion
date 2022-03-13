@@ -151,7 +151,7 @@ class Halo_GravityHammer : HaloGun
 		
 		A_WeapSound("Halo/Weapons/GravityHammer/Fire", 0, true);
 		A_WeapSound("Halo/Weapons/GravityHammer/Fire/Bass", CHANF_OVERLAP, true);
-		A_TakeAmmo(5);
+		A_TakeAmmo(5, false);
 				
 		let field = Spawn("GravityHammerField", plr.aimpos);
 		if(field) field.target = self;

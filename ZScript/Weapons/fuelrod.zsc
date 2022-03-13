@@ -184,7 +184,7 @@ class Halo_FuelRod : HaloGun
 			proj.vel.z -= 1;
 		}
 		
-		A_TakeAmmo();
+		A_TakeAmmo(playEmptySND:false);
 		A_UpdateSpread();
 	}
 

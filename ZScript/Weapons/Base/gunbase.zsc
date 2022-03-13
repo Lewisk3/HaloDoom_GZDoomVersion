@@ -749,11 +749,13 @@ class HaloGun : RecoilWeapon
 	// Takes from primary ammunition pool, optionally has a type parameter
 	// setting this to ammotype1 will take from the secondary pool. 
 	// By default NULL results in using ammotype2
-	action void A_TakeAmmo(int amt = 1, class<Inventory> type = NULL)
+	action void A_TakeAmmo(int amt = 1, bool playEmptySND = true, class<Inventory> type = NULL)
 	{
 		if(sv_infiniteammo) return;
 		if(!type) type = invoker.ammotype2;
 		A_TakeInventory(type, amt);
+		if(countinv(type) <= 0 && playEmptySND) 
+			A_StartSound("Halo/Weapons/MagEmpty", CHAN_AUTO, CHANF_OVERLAP); 
 	}
 	
 	// For reloading one at a time, like a shotgun.

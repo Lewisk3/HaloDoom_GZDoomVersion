@@ -112,18 +112,19 @@ class Halo_Magnum : HaloGun
 		Ready:
 			TNT1 A 0 A_JumpIf(!A_DoFullSelectAnimation(), "Ready.Chambered");
 			TNT1 A 4 A_WeapSound("Halo/Weapons/Mag_MD6/Draw");
-			MAGS ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoSelectAnim(-5, true);
-			MGS1 ABCDEF 1;
+			W0D1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoSelectAnim(-5, true);
+			W0D2 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1;
+			W0D3 A 1;
 		goto Ready.Active;
 		Ready.Chambered:
 			TNT1 A 0 A_WeapSound("Halo/Weapons/Mag_MD6/Select");
-			MAGD ABCDE 1 A_DoSelectAnim(-5);
+			WOD2 UVWXYZ 1 A_DoSelectAnim(-5);
 		Ready.Active:
-			MAR1 A 1 A_HaloWeaponReady(WRF_ALLOWRELOAD, true);
+			W0G1 A 1 A_HaloWeaponReady(WRF_ALLOWRELOAD, true);
 		loop;
 		
 		Ready.Dryfire:
-			MAGI A 12 A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
+			W0G1 A 12 A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
 		goto Ready.Active;
 
 		Select:
@@ -131,15 +132,16 @@ class Halo_Magnum : HaloGun
 		wait;
 
 		Deselect:
-			MAGD EDCBA 1;
-			MAGD A 1 A_GunLower();
+			WOD2 ZYXWVU 1;
+			W0G1 A 1 A_GunLower();
 		wait;
 		
 		//  - 210RPM -
 		// 210/60 = 3.5
 		// 35/3.5 = 10 frames.
 		Fire:
-			MAGF A 1
+			TNT1 A 0 A_JumpIf(CountLoadedAmmo() == 1, "Fire.LastShot");
+			W0F1 A 1 bright
 			{
 				A_RecoilOffset(0,8,1);
 				return A_GunCheckReload();
@@ -149,25 +151,50 @@ class Halo_Magnum : HaloGun
 				A_FireMagnum();
 				A_ModifyRecoil(A_CheckInScope() ? 0.25 : 1.0);
 				A_SetRecoil(6.47, 0, 2);
-				A_SetZoom(0.94, 1);
-				A_RQuakeEx(2,2,4,4,0,20,"",QF_RELATIVE|QF_WAVE);
+				A_SetZoom(0.92, 1);
+				A_RQuakeEx(2,2,4,6,0,20,"",QF_RELATIVE|QF_WAVE);
 				A_RollQuake(2,10,3, true);
 			}
-			MAGF B 1 bright A_RecoilOffset(16,-20,4);
-			MAGF C 1 
+			W0F1 C 1 bright A_RecoilOffset(16,-20,4);
+			W0F1 D 1 
 			{
-				A_SetZoom(1.0, 6);
+				A_SetZoom(1.0, 8);
 				A_Light(0);
 				A_SetRecoil(-0.18, 0, 8);
 			}
 			TNT1 A 0 A_WeapSound("Halo/Weapons/Mag_MD6/Mech", CHANF_OVERLAP);
-			MAGF DEF 1 A_RecoilOffset(0,0,4);
-			MAGF GH 1;
-			MAR1 A 8; 
-		Hold:
-			MAR1 A 1 A_CheckRapidFire();
-			TNT1 A 0 A_ReFire("Hold");
+			W0F1 EFG 1 A_RecoilOffset(0,0,4);
+			W0F1 HI 1;
+			W0F1 JKLMNOPQRSTUVWXY 1; 
 		goto Ready.Active;
+	
+		Fire.LastShot:
+			W0F1 A 1 bright
+			{
+				A_RecoilOffset(0,8,1);
+				return A_GunCheckReload();
+			}
+			TNT1 A 0 
+			{
+				A_FireMagnum();
+				A_ModifyRecoil(A_CheckInScope() ? 0.25 : 1.0);
+				A_SetRecoil(6.47, 0, 2);
+				A_SetZoom(0.92, 1);
+				A_RQuakeEx(2,2,4,6,0,20,"",QF_RELATIVE|QF_WAVE);
+				A_RollQuake(2,10,3, true);
+			}
+			W0F1 Z 1 bright A_RecoilOffset(16,-20,4);
+			W0F2 A 1 
+			{
+				A_SetZoom(1.0, 8);
+				A_Light(0);
+				A_SetRecoil(-0.18, 0, 8);
+			}
+			TNT1 A 0 A_WeapSound("Halo/Weapons/Mag_MD6/Mech", CHANF_OVERLAP);
+			W0F2 BCD 1 A_RecoilOffset(0,0,4);
+			W0F2 EF 1;
+			W0F2 GHIJKLMNOPQRSTUV 1; 
+		goto Reload;
 		
 		// [Lewisk] A_ValidateReload and A_WeapSound are not in the same state because 
 		// that'll change the return type of the annon function to a State.
@@ -178,18 +205,21 @@ class Halo_Magnum : HaloGun
 			TNT1 A 0 A_ScopeDisable();
 			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Reload.Empty");
 			TNT1 A 0 A_StartSound("Halo/Weapons/Mag_MD6/Reload", CHAN_RELOADING, CHANF_OVERLAP);
-			MAR1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1;
-			MAR2 ABCD 1;
-			MAR2 E 1 A_ReloadClip();
-			MAR2 FGHIJKLMNO 1;
+			W0T1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1;
+			W0T2 ABCDEFGHIJKLMNOPQRS 1;
+			W0T2 T 1 A_ReloadClip();
+			W0T2 UVWXYZ 1;
+			W0T3 ABCDEFGHIJKLMNOP 1;
 		goto Ready.Active;
 		
 		Reload.Empty:
 			TNT1 A 0 A_WeapSound("Halo/Weapons/Mag_MD6/Reload/Empty", CHANF_OVERLAP);
-			MAR3 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1;
-			MAR4 ABC 1;
-			MAR4 D 1 A_ReloadClip();
-			MAR4 EFGHIJKLMNOPQRSTUVW 1;
+			W0R1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1;
+			W0R2 ABCDEFGHIJKLMNOPQRS 1;
+			W0R2 T 1 A_ReloadClip();
+			W0R2 UVWXYZ 1;
+			W0R3 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1;
+			W0R4 ABCD 1;
 		goto Ready.Active;
 		
 		Spawn:
