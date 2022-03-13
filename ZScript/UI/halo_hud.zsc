@@ -798,28 +798,29 @@ class HaloStatusBar : BaseStatusBar
 		double scrh = Screen.getHeight();
 		double xres = scrw/1920.;
 		double yres = scrh/1080.;
-		double acor = HLSBS.GetAspectScale();
-				
-		if(maxdist < scrw)
+
+		double fromdist = HaloMath.Distance2D((x0,y0), origin);
+		double todist = HaloMath.Distance2D((x1,y1), origin);
+		if(fromdist > maxdist*1.2 && todist > maxdist*1.2) return;
+		
+		if( (fromdist > maxdist || todist > maxdist) ) 
 		{
-			double fromdist = HaloMath.Distance2D((x0,y0), origin);
-			double todist = HaloMath.Distance2D((x1,y1), origin);
-			if( (fromdist > maxdist || todist > maxdist) ) 
+			double lineangle = atan2(y1-y0, x1-x0);
+			double dist = HaloMath.Distance2D((x0,y0),(x1,y1));
+			vector2 linedir = (cos(lineangle), sin(lineangle));
+			double step = 1;
+			
+			double maxdist_fast = maxdist*maxdist;
+			for(int i = 0; i < dist; i+=step)
 			{
-				if(fromdist > maxdist*1.2 && todist > maxdist*1.2) return;
-				double lineangle = atan2(y1-y0, x1-x0);
-				double dist = HaloMath.Distance2D((x0,y0),(x1,y1));
-				double step = 1;
-				for(int i = 0; i < dist; i+=step)
-				{
-					vector2 pixpos = (x0+cos(lineangle)*i, y0+sin(lineangle)*i);
-					double fulldist = HaloMath.Distance2D(pixpos, origin);
-					if(fulldist > maxdist) continue;
-					HLSBS.DrawImage("HPXL", pixpos, 0, 1.0, (0.5,0.5), tint:col);
-				}
-				return;
+				vector2 pixpos = (x0 + (linedir.x*i), y0 + (linedir.y*i) );
+				double fulldist = HaloMath.Distance2D(pixpos, origin);
+				if(fulldist > maxdist) continue;
+				HLSBS.DrawImage("HPXL", pixpos, 0, 1.0, (0.5,0.5), tint:col);
 			}
+			return;
 		}
+
 		Screen.DrawThickLine(x0*xres,y0*yres,x1*xres,y1*yres,2,col,alpha*255);
 	}	
 	

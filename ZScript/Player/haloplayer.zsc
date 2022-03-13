@@ -470,7 +470,6 @@ class SpartanOverlay : Actor
 	
 	override void Tick()
 	{
-		super.Tick();
 		if(!source) 
 		{
 			Destroy();
@@ -498,8 +497,8 @@ class SpartanOverlay : Actor
 	States
 	{
 		Spawn:
-			"####" "#" 1;
-		loop;
+			"####" "#" -1;
+		stop;
 	}
 }
 class ShieldLightningAnimator : CustomInventory

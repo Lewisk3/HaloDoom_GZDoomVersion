@@ -157,7 +157,9 @@ class HLSBS Abstract ui
 		// Potential LZDoom "patch"?
 		// This word around is downright AWFUL
 		// People want LZDoom compat so I have no choice, sucks...
-		bool runningLZDoom = !!CVar.GetCVar("vid_displaybits");
+		
+		let evh = HaloDoom_Events(EventHandler.Find("HaloDoom_Events"));
+		bool runningLZDoom = evh.runningLZDoom;
 		
 		// This horrible idea is needed so LZDoom's compiler doesn't error out.
 		uint FLG_Rotate = 0x400013ce; // Enum value of DTA_Rotate for GZDoom

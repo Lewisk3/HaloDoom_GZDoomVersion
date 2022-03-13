@@ -126,7 +126,7 @@ class SpartanDummy : Actor
 			HALO KLM 10;
 			HALO N 4;
 			TNT1 A 0 Spawn(getClass(), spawnPos);
-		Stop;
+		stop;
 	}
 }
 
