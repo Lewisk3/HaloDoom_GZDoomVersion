@@ -570,110 +570,109 @@ class HaloStatusBar : BaseStatusBar
 			string sight = weap.UI_Sight;
 			double scale = weap.sightscale * 2.;
 			double sightalpha = weap.sightalpha > 0 ? weap.sightalpha : 0.9;
+			double rotation = 0;
 			Color dark = 0xFF000000;
-			
-			// There's no way to implement a "negative" cliprect or fill,
-			// because GZDoom's UI library is aids, so we've gotta do it
-			// manually... PAIN peko.
 			
 			let tex = TexMan.CheckForTexture(sight);
 			let texsize = TexMan.GetScaledSize(tex);
 			texsize *= scale;
 			texsize.x *= HLSBS.GetAspectScale();
-			vector2 texmid = texsize / 2.;
+
+			if(weap.bSI_Rotate)
+			{
+				let weapPSP = haloplr.player.GetPSprite(PSP_WEAPON);
+				if(!weapPSP) return;
+				rotation = weapPSP.rotation * 0.5;
+			}
+
+			if(!weap.bSI_Fullscreen)
+			{
+				// There's no way to implement a "negative" cliprect or fill,
+				// because GZDoom's UI library is aids, so we've gotta do it
+				// manually... PAIN peko.
+				
+				Shape2D fillspace = new("Shape2D");
+				double s = 1/3.;
 			
-			// -- :Begin quad fill: -- \\
-			/*
-			// Left
-			HLSBS.Fill(dark, 0,0, midpos.x-texmid.x + 1, 1080, sightalpha); 
-			// Right
-			HLSBS.Fill(dark, 
-				midpos.x+texmid.x - 1, 0, 
-				1920, 1080,
-				sightalpha
-			); 
-			// Top
-			HLSBS.Fill(dark, 
-				midpos.x-texmid.x, 0, 
-				texsize.x, midpos.y-texmid.y + 1,
-				sightalpha
-			); 
-			// Bottom
-			HLSBS.Fill(dark, 
-				midpos.x-texmid.x, midpos.y+texmid.y, 
-				texsize.x, 1080,
-				sightalpha
-			); 
-			*/
-			
-			Shape2D fillspace = new("Shape2D");
-			double s = 1/3.;
-		
-			// Left
-			fillspace.PushCoord((0,0)); // 0 tl
-			fillspace.PushCoord((s,0)); // 1 tr (Top -> TL)
-			fillspace.PushCoord((0,1)); // 2 bl
-			fillspace.PushCoord((s,1)); // 3 br (Bottom -> BL)
-			// Right
-			fillspace.PushCoord((1,0));   // 4 tr
-			fillspace.PushCoord((1-s,0)); // 5 tl (Top -> TR)
-			fillspace.PushCoord((1,1));   // 6 br
-			fillspace.PushCoord((1-s,1)); // 7 bl (Bottom -> BR)
-			
-			// Top
-			fillspace.PushCoord((s,s));   // 8 bl
-			fillspace.PushCoord((1-s,s)); // 9 br
-			// Bottom
-			fillspace.PushCoord((s,1-s));   // 10 tl
-			fillspace.PushCoord((1-s,1-s)); // 11 tr
-			
-			// two triangles make up the square
-			// the points have to be in counter-clockwise order
-			// Left Triangles
-			fillspace.PushTriangle(0,3,1); 
-			fillspace.PushTriangle(0,2,3);
-			// Right Triangles
-			fillspace.PushTriangle(5,6,4); 
-			fillspace.PushTriangle(5,7,6);
-			// Top
-			fillspace.PushTriangle(1,9,5); 
-			fillspace.PushTriangle(1,8,9);
-			// Bottom
-			fillspace.PushTriangle(10,7,11); 
-			fillspace.PushTriangle(10,3,7);
-			
-			// Setup coords
-			vector2 size = (1920,1080);
-			double horzSize = (size.x*1.5) - floor(texsize.x*1.495);
-			double vertSize = (size.y*1.5) - floor(texsize.y*1.5);
-			vector2 fillpos = (0,0);
-			
-			double borderLeft   = s*horzSize;
-			double borderRight  = size.x - (s*horzSize);
-			double borderTop    = s*vertSize;
-			double borderBottom = size.y - (s*vertSize);
-			
-			fillspace.PushVertex(fillpos);
-			fillspace.PushVertex(fillpos + ScaleRel(borderLeft,0*size.y));
-			fillspace.PushVertex(fillpos + ScaleRel(0*size.x,1*size.y));
-			fillspace.PushVertex(fillpos + ScaleRel(borderLeft,1*size.y));
-			
-			fillspace.PushVertex(fillpos + ScaleRel(1*size.x,0*size.y));
-			fillspace.PushVertex(fillpos + ScaleRel(borderRight,0*size.y));
-			fillspace.PushVertex(fillpos + ScaleRel(1*size.x,1*size.y));
-			fillspace.PushVertex(fillpos + ScaleRel(borderRight,1*size.y));
-			
-			fillspace.PushVertex(fillpos + ScaleRel(borderLeft,borderTop));
-			fillspace.PushVertex(fillpos + ScaleRel(borderRight,borderTop));
-			
-			fillspace.PushVertex(fillpos + ScaleRel(borderLeft,borderBottom));
-			fillspace.PushVertex(fillpos + ScaleRel(borderRight,borderBottom));
-			
-			TextureID filltex = TexMan.CheckForTexture("Graphics/UI/Title/HDESKY_W.png");
-			HLSBS.DrawShape(filltex, fillspace, alpha:sightalpha, tint:(Color(0xFF,0,0,0)));
-		
-			HLSBS.DrawImage(sight, midpos, 0, 1.0, scale:(scale,scale));
-			fillspace.Destroy(); 
+				// Left
+				fillspace.PushCoord((0,0)); // 0 tl
+				fillspace.PushCoord((s,0)); // 1 tr (Top -> TL)
+				fillspace.PushCoord((0,1)); // 2 bl
+				fillspace.PushCoord((s,1)); // 3 br (Bottom -> BL)
+				// Right
+				fillspace.PushCoord((1,0));   // 4 tr
+				fillspace.PushCoord((1-s,0)); // 5 tl (Top -> TR)
+				fillspace.PushCoord((1,1));   // 6 br
+				fillspace.PushCoord((1-s,1)); // 7 bl (Bottom -> BR)
+				
+				// Top
+				fillspace.PushCoord((s,s));   // 8 bl
+				fillspace.PushCoord((1-s,s)); // 9 br
+				// Bottom
+				fillspace.PushCoord((s,1-s));   // 10 tl
+				fillspace.PushCoord((1-s,1-s)); // 11 tr
+				
+				// two triangles make up the square
+				// the points have to be in counter-clockwise order
+				// Left Triangles
+				fillspace.PushTriangle(0,3,1); 
+				fillspace.PushTriangle(0,2,3);
+				// Right Triangles
+				fillspace.PushTriangle(5,6,4); 
+				fillspace.PushTriangle(5,7,6);
+				// Top
+				fillspace.PushTriangle(1,9,5); 
+				fillspace.PushTriangle(1,8,9);
+				// Bottom
+				fillspace.PushTriangle(10,7,11); 
+				fillspace.PushTriangle(10,3,7);
+				
+				// Setup coords
+				vector2 size = (1920,1080);
+				double horzSize = (size.x*1.5) - floor(texsize.x*1.495);
+				double vertSize = (size.y*1.5) - floor(texsize.y*1.5);
+				vector2 fillpos = (0,0);
+				
+				double borderLeft   = s*horzSize;
+				double borderRight  = size.x - (s*horzSize);
+				double borderTop    = s*vertSize;
+				double borderBottom = size.y - (s*vertSize);
+				
+				fillspace.PushVertex(fillpos);
+				fillspace.PushVertex(fillpos + ScaleRel(borderLeft,0*size.y));
+				fillspace.PushVertex(fillpos + ScaleRel(0*size.x,1*size.y));
+				fillspace.PushVertex(fillpos + ScaleRel(borderLeft,1*size.y));
+				
+				fillspace.PushVertex(fillpos + ScaleRel(1*size.x,0*size.y));
+				fillspace.PushVertex(fillpos + ScaleRel(borderRight,0*size.y));
+				fillspace.PushVertex(fillpos + ScaleRel(1*size.x,1*size.y));
+				fillspace.PushVertex(fillpos + ScaleRel(borderRight,1*size.y));
+				
+				fillspace.PushVertex(fillpos + ScaleRel(borderLeft,borderTop));
+				fillspace.PushVertex(fillpos + ScaleRel(borderRight,borderTop));
+				
+				fillspace.PushVertex(fillpos + ScaleRel(borderLeft,borderBottom));
+				fillspace.PushVertex(fillpos + ScaleRel(borderRight,borderBottom));
+				
+				TextureID filltex = TexMan.CheckForTexture("Graphics/UI/Title/HDESKY_W.png");
+				HLSBS.DrawShape(filltex, fillspace, alpha:sightalpha, tint:(Color(0xFF,0,0,0)));
+				HLSBS.DrawImage(sight, midpos, 0, 1.0, scale:(scale,scale), rotation:rotation);
+				fillspace.Destroy(); 
+			}
+			else // Draw Fullscreen sight.
+			{
+				// Adjust scale for fullscreen.
+				vector2 scaleMod = (
+					1920.0 / texsize.x,
+				    1080.0 / texsize.y
+				);
+				vector2 drawPos = (
+					texsize.x * scaleMod.x,
+					texsize.y * scaleMod.y
+				);
+				
+				HLSBS.DrawImage(sight, drawPos, 0, 1.0, scale:(scale*scaleMod.x,scale*scaleMod.y), rotation:rotation);
+			}
 		}
 	}
 	

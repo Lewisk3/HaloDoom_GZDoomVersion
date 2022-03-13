@@ -10,7 +10,7 @@ class HaloGun : RecoilWeapon
 		P_UBER,
 		P_MELEE
 	}
-
+	
 	transient CVar cvfx_smoke;
 	transient CVar cvfx_casings;
 	vector3 sfx_pos;
@@ -54,6 +54,11 @@ class HaloGun : RecoilWeapon
 	bool GunLightningFlash;
 	
 	int battery_drain;
+	
+	uint sightFlags;
+	flagdef SI_Fullscreen : sightFlags, 0;
+	flagdef SI_Rotate : sightFlags, 1;
+	flagdef SI_AlwaysHide : sightFlags, 2;
 	
 	// Disable HUD while selected.
 	bool HUD_Hide;
@@ -284,7 +289,6 @@ class HaloGun : RecoilWeapon
 			let plr = HaloPlayer(self);
 			
 			// Follow player's velocity on spawn.
-			aproj.SetOrigin(level.vec3offset(aproj.pos, vel), true);
 			aproj.vel += vel;
 			
 			vector2 recoil = (
@@ -822,7 +826,8 @@ class HaloGun : RecoilWeapon
 		{
 			// Min scale, should be around 3x
 			double zscale = 1.0+HaloMath.fmap(invoker.scopezoom, 1.0, 3.0, 0, 2.0); 
-			if(invoker.scopezoom >= 2.0) zscale = 0;
+			if( invoker.scopezoom >= 2.0 || (invoker.bSI_AlwaysHide) ) 
+				zscale = 0;
 			
 			vector2 hidepos = (15, 10) * zscale;
 			psp.scale = (zscale,zscale);

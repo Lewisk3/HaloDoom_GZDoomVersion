@@ -65,6 +65,11 @@ class Halo_SMG : HaloGun
 		HaloGun.Inaccuracy SMG_ACCMOD;
 		HaloGun.Crosshair "SMGRet", 1.0;
 		HaloGun.UIGraphic "WI_SMG", 0.45;
+		HaloGun.UISight "SI_SMG", 1.0, 1.0;
+		HaloGun.SetupScope 1.25, 0.8;
+		+HaloGun.SI_Fullscreen;
+		+HaloGun.SI_Rotate;
+		+HaloGun.SI_AlwaysHide;
 		HaloGun.PowerTier P_NORM;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
@@ -86,7 +91,7 @@ class Halo_SMG : HaloGun
 		A_Light(2);
 		A_WeapSound("Halo/Weapons/SMG/Fire", CHANF_OVERLAP, true);
 		A_WeapSound("Halo/Weapons/SMG/Fire/Bass", CHANF_OVERLAP, true);
-		A_ShootProjectile("HaloSMG_Bullet", 12);		
+		A_ShootProjectile("HaloSMG_Bullet", A_CheckInScope() ? 0 : 12);		
 		A_SetSFXPos(20,-18,-12);
 		A_SpawnSFX("BulletCasing", -90,-20);
 		A_SetSFXPos(25,-10,-8);
@@ -178,7 +183,7 @@ class Halo_SMG : HaloGun
 		goto Ready.Active;
 		
 		Spawn:
-			MSNG A -1;
+			WFP1 A -1;
 		stop;
 	}
 }
