@@ -144,8 +144,7 @@ class WeaponPickupProxy : Actor
 		if(plr) plr.pickuptarget = NULL;
 		plr = NULL;
 		
-		WeaponPickupProxy closest;
-		double pickup_dist = (PICKUP_RANGE*distmod)**2;
+		double pickup_dist = (PICKUP_RANGE*distmod)*(PICKUP_RANGE*distmod);
 		while(act = HaloPlayer(it.Next()))
 		{
 			// If player is colliding with a weaponproxy item, and looking at it.
