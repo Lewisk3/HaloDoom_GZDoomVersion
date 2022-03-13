@@ -432,6 +432,24 @@ $volume Halo/Weapons/Sidekick/Fire 0.7;
 $volume Halo/Weapons/Sidekick/Fire/Bass 1.0;
 $volume Halo/Weapons/Sidekick/Mech 0.7;
 
+// SMG
+SMG_FIRE1 "Sounds/SMG/SMG_Fire1.ogg"
+SMG_FIRE2 "Sounds/SMG/SMG_Fire2.ogg"
+SMG_FIRE3 "Sounds/SMG/SMG_Fire3.ogg"
+SMG_LOW1 "Sounds/SMG/SMG_Low1.ogg"
+SMG_LOW2 "Sounds/SMG/SMG_Low2.ogg"
+SMG_LOW3 "Sounds/SMG/SMG_Low3.ogg"
+SMG_MECH1 "Sounds/SMG/SMG_Mech1.ogg"
+SMG_MECH2 "Sounds/SMG/SMG_Mech2.ogg"
+SMG_MECH3 "Sounds/SMG/SMG_Mech3.ogg"
+Halo/Weapons/SMG/Reload "Sounds/SMG/SMG_Reload_Tactical.ogg";
+Halo/Weapons/SMG/Reload/Empty "Sounds/SMG/SMG_Reload_Empty.ogg";
+Halo/Weapons/SMG/Draw "Sounds/SMG/SMG_Draw.ogg";
+
+$random Halo/Weapons/SMG/Fire      { SMG_FIRE1 SMG_FIRE2 SMG_FIRE3 }
+$random Halo/Weapons/SMG/Fire/Bass { SMG_LOW1 SMG_LOW2 SMG_LOW3 }
+$random Halo/Weapons/SMG/Mech { SMG_MECH1 SMG_MECH2 SMG_MECH3 }
+
 // Hit feedback
 HMHIT1 HMHit1
 HMHIT2 HMHit2

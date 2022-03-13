@@ -645,12 +645,12 @@ class HaloStatusBar : BaseStatusBar
 			// Setup coords
 			vector2 size = (1920,1080);
 			double horzSize = (size.x*1.5) - floor(texsize.x*1.495);
-			double vertSize = (size.y*1.5) - floor(texsize.y*1.495);
+			double vertSize = (size.y*1.5) - floor(texsize.y*1.5);
 			vector2 fillpos = (0,0);
 			
-			double borderLeft  = s*horzSize;
-			double borderRight = (size.x)-(s*horzSize);
-			double borderTop = (s*vertSize);
+			double borderLeft   = s*horzSize;
+			double borderRight  = size.x - (s*horzSize);
+			double borderTop    = s*vertSize;
 			double borderBottom = size.y - (s*vertSize);
 			
 			fillspace.PushVertex(fillpos);
@@ -673,6 +673,7 @@ class HaloStatusBar : BaseStatusBar
 			HLSBS.DrawShape(filltex, fillspace, alpha:sightalpha, tint:(Color(0xFF,0,0,0)));
 		
 			HLSBS.DrawImage(sight, midpos, 0, 1.0, scale:(scale,scale));
+			fillspace.Destroy(); 
 		}
 	}
 	
