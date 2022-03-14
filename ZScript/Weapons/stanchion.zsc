@@ -55,7 +55,7 @@ class Halo_Stanchion : HaloGun
 		HaloGun.BloomSpeed 0.08;
 		HaloGun.BaseRecoil STANCHION_RECOIL;
 		HaloGun.Inaccuracy STANCHION_ACCMOD;
-		HaloGun.Crosshair "SNPRet", 1.0;
+		HaloGun.Crosshair "StanRet", 1.0;
 		HaloGun.UIGraphic "WI_STAN", 1.0;
 		HaloGun.UISight "SI_SNPR", 1.0, 0.8;
 		HaloGun.SetupScope 4.0, 0.25;

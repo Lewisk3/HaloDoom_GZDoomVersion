@@ -406,12 +406,13 @@ class HaloGun : RecoilWeapon
 		A_OverlayOffset(DEST_LAYER, rvec.x, rvec.y + (hidezoom ? 0x7FFFFF : 0));
 	}
 	
-	action void A_UpdateCrosshair(string nxhair)
+	action void A_UpdateCrosshair(string nxhair, HaloGun ptr = null)
 	{
+		if(!ptr) ptr = invoker;
 		if(nxhair == "") 
-			invoker.wcrosshair = invoker.default.wcrosshair;
+			ptr.wcrosshair = ptr.default.wcrosshair;
 		else
-			invoker.wcrosshair = nxhair;
+			ptr.wcrosshair = nxhair;
 	}
 	
 	action void A_CancelBackpackReload()

@@ -63,7 +63,7 @@ class Halo_Bulldog : HaloGun
 		HaloGun.BloomSpeed 0.50;
 		HaloGun.BaseRecoil BULLDOG_RECOIL;
 		HaloGun.Inaccuracy BULLDOG_ACCMOD;
-		HaloGun.Crosshair "SGRet", 0.8;
+		HaloGun.Crosshair "BDRet", 0.8;
 		HaloGun.UIGraphic "WI_BDOG", 0.75;
 		
 		RecoilWeapon.YOffsetRange -10, 40;

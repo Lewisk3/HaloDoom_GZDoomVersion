@@ -107,6 +107,13 @@ class Halo_SMG : HaloGun
 		A_StartSound(reload_snd, CHAN_RELOADING, CHANF_OVERLAP);
 	}
 	
+	override void DoEffect()
+	{
+		super.DoEffect();
+		A_UpdateCrosshair(zoomed ? "SMGZRet" : "", self);
+	}
+		
+	
 	States
 	{	
 		Ready:
@@ -144,9 +151,9 @@ class Halo_SMG : HaloGun
 			{
 				A_FireSMG();
 				A_RecoilOffset(frandom(-4,4),frandom(-4,4),2);
-				A_SetRecoil(0.24, 0, 1);
-				A_RQuakeEx(2,2,2,4,0,20,"",QF_RELATIVE);
-				A_RollQuake(3,6,5, true);
+				A_SetRecoil(0.54, 0, 1);
+				A_RQuakeEx(2,2,2,3,0,20,"",QF_RELATIVE);
+				A_RollQuake(2,6,4, true);
 			}
 			WFF1 C 1
 			{

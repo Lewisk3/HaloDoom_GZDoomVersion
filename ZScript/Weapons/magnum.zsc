@@ -118,7 +118,7 @@ class Halo_Magnum : HaloGun
 		goto Ready.Active;
 		Ready.Chambered:
 			TNT1 A 0 A_WeapSound("Halo/Weapons/Mag_MD6/Select");
-			WOD2 UVWXYZ 1 A_DoSelectAnim(-5);
+			W0D2 UVWXYZ 1 A_DoSelectAnim(-5);
 		Ready.Active:
 			W0G1 A 1 A_HaloWeaponReady(WRF_ALLOWRELOAD, true);
 		loop;
@@ -132,8 +132,8 @@ class Halo_Magnum : HaloGun
 		wait;
 
 		Deselect:
-			WOD2 ZYXWVU 1;
-			W0G1 A 1 A_GunLower();
+			W0D2 ZYXWVU 1;
+			W0D2 U 1 A_GunLower();
 		wait;
 		
 		//  - 210RPM -

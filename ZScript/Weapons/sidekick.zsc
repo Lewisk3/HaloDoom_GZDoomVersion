@@ -29,7 +29,7 @@ class Halo_Sidekick_Reserves : Ammo
 
 		Inventory.Amount 8;
 		Inventory.MaxAmount 64;
-		Inventory.Icon "HLAMG0";
+		Inventory.Icon "HLAMN0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "+8 Sidekick Ammo.";
 		
@@ -39,7 +39,7 @@ class Halo_Sidekick_Reserves : Ammo
 	States
 	{
 		Spawn:
-			HLAM G -1 Bright;
+			HLAM N -1 Bright;
 		stop;
 	}
 }
@@ -63,7 +63,7 @@ class Halo_Sidekick : HaloGun
 		HaloGun.BloomSpeed 0.35;
 		HaloGun.BaseRecoil SIDEKICK_RECOIL;
 		HaloGun.Inaccuracy SIDEKICK_ACCMOD;
-		HaloGun.Crosshair "MagRet", 1.0;
+		HaloGun.Crosshair "SdkRet", 1.0;
 		HaloGun.UIGraphic "WI_SDK", 0.4;
 		HaloGun.PowerTier P_NORM;
 		
