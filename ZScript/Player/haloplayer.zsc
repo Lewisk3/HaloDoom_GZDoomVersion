@@ -13,6 +13,8 @@ class HaloPlayer : DoomPlayer
 	Weapon NextWeapon;
 	SpartanOverlay shieldOverlay;
 	
+	Actor aimActor_nearest; // Actor closest to aim;
+	vector2 aimActor_anglesTo; // Angles to closest aimed at actor.
 	Actor aimActor;
 	vector3 aimpos;
 	double soundwait;
@@ -287,6 +289,40 @@ class HaloPlayer : DoomPlayer
 		// Screen flash colors
 		screen_fade *= FADE_RATE;
 		
+		// Find closest aimable actor.
+		let it = ThinkerIterator.Create();
+		Actor act;
+		double p = pitch+aimheight;
+		vector3 fromPos = (
+			cos(angle) * cos(p),
+			sin(angle) * cos(p),
+			-sin(p)
+		) * 10;
+		fromPos = level.vec3offset(fromPos, (pos.xy, player.viewz));
+
+		int closestAim = int.max;
+		aimActor_nearest = null;
+		LookExParams look;
+		look.FOV = 90;
+		while(act = Actor(it.Next()))
+		{	
+			if(!act.bSHOOTABLE || act == self || !isVisible(act, false, look)) continue;
+			vector3 toPos = (act.pos.xy, act.pos.z + (act.height*0.5));
+			vector3 toAngles = level.SphericalCoords(fromPos, toPos, (angle,pitch));
+			if(toAngles.z > 1024) continue;
+			
+			double angTo = toAngles.x;
+			double pitTo = toAngles.y;
+			double aimDist = abs(angTo) + (abs(pitTo)*0.5) + (toAngles.z*0.25);
+			if(aimDist < closestAim)
+			{
+				closestAim = aimDist;
+				aimActor_nearest = act;
+				aimActor_anglesTo.x = angTo;
+				aimActor_anglesTo.y = pitTo;
+			}
+		}
+		
 		super.Tick();
 	}
 	
@@ -306,6 +342,7 @@ class HaloPlayer : DoomPlayer
 		
 		if(shields > 0)
 		{
+			if(mod == 'hitscan') truedamage *= 0.5;
 			regen_timer = 0;
 			shields -= truedamage;
 			A_StopSound(CHAN_5);

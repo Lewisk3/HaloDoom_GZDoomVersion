@@ -2,7 +2,7 @@ class Halo_Bulldog_Shells : Ammo
 {
 	Default 
 	{
-		Inventory.MaxAmount 10;
+		Inventory.MaxAmount 12;
 	}
 }
 class Halo_Bulldog_Reserves : Ammo
@@ -182,7 +182,7 @@ class Halo_Bulldog : HaloGun
 			BDR1 N 6;
 			BDR1 O 1 A_SetRecoil(-1.0, 0, 2);
 			BDR1 PQRST 1;
-			BDR1 UVWXYZ 2;
+			BDR1 UVWXYZ 1;
 			BDR2 ABC 2;
 			BDR2 DEFGHIJKLMN 1; 
 			BDR2 O 1 A_SetRecoil(1.0, 0, 2);

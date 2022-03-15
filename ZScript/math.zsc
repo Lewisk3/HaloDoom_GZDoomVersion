@@ -463,7 +463,7 @@ class HaloMath Abstract
 		vector3 diff = level.Vec3Diff(one, two);
 		return (
 			atan2(diff.y, diff.x),
-			atan2(diff.z, sqrt(diff.x**2 + diff.y**2)),
+			atan2(diff.z, sqrt((diff.x*diff.x) + (diff.y*diff.y))),
 			diff.Length()
 		);
 	}

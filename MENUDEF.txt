@@ -105,6 +105,7 @@ OptionMenu "HaloDoomGameplayOptions"
 	StaticText " "
 	StaticText "General Gameplay", "Sapphire"
 	Option "Lowered crosshair", "halodoom_loweredcrosshair", "EnabledDisabled"
+	Slider "Bullet Magnetism strength", "halodoom_magnetism", 0, 90, 1, 0  
 	Option "Controller Aim Assist", "halodoom_doaimassist", "EnabledDisabled"	
 	Option "Cortana Mode", "halodoom_cortanamode", "CortanaTypes"
 	StaticText " "

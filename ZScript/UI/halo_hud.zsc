@@ -752,21 +752,31 @@ class HaloStatusBar : BaseStatusBar
 			curshields = HaloMath.Lerp(curshields, haloplr.shields, ispd*deltatime);
 		}
 		if(curshields == 0) curshields = haloplr.shields;
-		double shieldperc = curshields/haloplr.maxshields;
+		double overshield = max(0, haloplr.shields-haloplr.maxshields);
+		double curOvershield = max(0, ceil(curshields)-haloplr.maxshields);
 		
+		// Get overshield powerup data.
+		let over1_defs = GetDefaultByType("Overshield_LV1");
+		let over2_defs = GetDefaultByType("Overshield_LV2");
+		
+		double over1 = over1_defs.shieldbuff;
+		double over2 = over2_defs.shieldbuff;
+		double shieldmod = 0;
+	
 		// Setup shield parameters
-		if(shieldperc >= 2.0) 
+		if(curOvershield > over1) 
 		{
 			shbg = "sh_bar1";
 			shgfx = "sh_bar2";
-			shieldperc -= 2.0;
+			shieldmod = over2;
 		}
-		else if(shieldperc >= 1.0) 
+		else if(curOvershield > 0) 
 		{
 			shbg = "sh_bar";
 			shgfx = "sh_bar1";
-			shieldperc -= 1.0;
+			shieldmod = over1;
 		}
+		double shieldperc = max(0, curshields - shieldmod) / (haloplr.maxshields);
 		
 		// Shield outline and background
 		HLSBS.DrawImage(shou, shieldpos, flags, 0.8, scale:(1.0,1.35));
