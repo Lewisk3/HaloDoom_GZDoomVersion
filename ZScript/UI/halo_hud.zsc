@@ -564,8 +564,9 @@ class HaloStatusBar : BaseStatusBar
 		if(weap.zoomed)
 		{
 			vector2 midpos = ( 1920 / 2. , 1080 / 2. );
+			vector2 midoffs = (0,0);
 			bool lowerxhair = haloplr.CheckCrosshairLowered();
-			if(lowerxhair) midpos.y += haloplr.xhair_lowpos;
+			if(lowerxhair) midoffs.y += haloplr.xhair_lowpos;
 			
 			string sight = weap.UI_Sight;
 			double scale = weap.sightscale * 2.;
@@ -635,8 +636,8 @@ class HaloStatusBar : BaseStatusBar
 				
 				double borderLeft   = s*horzSize;
 				double borderRight  = size.x - (s*horzSize);
-				double borderTop    = s*vertSize;
-				double borderBottom = size.y - (s*vertSize);
+				double borderTop    = (s*vertSize) + midoffs.y;
+				double borderBottom = (size.y - (s*vertSize)) + midoffs.y;
 				
 				fillspace.PushVertex(fillpos);
 				fillspace.PushVertex(fillpos + ScaleRel(borderLeft,0*size.y));
@@ -656,7 +657,7 @@ class HaloStatusBar : BaseStatusBar
 				
 				TextureID filltex = TexMan.CheckForTexture("Graphics/UI/Title/HDESKY_W.png");
 				HLSBS.DrawShape(filltex, fillspace, alpha:sightalpha, tint:(Color(0xFF,0,0,0)));
-				HLSBS.DrawImage(sight, midpos, 0, 1.0, scale:(scale,scale), rotation:rotation);
+				HLSBS.DrawImage(sight, midpos + midoffs, 0, 1.0, scale:(scale,scale), rotation:rotation);
 				fillspace.Destroy(); 
 			}
 			else // Draw Fullscreen sight.
