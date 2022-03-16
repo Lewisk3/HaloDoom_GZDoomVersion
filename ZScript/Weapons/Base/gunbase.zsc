@@ -300,9 +300,17 @@ class HaloGun : RecoilWeapon
 			aproj.pitch = pitch;
 			
 			vector3 aimpos = plr.aimpos;
-			if( plr.aimActor_nearest && abs(plr.aimActor_anglesTo.x) <= halodoom_magnetism )  
+			bool inRange = (
+				abs(plr.aimActor_anglesTo.x) <= halodoom_magnetism && 
+				abs(plr.aimActor_anglesTo.y) <= halodoom_magnetism
+			);
+			
+			if( plr.aimActor_nearest && inRange && !plr.aimActor )  
 			{
-				aimpos = (plr.aimActor_nearest.pos.xy, plr.aimpos.z);
+				aimpos = (
+					plr.aimActor_nearest.pos.xy, 
+					plr.player.viewz + (-sin(plr.pitch) * plr.aimActor_anglesTo.z)
+				);
 			}
 			
 			if(haloProj	   ) haloProj.DoConverge(aimpos, recoil);

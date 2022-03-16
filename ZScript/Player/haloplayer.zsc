@@ -14,7 +14,7 @@ class HaloPlayer : DoomPlayer
 	SpartanOverlay shieldOverlay;
 	
 	Actor aimActor_nearest; // Actor closest to aim;
-	vector2 aimActor_anglesTo; // Angles to closest aimed at actor.
+	vector3 aimActor_anglesTo; // Angles to closest aimed at actor.
 	Actor aimActor;
 	vector3 aimpos;
 	double soundwait;
@@ -297,7 +297,7 @@ class HaloPlayer : DoomPlayer
 			cos(angle) * cos(p),
 			sin(angle) * cos(p),
 			-sin(p)
-		) * 10;
+		) * (aimActor_nearest ? (aimActor_anglesTo.z) : 10);
 		fromPos = level.vec3offset(fromPos, (pos.xy, player.viewz));
 
 		int closestAim = int.max;
@@ -313,13 +313,14 @@ class HaloPlayer : DoomPlayer
 			
 			double angTo = toAngles.x;
 			double pitTo = toAngles.y;
-			double aimDist = abs(angTo) + (abs(pitTo)*0.5) + (toAngles.z*0.25);
+			double aimDist = abs(angTo) + abs(pitTo) + (toAngles.z*0.25);
 			if(aimDist < closestAim)
 			{
 				closestAim = aimDist;
 				aimActor_nearest = act;
 				aimActor_anglesTo.x = angTo;
 				aimActor_anglesTo.y = pitTo;
+				aimActor_anglesTo.z = toAngles.z;
 			}
 		}
 		

@@ -275,21 +275,8 @@ class RecoilWeapon : Weapon
 		if(!Owner) return;
 		PlayerInfo plr = PlayerPawn(Owner).player;
 		if(!plr) return;
-		if(plr.ReadyWeapon != self) 
-		{
-			A_SetZoom(1.0, 1);
-			return;
-		}
-		plr.WeaponState |= WF_WEAPONBOBBING;
 		
-		if(!cv_recoil)
-			cv_recoil = CVar.GetCVar("halodoom_recoil_intensity", plr);
-		
-		bool dosway = !swapping;
-		if( usesway && dosway ) A_LookSway(3,velsway,Owner);
-		A_UpdateOffsets(Owner);
-
-
+		// Roll shake.
 		if(rollshake_time > 0)
 		{
 			double strmod = HaloMath.fmap(rollshake_time, 0, 20, 0.1, 1.0);
@@ -314,6 +301,21 @@ class RecoilWeapon : Weapon
 			Owner.A_SetRoll(HaloMath.Lerp(Owner.roll, 0, 0.25), SPF_INTERPOLATE);
 			if(Owner.roll == 0) rollshake_str = 0;
 		}
+		
+		// Stop here if weapon isn't selected.
+		if(plr.ReadyWeapon != self) 
+		{
+			A_SetZoom(1.0, 1);
+			return;
+		}
+		plr.WeaponState |= WF_WEAPONBOBBING;
+		
+		if(!cv_recoil)
+			cv_recoil = CVar.GetCVar("halodoom_recoil_intensity", plr);
+		
+		bool dosway = !swapping;
+		if( usesway && dosway ) A_LookSway(3,velsway,Owner);
+		A_UpdateOffsets(Owner);
 		
 		if( abs(recoil_pitch) == 0 && abs(recoil_angle) == 0 )
 		{
