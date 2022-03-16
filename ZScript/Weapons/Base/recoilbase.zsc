@@ -15,7 +15,7 @@ class RecoilWeapon : Weapon
 	double yoff_min, yoff_max;
 	double basezoom;
 	double recoilmod;
-	double rollshake_str, rollshake_time, rollshake_freq, rollshake_dirfreq;
+	double rollshake_str, rollshake_time, rollshake_freq, rollshake_dirfreq, rollshake_maxtime;
 
 	int deftimer, recoil_timer, newtimer, looksway;
 	double swayspd, pitchmax, anglemax;
@@ -260,12 +260,14 @@ class RecoilWeapon : Weapon
 		{
 			invoker.rollshake_str = str;
 			invoker.rollshake_time = dur;
+			invoker.rollshake_maxtime = dur;
 			invoker.rollshake_freq = freq;
 			invoker.rollshake_dirfreq = 0;
 		}
 		else
 		{
 			invoker.rollshake_time = dur;
+			invoker.rollshake_maxtime = dur;
 		}
 	}
 	
@@ -279,18 +281,13 @@ class RecoilWeapon : Weapon
 		// Roll shake.
 		if(rollshake_time > 0)
 		{
-			double strmod = HaloMath.fmap(rollshake_time, 0, 20, 0.1, 1.0);
+			double strmod = HaloMath.fmap(rollshake_time, 0, rollshake_maxtime, 0.1, 1.0);
 			if(rollshake_dirfreq >= rollshake_freq) 
 			{
 				rollshake_str *= -1;
-				rollshake_dirfreq = 0;
+				rollshake_dirfreq = -1;
 			}
 			rollshake_dirfreq++;
-			
-			// Negative roll directions happen at uneven time intervals
-			// and are more likely to scaled lower than positive ones,
-			// by strmod, so compenstate for that.
-			if(rollshake_str < 0) strmod *= 1.1;
 			
 			double rshake = rollshake_str * strmod * cv_recoil.GetFloat();
 			Owner.A_SetRoll(Owner.roll + rshake, SPF_INTERPOLATE);
@@ -299,7 +296,11 @@ class RecoilWeapon : Weapon
 		else if(rollshake_str != 0)
 		{
 			Owner.A_SetRoll(HaloMath.Lerp(Owner.roll, 0, 0.25), SPF_INTERPOLATE);
-			if(Owner.roll == 0) rollshake_str = 0;
+			if(abs(Owner.roll) <= 0.01) 
+			{
+				Owner.roll = 0;
+				rollshake_str = 0;
+			}
 		}
 		
 		// Stop here if weapon isn't selected.

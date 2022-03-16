@@ -261,6 +261,12 @@ class HaloGun : RecoilWeapon
 		}
 	}
 	
+	action void A_Pushback(double force, double angleOffs = 0, Actor ptr = null)
+	{
+		if(!ptr) ptr = self;
+		vector3 dir = HaloMath.VecFromAngles( angle + angleOffs, pitch, -force );
+		vel += dir;
+	}
 	
 	action double A_GetWeapYOffs()
 	{

@@ -157,7 +157,8 @@ class Halo_Needler : HaloGun
 			{
 				A_FireNeedler();
 				A_SetRecoil(0.8, 0, 1);
-				A_RollQuake(2,10,3, true);
+				A_RollQuake(2,10,1, true);
+				A_RQuakeEx(2,3,2,2,0,20,"",QF_RELATIVE|QF_WAVE);
 			}
 			NDLF C 1 Bright
 			{

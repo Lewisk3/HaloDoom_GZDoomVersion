@@ -172,18 +172,22 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 		Fire:
 			TNT1 A 0 A_GunCheckReload();
 			TNT1 A 0 A_JumpIf(countinv(invoker.ammotype2)<2, "AltFire");
+			TNT1 A 0 A_SetZoom(0.80,1);
 			DBSF A 1 Bright
 			{
-				A_SetZoom(0.80,3);
 				A_RecoilOffset(random(6,12),24,4);
-				A_SetRecoil(7.0, 4.2, 3);
+				A_SetRecoil(12.0, 4.2, 3);
 				A_FireDouble();
-				A_RollQuake(4,20,2);
-				A_RQuakeEx(6,6,6,12,0,20,"",QF_RELATIVE);
+				A_RollQuake(8,12,1);
+				A_RQuakeEx(2,2,4,6,0,20,"",QF_RELATIVE|QF_WAVE);
 			}
 			DBSF B 2 Bright;
-			TNT1 A 0 A_Light(0);
-			DBSF CD 1 A_SetZoom(1.0, 3);
+			TNT1 A 0 
+			{
+				A_Light(0);
+				A_RQuakeEx(4,4,4,15,0,20,"",QF_RELATIVE);
+			}
+			DBSF CD 1 A_SetZoom(1.0, 12);
 			DBSF EFGGG 1 A_RecoilOffset(0,10,5);
 			DBSF GGGGGGGGGHIJKL 1 A_RecoilOffset(0,0,8);
 			DBSF MNOP 1;

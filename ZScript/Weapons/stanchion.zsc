@@ -144,17 +144,22 @@ class Halo_Stanchion : HaloGun
 		
 		Fire:
 			TNT1 A 0 A_GunCheckReload();
+			TNT1 A 0 A_SetZoom(0.7, 1);
 			STCF A 1 Bright
 			{
 				A_RecoilOffset(60,60,6);
 				A_SetRecoil(4.42, 0, 2);
-				A_SetZoom(0.82, 2);
 				A_FireStanchion();
-				A_RollQuake(3, 44, 2);
-				A_RQuakeEx(4,4,4,10,0,20,"",QF_RELATIVE|QF_WAVE);
+				A_RollQuake(8, 45, 1);
+				A_RQuakeEx(2,10,2,10,0,20,"",QF_RELATIVE|QF_WAVE);
+				A_Pushback(20);
 			}
 			STCF BCD 1 Bright A_RecoilOffset(60,60,6);
-			TNT1 A 0 A_Light(0);
+			TNT1 A 0 
+			{
+				A_Light(0);
+				A_RQuakeEx(3,3,3,8,0,20,"",QF_RELATIVE);
+			}
 			STCF EEEEEE 1 A_SetZoom(1.0, 12);
 			STCF E 10 A_RecoilOffset(0,0,10);
 			STCF FGHI 1;

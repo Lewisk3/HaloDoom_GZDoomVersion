@@ -458,7 +458,7 @@ class RepulsorField : Actor
 			vector3 affectorPos = (act.pos.xy, act.pos.z + (act.height*0.5));
 			vector3 forceDir = HaloMath.SphereBetween(pos, affectorPos);
 			if(forceDir.z > maxDist) continue;
-			SmokeTrail.Start("Blue", pos, affectorPos, forceDir.xy, 1.0);
+		//	SmokeTrail.Start("Blue", pos, affectorPos, forceDir.xy, 1.0);
 			
 			double dist = forceDir.z ** 2;
 			double force = gForce * ( 

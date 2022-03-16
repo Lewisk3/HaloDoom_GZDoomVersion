@@ -154,8 +154,8 @@ class Halo_BattleRifle : HaloGun
 			{
 				A_FireRifle();
 				A_SetRecoil(0.3, 0, 4);
-				A_RollQuake(4,4,2);
-				A_RQuakeEx(1,2,1,4,0,20,"",QF_RELATIVE);
+				A_RollQuake(2,6,1);
+				A_RQuakeEx(1,2,2,4,0,20,"",QF_RELATIVE);
 				A_RecoilOffset(8,10,2);
 				A_UpdateSpread();
 			}
@@ -170,11 +170,11 @@ class Halo_BattleRifle : HaloGun
 			{
 				A_FireRifle();
 				A_SetRecoil(0.3, 0, 4);
-				A_RQuakeEx(1,2,0,3,0,20,"",QF_RELATIVE);
+				A_RQuakeEx(1,2,2,3,0,20,"",QF_RELATIVE);
 			}
 			BRFI E 1 Bright
 			{
-				A_RollQuake(-4,6,2);
+				A_RollQuake(-2,8,2);
 				A_RecoilOffset(0,8,1);
 				A_MechanismSound("Halo/Weapons/BattleRifle/Mech");
 				A_GunCheckReload();
@@ -184,7 +184,8 @@ class Halo_BattleRifle : HaloGun
 			{
 				A_FireRifle();
 				A_SetRecoil(-0.15, 0, 8);
-				A_RQuakeEx(1,0,2,4,0,20,"",QF_RELATIVE);
+				//A_RQuakeEx(2,0,2,4,0,20,"",QF_RELATIVE);
+				A_RQuakeEx(2,3,2,3,0,20,"",QF_RELATIVE|QF_WAVE);
 				A_RecoilOffset(8,10,2);
 			}
 			BRFI G 1 A_MechanismSound("Halo/Weapons/BattleRifle/Mech");

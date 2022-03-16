@@ -151,9 +151,9 @@ class Halo_SMG : HaloGun
 			{
 				A_FireSMG();
 				A_RecoilOffset(frandom(-4,4),frandom(-4,4),2);
-				A_SetRecoil(0.54, 0, 1);
+				A_SetRecoil(0.62, 0, 1);
 				A_RQuakeEx(2,2,2,3,0,20,"",QF_RELATIVE);
-				A_RollQuake(2,6,4, true);
+				A_RollQuake(1.5,10,1, true);
 			}
 			WFF1 C 1
 			{

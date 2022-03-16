@@ -212,11 +212,14 @@ class Halo_GravityHammer : HaloGun
 		SwingHit:
 			TNT1 A 1 
 			{
+				vel.z += 5;
+				A_Pushback(10);				
+				
 				A_SetFlashColor("White", 0.78);
 				A_Overlay(60, "MuzzleBiris");
-				A_SetZoom(0.80, 4);
-				A_RollQuake(4, 40, 2);
-				A_RQuakeEx(2,3,2,15,0,20,"",QF_RELATIVE);
+				A_SetZoom(0.80, 2);
+				A_RollQuake(4, 45, 2);
+				A_RQuakeEx(4,3,2,15,0,20,"",QF_RELATIVE|QF_WAVE);
 			}
 		stop;
 		
