@@ -20,6 +20,23 @@ extend class HaloDoom_Events
 		}
 		return null;
 	}
+		
+	class<Ammo> getAmmoFromWeaponType(class<Weapon> weap)
+	{
+		let defs = GetDefaultByType(weap);
+		let ammodefs = GetDefaultByType(defs.ammotype1);
+		if( !ammodefs.Icon.isValid() ) return null;
+		return defs.ammotype1;
+	}
+	
+	void getAmmoSpawnList(Array<String> weaps, out Array<String> ammos)
+	{
+		for(int i = 0; i < weaps.Size(); i++)
+		{
+			let ammoType = getAmmoFromWeaponType(weaps[i]);
+			if(ammoType) ammos.Push(ammoType.getClassName());
+		}
+	}
 	
 	void populateSpawnArrays()
 	{
@@ -54,8 +71,8 @@ extend class HaloDoom_Events
 	override void CheckReplacement(ReplaceEvent e)
 	{
 		Array<String> weapSpawns;
+		Array<String> ammoSpawns;
 		let item = e.Replacee;
-		int tier = 0;
 		
 		// Do not touch HaloGuns for replacement.
 		if(item is "HaloGun") return;
@@ -107,53 +124,27 @@ extend class HaloDoom_Events
 			e.Replacement = "Overshield_LV2";
 			
 		// Ammunition spawning
-		int ammoTier = 0;
-		
-		if( item is "Clip" || item is "ClipBox" || item is "Shell" ) 
-			ammoTier = 1;
-		if( item is "ShellBox" || item is "RocketAmmo" || item is "Cell" || item is "RocketBox") 
-			ammoTier = 2;
+		if( item is "Clip" || item is "ClipBox" ) 
+			ammoSpawns.Append(weaps_basic);
+		if( item is "Shell" || item is "ShellBox") 
+			ammoSpawns.Append(weaps_mid);
+		if(item is "RocketAmmo" || item is "Cell" || item is "RocketBox")
+			ammoSpawns.Append(weaps_power);
 		if( item is "CellPack" )
-			ammoTier = 3;
-			
-		string AmmoClasses[11] = 
+			ammoSpawns.Append(weaps_uber);
+		
+		Array<String> validAmmos; 
+		getAmmoSpawnList(ammoSpawns, validAmmos);
+		if(validAmmos.Size() > 0)
 		{
-			"Halo_AR_Reserves",
-			"Halo_Sidekick_Reserves",
-			"Halo_BAR_Reserves",
-			"Halo_Bulldog_Reserves",
-			"Halo_Shotgun_Reserves",
-			"Halo_CarbineReserves",
+			int weapSpawnChance = 5;
+			string ammoType = validAmmos[random[HaloAmmoSpawns](0, validAmmos.Size()-1)];
 			
-			"Halo_Magnum_Reserves",
-			"Halo_DBLShotgun_Reserves",
-			"Halo_Sniper_Reserves",
-			"Halo_Needler_Reserves",
-			
-			"Halo_StanchionReserves"
-		};
-			
-		int weapSpawnChance = 90; // (100 - n) = chance %;
-		class<Actor> spawnType;
-		switch(ammoTier)
-		{
-			case 1: // AR, Magnum, BR, Bulldog, Shotgun, Carbine	
-				spawnType = AmmoClasses[random[HaloAmmoSpawns](0,5)];
-				if(random[HaloAmmoWeaponSpawns](0,100) > weapSpawnChance) 
-					spawnType = getWeaponFromAmmoType(spawnType);
-					
-				e.Replacement = spawnType;
-			break;
-			case 2: // Double Barrel, Sniper Rifle, Rocket Launcher (Season 2), Needler 
-				spawnType = AmmoClasses[random[HaloAmmoSpawns](6,9)];
-				if(random[HaloAmmoWeaponSpawns](0,100) > weapSpawnChance) 
-					spawnType = getWeaponFromAmmoType(spawnType);
-					
-				e.Replacement = spawnType;
-			break;
-			case 3: // Stanchion
-				e.Replacement = AmmoClasses[10];
-			break;
+			if(random[HaloAmmoWeaponSpawns](0,100) < weapSpawnChance) 
+				e.Replacement = getWeaponFromAmmoType(ammoType);
+			else
+				e.Replacement = ammoType;
 		}
+		
 	}
 }

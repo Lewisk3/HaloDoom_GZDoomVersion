@@ -155,6 +155,8 @@ class Halo_GravityHammer : HaloGun
 				
 		let field = Spawn("GravityHammerField", plr.aimpos);
 		if(field) field.target = self;
+		if(plr.aimActor) A_Pushback(-10, ptr:plr.aimActor);
+		
 		return true;
 	}
 	

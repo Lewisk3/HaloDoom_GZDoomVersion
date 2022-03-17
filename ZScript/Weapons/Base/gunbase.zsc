@@ -265,7 +265,7 @@ class HaloGun : RecoilWeapon
 	{
 		if(!ptr) ptr = self;
 		vector3 dir = HaloMath.VecFromAngles( angle + angleOffs, pitch, -force );
-		vel += dir;
+		ptr.vel += dir;
 	}
 	
 	action double A_GetWeapYOffs()
