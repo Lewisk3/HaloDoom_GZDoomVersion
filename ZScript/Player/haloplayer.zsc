@@ -15,6 +15,7 @@ class HaloPlayer : DoomPlayer
 	
 	Actor aimActor_nearest; // Actor closest to aim;
 	vector3 aimActor_anglesTo; // Angles to closest aimed at actor.
+	vector3 aimActor_pos;
 	Actor aimActor;
 	vector3 aimpos;
 	double soundwait;
@@ -299,7 +300,7 @@ class HaloPlayer : DoomPlayer
 			-sin(p)
 		) * (aimActor_nearest ? (aimActor_anglesTo.z) : 10);
 		fromPos = level.vec3offset(fromPos, (pos.xy, player.viewz));
-
+	
 		int closestAim = int.max;
 		aimActor_nearest = null;
 		LookExParams look;
@@ -308,7 +309,7 @@ class HaloPlayer : DoomPlayer
 		{	
 			if(!act.bSHOOTABLE || act == self || !isVisible(act, false, look)) continue;
 			vector3 toPos = (act.pos.xy, act.pos.z + (act.height*0.5));
-			vector3 toAngles = level.SphericalCoords(fromPos, toPos, (angle,pitch));
+			vector3 toAngles = level.SphericalCoords((pos.xy, player.viewz), toPos, (angle,pitch));
 			if(toAngles.z > 1024) continue;
 			
 			double angTo = toAngles.x;
@@ -318,6 +319,7 @@ class HaloPlayer : DoomPlayer
 			{
 				closestAim = aimDist;
 				aimActor_nearest = act;
+				aimActor_pos = fromPos;
 				aimActor_anglesTo.x = angTo;
 				aimActor_anglesTo.y = pitTo;
 				aimActor_anglesTo.z = toAngles.z;

@@ -312,12 +312,7 @@ class HaloGun : RecoilWeapon
 			);
 			
 			if( plr.aimActor_nearest && inRange && !plr.aimActor )  
-			{
-				aimpos = (
-					plr.aimActor_nearest.pos.xy, 
-					plr.player.viewz + (-sin(plr.pitch) * plr.aimActor_anglesTo.z)
-				);
-			}
+				aimpos = (plr.aimActor_nearest.pos.xy, plr.aimActor_pos.z);
 			
 			if(haloProj	   ) haloProj.DoConverge(aimpos, recoil);
 			if(haloSlowProj) haloSlowProj.DoConverge(aimpos, recoil);
