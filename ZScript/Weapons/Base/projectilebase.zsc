@@ -183,6 +183,10 @@ class HaloProjectile : FastProjectile
 	
 	override void Tick()
 	{
+		FLineTraceData lt;
+		LineTrace(angle, vel.length(), pitch, 0, data:lt);
+		if(lt.HitLine) lt.HitLine.Activate(target, 0, SPAC_Impact);
+	
 		super.Tick();
 		if(target && GetAge() < 5) SetOrigin(Vec3Offset(target.vel.x,target.vel.y,target.vel.z), true);
 		

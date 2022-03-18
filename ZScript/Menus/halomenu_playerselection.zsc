@@ -2,7 +2,7 @@ class HaloDoom_PlayerClassMenu : HaloMenuBase
 {
 	double fadein;
 	uint selected_class;
-	
+
 	override void Init(Menu parent, ListMenuDescriptor desc)
 	{
 		Super.Init(parent, desc);
@@ -31,13 +31,13 @@ class HaloDoom_PlayerClassMenu : HaloMenuBase
 		
 		for(int i = 0; i < buttons.Size(); i++)
 			buttons[i].ScaleCollider(0.9, 0.7);
-		
+
 		DontDim = true;
 		mMouse.SetPos(buttons[0].btnrect.pos);
 		btn_selected = 0;
 		buttonAlpha = 0.7;
 	}
-	
+		
 	void DStr(String str, vector2 pos, uint flags = 0, Color col = Font.CR_WHITE, vector2 scale=(1.15,1.15), Font fnt = "HaloFont")
 	{
 		double len = (fnt.StringWidth(str) * scale.x);
@@ -154,18 +154,25 @@ class HaloDoom_PlayerClassMenu : HaloMenuBase
 		}
 	}
 	
+	override void OnMenuThink()
+	{
+		UpdatePlayerClass(selected_class);
+	}
+	
 	override void Ticker()
 	{
 		for(int i = 0; i < buttons.Size(); i++)
 		{
 			buttons[i].Update(mMouse, btn_selected == -1);
 				
+			if(buttons[i].hovered)
+				selected_class = i;
+			
 			if(buttons[i].clicked)
 			{
 				MenuSound("UI/PressButton");
 				buttons[i].clicked = false;
-				selected_class = i;
-				
+
 				// Enter skill menu with selected player class.
 				Menu.SetMenu("episodemenu", selected_class);
 				break;

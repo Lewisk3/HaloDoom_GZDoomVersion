@@ -15,16 +15,10 @@ class HaloSkill : Object
 
 class HaloDoom_SkillMenu : HaloMenuBase
 {	
-	HaloDoom_PlayerClassMenu plrSelection;
-	int selectedplayer;
-	
 	Array<HaloSkill> HaloSkills;
 
 	override void Init(Menu parent, ListMenuDescriptor desc)
 	{
-		plrSelection = HaloDoom_PlayerClassMenu(parent);
-		if(plrSelection) selectedplayer = plrSelection.selected_class;
-		
 		Super.Init(parent, desc);
 		
 		mMouse = Mouse.Create("", 0,0,8,8);
@@ -96,12 +90,6 @@ class HaloDoom_SkillMenu : HaloMenuBase
 		DontDim = true;
 		mMouse.SetPos(buttons[2].btnrect.pos);
 		btn_selected = 2;
-	}
-	
-	override bool MenuEvent(int mkey, bool fromcontroller)
-	{	
-		if(plrSelection) plrSelection.UpdatePlayerClass(selectedplayer);
-		return super.MenuEvent(mkey, fromcontroller);
 	}
 	
 	override void Drawer ()

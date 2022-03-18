@@ -56,9 +56,11 @@ class HaloMenuBase : ListMenu
 		double dtime = 1000.0 / 60.0;
 		deltatime = (ftime/dtime);
 	}
-
+	
+	virtual void OnMenuThink() {}
 	override bool OnUIEvent(UiEvent ev)
 	{
+		OnMenuThink();
 		if(ev.Type == UIEvent.Type_KeyDown)
 		{
 			string menuKeyStr = ev.KeyString;
@@ -94,6 +96,7 @@ class HaloMenuBase : ListMenu
 	}
 	override bool MenuEvent(int mkey, bool fromcontroller)
 	{
+		OnMenuThink();
 		if(!mMouse) return false;
 		
 		switch (mkey)

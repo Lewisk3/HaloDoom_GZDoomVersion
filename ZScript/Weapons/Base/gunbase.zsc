@@ -225,8 +225,10 @@ class HaloGun : RecoilWeapon
 		}
 		else if(lt.HitType != TRACE_HitNone) 
 		{
+			let ln = lt.HitLine;
 			source.A_Quake(2,3,0,20,"");
 			source.A_StartSound(wallsnd, CHAN_WEAPON, flags:CHANF_OVERLAP);
+			if(ln) ln.Activate(source, 0, SPAC_Impact);
 		}
 		return victim;
 	}

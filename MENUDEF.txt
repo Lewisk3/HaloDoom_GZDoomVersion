@@ -41,7 +41,7 @@ ListMenu "Intro"
 
 ListMenu "HaloPlayerClassMenu"
 {
-	class "HaloDoom_PlayerClassMenu"
+	class "HaloDoom_PlayerClassMenu" 
 }
 
 ListMenu "SkillMenu"
