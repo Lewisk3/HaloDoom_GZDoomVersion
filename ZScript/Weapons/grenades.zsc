@@ -16,7 +16,7 @@ class FragGrenades : Inventory
 	Default
 	{
 		Inventory.MaxAmount 4;
-		Inventory.PickupMessage "Picked up a frag grenade.";
+		Inventory.PickupMessage "Picked up a Frag Grenade";
 		Inventory.PickupSound "Halo/Grenade/Frag/Pickup";
 		+Inventory.KEEPDEPLETED;
 		+FLOATBOB;
@@ -60,7 +60,7 @@ class PlasmaGrenades : FragGrenades
 {
 	Default
 	{
-		Inventory.PickupMessage "Picked up a plasma grenade.";
+		Inventory.PickupMessage "Picked up a Plasma Grenade";
 		Inventory.PickupSound "Halo/Grenade/Plasma/Pickup";
 		
 		FragGrenades.Slot 2;

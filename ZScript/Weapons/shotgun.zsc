@@ -18,7 +18,7 @@ class Halo_Shotgun_Reserves : Ammo
 		Inventory.MaxAmount 32;
 		Inventory.Icon "HLAMK0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
-		Inventory.PickupMessage "+8 Shotgun Ammo.";
+		Inventory.PickupMessage "Picked up 8 Shells for the Tactical Shotgun";
 		
 		Ammo.BackpackMaxAmount 50;
 	}
@@ -49,8 +49,8 @@ class Halo_Shotgun : HaloGun
 	Default
 	{
 		Weapon.SlotNumber 3;
-		Obituary "%o got an 8-Gauge Breakfast from %k's Shotgun.";
-		Inventory.PickupMessage	"Picked up the M35 Tactical Shotgun.";
+		Obituary "%o got an 8-Gauge Breakfast from %k's Tactical Shotgun";
+		Inventory.PickupMessage	"Picked up the M35 Tactical Shotgun";
 		Tag "Shotgun";
 		Weapon.BobSpeed 2.0;
 		Weapon.BobRangeX 0.10;

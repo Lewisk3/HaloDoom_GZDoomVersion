@@ -31,7 +31,7 @@ class Halo_DBLShotgun_Reserves : Ammo
 		Inventory.MaxAmount 24;
 		Inventory.Icon "HLAMH0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
-		Inventory.PickupMessage "+4 Double Barreled Shotgun Ammo.";
+		Inventory.PickupMessage "Picked up 4 Shells for the Double Barrel";
 		
 		Ammo.BackpackMaxAmount 36;
 	}

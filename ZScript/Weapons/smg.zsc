@@ -14,11 +14,11 @@ class Halo_SMG_Reserves : Ammo
 		Height 6;
 		Scale 0.65;
 
-		Inventory.Amount 32;
+		Inventory.Amount 45;
 		Inventory.MaxAmount 180;
 		Inventory.Icon "HLAMO0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
-		Inventory.PickupMessage "+32 Submachine Gun Ammo.";
+		Inventory.PickupMessage "Picked up 45 Rounds for the SMG";
 		
 		Ammo.BackpackMaxAmount 240;
 	}
@@ -49,8 +49,8 @@ class Halo_SMG : HaloGun
 	Default
 	{
 		Weapon.SlotNumber 3;
-		Obituary "%o was turned into swiss cheese courtesy of %k's SMG.";
-		Inventory.PickupMessage	"Picked up an SMG.";
+		Obituary "%o was made aware of 45 ACP courtesy of %k's SMG.";
+		Inventory.PickupMessage	"Picked up the M21 PDW SMG";
 		Tag "SMG";
 		Weapon.BobSpeed 1.86;
 		Weapon.BobRangeX 0.30;

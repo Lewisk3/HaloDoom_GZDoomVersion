@@ -22,7 +22,7 @@ class Halo_Magnum_Reserves : Ammo
 		Inventory.MaxAmount 32;
 		Inventory.Icon "HLAMG0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
-		Inventory.PickupMessage "+8 Magnum Ammo.";
+		Inventory.PickupMessage "Picked up 8 Rounds for the Magnum";
 		
 		Ammo.BackpackMaxAmount 64;
 	}

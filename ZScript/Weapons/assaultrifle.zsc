@@ -18,7 +18,7 @@ class Halo_AR_Reserves : Ammo
 		Inventory.MaxAmount 128;
 		Inventory.Icon "HLAMA0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
-		Inventory.PickupMessage "+32 Assault Rifle Ammo.";
+		Inventory.PickupMessage "Picked up 32 Rounds for the Assault Rifle";
 		
 		Ammo.BackpackMaxAmount 256;
 	}

@@ -19,7 +19,7 @@ class Halo_StanchionReserves : Ammo
 		Inventory.MaxAmount 300;
 		Inventory.Icon "HLAMM0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
-		Inventory.PickupMessage "+1 Stanchion Battery (50% Charge)";
+		Inventory.PickupMessage "Picked up 1 Battery for Stanchion (50%)";
 		
 		Ammo.BackpackMaxAmount 600;
 	}

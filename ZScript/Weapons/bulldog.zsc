@@ -13,11 +13,11 @@ class Halo_Bulldog_Reserves : Ammo
 		Radius 8;
 		Height 6;
 
-		Inventory.Amount 8;
-		Inventory.MaxAmount 40;
+		Inventory.Amount 12;
+		Inventory.MaxAmount 48;
 		Inventory.Icon "HLAMC0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
-		Inventory.PickupMessage "+8 Bulldog Ammo.";
+		Inventory.PickupMessage "Picked up 12 Shells for the Riot Shotgun";
 		
 		Ammo.BackpackMaxAmount 60;
 	}
