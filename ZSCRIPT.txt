@@ -41,6 +41,7 @@ version "4.5"
 // Weapon base
 #include "ZScript/Weapons/Base/recoilbase.zsc"
 #include "ZScript/Weapons/Base/gunbase.zsc"
+#include "ZScript/Weapons/Base/projectile_common.zsc"
 #include "ZScript/Weapons/Base/projectilebase.zsc"
 #include "ZScript/Weapons/Base/ammobase.zsc"
 #include "ZScript/Weapons/sfx.zsc"
