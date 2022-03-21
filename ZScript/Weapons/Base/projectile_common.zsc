@@ -45,6 +45,17 @@ mixin class HaloProjectile_Common
 		return dmg;
 	}
 	
+	virtual void ActivateLines()
+	{
+		let lt = LineActivatorTracer.DoTrace(self, angle, pitch, max(128, vel.length()));
+		for(int i = 0; i < lt.HitLines.Size(); i++)
+		{
+			let ln = lt.HitLines[i];
+			if(ln) ln.Activate(target, 0, SPAC_Impact);
+		}
+		if(BlockingLine) BlockingLine.Activate(target, 0, SPAC_Impact);
+	}
+	
 	virtual void Handle_Homing()
 	{
 		// Find nearest viable target, track target.
@@ -192,5 +203,70 @@ mixin class HaloProjectile_Common
 		) * speed;
 		
 		SetDamage(0);
+	}
+}
+
+
+class LineActivatorTracer : LineTracer
+{
+	Actor src;
+	Array<Line> HitLines;
+	
+	play static LineActivatorTracer DoTrace(Actor src, double tangle, double tpitch, double dist, uint traceflags = 0)
+	{
+		LineActivatorTracer tracer = new("LineActivatorTracer");
+		if(tracer) 
+		{
+			tracer.src = src;
+			vector3 dir = HaloMath.VecFromAngles(tangle, tpitch);
+			tracer.Trace(src.pos, src.CurSector, dir, dist, traceflags);
+		}
+		return tracer;
+	}
+
+	// Thanks to PhantomBeta 
+	// (https://github.com/Doom2fan/Se7evidas/blob/master/PK3%20Source/S7ZScript/Bases/S7_Projectile/Linetracer.ZS)
+    transient Array<F3DFloor> ffloorsToIgnore;
+	ETraceStatus HandleWall() 
+	{
+		let hl = Results.HitLine;
+		HitLines.push(hl);
+		
+        if (Results.Tier == TIER_Upper || Results.Tier == TIER_Lower)
+            return TRACE_Stop;
+
+        if (Results.ffloor && ffloorsToIgnore.Find (Results.ffloor) == ffloorsToIgnore.Size ())
+		{
+            ffloorsToIgnore.Push (Results.ffloor);
+            return TRACE_Stop;
+        }
+
+        if (Results.Tier == TIER_Middle && !hl.backsector)
+			return TRACE_Stop;
+			
+        if (Results.Tier == TIER_Middle && (hl.flags & Line.ML_Blocking) && (hl.flags & Line.ML_TwoSided))
+            return TRACE_Skip;
+
+        if ((hl.flags & Line.ML_3DMidTex) && !(hl.flags & Line.ML_3DMidTex_Impass))
+            return TRACE_Stop;
+
+        if (hl.flags & (Line.ML_Blocking | Line.ML_BlockEverything))
+            return TRACE_Stop;
+
+        return TRACE_Skip;
+    }
+	
+	override ETraceStatus TraceCallback()
+	{
+		if(results.HitType == Trace_HitWall)
+		{
+			let stat = HandleWall();
+			return stat;
+		}
+		if(results.HitType == Trace_HitActor)
+		{
+			return Trace_Skip;
+		}
+		return Trace_Stop;
 	}
 }

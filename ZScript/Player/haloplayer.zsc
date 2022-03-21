@@ -176,7 +176,7 @@ class HaloPlayer : DoomPlayer
 	}
 	
 	override void Tick()
-	{
+	{	
 		// Flashlight stuff
 		if(!flashlight) 
 		{
@@ -400,7 +400,28 @@ class HaloPlayer : DoomPlayer
 	override void CalcHeight()
 	{
 		super.CalcHeight();
-		player.viewz = pos.Z + player.viewheight + (player.bob * clamp(movebob, 0. , 1.5)); 
+		
+		double bobAngle;
+		double bob;
+		if (vel.length() ~== 0)
+		{
+			if (player.health > 0)
+			{
+				bobAngle = Level.maptime / (120 * TICRATE / 35.) * 360.;
+				bob = player.GetStillBob() * sin(bobAngle);
+			}
+			else
+			{
+				bob = 0;
+			}
+		}
+		else
+		{
+			bobAngle = Level.maptime / (20 * TICRATE / 35.) * 360.;
+			bob = player.bob * sin(bobAngle) * (waterlevel > 1 ? 0.25f : 0.5f);
+		}
+		
+		player.viewz = pos.Z + player.viewheight + (bob * clamp(movebob, 0. , 1.5)); 
 		if (Floorclip && player.playerstate != PST_DEAD && pos.Z <= floorz) player.viewz -= Floorclip;
 		if (player.viewz > ceilingz - 4) player.viewz = ceilingz - 4;
 		if (player.viewz < floorz + 4) player.viewz = floorz + 4;

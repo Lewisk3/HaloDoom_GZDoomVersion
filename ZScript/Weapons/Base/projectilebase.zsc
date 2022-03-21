@@ -33,12 +33,9 @@ class HaloProjectile : FastProjectile
 	}
 	
 	override void Tick()
-	{
+	{		
+		activateLines();
 		super.Tick();
-		
-		FLineTraceData lt;
-		LineTrace(angle, vel.length(), pitch, 0, data:lt);
-		if(lt.HitLine) lt.HitLine.Activate(target, 0, SPAC_Impact);
 	
 		if(target && GetAge() < 5) SetOrigin(Vec3Offset(target.vel.x,target.vel.y,target.vel.z), true);
 		if(isHoming) Handle_Homing();
@@ -86,12 +83,9 @@ class HaloSlowProjectile : Actor
 	
 	override void Tick()
 	{
+		activateLines();
 		super.Tick();
-		
-		FLineTraceData lt;
-		LineTrace(angle, vel.length(), pitch, 0, data:lt);
-		if(lt.HitLine) lt.HitLine.Activate(target, 0, SPAC_Impact);
-	
+			
 		if(target && GetAge() < 5) SetOrigin(Vec3Offset(target.vel.x,target.vel.y,target.vel.z), true);
 		if(isHoming) Handle_Homing();
 	}
@@ -270,6 +264,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 	
 	override void Tick()
 	{
+		activateLines();
 		super.Tick();
 		
 		if(hitactor)
