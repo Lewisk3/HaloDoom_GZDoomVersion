@@ -67,6 +67,7 @@ version "4.5"
 // S2
 #include "ZScript/Weapons/sidekick.zsc"
 #include "ZScript/Weapons/smg.zsc"
+#include "ZScript/Weapons/spiker.zsc"
 
 // Vehicles
 #include "ZScript/Vehicles/Kinematics/kine_parts.zsc" 

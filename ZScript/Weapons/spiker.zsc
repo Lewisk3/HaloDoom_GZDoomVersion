@@ -1,0 +1,254 @@
+class Halo_Spiker_Clip : Ammo 
+{
+	Default 
+	{
+		Inventory.MaxAmount 40;
+	}
+}
+
+class HaloSpiker_Bullet : HaloSlowProjectile
+{
+	Default
+	{
+		HaloSlowProjectile.SetRanges SPIKER_RANGE1, SPIKER_RANGE2;
+		HaloSlowProjectile.MinRangeDamage SPIKER_MINDMG; 
+		HaloSlowProjectile.BaseDamage SPIKER_DMG;
+		HaloSlowProjectile.Speed_MPS SPIKER_BMPS;
+		HaloSlowProjectile.HeadshotDMGFactor SPIKER_HEDMOD;
+		HaloSlowProjectile.SetupWallpinning 256, 35*3; // Can pin dead enemies 128 units away, for 3 seconds.
+		
+		Translation "0:255=@65[245, 164, 66]";
+		DamageType "Nailgun";
+		Scale 0.5;
+		Gravity 0.25;
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		bBRIGHT = true;
+		
+		// If we've somehow died in mid-air, then fall.
+		if(!bMISSILE && !pinnedActor && !BlockingLine && pos.z > floorz)
+		{
+			bNOGRAVITY = false;
+			pitch++;
+		}
+	}
+	
+	States
+	{
+		Spawn:	
+			TRAC A 2 Bright 
+			{
+				SmokeTrail.Start("Yellow", pos, pos - (vel * 5), (-angle, -pitch), 0.25);
+			}
+		loop;
+		
+		Death:
+			TRAC A 35 A_StartSound("Halo/Weapons/Spiker/Impact", CHAN_AUTO, CHANF_OVERLAP);
+			TRAC A 1 A_FadeOut(0.05);
+		wait;
+	}
+}
+
+class Halo_Spiker_Reserves : Ammo
+{
+	mixin WorldAmmoBehavior;
+	Default 
+	{
+		Radius 8;
+		Height 6;
+		Scale 0.65;
+
+		Inventory.Amount 30;
+		Inventory.MaxAmount 160;
+		Inventory.Icon "HLAMN0";
+		Inventory.PickupSound "Halo/Pickup/Ammo";
+		Inventory.PickupMessage "Picked up 30 Rounds for the Spiker";
+		
+		Ammo.BackpackMaxAmount 240;
+	}
+	
+	States
+	{
+		Spawn:
+			HLAM N -1 Bright;
+		stop;
+	}
+}
+
+class Halo_Spiker : HaloGun
+{
+	Default
+	{
+		Weapon.SlotNumber 2;
+		Obituary "%o was skewered by %k's Spiker.";
+		Inventory.PickupMessage	"Picked up the Type-25 Spiker.";
+		Tag "Spiker";
+		Weapon.BobSpeed 1.86;
+		Weapon.BobRangeX 0.30;
+		Weapon.AmmoType1 "Halo_Spiker_Reserves";
+		Weapon.AmmoType2 "Halo_Spiker_Clip";
+		Weapon.AmmoGive 40;
+				
+		// Recoil
+		HaloGun.Bloom 0.8;
+		HaloGun.BloomSpeed 0.35;
+		HaloGun.BaseRecoil SPIKER_RECOIL;
+		HaloGun.Inaccuracy SPIKER_ACCMOD;
+		HaloGun.Crosshair "SdkRet", 1.0;
+		HaloGun.UIGraphic "WI_SDK", 0.4;
+		HaloGun.PowerTier P_MID;
+		
+		RecoilWeapon.YOffsetRange -10, 40;
+	}
+	
+	override void MarkPrecacheSounds()
+	{
+		// Prevent stutters by precaching weapon sounds.
+		MarkSound("Halo/Weapons/Spiker/Fire");
+		MarkSound("Halo/Weapons/Spiker/Fire/Bass");
+		MarkSound("Halo/Weapons/Spiker/Melee");
+		MarkSound("Halo/Weapons/Spiker/Mech");
+		MarkSound("Halo/Weapons/Spiker/Reload");
+		MarkSound("Halo/Weapons/Spiker/Reload/Empty");
+		MarkSound("Halo/Weapons/Spiker/Draw");
+	}
+	
+	action void A_FireSpiker()
+	{
+		A_Light(2);
+		A_WeapSound("Halo/Weapons/Spiker/Fire", 0, true);
+		A_WeapSound("Halo/Weapons/Spiker/Fire/Bass", CHANF_OVERLAP, true);
+		A_ShootProjectile("HaloSpiker_Bullet", 5, 5);
+		A_SetSFXPos(10, -6, -4);
+		A_SpawnSFX("MuzzleSmoke", 0,0);
+		A_TakeAmmo();
+		A_UpdateSpread();
+	}
+
+	States
+	{
+		Ready:
+			TNT1 A 0 A_WeapSound("Halo/Weapons/Spiker/Draw");
+			WGD1 ABCDE 1 A_DoSelectAnim(-5);
+		Ready.Active:
+			WGG1 A 1 A_HaloWeaponReady(WRF_ALLOWRELOAD, true);
+		loop;
+		
+		Ready.Dryfire:
+			WGG1 A 12 A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
+		goto Ready.Active;
+
+		Select:
+			TNT1 A 0 A_GunRaise();
+		wait;
+
+		Deselect:
+			WGG1 A 1 A_GunLower();
+		wait;
+		
+		Fire:
+			TNT1 A 0 A_GunCheckReload();
+			TNT1 A 0 
+			{
+				frame = random(0,1);
+			}
+			WGF1 "#" 1 A_RecoilOffset(frandom(5,10),frandom(12,18),1);
+			TNT1 A 0 
+			{		
+				A_FireSpiker();
+				A_SetRecoil(1.0, 0.2, 2);
+				A_RollQuake(1,10,1, true);
+				A_SetZoom(0.99, 1);
+			}
+			WGF1 C 1 bright A_RecoilOffset(0,0,4);
+			WGF1 D 1 
+			{
+				A_Light(0);
+				A_SetZoom(1.0, 3);
+				A_SetRecoil(-0.18, 0, 8);
+			}
+			TNT1 A 0 A_WeapSound("Halo/Weapons/Spiker/Mech", CHANF_OVERLAP);
+			WGG1 A 1 A_RecoilOffset(0,0,4);
+		goto Ready.Active;
+		
+		Reload:
+			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
+			TNT1 A 0 A_ScopeDisable();
+			TNT1 A 0 A_StartSound("Halo/Weapons/Spiker/Reload", CHAN_RELOADING, CHANF_OVERLAP);
+			WGR1 ABCDEFGHIJKLMNO 1; 
+			WGR1 P 1
+			{
+				A_SetRecoil(-0.75, 1.25, 4);
+			}
+			WGR1 QRSTUVWXYZ 1;
+			WGR2 ABCDEFGHIJKLMNO 1; 
+			WGR2 P 1
+			{
+				A_SetRecoil(1.45, 0.4, 4);
+				A_ReloadClip();
+			}
+			WGR2 QRSTUVWXYZ 1;
+		goto Ready.Active;
+		
+		DoMelee:
+			TNT1 A 0 
+			{
+				invoker.handsbusy = true;
+				let meleeSwing = ResolveState("SpikerMelee.Swing");
+				let meleeBash = ResolveState("SpikerMelee.Bash");
+				State meleeFinal = random(0,1) ? meleeSwing : meleeBash;
+				player.SetPSprite(PSP_WEAPON, meleeFinal);
+			}
+		stop;
+
+		SpikerMelee.Bash:
+			TNT1 A 0 A_StartSound("Halo/Weapons/Spiker/Melee", CHAN_AUTO, CHANF_OVERLAP);
+			TNT1 A 0 A_SetRecoil(0.5, 0, 8);
+			WGM1 HGF 2;
+			WGM1 E 6;
+			TNT1 A 0 
+			{
+				A_SetRecoil(-2.5, -0.75, 8);
+				A_RecoilOffset(0,20,6);
+			}
+			WGM1 FGHH 1
+			{
+				A_HaloMelee(50, 32, hitsnd:"Halo/Melee/Punch", "");
+			}
+			WGM1 I 12 A_RecoilOffset(0,40,1);
+			WGM1 I 2 A_RecoilOffset(0,20,2);
+			WGM1 H 2 A_RecoilOffset(0,0,4);
+			WGG1 A 1 
+			{
+				invoker.handsbusy = false;
+			}
+		goto Ready.Active;
+		
+		SpikerMelee.Swing:
+			TNT1 A 0 A_StartSound("Halo/Weapons/Spiker/Melee", CHAN_AUTO, CHANF_OVERLAP);
+			WGM1 ABCDD 1;
+			WGM1 J 1 
+			{
+				A_SetRecoil(0, 2.0, 8);
+			}
+			WGM1 KLM 1 
+			{
+				A_HaloMelee(25, 64, hitsnd:"Halo/Melee/Punch", "Halo/Melee/Ouch");
+			}
+			WGM1 NO 2;
+			WGM1 O 16;
+			WGM1 DCBA 1;
+			WGG1 A 1
+			{
+				invoker.handsbusy = false;
+			}
+		goto Ready.Active;
+		
+		Spawn:
+			WEP1 A -1;
+		stop;
+	}
+}

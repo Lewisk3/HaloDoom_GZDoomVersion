@@ -143,7 +143,7 @@ mixin class HaloProjectile_Common
 		// Do not follow crosshair converge for vehicles
 		let curveh = Veh_Manager(target.FindInventory("Veh_Manager"));
 		if(curveh) return;
-		
+				
 		// Converge
 		if(do_converge)
 		{

@@ -9,6 +9,18 @@ Model HaloBullet
    FrameIndex TRAC A 0 0 
 }
 
+Model HaloSpiker_Bullet
+{ 
+   Path "Models/Weapons"
+   SKIN 0 "spike_shard.png" 
+   MODEL 0 "spike_shard.md3" 
+   Scale 4.0 4.0 2.5 
+   AngleOffset 90
+   USEACTORPITCH 
+   
+   FrameIndex TRAC A 0 0 
+}
+
 Model HaloSidekick_Bullet
 { 
    Path "Models/Weapons"

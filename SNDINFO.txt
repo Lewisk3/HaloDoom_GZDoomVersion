@@ -455,6 +455,31 @@ $volume Halo/Weapons/SMG/Fire 1.0;
 $volume Halo/Weapons/SMG/Fire/Bass 1.0;
 $volume Halo/Weapons/SMG/Mech 0.2;
 
+// Spiker
+SPIKER_FIRE1 "Sounds/Spiker/Spiker_Fire1.ogg"
+SPIKER_FIRE2 "Sounds/Spiker/Spiker_Fire2.ogg"
+SPIKER_FIRE3 "Sounds/Spiker/Spiker_Fire3.ogg"
+SPIKER_FIRE4 "Sounds/Spiker/Spiker_Fire4.ogg"
+SPIKER_MECH1 "Sounds/Spiker/Spiker_mech1.ogg"
+SPIKER_MECH2 "Sounds/Spiker/Spiker_mech2.ogg"
+SPIKER_MECH3 "Sounds/Spiker/Spiker_mech3.ogg"
+SPIKER_LOW1 "Sounds/Spiker/Spiker_low1.ogg"
+SPIKER_LOW2 "Sounds/Spiker/Spiker_low2.ogg"
+SPIKER_LOW3 "Sounds/Spiker/Spiker_low3.ogg"
+SPIKER_IMPACT1 "Sounds/Spiker/Spiker_Impact1.wav"
+SPIKER_IMPACT2 "Sounds/Spiker/Spiker_Impact2.wav"
+SPIKER_IMPACT3 "Sounds/Spiker/Spiker_Impact3.wav"
+ 
+Halo/Weapons/Spiker/Melee "Sounds/Spiker/Spiker_melee.ogg"
+Halo/Weapons/Spiker/Reload "Sounds/Spiker/Spiker_reload.ogg"
+Halo/Weapons/Spiker/Draw "Sounds/Spiker/Spiker_Draw.ogg"
+
+$random Halo/Weapons/Spiker/Fire { SPIKER_FIRE1 SPIKER_FIRE2 SPIKER_FIRE3 SPIKER_FIRE4 }
+$random Halo/Weapons/Spiker/Mech { SPIKER_MECH1 SPIKER_MECH2 SPIKER_MECH3 }
+$random Halo/Weapons/Spiker/Fire/Bass { SPIKER_LOW1 SPIKER_LOW2 SPIKER_LOW3 }
+$random Halo/Weapons/Spiker/Impact { SPIKER_IMPACT1 SPIKER_IMPACT2 SPIKER_IMPACT3 }
+		
+
 // Hit feedback
 HMHIT1 HMHit1
 HMHIT2 HMHit2
