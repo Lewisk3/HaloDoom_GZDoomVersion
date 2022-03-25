@@ -214,7 +214,7 @@ class HaloGun : RecoilWeapon
 		
 			double inertia = HaloMath.GetInertia(victim.mass);
 			victim.DamageMobJ(source, source, damage, "Melee", 0, source.angle);
-			victim.BloodSplatter(lt.HitLocation, source.angle, true);
+			if(!victim.bNOBLOOD) victim.BloodSplatter(lt.HitLocation, source.angle, true);
 			victim.Thrust(fpthrust.x*inertia, source.angle);
 			victim.vel.z += fpthrust.y;
 			source.A_Quake(2,3,0,20,"");
