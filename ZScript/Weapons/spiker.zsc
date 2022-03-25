@@ -62,7 +62,7 @@ class HaloSpiker_Shrapnel : HaloSlowProjectile
 		HaloSlowProjectile.Speed_MPS 150;
 		HaloSlowProjectile.HeadshotDMGFactor 1.0;
 	
-		DamageType "Nailgun";
+		DamageType "Fire";
 		Scale 0.5;
 		Gravity 0.75;
 		-NOGRAVITY;
@@ -113,7 +113,7 @@ class HaloSpiker_Shrapnel : HaloSlowProjectile
 			"####" "#" 5 
 			{
 				if(heat > 0.1) 
-					HaloMath.ExplodeEx(self, 3, 16, damageType:"Nailgun", damageSelf:true);
+					HaloMath.ExplodeEx(self, 3, 16, damageType:"fire", damageSelf:true);
 			}
 			"####" "#" 0 A_JumpIf(heat <= 0.01, "TrueDeath");
 		loop;
