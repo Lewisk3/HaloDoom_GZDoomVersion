@@ -473,6 +473,10 @@ SPIKER_IMPACT3 "Sounds/Spiker/Spiker_Impact3.wav"
 SPIKER_ALT1 "Sounds/Spiker/spiker_Altfire1.ogg"
 SPIKER_ALT2 "Sounds/Spiker/spiker_Altfire2.ogg"
 SPIKER_ALT3 "Sounds/Spiker/spiker_Altfire3.ogg"
+SPIKER_ALTPREP1 "Sounds/Spiker/Altfire_Prep1.ogg"
+SPIKER_ALTPREP2 "Sounds/Spiker/Altfire_Prep2.ogg"
+SPIKER_ALTPREP3 "Sounds/Spiker/Altfire_Prep3.ogg"
+
 SPIKER_SHRAPNEL1 "Sounds/Spiker/Shrap_surface1.ogg" 
 SPIKER_SHRAPNEL2 "Sounds/Spiker/Shrap_surface2.ogg" 
 SPIKER_SHRAPNEL3 "Sounds/Spiker/Shrap_surface3.ogg"
@@ -485,6 +489,7 @@ Halo/Weapons/Spiker/Draw "Sounds/Spiker/Spiker_Draw.ogg"
 
 $random Halo/Weapons/Spiker/Fire { SPIKER_FIRE1 SPIKER_FIRE2 SPIKER_FIRE3 SPIKER_FIRE4 }
 $random Halo/Weapons/Spiker/AltFire { SPIKER_ALT1 SPIKER_ALT2 SPIKER_ALT3 }
+$random Halo/Weapons/Spiker/AltFire/Prep { SPIKER_ALTPREP1 SPIKER_ALTPREP2 SPIKER_ALTPREP3 }
 $random Halo/Weapons/Spiker/Mech { SPIKER_MECH1 SPIKER_MECH2 SPIKER_MECH3 }
 $random Halo/Weapons/Spiker/Fire/Bass { SPIKER_LOW1 SPIKER_LOW2 SPIKER_LOW3 }
 $random Halo/Weapons/Spiker/Impact { SPIKER_IMPACT1 SPIKER_IMPACT2 SPIKER_IMPACT3 }

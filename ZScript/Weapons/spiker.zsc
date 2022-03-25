@@ -272,7 +272,12 @@ class Halo_Spiker : HaloGun
 		
 		AltFire:
 			TNT1 A 0 A_JumpIf(CountLoadedAmmo() < 20, "Reload");
-			WGF1 E 1 Bright A_RecoilOffset(frandom(5,10),frandom(12,18),1);
+			TNT1 A 0 A_WeapSound("Halo/Weapons/Spiker/AltFire/Prep", CHANF_OVERLAP);
+			WGG1 AAAAAAAAAAAAAAAAA 2 
+			{
+				A_RecoilOffset(frandom(-4,4), frandom(-2,2), 2);
+			}
+ 			WGF1 E 1 Bright A_RecoilOffset(frandom(5,10),frandom(12,18),1);
 			WGF1 F 1 Bright 
 			{		
 				A_SetZoom(0.88, 1);
@@ -290,7 +295,7 @@ class Halo_Spiker : HaloGun
 				A_SetRecoil(-0.18, 0, 8);
 			}
 			TNT1 A 0 A_WeapSound("Halo/Weapons/Spiker/Mech", CHANF_OVERLAP);
-			WGG1 A 20 A_RecoilOffset(0,0,4);
+			WGG1 A 8 A_RecoilOffset(0,0,4);
 		goto Ready.Active;
 		
 		Reload:
