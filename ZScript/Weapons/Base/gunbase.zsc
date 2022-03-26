@@ -2,13 +2,15 @@ class HaloGun : RecoilWeapon
 {
 	enum PowerTiers
 	{
-		P_NULL,
-		P_WEAK,
-		P_NORM,
-		P_MID,
-		P_POWER,
-		P_UBER,
-		P_MELEE
+		P_NULL   = 1 << 0,
+		P_WEAK   = 1 << 1, // Unused
+		P_NORM   = 1 << 2,
+		P_MID    = 1 << 3,
+		P_STRONG = 1 << 4,
+		P_POWER  = 1 << 5,
+		P_ENERGY = 1 << 6,
+		P_UBER   = 1 << 7,
+		P_MELEE  = 1 << 8
 	}
 	
 	transient CVar cvfx_smoke;
@@ -32,6 +34,7 @@ class HaloGun : RecoilWeapon
 	double rotation_sens;
 	bool donefirstdrawanim; 
 	bool handsbusy; // Keep track of melee stuff and other hand actions.
+	Weapon NextWeapon;
 	
 	// UI Stuff
 	const SIGHT_OVERLAY = 0xFF;
@@ -307,14 +310,21 @@ class HaloGun : RecoilWeapon
 			aproj.angle = angle;
 			aproj.pitch = pitch;
 			
-			vector3 aimpos = plr.aimpos;
-			bool inRange = (
-				abs(plr.aimActor_anglesTo.x) <= halodoom_magnetism && 
-				abs(plr.aimActor_anglesTo.y) <= halodoom_magnetism
-			);
-			
-			if( plr.aimActor_nearest && inRange && !plr.aimActor )  
-				aimpos = (plr.aimActor_nearest.pos.xy, plr.aimActor_pos.z);
+			vector3 aimpos = aproj.pos;
+			if(plr)
+			{
+				aimpos = plr.aimpos;
+				bool inRange = (
+					abs(plr.aimActor_anglesTo.x) <= halodoom_magnetism && 
+					abs(plr.aimActor_anglesTo.y) <= halodoom_magnetism
+				);
+				
+				if( plr.aimActor_nearest && inRange && !plr.aimActor )  
+					aimpos = (plr.aimActor_nearest.pos.xy, plr.aimActor_pos.z);
+				
+			}
+			else
+				aimpos = HaloMath.getPlayerAim(PlayerPawn(self));
 			
 			if(haloProj	   ) haloProj.DoConverge(aimpos, recoil);
 			if(haloSlowProj) haloSlowProj.DoConverge(aimpos, recoil);
@@ -473,7 +483,7 @@ class HaloGun : RecoilWeapon
 			if(gun && gun != self) break;
 		}
 		*/
-		return HaloPlayer(Owner).nextweapon;
+		return NextWeapon;
 	}
 	
 	action bool A_DoFullSelectAnimation()
@@ -521,6 +531,13 @@ class HaloGun : RecoilWeapon
 			cvfx_casings = CVar.GetCVar("halodoom_fx_casings", Owner.player);
 		
 		if(debug_sfxpos) Spawn("FXFollower", sfx_pos);
+		
+		// Update next weapon.
+		if(Owner.player)
+		{
+			let wnext = PlayerPawn(Owner).PickNextWeapon();
+			if( Owner.player.ReadyWeapon != wnext ) NextWeapon = wnext;
+		}
 		
 		if(!CheckWeaponSelected()) 
 		{

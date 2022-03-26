@@ -56,7 +56,7 @@ class Halo_Bulldog : HaloGun
 		Weapon.AmmoType1 "Halo_Bulldog_Reserves";
 		Weapon.AmmoGive 12;
 		Weapon.AmmoType2 "Halo_Bulldog_Shells";
-		HaloGun.PowerTier P_MID;
+		HaloGun.PowerTier P_STRONG;
 				
 		// Recoil
 		HaloGun.Bloom 1.0;

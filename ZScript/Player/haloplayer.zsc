@@ -10,7 +10,6 @@ class HaloPlayer : DoomPlayer
 	GrapplingHook grapple;
 	WeaponPickupProxy pickuptarget;
 	CortanaInfo cortana;
-	Weapon NextWeapon;
 	SpartanOverlay shieldOverlay;
 	
 	Actor aimActor_nearest; // Actor closest to aim;
@@ -282,11 +281,7 @@ class HaloPlayer : DoomPlayer
 		aimdist = lt.Distance / UNIT_METER; 
 		aimpos = lt.HitLocation;
 		aimActor = lt.HitActor;
-		
-		// Update next weapon.
-		let wnext = PickNextWeapon();
-		if( player.ReadyWeapon != wnext ) NextWeapon = wnext;
-		
+				
 		// Screen flash colors
 		screen_fade *= FADE_RATE;
 		

@@ -458,6 +458,13 @@ class HaloMath Abstract
 		return dmgz <= headz && dmgz >= headz-headsize;
 	}
 	
+	play static vector3, Actor getPlayerAim(PlayerPawn plr)
+	{
+		FLineTraceData lt;
+		plr.LineTrace(plr.angle, 1024*1024, plr.pitch, 0, plr.player.viewz-plr.pos.z, 0, data:lt);
+		return lt.HitLocation, lt.HitActor;
+	}
+	
 	clearscope static vector3 SphereBetween(vector3 one, vector3 two)
 	{
 		vector3 diff = level.Vec3Diff(one, two);
