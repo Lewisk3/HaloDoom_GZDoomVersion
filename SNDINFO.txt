@@ -455,6 +455,27 @@ $volume Halo/Weapons/SMG/Fire 1.0;
 $volume Halo/Weapons/SMG/Fire/Bass 1.0;
 $volume Halo/Weapons/SMG/Mech 0.2;
 
+// MA5B
+MA5B_FIRE1 "Sounds/MA5B/MA5B_Fire1.ogg"
+MA5B_FIRE2 "Sounds/MA5B/MA5B_Fire2.ogg"
+MA5B_FIRE3 "Sounds/MA5B/MA5B_Fire3.ogg"
+MA5B_FIRE4 "Sounds/MA5B/MA5B_Fire4.ogg"
+MA5B_LOW1 "Sounds/MA5B/MA5B_Low1.ogg"
+MA5B_LOW2 "Sounds/MA5B/MA5B_Low2.ogg"
+MA5B_LOW3 "Sounds/MA5B/MA5B_Low3.ogg"
+MA5B_MECH1 "Sounds/MA5B/MA5B_Mech1.ogg"
+MA5B_MECH2 "Sounds/MA5B/MA5B_Mech2.ogg"
+MA5B_MECH3 "Sounds/MA5B/MA5B_Mech3.ogg"
+MA5B_MECH4 "Sounds/MA5B/MA5B_Mech4.ogg"
+
+Halo/Weapons/MA5B/Reload/Empty "Sounds/MA5B/MA5B_Empty_Reload.ogg"
+Halo/Weapons/MA5B/Reload/Full "Sounds/MA5B/MA5B_Tac_Reload.ogg"
+Halo/Weapons/MA5B/Select "Sounds/MA5B/MA5B_Draw.ogg"
+
+$random Halo/Weapons/MA5B/Fire { MA5B_FIRE1 MA5B_FIRE2 MA5B_FIRE3 MA5B_FIRE4 }
+$random Halo/Weapons/MA5B/Fire/Bass { MA5B_LOW1 MA5B_LOW2 MA5B_LOW3 }
+$random Halo/Weapons/MA5B/Mech { MA5B_MECH1 MA5B_MECH2 MA5B_MECH3 MA5B_MECH4 }
+
 // Spiker
 SPIKER_FIRE1 "Sounds/Spiker/Spiker_Fire1.ogg"
 SPIKER_FIRE2 "Sounds/Spiker/Spiker_Fire2.ogg"

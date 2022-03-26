@@ -96,7 +96,7 @@ class HaloSlowProjectile : Actor
 		int defaultHit = Handle_MissileHit(victim);
 	
 		// Check if pinned
-		if( pinDist > 0 && pinTime > 0 && target)
+		if( pinDist > 0 && pinTime > 0 && target && !victim.bNOBLOOD)
 		{		
 			vector2 aimAngles = (target.angle, target.pitch);
 			LineTrace(aimAngles.x, pinDist, aimAngles.y, TRF_THRUACTORS, data:pinData);
@@ -140,7 +140,7 @@ class HaloSlowProjectile : Actor
 					pinnedActor.bNOGRAVITY = true;
 					pinnedActor.vel *= 0;
 					
-					pinnedActor.SetState(pinnedActor.ResolveState("Death"));
+					pinnedActor.tics = -1;
 				}
 			}
 			"####" "#" 0 A_JumpIf(!(pinTime--), "Pinned.Finish");
