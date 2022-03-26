@@ -476,6 +476,10 @@ $random Halo/Weapons/MA5B/Fire { MA5B_FIRE1 MA5B_FIRE2 MA5B_FIRE3 MA5B_FIRE4 }
 $random Halo/Weapons/MA5B/Fire/Bass { MA5B_LOW1 MA5B_LOW2 MA5B_LOW3 }
 $random Halo/Weapons/MA5B/Mech { MA5B_MECH1 MA5B_MECH2 MA5B_MECH3 MA5B_MECH4 }
 
+$volume Halo/Weapons/MA5B/Fire 1.0;
+$volume Halo/Weapons/MA5B/Fire/Bass 1.0;
+$volume Halo/Weapons/MA5B/Mech 0.3;
+
 // Spiker
 SPIKER_FIRE1 "Sounds/Spiker/Spiker_Fire1.ogg"
 SPIKER_FIRE2 "Sounds/Spiker/Spiker_Fire2.ogg"
