@@ -196,8 +196,8 @@ $random Halo/Weapons/BattleRifle/Fire      { BARFIRE1 BARFIRE2 BARFIRE3 BARFIRE4
 $random Halo/Weapons/BattleRifle/Mech      { BARMECH1 BARMECH2 BARMECH3 BARMECH4 }
 $random Halo/Weapons/BattleRifle/Fire/Bass { BARLOW1 BARLOW2 BARLOW3 }
 
-$volume Halo/Weapons/BattleRifle/Fire 0.9
-$volume Halo/Weapons/BattleRifle/Fire/Bass 0.8
+$volume Halo/Weapons/BattleRifle/Fire 1.0
+$volume Halo/Weapons/BattleRifle/Fire/Bass 1.0
 $volume Halo/Weapons/BattleRifle/Mech 1.0
 
 // SuperShotgun
