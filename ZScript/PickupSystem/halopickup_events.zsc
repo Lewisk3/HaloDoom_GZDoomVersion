@@ -93,16 +93,17 @@ class HaloPickup_EVH : EventHandler
 			let actIt = ThinkerIterator.Create();
 			Actor act;
 			double dist = it.radius * it.radius;
+			Actor dropper = NULL;
 			while(act = Actor(actIt.Next()))
 			{
-				bool isDying = ( act.InStateSequence(act.CurState, act.FindState("Death")) ||
-								 act.InStateSequence(act.CurState, act.FindState("XDeath")) );
-				if(!isDying || it.Distance3DSquared(act) > dist) continue;
-				break;
+				if(it.Distance3DSquared(act) > dist) continue;
+				bool isDying = act.bISMONSTER && act.health <= 0;
+	
+				if(isDying) dropper = act;
 			}
-			
+					
 			// Weapon was dropped by actor, who isn't a player.
-			if(act && !act.player)
+			if(dropper && !dropper.player)
 				if(WeaponPickupProxy.ProcessDroppedWeapon(it)) return;
 		}
 		

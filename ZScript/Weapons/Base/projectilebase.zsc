@@ -150,9 +150,12 @@ class HaloSlowProjectile : Actor
 			TNT1 A 1
 			{
 				// Restore pinned actors flags.
-				pinnedActor.A_SetSize(8, 8);
-				pinnedActor.tics = 1;
-				pinnedActor.bNOGRAVITY = false;
+				if(pinnedActor)
+				{
+					pinnedActor.A_SetSize(8, 8);
+					pinnedActor.tics = 1;
+					pinnedActor.bNOGRAVITY = false;
+				}
 			}
 		stop;
 	}
