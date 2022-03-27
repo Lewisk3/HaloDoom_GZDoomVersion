@@ -18,7 +18,7 @@ class Halo_MAB_Reserves : Ammo
 		Inventory.MaxAmount 660;
 		Inventory.Icon "HLAMA0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
-		Inventory.PickupMessage "Picked up 48 Rounds for the MA5B Assault Rifle";
+		Inventory.PickupMessage "Picked up 48 Rounds for the MA5B";
 		
 		Ammo.BackpackMaxAmount 780;
 	}
@@ -55,9 +55,9 @@ class Halo_MA5B : HaloGun
 	Default
 	{
 		Weapon.SlotNumber 1;
-		Obituary "%o learned the Rifleman's Creed from %k's MA5B Assault Rifle.";
-		Inventory.PickupMessage	"Picked up the MA5B Assault Rifle.";
-		Tag "Assault Rifle (MA5B)";
+		Obituary "%o was turned into swiss cheese by %k's MA5B.";
+		Inventory.PickupMessage	"Picked up the MA5B LMG.";
+		Tag "LMG (MA5B)";
 		Weapon.BobSpeed 1.86;
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_MAB_Reserves";
