@@ -478,7 +478,7 @@ $random Halo/Weapons/MA5B/Mech { MA5B_MECH1 MA5B_MECH2 MA5B_MECH3 MA5B_MECH4 }
 
 $volume Halo/Weapons/MA5B/Fire 1.0;
 $volume Halo/Weapons/MA5B/Fire/Bass 1.0;
-$volume Halo/Weapons/MA5B/Mech 0.3;
+$volume Halo/Weapons/MA5B/Mech 0.7;
 
 // Spiker
 SPIKER_FIRE1 "Sounds/Spiker/Spiker_Fire1.ogg"
@@ -518,7 +518,11 @@ $random Halo/Weapons/Spiker/AltFire/Prep { SPIKER_ALTPREP1 SPIKER_ALTPREP2 SPIKE
 $random Halo/Weapons/Spiker/Mech { SPIKER_MECH1 SPIKER_MECH2 SPIKER_MECH3 }
 $random Halo/Weapons/Spiker/Fire/Bass { SPIKER_LOW1 SPIKER_LOW2 SPIKER_LOW3 }
 $random Halo/Weapons/Spiker/Impact { SPIKER_IMPACT1 SPIKER_IMPACT2 SPIKER_IMPACT3 }
-$random Halo/Weapon/Spiker/Shrapnel/Impact { SPIKER_SHRAPNEL1 SPIKER_SHRAPNEL2 SPIKER_SHRAPNEL3 SPIKER_SHRAPNEL4 }		
+$random Halo/Weapon/Spiker/Shrapnel/Impact { SPIKER_SHRAPNEL1 SPIKER_SHRAPNEL2 SPIKER_SHRAPNEL3 SPIKER_SHRAPNEL4 }
+
+$volume Halo/Weapons/Spiker/Fire 1.0;
+$volume Halo/Weapons/Spiker/Mech 1.0;
+$volume Halo/Weapons/Spiker/Fire/Bass 1.0;		
 
 // Hit feedback
 HMHIT1 HMHit1
