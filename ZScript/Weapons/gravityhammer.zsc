@@ -143,19 +143,30 @@ class Halo_GravityHammer : HaloGun
 		
 	action bool A_FireHammer(double range = 128)
 	{	
-		let plr = HaloPlayer(self);
-		if(!plr) return false;
+		let haloplr = HaloPlayer(self);
+		vector3 aimpos = (0,0,0);
+		Actor aimActor = NULL;
 		
-		if( HaloMath.Distance3D((pos.xy, player.viewz), plr.aimpos) > range )
+		if(haloplr)
+		{
+			aimpos = haloplr.aimpos;
+			aimActor = haloplr.aimActor;
+		}
+		else
+		{
+			[aimpos, aimActor] = HaloMath.getPlayerAim(PlayerPawn(self));
+		}
+		
+		if(HaloMath.Distance3D((pos.xy, player.viewz), aimpos) > range )
 			return false;
 		
 		A_WeapSound("Halo/Weapons/GravityHammer/Fire", 0, true);
 		A_WeapSound("Halo/Weapons/GravityHammer/Fire/Bass", CHANF_OVERLAP, true);
 		A_TakeAmmo(5, false);
 				
-		let field = Spawn("GravityHammerField", plr.aimpos);
+		let field = Spawn("GravityHammerField", aimpos);
 		if(field) field.target = self;
-		if(plr.aimActor) A_Pushback(-10, ptr:plr.aimActor);
+		if(aimActor) A_Pushback(-10, ptr:aimActor);
 		
 		return true;
 	}

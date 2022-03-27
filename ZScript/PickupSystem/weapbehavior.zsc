@@ -27,7 +27,8 @@ class WeaponPickupProxy : Actor
 	class<Weapon> trueitem;
 	string truepickupmsg;
 	sound truepickupsnd;
-	HaloPlayer plr;
+	HaloPlayer haloplr;
+	PlayerPawn plr; // Valid player, but player isn't HaloPlayer.
 	bool noammogive;
 	int clipammo;
 	int use_hold; // How many tics the USE key has been down for.
@@ -138,16 +139,16 @@ class WeaponPickupProxy : Actor
 	
 	void CheckPlrCollide(double distmod=1.0)
 	{
-		HaloPlayer act;	
-		if(plr) plr.pickuptarget = NULL;
-		plr = NULL;
-		
+		PlayerPawn act;	
+		if(haloplr) haloplr.pickuptarget = NULL;
+		plr = haloplr = NULL;
+		 
 		double pickup_dist = (PICKUP_RANGE*distmod)*(PICKUP_RANGE*distmod);
 		
 		for(int i = 0; i < MAXPLAYERS; i++)
 		{
 			if(!playerInGame[i]) continue;
-			act = HaloPlayer(players[i].mo);
+			act = players[i].mo;
 			
 			// If player is colliding with a weaponproxy item, and looking at it.
 			if(act && Distance3DSquared(act) <= pickup_dist)
@@ -157,8 +158,10 @@ class WeaponPickupProxy : Actor
 				Actor hitact = lt.HitActor;
 				if(hitact != self) continue;
 
+				haloplr = HaloPlayer(act);
+
 				plr = act;
-				if(!plr.countinv(trueitem)) plr.pickuptarget = self;
+				if(haloplr && !haloplr.countinv(trueitem)) haloplr.pickuptarget = self;
 				break;
 			}
 		}
@@ -212,15 +215,17 @@ class WeaponPickupProxy : Actor
 		
 		// Count weapons
 		let wcontrol = WeaponLimitProxy(plr.FindInventory("WeaponLimitProxy"));
-		if(!wcontrol) 
+		int wcount = 1;
+		if(haloplr && !wcontrol)
 		{
 			plr.GiveInventory("WeaponLimitProxy",1);
 			return;
-		}
-		int wcount = wcontrol.CountWeapons();
-		
+		} 
+		else if(wcontrol)
+			wcount = wcontrol.CountWeapons();
+			
 		// Process pickup
-		bool isaimweap = (plr.pickuptarget == self);
+		bool isaimweap = !haloplr ? true : (haloplr.pickuptarget == self);
 		if( (!plr.player.ReadyWeapon && wcount > 0) || (!isaimweap && !hasweap)) 
 		{
 			use_hold = -1;
@@ -240,12 +245,12 @@ class WeaponPickupProxy : Actor
 			use_hold = 0;
 		}
 		
-		if( use_hold > 4 || hasweap || halodoom_unlimitedbackpack )
+		if( use_hold > 4 || hasweap || halodoom_unlimitedbackpack || (!haloplr && plr) )
 		{
 			use_hold = 0;
 			if(wcount >= MAXWEAPS && !halodoom_unlimitedbackpack)
 			{
-				if(!hasweap)
+				if(!hasweap && wcontrol)
 				{
 					wcontrol.DropSelectedWeapon(pos);
 					let nweap = GiveWeaponItem(plr);

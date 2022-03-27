@@ -101,7 +101,7 @@ class HaloPickup_EVH : EventHandler
 	
 				if(isDying) dropper = act;
 			}
-					
+
 			// Weapon was dropped by actor, who isn't a player.
 			if(dropper && !dropper.player)
 				if(WeaponPickupProxy.ProcessDroppedWeapon(it)) return;

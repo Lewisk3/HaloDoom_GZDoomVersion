@@ -307,7 +307,8 @@ class HaloStatusBar : BaseStatusBar
 		if(!curweap) return; // Just in case somehow the player has no weapon
 		
 		// Find other weapon manually.
-		Weapon otherweap = haloplr.nextweapon;
+		let haloweap = HaloGun(curweap);
+		Weapon otherweap = haloweap ? haloweap.FindNextWeapon() : curweap;
 
 		Halogun halo_curweap, halo_otherweap;
 		halo_curweap = HaloGun(curweap);

@@ -3,7 +3,9 @@ extend class HaloDoom_Events
 	Array<String> weaps_weak;
 	Array<String> weaps_basic;
 	Array<String> weaps_mid;
+	Array<String> weaps_strong;
 	Array<String> weaps_power;
+	Array<String> weaps_energy;
 	Array<String> weaps_uber;
 	Array<String> weaps_melee;
 	
@@ -46,15 +48,15 @@ extend class HaloDoom_Events
 			if( !actType || actType.getClass() == "HaloGun") continue;
 			
 			String gunName = actType.GetClassName();
-			switch(actType.SpawnTier)
-			{
-				case HaloGun.P_WEAK:  weaps_weak.Push(gunName);  break;
-				case HaloGun.P_NORM:  weaps_basic.Push(gunName); break;
-				case HaloGun.P_MID:	  weaps_mid.Push(gunName);   break;
-				case HaloGun.P_POWER: weaps_power.Push(gunName); break;	
-				case HaloGun.P_UBER:  weaps_uber.Push(gunName);  break;
-				case HaloGun.P_MELEE: weaps_melee.Push(gunName); break;
-			}
+			uint tier = actType.SpawnTier;
+			if( tier & HaloGun.P_WEAK   ) weaps_weak.Push(gunName);
+			if( tier & HaloGun.P_NORM   ) weaps_basic.Push(gunName);
+			if( tier & HaloGun.P_MID    ) weaps_mid.Push(gunName);
+			if( tier & HaloGun.P_STRONG ) weaps_strong.Push(gunName);
+			if( tier & HaloGun.P_POWER  ) weaps_power.Push(gunName);
+			if( tier & HaloGun.P_ENERGY ) weaps_energy.Push(gunName);
+			if( tier & HaloGun.P_UBER   ) weaps_uber.Push(gunName);
+			if( tier & HaloGun.P_MELEE  ) weaps_melee.Push(gunName);
 		}
 	}
 	
@@ -86,11 +88,17 @@ extend class HaloDoom_Events
 			if(checkItemType(item, "Pistol") || checkItemType(item, "Chaingun")) 
 				weapSpawns.Append(weaps_basic);
 				
-			if(checkItemType(item, "SuperShotgun") || checkItemType(item, "Shotgun") ) 
+			if( checkItemType(item, "Shotgun") ) 
 				weapSpawns.Append(weaps_mid);
-				
-			if(checkItemType(item, "RocketLauncher") || checkItemType(item, "PlasmaRifle"))
+			
+			if( checkItemType(item, "SuperShotgun") )
+				weapSpawns.Append(weaps_strong);
+			
+			if(checkItemType(item, "RocketLauncher"))
 				weapSpawns.Append(weaps_power);
+			
+			if(checkItemType(item, "PlasmaRifle"))
+				weapSpawns.Append(weaps_energy);
 				
 			if(checkItemType(item, "BFG9000") || checkItemType(item, "BFG")) 
 				weapSpawns.Append(weaps_uber);
@@ -126,10 +134,14 @@ extend class HaloDoom_Events
 		// Ammunition spawning
 		if( item is "Clip" || item is "ClipBox" ) 
 			ammoSpawns.Append(weaps_basic);
-		if( item is "Shell" || item is "ShellBox") 
+		if( item is "Shell" ) 
 			ammoSpawns.Append(weaps_mid);
-		if(item is "RocketAmmo" || item is "Cell" || item is "RocketBox")
+		if( item is "ShellBox" )
+			ammoSpawns.Append(weaps_strong);
+		if(item is "RocketAmmo" || item is "RocketBox")
 			ammoSpawns.Append(weaps_power);
+		if(item is "Cell")
+			ammoSpawns.Append(weaps_energy);
 		if( item is "CellPack" )
 			ammoSpawns.Append(weaps_uber);
 		

@@ -57,13 +57,13 @@ class Halo_PlasmaRifle : HaloGun
 		Weapon.AmmoType2 "Halo_PlasmaRifle_Clip";
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 1;
-		HaloGun.PowerTier P_MID;
+		HaloGun.PowerTier P_ENERGY | P_NORM;
 				
 		// Recoil
 		HaloGun.Bloom 0.16;
 		HaloGun.BloomSpeed 0.30;
-		HaloGun.BaseRecoil PLASMAPISTOL_RECOIL;
-		HaloGun.Inaccuracy PLASMAPISTOL_ACCMOD;
+		HaloGun.BaseRecoil PLASMARIFLE_RECOIL;
+		HaloGun.Inaccuracy PLASMARIFLE_ACCMOD;
 		HaloGun.Crosshair "PlsRRet", 0.75;
 		HaloGun.UIGraphic "WI_PRFLE", 0.6;
 		

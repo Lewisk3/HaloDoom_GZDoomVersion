@@ -40,6 +40,8 @@ class HaloCarbine_Bullet : HaloBullet
 		HaloProjectile.BaseDamage CARBINE_DMG;
 		HaloProjectile.Speed_MPS CARBINE_BMPS;
 		HaloProjectile.HeadshotDMGFactor CARBINE_HEDMOD;
+		HaloProjectile.ShieldDamageFactors 0.5, 0.5;
+		
 		DamageType "Fire";
 	}
 	
@@ -86,7 +88,7 @@ class Halo_Carbine : HaloGun
 		Weapon.AmmoType1 "Halo_CarbineReserves";
 		Weapon.AmmoType2 "Halo_CarbineClip";
 		Weapon.AmmoGive 27;
-		HaloGun.PowerTier P_MID;
+		HaloGun.PowerTier P_ENERGY | P_STRONG;
 
 		// Recoil
 		HaloGun.Bloom 0.32;
