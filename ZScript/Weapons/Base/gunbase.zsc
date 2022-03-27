@@ -428,6 +428,10 @@ class HaloGun : RecoilWeapon
 		bool hidezoom = invoker.scopezoom >= 2.0 && invoker.zoomed;
 		
 		A_OverlayOffset(DEST_LAYER, rvec.x + offs.x, rvec.y + offs.y + (hidezoom ? 0x7FFFFF : 0));
+		
+		// Scale
+		let dst_psp = player.GetPSprite(DEST_LAYER);
+		if(dst_psp && src_psp) dst_psp.scale = src_psp.scale; 
 	}
 	
 	action void A_UpdateCrosshair(string nxhair, HaloGun ptr = null)

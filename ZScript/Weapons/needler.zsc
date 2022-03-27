@@ -130,7 +130,11 @@ class Halo_Needler : HaloGun
 		Ready.Active:
 			NDLI A 1
 			{
-				A_NeedleOffset(0, 0);
+				if(A_CheckInScope()) 
+					A_NeedleOffset(3,-5);
+				else
+					A_NeedleOffset(0,0);
+
 				A_HaloWeaponReady(WRF_ALLOWRELOAD);
 				A_Overlay(Layer_Needles, "Needles_On");
 				A_OverlayFlags(Layer_Needles, PSPF_ADDWEAPON|PSPF_ADDBOB, true);
@@ -183,7 +187,7 @@ class Halo_Needler : HaloGun
 			NEDL "#" 1 Bright
 			{
 				A_SetFrame(clamp(CountLoadedAmmo()-1, 0, 19), OverlayID());
-				A_FollowRotatedPos(OverlayID(), PSP_WEAPON, (50,0), 1);
+				A_FollowRotatedPos(OverlayID(), PSP_WEAPON, (70,0), 1);
 				A_FollowRotation(OverlayID(), PSP_WEAPON);
 				A_OverlayPivotAlign(OverlayID(), PSPA_CENTER, PSPA_CENTER);
 				A_OverlayOffset(OverlayID(), invoker.needles_offs.x, invoker.needles_offs.y, WOF_ADD);

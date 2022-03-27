@@ -170,9 +170,9 @@ class Halo_Bulldog : HaloGun
 				A_RecoilOffset(0,0,8);
 				return A_CheckRapidFire();
 			}
-		Hold:
+		/*Hold:
 			BULI A 1 A_CheckRapidFire();
-			TNT1 A 0 A_Refire("Hold");
+			TNT1 A 0 A_Refire("Hold");*/
 		goto Ready.Active;
 		
 		Reload:

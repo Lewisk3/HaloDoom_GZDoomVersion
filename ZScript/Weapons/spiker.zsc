@@ -323,7 +323,7 @@ class Halo_Spiker : HaloGun
 			{
 				let meleeSwing = ResolveState("SpikerMelee.Swing");
 				let meleeBash = ResolveState("SpikerMelee.Bash");
-				State meleeFinal = random(0,1) ? meleeSwing : meleeBash;
+				State meleeFinal = meleeSwing;
 				let psp = player.GetPSprite(PSP_WEAPON);
 				if(psp) psp.SetState(meleeFinal);
 			}
