@@ -140,3 +140,27 @@ class HaloAmmoCrate : Actor replaces Backpack
 		stop;
 	}
 }
+
+// Replace some vanilla pickups
+class EmptyBerserk : Berserk replaces Berserk
+{
+	States
+	{
+		Spawn:
+			TNT1 A 1;
+		stop;
+	}
+}
+class EmptyChainsaw : Chainsaw replaces Chainsaw
+{
+	Default
+	{
+		Tag "NotAWeapon";
+	}	
+	States
+	{
+		Spawn:
+			TNT1 A 1;
+		stop;
+	}
+}

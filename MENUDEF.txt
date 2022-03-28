@@ -44,6 +44,11 @@ ListMenu "HaloPlayerClassMenu"
 	class "HaloDoom_PlayerClassMenu" 
 }
 
+ListMenu "HaloGameTypeMenu"
+{
+	class "HaloDoom_GameTypeMenu"
+}
+
 ListMenu "SkillMenu"
 {
 	class "HaloDoom_SkillMenu"
@@ -109,6 +114,11 @@ OptionMenu "HaloDoomGameplayOptions"
 	Option "Controller Aim Assist", "halodoom_doaimassist", "EnabledDisabled"	
 	Option "Cortana Mode", "halodoom_cortanamode", "CortanaTypes"
 	StaticText " "
+	Option "Weapon Spawning", "halodoom_gametype", "GameTypes"
+	Command "Update Spawnlists", "syncgametype"
+	StaticText "Based on this setting weapons will be removed", "Black"
+	StaticText "or added to the current play session.", "Black"
+	StaticText " "
 	StaticText "Movement", "Sapphire"
 	Option "Bunny hopping", "halodoom_allowbhop", "EnabledDisabled"	
 	Option "Persistent jumping", "halodoom_holdjump", "EnabledDisabled"	
@@ -134,5 +144,15 @@ OptionValue "CortanaTypes"
 	0, "Always On"
 	1, "Once per key"
 	2, "Disabled"
+}
+
+OptionValue "GameTypes"
+{
+	0, "HaloDoom: Evolved"
+	1, "Halo CE"
+	2, "Halo 2"
+	4, "Halo 3 (& Reach)"
+	8, "Halo 4"
+	16, "Project MSX"
 }
 

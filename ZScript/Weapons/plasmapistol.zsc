@@ -188,6 +188,8 @@ class Halo_PlasmaPistol : HaloGun
 		Weapon.AmmoType2 "Halo_PlasmaPistol_Clip";
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 1;
+		
+		HaloGun.Availability GT_HL1 | GT_HL2 | GT_HL3 | GT_HL4;
 		HaloGun.PowerTier P_NORM;
 				
 		// Recoil

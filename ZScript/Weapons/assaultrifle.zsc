@@ -15,12 +15,12 @@ class Halo_AR_Reserves : Ammo
 		Scale 0.65;
 
 		Inventory.Amount 32;
-		Inventory.MaxAmount 128;
+		Inventory.MaxAmount 660;
 		Inventory.Icon "HLAMA0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "Picked up 32 Rounds for the Assault Rifle";
 		
-		Ammo.BackpackMaxAmount 256;
+		Ammo.BackpackMaxAmount 870;
 	}
 	
 	States
@@ -79,6 +79,8 @@ class Halo_AssaultRifle : HaloGun
 		HaloGun.Inaccuracy ARIFLE_ACCMOD;
 		HaloGun.Crosshair "RifleRet", 1.0;
 		HaloGun.UIGraphic "WI_AR", 1.0;
+		
+		HaloGun.Availability GT_HL3 | GT_HL4;
 		HaloGun.PowerTier P_NORM;
 		
 		RecoilWeapon.YOffsetRange -10, 40;

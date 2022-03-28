@@ -57,6 +57,8 @@ class Halo_PlasmaRifle : HaloGun
 		Weapon.AmmoType2 "Halo_PlasmaRifle_Clip";
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 1;
+		
+		HaloGun.Availability GT_HL1 | GT_HL2 | GT_HL3 | GT_HL4 | GT_MSX;
 		HaloGun.PowerTier P_ENERGY | P_NORM;
 				
 		// Recoil

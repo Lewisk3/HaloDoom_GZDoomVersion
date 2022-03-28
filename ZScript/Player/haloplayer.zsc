@@ -86,8 +86,7 @@ class HaloPlayer : DoomPlayer
 		HaloPlayer.Shields 70, 3, 4; // 3 seconds to recharge, 4 seconds to max.
 		
 		// Inventory
-		Player.StartItem "Halo_Sidekick", 1;
-		Player.StartItem "Halo_AR_Reserves", 120;
+		Player.StartItem "";
 		
 		// SFX
 		HaloPlayer.ShieldRegenSound "Shield/Regenerate";
@@ -105,6 +104,43 @@ class HaloPlayer : DoomPlayer
 		if(!pendingDoor) return;
 		pendingDoor.Activate(self, 1, SPAC_Use);
 		pendingDoor = null;
+	}
+	
+	// Called when the player initially spawns, sets up spawn items.
+	virtual void SetupInventory()
+	{
+		GiveInventory("DoHelmetAnimation", 1);
+		switch(halodoom_gametype)
+		{
+			case HaloGun.GT_HL1:
+				GiveInventory("Halo_MA5B", 1);
+				GiveInventory("Halo_Magnum", 1);
+				GiveInventory("Halo_AR_Reserves", 120);
+				GiveInventory("Halo_Magnum_Reserves", 36);
+			break;
+			case HaloGun.GT_HL2:
+				GiveInventory("Halo_BattleRifle", 1);
+				GiveInventory("Halo_Magnum", 1);
+				GiveInventory("Halo_BAR_Reserves", 90);
+				GiveInventory("Halo_Magnum_Reserves", 36);
+			break;
+			case HaloGun.GT_MSX:
+				GiveInventory("Halo_MA5B", 1);
+				GiveInventory("Halo_Sidekick", 1);
+				GiveInventory("Halo_AR_Reserves", 120);
+				GiveInventory("Halo_Sidekick_Reserves", 36);
+			break;
+			
+			case HaloGun.GT_HL4:
+			case HaloGun.GT_HL3:
+			default:
+				GiveInventory("Halo_AssaultRifle", 1);
+				GiveInventory("Halo_Sidekick", 1);
+				GiveInventory("Halo_AR_Reserves", 120);
+				GiveInventory("Halo_Sidekick_Reserves", 48);
+			break;
+		}
+		
 	}
 	
 	virtual bool CheckCanMelee()
@@ -129,6 +165,8 @@ class HaloPlayer : DoomPlayer
 	{
 		regen_timer = shield_regentime*35.;
 		shields = maxshields;
+		SetupInventory();
+		
 		super.BeginPlay();
 	}
 	
@@ -181,6 +219,13 @@ class HaloPlayer : DoomPlayer
 		{
 			flashlight = VehLight.Attach( self, intense_in_out:(350,16,40), offset:(10,0,0) );
 			flashlight.active = false;
+		}
+		
+		// Fix for SetupInventory not selecting a Weapon by default.
+		if( !!FindInventory("HaloGun", true) && !player.ReadyWeapon )
+		{
+			let weap = PickNextWeapon();
+			if(weap) weap.Use(false);
 		}
 		
 		// Overlay stuff

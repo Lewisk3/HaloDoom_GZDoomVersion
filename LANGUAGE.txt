@@ -1,2 +1,8 @@
 [enu default]
 MOD_VERSION = "1.0rc";
+GAMETYPE_0_DESC = "HaloDoom Evolved:Default gametype. \n\n Contains all the weapons in HaloDoom Evolved.";
+GAMETYPE_1_DESC = "Halo CE:Contains only weapons featured in Halo CE.";
+GAMETYPE_2_DESC = "Halo 2:Contains only weapons featured in Halo 2.";
+GAMETYPE_3_DESC = "Halo 3:Contains only weapons featured in Halo 3 and Halo Reach.";
+GAMETYPE_4_DESC = "Halo 4:Contains only weapons featured in Halo 4.";
+GAMETYPE_5_DESC = "Project MSX:Contains only weapons which function similarly to weapons featured in Project MSX.";

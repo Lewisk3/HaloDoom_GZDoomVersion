@@ -19,14 +19,7 @@ class HaloSpartan_III : HaloPlayer
 		Player.MaxHealth 100;
 		HaloPlayer.Shields 30, 5, 2; // 3 seconds to recharge, 2 seconds to max.
 		HaloPlayer.ShieldRegenSound "Shield/Regenerate/Fast";
-		
-		// Inventory
-		Player.StartItem "DoHelmetAnimation", 1;
-		Player.StartItem "Halo_AssaultRifle", 1;
-		Player.StartItem "Halo_Sidekick", 1;
-		Player.StartItem "Halo_AR_Reserves", 120;
-		Player.StartItem "Halo_Sidekick_Reserves", 48;
-				
+					
 		// Movement
 		HaloPlayer.MovementBob 0;
 		HaloPlayer.CanBunnyHop false;

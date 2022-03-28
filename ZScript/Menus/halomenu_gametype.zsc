@@ -1,0 +1,138 @@
+class HaloDoom_GameTypeMenu : HaloMenuBase
+{
+	override void Init(Menu parent, ListMenuDescriptor desc)
+	{
+		Super.Init(parent, desc);
+		
+		mMouse = Mouse.Create("", 0,0,32,32);
+		
+		string btnON  = "Graphics/UI/Title/NONE.png";
+		string btnOFF = "Graphics/UI/Title/NONE.png";
+		string btnHover = "Graphics/UI/Title/btn_light.png";
+		
+		double btnY = 350; 
+		double btnW = 0.7;
+		double btnH = 0.2;
+		double itemSpacing = 80;
+		Color btnColor = 0xFF8f0ff7;
+		
+		// Build buttons
+		for(int i = 0; i < HaloGun.GAMETYPES; i++)
+		{
+			string gtName, gtDesc;
+			[gtName, gtDesc] = HaloGun.getGameTypeDesc(i);
+			
+			TextElement btntxt = newBtnText(gtName);
+			buttons.push(Button.Create('NewGame', btnOFF ,  btnON , btnHover, 750, btnY, btnW, btnH, btntxt, btnColor));
+			btnY += itemSpacing;
+		}
+		
+		for(int i = 0; i < buttons.Size(); i++)
+			buttons[i].ScaleCollider(0.9, 0.7);
+
+		DontDim = true;
+		mMouse.SetPos(buttons[0].btnrect.pos);
+		btn_selected = 0;
+		buttonAlpha = 0.7;
+	}
+		
+	void DStr(String str, vector2 pos, uint flags = 0, Color col = Font.CR_WHITE, vector2 scale=(1.15,1.15), Font fnt = "HaloFont")
+	{
+		double len = (fnt.StringWidth(str) * scale.x);
+		pos.x -= len;
+		
+		HLSBS.DrawString(fnt,str,pos,flags,col,1.0,scale);
+	}
+	
+	override void Drawer()
+	{
+		super.Drawer();
+		mMouse.Draw();
+		
+		DStr("Select GameType", (0,100), HLSBS.SS_SCREEN_TOP_CENTER, Font.CR_BLACK, scale:(2.0,2.0), fnt:"BigFont");
+				
+		for(int i = 0; i < buttons.Size(); i++)
+		{
+			if(buttons[i].btntext)
+			{
+				if(buttons[i].pressed)
+					buttons[i].btntext.font_color = Font.CR_BLUE;
+				else if(buttons[i].hovered)
+					buttons[i].btntext.font_color = Font.CR_WHITE;
+				else
+					buttons[i].btntext.font_color = Font.CR_GOLD;
+			}
+		}
+		
+		DrawGametype();
+		HLSBS.Dim(Color(255,0,0,0), 0.15);
+	}
+	
+	void DrawGametype()
+	{	
+		Font infoFont = "HaloFont";
+		vector2 desc_pos = (1100, 300);
+				
+		uint index = -1;
+		for(int i = 0; i < buttons.Size(); i++)
+		{
+			bool btnactive = (buttons[i].hovered || buttons[i].pressed);
+			if(btnactive)			
+			{
+				index = i;
+				break;
+			}
+		}
+	
+		// Description
+		HLSBS.Fill(0xFF000000, desc_pos.x,desc_pos.y, 520,520);
+		DStr("GameType Info", (desc_pos.x+180,desc_pos.y), 0, Font.CR_BLUE, scale:(0.25,0.25), fnt:infoFont);
+	
+		if(index != -1)
+		{
+			string gtName, gtDesc;
+			[gtName, gtDesc] = HaloGun.getGameTypeDesc(index);
+			gtDesc = HaloMath.formatStringLnBreaks(gtDesc, 30);
+			
+			HLSBS.DrawString("HaloFont", gtDesc, (desc_pos.x+50,desc_pos.y+80), 0, Font.CR_WHITE, scale:(0.15,0.15), linespacing:130);
+			
+			Array<String> gametype_weaps;
+			HaloGun.getGameTypeWeapons( !index ? 0 : 1 << (index-1), gametype_weaps );
+			
+			String weaps = "";
+			for(int i = 0; i < gametype_weaps.Size(); i++)
+			{
+				string comma = ", ";
+				if(i >= gametype_weaps.Size()-1) comma = ".";
+				
+				weaps = weaps .. gametype_weaps[i] .. comma;
+			}
+				
+			weaps = HaloMath.formatStringLnBreaks(weaps, 60);
+			HLSBS.DrawString("HaloFont", weaps, (desc_pos.x+20,desc_pos.y+300), 0, Font.CR_GREEN, scale:(0.10,0.10), linespacing:100);
+		}
+	}
+	
+	
+	override void Ticker()
+	{
+		for(int i = 0; i < buttons.Size(); i++)
+		{
+			buttons[i].Update(mMouse, btn_selected == -1);
+
+			if(buttons[i].clicked)
+			{
+				MenuSound("UI/PressButton");
+				buttons[i].clicked = false;
+				
+				// Setup gametype
+				CVar gameType = CVar.GetCVar("halodoom_gametype");
+				gameType.SetInt(!i ? 0 : 1 << (i-1));
+			
+				// Enter playeclass menu.
+				Menu.SetMenu("HaloPlayerClassMenu");
+				break;
+			}
+		}
+	}
+}

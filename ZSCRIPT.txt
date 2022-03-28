@@ -32,6 +32,7 @@ version "4.5"
 #include "ZScript/Menus/halomenu_splash.zsc"
 #include "ZScript/Menus/halomenu_playerselection.zsc"
 #include "ZScript/Menus/halomenu_skillmenu.zsc"
+#include "ZScript/Menus/halomenu_gametype.zsc"
 
 // Items
 #include "ZScript/Items/keys.zsc"

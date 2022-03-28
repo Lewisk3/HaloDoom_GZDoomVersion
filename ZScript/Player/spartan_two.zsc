@@ -11,23 +11,24 @@ class HaloSpartan_II : HaloPlayer
 			"but make up for it in durability."
 		), "Bunny Hopping, Air Control";
 
-
 		// Vitals
 		Health 75; 
 		Player.MaxHealth 75;
 		HaloPlayer.Shields 75, 3, 4; // 3 seconds to recharge, 4 seconds to max.
-		
-		// Inventory
-		Player.StartItem "DoHelmetAnimation", 1;
-		Player.StartItem "Halo_AssaultRifle", 1;
-		Player.StartItem "Halo_Sidekick", 1;
-		Player.StartItem "Halo_AR_Reserves", 120;
-		Player.StartItem "Halo_Sidekick_Reserves", 48;
 		
 		// Movement
 		HaloPlayer.MovementBob 0;
 		HaloPlayer.CanBunnyHop true;
 		HaloPlayer.MaxJumps 1;
 		HaloPlayer.AirControl 1.0;
+	}
+	
+	// Called when the player initially spawns, sets up spawn items.
+	override void SetupInventory()
+	{
+		// This is just here to show that it's here.
+		// If you want to modify starting inventory, don't use
+		// StartItem, use this.
+		super.SetupInventory();
 	}
 }

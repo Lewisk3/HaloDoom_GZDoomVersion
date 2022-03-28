@@ -11,6 +11,7 @@ user bool halodoom_showhelmet = false;
 user float halodoom_grapplecomplexity = 1.0;
 user float halodoom_recoil_intensity = 1.0;
 user int halodoom_cortanamode = 0;
+server int halodoom_gametype = 0;
 server float halodoom_effectintensity = 1.0;
 server float halodoom_magnetism = 10;
 server bool halodoom_allowbhop = true;

@@ -175,7 +175,13 @@ class HaloDoom_Events : EventHandler
 		PlayerInfo src = players[e.Player];
 		if(!src || !src.mo) return;
 		let haloplr = HaloPlayer(src.mo);
-			
+		
+		if(e.Name ~== "reload_gametype")
+		{
+			populateSpawnArrays();
+			console.printf("Weapon Spawns reloaded based on current GameType.");
+		}
+		
 		// Extra keys
 		if(haloplr)
 		{
@@ -216,7 +222,12 @@ class HaloDoom_Events : EventHandler
 			{
 				let classtype = AllActorClasses[i];
 				if(classtype is "HaloGun" && classtype != "HaloGun") 
+				{
+					let weap = (class<Weapon>) (classtype);
+					if(shouldFilterWeapon(weap)) continue;
+					
 					guns.Push(AllActorClasses[i]);
+				}
 			}
 			int spacing = 360./guns.Size();
 			for(int i = 0; i < guns.Size(); i++)

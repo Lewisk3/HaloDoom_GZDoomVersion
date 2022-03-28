@@ -75,9 +75,29 @@ class Halo_Magnum : HaloGun
 		HaloGun.UISight "SI_MAG", 1.0, 0.7;
 		HaloGun.SetupScope 1.25, 0.5;
 		HaloGun.ZoomSounds "Halo/Weapons/Zoom/IN", "Halo/Weapons/Zoom/OUT";
+		
+		HaloGun.Availability GT_HL1 | GT_HL2 | GT_HL3 | GT_HL4;
 		HaloGun.PowerTier P_STRONG;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
+	}
+	
+	override void DoEffect()
+	{
+		super.DoEffect();
+		
+		// Modify weapon stats if running with CE gametype.
+		if(halodoom_gametype == HaloGun.GT_HL1)
+		{
+			damage_modifier = 0.5;
+			SpawnTier = P_MID;
+		}
+		else
+		{
+			// Restore stats for other gametypes.
+			damage_modifier = default.damage_modifier;
+			SpawnTier = default.SpawnTier;
+		}
 	}
 	
 	override void MarkPrecacheSounds()

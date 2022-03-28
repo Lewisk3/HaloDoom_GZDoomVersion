@@ -63,6 +63,8 @@ class Halo_Needler : HaloGun
 		Weapon.AmmoType1 "Halo_Needler_Reserves";
 		Weapon.AmmoType2 "Halo_Needler_Mag";
 		Weapon.AmmoGive 30;
+		
+		HaloGun.Availability GT_HL1 | GT_HL2 | GT_HL3 | GT_HL4;
 		HaloGun.PowerTier P_NORM;
 				
 		// Recoil

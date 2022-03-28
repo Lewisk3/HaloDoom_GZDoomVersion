@@ -1,5 +1,6 @@
 extend class HaloDoom_Events
 {
+	Array<String> weaps_all;
 	Array<String> weaps_weak;
 	Array<String> weaps_basic;
 	Array<String> weaps_mid;
@@ -9,8 +10,17 @@ extend class HaloDoom_Events
 	Array<String> weaps_uber;
 	Array<String> weaps_melee;
 	
+	static bool shouldFilterWeapon(class<Weapon> weap)
+	{
+		let actType = HaloGun(GetDefaultByType(weap));
+		uint gametype = actType.weapon_gametype;
+		
+		return (halodoom_gametype != 0 && !(gametype & halodoom_gametype));
+	}
+	
 	class<Actor> getWeaponFromAmmoType(class<Actor> type)
 	{
+		Array<String> weaps;
 		for(int i = 0; i < AllActorClasses.Size(); i++)
 		{
 			let weap = (class<Weapon>) (AllActorClasses[i]);
@@ -18,9 +28,19 @@ extend class HaloDoom_Events
 			
 			let defs = GetDefaultByType(weap);
 			if(defs.ammotype1 == type || defs.ammotype2 == type)
-				return weap;
+			{
+				weaps.Push(weap.getClassName());
+			}
 		}
-		return null;
+		
+		// Filter weapons
+		for(int i = weaps.Size()-1; i >= 0; i--)
+		{
+			if(weaps_all.Find(weaps[i]) == weaps_all.Size())
+				weaps.Delete(i);
+		}
+				
+		return weaps[random[AmmoToWeapSpawn](0,weaps.Size()-1)];
 	}
 		
 	class<Ammo> getAmmoFromWeaponType(class<Weapon> weap)
@@ -42,10 +62,25 @@ extend class HaloDoom_Events
 	
 	void populateSpawnArrays()
 	{
+		weaps_all.Clear();
+		weaps_weak.Clear();
+		weaps_basic.Clear();
+		weaps_mid.Clear();
+		weaps_strong.Clear();
+		weaps_power.Clear();
+		weaps_energy.Clear();
+		weaps_uber.Clear();
+		weaps_melee.Clear();
+	
 		for(int i = 0; i < AllActorClasses.Size(); i++)
 		{
 			let actType = HaloGun(GetDefaultByType(AllActorClasses[i]));
 			if( !actType || actType.getClass() == "HaloGun") continue;
+			
+			// Skip weapons outside spawning parameters.
+			uint gametype = actType.weapon_gametype;
+			if( halodoom_gametype != 0 && !(gametype & halodoom_gametype) ) 
+				continue;
 			
 			String gunName = actType.GetClassName();
 			uint tier = actType.SpawnTier;
@@ -57,6 +92,8 @@ extend class HaloDoom_Events
 			if( tier & HaloGun.P_ENERGY ) weaps_energy.Push(gunName);
 			if( tier & HaloGun.P_UBER   ) weaps_uber.Push(gunName);
 			if( tier & HaloGun.P_MELEE  ) weaps_melee.Push(gunName);
+			
+			weaps_all.Push(gunName);
 		}
 	}
 	
@@ -88,7 +125,7 @@ extend class HaloDoom_Events
 			if(checkItemType(item, "Pistol") || checkItemType(item, "Chaingun")) 
 				weapSpawns.Append(weaps_basic);
 				
-			if( checkItemType(item, "Shotgun") ) 
+			if( checkItemType(item, "Shotgun") && !checkItemType(item, "SuperShotgun") ) 
 				weapSpawns.Append(weaps_mid);
 			
 			if( checkItemType(item, "SuperShotgun") )

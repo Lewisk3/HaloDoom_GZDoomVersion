@@ -179,6 +179,8 @@ class Halo_Spiker : HaloGun
 		HaloGun.Inaccuracy SPIKER_ACCMOD;
 		HaloGun.Crosshair "SpikrRet", 0.4;
 		HaloGun.UIGraphic "WI_SPIKR", 0.75;
+		
+		HaloGun.Availability GT_HL3;
 		HaloGun.PowerTier P_MID;
 		
 		RecoilWeapon.YOffsetRange -10, 40;

@@ -107,7 +107,7 @@ class HaloPickup_EVH : EventHandler
 				if(WeaponPickupProxy.ProcessDroppedWeapon(it)) return;
 		}
 		
-		if(!it.Owner && !(it is "WeaponPickupProxy"))
+		if(!it.Owner && !(it is "WeaponPickupProxy") && !(it.GetTag() ~== "NotAWeapon") )
 		{
 			WeaponPickupProxy.BecomeWeaponProxy(it);
 		}

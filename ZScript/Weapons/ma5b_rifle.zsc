@@ -5,31 +5,6 @@ class Halo_MAB_Clip : Ammo
 		Inventory.MaxAmount 60;
 	}
 }
-class Halo_MAB_Reserves : Ammo
-{
-	mixin WorldAmmoBehavior;
-	Default 
-	{
-		Radius 8;
-		Height 6;
-		Scale 0.65;
-
-		Inventory.Amount 48;
-		Inventory.MaxAmount 660;
-		Inventory.Icon "HLAMA0";
-		Inventory.PickupSound "Halo/Pickup/Ammo";
-		Inventory.PickupMessage "Picked up 48 Rounds for the MA5B";
-		
-		Ammo.BackpackMaxAmount 780;
-	}
-	
-	States
-	{
-		Spawn:
-			HLAM A -1 Bright;
-		stop;
-	}
-}
 
 class HaloMAB_Bullet : HaloBullet 
 {
@@ -60,7 +35,7 @@ class Halo_MA5B : HaloGun
 		Tag "LMG (MA5B)";
 		Weapon.BobSpeed 1.86;
 		Weapon.BobRangeX 0.30;
-		Weapon.AmmoType1 "Halo_MAB_Reserves";
+		Weapon.AmmoType1 "Halo_AR_Reserves";
 		Weapon.AmmoType2 "Halo_MAB_Clip";
 		Weapon.AmmoGive 60;
 				
@@ -71,6 +46,8 @@ class Halo_MA5B : HaloGun
 		HaloGun.Inaccuracy ARMA5B_ACCMOD;
 		HaloGun.Crosshair "MA5BRet", 1.0;
 		HaloGun.UIGraphic "WI_AR", 1.0;
+		
+		HaloGun.Availability GT_HL1 | GT_MSX;
 		HaloGun.PowerTier P_NORM;
 		
 		RecoilWeapon.YOffsetRange 0, 40;
@@ -105,6 +82,12 @@ class Halo_MA5B : HaloGun
 	{
 		A_Overlay(LCD_LLayer, "LCD_Off");
 		A_Overlay(LCD_RLayer, "LCD_Off");
+	}
+	
+	action void A_EnableLCD()
+	{	
+		A_Overlay(LCD_LLayer, "LCD_AmmoCount.Left");
+		A_Overlay(LCD_RLayer, "LCD_AmmoCount.Right");
 	}
 	
 	action void A_LCDOffset(double x, double y, bool add = false)
@@ -146,8 +129,7 @@ class Halo_MA5B : HaloGun
 				else
 					A_LCDOffset(0,0);
 					
-				A_Overlay(LCD_LLayer, "LCD_AmmoCount.Left");
-				A_Overlay(LCD_RLayer, "LCD_AmmoCount.Right");
+				A_EnableLCD();
 				A_OverlayFlags(LCD_LLayer, PSPF_ADDWEAPON|PSPF_ADDBOB, true);
 				A_OverlayFlags(LCD_RLayer, PSPF_ADDWEAPON|PSPF_ADDBOB, true);
 			}
@@ -171,6 +153,7 @@ class Halo_MA5B : HaloGun
 		// ~2.3 frames.
 		
 		Fire:
+			TNT1 A 0 A_EnableLCD();
 			THT1 A 0 A_Jump(256, "Fire1", "Fire2", "Fire3", "Fire4");
 			WHG1 A 1;
 		goto Ready.Active;
@@ -198,9 +181,7 @@ class Halo_MA5B : HaloGun
 			} 
 			TNT1 A 0 A_ReFire();
 			TNT1 A 0 A_DisableLCD();
-			WHF1 CDEFG 1 A_LCDOffset( 1.5,0, add:true);
-			WHF1 HIJKL 1 A_LCDOffset(-1.5,0, add:true);
-			TNT1 A 0 A_LCDOffset(0,0);
+			WHF1 CDEFGHIJKL 1 A_JumpIf(A_FirePressed(), "Fire");
 		goto Ready.Active;
 		
 		Fire2:
@@ -226,9 +207,7 @@ class Halo_MA5B : HaloGun
 			} 
 			TNT1 A 0 A_ReFire();
 			TNT1 A 0 A_DisableLCD();
-			WHF1 OPQRS 1 A_LCDOffset( 1.5,0, add:true);
-			WHF1 TUVWX 1 A_LCDOffset(-1.5,0, add:true);
-			TNT1 A 0 A_LCDOffset(0,0);
+			WHF1 OPQRSTUVWX 1 A_JumpIf(A_FirePressed(), "Fire");
 		goto Ready.Active;
 		
 		Fire3:
@@ -254,9 +233,7 @@ class Halo_MA5B : HaloGun
 			} 
 			TNT1 A 0 A_ReFire();
 			TNT1 A 0 A_DisableLCD();
-			WHF2 ABCDE 1 A_LCDOffset( 1.5,0, add:true);
-			WHF2 FGHIJ 1 A_LCDOffset(-1.5,0, add:true);
-			TNT1 A 0 A_LCDOffset(0,0);
+			WHF2 ABCDEFGHIJ 1 A_JumpIf(A_FirePressed(), "Fire");
 		goto Ready.Active;
 		
 		Fire4:
@@ -282,9 +259,7 @@ class Halo_MA5B : HaloGun
 			} 
 			TNT1 A 0 A_ReFire();
 			TNT1 A 0 A_DisableLCD();
-			WHF2 NMOPQ 1 A_LCDOffset( 1.5,0, add:true);
-			WHF2 RSTUV 1 A_LCDOffset(-1.5,0, add:true);
-			TNT1 A 0 A_LCDOffset(0,0);
+			WHF2 NMOPQRSTUV 1 A_JumpIf(A_FirePressed(), "Fire");
 		goto Ready.Active;
 		
 		/*

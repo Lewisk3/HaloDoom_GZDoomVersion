@@ -18,13 +18,6 @@ class HaloSpartan_IV : HaloPlayer
 		// Vitals
 		Health 45; 
 		Player.MaxHealth 45;
-
-		// Inventory
-		Player.StartItem "DoHelmetAnimation", 1;
-		Player.StartItem "Halo_AssaultRifle", 1;
-		Player.StartItem "Halo_Sidekick", 1;
-		Player.StartItem "Halo_AR_Reserves", 120;
-		Player.StartItem "Halo_Sidekick_Reserves", 48;
 		
 		// Movement
 		HaloPlayer.MovementBob 0;

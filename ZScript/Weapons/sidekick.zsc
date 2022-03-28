@@ -65,6 +65,8 @@ class Halo_Sidekick : HaloGun
 		HaloGun.Inaccuracy SIDEKICK_ACCMOD;
 		HaloGun.Crosshair "SdkRet", 1.0;
 		HaloGun.UIGraphic "WI_SDK", 0.4;
+		
+		HaloGun.Availability GT_HL4 | GT_MSX;
 		HaloGun.PowerTier P_NORM;
 		
 		RecoilWeapon.YOffsetRange -10, 40;

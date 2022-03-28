@@ -71,6 +71,8 @@ class Halo_SMG : HaloGun
 		+HaloGun.SI_Fullscreen;
 		+HaloGun.SI_Rotate;
 		+HaloGun.SI_AlwaysHide;
+		
+		HaloGun.Availability GT_HL2 | GT_HL3;
 		HaloGun.PowerTier P_NORM;
 		
 		RecoilWeapon.YOffsetRange -10, 40;

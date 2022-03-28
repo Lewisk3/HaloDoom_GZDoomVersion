@@ -136,7 +136,7 @@ class HaloDoom_TitleMenu : HaloMenuBase
 				Switch(buttons[i].type)
 				{
 					case 'NewGame':	 	// New Game
-						Menu.SetMenu('HaloPlayerClassMenu');
+						Menu.SetMenu('HaloGameTypeMenu');
 					break;
 					case 'SaveGame':		// Save Game
 						Menu.SetMenu('SaveGameMenu');

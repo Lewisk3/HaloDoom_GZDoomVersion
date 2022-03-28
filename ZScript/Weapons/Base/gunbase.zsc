@@ -12,7 +12,19 @@ class HaloGun : RecoilWeapon
 		P_UBER   = 1 << 7,
 		P_MELEE  = 1 << 8
 	}
-	
+		
+	const GAMETYPES = 6;
+	enum GameTypeFlags
+	{
+		GT_HDE  = 0,
+		GT_HL1  = 1 << 0,
+		GT_HL2  = 1 << 1,
+		GT_HL3  = 1 << 2,
+		GT_HL4  = 1 << 3,
+		GT_MSX  = 1 << 4,
+		GT_UNDEF = 1 << 5 // Undefined gametype.
+	}
+		
 	transient CVar cvfx_smoke;
 	transient CVar cvfx_casings;
 	vector3 sfx_pos;
@@ -27,6 +39,7 @@ class HaloGun : RecoilWeapon
 	uint backpack_reloadmaxtime;
 	uint SpawnTier;
 	int reload_ammoleft;
+	double damage_modifier;
 	double baserecoil;
 	double spreadmod; // Spread introduced by continuous fire
 	double bloomamt, bloomspd, accmod;
@@ -53,6 +66,7 @@ class HaloGun : RecoilWeapon
 	double scopezoom;
 	bool zoomed;
 	int zoom_btnstate;
+	uint weapon_gametype; // Spawn filter based on selected gametype.
 	bool uses_battery;
 	bool GunLightningFlash;
 	
@@ -85,7 +99,9 @@ class HaloGun : RecoilWeapon
 	Property ZoomSounds : snd_zoomin, snd_zoomout;
 	Property LowerOnMelee : meleelower;
 	Property HasBattery : uses_battery, battery_drain;
+	Property Availability : weapon_gametype;
 	Property PowerTier : SpawnTier;
+	Property _ProjDamageMod : damage_modifier;
 
 	enum ButtonStates
 	{
@@ -109,8 +125,10 @@ class HaloGun : RecoilWeapon
 		HaloGun.UIGraphic "MISSNG", 1.0;
 		HaloGun.SwayRange 4.0;
 		HaloGun.SwaySpeed 2.5;
+		HaloGun._ProjDamageMod 1.0;
 		HaloGun.LowerOnMelee 50;
 		HaloGun.PowerTier P_NULL;
+		HaloGun.Availability GT_UNDEF;
 		Weapon.BobRangeX 1.5;
 		Weapon.BobRangeY 0.6;
 		Weapon.BobSpeed 0.5;
@@ -130,6 +148,37 @@ class HaloGun : RecoilWeapon
 		}
 	}
 
+
+	// Game Type functions.
+	clearscope static string, string getGameTypeDesc(uint gametype, bool asflags = false)
+	{
+		int gamenum = gametype;
+		if(asflags) gamenum = !gametype ? 0 : (log(gametype) / log(2)) + 1;	
+		
+		string data = StringTable.Localize(String.Format("$GAMETYPE_%d_DESC", gamenum));
+		Array<String> filter;
+		data.Split(filter, ":");
+		
+		return filter[0], filter[1];
+	}
+	
+	clearscope static void getGameTypeWeapons(uint gametype, out Array<String> weapslist)
+	{
+		for(int i = 0; i < AllActorClasses.Size(); i++)
+		{
+			let actType = HaloGun(GetDefaultByType(AllActorClasses[i]));
+			if( !actType || actType.getClass() == "HaloGun") continue;
+			
+			// Skip weapons outside spawning parameters.
+			if( gametype != 0 && !(actType.weapon_gametype & gametype) ) 
+				continue;
+						
+			weapslist.Push(actType.getTag());
+		}
+	}
+
+
+	// Weapon functions
 	override void OnDrop (Actor dropper) 
 	{
 		let wp = WeaponPickupProxy.BecomeWeaponProxy(self, !!dropper.player);
@@ -326,8 +375,16 @@ class HaloGun : RecoilWeapon
 			else
 				aimpos = HaloMath.getPlayerAim(PlayerPawn(self));
 			
-			if(haloProj	   ) haloProj.DoConverge(aimpos, recoil);
-			if(haloSlowProj) haloSlowProj.DoConverge(aimpos, recoil);
+			if(haloProj) 
+			{
+				haloProj.truedamage = haloProj.default.truedamage * invoker.damage_modifier;
+				haloProj.DoConverge(aimpos, recoil);
+			}
+			if(haloSlowProj) 
+			{
+				haloSlowProj.truedamage = haloSlowProj.default.truedamage * invoker.damage_modifier;
+				haloSlowProj.DoConverge(aimpos, recoil);
+			}
 			
 			FLineTraceData lt;
 			aproj.LineTrace(aproj.angle, 1024*64, aproj.pitch, 0, offsetforward: 20, data:lt);

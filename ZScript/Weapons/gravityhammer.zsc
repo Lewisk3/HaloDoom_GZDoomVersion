@@ -106,7 +106,7 @@ class Halo_GravityHammer : HaloGun
 		Weapon.AmmoType1 "Halo_GravityHammer_Battery";
 		Weapon.AmmoType2 "Halo_GravityHammer_Battery";
 		Weapon.AmmoGive 100;
-		HaloGun.HasBattery true, 5;
+		HaloGun.HasBattery true, 10;
 				
 		// Recoil
 		HaloGun.Bloom 0.8;
@@ -115,6 +115,8 @@ class Halo_GravityHammer : HaloGun
 		HaloGun.Inaccuracy 0;
 		HaloGun.Crosshair "GHAMRet", 1.0;
 		HaloGun.UIGraphic "WI_GHAM", 1.0;
+		
+		HaloGun.Availability GT_HL3 | GT_HL4;
 		HaloGun.PowerTier P_MELEE;
 		
 		RecoilWeapon.YOffsetRange -10, 1000;
