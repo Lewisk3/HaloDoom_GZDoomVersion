@@ -106,7 +106,7 @@ class Halo_Bulldog : HaloGun
 	
 	action state A_CheckRapidFire()
 	{
-		return A_JumpIf(A_FirePressed(), "Fire");
+		return A_JumpIf(A_ButtonStatus(BT_ATTACK, BTS_DOWN), "Fire");
 	}
 	
 	States
@@ -165,7 +165,7 @@ class Halo_Bulldog : HaloGun
 			BULF GHIJ 1 
 			{
 				A_RecoilOffset(0,10,6);
-				return A_CheckRapidFire();
+			//	return A_CheckRapidFire();
 			}
 			BULF K 1 
 			{

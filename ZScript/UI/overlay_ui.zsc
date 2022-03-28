@@ -111,9 +111,6 @@ class Halo_OverlayUI : EventHandler
 	// Keys and Hitmarkers
 	override void RenderOverlay(RenderEvent e)
 	{
-		// Setup camera textures
-		TexMan.SetCameraToTexture(e.Camera,"ScopeCamera",e.Camera.player.FOV * 0.5);
-	
 		// Get player
 		HaloPlayer haloplr = HaloPlayer(e.Camera);
 		if(!haloplr)

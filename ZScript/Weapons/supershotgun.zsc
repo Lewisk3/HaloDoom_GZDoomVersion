@@ -73,7 +73,7 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 		Weapon.AmmoType2 "Halo_DBLShotgun_Shells";
 		
 		HaloGun.Availability GT_HL1 | GT_HL2 | GT_HL3 | GT_HL4;
-		HaloGun.PowerTier P_POWER | P_STRONG;
+		HaloGun.PowerTier P_STRONG;
 				
 		// Recoil
 		RecoilWeapon.RecoilSpeed 20;
