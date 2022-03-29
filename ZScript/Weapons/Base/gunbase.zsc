@@ -1194,21 +1194,16 @@ class HaloGun : RecoilWeapon
 			{
 				A_OverlayFlags(OverlayID(), PSPF_RENDERSTYLE | PSPF_ALPHA, true);
 				A_OverlayRenderStyle(OverlayID(), STYLE_Add);
-				
-				/*let curPSprite = player.GetPSprite(OverlayID());
-				if(!(GetAge() % 2)) 
-					invoker.GunLightningFlash = !invoker.GunLightningFlash;
-				curPSprite.frame = invoker.GunLightningFlash ? 1 : 9;*/
 			}
-			BIRI B 1;
-			TNT1 A 0
+		DoGunLightning:
+			BIRI B 1
 			{
 				let curPSprite = player.GetPSprite(OverlayID());
 				curPSprite.alpha *= 0.25;
 				
-				if(curPSprite.alpha <= 0) 
+				if(curPSprite.alpha <= 0.01) 
 					return ResolveState(null);
-				return ResolveState("GunLightning");
+				return ResolveState("DoGunLightning");
 			}
 		stop;
 		
