@@ -3,6 +3,24 @@ GameInfo
 	AddEventHandlers = "HaloPickup_EVH", "Halo_OverlayUI", "HaloDoom_Events", "HaloDoom_EngineEvents"
 	StatusBarClass = "HaloStatusBar"
 	PlayerClasses = "HaloSpartan_II", "HaloSpartan_III", "HaloSpartan_IV", "DoomPlayer"
+	
+	MenuFontColor_Title = "Blue"
+	MenuFontColor_Label = "Sapphire"
+	MenuFontColor_Value = "Fire"
+	MenuFontColor_Action = "Ice"
+	MenuFontColor_Header = "Blue"
+	MenuFontColor_Highlight = "Purple"
+	MenuFontColor_Selection = "Purple"
+}
+
+Automap
+{
+    Base = "Doom"
+    ShowLocks = True
+    Background = "00 50 70"
+	GridColor = "00 00 255"
+    WallColor = "White"	
+    AlmostBackgroundColor = "00 50 50"
 }
 
 DoomEdNums 
