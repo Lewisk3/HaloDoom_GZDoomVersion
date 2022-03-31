@@ -203,7 +203,7 @@ class HaloStatusBar : BaseStatusBar
 	
 	override void Draw (int state, double TicFrac)
 	{
-		if(!automapactive) Super.Draw(state, TicFrac);
+		if(automapactive) Super.Draw(state, TicFrac);
 		
 		// Fetch CVars
 		if(!showMinimap) showMinimap = CVar.GetCVar("halodoom_showminimap", CPlayer);

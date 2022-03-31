@@ -76,7 +76,7 @@ class Halo_Magnum : HaloGun
 		HaloGun.SetupScope 1.25, 0.5;
 		HaloGun.ZoomSounds "Halo/Weapons/Zoom/IN", "Halo/Weapons/Zoom/OUT";
 		
-		HaloGun.Availability GT_HL1 | GT_HL2 | GT_HL3 | GT_HL4;
+		HaloGun.Availability GT_HL1 | GT_HL3 | GT_HL4;
 		HaloGun.PowerTier P_STRONG;
 		
 		RecoilWeapon.YOffsetRange -10, 40;

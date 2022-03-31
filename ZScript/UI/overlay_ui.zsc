@@ -110,7 +110,7 @@ class Halo_OverlayUI : EventHandler
 	
 	// Keys and Hitmarkers
 	override void RenderOverlay(RenderEvent e)
-	{
+	{	
 		// Get player
 		HaloPlayer haloplr = HaloPlayer(e.Camera);
 		if(!haloplr)
