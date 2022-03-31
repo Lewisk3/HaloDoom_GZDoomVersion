@@ -47,7 +47,7 @@ class Halo_Stanchion : HaloGun
 		Weapon.AmmoGive 100;
 		Weapon.AmmoType2 "Halo_StanchionClip";
 		
-		HaloGun.Availability GT_HL1 | GT_HL2 | GT_HL3 | GT_HL4 | GT_MSX;
+		HaloGun.Availability GT_ALL;
 		HaloGun.PowerTier P_UBER;
 				
 		// Recoil

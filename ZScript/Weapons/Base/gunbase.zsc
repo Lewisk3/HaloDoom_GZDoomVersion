@@ -22,7 +22,8 @@ class HaloGun : RecoilWeapon
 		GT_HL3  = 1 << 2,
 		GT_HL4  = 1 << 3,
 		GT_MSX  = 1 << 4,
-		GT_UNDEF = 1 << 5 // Undefined gametype.
+		GT_UNDEF = 1 << 5, // Undefined gametype.
+		GT_ALL = 0xFF // Oops all 1s!
 	}
 		
 	transient CVar cvfx_smoke;

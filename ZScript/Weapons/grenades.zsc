@@ -102,6 +102,18 @@ class FragGrenade_Proj : Actor
 		Scale 0.08;
 	}	
 	
+	override int SpecialMissileHit(Actor victim)
+	{
+		int res = super.SpecialMissileHit(victim);
+		if(res != 1) 
+		{
+			let pain = victim.FindState("Pain");
+			if(pain) victim.SetState(pain);
+		}
+		
+		return -1;
+	}
+	
 	override void Tick()
 	{
 		super.Tick();
@@ -135,7 +147,7 @@ class FragGrenade_Proj : Actor
 		
 		Crash:
 		XDeath:
-		goto Detonate;
+		goto Death;
 		
 		Death:
 			FRAG A 28; 

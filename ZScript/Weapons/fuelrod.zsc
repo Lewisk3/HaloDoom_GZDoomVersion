@@ -141,7 +141,7 @@ class Halo_FuelRod : HaloGun
 		Weapon.AmmoType1 "Halo_FuelClip";
 		Weapon.AmmoType2 "Halo_FuelClip";
 		
-		HaloGun.Availability GT_HL1 | GT_HL2 | GT_HL3 | GT_HL4 | GT_MSX;
+		HaloGun.Availability GT_ALL;
 		HaloGun.PowerTier P_POWER;
 		
 		// This is basically hacks

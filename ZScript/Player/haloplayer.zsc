@@ -120,9 +120,9 @@ class HaloPlayer : DoomPlayer
 			break;
 			case HaloGun.GT_HL2:
 				GiveInventory("Halo_BattleRifle", 1);
-				GiveInventory("Halo_Magnum", 1);
+				GiveInventory("Halo_Sidekick", 1);
 				GiveInventory("Halo_BAR_Reserves", 90);
-				GiveInventory("Halo_Magnum_Reserves", 36);
+				GiveInventory("Halo_Sidekick_Reserves", 48);
 			break;
 			case HaloGun.GT_MSX:
 				GiveInventory("Halo_MA5B", 1);
@@ -140,7 +140,6 @@ class HaloPlayer : DoomPlayer
 				GiveInventory("Halo_Sidekick_Reserves", 48);
 			break;
 		}
-		
 	}
 	
 	virtual bool CheckCanMelee()
