@@ -254,7 +254,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 
 		explodetimer = explodedelay;
 		needlecount = NeedleCounter(victim.FindInventory("NeedleCounter"));
-		if(!needlecount) 
+		if(!needlecount && target) 
 		{
 			victim.GiveInventory("NeedleCounter", 1);
 			needlecount = NeedleCounter(victim.FindInventory("NeedleCounter"));

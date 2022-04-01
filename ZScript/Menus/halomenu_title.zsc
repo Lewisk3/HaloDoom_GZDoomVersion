@@ -6,7 +6,7 @@ class HaloDoom_TitleMenu : HaloMenuBase
 	override void Init(Menu parent, ListMenuDescriptor desc)
 	{
 		Super.Init(parent, desc);
-		
+
 		title = (gamestate == GS_TITLELEVEL);
 		MainBG = MenuTexture.Create("Graphics/UI/Title/TitleLogo.png",(0,-200),(0.5,0.5));
 		mMouse = Mouse.Create("", 0,0,8,8);
@@ -92,7 +92,7 @@ class HaloDoom_TitleMenu : HaloMenuBase
 	
 	override void Drawer()
 	{
-		super.Drawer();
+		super.Drawer();		
 		mMouse.Draw();
 		
 		vector2 ht_pos = (75,1000);
