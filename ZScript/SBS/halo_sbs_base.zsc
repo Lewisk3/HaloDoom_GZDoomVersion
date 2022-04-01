@@ -159,7 +159,7 @@ class HLSBS Abstract ui
 		// People want LZDoom compat so I have no choice, sucks...
 		
 		let evh = HaloDoom_Events(EventHandler.Find("HaloDoom_Events"));
-		bool runningLZDoom = evh.runningLZDoom;
+		bool runningLZDoom = evh ? evh.runningLZDoom : true;
 		
 		// This horrible idea is needed so LZDoom's compiler doesn't error out.
 		uint FLG_Rotate = 0x400013ce; // Enum value of DTA_Rotate for GZDoom

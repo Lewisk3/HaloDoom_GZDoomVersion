@@ -1,13 +1,16 @@
 class HaloDoom_TitleMenu : HaloMenuBase
 {
 	double fadein;
+	bool loadingTitleMap;
 	bool title;
 	
 	override void Init(Menu parent, ListMenuDescriptor desc)
 	{
 		Super.Init(parent, desc);
+
+		title = (gamestate != GS_LEVEL);
+		loadingTitleMap = (gamestate == GS_DEMOSCREEN);
 		
-		title = (gamestate == GS_TITLELEVEL);
 		MainBG = MenuTexture.Create("Graphics/UI/Title/TitleLogo.png",(0,-200),(0.5,0.5));
 		mMouse = Mouse.Create("", 0,0,8,8);
 		
@@ -56,6 +59,7 @@ class HaloDoom_TitleMenu : HaloMenuBase
 		btn_selected = 0;
 		buttonAlpha = 0.6;
 		fadein = title ? 1.0 : 0.15;
+		if(loadingTitleMap) fadein = 2.75;
 	}
 	
 	override bool MenuEvent(int mkey, bool fromcontroller)
@@ -92,7 +96,7 @@ class HaloDoom_TitleMenu : HaloMenuBase
 	
 	override void Drawer()
 	{
-		super.Drawer();
+		super.Drawer();		
 		mMouse.Draw();
 		
 		vector2 ht_pos = (75,1000);
@@ -114,12 +118,27 @@ class HaloDoom_TitleMenu : HaloMenuBase
 			fadein = 0.15;
 		}
 		
-		if(fadein > 0.15) fadein -= 0.02 * deltatime;
-		HLSBS.Dim(Color(255,0,0,0), fadein);
+		if(fadein > 0.15) 
+		{
+			fadein -= 0.02 * deltatime;
+			if(fadein <= 0.5) loadingTitleMap = false;
+		}
+		
 		string branch = HaloMath.GetGitBranch();
 		string versionInfo = String.Format("Version %s", StringTable.Localize("$MOD_VERSION"));
 		if(branch != "") versionInfo = String.Format("%s \c[Black][\c[Blue]%s\c[Black]]\c[White]", versionInfo, branch);
 		DStr(versionInfo, (20,20), Font.CR_BLACK, scale:(0.1,0.1), fnt:"HaloFont");
+		HLSBS.Dim(Color(255,0,0,0), fadein);
+				
+		if(loadingTitleMap) 
+		{
+			HLSBS.DrawString(
+				"HaloFont", "Please report bugs/crashes on the offical Halo Doom GitHub page.",
+				(0,-400), (HLSBS.SS_SCREEN_CENTER | HLSBS.SS_TEXT_CENTER), translation:Font.CR_FIRE, 
+				alpha:fadein-1.0, scale:(0.2,0.2)
+			);
+			HLSBS.DrawString("HaloFont", "Loading...", (20,1000), translation:Font.CR_BLACK, alpha:fadein-1.0, scale:(0.35,0.35));
+		}
 	}
 	
 	override void Ticker()
@@ -132,6 +151,7 @@ class HaloDoom_TitleMenu : HaloMenuBase
 			{
 				MenuSound("UI/PressButton");
 				buttons[i].clicked = false;
+				Close();
 				
 				Switch(buttons[i].type)
 				{

@@ -155,21 +155,6 @@ class HaloDoom_Events : EventHandler
 		}
 	}
 
-	override void UITick()
-	{
-		let curmenu = Menu.GetCurrentMenu();
-		bool curintro = (curmenu is "HaloDoom_IntroSeq");
-		bool titlescreen = (gamestate == GS_TITLELEVEL);
-		
-		if(engHandle.edata.first_boot && !curintro && titlescreen)
-		{
-			Menu.SetMenu("Intro");
-			engHandle.edata.first_boot = false;
-		}
-		else if(!titlescreen)
-			engHandle.edata.first_boot = false;
-	}
-
 	override void NetworkProcess(ConsoleEvent e)
 	{
 		PlayerInfo src = players[e.Player];
@@ -180,6 +165,11 @@ class HaloDoom_Events : EventHandler
 		{
 			populateSpawnArrays();
 			console.printf("Weapon Spawns reloaded based on current GameType.");
+		}
+		
+		if(e.Name ~== "glitchgremlin")
+		{
+			Object.ThrowAbortException("\c[Red]Playsim aborted.");
 		}
 		
 		// Extra keys
@@ -390,25 +380,22 @@ class HaloDoom_Events : EventHandler
 	}
 }
 
-
-
-// As of GZDoom 4.5, Structs ignore scoping.
-// This needs to be done here because I cannot get NetworkEvents to properly
-// call from the title.
-// When the game first loads up, this will detect that and 
-// set the menu to play the intro effects. 
-struct engine_vars 
-{
-	bool first_boot;
-}
-
 class HaloDoom_EngineEvents : StaticEventHandler 
 {		
-	engine_vars edata;
-
-	override void OnRegister()
-	{
-		edata.first_boot = true;
-	}
+	ui bool intro_played;
 	
+	override void UITick()
+	{
+		let curmenu = Menu.GetCurrentMenu();
+		bool curintro = (curmenu is "HaloDoom_IntroSeq");
+		bool titlescreen = (gamestate == GS_TITLELEVEL);
+		
+		if(!intro_played && !curintro && titlescreen)
+		{
+			Menu.SetMenu("Intro");
+			intro_played = true;
+		}
+		else if(!titlescreen)
+			intro_played = true;
+	}
 }

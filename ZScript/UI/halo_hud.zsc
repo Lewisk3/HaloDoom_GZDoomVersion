@@ -333,7 +333,7 @@ class HaloStatusBar : BaseStatusBar
 			// TODO: Draw all weapons.
 			Weapon weap = NULL;
 			Array<int> slots;
-			slots.Resize(9);
+			slots.Resize(10);
 			
 			for(let i = haloplr.Inv; i; i = i.Inv)
 			{
