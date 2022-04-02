@@ -171,10 +171,18 @@ class HaloDoom_Events : EventHandler
 		{
 			Object.ThrowAbortException("\c[Red]Playsim aborted.");
 		}
-		
 		// Extra keys
 		if(haloplr)
 		{
+			if(e.Name ~== "haveashield")
+			{
+				if(haloplr.aimActor)
+				{
+					ShieldProcessor.Attach(haloplr.aimActor);
+					console.printf("Gave shield.");
+				}
+			}
+		
 			if(e.Name ~== "throwgrenade")
 			{
 				let haloweap = HaloGun(haloplr.player.ReadyWeapon);

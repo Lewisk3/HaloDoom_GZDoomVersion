@@ -2,14 +2,9 @@
 
 class SpartanDummy : Actor
 {
-	double maxshields;
-	double shields;
-	double killTimer;
-	Property Shields : maxshields;
+	int killTimer;
 	vector3 spawnPos;
-
-	SpartanOverlay shieldOverlay;
-
+	
 	Default
 	{	
 		Radius 16;
@@ -19,7 +14,6 @@ class SpartanDummy : Actor
 		+ISMONSTER;
 		
 		Health 45;
-		SpartanDummy.Shields 70;
 		
 		+SHOOTABLE;
 		+SOLID;
@@ -28,80 +22,9 @@ class SpartanDummy : Actor
 	override void BeginPlay()
 	{
 		super.BeginPlay();
-		shieldOverlay = SpartanOverlay.Attach(self);
+		
+		GiveInventory("DummyShield", 1);
 		spawnPos = pos;
-		
-		shields = maxshields;
-	}
-	
-	double regen_timer;
-	override void Tick()
-	{
-		super.Tick();
-		shieldOverlay.Update(shields, maxshields);
-		
-		// Friction
-		vel.xy *= 0.97;
-		
-		// Shield Regen
-		double shield_regenrate = 3;
-		double shregentime = (4)*35.;
-		
-		if(regen_timer < shregentime) 
-		{	
-			regen_timer += 1;
-			if(shields > maxshields) regen_timer = shregentime;
-		}
-		regen_timer = clamp(regen_timer, -shregentime, shregentime);
-		if(regen_timer >= shregentime && shields < maxshields) 
-		{
-			shields += maxshields/(shield_regenrate*35.);
-			shields = clamp(shields, 0, maxshields);
-		}
-		else if(shields >= maxshields)
-		{
-			health = GetMaxHealth();
-		}
-	}
-	
-	override int DamageMobJ(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle)
-	{	
-		// Get real damage amount, taking into account modified damage.
-		double dmg = GetModifiedDamage(mod, damage, true);
-		
-		if(shields > 0)
-			dmg = HaloProjectile.ApplyShieldDamage(dmg, HaloProjectile(inflictor), mod == 'Headshot');
-		
-		double truedamage = dmg / GAMEPLAY_DAMAGEMOD;
-		target = source;
-
-		let haloplr = HaloPlayer(source);
-		if(!haloplr) haloplr = HaloPlayer(inflictor);
-		if(haloplr)
-		{
-			string dmgMsg = String.Format("Damage Dealt: %d", truedamage);
-			haloplr.SendHUDMessage(dmgMsg);
-		}
-		
-		if(shields >= maxshields) killTimer = GetAge();
-		if(shields > 0)
-		{
-			regen_timer = 0;
-			shields -= truedamage;
-			A_StopSound(CHAN_5);
-			A_StartSound("Shield/TakeDamage",flags:CHANF_NOSTOP);
-			if(shields <= 0) 
-			{	
-				A_StartSound("Shield/Explode",flags:CHANF_NOSTOP);
-				double truedmg = abs(shields);
-				shields = 0;
-				
-				if(mod != 'plasma') // Shield bleed damage, so long as source isn't plasma.
-					return super.DamageMobJ(inflictor, source, ceil(truedmg), mod, flags | DMG_FORCED, angle);
-			}
-			return 0;
-		}
-		return super.DamageMobJ(inflictor, source, ceil(truedamage), mod, flags | DMG_FORCED, angle);
 	}
 	
 	States
@@ -130,6 +53,72 @@ class SpartanDummy : Actor
 	}
 }
 
+class DummyShield : ShieldProcessor
+{
+	Default
+	{
+		ShieldProcessor.MaxShields 70;
+		ShieldProcessor.RegenSpeeds 4 * 35, 3 * 35; 
+		ShieldProcessor.BreakSound "Shield/Explode";
+		ShieldProcessor.ForwardOffset 0;
+	}
+	
+	override double applyShieldBleedDamage(int dmg, Name mod)
+	{
+		// Shield bleed damage, so long as source isn't plasma.
+		if(mod == 'plasma') return 0;
+		
+		return dmg;
+	}
+	
+	override void OnShieldBreak()
+	{
+		super.OnShieldBreak();
+		
+		Owner.GiveInventory("ShieldLightningAnimator", 1);
+	}
+	
+	override void UpdateShields()
+	{
+		super.UpdateShields();
+		
+		if(shields >= maxshields)
+		{
+			Owner.health = Owner.GetMaxHealth();
+		}
+	}
+	
+	override double OnShieldDamage(double dmg, Name mod, Actor inflictor, Actor source)
+	{
+		let dummy = SpartanDummy(Owner);
+		
+		if(shields > 0)
+		{
+			dmg = HaloProjectile.ApplyShieldDamage(dmg, HaloProjectile(inflictor), mod == 'Headshot');
+			A_StopSound(CHAN_5);
+			Owner.A_StartSound("Shield/TakeDamage",flags:CHANF_NOSTOP);
+		}
+		target = source;
+		
+		if(shields >= maxshields && dummy) 
+			dummy.killTimer = dummy.GetAge();
+
+		let haloplr = HaloPlayer(source);
+		if(!haloplr) haloplr = HaloPlayer(inflictor);
+		if(haloplr)
+		{
+			string dmgMsg = String.Format("Damage Dealt: %d", dmg);
+			haloplr.SendHUDMessage(dmgMsg);
+		}
+		
+		return dmg;
+	}
+	
+	override double AdjustDamage(int dmg, Name type)
+	{
+		return dmg / GAMEPLAY_DAMAGEMOD;;
+	}
+}
 
 class SpartanDummy_Moving : SpartanDummy
 {
