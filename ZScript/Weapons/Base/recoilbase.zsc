@@ -254,20 +254,22 @@ class RecoilWeapon : Weapon
 		A_Quake(str*cvi,dur,drad,trad,sfx);
 	}
 	
-	action void A_RollQuake(double str, int dur, double freq = 4, bool noreplace = false)
+	action void A_RollQuake(double str, int dur, double freq = 4, bool noreplace = false, RecoilWeapon ptr = null)
 	{
-		if(!noreplace || invoker.rollshake_str == 0)
+		if(!ptr) ptr = invoker;
+		
+		if(!noreplace || ptr.rollshake_str == 0)
 		{
-			invoker.rollshake_str = str;
-			invoker.rollshake_time = dur;
-			invoker.rollshake_maxtime = dur;
-			invoker.rollshake_freq = freq;
-			invoker.rollshake_dirfreq = 0;
+			ptr.rollshake_str = str;
+			ptr.rollshake_time = dur;
+			ptr.rollshake_maxtime = dur;
+			ptr.rollshake_freq = freq;
+			ptr.rollshake_dirfreq = 0;
 		}
 		else
 		{
-			invoker.rollshake_time = dur;
-			invoker.rollshake_maxtime = dur;
+			ptr.rollshake_time = dur;
+			ptr.rollshake_maxtime = dur;
 		}
 	}
 	

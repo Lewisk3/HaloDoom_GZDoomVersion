@@ -9,6 +9,18 @@ Model HaloBullet
    FrameIndex TRAC A 0 0 
 }
 
+Model HaloRocketProj
+{
+   Path "Models/Weapons"
+   SKIN 0 "rocket.png" 
+   MODEL 0 "rocket.md3" 
+   Scale 10.0 10.0 10.0 
+   AngleOffset 90
+   USEACTORPITCH 
+   
+   FrameIndex MODL A 0 0 
+}
+
 Model HaloSpiker_Bullet
 { 
    Path "Models/Weapons"

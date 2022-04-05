@@ -70,6 +70,7 @@ version "4.5"
 #include "ZScript/Weapons/smg.zsc"
 #include "ZScript/Weapons/spiker.zsc"
 #include "ZScript/Weapons/ma5b_rifle.zsc"
+#include "ZScript/Weapons/rocketlauncher.zsc"
 
 // Vehicles
 #include "ZScript/Vehicles/Kinematics/kine_parts.zsc" 

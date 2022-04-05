@@ -480,6 +480,25 @@ $volume Halo/Weapons/MA5B/Fire 1.0;
 $volume Halo/Weapons/MA5B/Fire/Bass 1.0;
 $volume Halo/Weapons/MA5B/Mech 0.7;
 
+// RocketLauncher
+RL_FIRE1 "Sounds/RocketLauncher/RL_Fire1.ogg"
+RL_FIRE2 "Sounds/RocketLauncher/RL_Fire2.ogg"
+RL_FIRE3 "Sounds/RocketLauncher/RL_Fire3.ogg"
+RL_MECH1 "Sounds/RocketLauncher/RL_Rotate1.ogg"
+RL_MECH2 "Sounds/RocketLauncher/RL_Rotate2.ogg"
+RL_MECH3 "Sounds/RocketLauncher/RL_Rotate3.ogg"
+RL_EXPLODE1 "Sounds/RocketLauncher/Rocket_XPL1.ogg"
+RL_EXPLODE2 "Sounds/RocketLauncher/Rocket_XPL2.ogg"
+RL_EXPLODE3 "Sounds/RocketLauncher/Rocket_XPL3.ogg"
+
+Halo/Weapons/RocketLauncher/Draw "Sounds/RocketLauncher/RL_Draw.ogg"
+Halo/Weapons/RocketLauncher/Reload "Sounds/RocketLauncher/RL_Reload.ogg"
+Halo/Weapons/RocketLauncher/Loop "Sounds/RocketLauncher/Rocket_Loop.ogg"
+
+$random Halo/Weapons/RocketLauncher/Explode { RL_EXPLODE1 RL_EXPLODE2 RL_EXPLODE3 }
+$random Halo/Weapons/RocketLauncher/Fire { RL_FIRE1 RL_FIRE2 RL_FIRE3 }
+$random Halo/Weapons/RocketLauncher/Mech { RL_MECH1 RL_MECH2 RL_MECH3 }
+
 // Spiker
 SPIKER_FIRE1 "Sounds/Spiker/Spiker_Fire1.ogg"
 SPIKER_FIRE2 "Sounds/Spiker/Spiker_Fire2.ogg"

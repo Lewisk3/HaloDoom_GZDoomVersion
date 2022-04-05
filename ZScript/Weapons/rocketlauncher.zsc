@@ -1,0 +1,332 @@
+class Halo_RL_Clip : Ammo 
+{
+	Default 
+	{
+		Inventory.MaxAmount 2;
+	}
+}
+class Halo_RL_Reserves : Ammo
+{
+	mixin WorldAmmoBehavior;
+	Default 
+	{
+		Radius 8;
+		Height 6;
+		Scale 0.65;
+
+		Inventory.Amount 2;
+		Inventory.MaxAmount 30;
+		Inventory.Icon "HLAMB0"; // TODO
+		Inventory.PickupSound "Halo/Pickup/Ammo";
+		Inventory.PickupMessage "Picked up 2 Rounds for the Rocket Launcher";
+		
+		Ammo.BackpackMaxAmount 50;
+	}
+	
+	States
+	{
+		Spawn:
+			HLAM B -1 Bright;
+		stop;
+	}
+}
+
+class HaloRocketProj : HaloSlowProjectile
+{
+	Default
+	{
+		HaloSlowProjectile.SetRanges ROCKET_RANGE1, ROCKET_RANGE2;
+		HaloSlowProjectile.MinRangeDamage ROCKET_MINDMG; 
+		HaloSlowProjectile.BaseDamage ROCKET_DMG;
+		HaloSlowProjectile.Speed_MPS ROCKET_BMPS * 0.25;
+		
+		DamageType "Rocket";
+		Scale 0.5;
+		-NOGRAVITY;
+		Gravity 0.3;
+	}
+	
+	double thrust;
+	
+	override void Tick()
+	{
+		super.Tick();
+		bBRIGHT = true;
+		if(thrust) thrust = 0.5;
+		
+		if(GetAge() >= 8)
+		{
+			bNOGRAVITY = true;
+			
+			thrust = HaloMath.Lerp(thrust, 1.5, 0.15);
+			if(thrust >= 1.49) thrust = 1.5;
+			
+			meterspeed = ROCKET_BMPS*thrust;
+			if(thrust < 1.5) Init(); // Recalculate speed.
+		}
+	}
+	
+	States
+	{
+		Spawn:	
+			MODL A 1 Bright 
+			{
+				A_StartSound("Halo/Weapons/RocketLauncher/Loop", CHAN_BODY, CHANF_LOOPING);
+				
+				// Smoke trail(s)
+				if(thrust < 0.5 && GetAge() < 4) 
+					Spawn("HaloRocketTrail", level.vec3offset(pos, -vel));  
+					
+				if(thrust > 0.50) Spawn("HaloRocketTrail", level.vec3offset(pos, -(vel*1.0) ));
+				if(thrust > 0.75) Spawn("HaloRocketTrail", level.vec3offset(pos, -(vel*1.5) ));
+				if(thrust > 1.25) Spawn("HaloRocketTrail", level.vec3offset(pos, -(vel*2.0) ));
+			}
+		loop;
+		
+		Crash:
+		XDeath:
+		Death:
+			MODL A 1
+			{
+				A_StopSound(CHAN_BODY);
+				A_StartSound("Halo/Weapons/RocketLauncher/Explode", CHAN_AUTO, CHANF_OVERLAP, attenuation:0.1);
+				// Explosions
+				let expl = Spawn("HaloRocketExplosion", pos);
+				expl.target = target;
+			}
+		stop;
+	}
+}
+
+class HaloRocketTrail : CheapActor
+{
+	Default
+	{
+		Scale 0.10;
+		Alpha 0.6;
+		Damage 128;
+		RenderStyle "Add";
+		+INTERPOLATEANGLES;
+	}
+	
+	override void Tick()
+	{
+		super.tick();
+		if(!isFrozen()) 
+			SetOrigin(level.vec3offset(pos, vel), true);
+	}
+	
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0;
+			XTH1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 Bright;
+			XTH2 ABCDEFG 1 Bright;
+			XTH2 H 1 Bright 
+			{
+				if(random[rocketsmoke](0,2) == 2)
+				{
+					let smk = Spawn("FragGrenade_Smoke", pos);
+					if(smk) smk.A_SetScale(Scale.X);
+				}
+			}
+			XTH2 IJKLMNOPQRSTUV 1 Bright;
+		stop;
+	}
+}
+
+class HaloRocketExplosion : CheapActor
+{	
+	Default
+	{
+		Scale 1.0;
+		Alpha 0.75;
+		Damage ROCKET_EXPDMG;
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0;
+			TNT1 A 1 
+			{
+				let shockwave = Spawn("FX_Shockwave", pos);
+				if(shockwave) 
+				{	
+					shockwave.alpha = 0.35;
+					shockwave.A_SetScale(0.75);
+				}
+				
+				let sparks = Spawn("ImpactSparks", pos);
+				if(sparks) sparks.A_SetScale(1.0);
+				
+				let flare = Spawn("TankRocket_Flare", (pos.xy, pos.z+20));
+				if(flare) flare.A_SetScale(1.0);
+				
+				A_Quake(5, 30, 0, 1024, "");
+				let plr = HaloPlayer(target);
+				if(plr && plr.player.ReadyWeapon)
+				{
+					let haloweap = HaloGun(plr.player.ReadyWeapon);
+					if(haloweap) haloweap.A_RollQuake(8,20,2, ptr:haloweap);
+				}
+			}
+			SX04 ABCD 1 Bright;
+			TNT1 A 0 
+			{
+				vector3 fxpos = (pos.xy, pos.z+40);
+				HaloMath.SpawnFX("FragGrenade_FlyingExplosion", fxpos, angle, random(10,20), 10, 20, 180,45, 15);
+				A_Explode(damage, 300);
+			}
+			SX04 EFGHIJKLMNOPQ 1 Bright
+			{
+				vector3 fxpos = (pos.xy, pos.z+20);
+				if(!(frame%2))
+					HaloMath.SpawnFX("FragGrenade_Smoke", fxpos, angle, 1, 20, 20, rstyle:STYLE_Subtract);
+			}
+			TNT1 A 35;
+		stop;
+	}
+}
+
+class Halo_RocketLauncher : HaloGun
+{	
+	Default
+	{
+		Weapon.SlotNumber 6;
+		Obituary "%o got a taste of competitive halo by %k's Rocket Launcher.";
+		Inventory.PickupMessage	"Picked up the Rocket Launcher.";
+		Tag "Rocket Launcher";
+		Weapon.BobSpeed 1.86;
+		Weapon.BobRangeX 0.30;
+		Weapon.AmmoType1 "Halo_RL_Reserves";
+		Weapon.AmmoType2 "Halo_RL_Clip";
+		Weapon.AmmoGive 3;
+				
+		// Recoil
+		HaloGun.Bloom 0.8;
+		HaloGun.BloomSpeed 0.30;
+		HaloGun.BaseRecoil ROCKETL_RECOIL;
+		HaloGun.Inaccuracy ROCKETL_ACCMOD;
+		HaloGun.Crosshair "RktRet", 0.75;
+		HaloGun.UIGraphic "WI_RKT", 1.35;
+		
+		HaloGun.Availability GT_ALL;
+		HaloGun.PowerTier P_POWER;
+		
+		RecoilWeapon.YOffsetRange -10, 40;
+	}
+	
+	override void MarkPrecacheSounds()
+	{
+		// Prevent stutters by precaching weapon sounds.
+		MarkSound("Halo/Weapons/RocketLauncher/Fire");
+		MarkSound("Halo/Weapons/RocketLauncher/Fire/Bass");
+		MarkSound("Halo/Weapons/RocketLauncher/Mech");
+		MarkSound("Halo/Weapons/RocketLauncher/Reload");
+		MarkSound("Halo/Weapons/RocketLauncher/Draw");
+	}
+	
+	action void A_FireRocket()
+	{
+		A_Light(2);
+		A_WeapSound("Halo/Weapons/RocketLauncher/Fire", 0, true);
+		A_WeapSound("Halo/Weapons/RocketLauncher/Fire/Bass", CHANF_OVERLAP, true);
+		A_ShootProjectile("HaloRocketProj", 12, 2);	
+		A_SetSFXPos(25,-10,-10);
+		A_SpawnSFX("MuzzleSmoke", 0,0);
+		A_TakeAmmo();
+	}
+	
+	action void A_ReloadSound()
+	{
+		A_StartSound("Halo/Weapons/RocketLauncher/Reload", CHAN_RELOADING, CHANF_OVERLAP);
+	}
+	
+	States
+	{
+		
+		Ready:
+			TNT1 A 0 
+			{
+				A_WeapSound("Halo/Weapons/RocketLauncher/Draw");
+				return A_JumpIf(A_DoFullSelectAnimation(), "Ready.Chamber");
+			}
+			WIS1 ABCDEFGHIJKLMNOPQRSTUVW 1 A_DoSelectAnim();
+		goto Ready.Active;
+		Ready.Chamber:
+			WID1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoSelectAnim(0, true);
+			WID2 ABC 1;
+			WIS1 LMNOPQRSTUVW 1;
+		Ready.Active:
+			WII1 A 1 A_HaloWeaponReady(WRF_ALLOWRELOAD, true);
+		loop;
+		
+		Ready.Dryfire:
+			WII1 A 4 A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
+		goto Ready.Active;
+
+		Select:
+			TNT1 A 1 A_GunRaise();
+		wait;
+
+		Deselect:
+			WIS1 WVUTSRQPONMLKJIHGFEDCB 1;
+			WIS1 A 1 A_GunLower();
+		wait;
+		
+		
+		Fire:
+			TNT1 A 0 A_GunCheckReload();
+			WIF1 AB 1;
+			TNT1 A 0 A_SetZoom(0.80,1);
+			WIF1 C 1 Bright
+			{
+				A_RecoilOffset(random(6,12),24,4);
+				A_SetRecoil(6.0, 4.0, 2);
+				A_FireRocket();
+				A_Recoil(5);
+				A_RollQuake(6,12,2);
+				A_RQuakeEx(4,2,2,6,0,20,"",QF_RELATIVE|QF_WAVE);
+			}
+			WIF1 D 1 Bright;
+			WIF1 E 1 Bright
+			{
+				A_Light(0);
+			}
+			WIF1 FG 1 A_SetZoom(1.0, 12);
+			WIF1 HIJ 1;
+			WIF1 K 1 A_WeapSound("Halo/Weapons/RocketLauncher/Mech", CHANF_OVERLAP);
+			WIF1 L 1 A_RecoilOffset(0,10,5);
+			WIF1 MNOPQRSTUV 1 A_RecoilOffset(0,0,8);
+			WIF1 WXYZ 1;
+			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
+		goto Ready.Active;
+		
+		Reload: // 44
+			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
+			TNT1 A 0 A_ReloadSound();
+			WIR1 ABCDEFGHIJKLM 1;
+			WIR1 N 1 A_SetRecoil(0, 3.0, 2);
+			WIR1 OPQRSTUVWXY 1;
+			WIR1 Z 1 A_SetRecoil(2.0, 2.0, 2);
+			WIR2 ABCDEFG 1;
+			WIR2 HIJKLMNOPQ 1 A_SetRecoil(-0.5, -0.15, 2);
+			WIR2 RSTUVWXYZ 1;
+			WIR3 ABCDEFGHIJKLMNOPQR 1;
+			WIR3 S 1 A_SetRecoil(1.0, -1.5, 3); 
+			WIR3 T 1;
+			WIR3 U 1 A_ReloadClip(); 
+			WIR3 VWXYZ 1;
+			WIR4 ABCDEFGHIJKLMNO 1;
+			WIR4 P 1 A_SetRecoil(-2.0, -2.0, 2); 
+			WIR4 QRSTUVWXYZ 1;
+			WIR5 ABCDEFGHIJKLMNOPQRSTUVW 1;
+		goto Ready.Active;
+		
+		Spawn:
+			MSNG A -1; // TODO
+		stop;
+	}
+}
