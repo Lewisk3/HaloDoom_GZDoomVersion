@@ -1,0 +1,1 @@
+Loop welding animation from frame 1-8
