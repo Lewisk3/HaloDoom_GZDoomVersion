@@ -543,6 +543,25 @@ $volume Halo/Weapons/Spiker/Fire 1.0;
 $volume Halo/Weapons/Spiker/Mech 1.0;
 $volume Halo/Weapons/Spiker/Fire/Bass 1.0;		
 
+// DMR
+DMR_FIRE1 "Sounds/DMR/DMR_Fire1.ogg"
+DMR_FIRE2 "Sounds/DMR/DMR_Fire2.ogg"
+DMR_FIRE3 "Sounds/DMR/DMR_Fire3.ogg"
+DMR_LOW1 "Sounds/DMR/DMR_Low1.ogg"
+DMR_LOW2 "Sounds/DMR/DMR_Low2.ogg"
+DMR_LOW3 "Sounds/DMR/DMR_Low3.ogg"
+DMR_MECH1 "Sounds/DMR/DMR_Mech1.ogg"
+DMR_MECH2 "Sounds/DMR/DMR_Mech2.ogg"
+DMR_MECH3 "Sounds/DMR/DMR_Mech3.ogg"
+
+Halo/Weapons/DMR/Draw  "Sounds/DMR/DMR_Draw.ogg"
+Halo/Weapons/DMR/Reload  "Sounds/DMR/DMR_Reload.ogg"
+Halo/Weapons/DMR/Reload/Empty "Sounds/DMR/DMR_ReloadEmpty.ogg"
+
+$random Halo/Weapons/DMR/Fire      { DMR_FIRE1 DMR_FIRE2 DMR_FIRE3 }
+$random Halo/Weapons/DMR/Fire/Bass { DMR_LOW1 DMR_LOW2 DMR_LOW3  }
+$random Halo/Weapons/DMR/Fire/Mech { DMR_MECH1 DMR_MECH2 DMR_MECH3 }
+
 // Hit feedback
 HMHIT1 HMHit1
 HMHIT2 HMHit2
