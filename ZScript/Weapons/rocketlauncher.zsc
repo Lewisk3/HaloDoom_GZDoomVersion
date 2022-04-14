@@ -14,13 +14,13 @@ class Halo_RL_Reserves : Ammo
 		Height 6;
 		Scale 0.65;
 
-		Inventory.Amount 2;
-		Inventory.MaxAmount 30;
+		Inventory.Amount 4;
+		Inventory.MaxAmount 32;
 		Inventory.Icon "HLAMP0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
-		Inventory.PickupMessage "Picked up 2 Rounds for the Rocket Launcher";
+		Inventory.PickupMessage "Picked up 4 Rounds for the Rocket Launcher";
 		
-		Ammo.BackpackMaxAmount 50;
+		Ammo.BackpackMaxAmount 64;
 	}
 	
 	States
@@ -169,7 +169,11 @@ class HaloRocketExplosion : CheapActor
 				if(plr && plr.player.ReadyWeapon)
 				{
 					let haloweap = HaloGun(plr.player.ReadyWeapon);
-					if(haloweap) haloweap.A_RollQuake(8,20,2, ptr:haloweap);
+					if(haloweap) 
+					{
+						double pow = HaloMath.DistFalloff(pos, plr.pos, 2048);
+						haloweap.A_RollQuake(8 * pow,20,2, ptr:haloweap);
+					}
 				}
 			}
 			SX04 ABCD 1 Bright;

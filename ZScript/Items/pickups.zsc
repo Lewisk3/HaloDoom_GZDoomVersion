@@ -286,16 +286,14 @@ class ShieldProcessor : Inventory
 			// due to this they're normally not rendered when in an actor's
 			// inventory. We don't want this behavior so, we relink it.
 			A_ChangeLinkFlags(0, 0);
+			
+			// This bit has to do with rendering order.
+			// Inventory stat num seems to render under the actor it's attached
+			// to, which makes it look less visually appealing.
+			ChangeStatNum(STAT_DEFAULT); 
 			return;
 		}
-		
-		if(Owner.health <= 0) 
-		{
-			Owner.RemoveInventory(self);
-			GoAwayAndDie();
-			return;
-		}
-		
+				
 		// Make invisible for source, if source is player.
 		let localplr = players[consoleplayer].mo;
 		if( localplr == PlayerPawn(Owner) )
@@ -319,11 +317,19 @@ class ShieldProcessor : Inventory
 			-sin(Owner.pitch)
 		) * forwardOffs;
 		
-		SetOrigin(level.vec3offset(Owner.pos, vel + fwd), false);
+		SetOrigin(level.vec3offset(Owner.pos, vel + fwd), true);
 		
 		// Shield effect logic.
 		DisplayShields();
 		updateShields();
+		
+		// Do not run on dead actors.
+		if(Owner.health <= 0) 
+		{
+			Owner.RemoveInventory(self);
+			GoAwayAndDie();
+			return;
+		}
 	}
 	
 	virtual double applyShieldBleedDamage(int dmg, Name mod)
@@ -355,14 +361,15 @@ class ShieldProcessor : Inventory
 			regenTimer = 0; // Stop regeneration.
 			truedamage = OnShieldDamage(truedamage, damageType, inflictor, source);
 			shields -= truedamage;
+			newdamage = 0;
 			
+			// Conditionally apply bleed damage through shields.
 			if(shields <= 0) 
 			{	
 				double truedmg = abs(shields);
 				newdamage = applyShieldBleedDamage(truedmg, damageType);
 				shields = 0;
-			}
-			newdamage = 0;
+			}		
 		}
 	}
 	

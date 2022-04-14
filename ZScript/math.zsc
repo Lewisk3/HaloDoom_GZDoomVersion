@@ -212,6 +212,14 @@ class HaloMath Abstract
 		}
 	}
 
+	static double DistFalloff(vector3 one, vector3 two, double maxdist)
+	{
+		double dist = (one-two).Length();
+		double distFrac = 1.0 - (dist / max(maxdist,1));
+		
+		return distFrac;
+	}
+
 	static double sign(double num)
 	{
 		return num < 0 ? -1 : 1;

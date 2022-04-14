@@ -263,7 +263,7 @@ class HaloGun : RecoilWeapon
 		if(victim && victim.bSHOOTABLE) 
 		{
 			vector3 victimAngles = level.sphericalCoords(victim.pos, source.pos, (victim.angle, victim.pitch));
-			if(abs(victimAngles.x) >= 120) damage *= 3.33; // Backstab!
+			if(abs(victimAngles.x) >= 120) damage *= 3.45; // Backstab!
 		
 			double inertia = HaloMath.GetInertia(victim.mass);
 			victim.DamageMobJ(source, source, damage, "Melee", 0, source.angle);
