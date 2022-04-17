@@ -74,6 +74,16 @@ pointlight StupidlyBrightAndHUGELight
     size 69420
 }
 
+// Unmaker
+object UnmakerLightning
+{
+	Frame BEAM { light TinyYellowPointLight }
+}
+object UnmakerLaserPuff
+{
+	Frame RPUF { light YellowPointLight }
+}
+
 // Lit objects
 object HaloPlasmaRifle_Proj
 {

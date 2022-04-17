@@ -1,0 +1,402 @@
+
+class Halo_UnmakerReserves : Ammo
+{
+	mixin WorldAmmoBehavior;
+	Default 
+	{
+		Radius 8;
+		Height 6;
+		Scale 0.65;
+		
+		Inventory.Amount 25;
+		Inventory.MaxAmount 100;
+		Inventory.Icon "HLAMM0";
+		Inventory.PickupSound "Halo/Pickup/Ammo";
+		Inventory.PickupMessage "Picked up 1 Battery for Unmaker (25%)";
+		
+		Ammo.BackpackMaxAmount 100;
+	}
+	
+	States
+	{
+		Spawn:
+			HLAM M -1 Bright;
+		stop;
+	}
+}
+
+class UnmakerLightning : LightningBiri
+{
+	Default
+	{
+		Translation "0:255=@64[128,128,16]";
+	}
+}
+
+class UnmakerDecal : LaserBeamDecal
+{
+	Default
+	{
+		Translation "0:255=@64[128,64,8]";
+	}
+}
+
+class LSR_UnmakerBeam : LaserBeam
+{
+	Default
+	{
+		Alpha 2.0;
+		Scale 3.0;
+		LaserBeam.LaserColor "Orange"; 
+		LaserBeam.TrackWeapon true, PSP_WEAPON;
+		LaserBeam.AimFromWeapon false;
+		LaserBeam.LaserDecal "UnmakerDecal";
+		+BRIGHT;
+	}
+	
+	override void BeamTick()
+	{
+		alpha -= 0.5;
+		if(alpha <= 0) Destroy();
+	}
+	
+	override void OnImpact(vector3 hitPos, Actor hitActor)
+	{
+		super.OnImpact(hitPos, hitActor);
+		let puff = Spawn("UnmakerLaserPuff", hitPos);
+		if(puff) 
+		{
+			puff.angle = angle + 180;
+			puff.pitch = -(pitch-90);
+		}
+	}
+}
+
+class LSR_UnmakerBeamCore : LSR_UnmakerBeam
+{
+	Default
+	{
+		Alpha 2.0;
+		Scale 1.5;
+		LaserBeam.LaserColor "White"; 
+		LaserBeam.TrackWeapon true, PSP_WEAPON;
+		LaserBeam.AimFromWeapon false;
+		+BRIGHT;
+	}
+	
+	override void BeamTick()
+	{
+		alpha -= 0.5;
+		if(alpha <= 0) Destroy();
+	}
+	
+	override void OnImpact(vector3 hitPos, Actor hitActor) {}
+}
+
+class UnmakerLaserPuff : CheapActor
+{
+	Default
+	{	
+		+BRIGHT;
+		RenderStyle "Add";
+		Alpha 0.85;
+		Scale 2.0;
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		A_SetScale(Scale.X * 0.997);
+		if( getAge() < 40 && !(getAge()%10) )
+		{
+			vector2 localPos = (frandom(-20,20), frandom(-20,20));
+			vector3 lightningPos = HaloMath.RelativeV3Offset(self, 0,0,0, 25, localPos.x, localPos.y, 1.);
+			vector2 view = (angle + frandom(-40,40), pitch);
+			int adjustedAmt = max(2 * halodoom_effectintensity, 0);
+			for(int i = 0; i < adjustedAmt; i++)
+			{
+				view.x = angle + frandom(-45,45);
+				view.y = pitch + frandom(-20,20);
+				BiriBiri.DoLightning(lightningPos, view, type:"UnmakerLightning", dist:100, 0.5, 8.0, 10.0, 30, 0);;
+			}
+		}
+	}
+	
+	States
+	{
+		Spawn:
+			RPUF ABCDE 2;
+			RPUF F 1 A_Fadeout(1. / 40.);
+		wait;
+	}
+}
+
+class Halo_Unmaker : HaloGun
+{
+	Default
+	{
+		Weapon.SlotNumber 8;
+		Obituary "%o was undone by %k's Unmaker.";
+		Inventory.PickupMessage	"Error 666: Weapon not recognized. No Data available in Weapon Wiki.";
+		Tag "Unmaker";
+		Weapon.BobSpeed 1.87;
+		Weapon.BobRangeX 0.63;
+		Weapon.AmmoType1 "Halo_UnmakerReserves";
+		Weapon.AmmoGive 100;
+		Weapon.AmmoType2 "Halo_UnmakerReserves";
+		
+		HaloGun.Availability GT_ALL;
+		HaloGun.PowerTier P_UBER;
+				
+		// Recoil
+		RecoilWeapon.RecoilSpeed 20;
+		HaloGun.HasBattery true, 20;
+		HaloGun.Bloom 1.25;
+		HaloGun.BloomSpeed 0.08;
+		HaloGun.BaseRecoil UNMAKER_RECOIL;
+		HaloGun.Inaccuracy UNMAKER_ACCMOD;
+		HaloGun.Crosshair "StanRet", 1.0;
+		HaloGun.UIGraphic "MISSNG", 1.0;
+		
+		RecoilWeapon.YOffsetRange -10, 100;
+	}
+	
+	
+	action void MuzzleLightning()
+	{
+		vector2 localPos = (frandom(-5,5), -8.);
+		vector2 overlayPos = (160,90);
+		vector3 muzzlepos = HaloMath.RelativeV3Offset(self, 0,0,0, 25, localPos.x, localPos.y, 1.);
+		vector2 view = (angle + frandom(-40,40), pitch);
+		int adjustedAmt = max(5 * halodoom_effectintensity, 0);
+		for(int i = 0; i < adjustedAmt; i++)
+		{
+			view.x = angle + frandom(-45,45);
+			BiriBiri.DoLightning(muzzlepos, view, type:"UnmakerLightning", dist:50, 0.5, 8.0, 10.0, 30, 0);
+			DoSpriteLightning(3, -90 + frandom(-60,70), localPos + overlayPos, xy_spread:(10,10), boltLen:200);
+		}
+	}
+		
+	override void MarkPrecacheSounds()
+	{
+		// Prevent stutters by precaching weapon sounds.
+		MarkSound("Halo/Weapons/Unmaker/Fire");
+		MarkSound("Halo/Weapons/Unmaker/Fire/Bass");
+		MarkSound("Halo/Weapons/Unmaker/Charge");
+		MarkSound("Halo/Weapons/Unmaker/Charge/Fire");
+		MarkSound("Halo/Weapons/Unmaker/Overheat");
+		MarkSound("Halo/Weapons/Unmaker/Lasers");
+	}
+	
+	action void FireLaser(Actor victim, double leftright, double updown)
+	{
+		vector3 localOffs = (10, -leftright, updown);
+		let beam = LaserBeam.Create(self, localOffs.x,localOffs.y,localOffs.z, type:"LSR_UnmakerBeam");
+		let beamCore = LaserBeam.Create(self, localOffs.x,localOffs.y,localOffs.z, type:"LSR_UnmakerBeamCore"); 
+		beam.SetEnabled(true);
+		beamCore.SetEnabled(true);
+		if(victim) 
+		{
+			beam.StartTracking( (victim.pos.xy, victim.pos.z + (victim.height*0.5)) );
+			beamCore.StartTracking( (victim.pos.xy, victim.pos.z + (victim.height*0.5)) );
+		}
+	}
+	
+	action void A_FireUnmakerPrimary(int targetCount = 3)
+	{
+		A_Light(4);
+		A_WeapSound("Halo/Weapons/Unmaker/Fire", CHANF_OVERLAP, true);
+		A_WeapSound("Halo/Weapons/Unmaker/Fire/Bass", CHANF_OVERLAP, true);
+		
+		// Find 3 nearest targets
+		let it = ThinkerIterator.Create();
+		Actor act;
+		LookExParams look;
+		look.FOV = 70;
+		
+		Array<Actor> targets;
+		double closeDist;
+		Actor closestActor;
+		for(int itr = 0; targets.Size() < targetCount; itr++)
+		{
+			closeDist = double.infinity;
+			while(act = Actor(it.Next()))
+			{
+				if(!act.bSHOOTABLE || act.bFRIENDLY || !act.bISMONSTER) continue;
+				if(!isVisible(act, false, look)) continue;
+				if(targets.Find(act) != targets.Size()) continue;
+				
+				double curDist = Distance3DSquared(act);
+				if(closeDist < curDist) continue;
+				closestActor = act;
+				closeDist = curDist;
+			}
+			if(closestActor) targets.Push(closestActor);
+			
+			// Stop iterating if we cannot find targets for some reason.
+			if(itr > 100) break; 
+		}
+		
+		double laserLR = 6;
+		double curLaserX = -laserLR; 
+		if(!targets.Size())
+		{
+			// Dumbfire
+			for(int i = 0; i < targetCount; i++)
+			{
+				FireLaser(NULL, curLaserX, -5);
+				curLaserX += laserLR;
+				A_TakeAmmo(1);
+				A_UpdateSpread();
+			}
+		}
+		else
+		{
+			for(int i = 0; i < targets.Size(); i++)
+			{
+				FireLaser(targets[i], curLaserX, -5);
+				targets[i].DamageMobJ(self, self, (Unmaker_DMG * 0.75) / 40.0, "Fire");
+				curLaserX += laserLR;
+				A_TakeAmmo(1);
+				A_UpdateSpread();
+			}
+		}
+	}
+	
+	action void A_FireUnmakerBFG()
+	{
+		A_Light(4);
+		A_WeapSound("Halo/Weapons/Unmaker/Fire", CHANF_OVERLAP, true);
+		A_WeapSound("Halo/Weapons/Unmaker/Fire/Bass", CHANF_OVERLAP, true);
+
+			
+		A_TakeAmmo(10);
+		A_UpdateSpread();
+	}
+
+	States
+	{
+		
+		DoSmoke:	
+			TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 3 
+			{
+				let psp = player.GetPSprite(OverlayID());
+				if(psp) psp.frame = random(3,8);
+				A_SetSFXPos(25,-5 + frandom(-5,10),-7);
+				for(int i = 0; i < random(1,5); i++)
+					A_SpawnSFX("MuzzleSmoke", 0,0);
+				if(!(psp.frame%2)) MuzzleLightning();
+			}
+		stop;
+		
+		Ready:
+			TNT1 A 0 
+			{
+				A_WeapSound("Halo/Weapons/Unmaker/Ready");
+				return A_JumpIf(!A_DoFullSelectAnimation(), "Ready.Normal");
+			}
+			WKS1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoSelectAnim(0, true);
+			WKS2 ABCDEFGH 1;
+		goto Ready.Active;
+		Ready.Normal:
+			WKD1 LKJIHGFEDCBA 1 A_DoSelectAnim();
+		Ready.Active:
+			WKI1 A 1 
+			{
+				A_HaloWeaponReady(usescope:false);
+			}
+		loop;
+		
+		Ready.Dryfire:
+			WKI1 A 4 A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
+		goto Ready.Active;
+
+		Select:
+			TNT1 A 1 A_GunRaise();
+		wait;
+
+		Deselect:
+			WKD1 ABCDEFGHIJK 1;
+			WKD1 L 1 A_GunLower();
+		wait;
+		
+		Fire:
+			TNT1 A 0 A_JumpIf(countinv(invoker.AmmoType1) < 3, "Ready.DryFire");
+			TNT1 A 0 A_SetZoom(0.95, 1);
+			WKF1 A 1 Bright
+			{
+				A_RecoilOffset(0,frandom(10,25),6);
+				A_SetRecoil(1.0, 0, 2);
+				A_FireUnmakerPrimary();
+				A_RollQuake(1, 8, 2, true);
+				A_RQuakeEx(2,4,2,4,0,20,"",QF_RELATIVE|QF_WAVE);
+			}
+			WKF1 B 1 Bright A_RecoilOffset(0,0,6);
+			TNT1 A 0 
+			{
+				A_Light(0);
+				//A_RQuakeEx(2,2,2,4,0,20,"",QF_RELATIVE);
+				A_SetZoom(1.0, 5);
+			}
+			WKF1 CDE 1 A_RecoilOffset(0,0,10);
+			WKI1 A 2;
+		goto Ready.Active;
+		
+		AltFire:
+			TNT1 A 0 A_JumpIf(countinv(invoker.AmmoType1) < 10, "Ready.DryFire");
+			WKC1 ABCDEFGH 2 A_RecoilOffset(frandom(-5,5),frandom(-5,5),2);
+		AltHold:
+			WKC1 IIJJKKJJII 1
+			{
+				A_RecoilOffset(frandom(-5,5),frandom(-5,5),2);
+				A_RollQuake(1, 10, 1, true);
+			}
+			TNT1 A 0 A_ReFire("AltHold");
+		AltDoFire:
+			TNT1 A 0 A_SetZoom(0.75, 1);
+			WKZ1 A 1 Bright
+			{
+				A_SetRecoil(4.20, 0, 4);
+				A_FireUnmakerBFG();
+				A_RollQuake(6, 25, 1);
+				A_RQuakeEx(4,6,4,10,0,20,"",QF_RELATIVE|QF_WAVE);
+			}
+			WKZ1 B 1 Bright;
+			WKZ1 C 1 Bright
+			{
+				A_Light(0);
+				A_SetZoom(1.0, 12);
+				A_RecoilOffset(0,69,4);
+			}
+			WKZ1 DE 1;
+			WKZ1 E 12 
+			{
+				A_RQuakeEx(3,3,3,12,0,20,"",QF_RELATIVE);
+				A_RecoilOffset(0,0,10);
+			}
+			WKZ1 FGHIJK 2;
+			TNT1 A 0 A_Overlay(60, "DoSmoke");
+		goto Overheat;
+					
+		Overheat:
+			TNT1 A 0 A_ScopeDisable();
+			TNT1 A 0 A_StartSound("Halo/Weapons/Unmaker/Overheat", CHAN_RELOADING, CHANF_OVERLAP);
+			WKH1 ABCDEF 1; 
+			WKH1 GHIJKLMNOPQRSTUVWXYZ 1 
+			{
+				A_RecoilOffset(frandom(-5,5),frandom(-5,5),2);
+				A_RQuakeEx(2,2,2,34,0,20,"",QF_RELATIVE);
+			}
+			WKH2 ABCD 1 A_RecoilOffset(frandom(-5,5),frandom(-5,5),2);
+			WKH2 EFGHIJ 3;
+		goto Ready.Active;
+		
+		SetupGunLightning:
+			BIRI C 0;
+		goto GunLightning;
+
+		Spawn:
+			MSNG A -1;
+		stop;
+	}
+}

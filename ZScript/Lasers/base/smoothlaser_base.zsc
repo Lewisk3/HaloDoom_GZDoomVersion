@@ -1,8 +1,41 @@
 
+class LaserBeamDecal : CheapActor
+{
+	Line onWall;
+	
+	Default
+	{
+		+FLATSPRITE;
+		+MOVEWITHSECTOR
+		RenderStyle "Add";
+	}
+	
+	override void Tick()
+	{
+		super.Tick();	
+		HaloMath.AlignToPlane(self, adjustSpeed:90);
+		if(onWall)
+		{
+			angle = atan2(onWall.delta.y, onWall.delta.x) + 90;
+			pitch = 90;
+		}
+	}
+		
+	States
+	{
+		Spawn:
+			LASH A 0;
+		Animate:
+			"####" "#" 1 A_Fadeout(0.008);
+		wait;
+	}
+}
+
 class LaserBeam : Actor
 {
 	Color shade;
 
+	class<LaserBeamDecal> laserDecalType;
 	double maxDist;
 	int ontics;
 	bool enabled;
@@ -24,6 +57,7 @@ class LaserBeam : Actor
 	Property TrackWeapon : trackPSprite, trackPSLayer;
 	Property AimFromWeapon : aimWithWeapon; 
 	Property LaserColor : shade;
+	Property LaserDecal : laserDecalType;
 	
 	Default
 	{
@@ -87,6 +121,21 @@ class LaserBeam : Actor
 		// Implement custom laser logic here.
 	}
 	
+	virtual void OnImpact(vector3 hitPos, Actor hitActor)
+	{
+		DoLaserDecal(laserDecalType, false);
+	}
+	
+	virtual void DoLaserDecal(class<LaserBeamDecal> decalType, bool puffOnActors = false)
+	{
+		if(hitData.hitActor && !puffOnActors) return;
+		let dec = LaserBeamDecal(Spawn(decalType, hitData.hitLocation));
+		if(dec) 
+		{
+			dec.onWall = hitData.hitLine;
+		}
+	}
+	
 	override void Tick()
 	{
 		if(isFrozen()) return;
@@ -99,6 +148,11 @@ class LaserBeam : Actor
 		ontics++;
 		bInvisible = ontics < 3;
 		if(shade) SetShade(shade);
+		
+		if(ontics == 2)
+		{
+			OnImpact(hitData.hitLocation, hitdata.hitActor);
+		}
 				
 		// PSprite tracking?
 		vector2 bob = (0,0);

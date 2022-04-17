@@ -217,7 +217,7 @@ class HaloGun : RecoilWeapon
 				vector2 dir = ( cos(curAngle), sin(curAngle) ) * (boltSize * stepsize);
 				curPos += dir;
 				
-				A_Overlay(curLayer, "GunLightning");	
+				player.setPSprite(curLayer, ResolveState("SetupGunLightning"));
 				PSprite curBiri = player.GetPSprite(curLayer);
 				if(curBiri)
 				{
@@ -1191,13 +1191,20 @@ class HaloGun : RecoilWeapon
 		goto Scope.Ready;
 		
 		GunLightning:
-			TNT1 A 0 
+			"####" "#" 0 
 			{
 				A_OverlayFlags(OverlayID(), PSPF_RENDERSTYLE | PSPF_ALPHA, true);
 				A_OverlayRenderStyle(OverlayID(), STYLE_Add);
 			}
+		goto DoGunLightning;
+		
+		// Made to be redefined in a weapon for customized gunlightning graphic.
+		SetupGunLightning:
+			BIRI B 0;
+		goto GunLightning;
+		
 		DoGunLightning:
-			BIRI B 1
+			"####" "#" 1
 			{
 				let curPSprite = player.GetPSprite(OverlayID());
 				curPSprite.alpha *= 0.25;
