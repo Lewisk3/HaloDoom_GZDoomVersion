@@ -75,10 +75,14 @@ pointlight StupidlyBrightAndHUGELight
 }
 
 // Unmaker
+
+/* Looks cool but, laggy.
 object UnmakerLightning
 {
 	Frame BEAM { light TinyYellowPointLight }
 }
+*/
+
 object UnmakerLaserPuff
 {
 	Frame RPUF { light YellowPointLight }

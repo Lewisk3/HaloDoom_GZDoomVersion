@@ -273,8 +273,9 @@ class Halo_Unmaker : HaloGun
 		{
 			for(int i = 0; i < targets.Size(); i++)
 			{
+				if(!targets[i]) continue;
 				FireLaser(targets[i], curLaserX, -5);
-				targets[i].DamageMobJ(self, self, (Unmaker_DMG * 0.75) / 40.0, "Fire");
+				targets[i].DamageMobJ(self, self, (Unmaker_DMG * 0.75) / 40.0, "Plasma");
 				curLaserX += laserLR;
 				A_TakeAmmo(1);
 				A_UpdateSpread();

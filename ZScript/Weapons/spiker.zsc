@@ -33,6 +33,8 @@ class HaloSpiker_Bullet : HaloSlowProjectile
 		{
 			bNOGRAVITY = false;
 			pitch++;
+			if(blockingMobJ && bNOGRAVITY) 
+				SetState(FindState("Death.Explode"));
 		}
 	}
 	
@@ -44,6 +46,10 @@ class HaloSpiker_Bullet : HaloSlowProjectile
 				SmokeTrail.Start("Yellow", pos, pos - (vel * 5), (-angle, -pitch), 0.25);
 			}
 		loop;
+		
+		Death.Explode:
+			TRAC A 1;
+		stop;
 		
 		Death:
 			TRAC A 35 A_StartSound("Halo/Weapons/Spiker/Impact", CHAN_AUTO, CHANF_OVERLAP);

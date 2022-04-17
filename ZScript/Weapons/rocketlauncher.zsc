@@ -43,28 +43,11 @@ class HaloRocketProj : HaloSlowProjectile
 		DamageType "Rocket";
 		Scale 0.35;
 		-NOGRAVITY;
+		+BRIGHT;
 		Gravity 0.3;
 	}
 	
 	double thrust;
-	
-	override void Tick()
-	{
-		super.Tick();
-		bBRIGHT = true;
-		if(thrust) thrust = 0.5;
-		
-		if(GetAge() >= 6)
-		{
-			bNOGRAVITY = true;
-			
-			thrust = HaloMath.Lerp(thrust, 1.5, 0.2);
-			if(thrust >= 1.49) thrust = 1.5;
-			
-			meterspeed = ROCKET_BMPS*thrust;
-			if(thrust < 1.5) Init(); // Recalculate speed.
-		}
-	}
 	
 	States
 	{
@@ -80,6 +63,18 @@ class HaloRocketProj : HaloSlowProjectile
 				if(thrust > 0.50) Spawn("HaloRocketTrail", level.vec3offset(pos, -(vel*1.0) ));
 				if(thrust > 0.75) Spawn("HaloRocketTrail", level.vec3offset(pos, -(vel*1.5) ));
 				if(thrust > 1.25) Spawn("HaloRocketTrail", level.vec3offset(pos, -(vel*2.0) ));
+				
+				if(thrust) thrust = 0.5;
+				if(GetAge() >= 6)
+				{
+					bNOGRAVITY = true;
+					
+					thrust = HaloMath.Lerp(thrust, 1.5, 0.2);
+					if(thrust >= 1.49) thrust = 1.5;
+					
+					meterspeed = ROCKET_BMPS*thrust;
+					if(thrust < 1.5) Init(); // Recalculate speed.
+				}
 			}
 		loop;
 		

@@ -123,7 +123,7 @@ class LaserBeam : Actor
 	
 	virtual void OnImpact(vector3 hitPos, Actor hitActor)
 	{
-		DoLaserDecal(laserDecalType, false);
+		if(laserDecalType) DoLaserDecal(laserDecalType, false);
 	}
 	
 	virtual void DoLaserDecal(class<LaserBeamDecal> decalType, bool puffOnActors = false)

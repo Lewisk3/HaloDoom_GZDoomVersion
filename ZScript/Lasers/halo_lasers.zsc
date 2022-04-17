@@ -1,4 +1,13 @@
 
+class CarbineLaserDecal : LaserBeamDecal
+{
+	Default
+	{
+		Translation "0:255=@64[8,128,8]";
+	}
+}
+
+
 class LSR_CarbineTrail : LaserBeam
 {
 	Default
@@ -8,6 +17,7 @@ class LSR_CarbineTrail : LaserBeam
 		LaserBeam.LaserColor "Green"; 
 		LaserBeam.TrackWeapon true, PSP_WEAPON;
 		LaserBeam.AimFromWeapon false;
+		LaserBeam.LaserDecal "CarbineLaserDecal";
 	}
 	
 	override void BeamTick()
