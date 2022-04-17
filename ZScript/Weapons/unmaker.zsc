@@ -46,7 +46,7 @@ class LSR_UnmakerBeam : LaserBeam
 	Default
 	{
 		Alpha 2.0;
-		Scale 3.0;
+		Scale 5.0;
 		LaserBeam.LaserColor "Orange"; 
 		LaserBeam.TrackWeapon true, PSP_WEAPON;
 		LaserBeam.AimFromWeapon false;
@@ -55,9 +55,18 @@ class LSR_UnmakerBeam : LaserBeam
 	}
 	
 	override void BeamTick()
-	{
-		alpha -= 0.5;
-		if(alpha <= 0) Destroy();
+	{	
+		alpha -= 0.15;
+		A_SetScale(Scale.X * 0.87, Scale.Y);
+	
+		let gun = HaloGun(target);
+		if( gun && gun.InStateSequence(gun.CurState, gun.FindState("Fire")) && getAge() >= 3)
+		{
+			Destroy();
+			return;
+		}
+
+		if(alpha <= 0.1 || Scale.X <= 0.05) Destroy();
 	}
 	
 	override void OnImpact(vector3 hitPos, Actor hitActor)
@@ -77,24 +86,28 @@ class LSR_UnmakerBeamCore : LSR_UnmakerBeam
 	Default
 	{
 		Alpha 2.0;
-		Scale 1.5;
+		Scale 2.5;
 		LaserBeam.LaserColor "White"; 
 		LaserBeam.TrackWeapon true, PSP_WEAPON;
 		LaserBeam.AimFromWeapon false;
 		+BRIGHT;
 	}
 	
-	override void BeamTick()
-	{
-		alpha -= 0.5;
-		if(alpha <= 0) Destroy();
-	}
-	
 	override void OnImpact(vector3 hitPos, Actor hitActor) {}
+}
+
+class UnmakerLaserSmoke : FragGrenade_Smoke
+{
+	Default
+	{
+		Scale 0.35;
+		Alpha 0.3;
+	}
 }
 
 class UnmakerLaserPuff : CheapActor
 {
+	bool reFiring;
 	Default
 	{	
 		+BRIGHT;
@@ -119,6 +132,11 @@ class UnmakerLaserPuff : CheapActor
 				view.y = pitch + frandom(-20,20);
 				BiriBiri.DoLightning(lightningPos, view, type:"UnmakerLightning", dist:100, 0.5, 8.0, 10.0, 30, 0);;
 			}
+		}
+		if( !(getAge()%5) && random[unmakerSmoke](0,3)==3 )
+		{
+			vector3 randPos = (frandom(-1,1),frandom(-1,1),frandom(-1,1)) * 5;  
+			HaloMath.SpawnFX("UnmakerLaserSmoke", pos + randPos, angle + frandom(-10,10), random(2,5), 20, 5);
 		}
 	}
 	
@@ -155,7 +173,7 @@ class Halo_Unmaker : HaloGun
 		HaloGun.BloomSpeed 0.08;
 		HaloGun.BaseRecoil UNMAKER_RECOIL;
 		HaloGun.Inaccuracy UNMAKER_ACCMOD;
-		HaloGun.Crosshair "StanRet", 1.0;
+		HaloGun.Crosshair "SNPRet", 1.0;
 		HaloGun.UIGraphic "MISSNG", 1.0;
 		
 		RecoilWeapon.YOffsetRange -10, 100;
@@ -181,7 +199,7 @@ class Halo_Unmaker : HaloGun
 	{
 		// Prevent stutters by precaching weapon sounds.
 		MarkSound("Halo/Weapons/Unmaker/Fire");
-		MarkSound("Halo/Weapons/Unmaker/Fire/Bass");
+		MarkSound("Halo/Weapons/Unmaker/Draw");
 		MarkSound("Halo/Weapons/Unmaker/Charge");
 		MarkSound("Halo/Weapons/Unmaker/Charge/Fire");
 		MarkSound("Halo/Weapons/Unmaker/Overheat");
@@ -197,17 +215,18 @@ class Halo_Unmaker : HaloGun
 		beamCore.SetEnabled(true);
 		if(victim) 
 		{
+			beam.target = invoker;
 			beam.StartTracking( (victim.pos.xy, victim.pos.z + (victim.height*0.5)) );
 			beamCore.StartTracking( (victim.pos.xy, victim.pos.z + (victim.height*0.5)) );
 		}
+		A_WeapSound("Halo/Weapons/Unmaker/Fire", CHANF_OVERLAP, true);
 	}
 	
 	action void A_FireUnmakerPrimary(int targetCount = 3)
 	{
 		A_Light(4);
-		A_WeapSound("Halo/Weapons/Unmaker/Fire", CHANF_OVERLAP, true);
-		A_WeapSound("Halo/Weapons/Unmaker/Fire/Bass", CHANF_OVERLAP, true);
-		
+		A_WeapSound("Halo/Weapons/Unmaker/Lasers", CHANF_OVERLAP, true);
+				
 		// Find 3 nearest targets
 		let it = ThinkerIterator.Create();
 		Actor act;
@@ -267,8 +286,6 @@ class Halo_Unmaker : HaloGun
 	{
 		A_Light(4);
 		A_WeapSound("Halo/Weapons/Unmaker/Fire", CHANF_OVERLAP, true);
-		A_WeapSound("Halo/Weapons/Unmaker/Fire/Bass", CHANF_OVERLAP, true);
-
 			
 		A_TakeAmmo(10);
 		A_UpdateSpread();
@@ -292,7 +309,7 @@ class Halo_Unmaker : HaloGun
 		Ready:
 			TNT1 A 0 
 			{
-				A_WeapSound("Halo/Weapons/Unmaker/Ready");
+				A_WeapSound("Halo/Weapons/Unmaker/Draw");
 				return A_JumpIf(!A_DoFullSelectAnimation(), "Ready.Normal");
 			}
 			WKS1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoSelectAnim(0, true);
@@ -316,6 +333,7 @@ class Halo_Unmaker : HaloGun
 		wait;
 
 		Deselect:
+			TNT1 A 0 A_WeapSound("Halo/Weapons/Unmaker/Draw");
 			WKD1 ABCDEFGHIJK 1;
 			WKD1 L 1 A_GunLower();
 		wait;

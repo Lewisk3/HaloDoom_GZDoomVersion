@@ -562,6 +562,21 @@ $random Halo/Weapons/DMR/Fire      { DMR_FIRE1 DMR_FIRE2 DMR_FIRE3 }
 $random Halo/Weapons/DMR/Fire/Bass { DMR_LOW1 DMR_LOW2 DMR_LOW3  }
 $random Halo/Weapons/DMR/Fire/Mech { DMR_MECH1 DMR_MECH2 DMR_MECH3 }
 
+// Unmaker
+Unmaker_FIRE1 "Sounds/Unmaker/Unmaker_Fire1.ogg"
+Unmaker_FIRE2 "Sounds/Unmaker/Unmaker_Fire2.ogg"
+Unmaker_FIRE3 "Sounds/Unmaker/Unmaker_Fire3.ogg"
+Unmaker_FIRE4 "Sounds/Unmaker/Unmaker_Fire4.ogg"
+
+Unmaker_Laser1 "Sounds/Unmaker/Unmaker_Tracers1.ogg"
+Unmaker_Laser2 "Sounds/Unmaker/Unmaker_Tracers2.ogg"
+Unmaker_Laser3 "Sounds/Unmaker/Unmaker_Tracers3.ogg"
+
+Halo/Weapons/Unmaker/Draw "Sounds/Unmaker/Unmaker_Draw.ogg"
+
+$random Halo/Weapons/Unmaker/Fire { Unmaker_FIRE1 Unmaker_FIRE2 Unmaker_FIRE3 Unmaker_FIRE4 }
+$random Halo/Weapons/Unmaker/Lasers { Unmaker_Laser1 Unmaker_Laser2 Unmaker_Laser3 }
+
 // Hit feedback
 HMHIT1 HMHit1
 HMHIT2 HMHit2

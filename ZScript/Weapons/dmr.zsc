@@ -247,7 +247,7 @@ class Halo_DMR : HaloGun
 		loop;
 		
 		Spawn:
-			MSNG A -1;
+			WJP1 A -1;
 		stop;
 	}
 }
