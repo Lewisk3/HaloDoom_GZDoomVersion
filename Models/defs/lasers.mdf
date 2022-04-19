@@ -16,6 +16,24 @@ Model LSR_UnmakerBeam
 	FrameIndex MODL A 0 0
 } 
 
+Model LSR_UnmakerBall
+{
+	Model 0 "Models/Lasers/lazer.md3"
+	Skin 0 "Models/Lasers/lazer.png"
+	USEACTORPITCH
+	
+	FrameIndex MODL A 0 0
+} 
+
+Model LSR_UnmakerBallCore
+{
+	Model 0 "Models/Lasers/lazer.md3"
+	Skin 0 "Models/Lasers/lazer.png"
+	USEACTORPITCH
+	
+	FrameIndex MODL A 0 0
+} 
+
 Model LSR_UnmakerBeamCore
 {
 	Model 0 "Models/Lasers/lazer.md3"

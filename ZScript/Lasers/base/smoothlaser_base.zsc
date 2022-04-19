@@ -139,7 +139,7 @@ class LaserBeam : Actor
 	override void Tick()
 	{
 		if(isFrozen()) return;
-		if(!enabled) 
+		if(!enabled || !source) 
 		{
 			ontics = 0;
 			bInvisible = true;
@@ -156,7 +156,7 @@ class LaserBeam : Actor
 				
 		// PSprite tracking?
 		vector2 bob = (0,0);
-		if(trackPSprite)
+		if(trackPSprite && PlayerPawn(source))
 		{
 			let psp = source.player.GetPSprite(trackPSLayer);
 			bob = PlayerPawn(source).BobWeapon(1.0);

@@ -83,6 +83,16 @@ object UnmakerLightning
 }
 */
 
+object UnmakerBall
+{
+	Frame ELBL { light BigOrangePointLight }
+}
+
+object UnmakerBallExplosion
+{
+	Frame ELEX { light BigOrangePointLight }
+}
+
 object UnmakerLaserPuff
 {
 	Frame RPUF { light YellowPointLight }

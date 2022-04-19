@@ -73,6 +73,7 @@ version "4.5"
 #include "ZScript/Weapons/rocketlauncher.zsc"
 #include "ZScript/Weapons/dmr.zsc"
 #include "ZScript/Weapons/unmaker.zsc"
+#include "ZScript/Weapons/unmaker_bfgball.zsc"
 
 // Vehicles
 #include "ZScript/Vehicles/Kinematics/kine_parts.zsc" 

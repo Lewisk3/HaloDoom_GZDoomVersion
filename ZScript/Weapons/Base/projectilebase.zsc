@@ -120,9 +120,10 @@ class HaloSlowProjectile : Actor
 			}
 		}
 		
-		if(defaulthit != 1) 
+		if(defaulthit != 1 && bMISSILE) 
 		{
 			vel *= 0;
+			bMISSILE = false;
 			SetState(FindState("Death"));
 		}
 		return defaultHit;

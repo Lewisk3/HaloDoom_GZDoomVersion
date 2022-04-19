@@ -268,7 +268,8 @@ class TankRocket_DarkSmoke : FastActor
 	override void BeginPlay()
 	{	
 		alpha = frandom(0.35, 0.77);
-		A_SetScale(frandom(0.10,0.20));
+		double sc = frandom(0.10,0.20);
+		A_SetScale(default.Scale.X * sc, default.Scale.Y * sc);
 		rollvel = frandom(-2.0, 2.0);
 		super.BeginPlay();
 	}
@@ -611,6 +612,7 @@ class WraithPlasma_FlyingPlasma : FastActor
 						trail.A_SetRenderStyle(1.0, STYLE_AddShaded);
 					}
 					trail.SetShade(fillcolor);
+					trail.translation = translation;
 				}
 			}
 		wait;

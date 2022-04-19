@@ -1,0 +1,357 @@
+class UnmakerBall : HaloSlowProjectile
+{
+	Array<Actor> deco;
+	
+	Default
+	{
+		Scale 0.35;
+		YScale 0.35 / 1.2;
+		RenderStyle "Add";
+		Alpha 1.0;
+		
+		Radius 16;
+		Height 16;
+		
+		+NOGRAVITY;
+		+BRIGHT;
+		+ROLLSPRITE;
+		Projectile;
+		
+		HaloSlowProjectile.SetRanges 0, 0;
+		HaloSlowProjectile.MinRangeDamage 100; 
+		HaloSlowProjectile.BaseDamage Unmaker_DMG * 0.25;
+		HaloSlowProjectile.Speed_MPS Unmaker_BMPS;
+	}
+	
+	void FireLasers(double amt = 5, double maxDist = 1024)
+	{
+		let it = ThinkerIterator.Create();
+		Actor act;
+		LookExParams look;
+		look.FOV = 360;
+		
+		Array<Actor> targets;
+		double closeDist;
+		Actor closestActor;
+		for(int itr = 0; targets.Size() < amt; itr++)
+		{
+			closeDist = double.infinity;
+			while(act = Actor(it.Next()))
+			{
+				if(act == target) continue;
+				if(!act.bSHOOTABLE || act.bFRIENDLY || !act.bISMONSTER) continue;
+				if(!isVisible(act, true, look)) continue;
+				if(targets.Find(act) != targets.Size()) continue;
+				
+				double curDist = Distance3DSquared(act);
+				if(closeDist < curDist || curDist > maxDist*maxDist) continue;
+				closestActor = act;
+				closeDist = curDist;
+			}
+			if(closestActor) targets.Push(closestActor);
+			
+			// Stop iterating if we cannot find targets for some reason.
+			if(itr > 100) break; 
+		}
+		
+		for(int i = 0; i < targets.Size(); i++)
+		{
+			let victim = targets[i];
+			if(!victim) continue;
+			
+			let beam = LaserBeam.Create(self, 0,0,0, type:"LSR_UnmakerBall");
+			let beamCore = LaserBeam.Create(self, 0,0,0, type:"LSR_UnmakerBallCore"); 
+			beam.SetEnabled(true);
+			beamCore.SetEnabled(true);
+			if(victim) 
+			{
+				beam.StartTracking( (victim.pos.xy, victim.pos.z + (victim.height*0.5)) );
+				beamCore.StartTracking( (victim.pos.xy, victim.pos.z + (victim.height*0.5)) );
+			}
+			A_StartSound("Halo/Weapons/Unmaker/Lasers", flags:CHANF_OVERLAP);
+			
+			victim.DamageMobJ(self, target, 20, "Plasma", angle:beam.angle);
+		}
+	}
+	
+	virtual void UpdateBall()
+	{
+		if( !(getAge()%10) && bMISSILE )
+		{
+			vector2 view = (0, 0);
+			int adjustedAmt = max(20 * halodoom_effectintensity, 0);
+			bool doFireLasers = true;
+			uint effectCount = 0;
+			
+			for(int i = 0; i < 20; i++)
+			{
+				vector2 localPos = (frandom(-1,1) * 30.0, frandom(-1,1) * (30.0 / 1.2));
+				vector3 lightningPos = HaloMath.RelativeV3Offset(self, 0,0,0, 0, localPos.x, localPos.y, 1.);
+				
+				view.x = frandom(0,360);
+				view.y = frandom(-60,60);
+				class<LightningActor> lType = "UnmakerLightning";
+				if(random[unmakerLightningType](0,4)==4) 
+				{
+					// Sync laserfire with big lightning.
+					if( doFireLasers && random[unmakerTracers](0,4) == 4)
+					{
+						FireLasers();
+						doFireLasers = false;
+					}
+					lType = "BigUnmakerLightning";
+				}
+				
+				if(effectCount++ < adjustedAmt) 
+					BiriBiri.DoLightning(lightningPos, view, type:lType, dist:100, 1.0, 12.0, 10.0, 30, 0);
+			}
+		}
+		if( !(getAge()%5) && random[unmakerSmoke](0,1)==1 )
+		{
+			vector3 randPos = (frandom(-1,1),frandom(-1,1),frandom(-1,1)) * 15;  
+		//	HaloMath.SpawnFX("UnmakerLaserSmoke", pos + randPos, angle + frandom(-10,10), random(5,10), 64, 10);
+			HaloMath.SpawnFX("UnmakerBallSmoke", pos + randPos, angle + frandom(-10,10), random(5,10), 64, 10);
+		}
+		
+		// Setup decorations.
+		if(GetAge() == 1)
+		{
+			deco.Push(Spawn("UnmakerBall_Deco", pos));
+			deco.Push(Spawn("UnmakerBall_Deco2", pos));
+			deco.Push(Spawn("UnmakerBall_Shell", pos));
+		}
+		for(int i = 0; i < deco.Size(); i++)
+		{
+			if(deco[i]) deco[i].vel = vel;
+		}
+		
+		roll+=3;		
+		vector2 fixScale = RotateVector(default.Scale, roll);
+		A_SetScale(fixScale.x, fixScale.y);
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		UpdateBall();
+	}
+	
+	States
+	{
+		Spawn:
+			ELBL "#" 1 NoDelay
+			{
+				A_StartSound("Halo/Weapons/Unmaker/BFG/Travel", flags:CHANF_LOOPING, attenuation:0.2);
+			}
+		SpawnLoop:
+			ELBL "#" 2 Bright
+			{
+				frame = random[unmakerBallSprite](0,2);
+				tics = random[unmakerBallSprite](1,2);
+			}
+		loop;
+		
+		Death:
+			TNT1 A 25
+			{
+				Spawn("UnmakerBallExplosion", pos);
+				Spawn("ImpactSparks", pos);
+				Spawn("FX_Shockwave", pos);
+				Spawn("UnmakerBallFlare", pos);
+				A_StopSound(CHAN_BODY);
+				A_StartSound("Halo/Weapons/Unmaker/BFG/Explode", attenuation:ATTN_NONE);
+				
+				int adjustedAmt = max(20 * halodoom_effectintensity, 0);
+				vector2 view = (0,0);
+				for(int i = 0; i < adjustedAmt; i++)
+				{
+					vector2 localPos = (frandom(-1,1) * 30.0, frandom(-1,1) * (30.0 / 1.2));
+					vector3 lightningPos = HaloMath.RelativeV3Offset(self, 0,0,0, 0, localPos.x, localPos.y, 1.);
+					
+					view.x = frandom(0,360);
+					view.y = (-pitch) + frandom(-30,30);
+					BiriBiri.DoLightning(lightningPos, view, type:"BigUnmakerLightning", dist:200, 1.0, 12.0, 10.0, 30, 0);
+				}
+				vector3 randPos = (frandom(-1,1),frandom(-1,1),frandom(-1,1)) * 30;  
+				HaloMath.SpawnFX("UnmakerBallSmoke", pos + randPos, angle + frandom(-10,10), random(5,10), 64, 10, angle+180, -pitch, 8);
+	
+				A_Quake(5, 30, 0, 1024, "");
+				let plr = HaloPlayer(target);
+				if(plr && plr.player.ReadyWeapon)
+				{
+					let haloweap = HaloGun(plr.player.ReadyWeapon);
+					let unmaker = Halo_Unmaker(haloweap);
+					if(unmaker) unmaker.FireUnmakerTracers();
+					
+					if(haloweap) 
+					{
+						double pow = HaloMath.DistFalloff(pos, plr.pos, 4096);
+						haloweap.A_RollQuake(8 * pow, 20, 4, ptr:haloweap);
+					}
+				}
+	
+				// Remove all decoration objects.
+				for(int i = deco.Size()-1; i >= 0; i--)
+				{
+					if(deco[i]) 
+					{
+						deco[i].Destroy();
+						deco.Delete(i);
+					}
+				}
+			}
+		stop;
+	}
+}
+
+class UnmakerBallFlyingExplosion : WraithPlasma_FlyingPlasma
+{
+	Default
+	{
+		Scale 4.0;
+		Translation "0:255=@64[128,128,16]"; 
+	}
+}
+
+class UnmakerBallFlare : FastActor
+{
+	Default
+	{
+		Scale 2.0;
+	//	Translation "0:255=@64[128,128,16]"; 
+	}
+	
+	States
+	{
+		Spawn:
+			FSH1 ABCDEFGHHIJKLMNOPQRS 1 Bright;
+		stop;
+	}
+}
+
+class UnmakerBallExplosion : CheapActor
+{
+	Default
+	{	
+		Scale 1.0;
+		+BRIGHT;
+	}
+	
+	States
+	{	
+		Spawn:
+			ELEX ABCDEFGHIJK 2;
+		stop;
+	}
+}
+
+class LSR_UnmakerBall : LSR_UnmakerBeam
+{
+	Default
+	{
+		Scale 10.0;
+		LaserBeam.TrackWeapon false, 0;
+	}
+	
+	override void BeamTick()
+	{	
+		alpha -= 0.15;
+		A_SetScale(Scale.X * 0.87, Scale.Y);
+
+		if(alpha <= 0.1 || Scale.X <= 0.05) Destroy();
+	}
+	
+	override void OnImpact(vector3 hitPos, Actor hitActor)
+	{
+		super.OnImpact(hitPos, hitActor);
+		let puff = Spawn("UnmakerLaserPuff", hitPos);
+		if(puff) 
+		{
+			puff.angle = angle + 180;
+			puff.pitch = -(pitch-90);
+		}
+	}
+}
+class LSR_UnmakerBallCore : LSR_UnmakerBall
+{
+	Default
+	{
+		LaserBeam.LaserColor "White";
+		Scale 5.0;
+	}
+	
+	override void OnImpact(vector3 hitPos, Actor hitActor) {}
+}
+
+class UnmakerBall_Shell : CheapActor
+{
+	Default
+	{
+		+NOINTERACTION;
+		Alpha 0.9;
+		Scale 1.0;
+		RenderStyle "Add";
+		Translation "0:255=@64[128,128,16]"; 
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		A_SetScale(default.Scale.X * sin(getAge()*8));
+		SetOrigin(level.vec3offset(pos, vel), true);
+	}
+	
+	States
+	{
+		Spawn:
+			MODL A 1;
+		loop;
+	}
+}
+
+class UnmakerBall_Deco : UnmakerBall
+{
+	Default
+	{
+		+NOINTERACTION;
+		+FLATSPRITE;
+	}
+
+	override void UpdateBall()
+	{
+		pitch=90;
+		angle+=3;
+	}
+}
+class UnmakerBall_Deco2 : UnmakerBall_Deco
+{
+	Default
+	{
+		-FLATSPRITE;
+	}
+
+	override void UpdateBall()
+	{
+		roll-=3;		
+		vector2 fixScale = RotateVector(default.Scale, roll);
+		A_SetScale(fixScale.x, fixScale.y);
+	}
+}
+
+class UnmakerBallSmoke : TankRocket_DarkSmoke
+{
+	Default
+	{
+		Scale 5.0;
+	}
+}
+
+class BigUnmakerLightning : UnmakerLightning
+{
+	Default
+	{
+		Scale 2.0;
+		Alpha 1.0;
+		+BRIGHT;
+	}
+}
