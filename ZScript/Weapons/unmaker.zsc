@@ -273,7 +273,7 @@ class Halo_Unmaker : HaloGun
 		for(int i = 0; i < amt; i++)
 		{
 			// Don't fire if we don't have the ammo to.
-			if(!countinv(ammotype2)) break;
+			if(!ptr.countinv(ammotype2)) break;
 			
 			uint victim = !i ? 0 : (i % targetCount);
 			Actor curtarget = targets[victim];		
