@@ -112,7 +112,8 @@ class UnmakerLaserPuff : CheapActor
 {
 	bool reFiring;
 	int laserAmt;
-	Property laserPuffs : laserAmt;
+	double laserDist;
+	Property laserPuffs : laserAmt, laserDist;
 	
 	Default
 	{	
@@ -120,7 +121,7 @@ class UnmakerLaserPuff : CheapActor
 		RenderStyle "Add";
 		Alpha 0.85;
 		Scale 2.0;
-		UnmakerLaserPuff.laserPuffs 2;
+		UnmakerLaserPuff.laserPuffs 2, 100;
 	}
 	
 	override void Tick()
@@ -137,10 +138,10 @@ class UnmakerLaserPuff : CheapActor
 			{
 				view.x = angle + frandom(-45,45);
 				view.y = pitch + frandom(-20,20);
-				BiriBiri.DoLightning(lightningPos, view, type:"UnmakerLightning", dist:100, 0.5, 8.0, 10.0, 30, 0);;
+				BiriBiri.DoLightning(lightningPos, view, type:"UnmakerLightning", dist:laserDist, 0.5, 8.0, 10.0, 30, 0);;
 			}
 		}
-		if( !(getAge()%5) && random[unmakerSmoke](0,3)==3 )
+		if( !(getAge()%10) && random[unmakerSmoke](0,3)==3 )
 		{
 			vector3 randPos = (frandom(-1,1),frandom(-1,1),frandom(-1,1)) * 5;  
 			HaloMath.SpawnFX("UnmakerLaserSmoke", pos + randPos, angle + frandom(-10,10), random(2,5), 20, 5);
@@ -267,6 +268,7 @@ class Halo_Unmaker : HaloGun
 		}
 		
 		Actor curtarget = NULL;
+		Actor oldtarget = NULL;
 		uint targetCount = targets.Size();
 		if(!targetCount) return;
 		
@@ -276,10 +278,11 @@ class Halo_Unmaker : HaloGun
 			if(!ptr.countinv(ammotype2)) break;
 			
 			uint victim = !i ? 0 : (i % targetCount);
-			Actor curtarget = targets[victim];		
+			Actor curtarget = targets[victim];	
+			double dmgBoost = (curtarget != oldtarget) ? 4.0 : 1.0;
 			
 			if(!curtarget) continue;
-			targets[i].DamageMobJ(ptr, ptr, Unmaker_DMG / 40.0, "Plasma");
+			targets[i].DamageMobJ(ptr, ptr, (Unmaker_DMG / 40.0) * dmgBoost, "Plasma");
 			
 			vector3 localOffs = (10, 0, -5);
 			let beam = LaserBeam.Create(ptr, localOffs.x,localOffs.y,localOffs.z, type:"LSR_UnmakerBeam");
@@ -296,6 +299,7 @@ class Halo_Unmaker : HaloGun
 			
 			if(sv_infiniteammo) continue;
 			Owner.TakeInventory(ammotype2, 1);
+			oldtarget = curtarget;
 		}
 	}
 	

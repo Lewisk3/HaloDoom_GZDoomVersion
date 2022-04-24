@@ -70,7 +70,7 @@ class UnmakerBall : HaloSlowProjectile
 			}
 			A_StartSound("Halo/Weapons/Unmaker/Lasers", flags:CHANF_OVERLAP);
 			
-			victim.DamageMobJ(self, target, 20, "Plasma", angle:beam.angle);
+			victim.DamageMobJ(self, target, 40, "Plasma", angle:beam.angle);
 		}
 	}
 	
@@ -94,7 +94,7 @@ class UnmakerBall : HaloSlowProjectile
 				if(random[unmakerLightningType](0,4)==4) 
 				{
 					// Sync laserfire with big lightning.
-					if( doFireLasers && random[unmakerTracers](0,4) == 4)
+					if( doFireLasers && random[unmakerTracers](0,2) == 2)
 					{
 						FireLasers();
 						doFireLasers = false;
@@ -264,9 +264,10 @@ class LSR_UnmakerBall : LSR_UnmakerBeam
 	override void OnImpact(vector3 hitPos, Actor hitActor)
 	{
 		super.OnImpact(hitPos, hitActor);
-		let puff = Spawn("UnmakerLaserPuff", hitPos);
+		let puff = UnmakerLaserPuff(Spawn("UnmakerLaserPuff", hitPos));
 		if(puff) 
 		{
+			puff.laserDist = 50;
 			puff.angle = angle + 180;
 			puff.pitch = -(pitch-90);
 		}

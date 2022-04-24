@@ -176,7 +176,7 @@ class HaloRocketExplosion : CheapActor
 			{
 				vector3 fxpos = (pos.xy, pos.z+40);
 				HaloMath.SpawnFX("FragGrenade_FlyingExplosion", fxpos, angle, random(10,20), 10, 20, 180,45, 15);
-				A_Explode(damage, 300);
+				HaloMath.ExplodeEx(self, damage, 300, damageSelf:false);
 			}
 			SX04 EFGHIJKLMNOPQ 1 Bright
 			{
