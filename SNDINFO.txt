@@ -703,4 +703,4 @@ $playersound	Spartan  male	grunt	  "Sounds/Players/jump2.ogg"
 $playersound	Spartan  male	*land	  "Sounds/Players/land_normal.ogg"
 $playersound	Spartan  male	*jump	  "Sounds/Players/jump1.ogg"
 $playersound	Spartan  male	*fist	  dspunch
-$playersound	Spartan  male	*usefail  dsnoway
+$playersound	Spartan  male	*usefail  "Sounds/Melee/MeleeMiss.ogg"

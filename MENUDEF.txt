@@ -101,6 +101,7 @@ OptionMenu "HaloDoomGameplayOptions"
 	Option "Bullet Casings", "halodoom_fx_casings", "EnabledDisabled"
 	Option "Play Helmet intro animation", "halodoom_dohelmetintro", "EnabledDisabled"
 	Option "Use longer select animations", "halodoom_dofullselectanim", "EnabledDisabled"
+	Option "Spartan jump sound effect", "halodoom_snd_jumpgrunt", "EnabledDisabled"
 	Slider "Grappling Hook complexity", "halodoom_grapplecomplexity", 0.2, 2.0, 0.01, 2
 	StaticText " "
 	StaticText "HUD", "Black"

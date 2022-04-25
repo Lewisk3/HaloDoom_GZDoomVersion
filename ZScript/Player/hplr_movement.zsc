@@ -54,6 +54,9 @@ extend class HaloPlayer
 	
 	// Velocities
 	vector3 oldvel;
+	
+	// CVars
+	transient CVar cv_snd_jump;
 
 	void DoQuakeGroundAccel(vector3 wishdir, double spd)
 	{
@@ -306,6 +309,8 @@ extend class HaloPlayer
 		uint btns = player.cmd.buttons;
 		uint obtns = player.oldbuttons;
 		
+		if(!cv_snd_jump) cv_snd_jump = CVar.GetCVar("halodoom_snd_jumpgrunt", player);
+		
 		if(CheckBuoyant() && (btns & BT_JUMP))
 		{
 			vel.z += 1;
@@ -321,7 +326,9 @@ extend class HaloPlayer
 			vel.z = 0;	
 			if(doJump())
 			{
-				if (!(player.cheats & CF_PREDICTING)) A_StartSound("Halo/Spartan/DoubleJump", CHAN_BODY, CHANF_OVERLAP);
+				if (!(player.cheats & CF_PREDICTING)) 
+					A_StartSound("Halo/Spartan/DoubleJump", CHAN_BODY, CHANF_OVERLAP);
+					
 				jumpcounter++;
 			}
 		} 
@@ -330,7 +337,9 @@ extend class HaloPlayer
 			// Normal jump
 			if(doJump())
 			{
-				if (!(player.cheats & CF_PREDICTING)) A_StartSound("*jump", CHAN_BODY, CHANF_OVERLAP);
+				if ( !(player.cheats & CF_PREDICTING) && cv_snd_jump.getBool() ) 
+					A_StartSound("*jump", CHAN_BODY, CHANF_OVERLAP);
+					
 				jumpcounter++;
 			}
 		}

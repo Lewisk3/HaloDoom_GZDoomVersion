@@ -8,6 +8,7 @@ user bool halodoom_dohelmetintro = true;
 user bool halodoom_doammowarnings = true;
 user bool halodoom_hidecrosshair = false;
 user bool halodoom_showhelmet = false;
+user bool halodoom_snd_jumpgrunt = true;
 user float halodoom_grapplecomplexity = 1.0;
 user float halodoom_recoil_intensity = 1.0;
 user int halodoom_cortanamode = 0;
