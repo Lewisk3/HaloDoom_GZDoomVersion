@@ -944,9 +944,12 @@ class HaloGun : RecoilWeapon
 	}
 	action void A_HaloWeaponReady(uint flags = 0, bool usescope = true)
 	{
-		if(usescope) A_ScopeEnable();
+		if(usescope) 
+		{
+			A_ScopeEnable();
+			A_Overlay(SIGHT_OVERLAY, "Scope.Ready", true);
+		}
 		A_RWeaponReady(flags);
-		A_Overlay(SIGHT_OVERLAY, "Scope.Ready", true);
 	}
 	action bool A_LowerAim()
 	{
