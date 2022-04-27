@@ -913,10 +913,10 @@ class HaloGun : RecoilWeapon
 	{
 		invoker.enablezoom = true;
 	}
-	action void A_ScopeON()
+	action void A_ScopeON(bool usePerspective = true)
 	{
 		let psp = player.GetPSprite(PSP_WEAPON);
-		if(psp) 
+		if(psp && usePerspective) 
 		{
 			// Min scale, should be around 3x
 			double zscale = 1.0+HaloMath.fmap(invoker.scopezoom, 1.0, 3.0, 0, 2.0); 

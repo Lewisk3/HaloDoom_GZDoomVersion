@@ -105,7 +105,7 @@ class Halo_Sidekick : HaloGun
 	{
 		if(onoff)
 		{
-			A_ScopeON();
+			A_ScopeON(usePerspective:false);
 			A_SetZoom(invoker.scopezoom, 3, true);	
 		}
 		else
@@ -306,13 +306,13 @@ class Halo_Sidekick : HaloGun
 		goto Ready.Active;
 		
 		Sights.Enable:
+			TNT1 A 0 A_SetSights(1);	
 			WEZ1 ABCDEFGHIJKLM 1;
-			TNT1 A 0 A_SetSights(1);
 		goto Ready.ADS;
 		
 		Sights.Disable:
-			WEZ1 MLKIHGFEDCBA 1;
 			TNT1 A 0 A_SetSights(0);
+			WEZ1 MLKIHGFEDCBA 1;
 		goto Ready.Active;	
 		
 		Spawn:
