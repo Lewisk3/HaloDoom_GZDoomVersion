@@ -40,6 +40,7 @@ class LaserBeam : Actor
 	int ontics;
 	bool enabled;
 	Actor source;
+	vector3 curPos;
 	vector3 offsets;
 	vector2 angleOffsets;
 	vector3 curOffs;
@@ -107,6 +108,21 @@ class LaserBeam : Actor
 	{
 		return trackingPos;
 	}
+		
+	void aimAtCrosshair()
+	{
+		double zoffs = source.height*0.5;
+		if(source.player) zoffs = source.player.viewz - source.pos.z;
+	
+		FLineTraceData lt;
+		source.LineTrace(source.angle, maxDist, source.pitch, offsetz:zoffs, offsetforward:source.radius, data:lt);
+		if(lt.HitType != TRACE_HitNone) 
+		{
+			vector3 aimAngles = level.SphericalCoords(curPos, lt.HitLocation, (source.angle,source.pitch));
+			angleOffsets.x = aimAngles.x;
+			angleOffsets.y = aimAngles.y;
+		}
+	}
 	
 	virtual vector3 getSourcePos()
 	{
@@ -168,17 +184,15 @@ class LaserBeam : Actor
 		}
 		
 		// Update laser and tracking.
-		if(!trackingPos || curOffs.Length() ~== 0)
-		{
-			curOffs = HaloMath.V3Offset(
-				source.angle, source.pitch, source.roll,
-				offsets.x, offsets.y + bob.x, offsets.z - bob.y, 
-				1.0
-			);
-		}
-		
+		curOffs = HaloMath.V3Offset(
+			source.angle, source.pitch, source.roll,
+			offsets.x, offsets.y + bob.x, offsets.z - bob.y, 
+			1.0
+		);
+	
 		vector3 finalPos = level.vec3offset(getSourcePos(), curOffs);
 		SetOrigin(finalPos, true);
+		curPos = finalPos;
 		
 		double toAngle = source.angle + angleOffsets.x;
 		double toPitch = source.pitch + angleOffsets.y;

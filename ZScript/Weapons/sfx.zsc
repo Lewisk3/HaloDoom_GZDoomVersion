@@ -208,6 +208,11 @@ class MuzzleSmoke : CasingSmoke
 	override void Tick()
 	{
 		super.Tick();
+		DoPhysics();
+	}
+	
+	virtual void DoPhysics()
+	{
 		vel.z += 0.01;
 		vel *= 0.87;
 		roll -= 1.2 * rolldir;
@@ -223,6 +228,25 @@ class MuzzleSmoke : CasingSmoke
 		loop;
 	}
 }
+
+class RisingSmoke : MuzzleSmoke
+{
+	Default
+	{
+		Alpha 0.4;
+	}
+
+	override void DoPhysics()
+	{
+		vel.z += 0.1;
+		vel *= 0.87;
+		roll -= 1.2 * rolldir;
+		alpha -= 0.006 * fadespd;
+		A_SetScale(scale.x * 0.98);
+		if(alpha <= 0.001) Destroy();
+	}
+}
+
 
 class ShellCasing : BulletCasing
 {

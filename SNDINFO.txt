@@ -594,6 +594,18 @@ $random Halo/Weapons/Unmaker/Charge/Fire { Unmaker_CHRGFire1 Unmaker_CHRGFire2 U
 $random Halo/Weapons/Unmaker/Overheat { Unmaker_Heat1 Unmaker_Heat2 Unmaker_Heat3 }
 $random Halo/Weapons/Unmaker/Lasers { Unmaker_Laser1 Unmaker_Laser2 Unmaker_Laser3 }
 
+// Beam Rifle
+BEAMRIFLE_FIRE1 "Sounds/BeamRifle/BeamRifle_Fire1.ogg"
+BEAMRIFLE_FIRE2 "Sounds/BeamRifle/BeamRifle_Fire2.ogg"
+Halo/Weapons/BeamRifle/Laser/Loop "Sounds/BeamRifle/BeamRifle_Loop.ogg"
+Halo/Weapons/BeamRifle/Laser/LoopEnd "Sounds/BeamRifle/BeamRifle_LoopEnd.ogg"
+Halo/Weapons/BeamRifle/Draw  "Sounds/BeamRifle/BeamRifle_Draw.ogg"
+Halo/Weapons/BeamRifle/Overheat/Start "Sounds/BeamRifle/BeamRifle_OH_Start.ogg"
+Halo/Weapons/BeamRifle/Overheat/Loop "Sounds/BeamRifle/BeamRifle_OH_Loop.ogg"
+Halo/Weapons/BeamRifle/Overheat/End "Sounds/BeamRifle/BeamRifle_OH_End.ogg"
+
+$random Halo/Weapons/BeamRifle/Laser/Fire { BEAMRIFLE_FIRE1 BEAMRIFLE_FIRE2 }
+
 // Hit feedback
 HMHIT1 HMHit1
 HMHIT2 HMHit2

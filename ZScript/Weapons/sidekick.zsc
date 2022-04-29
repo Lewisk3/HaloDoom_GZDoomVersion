@@ -120,12 +120,12 @@ class Halo_Sidekick : HaloGun
 		Ready:
 			TNT1 A 0 A_JumpIf(!A_DoFullSelectAnimation(), "Ready.Chambered");
 			TNT1 A 4 A_WeapSound("Halo/Weapons/Sidekick/Draw");
-			WED1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoSelectAnim(-5, true);
-			WED2 ABCDEFGHIJKLMNOPQRSTUV 1;
+			WED1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoSelectAnim(-10, true);
+			WED2 ABCDEFGHIJKLMNOPQRSTUV 1 A_DoSelectAnim(-10, true);
 		goto Ready.Active;
 		Ready.Chambered:
 			TNT1 A 0 A_WeapSound("Halo/Weapons/Sidekick/Draw");
-			WES1 ABCDEFGHIJKLMN 1 A_DoSelectAnim(-5);
+			WES1 ABCDEFGHIJKLMN 1 A_DoSelectAnim(-10);
 		Ready.Active:
 			WEG1 A 1 
 			{
@@ -247,9 +247,9 @@ class Halo_Sidekick : HaloGun
 				return A_CheckRapidFire();
 			}
 			WEE1 JKL 1 A_CheckRapidFire();
-		Hold:
+		Hold.FromSights:
 			WEZ1 M 1 A_CheckRapidFire();
-			TNT1 A 0 A_ReFire("Hold");
+			TNT1 A 0 A_ReFire("Hold.FromSights");
 		goto Ready.ADS;
 			
 		Fire.FromSights.Alternative:
@@ -278,9 +278,9 @@ class Halo_Sidekick : HaloGun
 				return A_CheckRapidFire();
 			}
 			WEE1 UV 1 A_CheckRapidFire();
-		Hold:
+		Hold.FromSights:
 			WEZ1 M 1 A_CheckRapidFire();
-			TNT1 A 0 A_ReFire("Hold");
+			TNT1 A 0 A_ReFire("Hold.FromSights");
 		goto Ready.ADS;
 		
 		Reload.FromSights:

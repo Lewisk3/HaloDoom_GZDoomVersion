@@ -122,7 +122,7 @@ mixin class HaloProjectile_Common
 		if(explode_dmg > 0) A_Explode(explode_dmg, explode_radius, 0);
 
 		// Spawn Blood
-		if( bBLOODSPLATTER && victim.bISMONSTER && !victim.bNOBLOOD ) 
+		if( victim.bISMONSTER && !victim.bNOBLOOD ) 
 			victim.SpawnBlood( pos, angle, ceil(scaled_damage) );
 	
 		// Rip through actors
