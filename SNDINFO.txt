@@ -562,6 +562,26 @@ $random Halo/Weapons/DMR/Fire      { DMR_FIRE1 DMR_FIRE2 DMR_FIRE3 }
 $random Halo/Weapons/DMR/Fire/Bass { DMR_LOW1 DMR_LOW2 DMR_LOW3  }
 $random Halo/Weapons/DMR/Fire/Mech { DMR_MECH1 DMR_MECH2 DMR_MECH3 }
 
+// Pulse Carbine
+PUL_FIRE1 "Sounds/PulseCarbine/PC_fire1.ogg"
+PUL_FIRE2 "Sounds/PulseCarbine/PC_fire2.ogg"
+PUL_FIRE3 "Sounds/PulseCarbine/PC_fire3.ogg"
+PUL_FIRE4 "Sounds/PulseCarbine/PC_fire4.ogg"
+PUL_FIRE5 "Sounds/PulseCarbine/PC_fire5.ogg"
+PUL_FIRE6 "Sounds/PulseCarbine/PC_fire6.ogg"
+PUL_FIRELOW1 "Sounds/PulseCarbine/PC_low1.ogg"
+PUL_FIRELOW2 "Sounds/PulseCarbine/PC_low2.ogg"
+PUL_FIRELOW3 "Sounds/PulseCarbine/PC_low3.ogg"
+PUL_FIRELOW4 "Sounds/PulseCarbine/PC_low4.ogg"
+
+Halo/Weapons/PulseCarbine/DryFire "Sounds/PulseCarbine/PC_DryFire.ogg"
+Halo/Weapons/PulseCarbine/Overheat "Sounds/PulseCarbine/PC_OH.ogg"
+Halo/Weapons/PulseCarbine/Vent "Sounds/PulseCarbine/PC_Vent.ogg"
+Halo/Weapons/PulseCarbine/Draw "Sounds/PulseCarbine/PC_draw.ogg"
+
+$Random Halo/Weapons/PulseCarbine/Fire 		 { PUL_FIRE1 PUL_FIRE2 PUL_FIRE3 PUL_FIRE4 PUL_FIRE5 PUL_FIRE6 }
+$Random Halo/Weapons/PulseCarbine/Fire/Bass  { PUL_FIRELOW1 PUL_FIRELOW2 PUL_FIRELOW3 PUL_FIRELOW4 }
+
 // Unmaker
 Unmaker_FIRE1 "Sounds/Unmaker/Unmaker_Fire1.ogg"
 Unmaker_FIRE2 "Sounds/Unmaker/Unmaker_Fire2.ogg"

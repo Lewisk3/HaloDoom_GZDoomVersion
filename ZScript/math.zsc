@@ -200,13 +200,19 @@ class HaloMath Abstract
 		while(act = Actor(it.Next()))
 		{
 			if(!act.bSHOOTABLE) continue;
-			if(!damageSelf && act == shooter) continue;
 			if(!damageBosses && act.bBOSS) continue; 
+			
 			double todist = src.Distance2DSquared(act) - act.radius;
 			double dmgfalloff = pow * (1. - (1./(todist - (dist*dist))));
 			if(todist > dist*dist) continue; 
 			dmgfalloff *= dmgfalloffmod;
 			
+			vector3 forceDir = (src.pos - act.pos).Unit();
+			if(act == shooter) forceDir = VecFromAngles(shooter.angle, shooter.pitch, 0.5);
+			forceDir *= dmgfalloff;
+			act.vel -= (forceDir * 0.25);
+			
+			if(!damageSelf && act == shooter) continue;
 			if(dmgfalloff > 0)
 				act.DamageMobJ(src, shooter, dmgfalloff * GAMEPLAY_DAMAGEMOD, damageType, 0, src.angle); 
 		}

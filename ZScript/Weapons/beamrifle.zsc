@@ -112,6 +112,9 @@ class Halo_BeamRifle : HaloGun
 		HaloGun.Crosshair "PlsRRet", 0.75;
 		HaloGun.UIGraphic "WI_BEAM", 0.6;
 		
+		HaloGun.UISight "SI_PBX4", 0.85, 0.5;
+		HaloGun.SetupScope 2.0, 1.0;
+		
 		RecoilWeapon.YOffsetRange 0, 40;
 	}
 		
@@ -284,7 +287,42 @@ class Halo_BeamRifle : HaloGun
 				invoker.handsbusy = false; // Enable hand actions.
 			}
 		goto Ready.Active;
-			
+					
+		Scope.ON:
+			TNT1 A 1 
+			{
+				A_ScopeON();
+				invoker.UI_Sight = invoker.default.UI_Sight;
+			}
+			TNT1 A 5 A_SetZoom(invoker.scopezoom, 3, true);
+			TNT1 A 0 
+			{
+				bool holding = A_ButtonStatus(BT_ALTATTACK, BTS_HELD) && !A_ButtonStatus(BT_ALTATTACK, BTS_PRESSED);
+				invoker.zoom_btnstate = holding ? 0 : BTS_PRESSED;
+				if(holding) return ResolveState("Scope.Ready");
+				return ResolveState("Scope.Wait");
+			}
+		goto Scope.Wait;
+		
+		Scope.Two:
+			TNT1 A 1 
+			{
+				A_ScopeON();
+				invoker.UI_Sight = "SI_PBX8";
+			}
+			TNT1 A 5 A_SetZoom(invoker.scopezoom * 1.5, 3, true);
+		goto Scope.Ready;
+		
+		Scope.Wait:
+			TNT1 A 1 
+			{
+				State ret = ResolveState(null);
+				if(!invoker.enablezoom) ret = ResolveState("Scope.OFF");
+				if(A_ButtonStatus(BT_ALTATTACK, BTS_PRESSED)) ret = ResolveState("Scope.Two");
+				return ret;
+			}
+		loop;
+	
 		Spawn:
 			WLP1 A -1;
 		stop;

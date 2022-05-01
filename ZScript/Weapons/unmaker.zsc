@@ -504,7 +504,7 @@ class Halo_Unmaker : HaloGun
 		goto GunLightning;
 
 		Spawn:
-			MSNG A -1;
+			WKG1 A -1;
 		stop;
 	}
 }

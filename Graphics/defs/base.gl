@@ -103,6 +103,10 @@ object HaloPlasmaRifle_Proj
 {
 	Frame HPLB { light BlueBrightLight }
 }
+object HaloPulseCarbine_Proj
+{
+	Frame HPLB { light BlueBrightLight }
+}
 object HaloPlasma_Proj
 {
 	Frame HPLB { light GreenPointLight }

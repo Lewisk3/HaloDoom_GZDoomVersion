@@ -1,0 +1,237 @@
+class Halo_PulseCarbine_Battery : Ammo 
+{
+	Default 
+	{
+		Inventory.MaxAmount 100;
+	}
+}
+
+class HaloPulseCarbine_Proj : HaloPlasma_Proj
+{
+	double thrust;
+
+	Default
+	{
+		HaloProjectile.SetRanges PULSECARBINE_RANGE1, PULSECARBINE_RANGE2; 
+		HaloProjectile.MinRangeDamage PULSECARBINE_MINDMG; 
+		HaloProjectile.BaseDamage PULSECARBINE_DMG; 
+		HaloProjectile.Speed_MPS  PULSECARBINE_BMPS * 0.25;
+		HaloProjectile.HeadshotDMGFactor PULSECARBINE_HEDMOD;
+		HaloProjectile.SetupHoming true, PULSECARBINE_HOM * 0.25;
+		
+		RenderStyle "Add";
+		Translation "0:255=@65[10,8,240]";
+		Alpha 0.90;
+		Scale 0.12;
+		DamageType "Plasma";
+	}
+	
+	override void Tick()
+	{
+		super.Tick();	
+		
+		if(!thrust) thrust = 0.25;
+		homingStrength = min(homingStrength + 0.02, PULSECARBINE_HOM);
+		thrust = min(thrust + 0.05, 1.5);
+		
+		meterspeed = PULSECARBINE_BMPS*thrust;
+		if(thrust < 1.5 && bMISSILE) Init(); // Recalculate speed.
+	}
+		
+	
+	States
+	{
+		Death:
+		XDeath:
+		Crash:
+			TNT1 A 1 
+			{	
+				HaloMath.ParticlesFX(self, "Blue", 30, 3, 10);
+				A_DoLightning(4);
+			}
+		stop;
+	}
+}
+
+class Halo_PulseCarbine : HaloGun
+{
+	double heat;
+	int shotCount;
+
+	Default
+	{
+		Weapon.SlotNumber 4;
+		Obituary "%o was sublimated by %k's Pulse Carbine.";
+		Inventory.PickupMessage	"Picked up the Pulse Carbine.";
+		Tag "Pulse Carbine.";
+		Weapon.BobSpeed 1.83;
+		Weapon.BobRangeX 0.45;
+		Weapon.AmmoType1 "Halo_PulseCarbine_Battery";
+		Weapon.AmmoType2 "Halo_PulseCarbine_Battery";
+		Weapon.AmmoGive 100;
+		HaloGun.HasBattery true, 1;
+		
+		HaloGun.Availability GT_HDE;
+		HaloGun.PowerTier P_ENERGY;
+				
+		// Recoil
+		HaloGun.Bloom 0.16;
+		HaloGun.BloomSpeed 0.30;
+		HaloGun.BaseRecoil PULSECARBINE_RECOIL;
+		HaloGun.Inaccuracy PULSECARBINE_ACCMOD;
+		HaloGun.Crosshair "CarbRet", 0.75;
+		HaloGun.UIGraphic "MISSNG", 0.6;
+		
+		RecoilWeapon.YOffsetRange 0, 40;
+	}
+		
+	action void A_FirePulseCarbine()
+	{
+		A_Light(2);
+		A_WeapSound("Halo/Weapons/PulseCarbine/Fire", 0, true);
+		A_WeapSound("Halo/Weapons/PulseCarbine/Fire/Bass", CHANF_OVERLAP, true);
+		A_ShootProjectile("HaloPulseCarbine_Proj", 10, -5);
+		invoker.heat += 0.06;
+		A_TakeAmmo(1, true);
+		A_UpdateSpread();
+	}
+	
+	override void DoEffect()
+	{
+		super.DoEffect();
+		
+		heat = clamp(heat, 0, 1.5);
+	}
+		
+	States
+	{
+		DoSmoke:	
+			TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 3 
+			{
+				let psp = player.GetPSprite(OverlayID());
+				if(psp) psp.frame = random(3,8);
+				A_SetSFXPos(25,-8,-15);
+				double amt = (invoker.heat * 5) * halodoom_effectintensity;
+				
+				for(int i = 0; i < floor(amt); i++)
+					A_SpawnSFX("MuzzleSmoke", 0,0);
+			}
+		stop;
+	
+		Ready:
+			TNT1 A 0 
+			{	
+				A_WeapSound("Halo/Weapons/PulseCarbine/Draw");
+				return A_JumpIf(A_DoFullSelectAnimation(), "Ready.Pickup");
+			}
+			WMD1 ABCDEFGHIJ 1 A_DoSelectAnim(0, true);
+		goto Ready.Active;
+		Ready.Pickup:
+			WMS1 FEDCBA 1 A_DoSelectAnim();
+		Ready.Active:
+			WMG1 A 1 
+			{
+				invoker.heat *= 0.96;
+				A_HaloWeaponReady(WRF_ALLOWRELOAD);
+				A_Overlay(69, "DoSmoke");
+			}
+		loop;
+		
+		Ready.Dryfire:
+			WMG1 A 12 A_WeapSound("Halo/Weapons/PulseCarbine/DryFire", CHANF_OVERLAP);
+		goto Ready.Active;
+
+		Select:
+			TNT1 A 0 A_GunRaise();
+		wait;
+
+		Deselect:
+			WMS1 ABCDEF 1;
+			WMS1 F 1 A_GunLower();
+		wait;
+		
+		Fire:
+			TNT1 A 0 A_JumpIf(invoker.heat >= 1.0, "Overheat");
+			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Ready.Dryfire");
+			WMF1 A 1
+			{
+				invoker.shotCount = 0;
+			}
+		Fire.Loop:
+			WMF1 "#" 1 Bright
+			{
+				A_RollQuake(1,8,1, true);
+				A_FirePulseCarbine(); 
+				A_SetRecoil(0.67, 0, 2);
+				A_RQuakeEx(2,2,2,3,0,20,"",QF_RELATIVE|QF_WAVE);
+				A_SetFrame(A_GetFrame()+1);
+				invoker.shotCount++;
+			}
+			WMF1 "#" 2 
+			{
+				A_Light(0);
+				A_SetRecoil(-0.18, 0, 8);
+				A_SetFrame(A_GetFrame()+1);
+			}
+			TNT1 A 0 A_JumpIf(invoker.shotCount < 5, "Fire.Loop");
+			WMF1 KLMN 1;
+			WMG1 A 6;
+		goto Ready.Active;
+		
+		Reload:
+			TNT1 A 0
+			{
+				invoker.handsbusy = true; // Disable hand actions while overheating
+				A_RecoilOffset(0,0,6);
+				return A_JumpIf(invoker.heat < 0.25, "Ready.Dryfire");
+			}
+			TNT1 A 0 A_WeapSound("Halo/Weapons/PulseCarbine/Vent", CHANF_OVERLAP);
+			WMR1 ABCDEF 1;
+			WMR1 GHIJKL 3
+			{
+				for(int i = 0; i < floor(4 * halodoom_effectintensity); i++) 
+				{
+					A_SetSFXPos(25, -20 + frandom(-8,8), -10 + frandom(-10,10));
+					A_SpawnSFX("MuzzleSmoke", 0,0);
+				}
+				invoker.heat -= 0.2;
+			}
+			WMR1 MNO 2;
+			WMG1 A 8;
+			TNT1 A 0 
+			{
+				invoker.heat = 0;
+				invoker.handsbusy = false; // Enable hand actions.
+			}
+		goto Ready.Active;
+		
+		Overheat:
+			TNT1 A 0 
+			{
+				invoker.handsbusy = true; // Disable hand actions while overheating
+			}
+			TNT1 A 0 A_WeapSound("Halo/Weapons/PulseCarbine/Overheat", CHANF_OVERLAP);
+			WMH1 AB 1 Bright;
+			TNT1 A 0 A_RollQuake(2,35,1);
+			WMH1 CDEFGHIJKLMNOPQRSTUVWXYZ 2 Bright
+			{
+				for(int i = 0; i < floor(4 * halodoom_effectintensity); i++) 
+				{
+					A_SetSFXPos(25, -20 + frandom(-8,8), -10 + frandom(-10,10));
+					A_SpawnSFX("MuzzleSmoke", 0,0);
+				}
+				invoker.heat -= 0.1;
+			}
+			WMH2 ABCDEFGHIJKLM 2;			
+			TNT1 A 0 
+			{
+				invoker.heat = 0;
+				invoker.handsbusy = false; // Enable hand actions.
+			}
+		goto Ready.Active;
+			
+		Spawn:
+			MSNG A -1;
+		stop;
+	}
+}
