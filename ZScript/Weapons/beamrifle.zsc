@@ -55,7 +55,7 @@ class LSR_BeamRifle : LaserBeam
 				
 		if(hitActor) 
 		{	
-			hitActor.DamageMobj(self, target, laserDmg, DamageType);
+			hitActor.DamageMobj(self, source, laserDmg, DamageType);
 			
 			// Spawn Blood
 			if( hitActor.bISMONSTER && !hitActor.bNOBLOOD ) 

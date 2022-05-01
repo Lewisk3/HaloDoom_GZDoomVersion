@@ -131,7 +131,7 @@ class Halo_PulseCarbine : HaloGun
 		Ready.Active:
 			WMG1 A 1 
 			{
-				invoker.heat *= 0.96;
+				invoker.heat *= 0.98;
 				A_HaloWeaponReady(WRF_ALLOWRELOAD);
 				A_Overlay(69, "DoSmoke");
 			}
