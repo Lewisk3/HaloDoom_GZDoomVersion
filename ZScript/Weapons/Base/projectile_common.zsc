@@ -16,6 +16,7 @@ mixin class HaloProjectile_Common
 	int ripamount;
 	bool isHoming;
 	double homingStrength;
+	double homingFOV;
 	
 	// Shield stuff
 	double shield_HeadshotDMG;
@@ -33,7 +34,7 @@ mixin class HaloProjectile_Common
 	Property ConvergeToAim : do_converge;
 	Property HeadshotDMGFactor : headshot_multiplier;
 	Property DoExplosiveDamage : explode_dmg, explode_radius;
-	Property SetupHoming : isHoming, homingStrength;
+	Property SetupHoming : isHoming, homingStrength, homingFOV;
 	Property ShieldDamageFactors :  shield_DamageMod, shield_HeadshotDMG;
 		
 	static double ApplyShieldDamage(double dmg, HaloProjectile proj, bool isHeadshot = false)
@@ -75,10 +76,11 @@ mixin class HaloProjectile_Common
 			let it = ThinkerIterator.Create();
 			Actor act;
 			int mindist = int.max;
+			LookExParams look;
+			look.FOV = homingFOV;
+			
 			while(act = Actor(it.Next()))
 			{
-				LookExParams look;
-				look.FOV = 30;
 				if(act == target) continue;
 				if(!act.bSHOOTABLE || act.bCORPSE) continue;
 				if(target && !target.IsVisible(act, false, look)) continue;

@@ -81,7 +81,7 @@ class HaloChargedPlasma_Proj : HaloPlasma_Proj
 		HaloProjectile.Speed_MPS  PLASMAPISTOL_CHARGED_BMPS;
 		HaloProjectile.HeadshotDMGFactor PLASMAPISTOL_CHARGED_HEDMOD;
 		HaloProjectile.DoExplosiveDamage 32, 128;
-		HaloProjectile.SetupHoming true, 0.125;
+		HaloProjectile.SetupHoming true, 0.125, 30;
 		
 		Alpha 0.80;
 		Scale 0.22;

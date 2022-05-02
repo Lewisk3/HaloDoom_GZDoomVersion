@@ -626,6 +626,25 @@ Halo/Weapons/BeamRifle/Overheat/End "Sounds/BeamRifle/BeamRifle_OH_End.ogg"
 
 $random Halo/Weapons/BeamRifle/Laser/Fire { BEAMRIFLE_FIRE1 BEAMRIFLE_FIRE2 }
 
+// Energy Sword
+ES_SWING1 "Sounds/EnergySword/ESword_Swing1.ogg"
+ES_SWING2 "Sounds/EnergySword/ESword_Swing2.ogg"
+ES_SWING3 "Sounds/EnergySword/ESword_Swing3.ogg"
+ES_HIT1 "Sounds/EnergySword/ESword_HitTarget1.ogg"
+ES_HIT2 "Sounds/EnergySword/ESword_HitTarget2.ogg"
+ES_HIT3 "Sounds/EnergySword/ESword_HitTarget3.ogg"
+ES_MISS1 "Sounds/EnergySword/ESword_HitWall1.ogg"
+ES_MISS2 "Sounds/EnergySword/ESword_HitWall2.ogg"
+ES_MISS3 "Sounds/EnergySword/ESword_HitWall3.ogg"
+
+Halo/Weapons/EnergySword/Idle "Sounds/EnergySword/ESword_IdleLoop.ogg"
+Halo/Weapons/EnergySword/Draw "Sounds/EnergySword/ESword_Draw.ogg"
+Halo/Weapons/EnergySword/NoBattery "Sounds/EnergySword/ESword_Depleted.ogg"
+
+$random Halo/Weapons/EnergySword/Swing { ES_SWING1 ES_SWING2 ES_SWING3 }
+$random Halo/Weapons/EnergySword/Hit { ES_HIT1 ES_HIT2 ES_HIT3 }
+$random Halo/Weapons/EnergySword/Miss { ES_MISS1 ES_MISS2 ES_MISS3 }
+
 // Hit feedback
 HMHIT1 HMHit1
 HMHIT2 HMHit2

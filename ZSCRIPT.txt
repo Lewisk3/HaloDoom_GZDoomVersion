@@ -76,6 +76,7 @@ version "4.5"
 #include "ZScript/Weapons/unmaker_bfgball.zsc"
 #include "ZScript/Weapons/beamrifle.zsc"
 #include "ZScript/Weapons/pulsecarbine.zsc"
+#include "ZScript/Weapons/energysword.zsc"
 
 // Vehicles
 #include "ZScript/Vehicles/Kinematics/kine_parts.zsc" 

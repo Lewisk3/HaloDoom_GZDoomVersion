@@ -248,17 +248,23 @@ class HaloGun : RecoilWeapon
 		}
 	}
 	
-	action Actor A_HaloMelee(int damage, double range = 48, vector2 fpthrust = (12,5), Sound hitsnd = "", Sound wallsnd = "")
+	action Actor A_HaloMelee(int damage, double range = 48, vector2 fpthrust = (12,5), Sound hitsnd = "", Sound wallsnd = "", Name damageType = "Melee")
 	{
-		return DoHaloMelee(self, damage,range,fpthrust,hitsnd,wallsnd);
+		return DoHaloMelee(self, damage,range,fpthrust,hitsnd,wallsnd,damageType);
 	}
 	
-	static Actor DoHaloMelee(Actor source, int damage, double range = 48, vector2 fpthrust = (12,5), Sound hitsnd = "", Sound wallsnd = "")
+	static Actor DoHaloMelee(Actor source, int damage, double range = 48, vector2 fpthrust = (12,5), Sound hitsnd = "", Sound wallsnd = "", Name damageType = "Melee")
 	{	
 		FLineTraceData lt;
 		double aimz = source.player ? source.player.viewheight : (source.height * 0.5);
 		source.LineTrace(source.angle, range, source.pitch, 0, aimz, data:lt);
 		Actor victim = lt.HitActor;
+		int aimCheck = -2;
+		while (aimCheck++ < 2 && !victim)
+		{
+			source.LineTrace(source.angle + (aimCheck * 8), range, source.pitch, 0, aimz, data:lt);
+			victim = lt.hitActor;
+		}
 		
 		if(victim && victim.bSHOOTABLE) 
 		{
@@ -266,7 +272,7 @@ class HaloGun : RecoilWeapon
 			if(abs(victimAngles.x) >= 120) damage *= 3.45; // Backstab!
 		
 			double inertia = HaloMath.GetInertia(victim.mass);
-			victim.DamageMobJ(source, source, damage, "Melee", 0, source.angle);
+			victim.DamageMobJ(source, source, damage, damageType, 0, source.angle);
 			if(!victim.bNOBLOOD) victim.BloodSplatter(lt.HitLocation, source.angle, true);
 			victim.Thrust(fpthrust.x*inertia, source.angle);
 			victim.vel.z += fpthrust.y;
