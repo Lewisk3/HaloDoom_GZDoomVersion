@@ -40,10 +40,7 @@ class Halo_EnergySword : HaloGun
 	action void A_FireSword()
 	{
 		let hitActor = A_HaloMelee(ENERGYSWORD_DMG * 0.5, 64, (20,8), "Halo/Weapons/EnergySword/Hit", "Halo/Weapons/EnergySword/Miss", "Saw");
-<<<<<<< Updated upstream
 		invoker.curHit = hitActor;
-=======
->>>>>>> Stashed changes
 		
 		if(hitActor)
 		{
