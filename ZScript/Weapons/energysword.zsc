@@ -158,7 +158,12 @@ class Halo_EnergySword : HaloGun
 			{
 				A_FireSword();
 			}
-			WNF1 DDEF 1 A_SetZoom(1.0, 3);
+			WNF1 DD 1 
+			{	
+				if(!invoker.curHit) A_FireSword();
+				A_SetZoom(1.0, 3);
+			}
+			WNF1 EF 1 A_SetZoom(1.0, 3);
 			WNF1 GHIJ 2;
 		goto Fire.Finish;
 		

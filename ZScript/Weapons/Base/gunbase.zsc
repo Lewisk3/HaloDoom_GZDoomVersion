@@ -259,8 +259,8 @@ class HaloGun : RecoilWeapon
 		double aimz = source.player ? source.player.viewheight : (source.height * 0.5);
 		source.LineTrace(source.angle, range, source.pitch, 0, aimz, data:lt);
 		Actor victim = lt.HitActor;
-		int aimCheck = -2;
-		while (aimCheck++ < 2 && !victim)
+		int aimCheck = -6;
+		while (aimCheck++ < 6 && !victim)
 		{
 			source.LineTrace(source.angle + (aimCheck * 8), range, source.pitch, 0, aimz, data:lt);
 			victim = lt.hitActor;
