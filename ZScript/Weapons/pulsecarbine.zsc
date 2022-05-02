@@ -231,7 +231,7 @@ class Halo_PulseCarbine : HaloGun
 		goto Ready.Active;
 			
 		Spawn:
-			MSNG A -1;
+			WMP1 A -1;
 		stop;
 	}
 }
