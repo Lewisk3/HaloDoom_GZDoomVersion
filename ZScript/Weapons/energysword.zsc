@@ -40,10 +40,16 @@ class Halo_EnergySword : HaloGun
 	action void A_FireSword()
 	{
 		let hitActor = A_HaloMelee(ENERGYSWORD_DMG * 0.5, 64, (20,8), "Halo/Weapons/EnergySword/Hit", "Halo/Weapons/EnergySword/Miss", "Saw");
+<<<<<<< Updated upstream
 		invoker.curHit = hitActor;
+=======
+>>>>>>> Stashed changes
 		
 		if(hitActor)
 		{
+			if(!invoker.curHit) A_TakeAmmo(5, false);
+			invoker.curHit = hitActor;
+			
 			A_QuakeEx(2,3,2,10,0,120,"");
 			vel *= 0;
 			vel += HaloMath.VecFromAngles(angle, pitch, -8);	
@@ -65,7 +71,7 @@ class Halo_EnergySword : HaloGun
 	
 	action void A_DoSwing()
 	{
-		A_TakeAmmo(5, false);
+		invoker.curHit = NULL;
 		A_WeapSound("Halo/Weapons/EnergySword/Swing", CHANF_OVERLAP);
 	}
 	
