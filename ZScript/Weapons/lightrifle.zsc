@@ -1,0 +1,307 @@
+
+class Halo_LightRifleBattery : Ammo 
+{
+	Default
+	{
+		Inventory.MaxAmount 100;
+	}
+}
+
+class LSR_LightRifleDMR : LSR_BinaryRifle 
+{
+	Default
+	{
+		LSR_BinaryRifle.LaserDamage (LIGHTRIFLE_DMG * 4);
+	}
+}
+
+class LSR_LightRifle : LSR_UnmakerBeam
+{
+	Default
+	{
+		Alpha 2.0;
+		Scale 3.0;
+		LaserBeam.LaserColor "Yellow"; 
+		LaserBeam.TrackWeapon true, PSP_WEAPON;
+		LaserBeam.AimFromWeapon false;
+		LaserBeam.LaserDecal "UnmakerDecal";
+		+BRIGHT;
+	}
+	
+	override void BeamTick()
+	{	
+		alpha -= 0.20;
+		A_SetScale(Scale.X * 0.87, Scale.Y);
+	
+		if(alpha <= 0.1 || Scale.X <= 0.05) Destroy();
+	}
+	
+	override void OnImpact(vector3 hitPos, Actor hitActor)
+	{
+		for(int i = 0; i < 2; i++)
+		{
+			let puff = UnmakerLaserPuff(Spawn("BinaryRiflePuff", hitPos));
+			if(puff) 
+			{
+				puff.A_SetScale(1.0);
+				puff.laserAmt = 2;
+				puff.laserDist = 50;
+				puff.angle = angle + 180;
+				puff.pitch = -(pitch-90);
+			}
+		}
+		
+		DoLaserDecal(laserDecalType);
+		if(hitActor) hitActor.DamageMobJ(self, source, LIGHTRIFLE_DMG, "Plasma");
+	}
+}
+class LSR_LightRifleCore : LSR_LightRifle
+{
+	Default
+	{
+		Alpha 2.0;
+		Scale 1.5;
+		LaserBeam.LaserColor "White"; 
+		LaserBeam.TrackWeapon true, PSP_WEAPON;
+		LaserBeam.AimFromWeapon false;
+		+BRIGHT;
+	}
+	
+	override void OnImpact(vector3 hitPos, Actor hitActor) {}
+}
+
+class Halo_LightRifle : HaloGun
+{
+	Default
+	{
+		Weapon.SlotNumber 5;
+		Obituary "%o was disintegrated by %k's Binary Rifle.";
+		Inventory.PickupMessage	"Picked up the Binary Rifle.";
+		Tag "Binary Rifle";
+		Weapon.BobSpeed 2.12;
+		Weapon.BobRangeX 0.63;
+		Weapon.AmmoType1 "Halo_LightRifleBattery";
+		Weapon.AmmoType2 "Halo_LightRifleBattery";
+		Weapon.AmmoGive 100;
+		HaloGun.HasBattery true, 2;
+		
+		HaloGun.Availability GT_HL4;
+		HaloGun.PowerTier P_POWER;
+				
+		// Recoil
+		HaloGun.Bloom 1.25;
+		HaloGun.BloomSpeed 0.35;
+		HaloGun.BaseRecoil 1;
+		HaloGun.Inaccuracy 1;
+		HaloGun.Crosshair "LrRet", 1.0;
+		HaloGun.UIGraphic "MISSNG", 1.0;
+		
+		HaloGun.UISight "LITRADS2", 1.25, 1.0;
+		HaloGun.SetupScope 2.0, 0.5;
+		+HaloGun.SI_Fullscreen;
+		+HaloGun.SI_Rotate;
+		+HaloGun.SI_AlwaysHide;
+		
+		HaloGun.ZoomSounds "Halo/Weapons/LightRifle/Zoom/IN", "Halo/Weapons/LightRifle/Zoom/OUT";
+		RecoilWeapon.YOffsetRange -10, 40;
+	}
+	
+	action void A_DoRecoilSmoke()
+	{
+		A_SetSFXPos(20,-8,-5);
+		for(int i = 0; i < floor(5 * halodoom_effectintensity); i++)
+			A_SpawnSFX("MuzzleSmoke", 0,0);
+	}
+	
+	action void A_FireLightRifleBurst()
+	{
+		A_Light(4);
+		A_WeapSound("Halo/Weapons/LightRifle/Fire", CHANF_OVERLAP, true);
+		A_WeapSound("Halo/Weapons/LightRifle/Fire/Bass", CHANF_OVERLAP, true);
+		
+		let beam = LaserBeam.Create(self, 7, 2, -2, type:"LSR_LightRifle");
+		let beamCore = LaserBeam.Create(self, 7, 2, -2, type:"LSR_LightRifleCore");
+		
+		let it = ThinkerIterator.Create();
+		Actor act;
+		LookExParams look;
+		look.FOV = 90;
+		
+		double closeDist;
+		Actor closestActor;
+		closeDist = double.infinity;
+		
+		while(act = Actor(it.Next()))
+		{
+			if(act == self) continue;
+			if(!act.bSHOOTABLE || act.bFRIENDLY || !act.bISMONSTER) continue;
+			if(!isVisible(act, false, look)) continue;
+			
+			double curDist = Distance3DSquared(act);
+			if(closeDist < curDist) continue;
+			closestActor = act;
+			closeDist = curDist;
+		}		
+		
+		let aimActor = closestActor;
+		if(aimActor)
+		{
+			vector3 aimAtPos = (aimActor.pos.xy, aimActor.pos.z + (aimActor.height*0.5));
+			beam.StartTracking(aimAtPos);
+			beamCore.StartTracking(aimAtPos);
+		}
+		
+		beam.setEnabled(true);
+		beamCore.setEnabled(true);
+					
+		A_TakeAmmo(2);
+		A_UpdateSpread();
+	}
+
+	action void A_FireLightRifleSniper()
+	{
+		A_Light(4);
+		A_WeapSound("Halo/Weapons/LightRifle/Fire/DMR", CHANF_OVERLAP, true);
+		A_WeapSound("Halo/Weapons/LightRifle/Fire/DMR/Bass", CHANF_OVERLAP, true);
+	
+		let beam = LaserBeam.Create(self, 7, 0, -2, type:"LSR_LightRifleDMR");
+		let beamCore = LaserBeam.Create(self, 7, 0, -2, type:"LSR_BinaryRifleCore");
+		
+		beam.setEnabled(true);
+		beamCore.setEnabled(true);
+					
+		A_TakeAmmo(5);
+		A_UpdateSpread();
+	}
+
+	States
+	{
+		
+		Ready:
+			TNT1 A 0 A_WeapSound("Halo/Weapons/LightRifle/Draw");
+			WPS1 FEDCBA 1 A_DoSelectAnim();
+		Ready.Active:
+			WPI1 A 1 
+			{
+				A_HaloWeaponReady(usescope:true);
+				if(A_CheckInScope() && invoker.UI_Sight ~== "LITRADS3") 
+					A_ResetSightGraphic();
+			}
+		loop;
+		
+		Ready.Dryfire:
+			WPI1 A 4 A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
+		goto Ready.Active;
+
+		Select:
+			TNT1 A 1 A_GunRaise();
+		wait;
+
+		Deselect:
+			WPS1 ABCDEF 1;
+			WPS1 F 1 A_GunLower();
+		wait;
+		
+		Fire:
+			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Ready.Dryfire");
+			TNT1 A 0 A_JumpIf(A_CheckInScope(), "Fire.DMR");
+			
+			WPB1 A 1 Bright
+			{
+				A_RecoilOffset(0,8,1);
+			}
+			WPB1 B 2 
+			{	
+				A_SetZoom(0.98, 2);
+				A_FireLightRifleBurst();
+				A_SetRecoil(0.3, 0, 4);
+				A_RollQuake(2,6,1);
+				A_RecoilOffset(8,10,2);
+			}
+			WPB1 C 1 Bright
+			{
+				A_RecoilOffset(0,8,2);
+				A_Light(0);
+				A_SetZoom(1.0, 2);
+			}
+			WPB1 D 2 
+			{
+				A_FireLightRifleBurst();
+				A_SetRecoil(0.3, 0, 4);
+				A_SetZoom(0.96, 2);
+			}
+			WPB1 E 1 Bright
+			{
+				A_RollQuake(-2,8,2);
+				A_RecoilOffset(0,8,1);
+				A_Light(0);
+				A_SetZoom(1.0, 2);
+			}
+			WPB1 F 2 
+			{
+				A_SetZoom(0.94, 2);
+				A_FireLightRifleBurst();
+				A_SetRecoil(-0.15, 0, 8);
+				A_RecoilOffset(8,10,2);
+			}
+			WPB1 GH 1 A_SetZoom(1.0, 4);
+			WPB1 IIIIIIIIIIIIII 1 
+			{
+				A_DoRecoilSmoke();
+				A_Light(0);
+			}
+			WPB1 JKL 1
+			{
+				A_SetRecoil(0.2, 0, 2);
+				A_RecoilOffset(0,0,4);
+			}
+			WPI1 A 2;
+		goto Ready.Active;
+		
+		Fire.DMR:
+			TNT1 A 1 
+			{
+				A_FireLightRifleSniper();
+				if(A_CheckInScope()) 
+					A_SetSightGraphic("LITRADS3");
+					
+				A_SetRecoil(1.5, 0, 2);
+				A_SetZoom(0.85, 1);
+				A_RollQuake(1,10,2, true);
+			}
+			TNT1 A 1;
+			TNT1 A 1
+			{
+				A_SetZoom(1.0, 8);
+				A_Light(0);
+				A_SetRecoil(-0.18, 0, 4);
+			}
+			TNT1 A 14;
+		goto Ready.Active;
+		
+		Scope.ON:
+			TNT1 A 4 A_ScopeON();
+			TNT1 A 0 A_SetZoom(invoker.scopezoom, 3, true);
+			TNT1 A 1 A_SetSightGraphic("LITRADS0");
+			TNT1 A 1 A_SetSightGraphic("LITRADS1");
+			TNT1 A 2 A_SetSightGraphic("LITRADS2");
+			TNT1 A 0 
+			{
+				bool holding = A_ButtonStatus(BT_ALTATTACK, BTS_HELD) && !A_ButtonStatus(BT_ALTATTACK, BTS_PRESSED);
+				invoker.zoom_btnstate = holding ? 0 : BTS_PRESSED;
+			}
+		goto Scope.Ready;
+		
+		Scope.OFF:
+			TNT1 A 2 A_SetZoom(0, 3, true);
+			TNT1 A 1 A_SetSightGraphic("LITRADS2");
+			TNT1 A 1 A_SetSightGraphic("LITRADS1");
+			TNT1 A 4 A_SetSightGraphic("LITRADS0");
+			TNT1 A 1 A_ScopeOFF();
+		goto Scope.Ready;
+		
+		Spawn:
+			MSNG A -1;
+		stop;
+	}
+}

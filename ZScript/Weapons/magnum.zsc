@@ -87,7 +87,7 @@ class Halo_Magnum : HaloGun
 		super.DoEffect();
 		
 		// Modify weapon stats if running with CE gametype.
-		if(halodoom_gametype == HaloGun.GT_HL1)
+		if(halodoom_gametype == GT_HL1)
 		{
 			damage_modifier = 0.5;
 			SpawnTier = P_MID;

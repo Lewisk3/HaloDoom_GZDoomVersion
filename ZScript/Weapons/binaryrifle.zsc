@@ -9,6 +9,9 @@ class Halo_BinaryRifleBattery : Ammo
 
 class LSR_BinaryRifle : LSR_UnmakerBeam
 {
+	double hitDmg;
+	Property LaserDamage : hitDmg;
+
 	Default
 	{
 		Alpha 2.0;
@@ -17,6 +20,7 @@ class LSR_BinaryRifle : LSR_UnmakerBeam
 		LaserBeam.TrackWeapon true, PSP_WEAPON;
 		LaserBeam.AimFromWeapon false;
 		LaserBeam.LaserDecal "UnmakerDecal";
+		LSR_BinaryRifle.LaserDamage BINARYRIFLE_DMG;
 		+BRIGHT;
 	}
 	
@@ -41,7 +45,7 @@ class LSR_BinaryRifle : LSR_UnmakerBeam
 			puff.pitch = -(pitch-90);
 		}
 		
-		if(hitActor) hitActor.DamageMobJ(self, source, BINARYRIFLE_DMG, "Plasma");
+		if(hitActor) hitActor.DamageMobJ(self, source, hitDmg, "Plasma");
 	}
 }
 class LSR_BinaryRifleCore : LSR_BinaryRifle
@@ -90,7 +94,7 @@ class Halo_BinaryRifle : HaloGun
 		HaloGun.BloomSpeed 0.08;
 		HaloGun.BaseRecoil 1;
 		HaloGun.Inaccuracy 1;
-		HaloGun.Crosshair "SNPRet", 1.0;
+		HaloGun.Crosshair "BiRet", 1.0;
 		HaloGun.UIGraphic "MISSNG", 1.0;
 		
 		HaloGun.UISight "BINRADS", 1.5, 1.0;
@@ -107,7 +111,7 @@ class Halo_BinaryRifle : HaloGun
 	action void A_DoRecoilSmoke()
 	{
 		A_SetSFXPos(20,-8,2);
-		for(int i = 0; i < 15; i++)
+		for(int i = 0; i < floor(15 * halodoom_effectintensity); i++)
 			A_SpawnSFX("MuzzleSmoke", 0,0);
 		invoker.smokeTics = 0;
 	}

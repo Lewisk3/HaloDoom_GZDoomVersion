@@ -112,27 +112,27 @@ class HaloPlayer : DoomPlayer
 		GiveInventory("DoHelmetAnimation", 1);
 		switch(halodoom_gametype)
 		{
-			case HaloGun.GT_HL1:
+			case GT_HL1:
 				GiveInventory("Halo_MA5B", 1);
 				GiveInventory("Halo_Magnum", 1);
 				GiveInventory("Halo_AR_Reserves", 120);
 				GiveInventory("Halo_Magnum_Reserves", 36);
 			break;
-			case HaloGun.GT_HL2:
+			case GT_HL2:
 				GiveInventory("Halo_BattleRifle", 1);
 				GiveInventory("Halo_Sidekick", 1);
 				GiveInventory("Halo_BAR_Reserves", 90);
 				GiveInventory("Halo_Sidekick_Reserves", 48);
 			break;
-			case HaloGun.GT_MSX:
+			case GT_MSX:
 				GiveInventory("Halo_MA5B", 1);
 				GiveInventory("Halo_Sidekick", 1);
 				GiveInventory("Halo_AR_Reserves", 120);
 				GiveInventory("Halo_Sidekick_Reserves", 36);
 			break;
 			
-			case HaloGun.GT_HL4:
-			case HaloGun.GT_HL3:
+			case GT_HL4:
+			case GT_HL3:
 			default:
 				GiveInventory("Halo_AssaultRifle", 1);
 				GiveInventory("Halo_Sidekick", 1);

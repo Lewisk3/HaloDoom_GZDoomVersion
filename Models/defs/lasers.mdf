@@ -34,6 +34,34 @@ Model LSR_BinaryRifleCore
 	FrameIndex MODL A 0 0
 } 
 
+Model LSR_LightRifle
+{
+	Model 0 "Models/Lasers/lazer.md3"
+	Skin 0 "Models/Lasers/lazer.png"
+	USEACTORPITCH
+	
+	FrameIndex MODL A 0 0
+} 
+
+Model LSR_LightRifleCore
+{
+	Model 0 "Models/Lasers/lazer.md3"
+	Skin 0 "Models/Lasers/lazer.png"
+	USEACTORPITCH
+	
+	FrameIndex MODL A 0 0
+} 
+
+Model LSR_LightRifleDMR
+{
+	Model 0 "Models/Lasers/lazer.md3"
+	Skin 0 "Models/Lasers/lazer.png"
+	USEACTORPITCH
+	
+	FrameIndex MODL A 0 0
+} 
+
+
 Model LSR_BeamRifle
 {
 	Model 0 "Models/Lasers/lazer.md3"

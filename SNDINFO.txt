@@ -660,6 +660,30 @@ Halo/Weapons/BinaryRifle/Zoom/OUT "Sounds/BinaryRifle/Binary_Zoomout.ogg"
 $random Halo/Weapons/BinaryRifle/Fire      { BinaryRifle_FIRE1 BinaryRifle_FIRE2 BinaryRifle_FIRE3 }
 $random Halo/Weapons/BinaryRifle/Fire/Bass { BinaryRifle_LOW1 BinaryRifle_LOW2 BinaryRifle_LOW3  }
 
+// Light Rifle
+LightRifle_BurstFIRE1 "Sounds/LightRifle/LR_US_Fire1.ogg"
+LightRifle_BurstFIRE2 "Sounds/LightRifle/LR_US_Fire2.ogg"
+LightRifle_BurstFIRE3 "Sounds/LightRifle/LR_US_Fire3.ogg"
+LightRifle_BurstLOW1 "Sounds/LightRifle/LR_US_Low1.ogg"
+LightRifle_BurstLOW2 "Sounds/LightRifle/LR_US_Low2.ogg"
+LightRifle_BurstLOW3 "Sounds/LightRifle/LR_US_Low3.ogg"
+
+LightRifle_StrongFIRE1 "Sounds/LightRifle/LR_S_Fire1.ogg"
+LightRifle_StrongFIRE2 "Sounds/LightRifle/LR_S_Fire2.ogg"
+LightRifle_StrongFIRE3 "Sounds/LightRifle/LR_S_Fire3.ogg"
+LightRifle_StrongLOW1 "Sounds/LightRifle/LR_S_Low1.ogg"
+LightRifle_StrongLOW2 "Sounds/LightRifle/LR_S_Low2.ogg"
+LightRifle_StrongLOW3 "Sounds/LightRifle/LR_S_Low3.ogg"
+
+Halo/Weapons/LightRifle/Draw  "Sounds/LightRifle/LR_Draw.ogg"
+Halo/Weapons/LightRifle/Zoom/IN "Sounds/LightRifle/LR_Zoomin.ogg"
+Halo/Weapons/LightRifle/Zoom/OUT "Sounds/LightRifle/LR_Zoomout.ogg"
+
+$random Halo/Weapons/LightRifle/Fire      { LightRifle_BurstFIRE1 LightRifle_BurstFIRE2 LightRifle_BurstFIRE3 }
+$random Halo/Weapons/LightRifle/Fire/Bass { LightRifle_BurstLOW1 LightRifle_BurstLOW2 LightRifle_BurstLOW3  }
+$random Halo/Weapons/LightRifle/Fire/DMR      { LightRifle_StrongFIRE1 LightRifle_StrongFIRE2 LightRifle_StrongFIRE3 }
+$random Halo/Weapons/LightRifle/Fire/DMR/Bass { LightRifle_StrongLOW1 LightRifle_StrongLOW2 LightRifle_StrongLOW3  }
+
 // Hit feedback
 HMHIT1 HMHit1
 HMHIT2 HMHit2

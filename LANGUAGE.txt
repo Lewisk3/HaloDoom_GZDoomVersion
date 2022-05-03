@@ -1,18 +1,30 @@
 [enu default]
 MOD_VERSION = "1.0rc";
-GAMETYPE_0_DESC = "HaloDoom Evolved:Default gametype. \n\n Contains all the weapons in HaloDoom Evolved.";
-GAMETYPE_1_DESC = "Halo CE:Contains only weapons featured in Halo CE.";
-GAMETYPE_2_DESC = "Halo 2:Contains only weapons featured in Halo 2.";
-GAMETYPE_3_DESC = "Halo 3:Contains only weapons featured in Halo 3 and Halo Reach.";
-GAMETYPE_4_DESC = "Halo 4:Contains only weapons featured in Halo 4.";
-GAMETYPE_5_DESC = "Project MSX:Contains only weapons which function similarly to weapons featured in Project MSX.";
+
+GAMETYPE_HDE = "HaloDoom Evolved";
+GAMETYPE_HDE_DESC = "Default gametype. \n\n Contains all the weapons in HaloDoom Evolved.";
+
+GAMETYPE_HL1 = "Halo CE";
+GAMETYPE_HL1_DESC = "Contains only weapons featured in Halo CE.";
+
+GAMETYPE_HL2 = "Halo 2";
+GAMETYPE_HL2_DESC = "Contains only weapons featured in Halo 2.";
+
+GAMETYPE_HL3 = "Halo 3";
+GAMETYPE_HL3_DESC = "Contains only weapons featured in Halo 3 and Halo Reach.";
+
+GAMETYPE_HL4 = "Halo 4";
+GAMETYPE_HL4_DESC = "Contains only weapons featured in Halo 4.";
+
+GAMETYPE_MSX = "Project MSX";
+GAMETYPE_MSX_DESC = "Contains only weapons which function similarly to weapons featured in Project MSX.";
+
 MENUBTN_CAMPAIGN = "CAMPAIGN";
 MENUBTN_SAVEGAME = "SAVE GAME";
 MENUBTN_LOADGAME = "LOAD GAME";
 MENUBTN_OPTIONS = "OPTIONS";
 MENUBTN_CONFIGURE = "CONFIGURE";
 MENUBTN_QUIT = "QUIT";
-
 
 /* 
 JP Romanji, doesn't look quite right and I think the average Japanese person 

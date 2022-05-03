@@ -541,6 +541,7 @@ class HaloMath Abstract
 	static bool, string parseStrElement(String type, String ln)
 	{
 		string lnLower = ln.MakeLower();
+		type = type.MakeLower();
 				
 		int element_S = lnLower.IndexOf(type);
 		int element_E = lnLower.IndexOf("\n", element_S);
@@ -552,7 +553,7 @@ class HaloMath Abstract
 		
 		return true, output.Mid(strBegin+1, (strEnd-strBegin)-1);
 	}
-	 
+		 
 	static void getSkillsInfo(out Array<SkillInfo> skInfo)
 	{
 		// adwnawdlnkdawlknawdkln why isn't this just a feature??!?!!?!?!?
@@ -638,7 +639,70 @@ class HaloMath Abstract
 			}			
 		}
 	}
+	
+	static void getGameTypes(out Array<GameTypeInfo> gtInfo)
+	{
+		gtInfo.Clear();
+		string defineKeyword = "gametype";
 		
+		for(int lump = -1; (lump = Wads.FindLump("GTDEFS", lump+1)) != -1;)
+		{
+			string data = Wads.ReadLump(lump);
+			string dataLower = data.MakeLower();
+	
+			// Look for `GameType` keyword(s).
+			int gtIndex = 0;
+			int gtOffset = 0;
+			int loopCheck = 0;
+			while(gtIndex >= 0)
+			{
+				loopCheck++;
+				if(loopCheck > 100) 
+				{
+					console.printf("Error reading GTDEFS.");
+					break;
+				}
+				
+				gtIndex = dataLower.IndexOf("gametype", gtOffset);
+				if(gtIndex < 0) break;
+						
+				// Grab gametype block.
+				int blockStart = dataLower.IndexOf("{", gtIndex);
+				int blockEnd = dataLower.IndexOf("}", gtIndex);
+				if(blockStart < 0 || blockEnd < 0) break;
+				
+				// Get defined name.
+				int nameStart = dataLower.IndexOf(" ", gtIndex)+1;
+				int nameEnd = blockStart-1;
+				int nameLen = nameEnd - nameStart;
+				
+				int blockLen = blockEnd - blockStart;
+				gtOffset = blockEnd+1; // Advance read "head".
+				
+				string gtData = data.Mid(blockStart, blockLen);
+				string gtDataLower = gtData.MakeLower();
+			
+				// Field to read from.
+				string gtDefName = data.Mid(nameStart, nameLen); 
+				string gtName;
+				string gtDesc;
+				
+				bool exists;
+				string result;
+				[exists, gtName] = parseStrElement("name", gtData);
+				[exists, gtDesc] = parseStrElement("description", gtData);
+				
+				// Export data.
+				let curGameTypeInfo = new("GameTypeInfo");
+				curGameTypeInfo.displayName = gtName;
+				curGameTypeInfo.Description = gtDesc;
+				curGameTypeInfo.defName = gtDefName;
+						
+				gtInfo.push(curGameTypeInfo);
+			}			
+		}
+	}
+	
 	static string GetGitBranch()
 	{
 		int lump = Wads.CheckNumForFullName("gitbranch.txt");
@@ -653,6 +717,13 @@ class SkillInfo : Object
 	string displayName;
 	string Description;
 	string Pic;
+}
+
+class GameTypeInfo : Object
+{
+	string defName;
+	string displayName;
+	string Description;
 }
 
 class ActorTracer : Object 

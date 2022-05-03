@@ -12,20 +12,7 @@ class HaloGun : RecoilWeapon
 		P_UBER   = 1 << 7,
 		P_MELEE  = 1 << 8
 	}
-		
-	const GAMETYPES = 6;
-	enum GameTypeFlags
-	{
-		GT_HDE  = 0,
-		GT_HL1  = 1 << 0,
-		GT_HL2  = 1 << 1,
-		GT_HL3  = 1 << 2,
-		GT_HL4  = 1 << 3,
-		GT_MSX  = 1 << 4,
-		GT_UNDEF = 1 << 5, // Undefined gametype.
-		GT_ALL = 0xFF // Oops all 1s!
-	}
-		
+				
 	transient CVar cvfx_smoke;
 	transient CVar cvfx_casings;
 	vector3 sfx_pos;
@@ -129,7 +116,7 @@ class HaloGun : RecoilWeapon
 		HaloGun._ProjDamageMod 1.0;
 		HaloGun.LowerOnMelee 50;
 		HaloGun.PowerTier P_NULL;
-		HaloGun.Availability GT_UNDEF;
+		HaloGun.Availability 0;
 		Weapon.BobRangeX 1.5;
 		Weapon.BobRangeY 0.6;
 		Weapon.BobSpeed 0.5;

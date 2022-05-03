@@ -259,6 +259,7 @@ class Halo_BeamRifle : HaloGun
 				invoker.handsbusy = true; // Disable hand actions while overheating
 				A_EndLaser();
 				A_RecoilOffset(0,0,6);
+				A_SetZoom(1.0, 3);
 				return A_JumpIf(invoker.heat < 0.5, "Ready.Dryfire");
 			}
 			TNT1 A 0 A_WeapSound("Halo/Weapons/BeamRifle/Overheat/Start", CHANF_OVERLAP);

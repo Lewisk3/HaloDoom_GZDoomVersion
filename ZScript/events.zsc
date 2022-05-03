@@ -19,7 +19,7 @@ class HaloDoom_Events : EventHandler
 	{
 		engHandle = HaloDoom_EngineEvents(StaticEventHandler.Find("HaloDoom_EngineEvents"));
 		populateSpawnArrays();
-		
+				
 		// Initialize footsteps
 		surfacesDatabase = Dictionary.Create();
 		PopulateFootsteps();
