@@ -684,6 +684,11 @@ $random Halo/Weapons/LightRifle/Fire/Bass { LightRifle_BurstLOW1 LightRifle_Burs
 $random Halo/Weapons/LightRifle/Fire/DMR      { LightRifle_StrongFIRE1 LightRifle_StrongFIRE2 LightRifle_StrongFIRE3 }
 $random Halo/Weapons/LightRifle/Fire/DMR/Bass { LightRifle_StrongLOW1 LightRifle_StrongLOW2 LightRifle_StrongLOW3  }
 
+$volume Halo/Weapons/LightRifle/Fire 1.0; 
+$volume Halo/Weapons/LightRifle/Fire/Bass 0.8;
+$volume Halo/Weapons/LightRifle/Fire/DMR 1.0;  
+$volume Halo/Weapons/LightRifle/Fire/DMR/Bass 0.8;
+
 // Hit feedback
 HMHIT1 HMHit1
 HMHIT2 HMHit2
