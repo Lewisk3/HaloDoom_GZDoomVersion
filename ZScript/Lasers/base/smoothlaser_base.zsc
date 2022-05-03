@@ -194,8 +194,14 @@ class LaserBeam : Actor
 		SetOrigin(finalPos, true);
 		curPos = finalPos;
 		
-		double toAngle = source.angle + angleOffsets.x;
-		double toPitch = source.pitch + angleOffsets.y;
+		double toAngle = angleOffsets.x;
+		double toPitch = angleOffsets.y;
+		if(followAngles) 
+		{
+			toAngle += source.angle;
+			toPitch += source.pitch;
+		}
+		
 		if(aimWithWeapon) 
 		{
 			toAngle -= (bob.x * 10);
@@ -212,8 +218,8 @@ class LaserBeam : Actor
 			toPitch = angleOffsets.y + asin(dir.z);
 			A_SetAngle(toAngle, SPF_INTERPOLATE);
 			A_SetPitch(toPitch - 90, SPF_INTERPOLATE);		
-		} 
-		else if(followAngles)
+		}
+		else
 		{
 			A_SetAngle(toAngle, SPF_INTERPOLATE);
 			A_SetPitch(toPitch+90, SPF_INTERPOLATE);

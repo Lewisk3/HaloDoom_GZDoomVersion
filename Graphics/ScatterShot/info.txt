@@ -1,0 +1,1 @@
+has bouncing projectiles that track targets after the first bounce. the pellets fire in an x shaped pattern. ADS tightens its spread because fuck you, Scifi shotgun.

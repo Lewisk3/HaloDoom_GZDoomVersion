@@ -523,7 +523,7 @@ class HaloMath Abstract
 			bool manualNewLine = (word.ByteAt(0) == newline.ByteAt(0));
 			
 			int len = word.Length() + 1; // Add " " space at start of new word.
-			carriage += word.Length();
+			carriage += len;
 			
 			if(manualNewLine) carriage = len-1;
 			if(carriage > lineLen) 

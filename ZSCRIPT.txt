@@ -77,6 +77,7 @@ version "4.5"
 #include "ZScript/Weapons/beamrifle.zsc"
 #include "ZScript/Weapons/pulsecarbine.zsc"
 #include "ZScript/Weapons/energysword.zsc"
+#include "ZScript/Weapons/binaryrifle.zsc"
 
 // Vehicles
 #include "ZScript/Vehicles/Kinematics/kine_parts.zsc" 

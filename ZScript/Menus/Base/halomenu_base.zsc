@@ -4,6 +4,7 @@ class HaloMenuBase : ListMenu
 	double prevMS;
 	double deltatime;
 	double buttonAlpha;
+	transient CVar lang;
 	
 	// Elements
 	MenuTexture MainBG;

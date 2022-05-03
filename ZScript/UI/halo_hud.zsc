@@ -577,6 +577,7 @@ class HaloStatusBar : BaseStatusBar
 			
 			let tex = TexMan.CheckForTexture(sight);
 			let texsize = TexMan.GetScaledSize(tex);
+			let rawTexSize = texsize;
 			texsize *= scale;
 			texsize.x *= HLSBS.GetAspectScale();
 
@@ -664,16 +665,17 @@ class HaloStatusBar : BaseStatusBar
 			else // Draw Fullscreen sight.
 			{
 				// Adjust scale for fullscreen.
-				vector2 scaleMod = (
-					1920.0 / texsize.x,
-				    1080.0 / texsize.y
-				);
-				vector2 drawPos = (
-					texsize.x * scaleMod.x,
-					texsize.y * scaleMod.y
-				);
+				vector2 toRes = (1920., 1080.);
+				toRes *= weap.sightscale;
 				
-				HLSBS.DrawImage(sight, drawPos, 0, 1.0, scale:(scale*scaleMod.x,scale*scaleMod.y), rotation:rotation);
+				vector2 scaleMod = (
+					toRes.x / rawTexSize.x,
+				    toRes.y / rawTexSize.y
+				);
+		
+				uint flags = HLSBS.SS_SCREEN_CENTER | HLSBS.SS_COORDS_TEXGRID;
+				
+				HLSBS.DrawImage(sight, (0.5,0.5), flags, 1.0, scale:(scaleMod.x,scaleMod.y), rotation:rotation);
 			}
 		}
 	}

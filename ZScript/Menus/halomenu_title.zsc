@@ -23,30 +23,30 @@ class HaloDoom_TitleMenu : HaloMenuBase
 		string btnOFF = "Graphics/UI/Title/NONE.png";
 		string btnHover = "Graphics/UI/Title/btn_light.png";
 		
-		TextElement btntxt = newBtnText("CAMPAIGN");
+		TextElement btntxt = newBtnText("$MENUBTN_CAMPAIGN");
 		buttons.push(Button.Create('NewGame', btnOFF ,  btnON , btnHover, 960, btnY, btnW, btnH, btntxt));
 		btnY += itemSpacing;
 		
 		if(!title)
 		{
-			btntxt = newBtnText("SAVE GAME");
+			btntxt = newBtnText("$MENUBTN_SAVEGAME");
 			buttons.push(Button.Create('SaveGame', btnOFF ,  btnON , btnHover, 960, btnY, btnW, btnH, btntxt));
 			btnY += itemSpacing;	
 		}
 		
-		btntxt = newBtnText("LOAD GAME");
+		btntxt = newBtnText("$MENUBTN_LOADGAME");
 		buttons.push(Button.Create('LoadGame', btnOFF ,  btnON , btnHover, 960, btnY, btnW, btnH, btntxt));
 		btnY += itemSpacing;
 		
-		btntxt = newBtnText("CONFIGURE");
+		btntxt = newBtnText("$MENUBTN_CONFIGURE");
 		buttons.push(Button.Create('Configure', btnOFF ,  btnON , btnHover, 960, btnY, btnW, btnH, btntxt));
 		btnY += itemSpacing;
 		
-		btntxt = newBtnText("OPTIONS");
+		btntxt = newBtnText("$MENUBTN_OPTIONS");
 		buttons.push(Button.Create('Options', btnOFF ,  btnON , btnHover, 960, btnY, btnW, btnH, btntxt));
 		btnY += itemSpacing;
 		
-		btntxt = newBtnText("QUIT");
+		btntxt = newBtnText("$MENUBTN_QUIT");
 		buttons.push(Button.Create('Quit', btnOFF ,  btnON , btnHover, 960, btnY, btnW, btnH, btntxt));
 		
 		for(int i = 0; i < buttons.Size(); i++)

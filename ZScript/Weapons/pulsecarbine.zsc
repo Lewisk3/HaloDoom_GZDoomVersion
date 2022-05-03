@@ -63,7 +63,7 @@ class Halo_PulseCarbine : HaloGun
 		Weapon.SlotNumber 4;
 		Obituary "%o was sublimated by %k's Pulse Carbine.";
 		Inventory.PickupMessage	"Picked up the Pulse Carbine.";
-		Tag "Pulse Carbine.";
+		Tag "Pulse Carbine";
 		Weapon.BobSpeed 1.83;
 		Weapon.BobRangeX 0.45;
 		Weapon.AmmoType1 "Halo_PulseCarbine_Battery";
@@ -79,7 +79,7 @@ class Halo_PulseCarbine : HaloGun
 		HaloGun.BloomSpeed 0.30;
 		HaloGun.BaseRecoil PULSECARBINE_RECOIL;
 		HaloGun.Inaccuracy PULSECARBINE_ACCMOD;
-		HaloGun.Crosshair "CarbRet", 0.75;
+		HaloGun.Crosshair "PulseRet", 0.75;
 		HaloGun.UIGraphic "MISSNG", 0.6;
 		
 		RecoilWeapon.YOffsetRange 0, 40;

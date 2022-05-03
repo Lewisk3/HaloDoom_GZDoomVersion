@@ -6,3 +6,22 @@ GAMETYPE_2_DESC = "Halo 2:Contains only weapons featured in Halo 2.";
 GAMETYPE_3_DESC = "Halo 3:Contains only weapons featured in Halo 3 and Halo Reach.";
 GAMETYPE_4_DESC = "Halo 4:Contains only weapons featured in Halo 4.";
 GAMETYPE_5_DESC = "Project MSX:Contains only weapons which function similarly to weapons featured in Project MSX.";
+MENUBTN_CAMPAIGN = "CAMPAIGN";
+MENUBTN_SAVEGAME = "SAVE GAME";
+MENUBTN_LOADGAME = "LOAD GAME";
+MENUBTN_OPTIONS = "OPTIONS";
+MENUBTN_CONFIGURE = "CONFIGURE";
+MENUBTN_QUIT = "QUIT";
+
+
+/* 
+JP Romanji, doesn't look quite right and I think the average Japanese person 
+would probably understand the title buttons in simple English fine.
+[jp]
+MENUBTN_CAMPAIGN = "shinki ge-mu";
+MENUBTN_SAVEGAME = "sebu ge-mu";
+MENUBTN_LOADGAME = "ro-do ge-mu";
+MENUBTN_OPTIONS = "opushonzu";
+MENUBTN_CONFIGURE = "Halo opushonzu";
+MENUBTN_QUIT = "shuuryou";
+*/

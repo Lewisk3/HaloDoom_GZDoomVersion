@@ -645,6 +645,21 @@ $random Halo/Weapons/EnergySword/Swing { ES_SWING1 ES_SWING2 ES_SWING3 }
 $random Halo/Weapons/EnergySword/Hit { ES_HIT1 ES_HIT2 ES_HIT3 }
 $random Halo/Weapons/EnergySword/Miss { ES_MISS1 ES_MISS2 ES_MISS3 }
 
+// Binary Rifle
+BinaryRifle_FIRE1 "Sounds/BinaryRifle/Binary_Fire1.ogg"
+BinaryRifle_FIRE2 "Sounds/BinaryRifle/Binary_Fire2.ogg"
+BinaryRifle_FIRE3 "Sounds/BinaryRifle/Binary_Fire3.ogg"
+BinaryRifle_LOW1 "Sounds/BinaryRifle/Binary_Low1.ogg"
+BinaryRifle_LOW2 "Sounds/BinaryRifle/Binary_Low2.ogg"
+BinaryRifle_LOW3 "Sounds/BinaryRifle/Binary_Low3.ogg"
+
+Halo/Weapons/BinaryRifle/Draw  "Sounds/BinaryRifle/Binary_Draw.ogg"
+Halo/Weapons/BinaryRifle/Zoom/IN "Sounds/BinaryRifle/Binary_Zoomin.ogg"
+Halo/Weapons/BinaryRifle/Zoom/OUT "Sounds/BinaryRifle/Binary_Zoomout.ogg"
+
+$random Halo/Weapons/BinaryRifle/Fire      { BinaryRifle_FIRE1 BinaryRifle_FIRE2 BinaryRifle_FIRE3 }
+$random Halo/Weapons/BinaryRifle/Fire/Bass { BinaryRifle_LOW1 BinaryRifle_LOW2 BinaryRifle_LOW3  }
+
 // Hit feedback
 HMHIT1 HMHit1
 HMHIT2 HMHit2

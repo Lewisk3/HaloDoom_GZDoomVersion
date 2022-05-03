@@ -62,6 +62,11 @@ AddListMenu "MainMenu"
    	class "HaloDoom_TitleMenu"	
 }
 
+AddListMenu "MainMenuTextOnly"
+{
+	class "HaloDoom_TitleMenu"
+}
+
 
 OptionMenu "HaloDoomControlsMenu"
 {
@@ -91,6 +96,9 @@ OptionMenu "HaloDoomGameplayOptions"
 {
 	Title "HaloDoom Gameplay Options"
 	ScrollTop 2
+	StaticText "Controls", "Black"
+	SubMenu "Adjust Keybinds", "HaloDoomControlsMenu"
+	StaticText " "
 	StaticText "Combat Feedback", "Black"
 	Slider "Weapon recoil intensity", "halodoom_recoil_intensity", 0, 2.0, 0.1, 1
 	Slider "Screenshake Intensity", "r_quakeintensity", 0.0, 1.0, 0.1, 1

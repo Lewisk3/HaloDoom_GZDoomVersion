@@ -93,7 +93,7 @@ class Halo_BeamRifle : HaloGun
 		Weapon.SlotNumber 6;
 		Obituary "%o was melted by %k's Beam Rifle.";
 		Inventory.PickupMessage	"Picked up the Type-50 Particle Beam Rifle.";
-		Tag "Particle Beam Rifle.";
+		Tag "Particle Beam Rifle";
 		Weapon.BobSpeed 1.36;
 		Weapon.BobRangeX 0.45;
 		Weapon.AmmoType1 "Halo_BeamRifle_Battery";
@@ -109,7 +109,7 @@ class Halo_BeamRifle : HaloGun
 		HaloGun.BloomSpeed 0.30;
 		HaloGun.BaseRecoil 1;
 		HaloGun.Inaccuracy 1;
-		HaloGun.Crosshair "PlsRRet", 0.75;
+		HaloGun.Crosshair "BeamRet", 0.75;
 		HaloGun.UIGraphic "WI_BEAM", 0.6;
 		
 		HaloGun.UISight "SI_PBX4", 0.85, 0.5;
@@ -292,7 +292,7 @@ class Halo_BeamRifle : HaloGun
 			TNT1 A 1 
 			{
 				A_ScopeON();
-				invoker.UI_Sight = invoker.default.UI_Sight;
+				A_ResetSightGraphic();
 			}
 			TNT1 A 5 A_SetZoom(invoker.scopezoom, 3, true);
 			TNT1 A 0 
@@ -308,7 +308,7 @@ class Halo_BeamRifle : HaloGun
 			TNT1 A 1 
 			{
 				A_ScopeON();
-				invoker.UI_Sight = "SI_PBX8";
+				A_SetSightGraphic("SI_PBX8");
 			}
 			TNT1 A 5 A_SetZoom(invoker.scopezoom * 1.5, 3, true);
 		goto Scope.Ready;

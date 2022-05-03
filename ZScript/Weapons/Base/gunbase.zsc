@@ -540,6 +540,15 @@ class HaloGun : RecoilWeapon
 		if(psp) psp.Frame = frm;
 	}
 	
+	action void A_SetSightGraphic(string graphic)
+	{
+		invoker.UI_Sight = graphic;
+	}
+	action void A_ResetSightGraphic()
+	{
+		invoker.UI_Sight = invoker.default.UI_Sight;
+	}
+	
 	clearscope Weapon FindNextWeapon()
 	{
 		/*
