@@ -87,10 +87,9 @@ class Halo_Magnum : HaloGun
 		super.DoEffect();
 		
 		// Modify weapon stats if running with CE gametype.
-		let plr = HaloPlayer(Owner);
-		if(!plr || Owner.player.ReadyWeapon != self) return;
+		if(!Owner.player || Owner.player.ReadyWeapon != self) return;
 		
-		if(plr.IsGameType("HL1"))
+		if(HaloPlayer.IsGameType("HL1"))
 		{
 			damage_modifier = 0.5;
 			SpawnTier = P_MID;

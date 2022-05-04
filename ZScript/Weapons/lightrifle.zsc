@@ -77,7 +77,7 @@ class Halo_LightRifle : HaloGun
 		Weapon.SlotNumber 5;
 		Obituary "%o was disintegrated by %k's Binary Rifle.";
 		Inventory.PickupMessage	"Picked up the Binary Rifle.";
-		Tag "Binary Rifle";
+		Tag "Light Rifle";
 		Weapon.BobSpeed 2.12;
 		Weapon.BobRangeX 0.63;
 		Weapon.AmmoType1 "Halo_LightRifleBattery";
@@ -85,7 +85,7 @@ class Halo_LightRifle : HaloGun
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 2;
 		
-		HaloGun.Availability "HL4";
+		HaloGun.Availability "HL4, StarWars";
 		HaloGun.PowerTier P_MID;
 				
 		// Recoil
@@ -109,6 +109,8 @@ class Halo_LightRifle : HaloGun
 	action void A_DoRecoilSmoke()
 	{
 		A_SetSFXPos(20,-8,-5);
+		if(A_CheckInScope()) A_SetSFXPos(20,0,-12);
+		
 		for(int i = 0; i < floor(5 * halodoom_effectintensity); i++)
 			A_SpawnSFX("MuzzleSmoke", 0,0);
 	}

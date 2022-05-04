@@ -33,3 +33,9 @@ GameType MSX
 	Name "$GAMETYPE_MSX"
 	Description "$GAMETYPE_MSX_DESC"
 }
+
+GameType StarWars
+{
+	Name "$GAMETYPE_ENERGY"
+	Description "$GAMETYPE_ENERGY_DESC"
+}

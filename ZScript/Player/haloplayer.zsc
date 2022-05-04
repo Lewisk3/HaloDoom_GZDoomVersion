@@ -106,7 +106,7 @@ class HaloPlayer : DoomPlayer
 		pendingDoor = null;
 	}
 	
-	bool IsGameType(string types)
+	static bool IsGameType(string types)
 	{
 		uint flags = HaloMath.gameTypesToFlags(types);
 		return !!(halodoom_gametype & flags);
@@ -137,6 +137,11 @@ class HaloPlayer : DoomPlayer
 			GiveInventory("Halo_Sidekick", 1);
 			GiveInventory("Halo_AR_Reserves", 120);
 			GiveInventory("Halo_Sidekick_Reserves", 36);
+		}
+		else if(IsGameType("StarWars"))
+		{
+			GiveInventory("Halo_PlasmaRifle", 1);
+			GiveInventory("Halo_PlasmaPistol", 1);
 		}
 		else
 		{

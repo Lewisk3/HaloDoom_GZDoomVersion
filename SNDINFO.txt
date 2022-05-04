@@ -689,6 +689,21 @@ $volume Halo/Weapons/LightRifle/Fire/Bass 0.8;
 $volume Halo/Weapons/LightRifle/Fire/DMR 1.0;  
 $volume Halo/Weapons/LightRifle/Fire/DMR/Bass 0.8;
 
+// Scatter Shot
+ScatterShot_FIRE1 "Sounds/ScatterShot/Scatter_Fire1.ogg"
+ScatterShot_FIRE2 "Sounds/ScatterShot/Scatter_Fire2.ogg"
+ScatterShot_FIRE3 "Sounds/ScatterShot/Scatter_Fire3.ogg"
+ScatterShot_LOW1 "Sounds/ScatterShot/Scatter_Low1.ogg"
+ScatterShot_LOW2 "Sounds/ScatterShot/Scatter_Low2.ogg"
+ScatterShot_LOW3 "Sounds/ScatterShot/Scatter_Low3.ogg"
+
+Halo/Weapons/ScatterShot/Draw  "Sounds/LightRifle/LR_Draw.ogg" // No draw sound for Scatter Shot?
+Halo/Weapons/ScatterShot/Zoom/IN "Sounds/ScatterShot/Scatter_Zoomin.ogg"
+Halo/Weapons/ScatterShot/Zoom/OUT "Sounds/ScatterShot/Scatter_Zoomout.ogg"
+
+$random Halo/Weapons/ScatterShot/Fire      { ScatterShot_FIRE1 ScatterShot_FIRE2 ScatterShot_FIRE3 }
+$random Halo/Weapons/ScatterShot/Fire/Bass { ScatterShot_LOW1 ScatterShot_LOW2 ScatterShot_LOW3  }
+
 // Hit feedback
 HMHIT1 HMHit1
 HMHIT2 HMHit2

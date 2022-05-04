@@ -851,7 +851,7 @@ class HaloGun : RecoilWeapon
 		if(countinv(type) <= 0 && playEmptySND) 
 			A_StartSound("Halo/Weapons/MagEmpty", CHAN_AUTO, CHANF_OVERLAP); 
 	}
-	
+		
 	// For reloading one at a time, like a shotgun.
 	action void A_ReloadSingle()
 	{

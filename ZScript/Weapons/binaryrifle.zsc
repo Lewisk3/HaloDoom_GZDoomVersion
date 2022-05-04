@@ -85,7 +85,7 @@ class Halo_BinaryRifle : HaloGun
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 5;
 		
-		HaloGun.Availability "HL4";
+		HaloGun.Availability "HL4, StarWars";
 		HaloGun.PowerTier P_POWER;
 				
 		// Recoil
@@ -111,6 +111,8 @@ class Halo_BinaryRifle : HaloGun
 	action void A_DoRecoilSmoke()
 	{
 		A_SetSFXPos(20,-8,2);
+		if(A_CheckInScope()) A_SetSFXPos(20,0,-12);
+		
 		for(int i = 0; i < floor(15 * halodoom_effectintensity); i++)
 			A_SpawnSFX("MuzzleSmoke", 0,0);
 		invoker.smokeTics = 0;

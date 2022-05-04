@@ -116,7 +116,7 @@ class Halo_GravityHammer : HaloGun
 		HaloGun.Crosshair "GHAMRet", 1.0;
 		HaloGun.UIGraphic "WI_GHAM", 1.0;
 		
-		HaloGun.Availability "HL3, HL4";
+		HaloGun.Availability "HL3, HL4, StarWars";
 		HaloGun.PowerTier P_MELEE;
 		
 		RecoilWeapon.YOffsetRange -10, 1000;

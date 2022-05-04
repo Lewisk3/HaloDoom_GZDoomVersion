@@ -82,7 +82,7 @@ mixin class HaloProjectile_Common
 			while(act = Actor(it.Next()))
 			{
 				if(act == target) continue;
-				if(!act.bSHOOTABLE || act.bCORPSE) continue;
+				if(!act.bSHOOTABLE || act.bCORPSE || act.health <= 0) continue;
 				if(target && !target.IsVisible(act, false, look)) continue;
 				int dist = Distance3DSquared(act);
 				if(dist < mindist) 

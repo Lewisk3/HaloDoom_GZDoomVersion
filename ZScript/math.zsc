@@ -724,6 +724,7 @@ class HaloMath Abstract
 				curGameTypeInfo.displayName = gtName;
 				curGameTypeInfo.Description = gtDesc;
 				curGameTypeInfo.defName = gtDefName;
+				// console.printf("Type: %s\n Name: %s\n Description: %s\n\n", curGameTypeInfo.defName, curGameTypeInfo.displayName, curGameTypeInfo.Description);
 						
 				gtInfo.push(curGameTypeInfo);
 			}			
