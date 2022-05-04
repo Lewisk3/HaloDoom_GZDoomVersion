@@ -171,7 +171,7 @@ class Halo_ScatterShot : HaloGun
 			
 			vector3 firepos; Actor proj;
 			[firepos, proj] = A_ShootProjectile("HaloScatterShot_Proj", offs.x, offs.y);
-			HaloSlowProjectile(proj).DoConverge(aimpos, spread);
+			if(proj) HaloSlowProjectile(proj).DoConverge(aimpos, spread);
 			
 			soffs += (spacing*0.5);
 		}
