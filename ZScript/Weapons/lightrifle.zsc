@@ -75,8 +75,8 @@ class Halo_LightRifle : HaloGun
 	Default
 	{
 		Weapon.SlotNumber 5;
-		Obituary "%o was disintegrated by %k's Binary Rifle.";
-		Inventory.PickupMessage	"Picked up the Binary Rifle.";
+		Obituary "%o was blinded by %k's Light Rifle.";
+		Inventory.PickupMessage	"Picked up the Light Rifle.";
 		Tag "Light Rifle";
 		Weapon.BobSpeed 2.12;
 		Weapon.BobRangeX 0.63;

@@ -83,6 +83,11 @@ object UnmakerLightning
 }
 */
 
+object HaloScatterShot_Proj
+{
+	Frame ELBL { light YellowPointLight }
+}
+
 object UnmakerBall
 {
 	Frame ELBL { light BigOrangePointLight }
