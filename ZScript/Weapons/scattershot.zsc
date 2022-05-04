@@ -150,15 +150,6 @@ class Halo_ScatterShot : HaloGun
 		RecoilWeapon.YOffsetRange -10, 40;
 	}
 	
-	action void A_DoRecoilSmoke()
-	{
-		A_SetSFXPos(20,-8,-4);
-		if(A_CheckInScope()) A_SetSFXPos(20,0,-12);
-		
-		for(int i = 0; i < floor(15 * halodoom_effectintensity); i++)
-			A_SpawnSFX("MuzzleSmoke", 0,0);
-	}
-	
 	action void A_FireSpreadShots(vector2 offs = (8, -4), double fireAngle = 0, double spacing = 5)
 	{
 		double soffs = -spacing;
@@ -245,7 +236,6 @@ class Halo_ScatterShot : HaloGun
 			{		
 				A_RecoilOffset(0,0,18);
 				A_SetZoom(1.0, 8);
-				A_DoRecoilSmoke();
 			}
 			WQF1 FGHI 1;
 			WQI1 A 8;

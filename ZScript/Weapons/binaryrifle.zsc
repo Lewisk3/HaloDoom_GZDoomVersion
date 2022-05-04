@@ -107,17 +107,6 @@ class Halo_BinaryRifle : HaloGun
 		RecoilWeapon.YOffsetRange -10, 40;
 	}
 	
-	int smokeTics;
-	action void A_DoRecoilSmoke()
-	{
-		A_SetSFXPos(20,-8,2);
-		if(A_CheckInScope()) A_SetSFXPos(20,0,-12);
-		
-		for(int i = 0; i < floor(15 * halodoom_effectintensity); i++)
-			A_SpawnSFX("MuzzleSmoke", 0,0);
-		invoker.smokeTics = 0;
-	}
-	
 	action void A_FireBinaryRifle()
 	{
 		A_Light(4);
@@ -186,11 +175,7 @@ class Halo_BinaryRifle : HaloGun
 			//	A_RQuakeEx(3,3,3,10,0,20,"",QF_RELATIVE);
 			}
 			WOF1 EFG 1 A_SetZoom(1.0, 8);
-			WOF1 GGGGGGGGGGGG 2 
-			{
-				if(invoker.smokeTics++ > 1) 
-					A_DoRecoilSmoke();
-			}
+			WOF1 GGGGGGGGGGGG 2;
 			WOF1 HIJKL 1;
 			WOI1 A 4;
 		goto Ready.Active;

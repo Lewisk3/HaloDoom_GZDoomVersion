@@ -96,7 +96,7 @@ class Halo_LightRifle : HaloGun
 		HaloGun.Crosshair "LrRet", 1.0;
 		HaloGun.UIGraphic "MISSNG", 1.0;
 		
-		HaloGun.UISight "LITRADS2", 1.25, 1.0;
+		HaloGun.UISight "LITRADS0", 1.25, 1.0;
 		HaloGun.SetupScope 2.0, 0.5;
 		+HaloGun.SI_Fullscreen;
 		+HaloGun.SI_Rotate;
@@ -105,16 +105,7 @@ class Halo_LightRifle : HaloGun
 		HaloGun.ZoomSounds "Halo/Weapons/LightRifle/Zoom/IN", "Halo/Weapons/LightRifle/Zoom/OUT";
 		RecoilWeapon.YOffsetRange -10, 40;
 	}
-	
-	action void A_DoRecoilSmoke()
-	{
-		A_SetSFXPos(20,-8,-5);
-		if(A_CheckInScope()) A_SetSFXPos(20,0,-12);
 		
-		for(int i = 0; i < floor(5 * halodoom_effectintensity); i++)
-			A_SpawnSFX("MuzzleSmoke", 0,0);
-	}
-	
 	action void A_FireLightRifleBurst()
 	{
 		A_Light(4);
@@ -187,7 +178,7 @@ class Halo_LightRifle : HaloGun
 			{
 				A_HaloWeaponReady(usescope:true);
 				if(A_CheckInScope() && invoker.UI_Sight ~== "LITRADS3") 
-					A_ResetSightGraphic();
+					A_setSightGraphic("LITRADS2");
 			}
 		loop;
 		
@@ -249,7 +240,6 @@ class Halo_LightRifle : HaloGun
 			WPB1 GH 1 A_SetZoom(1.0, 4);
 			WPB1 IIIIIIIIIIIIII 1 
 			{
-				A_DoRecoilSmoke();
 				A_Light(0);
 			}
 			WPB1 JKL 1
