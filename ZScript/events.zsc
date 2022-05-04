@@ -5,6 +5,7 @@ class HaloDoom_Events : EventHandler
 	bool nevertarget;
 	bool alwaysautoaim;
 	bool runningLZDoom;
+	
 	HaloDoom_EngineEvents engHandle;
 	Dictionary surfacesDatabase;
 	

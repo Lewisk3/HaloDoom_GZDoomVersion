@@ -80,7 +80,7 @@ class Halo_AssaultRifle : HaloGun
 		HaloGun.Crosshair "RifleRet", 1.0;
 		HaloGun.UIGraphic "WI_AR", 1.0;
 		
-		HaloGun.Availability GT_HL3 | GT_HL4;
+		HaloGun.Availability "HL3, HL4";
 		HaloGun.PowerTier P_NORM;
 		
 		RecoilWeapon.YOffsetRange -10, 40;

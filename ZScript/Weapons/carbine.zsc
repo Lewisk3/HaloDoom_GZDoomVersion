@@ -89,7 +89,7 @@ class Halo_Carbine : HaloGun
 		Weapon.AmmoType2 "Halo_CarbineClip";
 		Weapon.AmmoGive 27;
 		
-		HaloGun.Availability GT_HL2 | GT_HL3 | GT_HL4;
+		HaloGun.Availability "HL2, HL3, HL4";
 		HaloGun.PowerTier P_ENERGY | P_STRONG;
 
 		// Recoil

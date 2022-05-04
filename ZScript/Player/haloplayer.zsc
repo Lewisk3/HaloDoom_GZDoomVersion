@@ -106,39 +106,44 @@ class HaloPlayer : DoomPlayer
 		pendingDoor = null;
 	}
 	
+	bool IsGameType(string types)
+	{
+		uint flags = HaloMath.gameTypesToFlags(types);
+		return !!(halodoom_gametype & flags);
+	}
+	
 	// Called when the player initially spawns, sets up spawn items.
 	virtual void SetupInventory()
 	{
 		GiveInventory("DoHelmetAnimation", 1);
-		switch(halodoom_gametype)
+		
+		if(IsGameType("HL1"))
 		{
-			case GT_HL1:
-				GiveInventory("Halo_MA5B", 1);
-				GiveInventory("Halo_Magnum", 1);
-				GiveInventory("Halo_AR_Reserves", 120);
-				GiveInventory("Halo_Magnum_Reserves", 36);
-			break;
-			case GT_HL2:
-				GiveInventory("Halo_BattleRifle", 1);
-				GiveInventory("Halo_Sidekick", 1);
-				GiveInventory("Halo_BAR_Reserves", 90);
-				GiveInventory("Halo_Sidekick_Reserves", 48);
-			break;
-			case GT_MSX:
-				GiveInventory("Halo_MA5B", 1);
-				GiveInventory("Halo_Sidekick", 1);
-				GiveInventory("Halo_AR_Reserves", 120);
-				GiveInventory("Halo_Sidekick_Reserves", 36);
-			break;
-			
-			case GT_HL4:
-			case GT_HL3:
-			default:
-				GiveInventory("Halo_AssaultRifle", 1);
-				GiveInventory("Halo_Sidekick", 1);
-				GiveInventory("Halo_AR_Reserves", 120);
-				GiveInventory("Halo_Sidekick_Reserves", 48);
-			break;
+			GiveInventory("Halo_MA5B", 1);
+			GiveInventory("Halo_Magnum", 1);
+			GiveInventory("Halo_AR_Reserves", 120);
+			GiveInventory("Halo_Magnum_Reserves", 36);
+		}
+		else if(IsGameType("HL2"))
+		{
+			GiveInventory("Halo_BattleRifle", 1);
+			GiveInventory("Halo_Sidekick", 1);
+			GiveInventory("Halo_BAR_Reserves", 90);
+			GiveInventory("Halo_Sidekick_Reserves", 48);
+		}
+		else if(IsGameType("MSX"))
+		{
+			GiveInventory("Halo_MA5B", 1);
+			GiveInventory("Halo_Sidekick", 1);
+			GiveInventory("Halo_AR_Reserves", 120);
+			GiveInventory("Halo_Sidekick_Reserves", 36);
+		}
+		else
+		{
+			GiveInventory("Halo_AssaultRifle", 1);
+			GiveInventory("Halo_Sidekick", 1);
+			GiveInventory("Halo_AR_Reserves", 120);
+			GiveInventory("Halo_Sidekick_Reserves", 48);
 		}
 	}
 	

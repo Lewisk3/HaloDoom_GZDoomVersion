@@ -57,7 +57,7 @@ class Halo_Bulldog : HaloGun
 		Weapon.AmmoGive 12;
 		Weapon.AmmoType2 "Halo_Bulldog_Shells";
 		
-		HaloGun.Availability GT_HL4 | GT_MSX;
+		HaloGun.Availability "HL4, MSX";
 		HaloGun.PowerTier P_STRONG;
 				
 		// Recoil
