@@ -85,8 +85,8 @@ class Halo_LightRifle : HaloGun
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 2;
 		
-		HaloGun.Availability GT_HL4;
-		HaloGun.PowerTier P_POWER;
+		HaloGun.Availability "HL4";
+		HaloGun.PowerTier P_MID;
 				
 		// Recoil
 		HaloGun.Bloom 1.25;

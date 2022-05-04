@@ -74,7 +74,7 @@ class Halo_BattleRifle : HaloGun
 		HaloGun.SetupScope 2.0, 0.25;
 		HaloGun.ZoomSounds "Halo/Weapons/Zoom/IN", "Halo/Weapons/Zoom/OUT";
 		
-		HaloGun.Availability GT_HL2 | GT_HL3 | GT_HL4;
+		HaloGun.Availability "HL2, HL3, HL4";
 		HaloGun.PowerTier P_MID;
 		
 		RecoilWeapon.YOffsetRange -10, 40;

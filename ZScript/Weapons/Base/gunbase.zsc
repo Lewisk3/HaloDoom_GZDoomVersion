@@ -54,7 +54,8 @@ class HaloGun : RecoilWeapon
 	double scopezoom;
 	bool zoomed;
 	int zoom_btnstate;
-	uint weapon_gametype; // Spawn filter based on selected gametype.
+	string gametypes_str; // Spawn filters based on selected gametype.
+	
 	bool uses_battery;
 	bool GunLightningFlash;
 	
@@ -87,7 +88,7 @@ class HaloGun : RecoilWeapon
 	Property ZoomSounds : snd_zoomin, snd_zoomout;
 	Property LowerOnMelee : meleelower;
 	Property HasBattery : uses_battery, battery_drain;
-	Property Availability : weapon_gametype;
+	Property Availability : gametypes_str;
 	Property PowerTier : SpawnTier;
 	Property _ProjDamageMod : damage_modifier;
 
@@ -116,7 +117,7 @@ class HaloGun : RecoilWeapon
 		HaloGun._ProjDamageMod 1.0;
 		HaloGun.LowerOnMelee 50;
 		HaloGun.PowerTier P_NULL;
-		HaloGun.Availability 0;
+		HaloGun.Availability "ALL";
 		Weapon.BobRangeX 1.5;
 		Weapon.BobRangeY 0.6;
 		Weapon.BobSpeed 0.5;
@@ -136,20 +137,13 @@ class HaloGun : RecoilWeapon
 		}
 	}
 
-
 	// Game Type functions.
-	clearscope static string, string getGameTypeDesc(uint gametype, bool asflags = false)
+	clearscope static uint getGameTypeFlags(class<HaloGun> weap)
 	{
-		int gamenum = gametype;
-		if(asflags) gamenum = !gametype ? 0 : (log(gametype) / log(2)) + 1;	
-		
-		string data = StringTable.Localize(String.Format("$GAMETYPE_%d_DESC", gamenum));
-		Array<String> filter;
-		data.Split(filter, ":");
-		
-		return filter[0], filter[1];
+		let weapDefs = GetDefaultByType(weap);
+		return HaloMath.gameTypesToFlags(weapDefs.gametypes_str);
 	}
-	
+		
 	clearscope static void getGameTypeWeapons(uint gametype, out Array<String> weapslist)
 	{
 		for(int i = 0; i < AllActorClasses.Size(); i++)
@@ -158,13 +152,13 @@ class HaloGun : RecoilWeapon
 			if( !actType || actType.getClass() == "HaloGun") continue;
 			
 			// Skip weapons outside spawning parameters.
-			if( gametype != 0 && !(actType.weapon_gametype & gametype) ) 
+			uint weapon_gametype = Halogun.getGameTypeFlags(actType.getClass());
+			if( gametype != 0 && !(weapon_gametype & gametype) ) 
 				continue;
 						
 			weapslist.Push(actType.getTag());
 		}
 	}
-
 
 	// Weapon functions
 	override void OnDrop (Actor dropper) 

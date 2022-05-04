@@ -58,7 +58,7 @@ class Halo_PlasmaRifle : HaloGun
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 1;
 		
-		HaloGun.Availability GT_ALL;
+		HaloGun.Availability "ALL";
 		HaloGun.PowerTier P_ENERGY | P_NORM;
 				
 		// Recoil

@@ -66,7 +66,7 @@ class Halo_Sidekick : HaloGun
 		HaloGun.Crosshair "SdkRet", 1.0;
 		HaloGun.UIGraphic "WI_SDK", 0.4;
 		
-		HaloGun.Availability GT_HL2 | GT_HL4 | GT_MSX;
+		HaloGun.Availability "HL2, HL4, MSX";
 		HaloGun.PowerTier P_NORM;
 		
 		RecoilWeapon.YOffsetRange -10, 40;

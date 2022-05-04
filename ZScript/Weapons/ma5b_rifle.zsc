@@ -47,7 +47,7 @@ class Halo_MA5B : HaloGun
 		HaloGun.Crosshair "MA5BRet", 1.0;
 		HaloGun.UIGraphic "WI_MA5B", 1.0;
 		
-		HaloGun.Availability GT_HL1 | GT_MSX;
+		HaloGun.Availability "HL1, MSX";
 		HaloGun.PowerTier P_NORM;
 		
 		RecoilWeapon.YOffsetRange 0, 40;

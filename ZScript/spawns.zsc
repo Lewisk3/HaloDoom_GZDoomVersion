@@ -12,8 +12,7 @@ extend class HaloDoom_Events
 	
 	static bool shouldFilterWeapon(class<Weapon> weap)
 	{
-		let actType = HaloGun(GetDefaultByType(weap));
-		uint gametype = actType.weapon_gametype;
+		uint gametype = HaloGun.GetGameTypeFlags( (class<HaloGun>)(weap) );
 		
 		return (halodoom_gametype != 0 && !(gametype & halodoom_gametype));
 	}
@@ -78,7 +77,7 @@ extend class HaloDoom_Events
 			if( !actType || actType.getClass() == "HaloGun") continue;
 			
 			// Skip weapons outside spawning parameters.
-			uint gametype = actType.weapon_gametype;
+			uint gametype = HaloGun.GetGameTypeFlags( actType.getClass() );
 			if( halodoom_gametype != 0 && !(gametype & halodoom_gametype) ) 
 				continue;
 			

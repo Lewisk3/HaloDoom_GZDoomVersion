@@ -171,7 +171,7 @@ class Halo_Unmaker : HaloGun
 		Weapon.AmmoGive 100;
 		Weapon.AmmoType2 "Halo_UnmakerReserves";
 		
-		HaloGun.Availability GT_ALL;
+		HaloGun.Availability "ALL";
 		HaloGun.PowerTier P_UBER;
 				
 		// Recoil

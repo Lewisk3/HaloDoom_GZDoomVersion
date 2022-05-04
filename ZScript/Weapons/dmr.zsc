@@ -67,7 +67,7 @@ class Halo_DMR : HaloGun
 		Weapon.AmmoGive 24;
 		Weapon.AmmoType2 "Halo_DMRClip";
 		
-		HaloGun.Availability GT_HL3 | GT_HL4;
+		HaloGun.Availability "HL3, HL4";
 		HaloGun.PowerTier P_STRONG;
 				
 		// Recoil

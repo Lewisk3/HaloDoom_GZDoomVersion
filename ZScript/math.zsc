@@ -640,6 +640,32 @@ class HaloMath Abstract
 		}
 	}
 	
+	const GT_ALL = 31;
+	static uint gameTypesToFlags(string types)
+	{
+		uint flags = 0;
+		Array<String> tokens;
+		Array<GameTypeInfo> gameTypes;
+		
+		string gtStr = types;
+		if(gtStr.Length() <= 0) return 0;
+		
+		gtStr.Replace(" ", "");
+		gtStr.Split(tokens, ",");
+		
+		uint notFound = tokens.Size();
+		if(tokens.Find("ALL") != notFound) return GT_ALL;
+		HaloMath.getGameTypes(gameTypes);
+		
+		for(int i = 0; i < gameTypes.Size(); i++)
+		{
+			if(tokens.Find(gameTypes[i].defName) != notFound)
+				flags |= !i ? 0 : (1 << (i-1));
+		}
+		
+		return flags;
+	}
+	
 	static void getGameTypes(out Array<GameTypeInfo> gtInfo)
 	{
 		gtInfo.Clear();
@@ -684,9 +710,10 @@ class HaloMath Abstract
 			
 				// Field to read from.
 				string gtDefName = data.Mid(nameStart, nameLen); 
+				gtDefName.Replace(String.Format("%c", 13), "");
 				string gtName;
 				string gtDesc;
-				
+
 				bool exists;
 				string result;
 				[exists, gtName] = parseStrElement("name", gtData);

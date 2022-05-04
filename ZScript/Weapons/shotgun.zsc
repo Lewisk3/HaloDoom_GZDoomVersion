@@ -58,7 +58,7 @@ class Halo_Shotgun : HaloGun
 		Weapon.AmmoGive 12;
 		Weapon.AmmoType2 "Halo_Shotgun_Shells";
 		
-		HaloGun.Availability GT_ALL;
+		HaloGun.Availability "ALL";
 		HaloGun.PowerTier P_MID;
 				
 		// Recoil
