@@ -252,7 +252,7 @@ class Halo_ScatterShot : HaloGun
 		goto Ready.Active;
 		
 		Spawn:
-			MSNG A -1;
+			WQP1 A -1;
 		stop;
 	}
 }

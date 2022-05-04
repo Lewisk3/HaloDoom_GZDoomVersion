@@ -303,7 +303,7 @@ class Halo_LightRifle : HaloGun
 		goto Scope.Ready;
 		
 		Spawn:
-			MSNG A -1;
+			WPP1 A -1;
 		stop;
 	}
 }
