@@ -75,7 +75,7 @@ class Fuelrod_Damager : FastActor
 			TNT1 A 1
 			{
 				if( !(level.maptime%2) )
-					HaloMath.ExplodeEx(self, Damage, Radius, damageType:"ToxicPlasma", damageSelf:false);
+					HaloMath.ExplodeEx(self, Damage, Radius, thrustMod:0, damageType:"ToxicPlasma", damageSelf:false);
 			}
 			TNT1 A 0 A_JumpIf(GetAge() > 170, "Null"); 
 		loop;

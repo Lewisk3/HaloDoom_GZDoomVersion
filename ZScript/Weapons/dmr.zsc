@@ -49,7 +49,7 @@ class HaloDMR_Bullet : HaloBullet
 		HaloProjectile.Speed_MPS DMR_BMPS;
 		HaloProjectile.HeadshotDMGFactor DMR_HEDMOD;
 		HaloProjectile.RipperCount 2;
-		HaloProjectile.ShieldDamageFactors 0.5, 1.0;
+		HaloProjectile.ShieldDamageFactors 1.0, 1.0;
 	}
 }
 

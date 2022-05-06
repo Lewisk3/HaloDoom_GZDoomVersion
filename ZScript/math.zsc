@@ -192,7 +192,7 @@ class HaloMath Abstract
 		}
 	}
 	
-	play static void ExplodeEx(Actor src, double pow, double dist, double dmgfalloffmod = 1.0, Name damageType = "Explosive", bool damageSelf = false, bool damageBosses = true)
+	play static void ExplodeEx(Actor src, double pow, double dist, double dmgfalloffmod = 1.0, double thrustMod = 1.0, Name damageType = "Explosive", bool damageSelf = false, bool damageBosses = true)
 	{
 		let it = ThinkerIterator.Create("Actor");
 		Actor act;
@@ -209,7 +209,7 @@ class HaloMath Abstract
 			
 			vector3 forceDir = (src.pos - act.pos).Unit();
 			if(act == shooter) forceDir = VecFromAngles(shooter.angle, shooter.pitch, 0.5);
-			forceDir *= dmgfalloff;
+			forceDir *= dmgfalloff * thrustMod;
 			act.vel -= (forceDir * 0.25);
 			
 			if(!damageSelf && act == shooter) continue;

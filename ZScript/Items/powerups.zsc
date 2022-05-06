@@ -72,7 +72,8 @@ class HaloPower_Haste : PowerupGiver replaces SoulSphere
 		
 		Powerup.Duration -30;
 		Powerup.Type "PowerHaloSpeedBoost";
-		Inventory.PickupMessage "HASTE!";
+		Inventory.PickupMessage "Double Time!";
+		Inventory.PickupSound "Halo/Powerup/Speed";
 		+INVENTORY.AUTOACTIVATE;
 	}
 	
@@ -106,7 +107,9 @@ class HaloPower_Haste : PowerupGiver replaces SoulSphere
 	
 	virtual void OnPickup(Actor other)
 	{
-		other.GiveInventory("Overshield_LV2", 1);
+		let hplr = HaloPlayer(other);
+		if(!hplr) return;
+		hplr.shields += 100;
 	}
 	
 	virtual void VisualFX()
@@ -168,6 +171,7 @@ class HaloPower_Strength : HaloPower_Haste replaces Megasphere
 		Powerup.Duration -60;
 		Powerup.Type "PowerHaloDamageBoost";
 		Inventory.PickupMessage "QUAD DAMAGE!";
+		Inventory.PickupSound "Halo/Powerup/Damage";
 		+INVENTORY.AUTOACTIVATE;
 	}
 	
@@ -214,13 +218,11 @@ class HaloPower_ActiveCamo : HaloPower_Haste replaces BlurSphere
 		Powerup.Type "PowerHaloActiveCamo";
 		
 		Inventory.PickupMessage "Active Camouflage!";
+		Inventory.PickupSound "Halo/Powerup/Camo";
 		+INVENTORY.AUTOACTIVATE;
 	}
 	
-	override void OnPickup(Actor other)
-	{
-		other.GiveBody(200,200);
-	}
+	override void OnPickup(Actor other) {}
 	
 	override void VisualFX()
 	{
