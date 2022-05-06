@@ -158,10 +158,6 @@ extend class HaloDoom_Events
 			e.Replacement = "HealthBonus";
 		
 		// Powerup Spawning
-		if( item is "SoulSphere" )
-			e.Replacement = "Overshield_LV1";
-		if( item is "MegaSphere" )
-			e.Replacement = "Overshield_LV2";
 		if( item is "GreenArmor" )
 			e.Replacement = "Overshield_LV1";
 		if( item is "BlueArmor" )

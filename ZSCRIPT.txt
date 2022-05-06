@@ -36,6 +36,7 @@ version "4.5"
 
 // Items
 #include "ZScript/Items/keys.zsc"
+#include "ZScript/Items/powerup_base.zsc"
 #include "ZScript/Items/powerups.zsc"
 #include "ZScript/Items/pickups.zsc"
 

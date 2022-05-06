@@ -1,0 +1,232 @@
+class HaloPowerup : Powerup
+{
+	string powerupGraphic;
+	Property UIEffect : powerupGraphic;
+	
+	override void DoEffect()
+	{
+		super.DoEffect();
+		let hplr = HaloPlayer(Owner);
+		if(hplr && powerupGraphic) 
+			hplr.overlay_img = !isBlinking() ? powerupGraphic : "";
+			
+	}
+	
+	static void DoParticles(Actor source, Color pcol = 0xFF21c24c, double amt = 60, double dist = 16, double zoffset = 12)
+	{
+		double phase = cos(source.GetAge());
+		double bobz = source.GetBobOffset();
+		double ang = source.angle;
+		double pit = source.pitch;
+		
+		double dist = 16;
+		double amt = floor(60 * halodoom_effectintensity);
+		
+		for(int i = 0; i < amt; i++)
+		{
+			double ifrac = i/amt;
+			double zoffs = bobz + zoffset;
+			
+			double ang = ifrac * 360;
+			double pit = 0;
+			ang += source.GetAge() * 8;
+		
+			vector3 sdir = (
+				cos(ang) * cos(pit),
+				sin(ang) * cos(pit),
+				-sin(pit)
+			);
+			vector3 spos = sdir*dist;
+			
+			source.A_SpawnParticle(
+				pcol, SPF_FULLBRIGHT, 1, 3.0, 0,
+				spos.x, spos.y, spos.z + zoffs, 0,0,0,0,0,0,
+				frandom(0.15,1.0), 0.025
+			);
+			
+			if(random(0,5)==5)
+			{
+				ang = frandom(0,360);
+				pit = frandom(-45,45);
+				vector3 rdir = (
+					cos(ang),
+					sin(ang),
+					-sin(pit)
+				) * frandom(2,8);
+				
+				source.A_SpawnParticle(
+					pcol, SPF_FULLBRIGHT, 10, 3.0, ang,
+					0,0, zoffs, rdir.x,rdir.y,rdir.z,0,0,0,
+					frandom(0.15,1.0), 0.025
+				);
+			}
+		}
+	}
+	
+	override void EndEffect()
+	{
+		super.DoEffect();
+		let hplr = HaloPlayer(Owner);
+		if(hplr && powerupGraphic) hplr.overlay_img = "";
+	}
+}
+
+class PowerHaloSpeedBoost : HaloPowerup
+{	
+	Default
+	{
+		Powerup.Duration 35 * 20; // 20 seconds.
+		HaloPowerup.UIEffect "Graphics/Powerups/SpeedBoost.png";
+	}
+	
+	override void DoEffect()
+	{
+		super.DoEffect();
+		let hplr = HaloPlayer(Owner);
+		if(!hplr) return;
+		
+		hplr.speedboost = 2.0;
+		hplr.aircontrol = hplr.default.aircontrol*2.0;
+		
+	}
+	
+	override void EndEffect()
+	{
+		super.EndEffect();
+		let hplr = HaloPlayer(Owner);
+		if(!hplr) return;
+		
+		hplr.speedboost = 0;
+		hplr.aircontrol = hplr.default.aircontrol;
+	}
+}
+
+
+class PowerHaloDamageBoost : HaloPowerup
+{	
+	Default
+	{
+		Powerup.Duration 35 * 20; // 20 seconds.
+		HaloPowerup.UIEffect "Graphics/Powerups/DamageBoost.png";
+	}
+	
+	override void ModifyDamage(int damage, Name damageType, out int newdamage, bool passive, Actor inflictor, Actor source, int flags)
+	{
+		if (!passive && damage > 0)
+			newdamage = max(1, ApplyDamageFactors(GetClass(), damageType, damage, damage * 4));
+	}
+}
+
+
+class Power_HaloInvis : PowerInvisibility
+{
+	Default
+	{
+		+SHADOW;
+		Powerup.Duration 35 * 60;
+		Powerup.Strength 80;
+		Powerup.Mode "Fuzzy";
+	}
+}
+class PowerHaloActiveCamo : HaloPowerup
+{	
+	Default
+	{
+		Powerup.Duration 35 * 60; // 60 seconds.
+		HaloPowerup.UIEffect "Graphics/Powerups/ActiveCamo.png";
+	}
+	
+	override void DoEffect()
+	{
+		super.DoEffect();
+		if(!Owner.FindInventory("Power_HaloInvis")) 
+			Owner.GiveInventory("Power_HaloInvis", 1);
+	}
+}
+
+class HaloOvershield : Inventory
+{	
+	HaloPlayer hplr;
+	
+	double shieldbuff;
+	Property ShieldBoost : shieldbuff;
+	
+	string flashGraphic;
+	Property UIFlashEffect : flashGraphic;
+
+	Default
+	{
+		RenderStyle "Add";
+		Alpha 0.6;
+		+FLOATBOB;
+		+NOGRAVITY;
+		Scale 0.05;
+		Height 8;
+		Radius 8;
+		HaloOvershield.UIFlashEffect "Graphics/Powerups/OS2.png";
+		HaloOvershield.ShieldBoost 2.0;
+		Inventory.PickupSound "Halo/Powerup/Shield1";
+		Inventory.PickupMessage "Picked up an Overshield (LV1)";
+	}
+	
+	override bool TryPickup(in out Actor toucher)
+	{
+		hplr = HaloPlayer(toucher);
+		if(!hplr) return false;
+		
+		if(hplr.shields < (hplr.maxshields * shieldbuff))
+		{
+			hplr.shields = hplr.maxshields * shieldbuff;
+			bool localview = toucher.CheckLocalView();
+			PrintPickupMessage(localview, PickupMessage());
+			PlayPickupSound(toucher);
+			toucher.A_StopSound(CHAN_6); // Stop shield warning audio.
+			bSPECIAL = false;
+
+			SetState(FindState("FlashAndDie"));
+			return true;
+		}
+		return false;
+	}
+	
+	virtual void DoLightning(int amt = 5)
+	{
+		// Only display lightning effects if visible.
+		// This helps quite a lot with performance.
+		let viewer = players[consoleplayer].mo;
+		if(!viewer.IsVisible(self, false)) return;
+		
+		if( (GetAge() % randompick(10,25,50)) != 0 ) return;
+		for(int i = 0; i < amt; i++)
+		{
+			vector2 angles = (frandom(0,360), frandom(-40,40));
+			BiriBiri.DoLightning(pos + (0,0, GetBobOffset() + 12), angles, dist:50, 1.0, 14.0, 10.0, 50, 0);
+		}
+	}
+	
+	States
+	{
+		Spawn:
+			PWSH A 1 
+			{
+				HaloPowerup.DoParticles(self);
+			//	DoLightning();
+			}
+		loop;
+		
+		FlashAndDie:
+			TNT1 A 0
+			{
+				if(hplr && flashGraphic) 
+					hplr.overlay_img = flashGraphic;
+			}
+			TNT1 A 12;
+			TNT1 A 0 
+			{ 
+				if(hplr && flashGraphic) 
+					hplr.overlay_img = ""; 
+				GoAwayAndDie();
+			}
+		stop;
+	}
+}

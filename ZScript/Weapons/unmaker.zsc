@@ -177,11 +177,11 @@ class Halo_Unmaker : HaloGun
 		// Recoil
 		RecoilWeapon.RecoilSpeed 20;
 		HaloGun.HasBattery true, 3;
-		HaloGun.Bloom 1.25;
-		HaloGun.BloomSpeed 0.08;
+		HaloGun.Bloom 0.75;
+		HaloGun.BloomSpeed 0.40;
 		HaloGun.BaseRecoil UNMAKER_RECOIL;
 		HaloGun.Inaccuracy UNMAKER_ACCMOD;
-		HaloGun.Crosshair "UMRet", 1.0;
+		HaloGun.Crosshair "UMRet", 0.5;
 		HaloGun.UIGraphic "MISSNG", 1.0;
 		
 		RecoilWeapon.YOffsetRange -10, 100;
@@ -370,7 +370,7 @@ class Halo_Unmaker : HaloGun
 
 		A_ShootProjectile("UnmakerBall", 0, 2);	
 		A_TakeAmmo(20);
-		A_UpdateSpread();
+		for(int i = 0; i < 40; i++) A_UpdateSpread();
 	}
 
 	States
