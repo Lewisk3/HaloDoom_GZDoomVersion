@@ -61,12 +61,49 @@ class HaloMessage ui
 	}
 }
 
+class FadingImage : Object
+{
+	string img;
+	double fade;
+	double fadeSpeed;
+	bool fadingOut;
+	
+	static FadingImage Create(string img, double fadeSpd)
+	{
+		let fImg = new("FadingImage");
+		if(fImg)
+		{
+			fImg.img = img;
+			fImg.fade = 0;
+			fImg.fadeSpeed = fadeSpd;
+			fImg.fadingOut = false;
+		}
+		
+		return fImg;
+	}
+	
+	double Process(double dT, bool doFadeout)
+	{
+		fade += ((fadingOut && doFadeout) ? -0.1 : 0.1) * dT;
+		fade = clamp(fade, 0, 1.0);
+		if(fade >= 1.0 && !fadingOut) fadingOut = true;
+		if(fade <= 0 && fadingOut) 
+		{
+			Destroy();
+			return 0;
+		}
+		
+		return fade;
+	}
+} 
+
 class HaloStatusBar : BaseStatusBar
 {
 	const ANIM_FPS = 60;
 	
 	HaloPlayer haloplr;
-	
+	FadingImage curFXOverlay;
+
 	// Delta-time logic.
 	double prevMS; 
 	double deltatime;
@@ -266,7 +303,31 @@ class HaloStatusBar : BaseStatusBar
 			// Keys and Objectives
 			DrawKeys(CPlayer, 50, 10, 30,30);			
 			DrawObjectives();
-					
+			
+			string overlay = haloplr.overlay_img;
+			if(overlay && !curFXOverlay) 
+				curFXOverlay = FadingImage.Create(overlay, 0.15);
+			else if(overlay && overlay != curFXOverlay.img)
+				curFXOverlay.img = overlay;
+			
+			if(curFXOverlay)
+			{
+				string img = curFXOverlay.img;
+				double curAlpha = curFXOverlay.Process(deltaTime, overlay != img);
+				
+				// Adjust scale for fullscreen.
+				vector2 toRes = (1920., 1080.);
+				let tex = TexMan.CheckForTexture(overlay);
+				let texsize = TexMan.GetScaledSize(tex);
+				
+				vector2 scaleMod = (
+					toRes.x / texsize.x,
+				    toRes.y / texsize.y
+				);
+		
+				uint flags = HLSBS.SS_SCREEN_CENTER | HLSBS.SS_COORDS_TEXGRID | HLSBS.SS_NOASPECTCORRECTION;
+				HLSBS.DrawImage(img, (0.5,0.5), flags, curAlpha, scale:(scaleMod.x,scaleMod.y));
+			}
 			
 			// Keep track of time, always.
 			if(!prevMS)

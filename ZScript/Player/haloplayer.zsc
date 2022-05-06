@@ -49,6 +49,7 @@ class HaloPlayer : DoomPlayer
 	// UI 
 	Color screen_color;
 	double screen_fade;
+	string overlay_img;
 	const FADE_RATE = 0.96;
 		
 	// CVar(s)

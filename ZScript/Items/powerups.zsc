@@ -1,7 +1,12 @@
 class Overshield_LV1 : Inventory
 {	
+	HaloPlayer hplr;
+	
 	double shieldbuff;
 	Property ShieldBoost : shieldbuff;
+	
+	string flashGraphic;
+	Property UIFlashEffect : flashGraphic;
 
 	Default
 	{
@@ -12,6 +17,7 @@ class Overshield_LV1 : Inventory
 		Scale 0.05;
 		Height 8;
 		Radius 8;
+		Overshield_LV1.UIFlashEffect "Graphics/Powerups/OS2.png";
 		Overshield_LV1.ShieldBoost 2.0;
 		Inventory.PickupSound "Halo/Powerup/Shield1";
 		Inventory.PickupMessage "Picked up an Overshield (LV1)";
@@ -19,7 +25,7 @@ class Overshield_LV1 : Inventory
 	
 	override bool TryPickup(in out Actor toucher)
 	{
-		let hplr = HaloPlayer(toucher);
+		hplr = HaloPlayer(toucher);
 		if(!hplr) return false;
 		
 		if(hplr.shields < (hplr.maxshields * shieldbuff))
@@ -29,7 +35,9 @@ class Overshield_LV1 : Inventory
 			PrintPickupMessage(localview, PickupMessage());
 			PlayPickupSound(toucher);
 			toucher.A_StopSound(CHAN_6); // Stop shield warning audio.
-			GoAwayAndDie();
+			bSPECIAL = false;
+
+			SetState(FindState("FlashAndDie"));
 			return true;
 		}
 		return false;
@@ -108,6 +116,21 @@ class Overshield_LV1 : Inventory
 			//	DoLightning();
 			}
 		loop;
+		
+		FlashAndDie:
+			TNT1 A 0
+			{
+				if(hplr && flashGraphic) 
+					hplr.overlay_img = flashGraphic;
+			}
+			TNT1 A 12;
+			TNT1 A 0 
+			{ 
+				if(hplr && flashGraphic) 
+					hplr.overlay_img = ""; 
+				GoAwayAndDie();
+			}
+		stop;
 	}
 }
 
@@ -116,6 +139,7 @@ class Overshield_LV2 : Overshield_LV1
 	Default
 	{
 		Overshield_LV1.ShieldBoost 3.0;
+		Overshield_LV1.UIFlashEffect "Graphics/Powerups/OS1.png";
 		Inventory.PickupSound "Halo/Powerup/Shield2";
 		Inventory.PickupMessage "Picked up an Overshield (LV2)";
 	}
@@ -129,5 +153,69 @@ class Overshield_LV2 : Overshield_LV1
 			//	DoLightning(10);
 			}
 		loop;
+	}
+}
+
+class HaloPowerup : Powerup
+{
+	string powerupGraphic;
+	Property UIEffect : powerupGraphic;
+	
+	override void DoEffect()
+	{
+		super.DoEffect();
+		let hplr = HaloPlayer(Owner);
+		if(hplr && powerupGraphic) 
+			hplr.overlay_img = !isBlinking() ? powerupGraphic : "";
+			
+	}
+	
+	override void EndEffect()
+	{
+		super.DoEffect();
+		let hplr = HaloPlayer(Owner);
+		if(hplr && powerupGraphic) hplr.overlay_img = "";
+	}
+}
+
+class Power_HaloSpeedBoost : HaloPowerup
+{	
+	Default
+	{
+		Powerup.Duration 35 * 20; // 20 seconds.
+		HaloPowerup.UIEffect "Graphics/Powerups/SpeedBoost.png";
+	}
+	
+	override void DoEffect()
+	{
+		super.DoEffect();
+		let hplr = HaloPlayer(Owner);
+		if(!hplr) return;
+		
+		hplr.speedboost = 2.0;
+	}
+	
+	override void EndEffect()
+	{
+		super.EndEffect();
+		let hplr = HaloPlayer(Owner);
+		if(!hplr) return;
+		
+		hplr.speedboost = 0;
+	}
+}
+
+class Power_HaloDamageBoost : HaloPowerup
+{	
+	Default
+	{
+		Powerup.Duration 35 * 20; // 20 seconds.
+		HaloPowerup.UIEffect "Graphics/Powerups/DamageBoost.png";
+	}
+	
+	override void ModifyDamage(int damage, Name damageType, out int newdamage, bool passive, Actor inflictor, Actor source, int flags)
+	{
+		if (!passive && damage > 0)
+			newdamage = max(1, ApplyDamageFactors(GetClass(), damageType, damage, damage * 4));
 	}
 }

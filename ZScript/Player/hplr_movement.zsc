@@ -23,6 +23,9 @@ extend class HaloPlayer
 	bool using_controller;
 	bool block_moveinput;
 	
+	// Buffs
+	double speedboost;
+	
 	// Jump delay
 	int prevjump;
 	int fricwait;
@@ -60,6 +63,7 @@ extend class HaloPlayer
 
 	void DoQuakeGroundAccel(vector3 wishdir, double spd)
 	{
+		if(speedboost) spd *= speedboost;
 		double curspd = wishdir dot vel;
 		double addspd = clamp(GNDMAX - curspd, 0, (GNDACCEL*spd) / TICRATE);
 		
@@ -68,6 +72,7 @@ extend class HaloPlayer
 	
 	void DoQuakeAirAccel(vector3 wishdir, double spd, bool dobhop)
 	{
+		if(speedboost) spd *= speedboost;
 		if(dobhop)
 		{
 			double curspd = wishdir dot vel;
