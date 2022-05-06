@@ -12,7 +12,7 @@ class Overshield_LV1 : Inventory
 		Scale 0.05;
 		Height 8;
 		Radius 8;
-		Overshield_LV1.ShieldBoost 50;
+		Overshield_LV1.ShieldBoost 2.0;
 		Inventory.PickupSound "Halo/Powerup/Shield1";
 		Inventory.PickupMessage "Picked up an Overshield (LV1)";
 	}
@@ -22,9 +22,9 @@ class Overshield_LV1 : Inventory
 		let hplr = HaloPlayer(toucher);
 		if(!hplr) return false;
 		
-		if(hplr.shields < (hplr.maxshields + shieldbuff))
+		if(hplr.shields < (hplr.maxshields * shieldbuff))
 		{
-			hplr.shields = hplr.maxshields + shieldbuff;
+			hplr.shields = hplr.maxshields * shieldbuff;
 			bool localview = toucher.CheckLocalView();
 			PrintPickupMessage(localview, PickupMessage());
 			PlayPickupSound(toucher);
@@ -115,7 +115,7 @@ class Overshield_LV2 : Overshield_LV1
 {
 	Default
 	{
-		Overshield_LV1.ShieldBoost 100;
+		Overshield_LV1.ShieldBoost 3.0;
 		Inventory.PickupSound "Halo/Powerup/Shield2";
 		Inventory.PickupMessage "Picked up an Overshield (LV2)";
 	}

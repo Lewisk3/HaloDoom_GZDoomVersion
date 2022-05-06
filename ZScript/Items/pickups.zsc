@@ -1,8 +1,85 @@
-class HaloHealthBonus : HealthBonus replaces HealthBonus
+class HaloMedicalItem : Inventory
+{
+	double healperc;
+	bool overHeal;
+	Property HealPercent : healperc, overHeal;
+
+	Default
+	{
+		+BRIGHT;
+		HaloMedicalItem.HealPercent 100, false;
+	}
+	
+	override bool TryPickup(in out Actor toucher)
+	{
+		let hplr = HaloPlayer(toucher);
+		if(!hplr) return false;
+		
+		if(hplr)
+		{
+			double maxHP = hplr.GetMaxHealth();
+			double healTo = maxHP * (0.01*healperc);
+			if(hplr.health >= maxHP && !overHeal) 
+				return false;
+			
+			hplr.GiveBody(healTo, overHeal ? 200 : 0);
+			bool localview = toucher.CheckLocalView();
+			PrintPickupMessage(localview, PickupMessage());
+			PlayPickupSound(toucher);
+			GoAwayAndDie();
+			return true;
+		}
+		return false;
+	}
+}
+class HaloShieldCharge : Inventory
+{
+	double shieldperc;
+	bool overshield;
+	Property ShieldBoost : shieldperc, overshield;
+
+	Default
+	{
+		+FLOATBOB;
+		+NOGRAVITY;
+		+BRIGHT;
+		Scale 1.0;
+		Height 8;
+		Radius 8;
+		HaloShieldCharge.ShieldBoost 100, false;
+	}
+	
+	override bool TryPickup(in out Actor toucher)
+	{
+		let hplr = HaloPlayer(toucher);
+		if(!hplr) return false;
+		
+		double maxShields = hplr.maxshields;
+		double chargeTo = maxShields * (0.01*shieldperc);
+		if( hplr.shields < hplr.maxshields || overshield )
+		{
+			if(hplr.shields + chargeTo < maxShields*3.0)
+				hplr.shields += chargeTo;
+				
+			bool localview = toucher.CheckLocalView();
+			PrintPickupMessage(localview, PickupMessage());
+			PlayPickupSound(toucher);
+			toucher.A_StopSound(CHAN_6); // Stop shield warning audio.
+			GoAwayAndDie();
+			return true;
+		}
+		return false;
+	}
+}
+
+// Health items
+class HaloHealthBonus : HaloMedicalItem replaces HealthBonus
 {
 	Default
 	{
+		HaloMedicalItem.HealPercent 12.5, true;
 		Inventory.PickupSound "Halo/Pickup/HealthBonus";
+		Inventory.PickupMessage "Applied some biofoam.";
 	}
 
 	States
@@ -12,11 +89,14 @@ class HaloHealthBonus : HealthBonus replaces HealthBonus
 		stop;
 	}
 }
-class HaloMedikit : Medikit replaces Medikit
+
+class HaloMedikit : HaloMedicalItem replaces Medikit
 {	
 	Default
 	{
+		HaloMedicalItem.HealPercent 100, false;
 		Inventory.PickupSound "Halo/Pickup/Medikit";
+		Inventory.PickupMessage "Applied a medkit.";
 	}
 	
 	States
@@ -26,11 +106,13 @@ class HaloMedikit : Medikit replaces Medikit
 		stop;
 	}
 }
-class HaloStimPack : StimPack replaces StimPack
+class HaloStimPack : HaloMedicalItem replaces StimPack
 {
 	Default
 	{
+		HaloMedicalItem.HealPercent 37.5, false;
 		Inventory.PickupSound "Halo/Pickup/Stimpack";
+		Inventory.PickupMessage "Used a stim pack.";
 	}
 	
 	States
@@ -41,14 +123,22 @@ class HaloStimPack : StimPack replaces StimPack
 	}
 }
 
-// Nullify armor bonuses
-class HaloArmorBonus : ArmorBonus replaces ArmorBonus
+// Shield item(s)
+class HaloArmorBonus : HaloShieldCharge replaces ArmorBonus
 {
+	Default
+	{	
+		Scale 0.5;
+		HaloShieldCharge.ShieldBoost 12.5, true;
+		Inventory.PickupSound "Halo/Pickup/ShieldCharge";
+		Inventory.PickupMessage "Picked up a Shield Charge";
+	}
+	
 	States
 	{
 		Spawn:
-			TNT1 A 1;
-		stop;
+			SHLC ABCDEFGH 2;
+		loop;
 	}
 }
 

@@ -20,6 +20,7 @@ Halo/AmmoCrate/Beacon "Sounds/Ammo/AmmoCrate_Beacon.ogg"
 Halo/Pickup/HealthBonus "Sounds/HealthItems/HealthBonus.ogg"
 Halo/Pickup/Stimpack "Sounds/HealthItems/Stim.ogg"
 Halo/Pickup/Medikit "Sounds/HealthItems/Medikit.ogg"
+Halo/Pickup/ShieldCharge "Sounds/HealthItems/SHLD_CHRG.ogg"
 
 // Vehicles
 
