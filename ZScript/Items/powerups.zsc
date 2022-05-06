@@ -72,6 +72,7 @@ class HaloPower_Haste : PowerupGiver replaces SoulSphere
 		
 		Powerup.Duration -30;
 		Powerup.Type "PowerHaloSpeedBoost";
+		Inventory.PickupMessage "HASTE!";
 		+INVENTORY.AUTOACTIVATE;
 	}
 	
@@ -164,8 +165,9 @@ class HaloPower_Strength : HaloPower_Haste replaces Megasphere
 	{
 		Scale 0.1;
 		
-		Powerup.Duration -30;
+		Powerup.Duration -60;
 		Powerup.Type "PowerHaloDamageBoost";
+		Inventory.PickupMessage "QUAD DAMAGE!";
 		+INVENTORY.AUTOACTIVATE;
 	}
 	
@@ -199,3 +201,39 @@ class HaloPower_Strength : HaloPower_Haste replaces Megasphere
 		stop;
 	}
 }
+
+class HaloPower_ActiveCamo : HaloPower_Haste replaces BlurSphere
+{
+	Default
+	{
+		+BRIGHT;
+		Scale 0.05;
+		Alpha 0.8;
+		RenderStyle "Add";
+		Powerup.Duration -60;
+		Powerup.Type "PowerHaloActiveCamo";
+		
+		Inventory.PickupMessage "Active Camouflage!";
+		+INVENTORY.AUTOACTIVATE;
+	}
+	
+	override void OnPickup(Actor other)
+	{
+		other.GiveBody(200,200);
+	}
+	
+	override void VisualFX()
+	{
+		bobz = sin(level.maptime*4) * 5;
+		alpha = (sin(level.maptime*10) + 1) * 0.5;
+		SetOrigin((pos.xy, spawnPos.z + 16 + bobz), true);
+		HaloPowerup.DoParticles(self, pcol:"Blue", amt: 5, zoffset:0);	
+	}
+	
+	States
+	{
+		Spawn:
+			PWAC A -1;
+		stop;
+	}
+} 

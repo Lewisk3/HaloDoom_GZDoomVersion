@@ -257,11 +257,10 @@ class Halo_LightRifle : HaloGun
 				if(A_CheckInScope()) 
 					A_SetSightGraphic("LITRADS3");
 					
-				A_SetRecoil(1.5, 0, 2);
 				A_SetZoom(0.85, 1);
 				A_RollQuake(1,10,2, true);
 			}
-			TNT1 A 1;
+			TNT1 A 1 A_SetRecoil(2.25, 0, 2);
 			TNT1 A 1
 			{
 				A_SetZoom(1.0, 8);
