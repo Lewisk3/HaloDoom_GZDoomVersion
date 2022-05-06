@@ -181,7 +181,7 @@ class Halo_Unmaker : HaloGun
 		HaloGun.BloomSpeed 0.08;
 		HaloGun.BaseRecoil UNMAKER_RECOIL;
 		HaloGun.Inaccuracy UNMAKER_ACCMOD;
-		HaloGun.Crosshair "SNPRet", 1.0;
+		HaloGun.Crosshair "UMRet", 1.0;
 		HaloGun.UIGraphic "MISSNG", 1.0;
 		
 		RecoilWeapon.YOffsetRange -10, 100;
