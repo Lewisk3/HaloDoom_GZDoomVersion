@@ -44,7 +44,7 @@ class HaloMagnum_Bullet : HaloBullet
 		HaloProjectile.BaseDamage MAGNUM_DMG;
 		HaloProjectile.Speed_MPS MAGNUM_BMPS;
 		HaloProjectile.HeadshotDMGFactor MAGNUM_HEDMOD;
-		HaloProjectile.ShieldDamageFactors 0.35, 0.5;
+		HaloProjectile.ShieldDamageFactors 1.0, 1.0;
 		HaloProjectile.RipperCount 2;
 		
 		Scale 2.0;

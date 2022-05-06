@@ -45,7 +45,7 @@ class LSR_BinaryRifle : LSR_UnmakerBeam
 			puff.pitch = -(pitch-90);
 		}
 		
-		if(hitActor) hitActor.DamageMobJ(self, source, hitDmg, "Plasma");
+		if(hitActor) hitActor.DamageMobJ(self, source, hitDmg, "Fire");
 	}
 }
 class LSR_BinaryRifleCore : LSR_BinaryRifle

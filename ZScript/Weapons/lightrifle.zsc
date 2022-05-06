@@ -118,7 +118,7 @@ class Halo_LightRifle : HaloGun
 		let it = ThinkerIterator.Create();
 		Actor act;
 		LookExParams look;
-		look.FOV = 90;
+		look.FOV = 30;
 		
 		double closeDist;
 		Actor closestActor;

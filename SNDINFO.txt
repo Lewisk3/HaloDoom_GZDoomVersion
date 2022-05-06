@@ -101,7 +101,7 @@ $random Halo/Wraith/MortarFlight { Halo/Wraith/MortarFlight1 Halo/Wraith/MortarF
 // Items
 Halo/Powerup/Camo    "Sounds/Items/power_camo.ogg"
 Halo/Powerup/Damage  "Sounds/Items/power_damage.ogg"
-Halo/Powerup/Time    "Sounds/Items/power_time.ogg"
+Halo/Powerup/Speed   "Sounds/Items/power_time.ogg"
 Halo/Powerup/Shield1 "Sounds/Items/power_shield1.ogg"
 Halo/Powerup/Shield2 "Sounds/Items/power_shield2.ogg"
 
