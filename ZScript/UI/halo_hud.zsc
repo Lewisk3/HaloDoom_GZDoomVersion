@@ -84,8 +84,9 @@ class FadingImage : Object
 	
 	double Process(double dT, bool doFadeout)
 	{
-		fade += ((fadingOut && doFadeout) ? -0.1 : 0.1) * dT;
-		fade = clamp(fade, 0, 1.0);
+		if(!doFadeout && fadingOut) return fade;
+
+		fade += (fadingOut ? -fadeSpeed : fadeSpeed) * dT;
 		if(fade >= 1.0 && !fadingOut) fadingOut = true;
 		if(fade <= 0 && fadingOut) 
 		{
@@ -306,8 +307,8 @@ class HaloStatusBar : BaseStatusBar
 			
 			string overlay = haloplr.overlay_img;
 			if(overlay && !curFXOverlay) 
-				curFXOverlay = FadingImage.Create(overlay, 0.15);
-			else if(overlay && overlay != curFXOverlay.img)
+				curFXOverlay = FadingImage.Create(overlay, 0.1);
+			else if(overlay != "" && overlay != curFXOverlay.img)
 				curFXOverlay.img = overlay;
 			
 			if(curFXOverlay)
@@ -317,7 +318,7 @@ class HaloStatusBar : BaseStatusBar
 				
 				// Adjust scale for fullscreen.
 				vector2 toRes = (1920., 1080.);
-				let tex = TexMan.CheckForTexture(overlay);
+				let tex = TexMan.CheckForTexture(img);
 				let texsize = TexMan.GetScaledSize(tex);
 				
 				vector2 scaleMod = (
