@@ -439,8 +439,11 @@ class HaloStatusBar : BaseStatusBar
 
 			if(charge_perc > 0)
 			{
+				Color tint = 0;
+				if(charge_perc < 0.4) tint = Color(128, 255,8,8);
+			
 				HLSBS.SetClipRect(1587, 150, 230 * charge_perc, 20);
-				HLSBS.DrawImage("WI_BTRY", ampos+(60,0), 0, 0.8, (2,1.5));
+				HLSBS.DrawImage("WI_BTRY", ampos+(60,0), 0, 0.8, (2,1.5), tint:tint);
 				HLSBS.ClearClipRect();
 			}
 			
@@ -461,7 +464,12 @@ class HaloStatusBar : BaseStatusBar
 			for(int i = 0; i < clip_ammo; i++)
 			{
 				double ammo_diff = clip_ammo-cur_ammo;
-				if(ammo_diff <= i) HLSBS.DrawImage("WI_AMMO", ampos+amoffs, 0, 0.8, (1,1));
+				
+				Color tint = 0;
+				if( (cur_ammo / clip_ammo) <= 0.4) 
+					tint = Color(128, 255,8,8);
+				
+				if(ammo_diff <= i) HLSBS.DrawImage("WI_AMMO", ampos+amoffs, 0, 0.8, (1,1), tint:tint);
 				amoffs.x += AMMOG_SIZE;
 				if(amoffs.x >= AMMOG_SIZE*AMMO_MAX) 
 				{
@@ -483,17 +491,24 @@ class HaloStatusBar : BaseStatusBar
 			let nade = FragGrenades(GetDefaultByType(grenadeTypes[i]));
 			String graphic = String.Format("Graphics/UI/%s", nade.hudIcon);
 			String borderGraphic = "border_inactive.png";
+			int nadeAmt = haloplr.countinv(nade.GetClass());
+			Color tint = 0; Color borderTint = 0;
+			if(!nadeAmt) 
+			{
+				tint = Color(128, 255,8,8);
+				borderTint = Color(64, 255,0,0);
+			}
 			
 			// Check if grenade is valid and selected.
 			if( curNade && curNade.getClass() == nade.GetClass() && curNade.amount > 0	)
 				borderGraphic = "border_active.png";
 			
 			// Border
-			HLSBS.DrawImage("Graphics/UI/Grenades/" .. borderGraphic, nadePos + (24,0), scale:(2.0,1.0));
-			
+			HLSBS.DrawImage("Graphics/UI/Grenades/" .. borderGraphic, nadePos + (24,0), scale:(2.0,1.0), tint:borderTint);
+
 			// Icon
-			HLSBS.DrawImage(graphic, nadepos, scale:nadescale);
-			HLSBS.DrawString(fntHaloAmmo, haloplr.countinv(nade.GetClass()).."", nadepos+(32,0), scale:(0.18,0.15) * 0.75);
+			HLSBS.DrawImage(graphic, nadepos, scale:nadescale, tint:tint);
+			HLSBS.DrawString(fntHaloAmmo, String.Format("%d", nadeAmt), nadepos+(32,0), scale:(0.18,0.15) * 0.75, tint:tint);
 			
 			nadepos.x += 160;
 		}
