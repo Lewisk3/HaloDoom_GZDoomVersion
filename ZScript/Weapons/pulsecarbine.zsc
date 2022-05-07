@@ -55,7 +55,6 @@ class HaloPulseCarbine_Proj : HaloPlasma_Proj
 
 class Halo_PulseCarbine : HaloGun
 {
-	double heat;
 	int shotCount;
 
 	Default

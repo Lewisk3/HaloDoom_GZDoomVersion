@@ -40,7 +40,6 @@ class HaloPlasmaRifle_Proj : HaloPlasma_Proj
 class Halo_PlasmaRifle : HaloGun
 {
 	const LCD = 22;
-	double heat;
 	double firespeed;
 	double lcd_offspd;
 	vector2 lcd_offs, lcd_offs_real;

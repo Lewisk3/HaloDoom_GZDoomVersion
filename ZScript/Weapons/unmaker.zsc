@@ -403,6 +403,8 @@ class Halo_Unmaker : HaloGun
 			WKI1 A 1 
 			{
 				A_HaloWeaponReady(usescope:false);
+				invoker.wcrosshair = invoker.default.wcrosshair;
+				invoker.wcrosshairScale = invoker.default.wcrosshairScale;
 			}
 		loop;
 		
@@ -445,9 +447,17 @@ class Halo_Unmaker : HaloGun
 		
 		AltFire:
 			TNT1 A 0 A_JumpIf(countinv(invoker.AmmoType1) < 10, "Ready.DryFire");
+			TNT1 A 0 
+			{
+				invoker.wcrosshair = "MarRet";
+				invoker.wcrosshairScale = 0.2;
+			}
 			WKC1 ABCDEFGH 2 A_RecoilOffset(frandom(-5,5),frandom(-5,5),2);
-			TNT1 A 0 A_StartSound("Halo/Weapons/Unmaker/Charge", CHAN_BODY, flags:CHANF_LOOPING);
-			TNT1 A 0 A_RollQuake(1, 10, 1); // Reset rollquake.
+			TNT1 A 0 
+			{
+				A_StartSound("Halo/Weapons/Unmaker/Charge", CHAN_BODY, flags:CHANF_LOOPING);
+				A_RollQuake(1, 10, 1); // Reset rollquake.
+			}
 		AltHold:
 			WKC1 IIJJKKJJII 1
 			{

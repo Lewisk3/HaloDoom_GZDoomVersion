@@ -171,7 +171,6 @@ class Halo_PlasmaPistol : HaloGun
 {
 	const LCD = 22;
 	double charge;
-	double heat;
 	double holdtimer;
 	double lcd_offspd;
 	vector2 lcd_offs, lcd_offs_real;

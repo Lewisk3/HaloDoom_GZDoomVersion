@@ -84,7 +84,6 @@ class LSR_BeamRifleCore : LSR_BeamRifle
 
 class Halo_BeamRifle : HaloGun
 {
-	double heat;
 	double lsrTics;
 	LSR_BeamRifle lsrbeam, lsrbeamCore;
 	

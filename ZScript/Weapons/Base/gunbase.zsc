@@ -60,6 +60,7 @@ class HaloGun : RecoilWeapon
 	bool GunLightningFlash;
 	
 	int battery_drain;
+	double heat;
 	
 	uint sightFlags;
 	flagdef SI_Fullscreen : sightFlags, 0;

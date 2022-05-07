@@ -443,6 +443,14 @@ class HaloStatusBar : BaseStatusBar
 				HLSBS.DrawImage("WI_BTRY", ampos+(60,0), 0, 0.8, (2,1.5));
 				HLSBS.ClearClipRect();
 			}
+			
+			// Heat gauge
+			if(halo_curweap.heat > 0.05)
+			{
+				int curHeat = min(9, (halo_curweap.heat*1.10) * 9);
+				string heatbars = String.Format("Graphics/UI/Heatbar/HB%d.png", curHeat);
+				HLSBS.DrawImage(heatbars, ampos + (10,24), scale:(1.5,1.5));
+			}
 		}
 		else if(curweap.AmmoType2 && curweap.AmmoType2 != curweap.AmmoType1)
 		{
@@ -610,7 +618,6 @@ class HaloStatusBar : BaseStatusBar
 				scale:(0.65,0.65)
 			);
 		}
-		
 	}
 
 	vector2 ScaleRel(double xs, double ys)
