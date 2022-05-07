@@ -181,7 +181,7 @@ class Halo_Unmaker : HaloGun
 		HaloGun.BloomSpeed 0.40;
 		HaloGun.BaseRecoil UNMAKER_RECOIL;
 		HaloGun.Inaccuracy UNMAKER_ACCMOD;
-		HaloGun.Crosshair "UMRet", 0.5;
+		HaloGun.Crosshair "MarRet", 0.2;
 		HaloGun.UIGraphic "MISSNG", 1.0;
 		
 		RecoilWeapon.YOffsetRange -10, 100;
@@ -449,8 +449,9 @@ class Halo_Unmaker : HaloGun
 			TNT1 A 0 A_JumpIf(countinv(invoker.AmmoType1) < 10, "Ready.DryFire");
 			TNT1 A 0 
 			{
-				invoker.wcrosshair = "MarRet";
-				invoker.wcrosshairScale = 0.2;
+				invoker.wcrosshair = "UMRet";
+				invoker.wcrosshairScale = 0.5;
+				A_StartSound("Halo/Weapons/Unmaker/Charge/Start", CHAN_WEAPON, CHANF_OVERLAP);
 			}
 			WKC1 ABCDEFGH 2 A_RecoilOffset(frandom(-5,5),frandom(-5,5),2);
 			TNT1 A 0 

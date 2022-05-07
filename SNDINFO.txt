@@ -605,6 +605,7 @@ Unmaker_BFGExplode1 "Sounds/Unmaker/BFG_XPL1.ogg"
 Unmaker_BFGExplode2 "Sounds/Unmaker/BFG_XPL2.ogg"
 Unmaker_BFGExplode3 "Sounds/Unmaker/BFG_XPL3.ogg"
 
+Halo/Weapons/Unmaker/Charge/Start "Sounds/Unmaker/BFG_Charge_Start.ogg";
 Halo/Weapons/Unmaker/Charge "Sounds/Unmaker/Unmaker_Charge.ogg";
 Halo/Weapons/Unmaker/Draw "Sounds/Unmaker/Unmaker_Draw.ogg"
 Halo/Weapons/Unmaker/BFG/Travel "Sounds/Unmaker/BFG_TRVL_Loop.ogg"
