@@ -10,6 +10,15 @@ class HaloMedicalItem : Inventory
 		HaloMedicalItem.HealPercent 100, false;
 	}
 	
+	static const double skillMod[] =
+	{
+		1.0, // Easy
+		0.8, // Normal
+		0.5, // Heroic
+		0.3, // Legendary
+		0.1  // Mythic
+	};
+	
 	override bool TryPickup(in out Actor toucher)
 	{
 		let hplr = HaloPlayer(toucher);
@@ -17,6 +26,7 @@ class HaloMedicalItem : Inventory
 		
 		if(hplr)
 		{
+			healperc *= skillMod[min(4, skill)];
 			double maxHP = hplr.GetMaxHealth();
 			double healTo = maxHP * (0.01*healperc);
 			if(hplr.health >= maxHP && !overHeal) 
@@ -49,11 +59,21 @@ class HaloShieldCharge : Inventory
 		HaloShieldCharge.ShieldBoost 100, false;
 	}
 	
+	static const double skillMod[] =
+	{
+		1.0, // Easy
+		0.8, // Normal
+		0.5, // Heroic
+		0.3, // Legendary
+		0.1  // Mythic
+	};
+	
 	override bool TryPickup(in out Actor toucher)
 	{
 		let hplr = HaloPlayer(toucher);
 		if(!hplr) return false;
 		
+		shieldperc *= skillMod[min(4, skill)];
 		double maxShields = hplr.maxshields;
 		double chargeTo = maxShields * (0.01*shieldperc);
 		if( hplr.shields < hplr.maxshields || overshield )
@@ -77,7 +97,7 @@ class HaloHealthBonus : HaloMedicalItem replaces HealthBonus
 {
 	Default
 	{
-		HaloMedicalItem.HealPercent 12.5, true;
+		HaloMedicalItem.HealPercent 6.25, true; // 12.5
 		Inventory.PickupSound "Halo/Pickup/HealthBonus";
 		Inventory.PickupMessage "Applied some biofoam.";
 	}
