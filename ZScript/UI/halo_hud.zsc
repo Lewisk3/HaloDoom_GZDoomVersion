@@ -303,17 +303,58 @@ class HaloStatusBar : BaseStatusBar
 			DrawMessages();
 			
 			// Weapon Description
+			let haloweap = HaloGun(haloplr.player.ReadyWeapon);
 			if(haloplr.drawWeaponInfo && !weaponInfoBox)
 			{
 				weaponInfoBox = FadingImage.Create("Graphics/UI/LoreTab/LoreTab.png", 0.1);
 			}
-			if(weaponInfoBox) 
+			if(weaponInfoBox && haloweap) 
 			{
 				string img = weaponInfoBox.img;
 				double curAlpha = weaponInfoBox.Process(deltaTime, !haloplr.drawWeaponInfo);
 				
+				// Draw Weapon stats and lore.
+				Font infoFont = "HaloFont.fon2";
+				Array<String> stats;
+				string lore;
+				haloweap.GetStatsLore(stats, lore);
+				
 				uint flags = HLSBS.SS_SCREEN_CENTER | HLSBS.SS_COORDS_TEXGRID | HLSBS.SS_NOASPECTCORRECTION;
 				HLSBS.DrawImage(img, (0.5,0.5), flags, curAlpha - 0.15, scale:(0.5,0.5));
+				
+				State wspawn = haloweap.FindState("Spawn");
+				TextureID tex;
+				tex = wspawn.GetSpriteTexture(0);
+				string icon = TexMan.GetName(tex);
+				vector2 scaleTo = HaloMath.GetImageScaleToRes(icon, (300,128), false);
+				
+				HLSBS.DrawImage(icon, (1300,440), alpha:curAlpha, scale:scaleTo);
+				
+				HLSBS.DrawString(
+					infoFont, haloweap.GetTag(), (760,240), 
+					flags:HLSBS.SS_TEXT_CENTER, 
+					alpha:curAlpha, scale:(0.15,0.15)
+				);
+				double strY = 0;
+				for(int i = 0; i < stats.Size(); i++)
+				{
+					HLSBS.DrawString(
+						infoFont, stats[i], (600,280+strY),  
+						alpha:curAlpha, scale:(0.10,0.10)
+					);
+					strY += 20;
+				}
+				
+				lore = HaloMath.formatStringLnBreaks(lore, 80);
+				HLSBS.DrawString(
+					infoFont, lore, (600,400),  
+					alpha:curAlpha, scale:(0.12,0.12),
+					linespacing:90
+				);
+			} 
+			else if(weaponInfoBox)
+			{
+				weaponInfoBox.Destroy();
 			}
 			
 			// Keys and Objectives
@@ -376,7 +417,7 @@ class HaloStatusBar : BaseStatusBar
 	}
 	
 	// 24 ammo per line.
-	const AMMO_MAX = 16.;
+	const AMMO_MAX = 14.;
 	const AMMOG_SIZE = 10. * 1.25;
 	void DrawWeaponsAmmo()
 	{
@@ -476,24 +517,30 @@ class HaloStatusBar : BaseStatusBar
 		}
 		else if(curweap.AmmoType2 && curweap.AmmoType2 != curweap.AmmoType1)
 		{
+			// Draw projectile ammunition 
+			
 			double cur_ammo  = haloplr.countinv(curweap.AmmoType2);
 			double clip_ammo = GetDefaultByType(curweap.AmmoType2).MaxAmount;
-			int ymax = ceil(cur_ammo/AMMO_MAX);
+			int ymax = ceil(clip_ammo/AMMO_MAX);
 			vector2 amoffs;
-			for(int i = 0; i < clip_ammo; i++)
+	
+			Color tint = 0;
+			if( (cur_ammo / clip_ammo) <= 0.4) 
+				tint = Color(128, 255,8,8);
+			
+			for(int i = 0; i < cur_ammo; i++)
 			{
-				double ammo_diff = clip_ammo-cur_ammo;
+				HLSBS.DrawImage(
+					"WI_AMMO", 
+					ampos + ( amoffs * (AMMOG_SIZE*1.25) ) + (115,-25), 
+					0, 0.8, (1.25,1.25), tint:tint
+				);
 				
-				Color tint = 0;
-				if( (cur_ammo / clip_ammo) <= 0.4) 
-					tint = Color(128, 255,8,8);
-				
-				if(ammo_diff <= i) HLSBS.DrawImage("WI_AMMO", ampos+amoffs + (-65,-25), 0, 0.8, (1.25,1.25), tint:tint);
-				amoffs.x += AMMOG_SIZE;
-				if(amoffs.x >= AMMOG_SIZE*AMMO_MAX) 
+				amoffs.y++;
+				if(amoffs.y >= ymax) 
 				{
-					amoffs.y += AMMOG_SIZE*1.25;
-					amoffs.x = 0;
+					amoffs.y = 0;
+					amoffs.x--;
 				}
 			}
 		}
@@ -1195,4 +1242,24 @@ HLSBS.DrawBar("sh_barR",shbg.."R",curshields,haloplr.maxshields,shieldpos, 0,0, 
 shieldpos += (126, 42);
 HLSBS.DrawImage(shou.."R",shieldpos,scale:(1.0,1.3));
 HLSBS.DrawImage(shou.."L",shieldpos-(251,0),scale:(1.0,1.3));
+*/
+
+
+/* Old ammo drawing
+for(int i = 0; i < clip_ammo; i++)
+{
+	double ammo_diff = clip_ammo-cur_ammo;
+	
+	Color tint = 0;
+	if( (cur_ammo / clip_ammo) <= 0.4) 
+		tint = Color(128, 255,8,8);
+	
+	if(ammo_diff <= i) HLSBS.DrawImage("WI_AMMO", ampos+amoffs + (-65,-25), 0, 0.8, (1.25,1.25), tint:tint);
+	amoffs.x += AMMOG_SIZE;
+	if(amoffs.x >= AMMOG_SIZE*AMMO_MAX) 
+	{
+		amoffs.y += AMMOG_SIZE*1.25;
+		amoffs.x = 0;
+	}
+}
 */

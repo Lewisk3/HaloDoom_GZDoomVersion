@@ -138,6 +138,13 @@ class HaloGun : RecoilWeapon
 			A_FinishMelee();
 		}
 	}
+	
+	clearscope virtual void GetStatsLore(out Array<String> stats, out string lore)
+	{
+		stats.Push("Unknown weapon variant.");
+		stats.Push("Stats: Unknown.");
+		lore = "Error 404: Description not found.";
+	}
 
 	// Game Type functions.
 	clearscope static uint getGameTypeFlags(class<HaloGun> weap)

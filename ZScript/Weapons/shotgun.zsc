@@ -70,6 +70,26 @@ class Halo_Shotgun : HaloGun
 		HaloGun.UIGraphic "WI_SG", 1.0, 1.0;
 	}
 	
+	override void GetStatsLore(out Array<String> stats, out string lore)
+	{
+		stats.Push("M35 8-Gauge Pump Action Tactical Shotgun");
+		stats.Push("Ammo Type: 8-Gauge Western Judge Type #14-C");
+		stats.Push("Frame: Top Loading Pump Action");
+		stats.Push("Feed System: 8 Shell Integrated Magazine");	
+		stats.Push(String.Format("Base Damage: %d", SHOTGUN_DMG*15));
+		
+		lore = (
+			"The M35 8-Gauge Pump Action Tactical Shotgun was the predecessor "
+			"of the M45 Tactical Shotgun. It has a long service record from "
+			"before the human covenant war. It's rugged, reliable, and a master "
+			"at close quarters combat. Sporting the powerful Misriah Armory Western "
+			"Judge 8-Gauge Type #14-C Buckshot Shell, it was a force to be "
+			"reckoned with to anyone facing down its barrel, and even when "
+			"the Human Covenant War began, it still gave the Covenant a "
+			"run for its money."
+		);
+	}
+	
 	override void MarkPrecacheSounds()
 	{
 		// Prevent stutters by precaching weapon sounds.

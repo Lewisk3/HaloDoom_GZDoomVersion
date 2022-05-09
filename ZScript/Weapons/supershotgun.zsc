@@ -87,6 +87,40 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 		RecoilWeapon.YOffsetRange -10, 40;
 	}
 	
+	override void GetStatsLore(out Array<String> stats, out string lore)
+	{
+		stats.Push("M180-Double Barreled Assault Weapon System");
+		stats.Push("Ammo Type: Misriah Armory 4-Gauge Type");
+		stats.Push("Frame: Side by Side Breach Loader");
+		stats.Push("Feed System: 2 Round Break Action Barrel");	
+		stats.Push(String.Format("Base Damage: %d", DBLSHOTGUN_DMG*30));
+		
+		lore = (
+			"The M180-Double Barreled Assault Weapon System is a Double "
+			"Barreled Shotgun exclusively designed for use by Spartans, "
+			"and thus, is a rare sight on the battlefield. Marines often "
+			"gave this Shotgun the nickname of the \“Lead Brick Wall\” due "
+			"to the sheer amount of buckshot it can produce per shot if "
+			"using both barrels at once. Alternatively, The M180’s barrels can "
+			"be fired individually for the sake of ammo conservation. "
+			"The M180 has been shown to blow elites to literal pieces due to "
+			"the immense amount of force that is exerted.\n\n"
+			
+			"While its very powerful, the M180 is very inaccurate due to "
+			"its short barrel length, and by extension the recoil is very "
+			"intense, making it dangerous and unusable for normal Marines, "
+			"but perfect for Spartans, who can get in close and get out of "
+			"harms way just as quickly."
+		);
+		/*
+			"The M180, much like its more contemporary cousin, can fire "
+			"4-gauge shells, and sports 2 LED lit iron sights. Not only do "
+			"they serve as such, but can also change coloration depending "
+			"on which barrel has been fired. Blue indicating loaded and ready "
+			"to fire, and Red indicating that a reload is needed.\n\n"
+		*/
+	}
+	
 	action void A_FireDouble()
 	{
 		A_Light(4);

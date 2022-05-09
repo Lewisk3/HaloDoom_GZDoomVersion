@@ -80,6 +80,28 @@ class Halo_BattleRifle : HaloGun
 		RecoilWeapon.YOffsetRange -10, 40;
 	}
 	
+	override void GetStatsLore(out Array<String> stats, out string lore)
+	{
+		stats.Push("BR45 Heavy Barrel Service Rifle");
+		stats.Push("Ammo Type: Misriah Armory 7.92×57mm");
+		stats.Push("Frame: Bullpup");
+		stats.Push("Feed System: 36 Round Mag");	
+		stats.Push(String.Format("Base Damage: %d", BARIFLE_DMG));
+		
+		lore = (
+			"The BR45 Battle Rifle was the prime of the BR4 series, the first "
+			"installment of the BR line of service rifles designed by Misriah "
+			"Armories when they were commissioned by the UNSC. While mainly "
+			"used by the army and navy, other branches complained about it "
+			"being over engineered with intense recoil and inconsistent "
+			"accuracy. Later models of the BR45 replaced the barrel with one "
+			"that was longer and heavier and featured a faster cyclic rate in "
+			"the rifling for better accuracy. The BR4 series was eventually "
+			"replaced by its younger brother, "
+			"the BR5 series around 2525. "
+		);
+	}
+	
 	override void MarkPrecacheSounds()
 	{
 		// Prevent stutters by precaching weapon sounds.

@@ -731,6 +731,42 @@ class HaloMath Abstract
 		}
 	}
 	
+	static vector2 GetImageScaleToRes(string img, vector2 toRes, bool keepAspect = true)
+	{
+		let tex = TexMan.CheckForTexture(img);
+		vector2 size;
+		[size.x, size.y] = TexMan.GetSize(tex);
+
+		double def_aspect = toRes.x / toRes.y;
+		double aspect = 1.0;
+		
+		vector2 scaleto = (
+			toRes.x / size.x,
+			toRes.y / size.y
+		);
+		
+		if(keepAspect) aspect = (size.x / size.y) / (def_aspect);
+		size.x = scaleto.x * aspect;
+		size.y = scaleto.y;
+
+		return size;
+	}
+	
+	static double getMinimumImgScaleDown(string img, vector2 toRes)
+	{
+		let tex = TexMan.CheckForTexture(img);
+		vector2 size;
+		[size.x, size.y] = TexMan.GetSize(tex);
+		double aspect = (size.x / size.y);
+		
+		vector2 scaleto = (
+			toRes.x / size.x,
+			toRes.y / size.y
+		);
+		
+		return aspect > 1.0 ? scaleto.x : scaleto.y;
+	}
+	
 	static string GetGitBranch()
 	{
 		int lump = Wads.CheckNumForFullName("gitbranch.txt");

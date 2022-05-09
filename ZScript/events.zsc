@@ -174,7 +174,7 @@ class HaloDoom_Events : EventHandler
 		}
 		
 		// Extra keys
-		if(haloplr)
+		if(haloplr && haloplr.health > 0)
 		{			
 			if(e.Name ~== "+weaponInfo") haloplr.drawWeaponInfo = true;
 			if(e.Name ~== "-weaponInfo") haloplr.drawWeaponInfo = false;

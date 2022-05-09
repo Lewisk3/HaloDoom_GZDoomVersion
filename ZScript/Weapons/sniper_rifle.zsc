@@ -86,7 +86,26 @@ class Halo_SniperRifle : HaloGun
 		
 		RecoilWeapon.YOffsetRange -10, 40;
 	}
-	
+		
+	override void GetStatsLore(out Array<String> stats, out string lore)
+	{
+		stats.Push("SRS99-Bolt-Action Anti-Materiel Sniper Rifle");
+		stats.Push("Ammo Type: 20mm Experimental PELE Rounds");
+		stats.Push("Frame: Bolt Action Front Loader");
+		stats.Push("Feed System: 4 Round Detachable Box Magazine");	
+		stats.Push(String.Format("Base Damage: %d", SNIPER_DMG));
+		
+		lore = (
+			"The SRS99-Bolt-Action Anti-Matériel Sniper Rifle is a bolt-action "
+			"Variant of the SRS99 Series of Sniper Rifles by Misriah Armories. "
+			"The SRS99-BAAM Sniper Rifle was eventually retired around January "
+			"12, 2552 as technological innovations made Semi-Auto variants of "
+			"the SRS99 Series cheaper to produce and way more accurate. "
+			"The ammunition was also downgraded to the now standard 14.5×114mm "
+			"rounds due to the 20mm PELE being way too costly and not yielding "
+			"the best results to justify said costs."
+		);
+	}
 		
 	override void MarkPrecacheSounds()
 	{

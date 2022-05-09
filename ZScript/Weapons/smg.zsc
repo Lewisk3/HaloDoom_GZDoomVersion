@@ -77,6 +77,33 @@ class Halo_SMG : HaloGun
 		
 		RecoilWeapon.YOffsetRange -10, 40;
 	}
+	
+	override void GetStatsLore(out Array<String> stats, out string lore)
+	{
+		stats.Push("M10 Personal Defense SubMachine Gun Carbine");
+		stats.Push("Ammo Type: .45 AMP M452 FMJ");
+		stats.Push("Frame: Side Loading Pistol Caliber Carbine");
+		stats.Push("Feed System: 45 Round Side Loading Magazine");	
+		stats.Push(String.Format("Base Damage: %d", SMG_DMG));
+		
+		lore = (
+			"The M10 Personal Defense SubMachine Gun is a natural evolution "
+			"of the M7 SMG which was a reliable weapon to the UNSC for years. "
+			"It never reached proper service due to development being halted "
+			"after the fall of reach. It sports a .45 AMP full metal jacket "
+			"armor piercing round, which while not as compact as the "
+			"5×23mm M443 Caseless FMJ rounds, provided plenty of stopping "
+			"power, and reliability. The cartridge is cased due to caseless "
+			"ammunition having a less than ideal shelf life, on top of being "
+			"expensive to store, and overall very fragile. \n\n"
+	
+			"Due to this ammo change, it is also not ideal to akimbo due to the "
+			"casings being ejected from the gun. But use of akimbo is not "
+			"necessary with this gun, as its performance and damage output "
+			"consistency is sufficient enough. No need to cripple ourselves "
+			"for the sake of looking cool. "
+		);
+	}
 
 	override void MarkPrecacheSounds()
 	{

@@ -86,6 +86,24 @@ class Halo_AssaultRifle : HaloGun
 		RecoilWeapon.YOffsetRange -10, 40;
 	}
 
+	override void GetStatsLore(out Array<String> stats, out string lore)
+	{
+		stats.Push("MA40B Individual Combat Weapon System");
+		stats.Push("Ammo Type: Misriah Armory 7.62x51mm");
+		stats.Push("Frame: Bullpup");
+		stats.Push("Feed System: 32 Round Mag");
+		stats.Push(String.Format("Base Damage: %d", ARIFLE_DMG));
+		
+		lore = (
+			"The MA4B is a variant of the MA40 proper. "
+			"Gas Operated and Air Cooled, with a 32 round magazine on a bullpup "
+			"frame based on the MA37. It’s the workhorse of the UNSC, and is "
+			"held in high regard by the Army Branch. Due to it being Air Cooled, "
+			"it is not usable in space due to the lack of atmosphere for the heat "
+			"to radiate, and thus is prone to overheating. "
+		);
+	}
+	
 	override void MarkPrecacheSounds()
 	{
 		// Prevent stutters by precaching weapon sounds.
