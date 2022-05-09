@@ -11,7 +11,7 @@ class LSR_LightRifleDMR : LSR_BinaryRifle
 {
 	Default
 	{
-		LSR_BinaryRifle.LaserDamage (LIGHTRIFLE_DMG * 4);
+		LSR_BinaryRifle.LaserDamage (LIGHTRIFLE_DMG * 5);
 	}
 }
 
@@ -106,7 +106,7 @@ class Halo_LightRifle : HaloGun
 		RecoilWeapon.YOffsetRange -10, 40;
 	}
 		
-	action void A_FireLightRifleBurst()
+	action void A_FireLightRifleBurst(int ammouse = 2)
 	{
 		A_Light(4);
 		A_WeapSound("Halo/Weapons/LightRifle/Fire", CHANF_OVERLAP, true);
@@ -147,7 +147,7 @@ class Halo_LightRifle : HaloGun
 		beam.setEnabled(true);
 		beamCore.setEnabled(true);
 					
-		A_TakeAmmo(2);
+		A_TakeAmmo(ammouse);
 		A_UpdateSpread();
 	}
 
@@ -219,7 +219,7 @@ class Halo_LightRifle : HaloGun
 			}
 			WPB1 D 2 
 			{
-				A_FireLightRifleBurst();
+				A_FireLightRifleBurst(1);
 				A_SetRecoil(0.3, 0, 4);
 				A_SetZoom(0.96, 2);
 			}

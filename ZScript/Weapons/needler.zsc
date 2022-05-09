@@ -62,7 +62,7 @@ class Halo_Needler : HaloGun
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_Needler_Reserves";
 		Weapon.AmmoType2 "Halo_Needler_Mag";
-		Weapon.AmmoGive 30;
+		Weapon.AmmoGive 40;
 		
 		HaloGun.Availability "HL1, HL2, HL3, HL4";
 		HaloGun.PowerTier P_NORM;

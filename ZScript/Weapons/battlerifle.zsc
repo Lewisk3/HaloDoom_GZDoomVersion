@@ -75,7 +75,7 @@ class Halo_BattleRifle : HaloGun
 		HaloGun.ZoomSounds "Halo/Weapons/Zoom/IN", "Halo/Weapons/Zoom/OUT";
 		
 		HaloGun.Availability "HL2, HL3, HL4";
-		HaloGun.PowerTier P_MID;
+		HaloGun.PowerTier P_NORMAL;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
 	}
