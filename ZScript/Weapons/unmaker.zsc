@@ -182,7 +182,7 @@ class Halo_Unmaker : HaloGun
 		HaloGun.BaseRecoil UNMAKER_RECOIL;
 		HaloGun.Inaccuracy UNMAKER_ACCMOD;
 		HaloGun.Crosshair "MarRet", 0.2;
-		HaloGun.UIGraphic "MISSNG", 1.0;
+		HaloGun.UIGraphic "MISSNG", 0.8, 0.7;
 		
 		RecoilWeapon.YOffsetRange -10, 100;
 	}

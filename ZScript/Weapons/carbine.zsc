@@ -100,7 +100,7 @@ class Halo_Carbine : HaloGun
 		HaloGun.Crosshair "CarbRet", 0.8;
 		HaloGun.UISight "SI_CARB", 1.0, 0.6;
 		HaloGun.SetupScope 2.0, 0.5;
-		HaloGun.UIGraphic "WI_CARB", 0.50;
+		HaloGun.UIGraphic "WI_CARB", 0.4, 0.4;
 		HaloGun.ZoomSounds "Halo/Weapons/Zoom/IN", "Halo/Weapons/Zoom/OUT";
 		
 		RecoilWeapon.YOffsetRange -5, 40;

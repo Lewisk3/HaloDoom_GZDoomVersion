@@ -104,6 +104,7 @@ class HaloStatusBar : BaseStatusBar
 	
 	HaloPlayer haloplr;
 	FadingImage curFXOverlay;
+	FadingImage weaponInfoBox;
 
 	// Delta-time logic.
 	double prevMS; 
@@ -301,6 +302,20 @@ class HaloStatusBar : BaseStatusBar
 			// Information
 			DrawMessages();
 			
+			// Weapon Description
+			if(haloplr.drawWeaponInfo && !weaponInfoBox)
+			{
+				weaponInfoBox = FadingImage.Create("Graphics/UI/LoreTab/LoreTab.png", 0.1);
+			}
+			if(weaponInfoBox) 
+			{
+				string img = weaponInfoBox.img;
+				double curAlpha = weaponInfoBox.Process(deltaTime, !haloplr.drawWeaponInfo);
+				
+				uint flags = HLSBS.SS_SCREEN_CENTER | HLSBS.SS_COORDS_TEXGRID | HLSBS.SS_NOASPECTCORRECTION;
+				HLSBS.DrawImage(img, (0.5,0.5), flags, curAlpha - 0.15, scale:(0.5,0.5));
+			}
+			
 			// Keys and Objectives
 			DrawKeys(CPlayer, 50, 10, 30,30);			
 			DrawObjectives();
@@ -362,7 +377,7 @@ class HaloStatusBar : BaseStatusBar
 	
 	// 24 ammo per line.
 	const AMMO_MAX = 16.;
-	const AMMOG_SIZE = 10.;
+	const AMMOG_SIZE = 10. * 1.25;
 	void DrawWeaponsAmmo()
 	{
 		Weapon curweap = haloplr.player.ReadyWeapon;
@@ -380,15 +395,18 @@ class HaloStatusBar : BaseStatusBar
 		String weap2_icon = "";
 		vector2 weap1_scale, weap2_scale;
 		vector2 weap1_offs, weap2_offs;
-		[weap1_icon, weap1_scale] = GetWeaponUIDetails(curweap,   (1.5,1.5));
-		[weap2_icon, weap2_scale] = GetWeaponUIDetails(otherweap, (0.6,0.6), (64,32));
+		[weap1_icon, weap1_scale] = GetWeaponUIDetails(curweap,  (1.5,1.5), (128,45));
+		[weap2_icon, weap2_scale] = GetWeaponUIDetails(otherweap, (1.0,1.0), (80,80), forceResScale:true);
 		
 		if(!halo_curweap) weap1_offs = (50,100);
 		if(!halo_otherweap && otherweap) weap2_offs = (80,30);
+		
+		// Weapon housing
+		HLSBS.DrawImage("Graphics/UI/WepHousing.png", (1700,120), 0, 0.8, (1.7,1.9)); 
 			
 		// Weapon Icons
-		HLSBS.DrawImage(weap1_icon, (1700,100)+weap1_offs, 0, 0.8, weap1_scale);
-		if(otherweap) HLSBS.DrawImage(weap2_icon, (1770,50)+weap2_offs, 0, 0.8, weap2_scale);
+		HLSBS.DrawImage(weap1_icon, (1745,75)+weap1_offs, 0, 0.8, weap1_scale);
+		if(otherweap) HLSBS.DrawImage(weap2_icon, (1820,153)+weap2_offs, 0, 0.8, weap2_scale);
 		
 		if(halodoom_unlimitedbackpack)
 		{
@@ -442,8 +460,9 @@ class HaloStatusBar : BaseStatusBar
 				Color tint = 0;
 				if(charge_perc < 0.4) tint = Color(128, 255,8,8);
 			
-				HLSBS.SetClipRect(1587, 150, 230 * charge_perc, 20);
-				HLSBS.DrawImage("WI_BTRY", ampos+(60,0), 0, 0.8, (2,1.5), tint:tint);
+				double xClip = max(0, 1.0-charge_perc) * 195;
+				HLSBS.SetClipRect(1571 + xClip, 120, 195 - xClip, 20);
+				HLSBS.DrawImage("WI_BTRY", ampos+(-170,-30), 0, 0.8, (-1.75,1.5), tint:tint);
 				HLSBS.ClearClipRect();
 			}
 			
@@ -452,7 +471,7 @@ class HaloStatusBar : BaseStatusBar
 			{
 				int curHeat = min(9, (halo_curweap.heat*1.10) * 9);
 				string heatbars = String.Format("Graphics/UI/Heatbar/HB%d.png", curHeat);
-				HLSBS.DrawImage(heatbars, ampos + (10,24), scale:(1.5,1.5));
+				HLSBS.DrawImage(heatbars, ampos + (-60,-10), scale:(-1.5,1.5));
 			}
 		}
 		else if(curweap.AmmoType2 && curweap.AmmoType2 != curweap.AmmoType1)
@@ -469,7 +488,7 @@ class HaloStatusBar : BaseStatusBar
 				if( (cur_ammo / clip_ammo) <= 0.4) 
 					tint = Color(128, 255,8,8);
 				
-				if(ammo_diff <= i) HLSBS.DrawImage("WI_AMMO", ampos+amoffs, 0, 0.8, (1,1), tint:tint);
+				if(ammo_diff <= i) HLSBS.DrawImage("WI_AMMO", ampos+amoffs + (-65,-25), 0, 0.8, (1.25,1.25), tint:tint);
 				amoffs.x += AMMOG_SIZE;
 				if(amoffs.x >= AMMOG_SIZE*AMMO_MAX) 
 				{
@@ -479,7 +498,10 @@ class HaloStatusBar : BaseStatusBar
 			}
 		}
 		// Ammo Count
-		HLSBS.DrawString(fntHaloAmmo, haloplr.countinv(curweap.AmmoType1).."", (1732, 60), scale:(0.18,0.15));
+		HLSBS.DrawString(
+			fntHaloAmmo, haloplr.countinv(curweap.AmmoType1).."", 
+			(1584, 56), flags:HLSBS.SS_TEXT_CENTER, scale:(0.15,0.15)
+		);
 		
 		// Draw grenades
 		vector2 nadepos   = (215, 80);
@@ -514,14 +536,37 @@ class HaloStatusBar : BaseStatusBar
 		}
 	}
 	
-	string, vector2 GetWeaponUIDetails(Weapon weap, vector2 uiscale = (1,1), vector2 desired_scale = (128,64))
+	string, vector2 GetWeaponUIDetails(Weapon weap, vector2 uiscale = (1,1), vector2 desired_scale = (128,64), bool forceResScale = false)
 	{	
 		if(!weap) return "", (0,0);
+		
+		vector2 size = (1.0,1.0);
+		double def_aspect = desired_scale.x / desired_scale.y;
+		double aspect = 1.0;
 	
 		let haloweap = HaloGun(weap);
 		if(haloweap) 
-		{
-			return haloweap.UI_Icon, uiscale * haloweap.iconScale;
+		{			
+			if(forceResScale)
+			{
+				let tex = TexMan.CheckForTexture(haloweap.UI_Icon);
+				[size.x, size.y] = TexMan.GetSize(tex);
+				size.x *= haloweap.iconScaleX;			
+				size.y *= haloweap.iconScaleY;
+				
+				vector2 scaleto = (
+					desired_scale.x / size.x,
+					desired_scale.y / size.y
+				);
+				
+				aspect = (size.x / size.y) / (def_aspect);
+				size.x = scaleto.x;
+				size.y = scaleto.y / aspect;
+			}
+		
+			uiscale.x *= size.x * haloweap.iconScaleX;
+			uiscale.y *= size.y * haloweap.iconScaleY;
+			return haloweap.UI_Icon, uiscale;
 		}
 	
 		State wspawn = weap.FindState("Spawn");
@@ -529,11 +574,8 @@ class HaloStatusBar : BaseStatusBar
 		tex = wspawn.GetSpriteTexture(0);
 		string icon = TexMan.GetName(tex);
 		
-		vector2 size;
 		[size.x, size.y] = TexMan.GetSize(tex);
-		
-		double def_aspect = desired_scale.x / desired_scale.y;
-		double aspect = (size.x / size.y) / (def_aspect);
+		aspect = (size.x / size.y) / (def_aspect);
 		
 		vector2 scaleto = (
 			desired_scale.x / size.x,

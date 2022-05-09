@@ -78,7 +78,7 @@ class Halo_AssaultRifle : HaloGun
 		HaloGun.BaseRecoil ARIFLE_RECOIL;
 		HaloGun.Inaccuracy ARIFLE_ACCMOD;
 		HaloGun.Crosshair "RifleRet", 1.0;
-		HaloGun.UIGraphic "WI_AR", 1.0;
+		HaloGun.UIGraphic "WI_AR", 1.0, 1.0;
 		
 		HaloGun.Availability "HL3, HL4";
 		HaloGun.PowerTier P_NORM;

@@ -94,7 +94,7 @@ class Halo_LightRifle : HaloGun
 		HaloGun.BaseRecoil 1;
 		HaloGun.Inaccuracy 1;
 		HaloGun.Crosshair "LrRet", 1.0;
-		HaloGun.UIGraphic "MISSNG", 1.0;
+		HaloGun.UIGraphic "MISSNG", 0.8, 0.7;
 		
 		HaloGun.UISight "LITRADS0", 1.25, 1.0;
 		HaloGun.SetupScope 2.0, 0.5;

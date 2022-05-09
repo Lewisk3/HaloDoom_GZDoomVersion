@@ -109,7 +109,7 @@ class Halo_BeamRifle : HaloGun
 		HaloGun.BaseRecoil 1;
 		HaloGun.Inaccuracy 1;
 		HaloGun.Crosshair "BeamRet", 0.75;
-		HaloGun.UIGraphic "WI_BEAM", 0.6;
+		HaloGun.UIGraphic "WI_BEAM", 0.6, 0.6;
 		
 		HaloGun.UISight "SI_PBX4", 0.85, 0.5;
 		HaloGun.SetupScope 2.0, 1.0;
