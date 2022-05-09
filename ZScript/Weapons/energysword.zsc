@@ -32,7 +32,7 @@ class Halo_EnergySword : HaloGun
 		HaloGun.BaseRecoil 1;
 		HaloGun.Inaccuracy 1;
 		HaloGun.Crosshair "RetESwd", 1.0;
-		HaloGun.UIGraphic "WI_ESWD", 1.25;
+		HaloGun.UIGraphic "WI_ESWD", 1.25, 1.25;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
 	}

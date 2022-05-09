@@ -157,7 +157,7 @@ class Halo_FuelRod : HaloGun
 		HaloGun.BaseRecoil FUELROD_RECOIL;
 		HaloGun.Inaccuracy FUELROD_ACCMOD;
 		HaloGun.Crosshair "FuelRET", 1.0;
-		HaloGun.UIGraphic "WI_FUELR", 0.5;
+		HaloGun.UIGraphic "WI_FUELR", 0.5, 0.35;
 
 		RecoilWeapon.YOffsetRange -5, 100;
 	}

@@ -71,7 +71,7 @@ class Halo_Magnum : HaloGun
 		HaloGun.BaseRecoil MAGNUM_RECOIL;
 		HaloGun.Inaccuracy MAGNUM_ACCMOD;
 		HaloGun.Crosshair "MagRet", 1.0;
-		HaloGun.UIGraphic "WI_MAGNM", 1.0;
+		HaloGun.UIGraphic "WI_MAGNM", 0.8, 0.8;
 		HaloGun.UISight "SI_MAG", 1.0, 0.7;
 		HaloGun.SetupScope 1.25, 0.5;
 		HaloGun.ZoomSounds "Halo/Weapons/Zoom/IN", "Halo/Weapons/Zoom/OUT";

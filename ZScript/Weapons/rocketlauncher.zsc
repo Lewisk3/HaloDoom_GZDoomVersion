@@ -209,7 +209,7 @@ class Halo_RocketLauncher : HaloGun
 		HaloGun.BaseRecoil ROCKETL_RECOIL;
 		HaloGun.Inaccuracy ROCKETL_ACCMOD;
 		HaloGun.Crosshair "RktRet", 0.75;
-		HaloGun.UIGraphic "WI_RKT", 1.35;
+		HaloGun.UIGraphic "WI_RKT", 1.0, 1.0;
 		
 		HaloGun.Availability "HL1, HL2, HL3, HL4, MSX";
 		HaloGun.PowerTier P_POWER;

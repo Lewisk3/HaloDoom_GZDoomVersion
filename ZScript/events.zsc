@@ -172,9 +172,13 @@ class HaloDoom_Events : EventHandler
 		{
 			Object.ThrowAbortException("\c[Red]Playsim aborted.");
 		}
+		
 		// Extra keys
 		if(haloplr)
-		{
+		{			
+			if(e.Name ~== "+weaponInfo") haloplr.drawWeaponInfo = true;
+			if(e.Name ~== "-weaponInfo") haloplr.drawWeaponInfo = false;
+		
 			if(e.Name ~== "haveashield")
 			{
 				if(haloplr.aimActor)

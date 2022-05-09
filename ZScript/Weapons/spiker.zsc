@@ -184,7 +184,7 @@ class Halo_Spiker : HaloGun
 		HaloGun.BaseRecoil SPIKER_RECOIL;
 		HaloGun.Inaccuracy SPIKER_ACCMOD;
 		HaloGun.Crosshair "SpikrRet", 0.4;
-		HaloGun.UIGraphic "WI_SPIKR", 0.75;
+		HaloGun.UIGraphic "WI_SPIKR", 0.75, 0.60;
 		
 		HaloGun.Availability "HL3";
 		HaloGun.PowerTier P_MID;

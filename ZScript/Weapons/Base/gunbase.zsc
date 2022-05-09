@@ -44,7 +44,8 @@ class HaloGun : RecoilWeapon
 	string wcrosshair;
 	string UI_Icon;
 	string UI_Sight;
-	double iconScale;
+	double iconScaleX;
+	double iconScaleY;
 	double sightscale;
 	double scoperecoil;
 	double sightalpha;
@@ -83,7 +84,7 @@ class HaloGun : RecoilWeapon
 	Property SwayRange : rotation_range;
 	Property SwaySpeed : rotation_sens;
 	Property BackpackReloadTime : backpack_reloadmaxtime;
-	property UIGraphic : UI_Icon, iconScale;
+	property UIGraphic : UI_Icon, iconScaleX, iconScaleY;
 	Property UISight : UI_Sight, sightscale, sightalpha;
 	Property SetupScope : scopezoom, scoperecoil;
 	Property ZoomSounds : snd_zoomin, snd_zoomout;
@@ -112,7 +113,7 @@ class HaloGun : RecoilWeapon
 		HaloGun.BackpackReloadTime 35;
 		HaloGun.UISight "SI_DEF", 0.3, 0.75;
 		HaloGun.SetupScope 1.3, 1.0;
-		HaloGun.UIGraphic "MISSNG", 1.0;
+		HaloGun.UIGraphic "MISSNG", 1.0, 1.0;
 		HaloGun.SwayRange 4.0;
 		HaloGun.SwaySpeed 2.5;
 		HaloGun._ProjDamageMod 1.0;

@@ -50,6 +50,7 @@ class HaloPlayer : DoomPlayer
 	Color screen_color;
 	double screen_fade;
 	string overlay_img;
+	bool drawWeaponInfo;
 	const FADE_RATE = 0.96;
 		
 	// CVar(s)
@@ -247,8 +248,8 @@ class HaloPlayer : DoomPlayer
 		// In vehicle?
 		curvehicle = Veh_Manager(FindInventory("Veh_Manager"));
 					
-		// Don't do stuff when dead.
-		if(health <= 0 || !player) 
+		// Don't do stuff when dead or a voodoo.
+		if( health <= 0 || (!player || !player.mo || player.mo != self) ) 
 		{
 			A_StopSound(CHAN_7);
 			A_StopSound(CHAN_5);

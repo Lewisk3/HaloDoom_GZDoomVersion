@@ -69,7 +69,7 @@ class Halo_BattleRifle : HaloGun
 		HaloGun.BaseRecoil BARIFLE_RECOIL;
 		HaloGun.Inaccuracy BARIFLE_ACCMOD;
 		HaloGun.Crosshair "BARRet", 1.0;
-		HaloGun.UIGraphic "WI_BTR", 1.0;
+		HaloGun.UIGraphic "WI_BTR", 1.0, 1.0;
 		HaloGun.UISight "SI_BR", 0.3, 0.7;
 		HaloGun.SetupScope 2.0, 0.25;
 		HaloGun.ZoomSounds "Halo/Weapons/Zoom/IN", "Halo/Weapons/Zoom/OUT";

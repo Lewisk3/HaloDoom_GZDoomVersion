@@ -114,7 +114,7 @@ class Halo_GravityHammer : HaloGun
 		HaloGun.BaseRecoil 0;
 		HaloGun.Inaccuracy 0;
 		HaloGun.Crosshair "GHAMRet", 1.0;
-		HaloGun.UIGraphic "WI_GHAM", 1.0;
+		HaloGun.UIGraphic "WI_GHAM", 1.0, 1.0;
 		
 		HaloGun.Availability "HL3, HL4, StarWars";
 		HaloGun.PowerTier P_MELEE;
