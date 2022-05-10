@@ -266,6 +266,10 @@ class HaloStatusBar : BaseStatusBar
 				return;	
 			}
 			
+			// Hide HUD if we're transitioning to a level.
+			let evh = Halo_OverlayUI(EventHandler.Find("Halo_OverlayUI"));
+			if( evh && evh.levelTransition && !evh.levelTransition.softFinish ) return;
+			
 			// Hide HUD if weapon says so.
 			let curweap = HaloGun(haloplr.player.ReadyWeapon);
 			if(curweap && curweap.HUD_Hide) return;
