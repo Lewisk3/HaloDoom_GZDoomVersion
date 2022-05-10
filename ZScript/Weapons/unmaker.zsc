@@ -122,7 +122,7 @@ class UnmakerLaserPuff : CheapActor
 		RenderStyle "Add";
 		Alpha 0.85;
 		Scale 2.0;
-		UnmakerLaserPuff.laserPuffs 2, 100, 1.0;
+		UnmakerLaserPuff.laserPuffs 2, 60, 1.0;
 	}
 	
 	override void Tick()
@@ -280,7 +280,7 @@ class Halo_Unmaker : HaloGun
 			
 			uint victim = !i ? 0 : (i % targetCount);
 			Actor curtarget = targets[victim];	
-			double dmgBoost = (curtarget != oldtarget) ? 4.0 : 1.0;
+			double dmgBoost = (curtarget != oldtarget) ? 6.66 : 1.25;
 			
 			if(!curtarget) continue;
 			targets[i].DamageMobJ(ptr, ptr, (Unmaker_DMG / 40.0) * dmgBoost, "Plasma");
@@ -357,7 +357,7 @@ class Halo_Unmaker : HaloGun
 			{
 				if(!targets[i]) continue;
 				FireLaser(targets[i], curLaserX, -5);
-				targets[i].DamageMobJ(self, self, (Unmaker_DMG * 0.75) / 40.0, "Plasma");
+				targets[i].DamageMobJ(self, self, (Unmaker_DMG / 40.0) * 0.85, "Plasma");
 				curLaserX += laserLR;
 				A_TakeAmmo(1);
 				A_UpdateSpread();
@@ -372,6 +372,7 @@ class Halo_Unmaker : HaloGun
 		A_ShootProjectile("UnmakerBall", 0, 2);	
 		A_TakeAmmo(20);
 		for(int i = 0; i < 40; i++) A_UpdateSpread();
+		invoker.heat = 2.0;
 	}
 
 	States
@@ -386,6 +387,7 @@ class Halo_Unmaker : HaloGun
 				for(int i = 0; i < random(1,5); i++)
 					A_SpawnSFX("MuzzleSmoke", 0,0);
 				if(!(psp.frame%2)) MuzzleLightning();
+				invoker.heat *= 0.94;
 			}
 		stop;
 		

@@ -118,6 +118,7 @@ class HaloStatusBar : BaseStatusBar
 	double dimalpha;
 	double curbattery;
 	double dashmeter;
+	double lowAmmoBlink;
 	
 	// Timers
 	double lowshield_timer;
@@ -497,13 +498,18 @@ class HaloStatusBar : BaseStatusBar
 			double cur_charge = haloplr.countinv(curweap.AmmoType2);
 			curbattery = HaloMath.Lerp(curbattery, cur_charge, 0.15 * deltatime);
 			
-			double max_charge = GetDefaultByType(curweap.AmmoType2).MaxAmount;
+			let ammoDefs = GetDefaultByType(curweap.AmmoType2);
+			double max_charge = ammoDefs.MaxAmount;
+			if(haloplr.countinv("Backpack")) 
+				max_charge = max(max_charge, ammoDefs.BackpackMaxAmount);
+			
 			double charge_perc = curbattery/max_charge;
 
 			if(charge_perc > 0)
 			{
 				Color tint = 0;
 				if(charge_perc < 0.4) tint = Color(128, 255,8,8);
+				HLSBS.DrawImage("WI_BTRY", ampos+(-170,-30), 0, 0.35, (-1.75,1.5), tint:Color(180,0,0,0));
 			
 				double xClip = max(0, 1.0-charge_perc) * 195;
 				HLSBS.SetClipRect(1571 + xClip, 120, 195 - xClip, 20);
@@ -529,15 +535,23 @@ class HaloStatusBar : BaseStatusBar
 			vector2 amoffs;
 	
 			Color tint = 0;
-			if( (cur_ammo / clip_ammo) <= 0.4) 
-				tint = Color(128, 255,8,8);
-			
-			for(int i = 0; i < cur_ammo; i++)
+			if( (cur_ammo / clip_ammo) <= 0.4 ) 
 			{
+				double tintAlpha = sin(lowAmmoBlink * 5) * 160;
+				tint = Color(int(tintAlpha), 255,8,8);
+				lowAmmoBlink += deltaTime;
+			}
+			else
+				lowAmmoBlink = 0;
+			
+			for(int i = 0; i < clip_ammo; i++)
+			{
+				double iconAlpha = (cur_ammo--) > 0 ? 0.8 : 0.15;
+								
 				HLSBS.DrawImage(
 					"WI_AMMO", 
 					ampos + ( amoffs * (AMMOG_SIZE*1.25) ) + (115,-25), 
-					0, 0.8, (1.25,1.25), tint:tint
+					0, iconAlpha, (1.25,1.25), tint:tint
 				);
 				
 				amoffs.y++;
