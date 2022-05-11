@@ -228,7 +228,7 @@ class Halo_GravityHammer : HaloGun
 			TNT1 A 1 
 			{
 				vel.z += 5;
-				A_Pushback(10);				
+				A_Pushback(5);				
 				
 				A_SetFlashColor("White", 0.78);
 				A_Overlay(60, "MuzzleBiris");

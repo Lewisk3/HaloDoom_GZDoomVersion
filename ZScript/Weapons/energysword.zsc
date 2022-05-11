@@ -74,6 +74,8 @@ class Halo_EnergySword : HaloGun
 	action double A_MeleeLunge(double dist = 64, double thrust = 10)
 	{
 		double mDist = A_CheckMeleeRange();
+		let hplr = HaloPlayer(self);
+		if(hplr && !hplr.aimActor) thrust *= 0.5;
 		if(mDist > dist) 
 			vel += HaloMath.VecFromAngles(angle, pitch, thrust);
 			
@@ -166,6 +168,31 @@ class Halo_EnergySword : HaloGun
 			WNF1 EF 1 A_SetZoom(1.0, 3);
 			WNF1 GHIJ 2;
 		goto Fire.Finish;
+		
+		DoMelee:
+			TNT1 A 1 
+			{
+				let psp = player.GetPSprite(PSP_WEAPON);
+				if(psp) psp.SetState(ResolveState("SwordMelee"));
+			}
+		stop;
+		
+		SwordMelee:
+			WNF1 ABCCCC 1;
+			TNT1 A 0 A_DoSwing();
+			WNF1 OP 1
+			{	
+				A_FireSword();
+				if(invoker.curHit) A_AddRecoil(-2.0, 2.0, 2);
+			}
+			WNF1 QR 1 
+			{
+				if(!invoker.curHit) A_FireSword();
+				if(invoker.curHit) A_AddRecoil(-2.0, 2.0, 2);
+			}
+			WNF1 STUVW 2;
+		goto Fire.Finish;
+		
 		
 		Fire.Finish:
 			WNI1 A 8;

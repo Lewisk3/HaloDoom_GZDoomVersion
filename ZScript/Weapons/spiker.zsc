@@ -120,7 +120,7 @@ class HaloSpiker_Shrapnel : HaloSlowProjectile
 			"####" "#" 5 
 			{
 				if(heat > 0.1) 
-					HaloMath.ExplodeEx(self, 3, 16, damageType:"Fire", damageSelf:true);
+					HaloMath.ExplodeEx(self, 3, 16, damageType:"Fire", selfDamage:1.0);
 			}
 			"####" "#" 0 A_JumpIf(heat <= 0.01, "TrueDeath");
 		loop;
