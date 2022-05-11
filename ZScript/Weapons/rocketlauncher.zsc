@@ -15,12 +15,12 @@ class Halo_RL_Reserves : Ammo
 		Scale 0.65;
 
 		Inventory.Amount 4;
-		Inventory.MaxAmount 32;
+		Inventory.MaxAmount 15;
 		Inventory.Icon "HLAMP0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "Picked up 4 Rounds for the Rocket Launcher";
 		
-		Ammo.BackpackMaxAmount 64;
+		Ammo.BackpackMaxAmount 30;
 	}
 	
 	States
@@ -189,6 +189,41 @@ class HaloRocketExplosion : CheapActor
 	}
 }
 
+class HaloRocketBackblast : CheapActor
+{
+	Default
+	{
+		Scale 0.5;
+		Alpha 0.75;
+		Damage ROCKET_EXPDMG*0.25;
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0;
+			TNT1 A 1 
+			{
+				let flare = Spawn("TankRocket_Flare", (pos.xy, pos.z));
+				if(flare) flare.A_SetScale(0.5);
+			}
+			SX04 ABCD 1 Bright;
+			TNT1 A 0 
+			{
+				vector3 fxpos = (pos.xy, pos.z);
+				HaloMath.ExplodeEx(self, damage, 64, damageType:"Fire", damageSelf:false);
+			}
+			SX04 EFGHIJKLMNOPQ 1 Bright
+			{
+				vector3 fxpos = (pos.xy, pos.z);
+				if(!(frame%2))
+					HaloMath.SpawnFX("FragGrenade_Smoke", fxpos, angle, 1, 20, 20, rstyle:STYLE_Subtract);
+			}
+			TNT1 A 35;
+		stop;
+	}
+}
+
 class Halo_RocketLauncher : HaloGun
 {	
 	Default
@@ -235,6 +270,11 @@ class Halo_RocketLauncher : HaloGun
 		A_ShootProjectile("HaloRocketProj", 12, 2);	
 		A_SetSFXPos(25,-10,-10);
 		A_SpawnSFX("MuzzleSmoke", 0,0);
+		
+		A_SetSFXPos(-64,-10,-10);
+		let backblast = Spawn("HaloRocketBackblast", invoker.sfx_pos);
+		if(backblast) backblast.target = self;
+		
 		A_TakeAmmo();
 	}
 	
@@ -286,12 +326,13 @@ class Halo_RocketLauncher : HaloGun
 				A_SetRecoil(5.0, 5.0, 2);
 				A_FireRocket();
 				A_Recoil(5);
-				A_RollQuake(8,20,2);
+				//A_RollQuake(8,20,2);
 				A_RQuakeEx(4,2,4,6,0,20,"",QF_RELATIVE|QF_WAVE);
 			}
 			WIF1 D 1 Bright;
 			WIF1 E 1 Bright
 			{
+				A_RQuakeEx(3,2,3,10,0,60,"");
 				A_Light(0);
 			}
 			WIF1 FG 1 A_SetZoom(1.0, 12);

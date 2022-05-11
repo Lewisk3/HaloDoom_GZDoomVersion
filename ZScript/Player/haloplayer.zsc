@@ -342,7 +342,8 @@ class HaloPlayer : DoomPlayer
 		screen_fade *= FADE_RATE;
 		
 		// Find closest aimable actor.
-		let it = ThinkerIterator.Create();
+		super.Tick();
+
 		Actor act;
 		double p = pitch+aimheight;
 		vector3 fromPos = (
@@ -356,8 +357,11 @@ class HaloPlayer : DoomPlayer
 		aimActor_nearest = null;
 		LookExParams look;
 		look.FOV = 90;
-		while(act = Actor(it.Next()))
+		
+		let it = BlockThingsIterator.Create(self, 2048);
+		while(it.Next())
 		{	
+			let act = it.Thing;
 			if(!act.bSHOOTABLE || act == self || !isVisible(act, false, look)) continue;
 			vector3 toPos = (act.pos.xy, act.pos.z + (act.height*0.5));
 			vector3 toAngles = level.SphericalCoords((pos.xy, player.viewz), toPos, (angle,pitch));
@@ -376,8 +380,6 @@ class HaloPlayer : DoomPlayer
 				aimActor_anglesTo.z = toAngles.z;
 			}
 		}
-		
-		super.Tick();
 	}
 	
 	override int DamageMobJ(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle)
