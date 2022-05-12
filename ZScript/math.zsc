@@ -159,6 +159,7 @@ class HaloMath Abstract
 					sin(frandom(-vel_pitch,vel_pitch))
 				);
 				obj.vel = veldir * vel_spd;
+				obj.angle = (sangle + spawnang);
 			}
 			if(rstyle >= 0) obj.A_SetRenderStyle(obj.alpha, rstyle);
 		}
@@ -199,7 +200,7 @@ class HaloMath Abstract
 		let shooter = src.target ? src.target : src;
 		while(act = Actor(it.Next()))
 		{
-			if(!act.bSHOOTABLE) continue;
+			if(!act.bSHOOTABLE || !src.IsVisible(act, true)) continue;
 			if(!damageBosses && act.bBOSS) continue; 
 			
 			double todist = src.Distance2DSquared(act) - act.radius;

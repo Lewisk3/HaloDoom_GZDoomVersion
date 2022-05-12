@@ -265,7 +265,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 			victim.GiveInventory("NeedleCounter", 1);
 			needlecount = NeedleCounter(victim.FindInventory("NeedleCounter"));
 		}
-		needlecount.AddNeedle(self);
+		if(needlecount) needlecount.AddNeedle(self);
 		SetState(ResolveState("Spawn.HitActor"));
 		
 		return 1;

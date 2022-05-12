@@ -39,6 +39,7 @@ version "4.5"
 #include "ZScript/Items/powerup_base.zsc"
 #include "ZScript/Items/powerups.zsc"
 #include "ZScript/Items/pickups.zsc"
+#include "ZScript/Items/barrels.zsc"
 
 // Weapon base
 #include "ZScript/Weapons/Base/recoilbase.zsc"

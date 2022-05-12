@@ -23,9 +23,13 @@ class FuelrodPlasma : WraithPlasma
 
 class Fuelrod_Explosion : FastActor
 {
+	double smokeDmg, smokeDist;
+	Property SetupSmoke : smokeDmg, smokeDist;
+	
 	Default
 	{
 		Scale 4.0;
+		Fuelrod_Explosion.SetupSmoke 1.0, 120; 
 	}
 	
 	States
@@ -37,9 +41,13 @@ class Fuelrod_Explosion : FastActor
 				A_Explode(128, 256);
 				A_StartSound("Halo/Weapons/Fuelrod/Explosion", flags:CHANF_OVERLAP, attenuation:0.1);
 				let toxicSmoke = Spawn("Fuelrod_Damager", (pos.xy, pos.z+10));
-				if(toxicSmoke) toxicSmoke.target = target;
+				if(toxicSmoke) 
+				{
+					toxicSmoke.target = target;
+					toxicSmoke.SetDamage(max(1, 4 * smokeDmg));
+				}
 				
-				HaloMath.SpawnFX("Fuelrod_Smoke", (pos.xy, pos.z), angle, random(4,12), 120, 60);
+				HaloMath.SpawnFX("Fuelrod_Smoke", (pos.xy, pos.z), angle, random(4,12), smokeDist, 60);
 				let sparks = Spawn("ImpactSparks", pos);
 				if(sparks) sparks.A_SetScale(0.25,0.25);
 			}

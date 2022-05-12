@@ -44,7 +44,7 @@ class LSR_LightRifle : LSR_UnmakerBeam
 			if(puff) 
 			{
 				puff.A_SetScale(1.0);
-				puff.laserAmt = 2;
+				puff.laserAmt = 1;
 				puff.laserDist = 50;
 				puff.angle = angle + 180;
 				puff.pitch = -(pitch-90);
