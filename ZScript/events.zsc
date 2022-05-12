@@ -154,11 +154,6 @@ class HaloDoom_Events : EventHandler
 				act.target = NULL;
 			}
 		}
-		
-		for(int i = 2 ; i < 2; i++)
-		{
-			console.printf("%d", i);
-		}
 	}
 
 	override void NetworkProcess(ConsoleEvent e)
