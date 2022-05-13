@@ -369,7 +369,7 @@ class Halo_Spiker : HaloGun
 			"####" "#" 1;
 			TNT1 A 0 
 			{
-				invoker.handsbusy = true;
+				A_BeginMelee(false);
 				A_StartSound("Halo/Weapons/Spiker/Melee", CHAN_AUTO, CHANF_OVERLAP);
 			}
 			WGM1 ABCDD 1;
@@ -384,10 +384,7 @@ class Halo_Spiker : HaloGun
 			WGM1 NO 2;
 			WGM1 O 16;
 			WGM1 DCBA 1;
-			WGG1 A 1
-			{
-				invoker.handsbusy = false;
-			}
+			WGG1 A 1 A_FinishMelee();
 		goto Ready.Active;
 		
 		Spawn:

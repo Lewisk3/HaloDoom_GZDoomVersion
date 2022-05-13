@@ -610,7 +610,7 @@ class HaloGun : RecoilWeapon
 		{
 			if(handsbusy) 
 			{
-				staticoffs.y -= meleelower;
+				staticoffs.y = 0;
 				handsbusy = false;
 			}
 			if(backpack_reloading)
@@ -960,16 +960,16 @@ class HaloGun : RecoilWeapon
 	{
 		return A_GetWeapYOffs() > 0;
 	}
-	action void A_BeginMelee()
+	action void A_BeginMelee(bool lower = true)
 	{
 		if(invoker.handsbusy) return;
-		invoker.staticoffs.y += invoker.meleelower;
+		if(lower) invoker.staticoffs.y += invoker.meleelower;
 		invoker.handsbusy = true;
 	}
-	action void A_FinishMelee()
+	action void A_FinishMelee(bool raise = true)
 	{
 		if(!invoker.handsbusy) return;
-		invoker.staticoffs.y -= invoker.meleelower;
+		if(raise) invoker.staticoffs.y = 0;
 		invoker.handsbusy = false;
 	}
 	
