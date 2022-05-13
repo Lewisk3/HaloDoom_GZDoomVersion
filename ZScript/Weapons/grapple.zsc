@@ -226,8 +226,10 @@ class GrapplingHook : KineLimb
 			{
 				if(src is "Inventory") src.Touch(plr);
 				if(src is "WeaponPickupProxy") 
+				{
 					WeaponPickupProxy(src).forcepickup = true;
-					
+					lerp = 0;
+				}	
 				Retract();
 			}
 		}
