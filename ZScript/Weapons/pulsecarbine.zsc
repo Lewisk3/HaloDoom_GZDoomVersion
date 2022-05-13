@@ -79,7 +79,7 @@ class Halo_PulseCarbine : HaloGun
 		HaloGun.BaseRecoil PULSECARBINE_RECOIL;
 		HaloGun.Inaccuracy PULSECARBINE_ACCMOD;
 		HaloGun.Crosshair "PulseRet", 0.75;
-		HaloGun.UIGraphic "MISSNG", 0.6, 0.6;
+		HaloGun.UIGraphic "WI_PULS", 0.92, 0.92;
 		
 		RecoilWeapon.YOffsetRange 0, 40;
 	}

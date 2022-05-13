@@ -116,7 +116,7 @@ class Halo_EnergySword : HaloGun
 				else
 					A_StopSound(CHAN_VOICE);
 				
-				if(random[SwordLightning](0,5) == 5)
+				if(random[SwordLightning](0,5) == 5 && CountLoadedAmmo())
 					MuzzleLightning();
 				
 				A_HaloWeaponReady(0, usescope:false);
