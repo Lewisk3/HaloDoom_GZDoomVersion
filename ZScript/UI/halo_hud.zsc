@@ -350,11 +350,19 @@ class HaloStatusBar : BaseStatusBar
 					strY += 20;
 				}
 				
-				lore = HaloMath.formatStringLnBreaks(lore, 80);
+				lore = HaloMath.formatStringLnBreaks(lore, 100);
+				// Drop-Shadow
+				HLSBS.DrawString(
+					infoFont, lore, (600,400)+(2,2),  
+					alpha:curAlpha, scale:(0.10,0.10),
+					tint:Color(0xFF,0,0,0),
+					linespacing:80
+				);
+				
 				HLSBS.DrawString(
 					infoFont, lore, (600,400),  
-					alpha:curAlpha, scale:(0.12,0.12),
-					linespacing:90
+					alpha:curAlpha, scale:(0.10,0.10),
+					linespacing:80
 				);
 			} 
 			else if(weaponInfoBox)

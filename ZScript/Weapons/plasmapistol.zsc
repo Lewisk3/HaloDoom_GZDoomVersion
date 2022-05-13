@@ -23,7 +23,7 @@ class HaloPlasma_Proj : HaloBullet
 		Scale 0.12;
 		DamageType "Plasma";
 	}
-	
+		
 	virtual void A_DoLightning(double amt = 4)
 	{
 		vector2 view;
@@ -200,6 +200,38 @@ class Halo_PlasmaPistol : HaloGun
 		HaloGun.UIGraphic "WI_PLSP", 0.80, 0.80;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
+	}
+	
+	override void GetStatsLore(out Array<String> stats, out string lore)
+	{
+		stats.Push("Eos'Mak-pattern Plasma Pistol");
+		stats.Push("Ammo Type: Superheated Plasma Bolts");
+		stats.Push("Frame: Battery Operated Iruiru Chassis");	
+		stats.Push(String.Format("Base Damage: %d", PLASMAPISTOL_DMG*5));
+		stats.Push("Base Heat: 14%");
+	
+		lore = (
+			"The Eos'Mak-pattern Plasma Pistol or Type-25 Directed Energy Pistol "
+			"(Type-25 DEP), also known simply as the plasma pistol, is a Covenant "
+			"infantry firearm, carried commonly by the smaller species, such as the "
+			"Unggoy, Kig-Yar, and the Yanme'e, but is occasionally used by larger "
+			"species such as the Sangheili and Jiralhanae; as such it is the most "
+			"commonly encountered Covenant energy weapon. While weak on its own, "
+			"the plasma pistol has a wide variety of functions and becomes deadly "
+			"in large numbers.\n\n"
+			
+			"The plasma pistol is a Covenant directed-energy weapon that was "
+			"reverse-engineered from a Forerunner device. The weapon is powered by "
+			"a battery cell. This battery can be recharged using a variety of power "
+			"sources, including UNSC generators, provided an appropriate adaptor is "
+			"at hand. Plasma pistols have a core power output of 100-150 KV at 2~3 dA, "
+			"but when overcharged, the power output can reach 1.5 MV @ 2~3 dA.[3] The "
+			"Type-25 DEP is a semi-automatic weapon using a single collimator design "
+			"that gives the weapon its smooth and aerodynamic, claw like appearance. "
+			"The Type-25 DEP's functionality is straightforward, the rear section "
+			"of the pistol has a holographic display which indicates temperature "
+			"as the weapon is"
+		);
 	}
 	
 	action void A_FireHaloPlasma(bool charged = false)
