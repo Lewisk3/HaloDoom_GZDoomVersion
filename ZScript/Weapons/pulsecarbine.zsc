@@ -83,7 +83,36 @@ class Halo_PulseCarbine : HaloGun
 		
 		RecoilWeapon.YOffsetRange 0, 40;
 	}
+	
+	override void GetStatsLore(out Array<String> stats, out string lore)
+	{
+		stats.Push("Erudo'ma'keth-pattern Pulse Carbine");
+		stats.Push("Ammo Type: Superheated Plasma Bolts");
+		stats.Push("Frame: Battery Operated Carbine");	
+		stats.Push(String.Format("Base Damage: %d", PULSECARBINE_DMG*5));
+		stats.Push("Base Heat: 6%");
 		
+		lore = (
+			"Erudo'ma'keth-pattern Pulse Carbine was originally crafted by the "
+			"Covenant weapon-smiths aboard High Charity. Though a relatively "
+			"obscure weapon, it was utilized by some Covenant troops during the "
+			"Battle for Earth. After the Human-Covenant War, the Pulse Carbine "
+			"was put into full production at Lodam Armory alongside the "
+			"Kelos'Vaarda-pattern Storm Rifle. It was later used by Banished "
+			"forces on Reach during Operation: WOLFE. The Banished continued to "
+			"use the pulse carbine during the Installation 07 conflict. It is "
+			"particularly favored by Banished scouts and marksmen on Zeta Halo.\n\n"
+			
+			"The Pulse Carbine fires in five-bolt bursts, which track enemies, "
+			"and easily strips enemy shields. The projectiles from the Pulse "
+			"Carbine will travel slowly at first, so the wielder must aim very "
+			"carefully, especially in close quarters. While prone to overheating "
+			"like other Plasma Weapons, it can be manually vented to avoid "
+			"failsafe cooldowns. Overall, it is an effective medium range "
+			"weapon, though less effective at close range."
+		);
+	}
+	
 	action void A_FirePulseCarbine()
 	{
 		A_Light(2);
