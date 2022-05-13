@@ -30,6 +30,7 @@ class WeaponPickupProxy : Actor
 	HaloPlayer haloplr;
 	PlayerPawn plr; // Valid player, but player isn't HaloPlayer.
 	bool noammogive;
+	bool forcepickup;
 	int clipammo;
 	int use_hold; // How many tics the USE key has been down for.
 	
@@ -39,7 +40,8 @@ class WeaponPickupProxy : Actor
 	Default
 	{
 		Radius PICKUP_RANGE*0.25;
-		Height PICKUP_RANGE;
+		Height PICKUP_RANGE*0.25;
+		+SOLID;
 		WeaponPickupProxy.PickupRange PICKUP_RANGE*2.;
 	}
 	
@@ -52,6 +54,12 @@ class WeaponPickupProxy : Actor
 			return true;
 		}
 		return false;
+	}
+	
+	override bool CanCollideWith(Actor other, bool passive)
+	{
+		if(other is "PlayerPawn") return false;
+		return super.CanCollideWith(other, passive);
 	}
 	
 	static WeaponPickupProxy BecomeWeaponProxy(Weapon source, bool noammogive = false)
@@ -189,7 +197,10 @@ class WeaponPickupProxy : Actor
 		
 	override void Tick()
 	{
-		if(pos.z != floorz) SetOrigin((pos.x,pos.y,floorz), true);
+		// Handle physics manually.
+		super.tick();
+		
+		if(pos.z != floorz && abs(vel.z) <= 1) SetOrigin((pos.x,pos.y,floorz), true);
 		
 		bool hasweap = !plr ? false : !!plr.FindInventory(trueitem);
 		CheckPlrCollide(hasweap ? 0.5 : 1.0);
@@ -207,7 +218,7 @@ class WeaponPickupProxy : Actor
 		
 		// Determine if current weapon is busy
 		let haloweap = HaloGun(plr.player.ReadyWeapon);
-		if(haloweap && haloweap.handsbusy) 
+		if(haloweap && haloweap.handsbusy && !forcepickup) 
 		{
 			use_hold = -1;
 			return; 
@@ -226,7 +237,7 @@ class WeaponPickupProxy : Actor
 			
 		// Process pickup
 		bool isaimweap = !haloplr ? true : (haloplr.pickuptarget == self);
-		if( (!plr.player.ReadyWeapon && wcount > 0) || (!isaimweap && !hasweap)) 
+		if( (!plr.player.ReadyWeapon && wcount > 0) || (!isaimweap && !hasweap) && !forcepickup) 
 		{
 			use_hold = -1;
 			return;
@@ -245,7 +256,7 @@ class WeaponPickupProxy : Actor
 			use_hold = 0;
 		}
 		
-		if( use_hold > 4 || hasweap || halodoom_unlimitedbackpack || (!haloplr && plr) )
+		if( forcepickup || use_hold > 4 || hasweap || halodoom_unlimitedbackpack || (!haloplr && plr) )
 		{
 			use_hold = 0;
 			if(wcount >= MAXWEAPS && !halodoom_unlimitedbackpack)
@@ -280,7 +291,7 @@ class WeaponPickupProxy : Actor
 	States
 	{
 		Spawn:
-			"####" "#" 1;
+			"####" "#" -1;
 		stop;
 	}
 }

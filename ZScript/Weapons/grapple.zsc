@@ -21,6 +21,7 @@ class GrapplingHook : KineLimb
 	vector3 fixedoffs;
 	vector3 endpos;
 	vector3 hookpos;
+	vector3 hitActPos;
 	
 	Actor hitactor;
 	PlayerPawn plr;
@@ -63,13 +64,15 @@ class GrapplingHook : KineLimb
 		lerp = 0.1;
 		GetRelPos();
 		
-		FLineTraceData lt;
-		double zoffs = (plr.player.viewz-plr.pos.z);
-		plr.LineTrace(plr.angle, 1024 * 32, plr.pitch, TRF_ALLACTORS, offsetz:zoffs, offsetforward:64, data:lt);	
-		hookpos = lt.HitLocation;
-		hitactor = lt.HitActor;
+		let lt = AimLineTracer.DoTrace(plr, plr.angle, plr.pitch, 1024 * 32);
+	
+		hookpos = lt.results.HitPos;
+		hitactor = lt.results.HitActor;
 		angle = 0.25;
 		grappleTight = LaserBeam.Create(plr, fixedoffs.x,fixedoffs.y,fixedoffs.z, type:"GrappleRopeTight");
+		
+		if(hitactor) 
+			hitActPos = HaloMath.DiffToLocal(hookpos, hitactor.pos, (hitactor.angle, hitactor.pitch));
 		
 		plr.A_StartSound("Halo/Spartan/Grapple/Deploy", CHAN_BODY, CHANF_OVERLAP);
 		PopulateSegs();
@@ -108,14 +111,14 @@ class GrapplingHook : KineLimb
 		followpos = endpos;
 		
 		if(hitactor)
-			hookpos = hitactor.pos + (0,0, hitactor.height * 0.5);
+			 hookpos = hitactor.pos + hitActPos;
 	}
 	
 	override void Update()
 	{
 		endpos = HaloMath.Lerp3D(fixedpos, hookpos, lerp);
 		GetRelPos();
-		
+
 		let haloplr = HaloPlayer(plr);
 		uint btns = plr.player.cmd.buttons; 
 		
@@ -168,7 +171,7 @@ class GrapplingHook : KineLimb
 				src.A_StartSound("Halo/Spartan/ZipLine/Start", flags:CHANF_OVERLAP);
 				
 				if(hitactor) hitactor.DamageMobJ(plr, self, 1, 'Grapple');
-				if(src == plr) plr.vel.z += 3; // Provide inital Z boost.
+				src.vel.z += 2; // Provide inital Z boost.
 			}
 		}
 		else // Pull
@@ -219,7 +222,14 @@ class GrapplingHook : KineLimb
 			src.vel += dir * addspd;
 			plr.A_StartSound("Halo/Spartan/ZipLine/Loop", CHAN_7, CHANF_OVERLAP|CHANF_LOOPING);
 			
-			if(dist <= 96) Retract();
+			if(dist <= 96) 
+			{
+				if(src is "Inventory") src.Touch(plr);
+				if(src is "WeaponPickupProxy") 
+					WeaponPickupProxy(src).forcepickup = true;
+					
+				Retract();
+			}
 		}
 	}
 }
@@ -238,5 +248,44 @@ class RopeSegment : Segment
 	override vector3 GetEndOffs()
 	{
 		return (Scale.Y,0,0);
+	}
+}
+
+class AimLineTracer : LineActivatorTracer
+{
+	play static AimLineTracer DoTrace(Actor src, double tangle, double tpitch, double dist, uint traceflags = 0)
+	{
+		AimLineTracer tracer = new("AimLineTracer");
+		if(tracer) 
+		{
+			tracer.src = src;
+			vector3 dir = HaloMath.VecFromAngles(tangle, tpitch);
+			vector3 tracePos = src.pos;
+			if(src.player) tracePos.z = src.player.viewz;
+			tracer.Trace(tracePos, src.CurSector, dir, dist, traceflags);
+		}
+		return tracer;
+	}
+	
+	override ETraceStatus TraceCallback()
+	{
+		if(results.HitType == Trace_HitWall)
+		{
+			let stat = HandleWall();
+			return stat;
+		}
+		
+		if(results.HitType == Trace_HitActor)
+		{
+			let hitAct = results.HitActor;
+			
+			if( hitAct == src || !hitAct.bSOLID && !(hitAct is "Inventory") && !(hitAct is "WeaponPickupProxy") ) 
+			{
+				results.HitActor = NULL;
+				return Trace_Skip;
+			}
+		}
+		
+		return Trace_Stop;
 	}
 }

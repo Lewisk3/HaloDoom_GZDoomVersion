@@ -67,7 +67,6 @@ AddListMenu "MainMenuTextOnly"
 	class "HaloDoom_TitleMenu"
 }
 
-
 OptionMenu "HaloDoomControlsMenu"
 {
 	Title "HaloDoom Controls"

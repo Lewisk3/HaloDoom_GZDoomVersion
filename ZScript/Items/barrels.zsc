@@ -165,6 +165,7 @@ class Coil_Plasma : ExplosiveCoil
 	
 	override void OnExplode()
 	{
+		A_StartSound("Halo/Grenade/Plasma/Explode", flags:CHANF_OVERLAP);
 		Spawn("PlasmaGrenadeExplosion", (pos.xy, pos.z + 30));
 		A_DoLightning(10);
 	}
