@@ -67,6 +67,7 @@ class HaloPower_Haste : PowerupGiver replaces SoulSphere
 		Scale 0.65;
 		Height 8;
 		Radius 8;
+		+NOGRAVITY;
 		+ROLLSPRITE;
 		+INTERPOLATEANGLES;
 		
@@ -81,6 +82,7 @@ class HaloPower_Haste : PowerupGiver replaces SoulSphere
 	{
 		super.beginPlay();
 		spawnPos = pos;
+		SetOrigin((pos.xy, spawnPos.z + 16), true);
 	}
 	
 	override void AttachToOwner(Actor other)
@@ -116,7 +118,6 @@ class HaloPower_Haste : PowerupGiver replaces SoulSphere
 	{
 		roll += 2;
 		bobz = sin(level.maptime*10) * 5;
-		SetOrigin((pos.xy, spawnPos.z + 16 + bobz), true);
 		HaloPowerup.DoParticles(self, pcol:"Gold", zoffset:0);
 		
 		vector2 localPos = (frandom(-1,1) * 6, frandom(-1,1) * (6 / 1.2));
@@ -130,11 +131,14 @@ class HaloPower_Haste : PowerupGiver replaces SoulSphere
 	override void Tick()
 	{
 		super.Tick();
+		
 		if(!bSPECIAL)
 		{
 			GoAwayAndDie();
 			return;
 		}
+		
+		SetOrigin(level.vec3offset(pos, (0,0,bobz*0.25)), true);
 		VisualFX();
 	}
 	
@@ -188,7 +192,6 @@ class HaloPower_Strength : HaloPower_Haste replaces Megasphere
 		A_SetScale(default.Scale.X * scaleBob);
 
 		bobz = sin(level.maptime*10) * 5;
-		SetOrigin((pos.xy, spawnPos.z + 16 + bobz), true);
 		HaloPowerup.DoParticles(self, pcol:"Red", amt: 20, zoffset:0);
 		
 		vector3 fxpos = (pos.xy, pos.z);
@@ -228,7 +231,6 @@ class HaloPower_ActiveCamo : HaloPower_Haste replaces BlurSphere
 	{
 		bobz = sin(level.maptime*4) * 5;
 		alpha = (sin(level.maptime*10) + 1) * 0.5;
-		SetOrigin((pos.xy, spawnPos.z + 16 + bobz), true);
 		HaloPowerup.DoParticles(self, pcol:"Blue", amt: 5, zoffset:0);	
 	}
 	

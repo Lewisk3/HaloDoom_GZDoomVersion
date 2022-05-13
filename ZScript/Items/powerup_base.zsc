@@ -73,6 +73,7 @@ class HaloPowerup : Powerup
 
 class PowerHaloSpeedBoost : HaloPowerup
 {	
+	State curPSP;
 	Default
 	{
 		Powerup.Duration 35 * 20; // 20 seconds.
@@ -88,6 +89,16 @@ class PowerHaloSpeedBoost : HaloPowerup
 		hplr.speedboost = 2.0;
 		hplr.aircontrol = hplr.default.aircontrol*2.0;
 		
+		// Set weapon PSprite tics to 1
+		if(hplr.player.ReadyWeapon)
+		{
+			let psp = hplr.player.getPSprite(PSP_WEAPON);
+			if(psp && psp.CurState != curPSP) 
+			{
+				psp.tics = 1;
+				curPSP = psp.CurState;
+			}
+		}
 	}
 	
 	override void EndEffect()

@@ -218,7 +218,7 @@ class GrapplingHook : KineLimb
 			double addspd = clamp(spring_vel, 0, 80.0 / TICRATE);
 			
 			// Apply velocity
-			dir.z *= 0.8;
+			//dir.z *= 0.8;
 			src.vel += dir * addspd;
 			plr.A_StartSound("Halo/Spartan/ZipLine/Loop", CHAN_7, CHANF_OVERLAP|CHANF_LOOPING);
 			
