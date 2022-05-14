@@ -47,7 +47,7 @@ class Halo_EnergySword : HaloGun
 		for(int i = 0; i < adjustedAmt; i++)
 		{
 			view.x = angle + frandom(-45,45);
-			DoSpriteLightning(3, -90 + frandom(-60,70), localPos + overlayPos, xy_spread:(10,10), boltLen:200);
+			DoSpriteLightning(3, -90 + frandom(-60,70), localPos + overlayPos, xy_spread:(10,10), boltLen:100, stepsize:2.0);
 		}
 	}
 	
@@ -61,8 +61,8 @@ class Halo_EnergySword : HaloGun
 			invoker.curHit = hitActor;
 			
 			A_QuakeEx(2,3,2,10,0,120,"");
-			vel *= 0;
-			vel += HaloMath.VecFromAngles(angle, pitch, -8);	
+			// vel *= 0;
+			vel += HaloMath.VecFromAngles(angle, pitch, 20);	
 			A_SetZoom(0.94, 2);
 			A_SetRecoil(2.67,0,2);
 				
@@ -85,11 +85,11 @@ class Halo_EnergySword : HaloGun
 		A_WeapSound("Halo/Weapons/EnergySword/Swing", CHANF_OVERLAP);
 	}
 	
-	action double A_MeleeLunge(double dist = 64, double thrust = 10)
+	action double A_MeleeLunge(double dist = 64, double thrust = 20)
 	{
 		double mDist = A_CheckMeleeRange();
 		let hplr = HaloPlayer(self);
-		if(hplr && !hplr.aimActor) thrust *= 0.5;
+		if(hplr && !hplr.aimActor) thrust *= 0.25;
 		if(mDist > dist) 
 			vel += HaloMath.VecFromAngles(angle, pitch, thrust);
 			

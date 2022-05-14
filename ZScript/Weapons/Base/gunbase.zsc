@@ -968,7 +968,6 @@ class HaloGun : RecoilWeapon
 	}
 	action void A_FinishMelee(bool raise = true)
 	{
-		if(!invoker.handsbusy) return;
 		if(raise) invoker.staticoffs.y = 0;
 		invoker.handsbusy = false;
 	}

@@ -456,7 +456,7 @@ class HaloStatusBar : BaseStatusBar
 		if(!halo_otherweap && otherweap) weap2_offs = (80,30);
 		
 		// Weapon housing
-		HLSBS.DrawImage("Graphics/UI/WepHousing.png", (1700,120), 0, 0.8, (1.7,1.9)); 
+		HLSBS.DrawImage("Graphics/UI/WepHousing.png", (1700,120), HLSBS.SS_NOASPECTCORRECTION, 0.8, (1.7,1.9)); 
 			
 		// Weapon Icons
 		HLSBS.DrawImage(weap1_icon, (1745,75)+weap1_offs, 0, 0.8, weap1_scale);
@@ -1088,42 +1088,40 @@ class HaloStatusBar : BaseStatusBar
 		
 		// Draw doomguy and Radar	
 		double maxdist = 500;
-		ThinkerIterator act_it = ThinkerIterator.Create("Actor");
-		Actor obj;		
-		while(obj = Actor(act_it.Next()))
-		{		
+		let act_it = BlockThingsIterator.Create(haloplr, maxdist*2.0);
+		while(act_it.Next())
+		{	
+			let obj = act_it.Thing;	
 			if(maxdist <= 0) break;
 			if(!obj.bSHOOTABLE) continue;
+			
 			double x = haloplr.pos.x - obj.pos.x;
 			double y = haloplr.pos.y - obj.pos.y;
 			
-			int dis = obj.Distance2D(haloplr);
-			if( dis < (maxdist*10.) )
+			double frontangle = haloplr.angle+180;
+			vector2 delta = Actor.RotateVector(SwapVector((x,y)), frontangle);
+			delta.x /= zoom;
+			delta.y /= zoom;
+			
+			if( !(obj is haloplr.GetClass()) && obj.target )
 			{
-				double frontangle = haloplr.angle+180;
-				vector2 delta = Actor.RotateVector(SwapVector((x,y)), frontangle);
-				delta.x /= zoom;
-				delta.y /= zoom;
-				if( !(obj is haloplr.GetClass()) && obj.target )
-				{
-					if(obj.health <= 0 || obj.bCORPSE || !obj.bISMONSTER) continue;
-					String basegraphic = "ALLYDOT"; 
-					if(obj.target != NULL && !obj.bFRIENDLY && obj.bSOLID && obj.bSHOOTABLE)
-						basegraphic = "ENEMYDOT";
-					else if(obj.bFRIENDLY && obj.bSHOOTABLE)
-						basegraphic = "ALLYDOT";
-					
-					vector2 finalpos = ((map_middle.x-delta.x), (map_middle.y-delta.y));
-					double drawdist; 
-					[finalpos, drawdist] = HaloMath.ClampVector(finalpos, map_middle, radarsize*0.98);
-					finalpos.x *= acor;
-					finalpos.x += map_middle.x * (1 - acor);
-					
-					vector2 dScale = (1.0, 1.0);
-					dScale *= clamp(1.0-(drawdist/512.), 0.5, 1.0);
-					
-					HLSBS.DrawImage(basegraphic, finalpos, 0, (drawdist>radarsize ? 0.6 : 1.0), dScale);
-				}
+				if(obj.health <= 0 || obj.bCORPSE || !obj.bISMONSTER) continue;
+				String basegraphic = "ALLYDOT"; 
+				if(obj.target != NULL && !obj.bFRIENDLY && obj.bSOLID && obj.bSHOOTABLE)
+					basegraphic = "ENEMYDOT";
+				else if(obj.bFRIENDLY && obj.bSHOOTABLE)
+					basegraphic = "ALLYDOT";
+				
+				vector2 finalpos = ((map_middle.x-delta.x), (map_middle.y-delta.y));
+				double drawdist; 
+				[finalpos, drawdist] = HaloMath.ClampVector(finalpos, map_middle, radarsize*0.98);
+				finalpos.x *= acor;
+				finalpos.x += map_middle.x * (1 - acor);
+				
+				vector2 dScale = (1.0, 1.0);
+				dScale *= clamp(1.0-(drawdist/512.), 0.5, 1.0);
+				
+				HLSBS.DrawImage(basegraphic, finalpos, 0, (drawdist>radarsize ? 0.6 : 1.0), dScale);
 			}
 		}
 		

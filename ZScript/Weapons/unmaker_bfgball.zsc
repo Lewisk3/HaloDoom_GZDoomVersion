@@ -70,7 +70,7 @@ class UnmakerBall : HaloSlowProjectile
 			}
 			A_StartSound("Halo/Weapons/Unmaker/Lasers", flags:CHANF_OVERLAP);
 			
-			victim.DamageMobJ(self, target, 40, "Plasma", angle:beam.angle);
+			victim.DamageMobJ(self, target, 150, "Plasma", angle:beam.angle);
 		}
 	}
 	

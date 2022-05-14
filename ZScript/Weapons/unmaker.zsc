@@ -9,12 +9,12 @@ class Halo_UnmakerReserves : Ammo
 		Scale 0.65;
 		
 		Inventory.Amount 60;
-		Inventory.MaxAmount 450;
+		Inventory.MaxAmount 333;
 		Inventory.Icon "HLAMM0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "Picked up 1 Battery for Unmaker (60%)";
 		
-		Ammo.BackpackMaxAmount 900;
+		Ammo.BackpackMaxAmount 666;
 	}
 	
 	States
@@ -169,7 +169,6 @@ class Halo_Unmaker : HaloGun
 		Weapon.BobSpeed 1.87;
 		Weapon.BobRangeX 0.63;
 		Weapon.AmmoType1 "Halo_UnmakerReserves";
-		Weapon.AmmoGive 100;
 		Weapon.AmmoType2 "Halo_UnmakerReserves";
 		
 		HaloGun.Availability "HL1, HL2, HL3, HL4, MSX, StarWars";
@@ -357,7 +356,7 @@ class Halo_Unmaker : HaloGun
 			{
 				if(!targets[i]) continue;
 				FireLaser(targets[i], curLaserX, -5);
-				targets[i].DamageMobJ(self, self, (Unmaker_DMG / 40.0) * 0.85, "Plasma");
+				targets[i].DamageMobJ(self, self, (Unmaker_DMG / 40.0), "Plasma");
 				curLaserX += laserLR;
 				A_TakeAmmo(1);
 				A_UpdateSpread();
@@ -432,7 +431,11 @@ class Halo_Unmaker : HaloGun
 			{
 				A_RecoilOffset(0,frandom(25,50),6);
 				A_SetRecoil(1.0, 0, 2);
-				A_FireUnmakerPrimary(3);
+				
+				if(halodoom_meetyourunmaker) 
+					invoker.FireUnmakerTracers();
+				else
+					A_FireUnmakerPrimary(3);
 				
 				A_RollQuake(1, 8, 2, true);
 				A_RQuakeEx(2,4,2,4,0,20,"",QF_RELATIVE|QF_WAVE);

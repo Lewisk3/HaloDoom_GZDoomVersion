@@ -243,7 +243,6 @@ extend class HaloPlayer
 		// Dash
 		if( (btns & BT_DASH) && !(obtns & BT_DASH) && dashcounter < dashmax )
 		{
-			vel.xy *= 0;
 			DashAnimator.DoDash(self, lastmovedir, dashpower);
 			if (!(player.cheats & CF_PREDICTING)) A_StartSound("Halo/Spartan/Dash", CHAN_BODY, CHANF_OVERLAP);
 			dashcounter++;
@@ -456,7 +455,15 @@ class DashAnimator : Inventory
 	
 	static DashAnimator DoDash(Actor src, double dir, double spd, double dur = 5)
 	{
-		if(src.FindInventory("DashAnimator")) return null;
+		let prevDash = DashAnimator(src.FindInventory("DashAnimator"));
+		if(prevDash)
+		{
+			prevDash.dashdir = dir;
+			prevDash.dashstr = spd*1.5;
+			prevDash.timeout = dur;
+			return prevDash;
+		}
+		
 		let dash = DashAnimator(Actor.Spawn("DashAnimator"));
 		if(dash)
 		{
@@ -464,7 +471,7 @@ class DashAnimator : Inventory
 			dash.dashstr = spd;
 			dash.timeout = dur;
 			src.AddInventory(dash);
-			src.vel.z = 0;
+			src.vel *= 0;
 		}
 		return dash;
 	}
