@@ -110,7 +110,7 @@ class HaloSlowProjectile : Actor
 				pinPos.z -= (pos.z - victim.pos.z);
 				
 				pinnedActor = victim;
-				victim.A_SetHealth(0);
+				victim.DamageMobJ(target, self, victim.health, "wallpin");
 				SetState(FindState("Pinned"));
 			
 				bSOLID = false;

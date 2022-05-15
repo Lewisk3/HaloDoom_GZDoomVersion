@@ -268,6 +268,9 @@ class HaloGun : RecoilWeapon
 			victim.vel.z += fpthrust.y;
 			source.A_Quake(2,3,0,20,"");
 			source.A_StartSound(hitsnd, CHAN_WEAPON, flags:CHANF_OVERLAP);
+			
+			source.vel *= 0;
+			source.vel += HaloMath.VecFromAngles(source.angle, source.pitch, -8);	
 						
 			let haloplr = HaloPlayer(source);
 			if(haloplr) haloplr.OnMeleeHit(victim);
@@ -1047,7 +1050,7 @@ class HaloGun : RecoilWeapon
 			PNCH ABC 1 
 			{
 				// Remove this check for melee boost, lets you gain stupid speeds.
-				if(A_CheckMeleeRange() < 128) A_Recoil(-5); 
+				if(A_CheckMeleeRange() < 128) A_Recoil(-10); 
 				A_SetRecoil(0.4, -0.8, 3);
 			}
 			PNCH C 1 

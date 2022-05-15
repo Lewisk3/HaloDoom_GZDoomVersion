@@ -895,6 +895,7 @@ class HaloStatusBar : BaseStatusBar
 			HLSBS.ClearClipRect();
 			if(dashperc <= 0)
 				HLSBS.DrawImage("DASHFULL", ablpos, scale:(ablscale,ablscale));
+			ablpos.x += 128;
 		}
 		
 		if(haloplr.enable_grapple)
@@ -908,6 +909,7 @@ class HaloStatusBar : BaseStatusBar
 			{
 				HLSBS.DrawImage("GRPLEMTY", ablpos, scale:(ablscale,ablscale));
 			}
+			ablpos.x += 128;
 		}
 	}
 

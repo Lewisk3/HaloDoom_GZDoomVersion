@@ -265,8 +265,11 @@ class WeaponPickupProxy : Actor
 				{
 					wcontrol.DropSelectedWeapon(pos);
 					let nweap = GiveWeaponItem(plr);
-					nweap.Use(true);
-					Destroy();
+					if(nweap) 
+					{
+						nweap.Use(true);
+						Destroy();
+					}
 					return;
 				}
 				else if(GiveWeaponItem(plr))
