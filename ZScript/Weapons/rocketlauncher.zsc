@@ -15,7 +15,7 @@ class Halo_RL_Reserves : Ammo
 		Scale 0.65;
 
 		Inventory.Amount 4;
-		Inventory.MaxAmount 15;
+		Inventory.MaxAmount 14;
 		Inventory.Icon "HLAMP0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "Picked up 4 Rounds for the Rocket Launcher";
