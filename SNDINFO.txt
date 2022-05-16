@@ -174,8 +174,9 @@ Halo/Weapons/Rifle/Reload/Full  AReloadF
 Halo/Weapons/Rifle/Reload/Empty AReloadE
 Halo/Weapons/Rifle/Select       ARReady
 
-$volume Halo/Weapons/Rifle/Fire/Bass 0.9
-$volume Halo/Weapons/Rifle/Mech 0.2
+$volume Halo/Weapons/Rifle/Fire 1.0
+$volume Halo/Weapons/Rifle/Fire/Bass 0.8
+$volume Halo/Weapons/Rifle/Mech 0.3
 
 // Battle Rifle
 BARFIRE1 BARFIRE1
