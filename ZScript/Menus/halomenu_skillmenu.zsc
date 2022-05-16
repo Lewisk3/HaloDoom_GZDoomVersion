@@ -37,27 +37,43 @@ class HaloDoom_SkillMenu : HaloMenuBase
 		HaloSkills.push(HaloSkill.Init(
 			"Easy", 
 			"Graphics/UI/Skills/Easy.png", 
-			"Your foes cower and fall before\nyour unstoppable onslaught yet\nfinal victory will leave you\nwanting more."
+			(
+				"Your foes cower and fall before\nyour unstoppable onslaught yet\nfinal victory will leave you\nwanting more."
+				"\n\n\c[Purple]Spawn Filter: I'm Too Young To Die\n"
+			)
 		));
 		HaloSkills.push(HaloSkill.Init(
 			"Normal", 
 			"Graphics/UI/Skills/Normal.png", 
-			"Hordes of aliens vie to destroy\nyou, but nerves of steel and a\nquick trigger finger give you a \nsolid chance to prevail."
+			(
+				"Hordes of aliens vie to destroy\nyou, but nerves of steel and a\nquick trigger finger give you a \nsolid chance to prevail."
+				"\n\n\c[Purple]Spawn Filter: Hey Not Too Rough"
+			)
 		));
 		HaloSkills.push(HaloSkill.Init(
 			"Heroic", 
 			"Graphics/UI/Skills/Heroic.png", 
-			"Your enemies are as numerous \nas they are ferocious; their \nattacks are devastating. \n\nSurvival is not guaranteed."
+			(
+				"Your enemies are as numerous \nas they are ferocious; their \nattacks are devastating. \n\nSurvival is not guaranteed."
+				"\n\n\c[Purple]Spawn Filter: Hurt Me Plenty"
+			)
 		));
 		HaloSkills.push(HaloSkill.Init(
 			"Legendary", 
 			"Graphics/UI/Skills/Legendary.png", 
-			"You face opponents who have \nnever known defeat, who laugh\nin alien tongues at your efforts \nto survive. \n\nThis is suicide."
+			(
+				"You face opponents who have \nnever known defeat, who laugh\nin alien tongues at your efforts \nto survive. \n\nThis is suicide."
+				"\n\n\c[Purple]Spawn Filter: Ultra Violence"
+			)
 		));
 		HaloSkills.push(HaloSkill.Init(
 			"Mythic", 
 			"Graphics/UI/Skills/Mythic.png", 
-			"You stand in oppositions of \nan unstoppable force. \n\nYour enemies are ruthless and \nnever ending. \n\nYour death is all but certain."
+			(
+				"You stand in oppositions of \nan unstoppable force. \n\nYour enemies are ruthless and \nnever ending. \n\nYour death is all but certain."
+				"\n\n\c[Purple]Spawn Filter: Ultra Violence\n"
+				"\c[Purple]Enemy Modifiers: Fast, Respawn"
+			)
 		));
 		/*HaloSkills.push(HaloSkill.Init(
 			"American Healthcare", 
@@ -123,7 +139,7 @@ class HaloDoom_SkillMenu : HaloMenuBase
 				{
 					buttons[i].btntext.font_color = Font.CR_WHITE;
 					HLSBS.DrawImage(skillImg, descPos, scale:(1.75,2.0));
-					HLSBS.DrawString("HaloFont", HaloSkills[skillnum].desc, (descOffs.x + 20, descOffs.y + 70), 0, Font.CR_WHITE, scale:(0.15,0.15), linespacing:130);
+					HLSBS.DrawString("HaloFont", HaloSkills[skillnum].desc, (descOffs.x + 20, descOffs.y + 70), 0, Font.CR_WHITE, scale:(0.12,0.12), linespacing:130);
 				}
 				else
 				{

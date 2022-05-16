@@ -91,6 +91,7 @@ class Halo_Carbine : HaloGun
 		
 		HaloGun.Availability "HL2, HL3, HL4";
 		HaloGun.PowerTier P_ENERGY | P_STRONG;
+		HaloGun.Rarity 60;
 
 		// Recoil
 		HaloGun.Bloom 0.32;

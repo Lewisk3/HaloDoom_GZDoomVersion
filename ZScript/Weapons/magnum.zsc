@@ -78,6 +78,7 @@ class Halo_Magnum : HaloGun
 		
 		HaloGun.Availability "HL1, HL3, HL4";
 		HaloGun.PowerTier P_STRONG;
+		HaloGun.Rarity 70;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
 	}

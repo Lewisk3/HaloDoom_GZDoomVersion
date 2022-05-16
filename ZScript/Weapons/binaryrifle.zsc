@@ -87,6 +87,7 @@ class Halo_BinaryRifle : HaloGun
 		
 		HaloGun.Availability "HL4, StarWars";
 		HaloGun.PowerTier P_POWER;
+		HaloGun.Rarity 10;
 				
 		// Recoil
 		RecoilWeapon.RecoilSpeed 20;

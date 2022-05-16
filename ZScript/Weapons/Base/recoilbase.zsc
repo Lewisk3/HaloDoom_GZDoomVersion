@@ -280,6 +280,9 @@ class RecoilWeapon : Weapon
 		PlayerInfo plr = PlayerPawn(Owner).player;
 		if(!plr) return;
 		
+		if(!cv_recoil)
+			cv_recoil = CVar.GetCVar("halodoom_recoil_intensity", plr);
+		
 		// Roll shake.
 		if(rollshake_time > 0)
 		{
@@ -312,10 +315,7 @@ class RecoilWeapon : Weapon
 			return;
 		}
 		plr.WeaponState |= WF_WEAPONBOBBING;
-		
-		if(!cv_recoil)
-			cv_recoil = CVar.GetCVar("halodoom_recoil_intensity", plr);
-		
+				
 		bool dosway = !swapping;
 		if( usesway && dosway ) A_LookSway(3,velsway,Owner);
 		A_UpdateOffsets(Owner);

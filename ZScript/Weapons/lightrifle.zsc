@@ -87,6 +87,7 @@ class Halo_LightRifle : HaloGun
 		
 		HaloGun.Availability "HL4, StarWars";
 		HaloGun.PowerTier P_MID;
+		HaloGun.Rarity 10;
 				
 		// Recoil
 		HaloGun.Bloom 1.25;

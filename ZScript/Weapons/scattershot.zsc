@@ -59,7 +59,7 @@ class HaloScatterShot_Proj : HaloSlowProjectile
 	States
 	{
 		Spawn:
-			ELBL AB 2 Bright;
+			ELBL AB 2 Bright A_JumpIf(!bMISSILE, "Death"); // WTAF GZDoom?!?!
 		loop;
 		
 		Bounce:
@@ -129,6 +129,7 @@ class Halo_ScatterShot : HaloGun
 		
 		HaloGun.Availability "HL4, StarWars";
 		HaloGun.PowerTier P_STRONG;
+		HaloGun.Rarity 10;
 				
 		// Recoil
 		RecoilWeapon.RecoilSpeed 20;

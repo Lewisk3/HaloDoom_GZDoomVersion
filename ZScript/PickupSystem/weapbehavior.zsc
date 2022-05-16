@@ -41,14 +41,14 @@ class WeaponPickupProxy : Actor
 	{
 		Radius PICKUP_RANGE*0.25;
 		Height PICKUP_RANGE*0.25;
-		+SOLID;
+		// +SOLID;
 		WeaponPickupProxy.PickupRange PICKUP_RANGE*2.;
 	}
 	
 	static bool ProcessDroppedWeapon(Weapon weap)
 	{
-		// Remove weapon 50% of the time.
-		if(random[WorldDroppedWeapon](0,100) < 50)
+		// Remove weapon 30% of the time.
+		if(random[WorldDroppedWeapon](0,100) < 30)
 		{
 			weap.Destroy();
 			return true;
@@ -270,6 +270,7 @@ class WeaponPickupProxy : Actor
 						nweap.Use(true);
 						Destroy();
 					}
+					else forcepickup = false;
 					return;
 				}
 				else if(GiveWeaponItem(plr))
@@ -281,12 +282,13 @@ class WeaponPickupProxy : Actor
 			else
 			{
 				let nweap = GiveWeaponItem(plr);
-				if(!hasweap) nweap.Use(true);
+				if(!hasweap && nweap) nweap.Use(true);
 				if(nweap) 
 				{
 					Destroy();
 					return;
-				}
+				} 
+				else forcepickup = false;
 			}
 		}
 	}

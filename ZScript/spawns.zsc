@@ -17,6 +17,26 @@ extend class HaloDoom_Events
 		return (halodoom_gametype != 0 && !(gametype & halodoom_gametype));
 	}
 	
+	void filterWeaponRarity(out Array<String> weaps)
+	{
+		Array<string> unfiltered;
+		unfiltered.Copy(weaps);
+		
+		uint seed = random[WeaponRaritySeed](0,100);
+		for(int i = weaps.Size()-1; i >= 0; i--)
+		{
+			let weap = (class<HaloGun>) (weaps[i]);
+			if(!weap) continue;
+			let defs = GetDefaultByType(weap);
+			if(defs.spawnRarity < seed) 
+				weaps.Delete(i);
+		}
+		
+		// We don't want to remove all weapons from spawning.
+		if(weaps.Size() <= 0) 
+			weaps.Copy(unfiltered);
+	}
+	
 	class<Actor> getWeaponFromAmmoType(class<Actor> type)
 	{
 		Array<String> weaps;
@@ -144,6 +164,7 @@ extend class HaloDoom_Events
 			
 		if(weapSpawns.Size() > 0)
 		{
+			filterWeaponRarity(weapSpawns);
 			e.Replacement = weapSpawns[random[WeapSpawner](0, weapSpawns.Size()-1)];
 			return;
 		}
@@ -181,7 +202,7 @@ extend class HaloDoom_Events
 		getAmmoSpawnList(ammoSpawns, validAmmos);
 		if(validAmmos.Size() > 0)
 		{
-			int weapSpawnChance = 5;
+			int weapSpawnChance = 25;
 			string ammoType = validAmmos[random[HaloAmmoSpawns](0, validAmmos.Size()-1)];
 			
 			if(random[HaloAmmoWeaponSpawns](0,100) < weapSpawnChance) 

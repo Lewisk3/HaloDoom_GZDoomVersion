@@ -208,7 +208,7 @@ class HaloAmmoCrate : Actor replaces Backpack
 		
 		frame = 2;
 		empty = true;
-		user.GiveInventory("Backpack", 1);
+		// user.GiveInventory("Backpack", 1);
 		A_StartSound("Halo/AmmoCrate/Use", CHAN_AUTO);
 		
 		return true;

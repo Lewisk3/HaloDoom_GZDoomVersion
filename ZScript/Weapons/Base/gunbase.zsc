@@ -26,6 +26,7 @@ class HaloGun : RecoilWeapon
 	uint backpack_reloadtimer;
 	uint backpack_reloadmaxtime;
 	uint SpawnTier;
+	uint SpawnRarity;
 	int reload_ammoleft;
 	double damage_modifier;
 	double baserecoil;
@@ -92,6 +93,7 @@ class HaloGun : RecoilWeapon
 	Property HasBattery : uses_battery, battery_drain;
 	Property Availability : gametypes_str;
 	Property PowerTier : SpawnTier;
+	Property Rarity : SpawnRarity;
 	Property _ProjDamageMod : damage_modifier;
 
 	enum ButtonStates
@@ -120,6 +122,7 @@ class HaloGun : RecoilWeapon
 		HaloGun.LowerOnMelee 50;
 		HaloGun.PowerTier P_NULL;
 		HaloGun.Availability "ALL";
+		HaloGun.Rarity 100;
 		Weapon.BobRangeX 1.5;
 		Weapon.BobRangeY 0.6;
 		Weapon.BobSpeed 0.5;
@@ -183,7 +186,7 @@ class HaloGun : RecoilWeapon
 		return lt.Distance;
 	}
 		
-	action void DoSpriteLightning(double amt, double boltAngle, vector2 startPos, vector2 xy_spread = (20,20), double boltlen = 100, double stepsize = 1.0, double roughness = 10, uint layerStart = -200)
+	action void DoSpriteLightning(double amt, double boltAngle, vector2 startPos, vector2 xy_spread = (20,20), double boltlen = 100, double stepsize = 1.0, double size = 1.0, double roughness = 10, uint layerStart = -200)
 	{
 		uint curLayer = layerStart;
 		double boltSize = 0.5;
@@ -217,7 +220,7 @@ class HaloGun : RecoilWeapon
 					curBiri.bAddWeapon = true;
 					curBiri.bAddBob = true;
 					curBiri.pivot = (0.5, 0.5);
-					curBiri.scale = (1.0,1.0) * (1.0 - (double(max(i,1))/boltLen));
+					curBiri.scale = (size,size) * min( 1.0, ( 1.0 - (double(max(i,1)) / boltLen) ) );
 					curBiri.rotation = curAngle;
 					curBiri.alpha = 1.0;
 					
@@ -238,12 +241,12 @@ class HaloGun : RecoilWeapon
 		}
 	}
 	
-	action Actor A_HaloMelee(int damage, double range = 48, vector2 fpthrust = (12,5), Sound hitsnd = "", Sound wallsnd = "", Name damageType = "Melee")
+	action Actor A_HaloMelee(int damage, double range = 48, vector2 fpthrust = (12,5), Sound hitsnd = "", Sound wallsnd = "", Name damageType = "Melee", bool doHitThrust = true)
 	{
-		return DoHaloMelee(self, damage,range,fpthrust,hitsnd,wallsnd,damageType);
+		return DoHaloMelee(self, damage,range,fpthrust,hitsnd,wallsnd,damageType,doHitThrust);
 	}
 	
-	static Actor DoHaloMelee(Actor source, int damage, double range = 48, vector2 fpthrust = (12,5), Sound hitsnd = "", Sound wallsnd = "", Name damageType = "Melee")
+	static Actor DoHaloMelee(Actor source, int damage, double range = 48, vector2 fpthrust = (12,5), Sound hitsnd = "", Sound wallsnd = "", Name damageType = "Melee", bool doHitThrust = true)
 	{	
 		FLineTraceData lt;
 		double aimz = source.player ? source.player.viewheight : (source.height * 0.5);
@@ -265,12 +268,15 @@ class HaloGun : RecoilWeapon
 			victim.DamageMobJ(source, source, damage, damageType, 0, source.angle);
 			if(!victim.bNOBLOOD) victim.BloodSplatter(lt.HitLocation, source.angle, true);
 			victim.Thrust(fpthrust.x*inertia, source.angle);
-			victim.vel.z += fpthrust.y;
+			victim.vel.z += (fpthrust.y*inertia);
 			source.A_Quake(2,3,0,20,"");
 			source.A_StartSound(hitsnd, CHAN_WEAPON, flags:CHANF_OVERLAP);
 			
-			source.vel *= 0;
-			source.vel += HaloMath.VecFromAngles(source.angle, source.pitch, -8);	
+			if(doHitThrust)
+			{
+				source.vel *= 0;
+				source.vel += HaloMath.VecFromAngles(source.angle, source.pitch, -8);	
+			}
 						
 			let haloplr = HaloPlayer(source);
 			if(haloplr) haloplr.OnMeleeHit(victim);
@@ -285,6 +291,10 @@ class HaloGun : RecoilWeapon
 		return victim;
 	}
 	
+	action void A_Recoil3D(double amt)
+	{
+		vel += HaloMath.VecFromAngles(angle, pitch, -amt);	
+	}
 	
 	// For some reason weapons start with an odd offset.
 	action void A_DoSelectAnim(double yoffs = 0., bool first_time_draw = false)
@@ -1050,7 +1060,7 @@ class HaloGun : RecoilWeapon
 			PNCH ABC 1 
 			{
 				// Remove this check for melee boost, lets you gain stupid speeds.
-				if(A_CheckMeleeRange() < 128) A_Recoil(-10); 
+				if(A_CheckMeleeRange() < 128) A_Recoil3D(-10); 
 				A_SetRecoil(0.4, -0.8, 3);
 			}
 			PNCH C 1 

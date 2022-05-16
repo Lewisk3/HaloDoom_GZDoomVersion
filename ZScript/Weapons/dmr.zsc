@@ -69,6 +69,7 @@ class Halo_DMR : HaloGun
 		
 		HaloGun.Availability "HL3, HL4";
 		HaloGun.PowerTier P_MID;
+		HaloGun.Rarity 50;
 				
 		// Recoil
 		RecoilWeapon.RecoilSpeed 20;

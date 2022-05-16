@@ -188,6 +188,7 @@ class Halo_Spiker : HaloGun
 		
 		HaloGun.Availability "HL3";
 		HaloGun.PowerTier P_MID;
+		HaloGun.Rarity 80;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
 	}

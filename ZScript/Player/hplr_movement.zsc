@@ -4,6 +4,9 @@ extend class HaloPlayer
 	const GNDMAX   = 14;
 	const GNDACCEL = 85;
 	const GNDFRIC  = 7.0;
+	const DOOMGNDACCEL = 1.25;
+	const DOOMGNDFRIC = 0.95;
+	
 	const BT_DASH = BT_USER3;
 	const BT_GRAPPLE = BT_USER4;
 	const SLIDE_TICS = 20;
@@ -11,6 +14,8 @@ extend class HaloPlayer
 	
 	const AIRMAX     = 10;
 	const AIRACCEL   = 40;
+	
+	bool doomermovement;
 	
 	// Switches
 	bool enable_grapple;
@@ -61,8 +66,63 @@ extend class HaloPlayer
 	// CVars
 	transient CVar cv_snd_jump;
 
+	void DoDoomGroundAccel(double spd)
+	{
+		double fw = player.cmd.forwardmove;
+		double lr = player.cmd.sidemove;
+		
+		if(speedboost) spd *= speedboost;
+		if (fw || lr)
+		{
+			double forwardmove, sidemove;
+			double friction, movefactor;
+
+			[friction, movefactor] = GetFriction();
+			if (!player.onground && !bNoGravity && !waterlevel)
+			{
+				// [RH] allow very limited movement if not on ground.
+				movefactor *= level.aircontrol;
+			}
+
+			fw *= spd / 256;
+			lr *= spd / 256;
+
+			// When crouching, speed has to be reduced
+			if (CanCrouch() && player.crouchfactor != 1)
+			{
+				fw *= player.crouchfactor;
+				lr *= player.crouchfactor;
+			}
+
+			forwardmove = fw * movefactor * (35 / TICRATE);
+			sidemove = lr * movefactor * (35 / TICRATE);
+		
+			if (forwardmove) 
+			{
+				vel.xy += (
+					cos(Angle),
+					sin(Angle)
+				) * forwardmove;
+			}
+			if (sidemove)
+			{
+				let a = Angle - 90;
+				vel.xy += (
+					cos(a),
+					sin(a)
+				) * sidemove;
+			}
+		}
+	}
+
 	void DoQuakeGroundAccel(vector3 wishdir, double spd)
 	{
+		if(doomermovement) 
+		{
+			DoDoomGroundAccel(DOOMGNDACCEL*spd);
+			return;
+		}
+		
 		if(speedboost) spd *= speedboost;
 		double curspd = wishdir dot vel;
 		double addspd = clamp(GNDMAX - curspd, 0, (GNDACCEL*spd) / TICRATE);
@@ -168,6 +228,8 @@ extend class HaloPlayer
 		let player = self.player;
 		UserCmd cmd = player.cmd;
 		bool moving = (cmd.forwardmove || cmd.sidemove);
+		
+		doomermovement = halodoom_classicmovement;
 		
 		// Play sound if landed from a fall.
 		double zdiff = vel.z-oldvel.z;
@@ -321,7 +383,7 @@ extend class HaloPlayer
 			return;
 		}
 		
-		bool doholdjump = halodoom_holdjump && halodoom_allowbhop;
+		bool doholdjump = enable_bhop && halodoom_allowbhop;
 		if(player.onground) jumpcounter = 0;
 		
 		if(!player.onground && (btns & BT_JUMP) && !(obtns & BT_JUMP) && jumpcounter < maxjumps)
@@ -405,8 +467,20 @@ extend class HaloPlayer
 		return atan2(floornorm.XY.Length(), floornorm.Z);
 	}
 	
+	void DoDoomFriction()
+	{
+		if(player.onground) 
+			vel.xy *= DOOMGNDFRIC;
+	}
+	
 	void DoQuakeFriction(double friction)
 	{
+		if(doomermovement)
+		{
+			DoDoomFriction();
+			return;
+		}
+		
 		double maxspd = GNDMAX;
 		double unitfric = friction / TICRATE;
 		double floorangle = GetFloorAngle();
