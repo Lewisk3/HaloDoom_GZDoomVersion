@@ -216,7 +216,7 @@ class Halo_BeamRifle : HaloGun
 			TNT1 A 0 A_StartSound("Halo/Weapons/BeamRifle/Laser/Loop", CHAN_VOICE, CHANF_LOOPING);
 			WLF1 CDEFGHIJKLCDEFGHIJKLCDEFGHIJKL 1 Bright
 			{
-				if(invoker.lsrTics++ >= 3) 
+				if(invoker.lsrTics++ >= 5) 
 				{
 					A_TakeAmmo(1);
 					invoker.lsrTics = 0;

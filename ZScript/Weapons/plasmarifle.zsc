@@ -59,6 +59,7 @@ class Halo_PlasmaRifle : HaloGun
 		
 		HaloGun.Availability "HL1, HL2, HL3, HL4, MSX, StarWars";
 		HaloGun.PowerTier P_ENERGY | P_NORM;
+		HaloGun.Rarity 60;
 				
 		// Recoil
 		HaloGun.Bloom 0.16;

@@ -49,6 +49,7 @@ class Halo_MA5B : HaloGun
 		
 		HaloGun.Availability "HL1, MSX";
 		HaloGun.PowerTier P_NORM;
+		HaloGun.Rarity 80;
 		
 		RecoilWeapon.YOffsetRange 0, 40;
 	}

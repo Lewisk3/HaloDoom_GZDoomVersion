@@ -20,7 +20,7 @@ class Halo_RL_Reserves : Ammo
 		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "Picked up 4 Rounds for the Rocket Launcher";
 		
-		Ammo.BackpackMaxAmount 30;
+		Ammo.BackpackMaxAmount 28;
 	}
 	
 	States
