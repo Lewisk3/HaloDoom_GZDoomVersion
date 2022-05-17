@@ -202,7 +202,7 @@ extend class HaloDoom_Events
 		getAmmoSpawnList(ammoSpawns, validAmmos);
 		if(validAmmos.Size() > 0)
 		{
-			int weapSpawnChance = 20;
+			int weapSpawnChance = 25;
 			string ammoType = validAmmos[random[HaloAmmoSpawns](0, validAmmos.Size()-1)];
 			
 			if(random[HaloAmmoWeaponSpawns](0,100) < weapSpawnChance) 
