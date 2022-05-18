@@ -68,7 +68,7 @@ mixin class HaloProjectile_Common
 		if(BlockingLine) BlockingLine.Activate(target, 0, SPAC_Impact);
 	}
 	
-	virtual void Handle_Homing()
+	virtual void Handle_Homing(double turnMax = 0)
 	{
 		// Find nearest viable target, track target.
 		if(tracer)
@@ -77,21 +77,22 @@ mixin class HaloProjectile_Common
 			vector3 trackingAngles = level.SphericalCoords(pos, dest, (angle, pitch));
 			A_SetAngle(angle - (trackingAngles.x * homingStrength), SPF_INTERPOLATE);
 			A_SetPitch(pitch - (trackingAngles.y * homingStrength), SPF_INTERPOLATE);
-			
+			if(turnMax > 0 && abs(trackingAngles.x) > turnMax ) return;
+				
 			// Update velocity
 			vector3 newVel = HaloMath.V3Offset(angle, pitch, roll, 1.0,0,0, vel.Length());
 			vel = newVel;
 		}
 		else
 		{
-			let it = ThinkerIterator.Create();
-			Actor act;
+			let it = BlockThingsIterator.Create(self, 1024);
+			
 			int mindist = int.max;
 			LookExParams look;
 			look.FOV = homingFOV;
-			
-			while(act = Actor(it.Next()))
+			while(it.Next())
 			{
+				let act = it.Thing; 
 				if(act == target) continue;
 				if(!act.bSHOOTABLE || act.bCORPSE || act.health <= 0) continue;
 				if(target && !target.IsVisible(act, false, look)) continue;

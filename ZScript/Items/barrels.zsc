@@ -3,6 +3,7 @@ class ExplosiveCoil : Actor
 	EnergyCoilOverlay dmgOverlay;
 	int coilFrame;
 	int noDmgTics;
+	int delay;
 
 	Property CoilFrame : coilFrame;
 
@@ -46,6 +47,24 @@ class ExplosiveCoil : Actor
 		// BOOM!
 	}
 	
+	virtual void FilterExplosions()
+	{
+		let coilIt = BlockThingsIterator.Create(self, 256);
+		double count = 0;
+		int curDelay = 0;
+		while(coilIt.Next())
+		{
+			let coil = coilIt.Thing;
+			if( !(coil is "ExplosiveCoil") || coil == self ) continue;
+			
+			curDelay += 2;
+			// ExplosiveCoil(coil).lowEffects = true;
+			ExplosiveCoil(coil).delay = curDelay;
+			
+			count++;
+		}
+	}
+	
 	States
 	{
 		Spawn:
@@ -55,8 +74,16 @@ class ExplosiveCoil : Actor
 			}
 		loop;
 		
+		XDeath:
 		Death:
-			TNT1 A 35 OnExplode();
+			"####" "#" 1 A_JumpIf((delay--) <= 0, "TrueDeath");
+		loop;
+		TrueDeath:
+			TNT1 A 35 
+			{
+				OnExplode();
+				FilterExplosions();
+			}
 		stop;
 	}
 }
@@ -244,7 +271,7 @@ class Coil_Hardlight_Explosion : CheapActor
 class Coil_Hardlight : ExplosiveCoil
 {
 	bool lowEffects;
-	int delay;
+
 	Default
 	{
 		ExplosiveCoil.CoilFrame 4;
@@ -263,42 +290,12 @@ class Coil_Hardlight : ExplosiveCoil
 	
 	override void OnExplode()
 	{
-		let coilIt = BlockThingsIterator.Create(self, 256);
-		double count = 0;
-		int curDelay = 0;
-		while(coilIt.Next())
-		{
-			let coil = coilIt.Thing;
-			if( !(coil is "Coil_Hardlight") || coil == self ) continue;
-			
-			curDelay += 3;
-			Coil_Hardlight(coil).lowEffects = true;
-			Coil_Hardlight(coil).delay = curDelay;
-			
-			count++;
-		}
-		
 		let expl = Coil_Hardlight_Explosion(Spawn("Coil_Hardlight_Explosion", (pos.xy, pos.z + 30)));
 		if(expl) 
 		{
-			expl.lowEffects = lowEffects;
-		//	expl.projBoost = count*2;
+			expl.lowEffects = (delay >= 1);
 		}
 		A_DoLightning(10);
-	}
-	
-	States
-	{
-		XDeath:
-		Death:
-			"####" "#" 1 A_JumpIf((delay--) <= 0, "TrueDeath");
-		loop;
-		TrueDeath:
-			TNT1 A 35 
-			{
-				OnExplode();
-			}
-		stop;
 	}
 }
 

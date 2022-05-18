@@ -47,6 +47,7 @@ class HasteTrail : HaloScatterShot_Trail
 	{
 		Scale 0.05;
 		+INTERPOLATEANGLES;
+		+NOINTERACTION;
 	}
 	
 	override void Tick()
@@ -59,14 +60,16 @@ class HasteTrail : HaloScatterShot_Trail
 class HaloPower_Haste : PowerupGiver replaces SoulSphere
 {
 	double bobz;
+	double oldfloorz;
+	Sector spawnSector;
 	vector3 spawnPos;
 
 	Default
 	{
 		+BRIGHT;
 		Scale 0.65;
-		Height 8;
-		Radius 8;
+		Height 32;
+		Radius 16;
 		+NOGRAVITY;
 		+ROLLSPRITE;
 		+INTERPOLATEANGLES;
@@ -82,7 +85,8 @@ class HaloPower_Haste : PowerupGiver replaces SoulSphere
 	{
 		super.beginPlay();
 		spawnPos = pos;
-		SetOrigin((pos.xy, spawnPos.z + 16), true);
+		spawnSector = CurSector;
+		SetOrigin((pos.xy, spawnPos.z + height), true);
 	}
 	
 	override void AttachToOwner(Actor other)
@@ -99,7 +103,8 @@ class HaloPower_Haste : PowerupGiver replaces SoulSphere
 		for(int i = 0; i < adjustedAmt; i++)
 		{
 			vector2 localPos = (frandom(-1,1) * dist, frandom(-1,1) * (dist / 1.2));
-			vector3 lightningPos = HaloMath.RelativeV3Offset(self, 0,0,0, 0, localPos.x, localPos.y + bobz, 1.);				
+			vector3 lightningPos = HaloMath.RelativeV3Offset(self, 0,0,0, 0, localPos.x, localPos.y + bobz, 1.);
+			lightningPos.z -= (height*0.5);
 			view.x = frandom(0,360);
 			view.y = frandom(-60,60);
 
@@ -122,7 +127,7 @@ class HaloPower_Haste : PowerupGiver replaces SoulSphere
 		
 		vector2 localPos = (frandom(-1,1) * 6, frandom(-1,1) * (6 / 1.2));
 		vector3 trailPos = HaloMath.RelativeV3Offset(self, frandom(0,360),0,0, 0, localPos.x, localPos.y + bobz, 1.);			
-		let trail = Spawn("HasteTrail", trailPos);
+		let trail = Spawn("HasteTrail", trailPos - (0,0, height*0.5));
 		trail.vel.z = bobz*0.25;
 		
 		if( !(getAge()%10) ) DoLightning(10);
@@ -131,6 +136,13 @@ class HaloPower_Haste : PowerupGiver replaces SoulSphere
 	override void Tick()
 	{
 		super.Tick();
+
+		vel *= 0.94;
+		if(oldfloorz != floorz && spawnSector == CurSector)
+		{
+			SetOrigin((pos.xy, floorz + height ), true);
+			oldfloorz = floorz;
+		}
 		
 		if(!bSPECIAL)
 		{
@@ -194,7 +206,7 @@ class HaloPower_Strength : HaloPower_Haste replaces Megasphere
 		bobz = sin(level.maptime*10) * 5;
 		HaloPowerup.DoParticles(self, pcol:"Red", amt: 20, zoffset:0);
 		
-		vector3 fxpos = (pos.xy, pos.z);
+		vector3 fxpos = (pos.xy, pos.z - (height*0.5));
 		if(!(GetAge()%4))
 			HaloMath.SpawnFX("PowerStrengthSmoke", fxpos, angle, 1, 20, 20, rstyle:STYLE_Subtract);
 			
@@ -229,7 +241,7 @@ class HaloPower_ActiveCamo : HaloPower_Haste replaces BlurSphere
 	
 	override void VisualFX()
 	{
-		bobz = sin(level.maptime*4) * 5;
+		bobz = sin(level.maptime*4) * 3;
 		alpha = (sin(level.maptime*10) + 1) * 0.5;
 		HaloPowerup.DoParticles(self, pcol:"Blue", amt: 5, zoffset:0);	
 	}

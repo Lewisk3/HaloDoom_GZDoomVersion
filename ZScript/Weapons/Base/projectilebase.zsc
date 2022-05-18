@@ -208,13 +208,13 @@ class HaloNeedleProjectile : HaloSlowProjectile
 	double hitangle;
 	double hitpitch;
 	double maxhomdist;
-	double homTurnMax, homStrength;
+	double homTurnMax;
 	int explodetimer, explodedelay, explodecount;
 	NeedleCounter needlecount;
 	Property ExplodeDelay : explodedelay;
 	Property ExplodeCount : explodecount;
 	Property NeedleDamages : truedamage, shatterdmg;
-	Property NeedleHoming : homTurnMax, homStrength;
+	Property NeedleHoming : homTurnMax, homingStrength, homingFOV;
 	Property NeedleHomRange : maxhomdist;
 
 	Default
@@ -239,7 +239,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 		HaloNeedleProjectile.NeedleDamages 2, 10;
 		HaloNeedleProjectile.ExplodeDelay 35; // 1 second.
 		HaloNeedleProjectile.ExplodeCount 7; 
-		HaloNeedleProjectile.NeedleHoming 40, 0.15;
+		HaloNeedleProjectile.NeedleHoming 40, 0.15, 30;
 		HaloNeedleProjectile.NeedleHomRange 61;
 		Translation "0:255=@70[128, 17, 247]";
 	}
@@ -287,42 +287,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 		}
 		else if(getTravelDistance() < maxhomdist) // Do homing
 		{
-			// Find nearest viable target, track target.
-			if(tracer)
-			{
-				vector3 dest = (tracer.pos.xy, tracer.pos.z+(tracer.height*0.5));
-				vector3 trackingAngles = level.SphericalCoords(pos, dest, (angle, pitch));
-				if( abs(trackingAngles.x) > homTurnMax ) return;
-				
-				A_SetAngle(angle - (trackingAngles.x * homStrength), SPF_INTERPOLATE);
-				A_SetPitch(pitch - (trackingAngles.y * homStrength), SPF_INTERPOLATE);
-				
-				// Update velocity
-				vector3 newVel = HaloMath.V3Offset(angle, pitch, roll, 1.0,0,0, vel.Length());
-				vel = newVel;
-			}
-			else
-			{
-				let it = ThinkerIterator.Create();
-				Actor act;
-				int mindist = int.max;
-				LookExParams look;
-				look.FOV = 30;
-				while(act = Actor(it.Next()))
-				{
-					if(act == target) continue;
-					if(!act.bSHOOTABLE || act.bCORPSE) continue;
-					if(target && !act.isHostile(target)) continue;
-					if(target && !target.IsVisible(act, false, look)) continue;
-					
-					int dist = Distance3DSquared(act);
-					if(dist < mindist) 
-					{
-						tracer = act;
-						mindist = dist;
-					}
-				}
-			}
+			Handle_Homing(homTurnMax);
 		}
 	}
 		

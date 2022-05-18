@@ -84,7 +84,7 @@ class HaloShieldCharge : Inventory
 			bool localview = toucher.CheckLocalView();
 			PrintPickupMessage(localview, PickupMessage());
 			PlayPickupSound(toucher);
-			toucher.A_StopSound(CHAN_6); // Stop shield warning audio.
+			hplr.A_StopSound(CHAN_6); // Stop shield warning audio.
 			GoAwayAndDie();
 			return true;
 		}
