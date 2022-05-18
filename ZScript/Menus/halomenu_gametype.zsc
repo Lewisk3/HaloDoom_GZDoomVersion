@@ -89,7 +89,8 @@ class HaloDoom_GameTypeMenu : HaloMenuBase
 		}
 	
 		// Description
-		HLSBS.Fill(0xFF000000, desc_pos.x,desc_pos.y, 520,520);
+		uint drawFlags = HLSBS.SS_NOASPECTCORRECTION;
+		HLSBS.Fill(0xFF000000, desc_pos.x,desc_pos.y, 520,520, flags:drawFlags);
 		DStr("GameType Info", (desc_pos.x+180,desc_pos.y), 0, Font.CR_BLUE, scale:(0.25,0.25), fnt:infoFont);
 	
 		if(index != -1)
@@ -97,9 +98,9 @@ class HaloDoom_GameTypeMenu : HaloMenuBase
 			let gameType = gtInfo[index];
 			string gtName = StringTable.Localize(gameType.displayName);
 			string gtDesc = StringTable.Localize(gameType.Description);
-			gtDesc = HaloMath.formatStringLnBreaks(gtDesc, 30);
+			gtDesc = StringHelper.formatLnBreaks(gtDesc, 30);
 				
-			HLSBS.DrawString("HaloFont", gtDesc, (desc_pos.x+50,desc_pos.y+80), 0, Font.CR_WHITE, scale:(0.15,0.15), linespacing:130);
+			HLSBS.DrawString("HaloFont", gtDesc, (desc_pos.x+50,desc_pos.y+80), flags:drawFlags, Font.CR_WHITE, scale:(0.15,0.15), linespacing:130);
 			
 			Array<String> gametype_weaps;
 			HaloGun.getGameTypeWeapons( !index ? 0 : 1 << (index-1), gametype_weaps );
@@ -113,8 +114,8 @@ class HaloDoom_GameTypeMenu : HaloMenuBase
 				weaps = weaps .. gametype_weaps[i] .. comma;
 			}
 				
-			weaps = HaloMath.formatStringLnBreaks(weaps, 60);
-			HLSBS.DrawString("HaloFont", weaps, (desc_pos.x+20,desc_pos.y+350), 0, Font.CR_GREEN, scale:(0.10,0.10), linespacing:100);
+			weaps = StringHelper.formatLnBreaks(weaps, 60);
+			HLSBS.DrawString("HaloFont", weaps, (desc_pos.x+20,desc_pos.y+350), flags:drawFlags, Font.CR_GREEN, scale:(0.10,0.10), linespacing:100);
 		}
 	}
 	

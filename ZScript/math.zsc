@@ -507,55 +507,7 @@ class HaloMath Abstract
 	{
         return -(d * v) - (k * (p - r));
     }
-		
-	// Attempt to automatically insert linebreaks in string.
-	static string formatStringLnBreaks(String str, int lineLen)
-	{
-		// Split string into words.
-		Array<string> words;
-		string newline = "\n";
-		str.Split(words, " ");
-		
-		string outStr;
-		int carriage = 0;
-		for(int i = 0; i < words.Size(); i++)
-		{
-			string word = words[i];
-			bool manualNewLine = word.IndexOf(newline, 0) != -1;
-			
-			int len = word.Length() + 1; // Add " " space at start of new word.
-			carriage += len;
-			
-			if(manualNewLine) carriage = len-1;
-			if(carriage > lineLen) 
-			{
-				outStr = outStr .. "\n";
-				carriage = len-1;
-			}
-
-			outStr = String.Format("%s %s", outStr, word);
-		}
-		
-		return outStr;
-	}
-	 
-	// Not really math but useful stuff.
-	static bool, string parseStrElement(String type, String ln)
-	{
-		string lnLower = ln.MakeLower();
-		type = type.MakeLower();
-				
-		int element_S = lnLower.IndexOf(type);
-		int element_E = lnLower.IndexOf("\n", element_S);
-		if(element_S < 0 || element_E < 0) return false, "";
-		
-		string output = ln.Mid(element_S, element_E-element_S);
-		int strBegin = output.IndexOf("\"");
-		int strEnd = output.IndexOf("\"", strBegin+1);
-		
-		return true, output.Mid(strBegin+1, (strEnd-strBegin)-1);
-	}
-		 
+				 
 	static void getSkillsInfo(out Array<SkillInfo> skInfo)
 	{
 		// adwnawdlnkdawlknawdkln why isn't this just a feature??!?!!?!?!?
@@ -607,7 +559,7 @@ class HaloMath Abstract
 				if(picName > -1)
 				{		
 					// Parse skillPic
-					[gotStr, skillPic] = parseStrElement("picname", skillData);
+					[gotStr, skillPic] = StringHelper.parseStrElement("picname", skillData);
 					if(!gotStr) return;
 								
 					int picNameEnd = skillDataLower.IndexOf("\n", picName);
@@ -621,7 +573,7 @@ class HaloMath Abstract
 				skillDataLower = skillData.MakeLower();
 				
 				// Get name
-				[gotStr, skillName] = parseStrElement("name", skillData);
+				[gotStr, skillName] = StringHelper.parseStrElement("name", skillData);
 				if(!gotStr) return;
 				
 				// Localize name if needed.
@@ -629,7 +581,7 @@ class HaloMath Abstract
 				if(specialName) skillName = StringTable.Localize(skillName);
 				
 				// Get "desc" from `MustConfirm`
-				[gotStr, skillDesc] = parseStrElement("mustconfirm", skillData);
+				[gotStr, skillDesc] = StringHelper.parseStrElement("mustconfirm", skillData);
 				if(!gotStr) skillDesc = "";
 				
 				let curSkillInfo = new("SkillInfo");
@@ -718,8 +670,8 @@ class HaloMath Abstract
 
 				bool exists;
 				string result;
-				[exists, gtName] = parseStrElement("name", gtData);
-				[exists, gtDesc] = parseStrElement("description", gtData);
+				[exists, gtName] = StringHelper.parseStrElement("name", gtData);
+				[exists, gtDesc] = StringHelper.parseStrElement("description", gtData);
 				
 				// Export data.
 				let curGameTypeInfo = new("GameTypeInfo");
@@ -777,6 +729,80 @@ class HaloMath Abstract
 		return Wads.ReadLump(lump);
 	}
 	
+}
+
+class StringHelper Abstract
+{
+	static bool IsUpper(uint ch)
+	{
+		return ch != 0 ? ch == String.CharUpper(ch) : false;
+	}
+	
+	static void SplitByUppercase(String src, out Array<String> tokens)
+	{
+		tokens.Clear();
+		int foundat = -1;
+		for(int i = 0; i <= src.Length(); i++)
+		{
+			if(StringHelper.IsUpper(src.ByteAt(i)))
+			{
+				if(foundat >= 0) tokens.Push(src.Mid(foundat, i-foundat));
+				foundat = i;
+			}
+			else if(i >= src.Length() && foundat >= 0) 
+			{
+				tokens.Push(src.Mid(foundat, src.Length()));
+				break;
+			}
+		}
+	}
+	
+	// Attempt to automatically insert linebreaks in string.
+	static string formatLnBreaks(String str, int lineLen)
+	{
+		// Split string into words.
+		Array<string> words;
+		string newline = "\n";
+		str.Split(words, " ");
+		
+		string outStr;
+		int carriage = 0;
+		for(int i = 0; i < words.Size(); i++)
+		{
+			string word = words[i];
+			bool manualNewLine = word.IndexOf(newline, 0) != -1;
+			
+			int len = word.Length() + 1; // Add " " space at start of new word.
+			carriage += len;
+			
+			if(manualNewLine) carriage = len-1;
+			if(carriage > lineLen) 
+			{
+				outStr = outStr .. "\n";
+				carriage = len-1;
+			}
+
+			outStr = String.Format("%s %s", outStr, word);
+		}
+		
+		return outStr;
+	}
+	 
+	static bool, string parseStrElement(String type, String ln)
+	{
+		string lnLower = ln.MakeLower();
+		type = type.MakeLower();
+				
+		int element_S = lnLower.IndexOf(type);
+		int element_E = lnLower.IndexOf("\n", element_S);
+		if(element_S < 0 || element_E < 0) return false, "";
+		
+		string output = ln.Mid(element_S, element_E-element_S);
+		int strBegin = output.IndexOf("\"");
+		int strEnd = output.IndexOf("\"", strBegin+1);
+		
+		return true, output.Mid(strBegin+1, (strEnd-strBegin)-1);
+	}
 }
 
 class SkillInfo : Object

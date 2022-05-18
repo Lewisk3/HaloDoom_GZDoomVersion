@@ -294,9 +294,9 @@ class HaloPlayer : DoomPlayer
 				A_StartSound("Shield/Warning", CHAN_6, flags:sndflags);
 			else if(shields <= maxshields*0.25) 
 				A_StartSound("Shield/Low", CHAN_6, flags:sndflags);
-			else 
-				A_StopSound(CHAN_6);
-		}
+		} else if(shields > (maxshields*0.25))
+			A_StopSound(CHAN_6);
+			
 		if(regen_timer < shregentime) 
 		{	
 			regen_timer += 1;
@@ -315,6 +315,7 @@ class HaloPlayer : DoomPlayer
 			A_SoundVolume(CHAN_5, (1.0 - recharge_perc) + 0.1);
 			shields += maxshields/(shield_regenrate*35.);
 			shields = clamp(shields, 0, maxshields);
+			A_StopSound(CHAN_6);
 		}
 		if(shields >= maxshields)
 		{

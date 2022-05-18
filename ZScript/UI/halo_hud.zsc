@@ -325,6 +325,7 @@ class HaloStatusBar : BaseStatusBar
 				haloweap.GetStatsLore(stats, lore);
 				
 				uint flags = HLSBS.SS_SCREEN_CENTER | HLSBS.SS_COORDS_TEXGRID | HLSBS.SS_NOASPECTCORRECTION;
+				uint txtFlags = HLSBS.SS_NOASPECTCORRECTION;
 				HLSBS.DrawImage(img, (0.5,0.5), flags, curAlpha - 0.15, scale:(0.5,0.5));
 				
 				State wspawn = haloweap.FindState("Spawn");
@@ -333,27 +334,29 @@ class HaloStatusBar : BaseStatusBar
 				string icon = TexMan.GetName(tex);
 				vector2 scaleTo = HaloMath.GetImageScaleToRes(icon, (300,128), false);
 				
-				HLSBS.DrawImage(icon, (1300,440), alpha:curAlpha, scale:scaleTo);
+				HLSBS.DrawImage(icon, (1300,440), flags:txtFlags, alpha:curAlpha, scale:scaleTo);
 				
 				HLSBS.DrawString(
 					infoFont, haloweap.GetTag(), (760,240), 
-					flags:HLSBS.SS_TEXT_CENTER, 
+					flags:HLSBS.SS_TEXT_CENTER | txtFlags, 
 					alpha:curAlpha, scale:(0.15,0.15)
 				);
 				double strY = 0;
 				for(int i = 0; i < stats.Size(); i++)
 				{
 					HLSBS.DrawString(
-						infoFont, stats[i], (600,280+strY),  
+						infoFont, stats[i], (600,280+strY),
+						flags:txtFlags,
 						alpha:curAlpha, scale:(0.10,0.10)
 					);
 					strY += 20;
 				}
 				
-				lore = HaloMath.formatStringLnBreaks(lore, 100);
+				lore = StringHelper.formatLnBreaks(lore, 100);
 				// Drop-Shadow
 				HLSBS.DrawString(
 					infoFont, lore, (600,400)+(2,2),  
+					flags:txtFlags,
 					alpha:curAlpha, scale:(0.10,0.10),
 					tint:Color(0xFF,0,0,0),
 					linespacing:80
@@ -361,6 +364,7 @@ class HaloStatusBar : BaseStatusBar
 				
 				HLSBS.DrawString(
 					infoFont, lore, (600,400),  
+					flags:txtFlags,
 					alpha:curAlpha, scale:(0.10,0.10),
 					linespacing:80
 				);
@@ -459,8 +463,9 @@ class HaloStatusBar : BaseStatusBar
 		HLSBS.DrawImage("Graphics/UI/WepHousing.png", (1700,120), HLSBS.SS_NOASPECTCORRECTION, 0.8, (1.7,1.9)); 
 			
 		// Weapon Icons
-		HLSBS.DrawImage(weap1_icon, (1745,75)+weap1_offs, 0, 0.8, weap1_scale);
-		if(otherweap) HLSBS.DrawImage(weap2_icon, (1820,153)+weap2_offs, 0, 0.8, weap2_scale);
+		uint iconFlags = HLSBS.SS_NOASPECTCORRECTION;
+		HLSBS.DrawImage(weap1_icon, (1745,75)+weap1_offs, iconFlags, 0.8, weap1_scale);
+		if(otherweap) HLSBS.DrawImage(weap2_icon, (1820,153)+weap2_offs, iconFlags, 0.8, weap2_scale);
 		
 		if(halodoom_unlimitedbackpack)
 		{
@@ -490,12 +495,12 @@ class HaloStatusBar : BaseStatusBar
 				vector2 scale;
 				string icon;
 				[icon, scale] = GetWeaponUIDetails(weap, (1.0,1.0));
-				HLSBS.DrawImage(icon, (1850,200)+offs, 0, 0.8, scale*0.5);
+				HLSBS.DrawImage(icon, (1850,200)+offs, iconFlags, 0.8, scale*0.5);
 				slots[num]++;
 			}	
 			for(int i = 1; i <= slots.Size(); i++)
 			{
-				HLSBS.DrawString(fntHaloAmmo, i.."", (1800, 280+((i-1)*100)), scale:(0.05,0.05));
+				HLSBS.DrawString(fntHaloAmmo, i.."", (1800, 280+((i-1)*100)), flags:iconFlags, scale:(0.05,0.05));
 			}
 		}
 		
@@ -517,11 +522,11 @@ class HaloStatusBar : BaseStatusBar
 			{
 				Color tint = 0;
 				if(charge_perc < 0.4) tint = Color(128, 255,8,8);
-				HLSBS.DrawImage("WI_BTRY", ampos+(-170,-30), 0, 0.35, (-1.75,1.5), tint:Color(180,0,0,0));
+				HLSBS.DrawImage("WI_BTRY", ampos+(-170,-30), iconFlags, 0.35, (-1.75,1.5), tint:Color(180,0,0,0));
 			
 				double xClip = max(0, 1.0-charge_perc) * 195;
-				HLSBS.SetClipRect(1571 + xClip, 120, 195 - xClip, 20);
-				HLSBS.DrawImage("WI_BTRY", ampos+(-170,-30), 0, 0.8, (-1.75,1.5), tint:tint);
+				HLSBS.SetClipRect(1571 + xClip, 120, 195 - xClip, 20, flags:iconFlags);
+				HLSBS.DrawImage("WI_BTRY", ampos+(-170,-30), iconFlags, 0.8, (-1.75,1.5), tint:tint);
 				HLSBS.ClearClipRect();
 			}
 			
@@ -530,7 +535,7 @@ class HaloStatusBar : BaseStatusBar
 			{
 				int curHeat = min(9, (halo_curweap.heat*1.10) * 9);
 				string heatbars = String.Format("Graphics/UI/Heatbar/HB%d.png", curHeat);
-				HLSBS.DrawImage(heatbars, ampos + (-60,-10), scale:(-1.5,1.5));
+				HLSBS.DrawImage(heatbars, ampos + (-60,-10), flags:iconFlags, scale:(-1.5,1.5));
 			}
 		}
 		else if(curweap.AmmoType2 && curweap.AmmoType2 != curweap.AmmoType1)
@@ -559,7 +564,7 @@ class HaloStatusBar : BaseStatusBar
 				HLSBS.DrawImage(
 					"WI_AMMO", 
 					ampos + ( amoffs * (AMMOG_SIZE*1.25) ) + (115,-25), 
-					0, iconAlpha, (1.25,1.25), tint:tint
+					flags:iconFlags, iconAlpha, (1.25,1.25), tint:tint
 				);
 				
 				amoffs.y++;
@@ -573,7 +578,7 @@ class HaloStatusBar : BaseStatusBar
 		// Ammo Count
 		HLSBS.DrawString(
 			fntHaloAmmo, haloplr.countinv(curweap.AmmoType1).."", 
-			(1584, 56), flags:HLSBS.SS_TEXT_CENTER, scale:(0.15,0.15)
+			(1584, 56), flags:HLSBS.SS_TEXT_CENTER | iconFlags, scale:(0.15,0.15)
 		);
 		
 		// Draw grenades

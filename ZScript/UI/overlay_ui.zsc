@@ -1,30 +1,3 @@
-class StringHelper Abstract
-{
-	static bool IsUpper(uint ch)
-	{
-		return ch != 0 ? ch == String.CharUpper(ch) : false;
-	}
-	
-	static void SplitByUppercase(String src, out Array<String> tokens)
-	{
-		tokens.Clear();
-		int foundat = -1;
-		for(int i = 0; i <= src.Length(); i++)
-		{
-			if(StringHelper.IsUpper(src.ByteAt(i)))
-			{
-				if(foundat >= 0) tokens.Push(src.Mid(foundat, i-foundat));
-				foundat = i;
-			}
-			else if(i >= src.Length() && foundat >= 0) 
-			{
-				tokens.Push(src.Mid(foundat, src.Length()));
-				break;
-			}
-		}
-	}
-}
-
 class LevelTransitionAnimator : Object
 {
 	ui double textFade, infoFade;
@@ -71,12 +44,12 @@ class LevelTransitionAnimator : Object
 		}	
 		
 		HLSBS.Fill("Black", 0, 0, 1920, barHeight); // Top 
-		HLSBS.Fill("Black", 0, 1080 - barHeight, 1920, barSize); // Bottom
+		HLSBS.Fill("Black", 0, 1090 - barHeight, 1920, barSize); // Bottom
 		
 		Font textFont = "HaloFont";
-		vector2 textPos = (-550,-160);
+		vector2 textPos = (-550,-140);
 		double textScale = 0.25;
-		uint textFlags = HLSBS.SS_SCREEN_BOTTOM_RIGHT;
+		uint textFlags = HLSBS.SS_SCREEN_BOTTOM_RIGHT | HLSBS.SS_NOASPECTCORRECTION;
 		
 		string mapNumber = level.MapName .. ", ";
 		string levelName = level.LevelName; 

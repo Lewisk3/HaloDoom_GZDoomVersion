@@ -89,7 +89,7 @@ class HaloDoom_SkillMenu : HaloMenuBase
 		{
 			if(i > skills.Size()-1) break;
 			let curSkill = skills[i];
-			string adjustedDesc = HaloMath.formatStringLnBreaks(curSkill.Description, 23);
+			string adjustedDesc = StringHelper.formatLnBreaks(curSkill.Description, 23);
 			
 			HaloSkills.push(HaloSkill.Init(curSkill.displayName, "", adjustedDesc));
 		}
@@ -110,13 +110,14 @@ class HaloDoom_SkillMenu : HaloMenuBase
 	
 	override void Drawer ()
 	{
-		uint strFlags = HLSBS.SS_SCREEN_TOP_CENTER | HLSBS.SS_TEXT_CENTER;
+		uint drawFlags = HLSBS.SS_NOASPECTCORRECTION;
+		uint strFlags = HLSBS.SS_SCREEN_TOP_CENTER | HLSBS.SS_TEXT_CENTER | drawFlags;
 		
 		vector2 descPos = (1200,500);
 		
 		// Description
 		vector2 descOffs = (descPos.x+190, descPos.y-256);
-		HLSBS.Fill(0xFF000000, descOffs.x,descOffs.y, 370,520);
+		HLSBS.Fill(0xFF000000, descOffs.x,descOffs.y, 370,520, flags:drawFlags);
 		HLSBS.DrawString("HaloFont", "Difficulty Info", (descOffs.x + 20,descOffs.y + 10), 0, Font.CR_BLUE, scale:(0.20,0.20));
 		
 		for(int i = 0; i < buttons.Size(); i++)
@@ -127,7 +128,7 @@ class HaloDoom_SkillMenu : HaloMenuBase
 			imgPos.x += buttons[i].collider.size.x * 0.5;
 			imgPos.y += 32;
 			
-			HLSBS.DrawImage(skillImg, imgPos, scale:(0.4,0.4));
+			HLSBS.DrawImage(skillImg, imgPos, flags:drawFlags, scale:(0.4,0.4));
 		
 			if(buttons[i].btntext)
 			{
@@ -138,8 +139,8 @@ class HaloDoom_SkillMenu : HaloMenuBase
 				else if(buttons[i].hovered)
 				{
 					buttons[i].btntext.font_color = Font.CR_WHITE;
-					HLSBS.DrawImage(skillImg, descPos, scale:(1.75,2.0));
-					HLSBS.DrawString("HaloFont", HaloSkills[skillnum].desc, (descOffs.x + 20, descOffs.y + 70), 0, Font.CR_WHITE, scale:(0.12,0.12), linespacing:130);
+					HLSBS.DrawImage(skillImg, descPos, flags:drawFlags, scale:(1.75,2.0));
+					HLSBS.DrawString("HaloFont", HaloSkills[skillnum].desc, (descOffs.x + 20, descOffs.y + 70), flags:drawFlags, Font.CR_WHITE, scale:(0.12,0.12), linespacing:130);
 				}
 				else
 				{
@@ -149,7 +150,7 @@ class HaloDoom_SkillMenu : HaloMenuBase
 		}
 	
 		// Backdrop		
-		HLSBS.DrawImage("B@CKDROP", descPos, alpha:0.50, scale:(3.0,4.0), tint:0x3AFF0000);
+		HLSBS.DrawImage("B@CKDROP", descPos, flags:drawFlags, alpha:0.50, scale:(3.0,4.0), tint:0x3AFF0000);
 	
 		Super.Drawer();
 		mMouse.Draw();
