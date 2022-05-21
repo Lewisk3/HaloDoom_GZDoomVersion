@@ -241,7 +241,7 @@ class HaloPower_ActiveCamo : HaloPower_Haste replaces BlurSphere
 	
 	override void VisualFX()
 	{
-		bobz = sin(level.maptime*4) * 3;
+		bobz = sin(level.maptime*4) * 3;		
 		alpha = (sin(level.maptime*10) + 1) * 0.5;
 		HaloPowerup.DoParticles(self, pcol:"Blue", amt: 5, zoffset:0);	
 	}
@@ -253,3 +253,34 @@ class HaloPower_ActiveCamo : HaloPower_Haste replaces BlurSphere
 		stop;
 	}
 } 
+
+class HaloPower_Fullmap : HaloPower_ActiveCamo replaces Allmap
+{
+	Default
+	{
+		+BRIGHT;
+		Scale 0.0125;
+		Powerup.Type "PowerHaloAllmap";
+		
+		Inventory.PickupMessage "Automap revealed!";
+		Inventory.PickupSound "Halo/Powerup/Allmap";
+	}
+	
+	override void OnPickup(Actor other) {}
+	
+	override void VisualFX()
+	{
+		bobz = sin(level.maptime*4) * 3;
+		double blink = (0.5 * sin(level.maptime*15)) + 0.5;
+		if(blink >= 1.0) bBRIGHT = !bBRIGHT;
+		
+		HaloPowerup.DoParticles(self, pcol:"Green", amt: 3, zoffset:0);	
+	}
+	
+	States
+	{
+		Spawn:
+			PWAM A -1;
+		stop;
+	}
+}

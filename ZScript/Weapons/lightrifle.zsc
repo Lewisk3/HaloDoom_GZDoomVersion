@@ -40,12 +40,10 @@ class LSR_LightRifle : LSR_UnmakerBeam
 	{
 		for(int i = 0; i < 2; i++)
 		{
-			let puff = UnmakerLaserPuff(Spawn("BinaryRiflePuff", hitPos));
+			let puff = UnmakerLaserPuff(Spawn("LightRiflePuff", hitPos));
 			if(puff) 
 			{
 				puff.A_SetScale(1.0);
-				puff.laserAmt = 1;
-				puff.laserDist = 50;
 				puff.angle = angle + 180;
 				puff.pitch = -(pitch-90);
 			}
@@ -68,6 +66,14 @@ class LSR_LightRifleCore : LSR_LightRifle
 	}
 	
 	override void OnImpact(vector3 hitPos, Actor hitActor) {}
+}
+class LightRiflePuff : UnmakerLaserPuff
+{
+	Default
+	{
+		UnmakerLaserPuff.laserPuffs 1, 50, 0.25;
+		UnmakerLaserPuff.FadeTics 10;
+	}
 }
 
 class Halo_LightRifle : HaloGun

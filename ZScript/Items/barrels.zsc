@@ -18,6 +18,7 @@ class ExplosiveCoil : Actor
 		+SHOOTABLE;
 		+DONTTHRUST;
 		+PUSHABLE;
+		+SLIDESONWALLS;
 		
 		Health 75;
 	}
@@ -45,6 +46,11 @@ class ExplosiveCoil : Actor
 	virtual void OnExplode()
 	{
 		// BOOM!
+	}
+	
+	virtual void OnWait()
+	{
+		// Waiting to explode.
 	}
 	
 	virtual void FilterExplosions()
@@ -76,7 +82,11 @@ class ExplosiveCoil : Actor
 		
 		XDeath:
 		Death:
-			"####" "#" 1 A_JumpIf((delay--) <= 0, "TrueDeath");
+			"####" "#" 1 
+			{
+				OnWait();
+				return A_JumpIf((delay--) <= 0, "TrueDeath");
+			}
 		loop;
 		TrueDeath:
 			TNT1 A 35 
@@ -261,7 +271,7 @@ class Coil_Hardlight_Explosion : CheapActor
 				
 				HaloMath.SpawnFX("UnmakerBallSmoke", pos+randPos, frandom(0,360), random(5,10), 64, 10, 0, 0, 8);
 				
-				A_Explode(200, 256, damagetype:"Plasma");
+				A_Explode(200, 160, damagetype:"Plasma");
 				A_Quake(3, 10, 0, 1024, "");
 			}
 		stop;
@@ -293,9 +303,14 @@ class Coil_Hardlight : ExplosiveCoil
 		let expl = Coil_Hardlight_Explosion(Spawn("Coil_Hardlight_Explosion", (pos.xy, pos.z + 30)));
 		if(expl) 
 		{
-			expl.lowEffects = (delay >= 1);
+			expl.lowEffects = lowEffects;
 		}
 		A_DoLightning(10);
+	}
+	
+	override void OnWait()
+	{
+		if(delay > 0) lowEffects = true;
 	}
 }
 
@@ -327,7 +342,7 @@ class Coil_Needler_Explosion : CheapActor
 					HaloMath.FireProjectile("HaloNeedleProjectile", pos+randPos, frandom(0,360), frandom(-30,30));
 				}
 				
-				A_Explode(200, 256, damagetype:"Explosive");
+				A_Explode(200, 160, damagetype:"Explosive");
 			}
 		stop;
 	}

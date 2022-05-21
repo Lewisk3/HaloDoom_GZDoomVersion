@@ -145,11 +145,11 @@ class Halo_Spiker_Reserves : Ammo
 	{
 		Radius 8;
 		Height 6;
-		Scale 0.65;
+		Scale 0.025;
 
 		Inventory.Amount 30;
 		Inventory.MaxAmount 160;
-		Inventory.Icon "HLAMN0";
+		Inventory.Icon "HLAMQ0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "Picked up 30 Rounds for the Spiker";
 		
@@ -159,7 +159,7 @@ class Halo_Spiker_Reserves : Ammo
 	States
 	{
 		Spawn:
-			HLAM N -1 Bright;
+			HLAM Q -1 Bright;
 		stop;
 	}
 }
@@ -266,7 +266,7 @@ class Halo_Spiker : HaloGun
 			{		
 				A_FireSpiker();
 				A_SetRecoil(1.0, 0.2, 2);
-				A_RollQuake(1,10,1, true);
+				A_RollQuake(1,10,1, player.refire > 0);
 				A_SetZoom(0.99, 1);
 			}
 			WGF1 C 1 A_RecoilOffset(0,0,4);
@@ -278,6 +278,7 @@ class Halo_Spiker : HaloGun
 			}
 			TNT1 A 0 A_WeapSound("Halo/Weapons/Spiker/Mech", CHANF_OVERLAP);
 			WGG1 A 1 A_RecoilOffset(0,0,4);
+			TNT1 A 0 A_ReFire();
 		goto Ready.Active;
 		
 		AltFire:

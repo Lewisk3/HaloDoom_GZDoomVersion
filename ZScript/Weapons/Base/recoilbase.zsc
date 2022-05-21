@@ -260,6 +260,10 @@ class RecoilWeapon : Weapon
 		
 		if(!noreplace || ptr.rollshake_str == 0)
 		{
+			if(ptr.rollshake_time) 
+			{
+				ptr.Owner.A_SetRoll(0, SPF_INTERPOLATE);
+			}
 			ptr.rollshake_str = str;
 			ptr.rollshake_time = dur;
 			ptr.rollshake_maxtime = dur;

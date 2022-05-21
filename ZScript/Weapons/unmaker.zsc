@@ -114,7 +114,9 @@ class UnmakerLaserPuff : CheapActor
 	int laserAmt;
 	double smokeMax;
 	double laserDist;
+	double fadeSpeed;
 	Property laserPuffs : laserAmt, laserDist, smokeMax;
+	Property FadeTics : fadeSpeed;
 	
 	Default
 	{	
@@ -122,7 +124,8 @@ class UnmakerLaserPuff : CheapActor
 		RenderStyle "Add";
 		Alpha 0.85;
 		Scale 2.0;
-		UnmakerLaserPuff.laserPuffs 2, 60, 1.0;
+		UnmakerLaserPuff.laserPuffs 2, 50, 1.0;
+		UnmakerLaserPuff.FadeTics 40;
 	}
 	
 	override void Tick()
@@ -153,7 +156,7 @@ class UnmakerLaserPuff : CheapActor
 	{
 		Spawn:
 			RPUF ABCDE 2;
-			RPUF F 1 A_Fadeout(1. / 40.);
+			RPUF F 1 A_Fadeout(1. / fadeSpeed);
 		wait;
 	}
 }

@@ -112,6 +112,28 @@ class PowerHaloSpeedBoost : HaloPowerup
 	}
 }
 
+class PowerHaloAllmap : HaloPowerup
+{	
+	Default
+	{
+		Powerup.Duration -1;
+		HaloPowerup.UIEffect "";
+	}
+	
+	override void DoEffect()
+	{
+		super.DoEffect();
+		let hplr = HaloPlayer(Owner);
+		if(!hplr) return;
+		
+		hplr.GiveInventory("Allmap", 1);
+	}
+	
+	override void EndEffect()
+	{
+		super.EndEffect();
+	}
+}
 
 class PowerHaloDamageBoost : HaloPowerup
 {	
