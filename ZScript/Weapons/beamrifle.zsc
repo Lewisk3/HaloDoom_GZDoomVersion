@@ -224,7 +224,7 @@ class Halo_BeamRifle : HaloGun
 				
 				A_AddRecoil(0.012, 0, 2);
 				A_RecoilOffset(frandom(-4,4), frandom(-8,8), 2);
-				A_RollQuake(1,10,1, true);
+				A_RollQuake(1,10,1);
 				A_Light( (!(GetAge()%4)) * 2 );
 				invoker.heat += 0.017;
 				

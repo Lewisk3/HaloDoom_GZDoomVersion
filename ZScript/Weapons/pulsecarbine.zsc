@@ -188,7 +188,7 @@ class Halo_PulseCarbine : HaloGun
 		Fire.Loop:
 			WMF1 "#" 1 Bright
 			{
-				A_RollQuake(1,8,1, true);
+				A_RollQuake(1,8,1);
 				A_FirePulseCarbine(); 
 				A_SetRecoil(0.67, 0, 2);
 				A_RQuakeEx(2,2,2,3,0,20,"",QF_RELATIVE|QF_WAVE);
@@ -204,6 +204,7 @@ class Halo_PulseCarbine : HaloGun
 			TNT1 A 0 A_JumpIf(invoker.shotCount < 5, "Fire.Loop");
 			WMF1 KLMN 1;
 			WMG1 A 6;
+			TNT1 A 0 A_ReFire();
 		goto Ready.Active;
 		
 		Reload:

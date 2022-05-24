@@ -314,8 +314,7 @@ class Halo_RocketLauncher : HaloGun
 			WIS1 WVUTSRQPONMLKJIHGFEDCB 1;
 			WIS1 A 1 A_GunLower();
 		wait;
-		
-		
+				
 		Fire:
 			TNT1 A 0 A_GunCheckReload();
 			WIF1 AB 1;
@@ -323,7 +322,7 @@ class Halo_RocketLauncher : HaloGun
 			{
 				A_SetZoom(0.80,1);
 				A_RecoilOffset(random(6,12),24,4);
-				A_SetRecoil(5.0, 5.0, 2);
+				A_SetRecoil(5.0, 3.0, 3);
 				A_FireRocket();
 				A_Recoil(5);
 				//A_RollQuake(8,20,2);
@@ -332,7 +331,7 @@ class Halo_RocketLauncher : HaloGun
 			WIF1 D 1 Bright;
 			WIF1 E 1 Bright
 			{
-				A_RQuakeEx(3,2,3,10,0,60,"");
+				A_RQuakeEx(3,2,3,10,0,60,"",QF_RELATIVE);
 				A_Light(0);
 			}
 			WIF1 FG 1 A_SetZoom(1.0, 12);

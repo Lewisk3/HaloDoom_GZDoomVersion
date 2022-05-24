@@ -47,8 +47,8 @@ class WeaponPickupProxy : Actor
 	
 	static bool ProcessDroppedWeapon(Weapon weap)
 	{
-		// Remove weapon 30% of the time.
-		if(random[WorldDroppedWeapon](0,100) < 30)
+		// Remove weapon 50% of the time.
+		if(random[WorldDroppedWeapon](0,100) < 50)
 		{
 			weap.Destroy();
 			return true;

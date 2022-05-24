@@ -177,7 +177,7 @@ class Halo_Magnum : HaloGun
 				A_SetRecoil(6.47, 0, 2);
 				A_SetZoom(0.90, 1);
 				A_RQuakeEx(2,2,4,6,0,20,"",QF_RELATIVE|QF_WAVE);
-				A_RollQuake(2,10,3, true);
+				A_RollQuake(2,10,3);
 			}
 			W0F1 C 1 bright A_RecoilOffset(16,-20,4);
 			W0F1 D 1 
@@ -205,7 +205,7 @@ class Halo_Magnum : HaloGun
 				A_SetRecoil(6.47, 0, 2);
 				A_SetZoom(0.92, 1);
 				A_RQuakeEx(2,2,4,6,0,20,"",QF_RELATIVE|QF_WAVE);
-				A_RollQuake(2,10,3, true);
+				A_RollQuake(2,10,3);
 			}
 			W0F1 Z 1 bright A_RecoilOffset(16,-20,4);
 			W0F2 A 1 

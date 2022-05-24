@@ -34,5 +34,5 @@ map Titlemap "Titlemap"
 {
 	levelnum = 0
 	sky1 = "HDESKY", 0
-	Music = "Music/TITLEMUS.ogg"
+//	Music = "Music/TITLEMUS.ogg"
 }

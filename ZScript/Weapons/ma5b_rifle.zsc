@@ -172,7 +172,7 @@ class Halo_MA5B : HaloGun
 				A_RecoilOffset(frandom(-4,4),frandom(4,4),2);
 				A_SetRecoil(0.6, frandom(-0.4,0.4), 1);
 				A_RQuakeEx(2,2,2,4,0,20,"",QF_RELATIVE);
-				A_RollQuake(1,10,2, true);
+				A_RollQuake(1,10,2);
 			}
 			WHG1 A 1 Bright
 			{
@@ -198,7 +198,7 @@ class Halo_MA5B : HaloGun
 				A_RecoilOffset(frandom(-4,4),frandom(4,4),2);
 				A_SetRecoil(0.5, frandom(-0.35,0.35), 1);
 				A_RQuakeEx(2,2,2,4,0,20,"",QF_RELATIVE);
-				A_RollQuake(1,4,1, true);
+				A_RollQuake(1,4,1);
 			}
 			WHG1 A 1 Bright
 			{
@@ -224,7 +224,7 @@ class Halo_MA5B : HaloGun
 				A_RecoilOffset(frandom(-4,4),frandom(6,6),2);
 				A_SetRecoil(0.5, frandom(-0.5,0.5), 1);
 				A_RQuakeEx(1,2,1,2,0,20,"",QF_RELATIVE);
-				A_RollQuake(1,10,2, true);
+				A_RollQuake(1,10,2);
 			}
 			WHG1 A 1 Bright
 			{
@@ -250,7 +250,7 @@ class Halo_MA5B : HaloGun
 				A_RecoilOffset(frandom(-6,6),frandom(6,6),2);
 				A_SetRecoil(0.7, frandom(-0.5,0.5), 1);
 				A_RQuakeEx(1,2,1,2,0,20,"",QF_RELATIVE);
-				A_RollQuake(1,6,1, true);
+				A_RollQuake(1,6,1);
 			}
 			WHG1 A 1 Bright
 			{

@@ -498,16 +498,18 @@ class RepulsorField : Actor
 			pushForce.xy *= 0.8;
 			pushForce.z *= -1;
 			act.vel += pushForce;
+			
+			if(act.bMISSILE) act.vel = HaloMath.VecFromAngles(forceDir.x, -forceDir.y, act.vel.Length());
 		}
 	}
 	
 	States
 	{
 		Spawn:
-			TNT1 A 2;
+			TNT1 A 2 NoDelay DrawField();
 		Repulse:
-			TNT1 AAAAAAAA 1 A_DoRepulse();
-		stop;
+			TNT1 A 1 A_DoRepulse();
+		loop;
 	}
 }
 class FieldParticle : CheapActor

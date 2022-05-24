@@ -440,7 +440,7 @@ class Halo_Unmaker : HaloGun
 				else
 					A_FireUnmakerPrimary(3);
 				
-				A_RollQuake(1, 8, 2, true);
+				A_RollQuake(1, 8, 2);
 				A_RQuakeEx(2,4,2,4,0,20,"",QF_RELATIVE|QF_WAVE);
 			}
 			WKF1 B 2 Bright;
@@ -452,6 +452,7 @@ class Halo_Unmaker : HaloGun
 			}
 			WKF1 CDE 1 A_RecoilOffset(0,0,4);
 			WKI1 A 1;
+			TNT1 A 0 A_ReFire();
 		goto Ready.Active;
 		
 		AltFire:
@@ -472,7 +473,7 @@ class Halo_Unmaker : HaloGun
 			WKC1 IIJJKKJJII 1
 			{
 				A_RecoilOffset(frandom(-5,5),frandom(-5,5),2);
-				A_RollQuake(1, 10, 1, true);
+				A_RollQuake(1, 10, 1);
 			}
 			TNT1 A 0 A_ReFire("AltHold");
 		AltDoFire:

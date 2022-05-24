@@ -202,7 +202,7 @@ class Halo_AssaultRifle : HaloGun
 			HLM1 YZ 2;
 			HLM2 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1;
 			HLM3 ABCDEFGHIJKLM 1;
-			HLM3 N 1 A_RollQuake(2,15,3, true);
+			HLM3 N 1 A_RollQuake(2,15,3);
 			HLM3 OPQRSTUVWX 1;
 			HLM3 Y 60; // 37
 			TNT1 A 0 A_SetHUDVisible(true);
@@ -254,7 +254,7 @@ class Halo_AssaultRifle : HaloGun
 				A_SetRecoil(0.8, 0, 1);
 				A_RQuakeEx(1,3,0,3,0,20,"",QF_RELATIVE|QF_WAVE);
 				A_LCDOffset(4, 0);
-				A_RollQuake(1,12,2, true);
+				A_RollQuake(1,12,2);
 				A_SetFrame(randompick(1,3));
 			}
 			HARF "#" 1 Bright
@@ -269,6 +269,7 @@ class Halo_AssaultRifle : HaloGun
 				A_LCDOffset(8, 2);
 			}
 			HARF F 1 A_LCDOffset(0, 0);
+			TNT1 A 0 A_Refire();
 		goto Ready.Active;
 		
 		// Ammo 10s count

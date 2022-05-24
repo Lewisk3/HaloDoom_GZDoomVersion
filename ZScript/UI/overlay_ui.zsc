@@ -182,7 +182,7 @@ class Halo_OverlayUI : EventHandler
 		
 		// Draw HUD projections
 		if(!cvDrawKeys) cvDrawKeys = CVar.GetCVar("halodoom_keyoverlays", e.Camera.player);
-		if(cvDrawKeys && cvDrawKeys.getBool()) DrawKeys(e);
+		if(cvDrawKeys && cvDrawKeys.getBool() && !automapactive) DrawKeys(e);
 		
 		// Hitmarker(s)
 		uint plrnum = haloplr.PlayerNumber();

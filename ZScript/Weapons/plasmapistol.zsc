@@ -340,7 +340,7 @@ class Halo_PlasmaPistol : HaloGun
 				A_FireHaloPlasma();
 				A_SetRecoil(0.75, 0, 2);
 				A_RQuakeEx(3,2,1,2,0,20,"",QF_RELATIVE|QF_WAVE);
-				A_RollQuake(2,8,1, true);
+				A_RollQuake(2,8,1);
 			}
 			PLPF B 1 bright A_RecoilOffset(16,-20,4);
 			PLPF C 1 
@@ -369,7 +369,7 @@ class Halo_PlasmaPistol : HaloGun
 				A_FireHaloPlasma(charged:true);
 				A_SetRecoil(7.0, 0, 2);
 				A_RQuakeEx(2,2,4,6,0,20,"",QF_RELATIVE|QF_WAVE);
-				A_RollQuake(2,10,3, true);
+				A_RollQuake(2,10,3);
 			}
 			PLCF B 1 Bright;
 			PLCF C 1 
