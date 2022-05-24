@@ -9,7 +9,9 @@ Halo/Flashlight/ON "Sounds/SFX/Flashlight_On.ogg"
 Halo/Flashlight/OFF "Sounds/SFX/Flashlight_Off.ogg"
 Halo/Pickup/Weapon "Sounds/SFX/GunPickup.ogg"
 Halo/Pickup/Ammo "Sounds/Ammo/AmmoPickup.ogg"
+Halo/SecretFound "Sounds/SFX/secretreveal.ogg"
 UI/PressButton BTNPRESS
+
 
 // Ammo Crate
 Halo/AmmoCrate/Open "Sounds/Ammo/AmmoCrate_Open.ogg"

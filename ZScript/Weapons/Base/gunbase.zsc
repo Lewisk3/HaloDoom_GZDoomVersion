@@ -1038,7 +1038,7 @@ class HaloGun : RecoilWeapon
 				let nade = Spawn(nadeItem.nadeType, invoker.sfx_pos);
 				if(nade) 
 				{
-					nade.vel = HaloMath.V3Offset(angle, pitch, roll, 1,0,0, 30);
+					nade.vel = HaloMath.V3Offset(angle, pitch, roll, 1,0,0, 40);
 					nade.target = self;
 				}
 				
