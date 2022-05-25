@@ -74,8 +74,41 @@ pointlight StupidlyBrightAndHUGELight
     size 69420
 }
 
+// Unmaker
+
+/* Looks cool but, laggy.
+object UnmakerLightning
+{
+	Frame BEAM { light TinyYellowPointLight }
+}
+*/
+
+object HaloScatterShot_Proj
+{
+	Frame ELBL { light YellowPointLight }
+}
+
+object UnmakerBall
+{
+	Frame ELBL { light BigOrangePointLight }
+}
+
+object UnmakerBallExplosion
+{
+	Frame ELEX { light BigOrangePointLight }
+}
+
+object UnmakerLaserPuff
+{
+	Frame RPUF { light YellowPointLight }
+}
+
 // Lit objects
 object HaloPlasmaRifle_Proj
+{
+	Frame HPLB { light BlueBrightLight }
+}
+object HaloPulseCarbine_Proj
 {
 	Frame HPLB { light BlueBrightLight }
 }

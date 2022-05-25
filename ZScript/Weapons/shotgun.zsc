@@ -8,19 +8,19 @@ class Halo_Shotgun_Shells : Ammo
 class Halo_Shotgun_Reserves : Ammo
 {
 	mixin WorldAmmoBehavior;
-	
 	Default 
 	{
-		Radius 4;
-		Height 4;
-		Scale 0.5;
+		Radius 8;
+		Height 6;
+		Scale 0.65;
 		
-		Inventory.Amount 4;
-		Inventory.MaxAmount 60;
+		Inventory.Amount 8;
+		Inventory.MaxAmount 32;
 		Inventory.Icon "HLAMK0";
-		Inventory.PickupMessage "+4 Shotgun Ammo.";
+		Inventory.PickupSound "Halo/Pickup/Ammo";
+		Inventory.PickupMessage "Picked up 8 Shells for the Tactical Shotgun";
 		
-		Ammo.BackpackMaxAmount 120;
+		Ammo.BackpackMaxAmount 50;
 	}
 	
 	States
@@ -48,16 +48,18 @@ class Halo_Shotgun : HaloGun
 {
 	Default
 	{
-		Weapon.SlotNumber 1;
-		Obituary "%o got an 8-Gauge Breakfast from %k's Shotgun.";
-		Inventory.PickupMessage	"Picked up the M35 Tactical Shotgun.";
+		Weapon.SlotNumber 3;
+		Obituary "%o got an 8-Gauge Breakfast from %k's Tactical Shotgun";
+		Inventory.PickupMessage	"Picked up the M35 Tactical Shotgun";
 		Tag "Shotgun";
 		Weapon.BobSpeed 2.0;
 		Weapon.BobRangeX 0.10;
 		Weapon.AmmoType1 "Halo_Shotgun_Reserves";
-		Weapon.AmmoGive 8;
+		Weapon.AmmoGive 12;
 		Weapon.AmmoType2 "Halo_Shotgun_Shells";
-		HaloGun.PowerTier P_NORM;
+		
+		HaloGun.Availability "HL1, HL2, HL3, HL4, MSX";
+		HaloGun.PowerTier P_MID;
 				
 		// Recoil
 		HaloGun.Bloom 1.10;
@@ -65,7 +67,27 @@ class Halo_Shotgun : HaloGun
 		HaloGun.BaseRecoil SHOTGUN_RECOIL;
 		HaloGun.Inaccuracy SHOTGUN_ACCMOD;
 		HaloGun.Crosshair "SGRet", 0.8;
-		HaloGun.UIGraphic "WI_SG", 1.0;
+		HaloGun.UIGraphic "WI_SG", 1.0, 1.0;
+	}
+	
+	override void GetStatsLore(out Array<String> stats, out string lore)
+	{
+		stats.Push("M35 8-Gauge Pump Action Tactical Shotgun");
+		stats.Push("Ammo Type: 8-Gauge Western Judge Type #14-C");
+		stats.Push("Frame: Top Loading Pump Action");
+		stats.Push("Feed System: 8 Shell Integrated Magazine");	
+		stats.Push(String.Format("Base Damage: %d", SHOTGUN_DMG*15));
+		
+		lore = (
+			"The M35 8-Gauge Pump Action Tactical Shotgun was the predecessor "
+			"of the M45 Tactical Shotgun. It has a long service record from "
+			"before the human covenant war. It's rugged, reliable, and a master "
+			"at close quarters combat. Sporting the powerful Misriah Armory Western "
+			"Judge 8-Gauge Type #14-C Buckshot Shell, it was a force to be "
+			"reckoned with to anyone facing down its barrel, and even when "
+			"the Human Covenant War began, it still gave the Covenant a "
+			"run for its money."
+		);
 	}
 	
 	override void MarkPrecacheSounds()
@@ -121,19 +143,24 @@ class Halo_Shotgun : HaloGun
 			TNT1 A 0 A_GunCheckReload();
 			HSGF A 1 Bright
 			{
-				A_SetRecoil(8.78, 0, 1);
+				A_SetZoom(0.88, 1);
+				A_SetRecoil(8.78, 0, 2);
 				A_FireShotgun();
-				A_RQuakeEx(3,3,3,6,0,20,"",QF_RELATIVE);
-				A_RollQuake(4,10,2);
+				A_RQuakeEx(4,2,1,3,0,20,"",QF_RELATIVE|QF_WAVE);
+				A_RollQuake(6,10,1);
 				A_RecoilOffset(15, 15, 4);
 			}
 			HSGF B 1 Bright
 			{
-				A_RQuakeEx(3,6,3,3,0,20,"",QF_RELATIVE|QF_WAVE);
+				A_SetZoom(1.0, 6);
 			}
 			HSGF C 1;
 			TNT1 A 0 A_Light(0);
-			HSGF D 6 A_RecoilOffset(15, 20, 4);
+			HSGF D 6 
+			{	
+				A_RecoilOffset(15, 20, 4);
+				A_RQuakeEx(2,2,2,4,0,20,"",QF_RELATIVE);
+			}
 			HSGF EFGH 1 
 			{
 				A_RecoilOffset(8,10,6);

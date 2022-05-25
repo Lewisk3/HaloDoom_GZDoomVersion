@@ -1,0 +1,3 @@
+essentially a mix between the Battle Rifle and the DMR in that it possesses the three-round 
+burst of the former while not scoped-in and the single-shot fire of the latter when scoped in. 1 DMR shot costs 3 br shots. 
+the br shots track but do less damage, where as the dmr has no tracking but do insane damage.

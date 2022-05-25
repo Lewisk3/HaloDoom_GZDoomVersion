@@ -37,71 +37,98 @@ class HaloDoom_SkillMenu : HaloMenuBase
 		HaloSkills.push(HaloSkill.Init(
 			"Easy", 
 			"Graphics/UI/Skills/Easy.png", 
-			"Your foes cower and fall before\nyour unstoppable onslaught yet\nfinal victory will leave you\nwanting more."
+			(
+				"Your foes cower and fall before\nyour unstoppable onslaught yet\nfinal victory will leave you\nwanting more."
+				"\n\n\c[Purple]Spawn Filter: I'm Too Young To Die\n"
+			)
 		));
 		HaloSkills.push(HaloSkill.Init(
 			"Normal", 
 			"Graphics/UI/Skills/Normal.png", 
-			"Hordes of aliens vie to destroy\nyou, but nerves of steel and a\nquick trigger finger give you a \nsolid chance to prevail."
+			(
+				"Hordes of aliens vie to destroy\nyou, but nerves of steel and a\nquick trigger finger give you a \nsolid chance to prevail."
+				"\n\n\c[Purple]Spawn Filter: Hey Not Too Rough"
+			)
 		));
 		HaloSkills.push(HaloSkill.Init(
 			"Heroic", 
 			"Graphics/UI/Skills/Heroic.png", 
-			"Your enemies are as numerous \nas they are ferocious; their \nattacks are devastating. \n\nSurvival is not guaranteed."
+			(
+				"Your enemies are as numerous \nas they are ferocious; their \nattacks are devastating. \n\nSurvival is not guaranteed."
+				"\n\n\c[Purple]Spawn Filter: Hurt Me Plenty"
+			)
 		));
 		HaloSkills.push(HaloSkill.Init(
 			"Legendary", 
 			"Graphics/UI/Skills/Legendary.png", 
-			"You face opponents who have \nnever known defeat, who laugh\nin alien tongues at your efforts \nto survive. \n\nThis is suicide."
+			(
+				"You face opponents who have \nnever known defeat, who laugh\nin alien tongues at your efforts \nto survive. \n\nThis is suicide."
+				"\n\n\c[Purple]Spawn Filter: Ultra Violence"
+			)
 		));
 		HaloSkills.push(HaloSkill.Init(
 			"Mythic", 
 			"Graphics/UI/Skills/Mythic.png", 
-			"You stand in oppositions of \nan unstoppable force. \n\nYour enemies are ruthless and \nnever ending. \n\nYour death is all but certain."
+			(
+				"You stand in oppositions of \nan unstoppable force. \n\nYour enemies are ruthless and \nnever ending. \n\nYour death is all but certain."
+				"\n\n\c[Purple]Spawn Filter: Ultra Violence\n"
+				"\c[Purple]Enemy Modifiers: Fast, Respawn"
+			)
 		));
-		HaloSkills.push(HaloSkill.Init(
+		/*HaloSkills.push(HaloSkill.Init(
 			"American Healthcare", 
 			"Graphics/UI/Skills/Merica.png", 
 			"You fight a fruitless battle,\neveryone around you couldn't give less a shit.\nWant health?\n That'll be 1000$ a medikit please."
-		));
+		));*/
 		
+		Array<SkillInfo> skills;
+		HaloMath.getSkillsInfo(skills);
+		
+		// "Import" skills
+		for(int i = HaloSkills.Size(); i < skills.Size(); i++)
+		{
+			if(i > skills.Size()-1) break;
+			let curSkill = skills[i];
+			string adjustedDesc = StringHelper.formatLnBreaks(curSkill.Description, 23);
+			
+			HaloSkills.push(HaloSkill.Init(curSkill.displayName, "", adjustedDesc));
+		}
+		
+		// Turn skills into buttons.
 		TextElement btntxt;
-		for(int i = 0; i < diffs-1; i++)
+		for(int i = 0; i < HaloSkills.Size(); i++)
 		{
 			btntxt = newBtnText(HaloSkills[i].displayName);
 			buttons.push(Button.Create('SkillBtn', btnOFF,  btnON, btnHover, btnX, btnY, btnW, btnH, btntxt, 0xFFFF0000));
 			btnY += itemSpacing;
 		}
-		
+
 		DontDim = true;
 		mMouse.SetPos(buttons[2].btnrect.pos);
 		btn_selected = 2;
 	}
 	
-	override bool MenuEvent(int mkey, bool fromcontroller)
-	{	
-		return super.MenuEvent(mkey, fromcontroller);
-	}
-	
 	override void Drawer ()
 	{
-		uint strFlags = HLSBS.SS_SCREEN_TOP_CENTER | HLSBS.SS_TEXT_CENTER;
+		uint drawFlags = HLSBS.SS_NOASPECTCORRECTION;
+		uint strFlags = HLSBS.SS_SCREEN_TOP_CENTER | HLSBS.SS_TEXT_CENTER | drawFlags;
 		
 		vector2 descPos = (1200,500);
 		
 		// Description
 		vector2 descOffs = (descPos.x+190, descPos.y-256);
-		HLSBS.Fill(0xFF000000, descOffs.x,descOffs.y, 370,520);
+		HLSBS.Fill(0xFF000000, descOffs.x,descOffs.y, 370,520, flags:drawFlags);
 		HLSBS.DrawString("HaloFont", "Difficulty Info", (descOffs.x + 20,descOffs.y + 10), 0, Font.CR_BLUE, scale:(0.20,0.20));
 		
 		for(int i = 0; i < buttons.Size(); i++)
 		{
-			string skillImg = HaloSkills[i].graphic;
+			int skillnum = min(i,HaloSkills.Size()-1);
+			string skillImg = HaloSkills[skillnum].graphic;
 			vector2 imgPos = buttons[i].collider.pos;
 			imgPos.x += buttons[i].collider.size.x * 0.5;
 			imgPos.y += 32;
 			
-			HLSBS.DrawImage(skillImg, imgPos, scale:(0.4,0.4));
+			HLSBS.DrawImage(skillImg, imgPos, flags:drawFlags, scale:(0.4,0.4));
 		
 			if(buttons[i].btntext)
 			{
@@ -112,8 +139,8 @@ class HaloDoom_SkillMenu : HaloMenuBase
 				else if(buttons[i].hovered)
 				{
 					buttons[i].btntext.font_color = Font.CR_WHITE;
-					HLSBS.DrawImage(skillImg, descPos, scale:(1.75,2.0));
-					HLSBS.DrawString("HaloFont", HaloSkills[i].desc, (descOffs.x + 20, descOffs.y + 70), 0, Font.CR_WHITE, scale:(0.15,0.15), linespacing:130);
+					HLSBS.DrawImage(skillImg, descPos, flags:drawFlags, scale:(1.75,2.0));
+					HLSBS.DrawString("HaloFont", HaloSkills[skillnum].desc, (descOffs.x + 20, descOffs.y + 70), flags:drawFlags, Font.CR_WHITE, scale:(0.12,0.12), linespacing:130);
 				}
 				else
 				{
@@ -123,7 +150,7 @@ class HaloDoom_SkillMenu : HaloMenuBase
 		}
 	
 		// Backdrop		
-		HLSBS.DrawImage("B@CKDROP", descPos, alpha:0.50, scale:(3.0,4.0), tint:0x3AFF0000);
+		HLSBS.DrawImage("B@CKDROP", descPos, flags:drawFlags, alpha:0.50, scale:(3.0,4.0), tint:0x3AFF0000);
 	
 		Super.Drawer();
 		mMouse.Draw();
@@ -140,7 +167,7 @@ class HaloDoom_SkillMenu : HaloMenuBase
 			if(buttons[i].clicked)
 			{
 				MenuSound("UI/PressButton");
-				mDesc.mItems[i+1].Activate();
+				mDesc.mItems[min(i+1, mDesc.mItems.Size()-1)].Activate();
 				buttons[i].clicked = false;
 			}
 		}

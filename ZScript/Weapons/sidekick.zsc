@@ -1,0 +1,313 @@
+class Halo_Sidekick_Clip : Ammo 
+{
+	Default 
+	{
+		Inventory.MaxAmount 12;
+	}
+}
+
+class HaloSidekick_Bullet : HaloBullet 
+{
+	Default
+	{
+		HaloProjectile.SetRanges SIDEKICK_RANGE1, SIDEKICK_RANGE2;
+		HaloProjectile.MinRangeDamage SIDEKICK_MINDMG; 
+		HaloProjectile.BaseDamage SIDEKICK_DMG;
+		HaloProjectile.Speed_MPS SIDEKICK_BMPS;
+		HaloProjectile.HeadshotDMGFactor SIDEKICK_HEDMOD;
+	}
+}
+
+class Halo_Sidekick_Reserves : Ammo
+{
+	mixin WorldAmmoBehavior;
+	Default 
+	{
+		Radius 8;
+		Height 6;
+		Scale 0.65;
+
+		Inventory.Amount 12;
+		Inventory.MaxAmount 64;
+		Inventory.Icon "HLAMN0";
+		Inventory.PickupSound "Halo/Pickup/Ammo";
+		Inventory.PickupMessage "Picked up 12 Rounds for the Sidekick";
+		
+		Ammo.BackpackMaxAmount 128;
+	}
+	
+	States
+	{
+		Spawn:
+			HLAM N -1 Bright;
+		stop;
+	}
+}
+
+class Halo_Sidekick : HaloGun
+{
+	Default
+	{
+		Weapon.SlotNumber 2;
+		Obituary "%o was flicked by %k's Sidekick.";
+		Inventory.PickupMessage	"Picked up the MK50 Sidekick.";
+		Tag "Sidekick";
+		Weapon.BobSpeed 1.86;
+		Weapon.BobRangeX 0.30;
+		Weapon.AmmoType1 "Halo_Sidekick_Reserves";
+		Weapon.AmmoType2 "Halo_Sidekick_Clip";
+		Weapon.AmmoGive 12;
+				
+		// Recoil
+		HaloGun.Bloom 0.8;
+		HaloGun.BloomSpeed 0.35;
+		HaloGun.BaseRecoil SIDEKICK_RECOIL;
+		HaloGun.Inaccuracy SIDEKICK_ACCMOD;
+		HaloGun.Crosshair "SdkRet", 1.0;
+		HaloGun.UIGraphic "WI_SDK", 0.35, 0.35;
+		
+		HaloGun.Availability "HL2, HL4, MSX";
+		HaloGun.PowerTier P_NORM;
+		
+		RecoilWeapon.YOffsetRange -10, 40;
+	}
+	
+	override void MarkPrecacheSounds()
+	{
+		// Prevent stutters by precaching weapon sounds.
+		MarkSound("Halo/Weapons/Sidekick/Fire");
+		MarkSound("Halo/Weapons/Sidekick/Fire/Bass");
+		MarkSound("Halo/Weapons/Sidekick/Mech");
+		MarkSound("Halo/Weapons/Sidekick/Reload");
+		MarkSound("Halo/Weapons/Sidekick/Reload/Empty");
+		MarkSound("Halo/Weapons/Sidekick/Draw");
+	}
+	
+	action void A_FireSidekick(bool middle = false)
+	{
+		A_Light(2);
+		A_WeapSound("Halo/Weapons/Sidekick/Fire", 0, true);
+		A_WeapSound("Halo/Weapons/Sidekick/Fire/Bass", CHANF_OVERLAP, true);
+		A_ShootProjectile("HaloSidekick_Bullet", middle ? 0 : 12);
+		A_SetSFXPos(25, middle ? 0 : -9,-7);
+		A_SpawnSFX("MuzzleSmoke", 0,0);
+		A_SetSFXPos(25,-20,-5);
+		A_SpawnSFX("SmallCasing", -90,20);
+		A_TakeAmmo();
+		A_UpdateSpread();
+	}
+	action state A_CheckRapidFire()
+	{
+		return A_JumpIf(A_FirePressed(), "Fire");
+	}
+	
+	action void A_SetSights(bool onoff)
+	{
+		if(onoff)
+		{
+			A_ScopeON(usePerspective:false);
+			A_SetZoom(invoker.scopezoom, 3, true);	
+		}
+		else
+		{
+			A_ScopeOFF();
+			A_SetZoom(0, 3, true);
+		}
+	}
+
+	States
+	{
+		Ready:
+			TNT1 A 0 A_JumpIf(!A_DoFullSelectAnimation(), "Ready.Chambered");
+			TNT1 A 4 A_WeapSound("Halo/Weapons/Sidekick/Draw");
+			WED1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoSelectAnim(-10, true);
+			WED2 ABCDEFGHIJKLMNOPQRSTUV 1 A_DoSelectAnim(-10, true);
+		goto Ready.Active;
+		Ready.Chambered:
+			TNT1 A 0 A_WeapSound("Halo/Weapons/Sidekick/Draw");
+			WES1 ABCDEFGHIJKLMN 1 A_DoSelectAnim(-10);
+		Ready.Active:
+			WEG1 A 1 
+			{
+				A_HaloWeaponReady(WRF_ALLOWRELOAD, usescope:false);
+				return A_JumpIf(A_ButtonStatus(BT_ALTATTACK, BTS_DOWN), "Sights.Enable");
+			}
+		loop;
+		
+		Ready.ADS:
+			WEZ1 M 1 
+			{
+				A_HaloWeaponReady(WRF_ALLOWRELOAD, usescope:false);
+				return A_JumpIf(A_ButtonStatus(BT_ALTATTACK, BTS_UP), "Sights.Disable");
+			}
+		loop;
+		
+		Ready.Dryfire:
+			WEG1 A 12 A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
+		goto Ready.Active;
+
+		Select:
+			TNT1 A 0 A_GunRaise();
+		wait;
+
+		Deselect:
+			TNT1 A 0 A_SetSights(0);
+			WES1 NMKLIHGFEDCBA 1;
+			WES1 A 1 A_GunLower();
+		wait;
+		
+		Fire:
+			TNT1 A 0 A_JumpIf(A_CheckInScope(), "Fire.FromSights");
+			TNT1 A 0 A_Jump(128, "Fire.Alternative");
+			WEF1 A 1
+			{
+				A_RecoilOffset(0,8,1);
+				return A_GunCheckReload();
+			}
+			TNT1 A 0 
+			{
+				A_FireSidekick();
+				A_SetRecoil(1.70, 0, 2);
+				A_RQuakeEx(2,3,2,3,0,20,"",QF_RELATIVE|QF_WAVE);
+			}
+			WEF1 B 1 bright A_RecoilOffset(25,-10,4);
+			WEF1 C 1 
+			{
+				A_Light(0);
+				A_SetRecoil(-0.18, 0, 8);
+			}
+			TNT1 A 0 A_WeapSound("Halo/Weapons/Sidekick/Mech", CHANF_OVERLAP);
+			WEF1 DE 1;
+			WEF1 FGHI 1 
+			{
+				A_RecoilOffset(0,0,4);
+				return A_CheckRapidFire();
+			}
+			WEF1 JKLMNO 1 A_CheckRapidFire();
+		Hold:
+			WEG1 A 1 A_CheckRapidFire();
+			TNT1 A 0 A_ReFire("Hold");
+		goto Ready.Active;
+		
+		Fire.Alternative:
+			WEF1 P 1
+			{
+				A_RecoilOffset(0,8,1);
+				return A_GunCheckReload();
+			}
+			TNT1 A 0 
+			{
+				A_FireSidekick();
+				A_SetRecoil(1.70, 0, 2);
+				A_RQuakeEx(2,3,2,3,0,20,"",QF_RELATIVE|QF_WAVE);
+			}
+			WEF1 Q 1 bright A_RecoilOffset(10,-5,4);
+			WEF1 R 1 
+			{
+				A_Light(0);
+				A_SetRecoil(-0.18, 0, 8);
+			}
+			TNT1 A 0 A_WeapSound("Halo/Weapons/Sidekick/Mech", CHANF_OVERLAP);
+			WEF1 ST 1;
+			WEF1 UVWXYZ 1 
+			{
+				A_RecoilOffset(0,0,4);
+				return A_CheckRapidFire();
+			}
+			WEF2 AB 1 A_CheckRapidFire();
+		Hold:
+			WEG1 A 1 A_CheckRapidFire();
+			TNT1 A 0 A_ReFire("Hold");
+		goto Ready.Active;
+		
+		Fire.FromSights:
+			TNT1 A 0 A_GunCheckReload();
+			TNT1 A 0 A_Jump(128, "Fire.FromSights.Alternative");
+			WEE1 A 1
+			{
+				A_FireSidekick(true);
+				A_SetRecoil(1.0, 0, 2);
+				A_RQuakeEx(2,3,2,3,0,20,"",QF_RELATIVE|QF_WAVE);
+			}
+			WEE1 B 1 bright A_RecoilOffset(0,-10,4);
+			WEE1 C 1 
+			{
+				A_Light(0);
+				A_SetRecoil(-0.18, 0, 8);
+			}
+			TNT1 A 0 A_WeapSound("Halo/Weapons/Sidekick/Mech", CHANF_OVERLAP);
+			WEE1 DE 1;
+			WEE1 FGHI 1 
+			{
+				A_RecoilOffset(0,0,4);
+				return A_CheckRapidFire();
+			}
+			WEE1 JKL 1 A_CheckRapidFire();
+		Hold.FromSights:
+			WEZ1 M 1 A_CheckRapidFire();
+			TNT1 A 0 A_ReFire("Hold.FromSights");
+		goto Ready.ADS;
+			
+		Fire.FromSights.Alternative:
+			WEE1 M 1 
+			{
+				A_FireSidekick(true);
+				A_SetRecoil(1.0, 0, 2);
+				A_RQuakeEx(2,3,2,3,0,20,"",QF_RELATIVE|QF_WAVE);
+			}
+			WEE1 N 1 bright A_RecoilOffset(0,-10,4);
+			WEE1 O 1 
+			{
+				A_Light(0);
+				A_SetRecoil(-0.18, 0, 8);
+			}
+			TNT1 A 0 A_WeapSound("Halo/Weapons/Sidekick/Mech", CHANF_OVERLAP);
+			WEE1 PQ 1;
+			WEE1 RST 1 
+			{
+				A_RecoilOffset(0,0,4);
+				return A_CheckRapidFire();
+			}
+			WEE1 UV 1 A_CheckRapidFire();
+		Hold.FromSights:
+			WEZ1 M 1 A_CheckRapidFire();
+			TNT1 A 0 A_ReFire("Hold.FromSights");
+		goto Ready.ADS;
+		
+		Reload.FromSights:
+			WEZ1 MLKIHGFEDCBA 1;
+			TNT1 A 0 A_SetSights(0);
+		Reload:
+			TNT1 A 0 A_JumpIf(A_CheckInScope(), "Reload.FromSights");
+			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
+			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Reload.Empty");
+			TNT1 A 0 A_StartSound("Halo/Weapons/Sidekick/Reload", CHAN_RELOADING, CHANF_OVERLAP);
+			WER1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1;
+			WER2 ABCDEFGHIJ 1;
+			WER2 K 1 A_ReloadClip();
+			WER2 LMNOPQRSTUVWXYZ 1;
+		goto Ready.Active;
+		
+		Reload.Empty:
+			TNT1 A 0 A_WeapSound("Halo/Weapons/Sidekick/Reload/Empty", CHANF_OVERLAP);
+			WER3 FGHIJKLMNOPQRSTUVWXYZ 1;
+			WER4 ABCDEFGHIJKLMNOP 1;
+			WER4 Q 1 A_ReloadClip();
+			WER5 ABCDEFGHIJKLMNOPQRST 1;
+		goto Ready.Active;
+		
+		Sights.Enable:
+			TNT1 A 0 A_SetSights(1);	
+			WEZ1 ABCDEFGHIJKLM 1;
+		goto Ready.ADS;
+		
+		Sights.Disable:
+			TNT1 A 0 A_SetSights(0);
+			WEZ1 MLKIHGFEDCBA 1;
+		goto Ready.Active;	
+		
+		Spawn:
+			WEP1 A -1;
+		stop;
+	}
+}

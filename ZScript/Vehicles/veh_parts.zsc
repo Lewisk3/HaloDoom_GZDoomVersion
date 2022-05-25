@@ -197,6 +197,9 @@ class VehBase : Actor
 	
 	PlayerPawn driver;
 	VehCamera viewcam;
+	double prevSlope;
+	double prevZAccel;
+	
 	bool onground;
 
 	Default
@@ -375,6 +378,27 @@ class VehBase : Actor
 		return true;
 	}
 	
+	virtual void SlopePhys()
+	{
+		// Some random idea I had, idk.
+		// I've tried all the ideas I had, you want it, make a pull request.
+		
+		/*
+		double curZ = pos.z;
+		double upDiff = pos.z - prevZAccel;
+		prevZAccel = pos.z;
+		
+		double floorAngle = GetFloorAngle();
+		double floorDiff = prevSlope - floorAngle;
+		prevSlope = floorAngle;
+		
+		if(abs(floorDiff) >= 10)
+		{
+			vel.z += upDiff;
+		}
+		*/
+	}
+	
 	override bool Used(Actor user)
 	{
 		let plruser = PlayerPawn(user);
@@ -418,6 +442,9 @@ class VehBase : Actor
 				roll = HaloMath.Lerp(roll, 0, 0.15);
 			}
 		}
+		
+		// Do slope physics
+		SlopePhys();
 		
 		if( !onground && (vehflags & bFALLINGPITCH) && vel.z <= -3.0 && pitch < 35 )
 		{

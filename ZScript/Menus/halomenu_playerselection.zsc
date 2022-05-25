@@ -1,6 +1,8 @@
 class HaloDoom_PlayerClassMenu : HaloMenuBase
 {
 	double fadein;
+	uint selected_class;
+
 	override void Init(Menu parent, ListMenuDescriptor desc)
 	{
 		Super.Init(parent, desc);
@@ -29,13 +31,13 @@ class HaloDoom_PlayerClassMenu : HaloMenuBase
 		
 		for(int i = 0; i < buttons.Size(); i++)
 			buttons[i].ScaleCollider(0.9, 0.7);
-		
+
 		DontDim = true;
 		mMouse.SetPos(buttons[0].btnrect.pos);
 		btn_selected = 0;
 		buttonAlpha = 0.7;
 	}
-	
+		
 	void DStr(String str, vector2 pos, uint flags = 0, Color col = Font.CR_WHITE, vector2 scale=(1.15,1.15), Font fnt = "HaloFont")
 	{
 		double len = (fnt.StringWidth(str) * scale.x);
@@ -70,6 +72,7 @@ class HaloDoom_PlayerClassMenu : HaloMenuBase
 	
 	void DrawSelectedPlayer()
 	{	
+		uint drawFlags = HLSBS.SS_NOASPECTCORRECTION;
 		vector2 plrpos = (1200,500);
 		Color bgcol = 0x266f03fc;
 		uint index = -1;
@@ -84,7 +87,7 @@ class HaloDoom_PlayerClassMenu : HaloMenuBase
 		}
 		
 		// Backdrop
-		HLSBS.DrawImage("B@CKDROP", plrpos, alpha:0.70, scale:(3.0,4.0), tint:bgcol);
+		HLSBS.DrawImage("B@CKDROP", plrpos, flags:drawFlags, alpha:0.70, scale:(3.0,4.0), tint:bgcol);
 		
 		// Description
 		vector2 desc_pos = (plrpos.x+190, plrpos.y-256);
@@ -110,34 +113,67 @@ class HaloDoom_PlayerClassMenu : HaloMenuBase
 				
 					if (sprite.IsValid())
 					{
-						vector2 posoffs = (130,300);
+						vector2 posoffs = (130,400);
 						vector2 basescale = (6.0, 6.0);
 						Scale.X *= basescale.X;
 						Scale.Y *= basescale.Y;
-						HLSBS.DrawTexture(sprite, plrpos+posoffs, scale:Scale);
+						HLSBS.DrawTexture(sprite, plrpos+posoffs, flags:drawFlags, scale:Scale);
 					}
 					
 					// Write Description
 					string desc = plrdefs.class_desc;
-					HLSBS.DrawString(infoFont, desc, (desc_pos.x+20,desc_pos.y+80), 0, Font.CR_WHITE, scale:(0.125,0.125), linespacing:100);
+					string features = plrdefs.feature_desc;
+					string stats = HaloPlayer.GetStatInfo(plr);
+					if(features) stats = String.Format("\c[Blue]Perks: %s\n%s", features, stats); 
+					
+					HLSBS.DrawString(infoFont, desc, (desc_pos.x+20,desc_pos.y+80), flags:drawFlags, Font.CR_WHITE, scale:(0.125,0.125), linespacing:100);
+					HLSBS.DrawString(infoFont, stats, (desc_pos.x+20,desc_pos.y+370), flags:drawFlags, Font.CR_WHITE, scale:(0.125,0.125), linespacing:100);
 				}
+			}
+			else
+			{			
+				// Write Description
+				string desc = "Not a Spartan, just here for compat\nreasons.";
+				string stats = "\c[Orange]Only use if compatibility issues arise.";
+				
+				HLSBS.DrawString(infoFont, desc, (desc_pos.x+20,desc_pos.y+80), flags:drawFlags, Font.CR_WHITE, scale:(0.125,0.125), linespacing:100);
+				HLSBS.DrawString(infoFont, stats, (desc_pos.x+20,desc_pos.y+370), flags:drawFlags, Font.CR_WHITE, scale:(0.125,0.125), linespacing:100);
 			}
 		}
 	}
 	
+	static void UpdatePlayerClass(int ind)
+	{
+		class<Actor> plrClass = PlayerClasses[ind].Type;
+		if(plrClass)
+		{
+			let defs = GetDefaultByType(plrClass);
+			string clsname = PlayerPawn.GetPrintableDisplayName(plrClass);
+			
+			let clsSetting = CVar.FindCVar("playerclass");
+			if(clsSetting) clsSetting.SetString(clsname);
+		}
+	}
+	
+	override void OnMenuThink()
+	{
+		UpdatePlayerClass(selected_class);
+	}
+	
 	override void Ticker()
 	{
-		uint selected_class;
 		for(int i = 0; i < buttons.Size(); i++)
 		{
 			buttons[i].Update(mMouse, btn_selected == -1);
 				
+			if(buttons[i].hovered)
+				selected_class = i;
+			
 			if(buttons[i].clicked)
 			{
 				MenuSound("UI/PressButton");
 				buttons[i].clicked = false;
-				selected_class = i;
-				
+
 				// Enter skill menu with selected player class.
 				Menu.SetMenu("episodemenu", selected_class);
 				break;

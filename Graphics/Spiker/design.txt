@@ -1,0 +1,7 @@
+1. As you fire, your bayonets get hotter, which gives bonus damage to your melee.
+
+2. The altfire fires both barrels at once at the cost of halving your fire rate.
+
+3. Altfire sacrifices 1/2 of your mag to fire a bunch of hot shrapnel to double as a shotgun pistol / creates area of denial floor that does damage over time
+
+4. normal spikes do damage over time due to being hot

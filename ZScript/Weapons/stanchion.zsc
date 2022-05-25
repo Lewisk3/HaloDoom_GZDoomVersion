@@ -9,17 +9,17 @@ class Halo_StanchionClip : Ammo
 class Halo_StanchionReserves : Ammo
 {
 	mixin WorldAmmoBehavior;
-	
 	Default 
 	{
-		Radius 4;
-		Height 4;
-		Scale 0.5;
+		Radius 8;
+		Height 6;
+		Scale 0.65;
 		
 		Inventory.Amount 50;
 		Inventory.MaxAmount 300;
 		Inventory.Icon "HLAMM0";
-		Inventory.PickupMessage "+1 Stanchion Battery (50% Charge)";
+		Inventory.PickupSound "Halo/Pickup/Ammo";
+		Inventory.PickupMessage "Picked up 1 Battery for Stanchion (50%)";
 		
 		Ammo.BackpackMaxAmount 600;
 	}
@@ -37,7 +37,7 @@ class Halo_Stanchion : HaloGun
 {
 	Default
 	{
-		Weapon.SlotNumber 2;
+		Weapon.SlotNumber 5;
 		Obituary "%o got the Quake 2 Treatment from %k's Stanchion.";
 		Inventory.PickupMessage	"Picked up the M99 SAR Stanchion.";
 		Tag "Stanchion";
@@ -46,7 +46,9 @@ class Halo_Stanchion : HaloGun
 		Weapon.AmmoType1 "Halo_StanchionReserves";
 		Weapon.AmmoGive 100;
 		Weapon.AmmoType2 "Halo_StanchionClip";
-		HaloGun.PowerTier P_POWER;
+		
+		HaloGun.Availability "HL1, HL2, HL3, HL4, MSX";
+		HaloGun.PowerTier P_UBER;
 				
 		// Recoil
 		RecoilWeapon.RecoilSpeed 20;
@@ -55,8 +57,8 @@ class Halo_Stanchion : HaloGun
 		HaloGun.BloomSpeed 0.08;
 		HaloGun.BaseRecoil STANCHION_RECOIL;
 		HaloGun.Inaccuracy STANCHION_ACCMOD;
-		HaloGun.Crosshair "SNPRet", 1.0;
-		HaloGun.UIGraphic "WI_STAN", 1.0;
+		HaloGun.Crosshair "StanRet", 1.0;
+		HaloGun.UIGraphic "WI_STAN", 0.8, 1.0;
 		HaloGun.UISight "SI_SNPR", 1.0, 0.8;
 		HaloGun.SetupScope 4.0, 0.25;
 		HaloGun.ZoomSounds "Halo/Weapons/Sniper/Zoom/IN", "Halo/Weapons/Sniper/Zoom/OUT";
@@ -144,17 +146,22 @@ class Halo_Stanchion : HaloGun
 		
 		Fire:
 			TNT1 A 0 A_GunCheckReload();
+			TNT1 A 0 A_SetZoom(0.7, 1);
 			STCF A 1 Bright
 			{
 				A_RecoilOffset(60,60,6);
 				A_SetRecoil(4.42, 0, 2);
-				A_SetZoom(0.82, 2);
 				A_FireStanchion();
-				A_RollQuake(3, 44, 2);
-				A_RQuakeEx(4,4,4,10,0,20,"",QF_RELATIVE|QF_WAVE);
+				A_RollQuake(8, 45, 1);
+				A_RQuakeEx(2,10,2,10,0,20,"",QF_RELATIVE|QF_WAVE);
+				A_Pushback(20);
 			}
 			STCF BCD 1 Bright A_RecoilOffset(60,60,6);
-			TNT1 A 0 A_Light(0);
+			TNT1 A 0 
+			{
+				A_Light(0);
+				A_RQuakeEx(3,3,3,8,0,20,"",QF_RELATIVE);
+			}
 			STCF EEEEEE 1 A_SetZoom(1.0, 12);
 			STCF E 10 A_RecoilOffset(0,0,10);
 			STCF FGHI 1;

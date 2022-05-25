@@ -21,19 +21,19 @@ class Halo_DBLShotgun_Shells : Ammo
 class Halo_DBLShotgun_Reserves : Ammo
 {
 	mixin WorldAmmoBehavior;
-	
 	Default 
 	{
-		Radius 4;
-		Height 4;
-		Scale 0.5;
-		
-		Inventory.Amount 2;
-		Inventory.MaxAmount 40;
+		Radius 8;
+		Height 6;
+		Scale 0.65;
+
+		Inventory.Amount 4;
+		Inventory.MaxAmount 24;
 		Inventory.Icon "HLAMH0";
-		Inventory.PickupMessage "+2 Double Barreled Shotgun Ammo.";
+		Inventory.PickupSound "Halo/Pickup/Ammo";
+		Inventory.PickupMessage "Picked up 4 Shells for the Double Barrel";
 		
-		Ammo.BackpackMaxAmount 60;
+		Ammo.BackpackMaxAmount 36;
 	}
 	
 	States
@@ -62,16 +62,18 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 {
 	Default
 	{
-		Weapon.SlotNumber 2;
+		Weapon.SlotNumber 3;
 		Obituary "%o's existance took a 180 from %k's Double Barreled Shotgun.";
 		Inventory.PickupMessage	"Picked up the M180 Double Barrel.";
 		Tag "Super Shotgun";
 		Weapon.BobSpeed 2.12;
 		Weapon.BobRangeX 0.63;
 		Weapon.AmmoType1 "Halo_DBLShotgun_Reserves";
-		Weapon.AmmoGive 4;
+		Weapon.AmmoGive 8;
 		Weapon.AmmoType2 "Halo_DBLShotgun_Shells";
-		HaloGun.PowerTier P_MID;
+		
+		HaloGun.Availability "HL1, HL2, HL3, HL4";
+		HaloGun.PowerTier P_STRONG;
 				
 		// Recoil
 		RecoilWeapon.RecoilSpeed 20;
@@ -80,9 +82,43 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 		HaloGun.BaseRecoil DBLSHOTGUN_RECOIL;
 		HaloGun.Inaccuracy DBLSHOTGUN_ACCMOD;
 		HaloGun.Crosshair "DBLSRet1", 1.0;
-		HaloGun.UIGraphic "WI_DBL", 1.0;
+		HaloGun.UIGraphic "WI_DBL", 1.0, 1.0;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
+	}
+	
+	override void GetStatsLore(out Array<String> stats, out string lore)
+	{
+		stats.Push("M180-Double Barreled Assault Weapon System");
+		stats.Push("Ammo Type: Misriah Armory 4-Gauge Type");
+		stats.Push("Frame: Side by Side Breach Loader");
+		stats.Push("Feed System: 2 Round Break Action Barrel");	
+		stats.Push(String.Format("Base Damage: %d", DBLSHOTGUN_DMG*30));
+		
+		lore = (
+			"The M180-Double Barreled Assault Weapon System is a Double "
+			"Barreled Shotgun exclusively designed for use by Spartans, "
+			"and thus, is a rare sight on the battlefield. Marines often "
+			"gave this Shotgun the nickname of the \“Lead Brick Wall\” due "
+			"to the sheer amount of buckshot it can produce per shot if "
+			"using both barrels at once. Alternatively, The M180’s barrels can "
+			"be fired individually for the sake of ammo conservation. "
+			"The M180 has been shown to blow elites to literal pieces due to "
+			"the immense amount of force that is exerted.\n\n"
+			
+			"While its very powerful, the M180 is very inaccurate due to "
+			"its short barrel length, and by extension the recoil is very "
+			"intense, making it dangerous and unusable for normal Marines, "
+			"but perfect for Spartans, who can get in close and get out of "
+			"harms way just as quickly."
+		);
+		/*
+			"The M180, much like its more contemporary cousin, can fire "
+			"4-gauge shells, and sports 2 LED lit iron sights. Not only do "
+			"they serve as such, but can also change coloration depending "
+			"on which barrel has been fired. Blue indicating loaded and ready "
+			"to fire, and Red indicating that a reload is needed.\n\n"
+		*/
 	}
 	
 	action void A_FireDouble()
@@ -102,7 +138,7 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 			}
 		}
 		A_MuzzleSparks(45, 40, 12,12);
-		A_TakeAmmo(2);
+		A_TakeAmmo(2, false);
 		A_UpdateSpread();
 	}
 	
@@ -152,8 +188,6 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 			}
 		loop;
 		
-
-		
 		Ready.Dryfire:
 			DBSI A 4 A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
 		goto Ready.Active;
@@ -174,18 +208,22 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 		Fire:
 			TNT1 A 0 A_GunCheckReload();
 			TNT1 A 0 A_JumpIf(countinv(invoker.ammotype2)<2, "AltFire");
+			TNT1 A 0 A_SetZoom(0.80,1);
 			DBSF A 1 Bright
 			{
-				A_SetZoom(0.80,3);
 				A_RecoilOffset(random(6,12),24,4);
-				A_SetRecoil(7.0, 4.2, 3);
+				A_SetRecoil(12.0, 4.2, 3);
 				A_FireDouble();
-				A_RollQuake(4,20,2);
-				A_RQuakeEx(6,6,6,12,0,20,"",QF_RELATIVE);
+				A_RollQuake(8,12,1);
+				A_RQuakeEx(2,2,4,6,0,20,"",QF_RELATIVE|QF_WAVE);
 			}
 			DBSF B 2 Bright;
-			TNT1 A 0 A_Light(0);
-			DBSF CD 1 A_SetZoom(1.0, 3);
+			TNT1 A 0 
+			{
+				A_Light(0);
+				A_RQuakeEx(4,4,4,15,0,20,"",QF_RELATIVE);
+			}
+			DBSF CD 1 A_SetZoom(1.0, 12);
 			DBSF EFGGG 1 A_RecoilOffset(0,10,5);
 			DBSF GGGGGGGGGHIJKL 1 A_RecoilOffset(0,0,8);
 			DBSF MNOP 1;

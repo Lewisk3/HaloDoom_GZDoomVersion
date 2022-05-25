@@ -1,0 +1,149 @@
+// Shootable dummies for testing ttk and damage values.
+
+class SpartanDummy : Actor
+{
+	int killTimer;
+	vector3 spawnPos;
+	
+	Default
+	{	
+		Radius 16;
+		Height 56;
+		YScale 1.10;
+		+DONTTHRUST;
+		+ISMONSTER;
+		
+		Health 45;
+		
+		+SHOOTABLE;
+		+SOLID;
+	}	
+	
+	override void BeginPlay()
+	{
+		super.BeginPlay();
+		
+		GiveInventory("DummyShield", 1);
+		spawnPos = pos;
+	}
+	
+	States
+	{
+		Spawn:
+			HALO ABCD 6;
+		loop;
+		
+		Death:
+			TNT1 A 0 
+			{
+				let haloplr = HaloPlayer(target);
+				if(haloplr)
+				{
+					string killMsg = String.Format("TTK: %.2fs", ((GetAge() - killTimer) * (1000/35.)) / 1000.);
+					haloplr.SendHUDMessage(killMsg);
+				}
+			}
+			HALO H 10;
+			HALO I 10 A_PlayerScream;
+			HALO J 10 A_NoBlocking;
+			HALO KLM 10;
+			HALO N 4;
+			TNT1 A 0 Spawn(getClass(), spawnPos);
+		stop;
+	}
+}
+
+class DummyShield : ShieldProcessor
+{
+	Default
+	{
+		ShieldProcessor.MaxShields 70;
+		ShieldProcessor.RegenSpeeds 4 * 35, 3 * 35; 
+		ShieldProcessor.BreakSound "Shield/Explode";
+		ShieldProcessor.ForwardOffset 0;
+	}
+	
+	override double applyShieldBleedDamage(int dmg, Name mod)
+	{
+		// Shield bleed damage, so long as source isn't plasma.
+		if(mod == 'plasma') return 0;
+		
+		return dmg;
+	}
+	
+	override void OnShieldBreak()
+	{
+		super.OnShieldBreak();
+		
+		Owner.GiveInventory("ShieldLightningAnimator", 1);
+	}
+	
+	override void UpdateShields()
+	{
+		super.UpdateShields();
+		
+		if(shields >= maxshields)
+		{
+			Owner.health = Owner.GetMaxHealth();
+		}
+	}
+	
+	override double OnShieldDamage(double dmg, Name mod, Actor inflictor, Actor source)
+	{
+		let dummy = SpartanDummy(Owner);
+		
+		if(shields > 0)
+		{
+			dmg = HaloProjectile.ApplyShieldDamage(dmg, HaloProjectile(inflictor), mod == 'Headshot');
+			A_StopSound(CHAN_5);
+			Owner.A_StartSound("Shield/TakeDamage",flags:CHANF_NOSTOP);
+		}
+		target = source;
+		
+		if(shields >= maxshields && dummy) 
+			dummy.killTimer = dummy.GetAge();
+
+		let haloplr = HaloPlayer(source);
+		if(!haloplr) haloplr = HaloPlayer(inflictor);
+		if(haloplr)
+		{
+			string dmgMsg = String.Format("Damage Dealt: %d", dmg);
+			haloplr.SendHUDMessage(dmgMsg);
+		}
+		
+		return dmg;
+	}
+	
+	override double AdjustDamage(int dmg, Name type)
+	{
+		return dmg / GAMEPLAY_DAMAGEMOD;;
+	}
+}
+
+class SpartanDummy_Moving : SpartanDummy
+{
+	States
+	{
+		Spawn:
+			HALO A 1 NoDelay A_Jump(128, "WalkRight");
+		WalkLeft:
+			HALO A 1 
+			{
+				angle += 180;
+			}
+			HALO ABCDABCDABCDABCD 4
+			{
+				vel.xy += AngleToVector(angle, 3);
+			}
+		WalkRight:
+			HALO A 1 
+			{
+				angle -= 180;
+			}
+			HALO ABCDABCDABCDABCD 4
+			{
+				vel.xy += AngleToVector(angle, 3);
+			}
+		goto WalkLeft;
+	}
+}

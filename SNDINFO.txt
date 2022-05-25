@@ -2,11 +2,27 @@
 Halo/Weapons/Zoom/In  Zoom_IN
 Halo/Weapons/Zoom/Out Zoom_OUT
 Halo/Weapons/DryFire  HW_DRYF
+Halo/Weapons/MagEmpty "Sounds/SFX/WeaponEmpty.wav";
 Halo/Weapons/SuitZoom/IN  "Sounds/SFX/Suit_Zoom_IN.ogg"
 Halo/Weapons/SuitZoom/OUT "Sounds/SFX/Suit_Zoom_OUT.ogg"
 Halo/Flashlight/ON "Sounds/SFX/Flashlight_On.ogg"
 Halo/Flashlight/OFF "Sounds/SFX/Flashlight_Off.ogg"
+Halo/Pickup/Weapon "Sounds/SFX/GunPickup.ogg"
+Halo/Pickup/Ammo "Sounds/Ammo/AmmoPickup.ogg"
+Halo/SecretFound "Sounds/SFX/secretreveal.ogg"
 UI/PressButton BTNPRESS
+
+
+// Ammo Crate
+Halo/AmmoCrate/Open "Sounds/Ammo/AmmoCrate_Open.ogg"
+Halo/AmmoCrate/Use "Sounds/Ammo/AmmoCrate_TakeAmmo.ogg"
+Halo/AmmoCrate/Beacon "Sounds/Ammo/AmmoCrate_Beacon.ogg"
+
+// Health pickup(s)
+Halo/Pickup/HealthBonus "Sounds/HealthItems/HealthBonus.ogg"
+Halo/Pickup/Stimpack "Sounds/HealthItems/Stim.ogg"
+Halo/Pickup/Medikit "Sounds/HealthItems/Medikit.ogg"
+Halo/Pickup/ShieldCharge "Sounds/HealthItems/SHLD_CHRG.ogg"
 
 // Vehicles
 
@@ -87,7 +103,8 @@ $random Halo/Wraith/MortarFlight { Halo/Wraith/MortarFlight1 Halo/Wraith/MortarF
 // Items
 Halo/Powerup/Camo    "Sounds/Items/power_camo.ogg"
 Halo/Powerup/Damage  "Sounds/Items/power_damage.ogg"
-Halo/Powerup/Time    "Sounds/Items/power_time.ogg"
+Halo/Powerup/Speed   "Sounds/Items/power_time.ogg"
+Halo/Powerup/Allmap  "Sounds/Items/power_allmap.ogg"
 Halo/Powerup/Shield1 "Sounds/Items/power_shield1.ogg"
 Halo/Powerup/Shield2 "Sounds/Items/power_shield2.ogg"
 
@@ -133,7 +150,7 @@ Halo/Weapons/Mag_MD6/Reload 	  HW_MAGR
 Halo/Weapons/Mag_MD6/Reload/Empty HW_MAGRE
 
 $volume Halo/Weapons/Mag_MD6/Fire 1.0
-$volume Halo/Weapons/Mag_MD6/Fire/Bass 1.0
+$volume Halo/Weapons/Mag_MD6/Fire/Bass 0.65
 $volume Halo/Weapons/Mag_MD6/Mech 0.9
 
 // AssaultRifle
@@ -160,8 +177,9 @@ Halo/Weapons/Rifle/Reload/Full  AReloadF
 Halo/Weapons/Rifle/Reload/Empty AReloadE
 Halo/Weapons/Rifle/Select       ARReady
 
-$volume Halo/Weapons/Rifle/Fire/Bass 0.9
-$volume Halo/Weapons/Rifle/Mech 0.2
+$volume Halo/Weapons/Rifle/Fire 1.0
+$volume Halo/Weapons/Rifle/Fire/Bass 0.8
+$volume Halo/Weapons/Rifle/Mech 0.3
 
 // Battle Rifle
 BARFIRE1 BARFIRE1
@@ -183,8 +201,8 @@ $random Halo/Weapons/BattleRifle/Fire      { BARFIRE1 BARFIRE2 BARFIRE3 BARFIRE4
 $random Halo/Weapons/BattleRifle/Mech      { BARMECH1 BARMECH2 BARMECH3 BARMECH4 }
 $random Halo/Weapons/BattleRifle/Fire/Bass { BARLOW1 BARLOW2 BARLOW3 }
 
-$volume Halo/Weapons/BattleRifle/Fire 0.9
-$volume Halo/Weapons/BattleRifle/Fire/Bass 0.8
+$volume Halo/Weapons/BattleRifle/Fire 1.0
+$volume Halo/Weapons/BattleRifle/Fire/Bass 1.0
 $volume Halo/Weapons/BattleRifle/Mech 1.0
 
 // SuperShotgun
@@ -359,7 +377,7 @@ Halo/Weapons/Bulldog/Ready      "Sounds/Bulldog/bulldog_draw.ogg"
 $random Halo/Weapons/Bulldog/Fire      { BLDFIRE1 BLDFIRE2 BLDFIRE3 }
 $random Halo/Weapons/Bulldog/Fire/Bass { BLDBASS1 BLDBASS2 BLDBASS3 }
 
-$volume Halo/Weapons/Bulldog/Fire 0.5
+$volume Halo/Weapons/Bulldog/Fire 0.8
 $volume Halo/Weapons/Bulldog/Fire/Bass 1.0
 
 // Gravity Hammer
@@ -396,6 +414,302 @@ $random Halo/Weapons/FuelRod/Fire/Bass { FUELROD_LOW1 FUELROD_LOW2 FUELROD_LOW3 
 $random Halo/Weapons/FuelRod/Fire/Mech { FUELROD_MECH1 FUELROD_MECH2 FUELROD_MECH3 }
 $random Halo/Weapons/Fuelrod/Explosion  { FUELROD_IMPACT1 FUELROD_IMPACT2 FUELROD_IMPACT3 }
 
+// Sidekick
+SIDEKICK_FIRE1 "Sounds/Sidekick/Sidekick_Fire1.ogg"
+SIDEKICK_FIRE2 "Sounds/Sidekick/Sidekick_Fire2.ogg"
+SIDEKICK_FIRE3 "Sounds/Sidekick/Sidekick_Fire3.ogg"
+SIDEKICK_FIRE4 "Sounds/Sidekick/Sidekick_Fire4.ogg"
+SIDEKICK_LOW1 "Sounds/Sidekick/Sidekick_Low1.ogg"
+SIDEKICK_LOW2 "Sounds/Sidekick/Sidekick_Low2.ogg"
+SIDEKICK_LOW3 "Sounds/Sidekick/Sidekick_Low3.ogg"
+SIDEKICK_LOW4 "Sounds/Sidekick/Sidekick_Low4.ogg"
+SIDEKICK_MECH1 "Sounds/Sidekick/Sidekick_Mech1.ogg"
+SIDEKICK_MECH2 "Sounds/Sidekick/Sidekick_Mech2.ogg"
+SIDEKICK_MECH3 "Sounds/Sidekick/Sidekick_Mech3.ogg"
+Halo/Weapons/Sidekick/Reload "Sounds/Sidekick/Sidekick_Reload.ogg";
+Halo/Weapons/Sidekick/Reload/Empty "Sounds/Sidekick/Sidekick_ReloadEmpty.ogg";
+Halo/Weapons/Sidekick/Draw "Sounds/Sidekick/Sidekick_Draw.ogg";
+
+$random Halo/Weapons/Sidekick/Fire      { SIDEKICK_FIRE1 SIDEKICK_FIRE2 SIDEKICK_FIRE3 SIDEKICK_FIRE4 }
+$random Halo/Weapons/Sidekick/Fire/Bass { SIDEKICK_LOW1 SIDEKICK_LOW2 SIDEKICK_LOW3 }
+$random Halo/Weapons/Sidekick/Mech { SIDEKICK_MECH1 SIDEKICK_MECH2 SIDEKICK_MECH3 }
+
+$volume Halo/Weapons/Sidekick/Fire 0.7;
+$volume Halo/Weapons/Sidekick/Fire/Bass 1.0;
+$volume Halo/Weapons/Sidekick/Mech 0.7;
+
+// SMG
+SMG_FIRE1 "Sounds/SMG/SMG_Fire1.ogg"
+SMG_FIRE2 "Sounds/SMG/SMG_Fire2.ogg"
+SMG_FIRE3 "Sounds/SMG/SMG_Fire3.ogg"
+SMG_LOW1 "Sounds/SMG/SMG_Low1.ogg"
+SMG_LOW2 "Sounds/SMG/SMG_Low2.ogg"
+SMG_LOW3 "Sounds/SMG/SMG_Low3.ogg"
+SMG_MECH1 "Sounds/SMG/SMG_Mech1.ogg"
+SMG_MECH2 "Sounds/SMG/SMG_Mech2.ogg"
+SMG_MECH3 "Sounds/SMG/SMG_Mech3.ogg"
+Halo/Weapons/SMG/Reload "Sounds/SMG/SMG_Reload_Tactical.ogg";
+Halo/Weapons/SMG/Reload/Empty "Sounds/SMG/SMG_Reload_Empty.ogg";
+Halo/Weapons/SMG/Draw "Sounds/SMG/SMG_Draw.ogg";
+
+$random Halo/Weapons/SMG/Fire      { SMG_FIRE1 SMG_FIRE2 SMG_FIRE3 }
+$random Halo/Weapons/SMG/Fire/Bass { SMG_LOW1 SMG_LOW2 SMG_LOW3 }
+$random Halo/Weapons/SMG/Mech { SMG_MECH1 SMG_MECH2 SMG_MECH3 }
+
+$volume Halo/Weapons/SMG/Fire 1.0;
+$volume Halo/Weapons/SMG/Fire/Bass 1.0;
+$volume Halo/Weapons/SMG/Mech 0.2;
+
+// MA5B
+MA5B_FIRE1 "Sounds/MA5B/MA5B_Fire1.ogg"
+MA5B_FIRE2 "Sounds/MA5B/MA5B_Fire2.ogg"
+MA5B_FIRE3 "Sounds/MA5B/MA5B_Fire3.ogg"
+MA5B_FIRE4 "Sounds/MA5B/MA5B_Fire4.ogg"
+MA5B_LOW1 "Sounds/MA5B/MA5B_Low1.ogg"
+MA5B_LOW2 "Sounds/MA5B/MA5B_Low2.ogg"
+MA5B_LOW3 "Sounds/MA5B/MA5B_Low3.ogg"
+MA5B_MECH1 "Sounds/MA5B/MA5B_Mech1.ogg"
+MA5B_MECH2 "Sounds/MA5B/MA5B_Mech2.ogg"
+MA5B_MECH3 "Sounds/MA5B/MA5B_Mech3.ogg"
+MA5B_MECH4 "Sounds/MA5B/MA5B_Mech4.ogg"
+
+Halo/Weapons/MA5B/Reload/Empty "Sounds/MA5B/MA5B_Empty_Reload.ogg"
+Halo/Weapons/MA5B/Reload/Full "Sounds/MA5B/MA5B_Tac_Reload.ogg"
+Halo/Weapons/MA5B/Select "Sounds/MA5B/MA5B_Draw.ogg"
+
+$random Halo/Weapons/MA5B/Fire { MA5B_FIRE1 MA5B_FIRE2 MA5B_FIRE3 MA5B_FIRE4 }
+$random Halo/Weapons/MA5B/Fire/Bass { MA5B_LOW1 MA5B_LOW2 MA5B_LOW3 }
+$random Halo/Weapons/MA5B/Mech { MA5B_MECH1 MA5B_MECH2 MA5B_MECH3 MA5B_MECH4 }
+
+$volume Halo/Weapons/MA5B/Fire 1.0;
+$volume Halo/Weapons/MA5B/Fire/Bass 1.0;
+$volume Halo/Weapons/MA5B/Mech 0.7;
+
+// RocketLauncher
+RL_FIRE1 "Sounds/RocketLauncher/RL_Fire1.ogg"
+RL_FIRE2 "Sounds/RocketLauncher/RL_Fire2.ogg"
+RL_FIRE3 "Sounds/RocketLauncher/RL_Fire3.ogg"
+RL_MECH1 "Sounds/RocketLauncher/RL_Rotate1.ogg"
+RL_MECH2 "Sounds/RocketLauncher/RL_Rotate2.ogg"
+RL_MECH3 "Sounds/RocketLauncher/RL_Rotate3.ogg"
+RL_EXPLODE1 "Sounds/RocketLauncher/Rocket_XPL1.ogg"
+RL_EXPLODE2 "Sounds/RocketLauncher/Rocket_XPL2.ogg"
+RL_EXPLODE3 "Sounds/RocketLauncher/Rocket_XPL3.ogg"
+
+Halo/Weapons/RocketLauncher/Draw "Sounds/RocketLauncher/RL_Draw.ogg"
+Halo/Weapons/RocketLauncher/Reload "Sounds/RocketLauncher/RL_Reload.ogg"
+Halo/Weapons/RocketLauncher/Loop "Sounds/RocketLauncher/Rocket_Loop.ogg"
+
+$random Halo/Weapons/RocketLauncher/Explode { RL_EXPLODE1 RL_EXPLODE2 RL_EXPLODE3 }
+$random Halo/Weapons/RocketLauncher/Fire { RL_FIRE1 RL_FIRE2 RL_FIRE3 }
+$random Halo/Weapons/RocketLauncher/Mech { RL_MECH1 RL_MECH2 RL_MECH3 }
+
+// Spiker
+SPIKER_FIRE1 "Sounds/Spiker/Spiker_Fire1.ogg"
+SPIKER_FIRE2 "Sounds/Spiker/Spiker_Fire2.ogg"
+SPIKER_FIRE3 "Sounds/Spiker/Spiker_Fire3.ogg"
+SPIKER_FIRE4 "Sounds/Spiker/Spiker_Fire4.ogg"
+SPIKER_MECH1 "Sounds/Spiker/Spiker_mech1.ogg"
+SPIKER_MECH2 "Sounds/Spiker/Spiker_mech2.ogg"
+SPIKER_MECH3 "Sounds/Spiker/Spiker_mech3.ogg"
+SPIKER_LOW1 "Sounds/Spiker/Spiker_low1.ogg"
+SPIKER_LOW2 "Sounds/Spiker/Spiker_low2.ogg"
+SPIKER_LOW3 "Sounds/Spiker/Spiker_low3.ogg"
+SPIKER_IMPACT1 "Sounds/Spiker/Spiker_Impact1.wav"
+SPIKER_IMPACT2 "Sounds/Spiker/Spiker_Impact2.wav"
+SPIKER_IMPACT3 "Sounds/Spiker/Spiker_Impact3.wav"
+
+SPIKER_ALT1 "Sounds/Spiker/spiker_Altfire1.ogg"
+SPIKER_ALT2 "Sounds/Spiker/spiker_Altfire2.ogg"
+SPIKER_ALT3 "Sounds/Spiker/spiker_Altfire3.ogg"
+SPIKER_ALTPREP1 "Sounds/Spiker/Altfire_Prep1.ogg"
+SPIKER_ALTPREP2 "Sounds/Spiker/Altfire_Prep2.ogg"
+SPIKER_ALTPREP3 "Sounds/Spiker/Altfire_Prep3.ogg"
+
+SPIKER_SHRAPNEL1 "Sounds/Spiker/Shrap_surface1.ogg" 
+SPIKER_SHRAPNEL2 "Sounds/Spiker/Shrap_surface2.ogg" 
+SPIKER_SHRAPNEL3 "Sounds/Spiker/Shrap_surface3.ogg"
+SPIKER_SHRAPNEL4 "Sounds/Spiker/Shrap_surface4.ogg"  
+ 
+Halo/Weapons/Spiker/Melee "Sounds/Spiker/Spiker_melee.ogg"
+Halo/Weapons/Spiker/Reload "Sounds/Spiker/Spiker_reload.ogg"
+Halo/Weapons/Spiker/Draw "Sounds/Spiker/Spiker_Draw.ogg"
+
+
+$random Halo/Weapons/Spiker/Fire { SPIKER_FIRE1 SPIKER_FIRE2 SPIKER_FIRE3 SPIKER_FIRE4 }
+$random Halo/Weapons/Spiker/AltFire { SPIKER_ALT1 SPIKER_ALT2 SPIKER_ALT3 }
+$random Halo/Weapons/Spiker/AltFire/Prep { SPIKER_ALTPREP1 SPIKER_ALTPREP2 SPIKER_ALTPREP3 }
+$random Halo/Weapons/Spiker/Mech { SPIKER_MECH1 SPIKER_MECH2 SPIKER_MECH3 }
+$random Halo/Weapons/Spiker/Fire/Bass { SPIKER_LOW1 SPIKER_LOW2 SPIKER_LOW3 }
+$random Halo/Weapons/Spiker/Impact { SPIKER_IMPACT1 SPIKER_IMPACT2 SPIKER_IMPACT3 }
+$random Halo/Weapon/Spiker/Shrapnel/Impact { SPIKER_SHRAPNEL1 SPIKER_SHRAPNEL2 SPIKER_SHRAPNEL3 SPIKER_SHRAPNEL4 }
+
+$volume Halo/Weapons/Spiker/Fire 1.0;
+$volume Halo/Weapons/Spiker/Mech 1.0;
+$volume Halo/Weapons/Spiker/Fire/Bass 1.0;		
+
+// DMR
+DMR_FIRE1 "Sounds/DMR/DMR_Fire1.ogg"
+DMR_FIRE2 "Sounds/DMR/DMR_Fire2.ogg"
+DMR_FIRE3 "Sounds/DMR/DMR_Fire3.ogg"
+DMR_LOW1 "Sounds/DMR/DMR_Low1.ogg"
+DMR_LOW2 "Sounds/DMR/DMR_Low2.ogg"
+DMR_LOW3 "Sounds/DMR/DMR_Low3.ogg"
+DMR_MECH1 "Sounds/DMR/DMR_Mech1.ogg"
+DMR_MECH2 "Sounds/DMR/DMR_Mech2.ogg"
+DMR_MECH3 "Sounds/DMR/DMR_Mech3.ogg"
+
+Halo/Weapons/DMR/Draw  "Sounds/DMR/DMR_Draw.ogg"
+Halo/Weapons/DMR/Reload  "Sounds/DMR/DMR_Reload.ogg"
+Halo/Weapons/DMR/Reload/Empty "Sounds/DMR/DMR_ReloadEmpty.ogg"
+
+$random Halo/Weapons/DMR/Fire      { DMR_FIRE1 DMR_FIRE2 DMR_FIRE3 }
+$random Halo/Weapons/DMR/Fire/Bass { DMR_LOW1 DMR_LOW2 DMR_LOW3  }
+$random Halo/Weapons/DMR/Fire/Mech { DMR_MECH1 DMR_MECH2 DMR_MECH3 }
+
+// Pulse Carbine
+PUL_FIRE1 "Sounds/PulseCarbine/PC_fire1.ogg"
+PUL_FIRE2 "Sounds/PulseCarbine/PC_fire2.ogg"
+PUL_FIRE3 "Sounds/PulseCarbine/PC_fire3.ogg"
+PUL_FIRE4 "Sounds/PulseCarbine/PC_fire4.ogg"
+PUL_FIRE5 "Sounds/PulseCarbine/PC_fire5.ogg"
+PUL_FIRE6 "Sounds/PulseCarbine/PC_fire6.ogg"
+PUL_FIRELOW1 "Sounds/PulseCarbine/PC_low1.ogg"
+PUL_FIRELOW2 "Sounds/PulseCarbine/PC_low2.ogg"
+PUL_FIRELOW3 "Sounds/PulseCarbine/PC_low3.ogg"
+PUL_FIRELOW4 "Sounds/PulseCarbine/PC_low4.ogg"
+
+Halo/Weapons/PulseCarbine/DryFire "Sounds/PulseCarbine/PC_DryFire.ogg"
+Halo/Weapons/PulseCarbine/Overheat "Sounds/PulseCarbine/PC_OH.ogg"
+Halo/Weapons/PulseCarbine/Vent "Sounds/PulseCarbine/PC_Vent.ogg"
+Halo/Weapons/PulseCarbine/Draw "Sounds/PulseCarbine/PC_draw.ogg"
+
+$Random Halo/Weapons/PulseCarbine/Fire 		 { PUL_FIRE1 PUL_FIRE2 PUL_FIRE3 PUL_FIRE4 PUL_FIRE5 PUL_FIRE6 }
+$Random Halo/Weapons/PulseCarbine/Fire/Bass  { PUL_FIRELOW1 PUL_FIRELOW2 PUL_FIRELOW3 PUL_FIRELOW4 }
+
+// Unmaker
+Unmaker_FIRE1 "Sounds/Unmaker/Unmaker_Fire1.ogg"
+Unmaker_FIRE2 "Sounds/Unmaker/Unmaker_Fire2.ogg"
+Unmaker_FIRE3 "Sounds/Unmaker/Unmaker_Fire3.ogg"
+Unmaker_FIRE4 "Sounds/Unmaker/Unmaker_Fire4.ogg"
+
+Unmaker_Heat1 "Sounds/Unmaker/Unmaker_OH1.ogg"
+Unmaker_Heat2 "Sounds/Unmaker/Unmaker_OH2.ogg"
+Unmaker_Heat3 "Sounds/Unmaker/Unmaker_OH3.ogg"
+
+Unmaker_CHRGFire1 "Sounds/Unmaker/Unmaker_CHRGFire1.ogg"
+Unmaker_CHRGFire2 "Sounds/Unmaker/Unmaker_CHRGFire2.ogg" 
+Unmaker_CHRGFire3 "Sounds/Unmaker/Unmaker_CHRGFire3.ogg"
+
+Unmaker_Laser1 "Sounds/Unmaker/Unmaker_Tracers1.ogg"
+Unmaker_Laser2 "Sounds/Unmaker/Unmaker_Tracers2.ogg"
+Unmaker_Laser3 "Sounds/Unmaker/Unmaker_Tracers3.ogg"
+
+Unmaker_BFGExplode1 "Sounds/Unmaker/BFG_XPL1.ogg"
+Unmaker_BFGExplode2 "Sounds/Unmaker/BFG_XPL2.ogg"
+Unmaker_BFGExplode3 "Sounds/Unmaker/BFG_XPL3.ogg"
+
+Halo/Weapons/Unmaker/Charge/Start "Sounds/Unmaker/BFG_Charge_Start.ogg";
+Halo/Weapons/Unmaker/Charge "Sounds/Unmaker/Unmaker_Charge.ogg";
+Halo/Weapons/Unmaker/Draw "Sounds/Unmaker/Unmaker_Draw.ogg"
+Halo/Weapons/Unmaker/BFG/Travel "Sounds/Unmaker/BFG_TRVL_Loop.ogg"
+
+$random Halo/Weapons/Unmaker/BFG/Explode { Unmaker_BFGExplode1 Unmaker_BFGExplode2 Unmaker_BFGExplode3 }
+$random Halo/Weapons/Unmaker/Fire { Unmaker_FIRE1 Unmaker_FIRE2 Unmaker_FIRE3 Unmaker_FIRE4 }
+$random Halo/Weapons/Unmaker/Charge/Fire { Unmaker_CHRGFire1 Unmaker_CHRGFire2 Unmaker_CHRGFire3 }
+$random Halo/Weapons/Unmaker/Overheat { Unmaker_Heat1 Unmaker_Heat2 Unmaker_Heat3 }
+$random Halo/Weapons/Unmaker/Lasers { Unmaker_Laser1 Unmaker_Laser2 Unmaker_Laser3 }
+
+// Beam Rifle
+BEAMRIFLE_FIRE1 "Sounds/BeamRifle/BeamRifle_Fire1.ogg"
+BEAMRIFLE_FIRE2 "Sounds/BeamRifle/BeamRifle_Fire2.ogg"
+Halo/Weapons/BeamRifle/Laser/Loop "Sounds/BeamRifle/BeamRifle_Loop.ogg"
+Halo/Weapons/BeamRifle/Laser/LoopEnd "Sounds/BeamRifle/BeamRifle_LoopEnd.ogg"
+Halo/Weapons/BeamRifle/Draw  "Sounds/BeamRifle/BeamRifle_Draw.ogg"
+Halo/Weapons/BeamRifle/Overheat/Start "Sounds/BeamRifle/BeamRifle_OH_Start.ogg"
+Halo/Weapons/BeamRifle/Overheat/Loop "Sounds/BeamRifle/BeamRifle_OH_Loop.ogg"
+Halo/Weapons/BeamRifle/Overheat/End "Sounds/BeamRifle/BeamRifle_OH_End.ogg"
+
+$random Halo/Weapons/BeamRifle/Laser/Fire { BEAMRIFLE_FIRE1 BEAMRIFLE_FIRE2 }
+
+// Energy Sword
+ES_SWING1 "Sounds/EnergySword/ESword_Swing1.ogg"
+ES_SWING2 "Sounds/EnergySword/ESword_Swing2.ogg"
+ES_SWING3 "Sounds/EnergySword/ESword_Swing3.ogg"
+ES_HIT1 "Sounds/EnergySword/ESword_HitTarget1.ogg"
+ES_HIT2 "Sounds/EnergySword/ESword_HitTarget2.ogg"
+ES_HIT3 "Sounds/EnergySword/ESword_HitTarget3.ogg"
+ES_MISS1 "Sounds/EnergySword/ESword_HitWall1.ogg"
+ES_MISS2 "Sounds/EnergySword/ESword_HitWall2.ogg"
+ES_MISS3 "Sounds/EnergySword/ESword_HitWall3.ogg"
+
+Halo/Weapons/EnergySword/Idle "Sounds/EnergySword/ESword_IdleLoop.ogg"
+Halo/Weapons/EnergySword/Draw "Sounds/EnergySword/ESword_Draw.ogg"
+Halo/Weapons/EnergySword/NoBattery "Sounds/EnergySword/ESword_Depleted.ogg"
+
+$random Halo/Weapons/EnergySword/Swing { ES_SWING1 ES_SWING2 ES_SWING3 }
+$random Halo/Weapons/EnergySword/Hit { ES_HIT1 ES_HIT2 ES_HIT3 }
+$random Halo/Weapons/EnergySword/Miss { ES_MISS1 ES_MISS2 ES_MISS3 }
+
+// Binary Rifle
+BinaryRifle_FIRE1 "Sounds/BinaryRifle/Binary_Fire1.ogg"
+BinaryRifle_FIRE2 "Sounds/BinaryRifle/Binary_Fire2.ogg"
+BinaryRifle_FIRE3 "Sounds/BinaryRifle/Binary_Fire3.ogg"
+BinaryRifle_LOW1 "Sounds/BinaryRifle/Binary_Low1.ogg"
+BinaryRifle_LOW2 "Sounds/BinaryRifle/Binary_Low2.ogg"
+BinaryRifle_LOW3 "Sounds/BinaryRifle/Binary_Low3.ogg"
+
+Halo/Weapons/BinaryRifle/Draw  "Sounds/BinaryRifle/Binary_Draw.ogg"
+Halo/Weapons/BinaryRifle/Zoom/IN "Sounds/BinaryRifle/Binary_Zoomin.ogg"
+Halo/Weapons/BinaryRifle/Zoom/OUT "Sounds/BinaryRifle/Binary_Zoomout.ogg"
+
+$random Halo/Weapons/BinaryRifle/Fire      { BinaryRifle_FIRE1 BinaryRifle_FIRE2 BinaryRifle_FIRE3 }
+$random Halo/Weapons/BinaryRifle/Fire/Bass { BinaryRifle_LOW1 BinaryRifle_LOW2 BinaryRifle_LOW3  }
+
+// Light Rifle
+LightRifle_BurstFIRE1 "Sounds/LightRifle/LR_US_Fire1.ogg"
+LightRifle_BurstFIRE2 "Sounds/LightRifle/LR_US_Fire2.ogg"
+LightRifle_BurstFIRE3 "Sounds/LightRifle/LR_US_Fire3.ogg"
+LightRifle_BurstLOW1 "Sounds/LightRifle/LR_US_Low1.ogg"
+LightRifle_BurstLOW2 "Sounds/LightRifle/LR_US_Low2.ogg"
+LightRifle_BurstLOW3 "Sounds/LightRifle/LR_US_Low3.ogg"
+
+LightRifle_StrongFIRE1 "Sounds/LightRifle/LR_S_Fire1.ogg"
+LightRifle_StrongFIRE2 "Sounds/LightRifle/LR_S_Fire2.ogg"
+LightRifle_StrongFIRE3 "Sounds/LightRifle/LR_S_Fire3.ogg"
+LightRifle_StrongLOW1 "Sounds/LightRifle/LR_S_Low1.ogg"
+LightRifle_StrongLOW2 "Sounds/LightRifle/LR_S_Low2.ogg"
+LightRifle_StrongLOW3 "Sounds/LightRifle/LR_S_Low3.ogg"
+
+Halo/Weapons/LightRifle/Draw  "Sounds/LightRifle/LR_Draw.ogg"
+Halo/Weapons/LightRifle/Zoom/IN "Sounds/LightRifle/LR_Zoomin.ogg"
+Halo/Weapons/LightRifle/Zoom/OUT "Sounds/LightRifle/LR_Zoomout.ogg"
+
+$random Halo/Weapons/LightRifle/Fire      { LightRifle_BurstFIRE1 LightRifle_BurstFIRE2 LightRifle_BurstFIRE3 }
+$random Halo/Weapons/LightRifle/Fire/Bass { LightRifle_BurstLOW1 LightRifle_BurstLOW2 LightRifle_BurstLOW3  }
+$random Halo/Weapons/LightRifle/Fire/DMR      { LightRifle_StrongFIRE1 LightRifle_StrongFIRE2 LightRifle_StrongFIRE3 }
+$random Halo/Weapons/LightRifle/Fire/DMR/Bass { LightRifle_StrongLOW1 LightRifle_StrongLOW2 LightRifle_StrongLOW3  }
+
+$volume Halo/Weapons/LightRifle/Fire 1.0; 
+$volume Halo/Weapons/LightRifle/Fire/Bass 0.8;
+$volume Halo/Weapons/LightRifle/Fire/DMR 1.0;  
+$volume Halo/Weapons/LightRifle/Fire/DMR/Bass 0.8;
+
+// Scatter Shot
+ScatterShot_FIRE1 "Sounds/ScatterShot/Scatter_Fire1.ogg"
+ScatterShot_FIRE2 "Sounds/ScatterShot/Scatter_Fire2.ogg"
+ScatterShot_FIRE3 "Sounds/ScatterShot/Scatter_Fire3.ogg"
+ScatterShot_LOW1 "Sounds/ScatterShot/Scatter_Low1.ogg"
+ScatterShot_LOW2 "Sounds/ScatterShot/Scatter_Low2.ogg"
+ScatterShot_LOW3 "Sounds/ScatterShot/Scatter_Low3.ogg"
+
+Halo/Weapons/ScatterShot/Draw  "Sounds/LightRifle/LR_Draw.ogg" // No draw sound for Scatter Shot?
+Halo/Weapons/ScatterShot/Zoom/IN "Sounds/ScatterShot/Scatter_Zoomin.ogg"
+Halo/Weapons/ScatterShot/Zoom/OUT "Sounds/ScatterShot/Scatter_Zoomout.ogg"
+
+$random Halo/Weapons/ScatterShot/Fire      { ScatterShot_FIRE1 ScatterShot_FIRE2 ScatterShot_FIRE3 }
+$random Halo/Weapons/ScatterShot/Fire/Bass { ScatterShot_LOW1 ScatterShot_LOW2 ScatterShot_LOW3  }
+
 // Hit feedback
 HMHIT1 HMHit1
 HMHIT2 HMHit2
@@ -422,6 +736,8 @@ Shield/Low shlow
 
 $volume Shield/Warning 0.7
 $volume Shield/Low 0.25
+
+Shield/Regenerate/Fast "Sounds/Shield/SP3ShieldRegen.ogg"
 
 // Grenades
 Halo/Grenade/Frag/Pickup "Sounds/Grenades/Frag_Pickup.ogg"
@@ -503,4 +819,4 @@ $playersound	Spartan  male	grunt	  "Sounds/Players/jump2.ogg"
 $playersound	Spartan  male	*land	  "Sounds/Players/land_normal.ogg"
 $playersound	Spartan  male	*jump	  "Sounds/Players/jump1.ogg"
 $playersound	Spartan  male	*fist	  dspunch
-$playersound	Spartan  male	*usefail  dsnoway
+$playersound	Spartan  male	*usefail  "Sounds/Melee/MeleeMiss.ogg"

@@ -1,14 +1,49 @@
 
+class LaserBeamDecal : CheapActor
+{
+	Line onWall;
+	
+	Default
+	{
+		+FLATSPRITE;
+		+MOVEWITHSECTOR
+		RenderStyle "Add";
+	}
+	
+	override void Tick()
+	{
+		super.Tick();	
+		HaloMath.AlignToPlane(self, adjustSpeed:90);
+		if(onWall)
+		{
+			angle = atan2(onWall.delta.y, onWall.delta.x) + 90;
+			pitch = 90;
+		}
+	}
+		
+	States
+	{
+		Spawn:
+			LASH A 0;
+		Animate:
+			"####" "#" 1 A_Fadeout(0.008);
+		wait;
+	}
+}
+
 class LaserBeam : Actor
 {
 	Color shade;
 
+	class<LaserBeamDecal> laserDecalType;
 	double maxDist;
 	int ontics;
 	bool enabled;
 	Actor source;
+	vector3 curPos;
 	vector3 offsets;
 	vector2 angleOffsets;
+	vector3 curOffs;
 	transient FLineTraceData hitData;
 	
 	bool trackingPos;
@@ -23,6 +58,7 @@ class LaserBeam : Actor
 	Property TrackWeapon : trackPSprite, trackPSLayer;
 	Property AimFromWeapon : aimWithWeapon; 
 	Property LaserColor : shade;
+	Property LaserDecal : laserDecalType;
 	
 	Default
 	{
@@ -72,6 +108,21 @@ class LaserBeam : Actor
 	{
 		return trackingPos;
 	}
+		
+	void aimAtCrosshair()
+	{
+		double zoffs = source.height*0.5;
+		if(source.player) zoffs = source.player.viewz - source.pos.z;
+	
+		FLineTraceData lt;
+		source.LineTrace(source.angle, maxDist, source.pitch, offsetz:zoffs, offsetforward:source.radius, data:lt);
+		if(lt.HitType != TRACE_HitNone) 
+		{
+			vector3 aimAngles = level.SphericalCoords(curPos, lt.HitLocation, (source.angle,source.pitch));
+			angleOffsets.x = aimAngles.x;
+			angleOffsets.y = aimAngles.y;
+		}
+	}
 	
 	virtual vector3 getSourcePos()
 	{
@@ -86,10 +137,25 @@ class LaserBeam : Actor
 		// Implement custom laser logic here.
 	}
 	
+	virtual void OnImpact(vector3 hitPos, Actor hitActor)
+	{
+		if(laserDecalType) DoLaserDecal(laserDecalType, false);
+	}
+	
+	virtual void DoLaserDecal(class<LaserBeamDecal> decalType, bool puffOnActors = false)
+	{
+		if(hitData.hitActor && !puffOnActors) return;
+		let dec = LaserBeamDecal(Spawn(decalType, hitData.hitLocation));
+		if(dec) 
+		{
+			dec.onWall = hitData.hitLine;
+		}
+	}
+	
 	override void Tick()
 	{
 		if(isFrozen()) return;
-		if(!enabled) 
+		if(!enabled || !source) 
 		{
 			ontics = 0;
 			bInvisible = true;
@@ -98,10 +164,15 @@ class LaserBeam : Actor
 		ontics++;
 		bInvisible = ontics < 3;
 		if(shade) SetShade(shade);
+		
+		if(ontics == 2)
+		{
+			OnImpact(hitData.hitLocation, hitdata.hitActor);
+		}
 				
 		// PSprite tracking?
 		vector2 bob = (0,0);
-		if(trackPSprite)
+		if(trackPSprite && PlayerPawn(source))
 		{
 			let psp = source.player.GetPSprite(trackPSLayer);
 			bob = PlayerPawn(source).BobWeapon(1.0);
@@ -113,16 +184,24 @@ class LaserBeam : Actor
 		}
 		
 		// Update laser and tracking.
-		vector3 offsPos = HaloMath.V3Offset(
+		curOffs = HaloMath.V3Offset(
 			source.angle, source.pitch, source.roll,
 			offsets.x, offsets.y + bob.x, offsets.z - bob.y, 
 			1.0
 		);
-		vector3 finalPos = level.vec3offset(getSourcePos(), offsPos);
+	
+		vector3 finalPos = level.vec3offset(getSourcePos(), curOffs);
 		SetOrigin(finalPos, true);
+		curPos = finalPos;
 		
-		double toAngle = source.angle + angleOffsets.x;
-		double toPitch = source.pitch + angleOffsets.y;
+		double toAngle = angleOffsets.x;
+		double toPitch = angleOffsets.y;
+		if(followAngles) 
+		{
+			toAngle += source.angle;
+			toPitch += source.pitch;
+		}
+		
 		if(aimWithWeapon) 
 		{
 			toAngle -= (bob.x * 10);
@@ -139,8 +218,8 @@ class LaserBeam : Actor
 			toPitch = angleOffsets.y + asin(dir.z);
 			A_SetAngle(toAngle, SPF_INTERPOLATE);
 			A_SetPitch(toPitch - 90, SPF_INTERPOLATE);		
-		} 
-		else if(followAngles)
+		}
+		else
 		{
 			A_SetAngle(toAngle, SPF_INTERPOLATE);
 			A_SetPitch(toPitch+90, SPF_INTERPOLATE);

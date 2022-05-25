@@ -4,6 +4,8 @@ class HaloDoom_Events : EventHandler
 	const TOK_EndOfLine = 13;
 	bool nevertarget;
 	bool alwaysautoaim;
+	bool runningLZDoom;
+	
 	HaloDoom_EngineEvents engHandle;
 	Dictionary surfacesDatabase;
 	
@@ -18,10 +20,11 @@ class HaloDoom_Events : EventHandler
 	{
 		engHandle = HaloDoom_EngineEvents(StaticEventHandler.Find("HaloDoom_EngineEvents"));
 		populateSpawnArrays();
-		
+				
 		// Initialize footsteps
 		surfacesDatabase = Dictionary.Create();
 		PopulateFootsteps();
+		runningLZDoom = !!CVar.GetCVar("vid_displaybits");
 	}
 	
 	void StringFilterEOL(out string src)
@@ -153,30 +156,38 @@ class HaloDoom_Events : EventHandler
 		}
 	}
 
-	override void UITick()
-	{
-		let curmenu = Menu.GetCurrentMenu();
-		bool curintro = (curmenu is "HaloDoom_IntroSeq");
-		bool titlescreen = (gamestate == GS_TITLELEVEL);
-		
-		if(engHandle.edata.first_boot && !curintro && titlescreen)
-		{
-			Menu.SetMenu("Intro");
-			engHandle.edata.first_boot = false;
-		}
-		else if(!titlescreen)
-			engHandle.edata.first_boot = false;
-	}
-
 	override void NetworkProcess(ConsoleEvent e)
 	{
 		PlayerInfo src = players[e.Player];
 		if(!src || !src.mo) return;
 		let haloplr = HaloPlayer(src.mo);
-			
-		// Extra keys
-		if(haloplr)
+		
+		if(e.Name ~== "reload_gametype")
 		{
+			populateSpawnArrays();
+			console.printf("Weapon Spawns reloaded based on current GameType.");
+		}
+		
+		if(e.Name ~== "glitchgremlin")
+		{
+			Object.ThrowAbortException("\c[Red]Playsim aborted.");
+		}
+		
+		// Extra keys
+		if(haloplr && haloplr.health > 0)
+		{			
+			if(e.Name ~== "+weaponInfo") haloplr.drawWeaponInfo = true;
+			if(e.Name ~== "-weaponInfo") haloplr.drawWeaponInfo = false;
+		
+			if(e.Name ~== "haveashield")
+			{
+				if(haloplr.aimActor)
+				{
+					ShieldProcessor.Attach(haloplr.aimActor);
+					console.printf("Gave shield.");
+				}
+			}
+		
 			if(e.Name ~== "throwgrenade")
 			{
 				let haloweap = HaloGun(haloplr.player.ReadyWeapon);
@@ -196,7 +207,7 @@ class HaloDoom_Events : EventHandler
 				}
 			}
 		}
-		
+				
 		Array<String> args;
 		String cmd = e.Name;
 		cmd.Split(args, ":");
@@ -206,7 +217,7 @@ class HaloDoom_Events : EventHandler
 			if(obj) Actor.Spawn(obj, haloplr.aimpos);
 		}
 		
-		// if(multiplayer) return;
+		if(multiplayer) return;
 		if(e.Name == "HaloDoom_GiveAll")
 		{	
 			Array<class<HaloGun> > guns;
@@ -214,14 +225,46 @@ class HaloDoom_Events : EventHandler
 			{
 				let classtype = AllActorClasses[i];
 				if(classtype is "HaloGun" && classtype != "HaloGun") 
+				{
+					let weap = (class<Weapon>) (classtype);
+					if(shouldFilterWeapon(weap)) continue;
+					
 					guns.Push(AllActorClasses[i]);
+				}
 			}
 			int spacing = 360./guns.Size();
 			for(int i = 0; i < guns.Size(); i++)
 			{
 				let gun = guns[i];
-				vector2 spawnpos = Actor.AngleToVector(i*spacing, 80);
+				vector2 spawnpos = Actor.AngleToVector(i*spacing, 120);
 				Actor.Spawn(gun, src.mo.Vec3Offset(spawnpos.x,spawnpos.y, src.mo.floorz));
+			}
+		}
+		
+		if(e.Name == "HaloDoom_GiveAllAmmo") // twosticksandarock
+		{
+			Array<class<Ammo> > gunAmmo;
+			for(int i = 0; i < AllActorClasses.Size(); i++)
+			{
+				let classtype = AllActorClasses[i];
+				if(classtype is "Ammo" && classtype != "Ammo") 
+				{
+					// Hacky way to define halodoom ammo because
+					// the way Doom handles ammo is absolutely stupid.
+					class<Inventory> ammoItem = (class<Inventory>) (classtype);
+					let defs = GetDefaultByType(ammoItem);
+					String iconSprite = TexMan.GetName(defs.Icon);
+					if(iconSprite.IndexOf("HLAM") == -1) continue; 
+					
+					gunAmmo.Push(AllActorClasses[i]);
+				}
+			}
+			int spacing = 360./gunAmmo.Size();
+			for(int i = 0; i < gunAmmo.Size(); i++)
+			{
+				let ammoType = gunAmmo[i];
+				vector2 spawnpos = Actor.AngleToVector(i*spacing, 80);
+				Actor.Spawn(ammoType, src.mo.Vec3Offset(spawnpos.x,spawnpos.y, src.mo.floorz));
 			}
 		}
 		
@@ -307,6 +350,10 @@ class HaloDoom_Events : EventHandler
 				
 				// Clear keys
 				haloplr.cortana.usedKeys.Clear();
+				
+				// Call weapon virtual(s)
+				let haloweap = HaloGun(haloplr.player.ReadyWeapon);
+				if(haloweap) haloweap.LevelLoaded();
 			}
 		}
 	}
@@ -346,25 +393,22 @@ class HaloDoom_Events : EventHandler
 	}
 }
 
-
-
-// As of GZDoom 4.5, Structs ignore scoping.
-// This needs to be done here because I cannot get NetworkEvents to properly
-// call from the title.
-// When the game first loads up, this will detect that and 
-// set the menu to play the intro effects. 
-struct engine_vars 
-{
-	bool first_boot;
-}
-
 class HaloDoom_EngineEvents : StaticEventHandler 
 {		
-	engine_vars edata;
-
-	override void OnRegister()
-	{
-		edata.first_boot = true;
-	}
+	ui bool intro_played;
 	
+	override void UITick()
+	{
+		let curmenu = Menu.GetCurrentMenu();
+		bool curintro = (curmenu is "HaloDoom_IntroSeq");
+		bool titlescreen = (gamestate == GS_TITLELEVEL);
+		
+		if(!intro_played && !curintro && titlescreen)
+		{
+			Menu.SetMenu("Intro");
+			intro_played = true;
+		}
+		else if(!titlescreen)
+			intro_played = true;
+	}
 }

@@ -1,0 +1,41 @@
+GameType HDE
+{
+	Name "$GAMETYPE_HDE"
+	Description "$GAMETYPE_HDE_DESC"
+}
+
+GameType HL1
+{
+	Name "$GAMETYPE_HL1"
+	Description "$GAMETYPE_HL1_DESC"
+}
+
+GameType HL2
+{
+	Name "$GAMETYPE_HL2"
+	Description "$GAMETYPE_HL2_DESC"
+}
+
+GameType HL3
+{
+	Name "$GAMETYPE_HL3"
+	Description "$GAMETYPE_HL3_DESC"
+}
+
+GameType HL4
+{
+	Name "$GAMETYPE_HL4"
+	Description "$GAMETYPE_HL4_DESC"
+}
+
+GameType MSX
+{
+	Name "$GAMETYPE_MSX"
+	Description "$GAMETYPE_MSX_DESC"
+}
+
+GameType StarWars
+{
+	Name "$GAMETYPE_ENERGY"
+	Description "$GAMETYPE_ENERGY_DESC"
+}

@@ -1,0 +1,468 @@
+class ExplosiveCoil : Actor
+{
+	EnergyCoilOverlay dmgOverlay;
+	int coilFrame;
+	int noDmgTics;
+	int delay;
+
+	Property CoilFrame : coilFrame;
+
+	Default
+	{
+		Radius 16;
+		Height 48;
+		Scale 0.7;
+		YScale 0.7 / 1.2;
+		+SOLID;
+		+BRIGHT;
+		+SHOOTABLE;
+		+DONTTHRUST;
+		+PUSHABLE;
+		+SLIDESONWALLS;
+		
+		Health 75;
+	}
+	
+	override int DamageMobJ(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle)
+	{
+		if(damage > 0) noDmgTics = 0;
+		return super.DamageMobJ(inflictor, source, damage, mod, flags, angle);
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		if(!dmgOverlay) 
+			dmgOverlay = EnergyCoilOverlay.Setup(self);
+		
+		noDmgTics++;
+		
+		if(noDmgTics > 35 && health > 0) 
+			health += ceil(SpawnHealth() * 0.01);
+		
+		health = min(SpawnHealth(), health);
+	}
+	
+	virtual void OnExplode()
+	{
+		// BOOM!
+	}
+	
+	virtual void OnWait()
+	{
+		// Waiting to explode.
+	}
+	
+	virtual void FilterExplosions()
+	{
+		let coilIt = BlockThingsIterator.Create(self, 256);
+		double count = 0;
+		int curDelay = 0;
+		while(coilIt.Next())
+		{
+			let coil = coilIt.Thing;
+			if( !(coil is "ExplosiveCoil") || coil == self ) continue;
+			
+			curDelay += 2;
+			// ExplosiveCoil(coil).lowEffects = true;
+			ExplosiveCoil(coil).delay = curDelay;
+			
+			count++;
+		}
+	}
+	
+	States
+	{
+		Spawn:
+			COIL "#" -1 NoDelay
+			{
+				frame = coilFrame;
+			}
+		loop;
+		
+		XDeath:
+		Death:
+			"####" "#" 1 
+			{
+				OnWait();
+				return A_JumpIf((delay--) <= 0, "TrueDeath");
+			}
+		loop;
+		TrueDeath:
+			TNT1 A 35 
+			{
+				OnExplode();
+				FilterExplosions();
+			}
+		stop;
+	}
+}
+
+class EnergyCoilOverlay : CheapActor
+{
+	Default
+	{
+		+BRIGHT;
+		RenderStyle "Translucent";
+	}
+	
+	static EnergyCoilOverlay Setup(ExplosiveCoil src)
+	{
+		let overlay = EnergyCoilOverlay(Spawn("EnergyCoilOverlay", src.pos));
+		if(overlay)
+		{
+			overlay.master = src;
+		}
+		return overlay;
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		if(!master || master.health <= 0) 
+		{
+			Destroy();
+			return;
+		}
+		
+		A_SetScale(master.scale.X, master.scale.Y);
+		SetOrigin(master.pos, true);
+		double healthPerc = 1.0 - ( master.health / double(master.SpawnHealth()) );
+		alpha = healthPerc * 1.5;
+	}
+	
+	States
+	{
+		Spawn:
+			COIL A -1;
+		stop;
+	}
+}
+
+class CoilSpawner : CheapActor replaces ExplosiveBarrel
+{
+	override void BeginPlay()
+	{
+		super.beginPlay();
+		Array<class<Actor> > spawns;
+		for(int i = 0; i < AllActorClasses.Size(); i++)
+		{
+			let cls = AllActorClasses[i];
+			if(cls is "ExplosiveCoil" && cls.getClassName() != "ExplosiveCoil") 
+				spawns.Push(cls);
+		}
+		
+		if(spawns.Size() > 0) 
+		{
+			let index = random[CoilSpawns](0, spawns.Size()-1);
+			Spawn(spawns[index], pos);
+		}
+	}
+}
+
+// Barrels
+class Coil_FuelRod_Explosion : Fuelrod_Explosion
+{	
+	Default
+	{
+		Scale 3.0;
+		Fuelrod_Explosion.SetupSmoke 0.1, 60; 
+	}
+}
+
+class Coil_FuelRod : ExplosiveCoil
+{
+	Default
+	{
+		ExplosiveCoil.CoilFrame 3;
+	}
+	
+	override void OnExplode()
+	{
+		Spawn("Coil_FuelRod_Explosion", (pos.xy, pos.z + 30));
+	}
+}
+
+class Coil_Plasma : ExplosiveCoil
+{
+	Default
+	{
+		ExplosiveCoil.CoilFrame 5;
+	}
+	
+	virtual void A_DoLightning(double amt = 4)
+	{
+		vector2 view;
+		for(int i = 0; i < amt; i++)
+		{
+			view.x = frandom(0,360);
+			view.y = frandom(-20,20);
+			BiriBiri.DoLightning((pos.xy,pos.z+30), view, dist:100, 0.5, 20.0, 10.0, 30, 0);
+		}
+	}
+	
+	override void OnExplode()
+	{
+		A_StartSound("Halo/Grenade/Plasma/Explode", flags:CHANF_OVERLAP);
+		Spawn("PlasmaGrenadeExplosion", (pos.xy, pos.z + 30));
+		A_DoLightning(10);
+	}
+}
+
+class Coil_Hardlight_Explosion : CheapActor
+{	
+	bool lowEffects;
+	int projBoost;
+	Default
+	{
+		Scale 1.0;
+	}
+		
+	States
+	{
+		Spawn:
+			TNT1 A 0;
+			TNT1 A 35
+			{
+				
+				let expl = Spawn("UnmakerBallExplosion", pos);
+				expl.A_SetScale(scale.x * 0.25);
+				let shock = Spawn("FX_Shockwave", pos);
+				shock.A_SetScale(scale.x);
+				let flare = Spawn("UnmakerBallFlare", pos);
+				flare.A_SetScale(scale.x);
+
+				A_StartSound("Halo/Weapons/Unmaker/BFG/Explode", CHAN_VOICE, flags:CHANF_OVERLAP);
+				A_StartSound("Halo/Weapons/BeamRifle/Laser/Fire", CHAN_VOICE, flags:CHANF_OVERLAP);
+				
+				vector3 randPos = (frandom(-1,1),frandom(-1,1),frandom(-1,1)) * 30;  
+				if(!lowEffects)
+				{
+					HaloMath.SpawnFX("UnmakerLaserPuff", pos+randPos, frandom(0,360), 5, 45, 20);
+					
+					for(int i = 0; i < 5 * halodoom_effectintensity; i++)
+					{
+						randPos = (frandom(-1,1),frandom(-1,1),frandom(-1,1)) * 20;  
+						let puff = UnmakerLaserPuff(Spawn("UnmakerLaserPuff", pos+randPos));
+						if(puff) 
+						{
+							puff.angle = frandom(0,360);
+							puff.pitch = -90;
+							puff.laserAmt = 0.25;
+							puff.laserDist = 25;
+						}
+					}
+				}
+				
+				// Lasers
+				for(int i = 0; i < (10 + projBoost) * halodoom_effectintensity; i++)
+				{
+					vector2 view = (
+						frandom(0,360), 
+						frandom(-30,30)
+					);
+					
+					let beam = LaserBeam.Create(self, 10, 0, 0, view.x,view.y, type:"LSR_LightRifle");
+					beam.setEnabled(true);
+					let beamCore = LaserBeam.Create(self, 10, 0, 0, view.x,view.y, type:"LSR_LightRifleCore");
+					beamCore.setEnabled(true);
+					if( !(i%4) ) HaloMath.FireProjectile("HaloScatterShot_Proj", pos, view.x, view.y);
+				}
+				
+				HaloMath.SpawnFX("UnmakerBallSmoke", pos+randPos, frandom(0,360), random(5,10), 64, 10, 0, 0, 8);
+				
+				A_Explode(200, 160, damagetype:"Plasma");
+				A_Quake(3, 10, 0, 1024, "");
+			}
+		stop;
+	}
+}
+
+class Coil_Hardlight : ExplosiveCoil
+{
+	bool lowEffects;
+
+	Default
+	{
+		ExplosiveCoil.CoilFrame 4;
+	}
+	
+	virtual void A_DoLightning(double amt = 4)
+	{
+		vector2 view;
+		for(int i = 0; i < amt; i++)
+		{
+			view.x = frandom(0,360);
+			view.y = frandom(-20,20);
+			BiriBiri.DoLightning((pos.xy,pos.z+30), view, type:"UnmakerLightning", dist:100, 0.5, 20.0, 10.0, 30, 0);
+		}
+	}
+	
+	override void OnExplode()
+	{
+		let expl = Coil_Hardlight_Explosion(Spawn("Coil_Hardlight_Explosion", (pos.xy, pos.z + 30)));
+		if(expl) 
+		{
+			expl.lowEffects = lowEffects;
+		}
+		A_DoLightning(10);
+	}
+	
+	override void OnWait()
+	{
+		if(delay > 0) lowEffects = true;
+	}
+}
+
+class Coil_Needler_Explosion : CheapActor
+{	
+	Default
+	{
+		Scale 2.75;
+	}
+		
+	States
+	{
+		Spawn:
+			TNT1 A 0;
+			TNT1 A 35 
+			{
+				vector3 explodePos = (pos.xy, pos.z + 30);
+				let flare = Spawn("NeedleExplosion_Flare", explodePos);
+				flare.A_SetScale(scale.x);
+				let expl = Spawn("NeedleExplosion", explodePos);
+				expl.A_SetScale(scale.x);
+				let shock = Spawn("FX_Shockwave", pos);
+				A_StartSound("Halo/Weapons/Needler/SuperCombine", flags:CHANF_OVERLAP);
+				A_StartSound("Halo/Grenade/Frag/Explode", flags:CHANF_OVERLAP);
+				
+				for(int i = 0; i < 12; i++)
+				{
+					vector3 randPos = (frandom(-1,1),frandom(-1,1),frandom(-1,1)) * 20;  
+					HaloMath.FireProjectile("HaloNeedleProjectile", pos+randPos, frandom(0,360), frandom(-30,30));
+				}
+				
+				A_Explode(200, 160, damagetype:"Explosive");
+			}
+		stop;
+	}
+}
+
+class Coil_Needler : ExplosiveCoil
+{
+	Default
+	{
+		ExplosiveCoil.CoilFrame 7;
+	}
+	
+	override void OnExplode()
+	{
+		Spawn("Coil_Needler_Explosion", (pos.xy, pos.z + 30));
+	}
+}
+
+class BlackholeLightning : LightningBiri
+{
+	Default
+	{
+		Scale 0.27;
+		Translation "0:255=@64[8, 23, 77]";
+	}
+}
+
+class FX_Blackhole : RepulsorField
+{
+	Default
+	{
+		Scale 0.5;
+		RenderStyle "Subtract";
+		+BRIGHT
+		+ROLLSPRITE;
+		Translation "0:255=@32[0, 0, 0]"; 
+		
+		RepulsorField.GravityConstant -0.12;
+		RepulsorField.FieldSize 512.;
+	}
+	
+	virtual void A_DoLightning(double amt = 4)
+	{
+		vector2 view;
+		for(int i = 0; i < amt; i++)
+		{
+			view.x = frandom(0,360);
+			view.y = frandom(-20,20);
+			vector3 randPos = (frandom(-1,1),frandom(-1,1),frandom(-1,1)) * 64;  
+			BiriBiri.DoLightning(level.vec3offset(pos, randPos), view, type:"BlackholeLightning", dist:100, 2.5, 20.0, 10.0, 30, 0);
+		}
+	}
+	
+	override void Tick()
+	{
+		super.tick();
+		frame = random(3,5);
+		roll+=2;
+		if( !(GetAge() % random(4,6)) )
+			A_DoLightning();
+			
+		if(!level.isFrozen()) 
+			A_DoRepulse();
+			
+		
+		let it = ThinkerIterator.Create();
+		Actor act;
+		while(act = Actor(it.Next()))
+		{
+			if(act == self || !act.bSHOOTABLE) continue;
+			if(act.Distance3D(self) <= 128)
+			{
+				act.DamageMobJ(target, self, 20, "Gravitational");
+				if(act.health <= 0 && !act.player) act.Destroy();
+				break;
+			}
+		}
+	}
+	
+	override void BeginPlay()
+	{
+		super.beginPlay();
+		// DrawField();
+	}
+	
+	States
+	{
+		Spawn:
+			ELEX "#" 6
+			{
+				
+				HaloMath.SpawnFX("FragGrenade_Smoke", pos, angle, random(1,4), 20, 20, rstyle:STYLE_Subtract);
+				tics = random(3,12);
+				Spawn("FX_InverseShockWave", pos);
+			}
+		loop;
+	}
+}
+
+class FX_InverseShockWave : FX_Shockwave
+{
+	Default
+	{
+		RenderStyle "Subtract";
+		+BRIGHT;
+		Alpha 0.15;
+		Scale 2.0;
+	}
+	
+	override void Tick()
+	{
+		if(isFrozen()) return;
+		scale /= 1.15 / max(exSpeed, 1.);
+		alpha *= 0.99 * exSpeed;
+		exSpeed *= 0.98;
+		
+		if(alpha <= 0) 
+		{
+			Destroy();
+			return;
+		}
+	}
+}

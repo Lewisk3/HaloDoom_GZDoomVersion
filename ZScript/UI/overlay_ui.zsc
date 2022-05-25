@@ -1,27 +1,68 @@
-class StringHelper Abstract
+class LevelTransitionAnimator : Object
 {
-	static bool IsUpper(uint ch)
+	ui double textFade, infoFade;
+	ui double barHeight;
+	ui bool fadeOut;
+	bool finished;
+	bool softFinish;
+
+	static LevelTransitionAnimator Init()
 	{
-		return ch != 0 ? ch == String.CharUpper(ch) : false;
+		let ltA = new("LevelTransitionAnimator");
+		return ltA;
 	}
-	
-	static void SplitByUppercase(String src, out Array<String> tokens)
+
+	ui void Process(double dT)
 	{
-		tokens.Clear();
-		int foundat = -1;
-		for(int i = 0; i <= src.Length(); i++)
-		{
-			if(StringHelper.IsUpper(src.ByteAt(i)))
+		// Don't run if there's a massive lag-spike.
+		if(dT > 10) return;
+		
+		double barSize = 1080 * 0.15;
+		if(!fadeOut)
+		{	
+			barHeight = HaloMath.Lerp(barHeight, barSize, 0.05 * dT);
+			if(abs(barHeight-barSize) <= 3)
 			{
-				if(foundat >= 0) tokens.Push(src.Mid(foundat, i-foundat));
-				foundat = i;
-			}
-			else if(i >= src.Length() && foundat >= 0) 
-			{
-				tokens.Push(src.Mid(foundat, src.Length()));
-				break;
+				textFade += 0.05 * dT;
+				if(textFade >= 4.0) infoFade += 0.008 * dT;
+				if(infoFade >= 1.0) 
+				{
+					fadeOut = true;
+					textFade = infoFade =  2.0;
+				}
 			}
 		}
+		else
+		{
+			textFade -= 0.04 * dT;
+			infoFade -= 0.04 * dT;
+			if(textFade <= 0.01)
+			{
+				softFinish = true;
+				barHeight = HaloMath.Lerp(barHeight, 0, 0.035 * dT);
+			}
+		}	
+		
+		HLSBS.Fill("Black", 0, 0, 1920, barHeight); // Top 
+		HLSBS.Fill("Black", 0, 1090 - barHeight, 1920, barSize); // Bottom
+		
+		Font textFont = "HaloFont";
+		vector2 textPos = (-550,-140);
+		double textScale = 0.25;
+		uint textFlags = HLSBS.SS_SCREEN_BOTTOM_RIGHT | HLSBS.SS_NOASPECTCORRECTION;
+		
+		string mapNumber = level.MapName .. ", ";
+		string levelName = level.LevelName; 
+		double mapNumberWidth = (textFont.StringWidth(mapNumber) * textScale) * 2.0;
+		
+		HLSBS.DrawString(textFont, mapNumber, textPos, textFlags, alpha:textFade, scale:(textScale,textScale));
+		
+		textPos.x += mapNumberWidth + 20;
+		HLSBS.DrawString(textFont, levelName, textPos, textFlags, alpha:infoFade, scale:(textScale,textScale));
+		
+		// This I feel like, shouldn't work?
+		// But it does, sasuga GZDoom scope system.
+		if(fadeOut && barHeight <= 10) finished = true;
 	}
 }
 
@@ -31,6 +72,8 @@ class Halo_OverlayUI : EventHandler
 	
 	ui double prevMS, deltatime;
 	Array<HitMarkers> ui_hitmarkers;
+	LevelTransitionAnimator levelTransition;
+	ui transient CVar cvDrawKeys;
 
 	void AddNewKey(Key k)
 	{
@@ -58,6 +101,11 @@ class Halo_OverlayUI : EventHandler
 		let key_it = ThinkerIterator.Create("Key");
 		Key foundkey;
 		while( foundkey = Key(key_it.Next()) ) AddNewKey(foundkey);
+		
+		// Level transition(s)
+		CVar doTransitions = CVar.GetCVar("halodoom_leveltransitions", players[consoleplayer]);
+		if(!levelTransition && doTransitions && doTransitions.getBool()) 
+			levelTransition = LevelTransitionAnimator.Init();
 	}	
 	override void WorldThingSpawned(WorldEvent e)
 	{
@@ -70,9 +118,13 @@ class Halo_OverlayUI : EventHandler
 		String cmd = e.Name;
 		Array<String> args;
 		cmd.Split(args, ":");
+				
 		if(args[0] == "hitmark")
 		{
 			uint plrnum = e.Args[0];
+			// Saftey check.
+			if(ui_hitmarkers.Size() < plrnum) return;
+			
 			bool doOverlap = args.Size() < 5 || !(args[4] ~== "replace");
 			uint sndflag = doOverlap ? CHANF_OVERLAP : 0;
 			if(plrnum == plr.PlayerNumber())
@@ -102,11 +154,19 @@ class Halo_OverlayUI : EventHandler
 		}
 		for(int i = 0; i < MAXPLAYERS; i++)
 			ui_hitmarkers[i].Cleanup();
+			
+		if(levelTransition && levelTransition.finished)
+		{
+			levelTransition.Destroy();
+			// Saftey; idk how GZDoom might handle floating pointers here.
+			levelTransition = NULL; 
+		}
+		
 	}
 	
 	// Keys and Hitmarkers
 	override void RenderOverlay(RenderEvent e)
-	{
+	{	
 		// Get player
 		HaloPlayer haloplr = HaloPlayer(e.Camera);
 		if(!haloplr)
@@ -121,13 +181,17 @@ class Halo_OverlayUI : EventHandler
 			hitxmid.y = haloplr.xhair_lowpos;
 		
 		// Draw HUD projections
-		DrawKeys(e);
+		if(!cvDrawKeys) cvDrawKeys = CVar.GetCVar("halodoom_keyoverlays", e.Camera.player);
+		if(cvDrawKeys && cvDrawKeys.getBool() && !automapactive) DrawKeys(e);
 		
 		// Hitmarker(s)
 		uint plrnum = haloplr.PlayerNumber();
 
 		ui_hitmarkers[plrnum].Process();
 		ui_hitmarkers[plrnum].Animate(deltatime, hitxmid);
+		
+		if(levelTransition)
+			levelTransition.Process(deltaTime);
 		
 		// Keep track of time, always.
 		if(!prevMS)

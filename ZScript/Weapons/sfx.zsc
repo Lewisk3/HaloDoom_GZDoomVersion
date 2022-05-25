@@ -208,6 +208,11 @@ class MuzzleSmoke : CasingSmoke
 	override void Tick()
 	{
 		super.Tick();
+		DoPhysics();
+	}
+	
+	virtual void DoPhysics()
+	{
 		vel.z += 0.01;
 		vel *= 0.87;
 		roll -= 1.2 * rolldir;
@@ -223,6 +228,25 @@ class MuzzleSmoke : CasingSmoke
 		loop;
 	}
 }
+
+class RisingSmoke : MuzzleSmoke
+{
+	Default
+	{
+		Alpha 0.4;
+	}
+
+	override void DoPhysics()
+	{
+		vel.z += 0.1;
+		vel *= 0.87;
+		roll -= 1.2 * rolldir;
+		alpha -= 0.006 * fadespd;
+		A_SetScale(scale.x * 0.98);
+		if(alpha <= 0.001) Destroy();
+	}
+}
+
 
 class ShellCasing : BulletCasing
 {
@@ -458,7 +482,7 @@ class RepulsorField : Actor
 			vector3 affectorPos = (act.pos.xy, act.pos.z + (act.height*0.5));
 			vector3 forceDir = HaloMath.SphereBetween(pos, affectorPos);
 			if(forceDir.z > maxDist) continue;
-			SmokeTrail.Start("Blue", pos, affectorPos, forceDir.xy, 1.0);
+		//	SmokeTrail.Start("Blue", pos, affectorPos, forceDir.xy, 1.0);
 			
 			double dist = forceDir.z ** 2;
 			double force = gForce * ( 
@@ -474,16 +498,18 @@ class RepulsorField : Actor
 			pushForce.xy *= 0.8;
 			pushForce.z *= -1;
 			act.vel += pushForce;
+			
+			if(act.bMISSILE) act.vel = HaloMath.VecFromAngles(forceDir.x, -forceDir.y, act.vel.Length());
 		}
 	}
 	
 	States
 	{
 		Spawn:
-			TNT1 A 2;
+			TNT1 A 2 NoDelay DrawField();
 		Repulse:
-			TNT1 AAAAAAAA 1 A_DoRepulse();
-		stop;
+			TNT1 A 1 A_DoRepulse();
+		loop;
 	}
 }
 class FieldParticle : CheapActor

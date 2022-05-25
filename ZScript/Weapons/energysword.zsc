@@ -1,0 +1,228 @@
+class Halo_EnergySword_Clip : Ammo 
+{
+	Default 
+	{
+		Inventory.MaxAmount 100;
+	}
+}
+
+class Halo_EnergySword : HaloGun
+{
+	Actor curHit;
+
+	Default
+	{
+		Weapon.SlotNumber 1;
+		Obituary "%o was \"Omae wa mou shindeiru'd\" by %k's Energy Sword.";
+		Inventory.PickupMessage	"Picked up the Energy Sword.";
+		Tag "Energy Sword";
+		Weapon.BobSpeed 2.0;
+		Weapon.BobRangeX 0.15;
+		Weapon.AmmoType1 "Halo_EnergySword_Clip";
+		Weapon.AmmoType2 "Halo_EnergySword_Clip";
+		Weapon.AmmoGive 100;
+		HaloGun.HasBattery true, 1;
+		
+		HaloGun.Availability "HL1, HL2, HL3, HL4, MSX, StarWars";
+		HaloGun.PowerTier P_MELEE;
+				
+		// Recoil
+		HaloGun.Bloom 0.15;
+		HaloGun.BloomSpeed 0.35;
+		HaloGun.BaseRecoil 1;
+		HaloGun.Inaccuracy 1;
+		HaloGun.Crosshair "RetESwd", 1.0;
+		HaloGun.UIGraphic "WI_ESWD", 1.25, 1.25;
+		
+		RecoilWeapon.YOffsetRange -10, 40;
+	}
+	
+	action void MuzzleLightning()
+	{
+		vector2 localPos = (frandom(-10,10), frandom(-20,0));
+		vector2 overlayPos = (260,110);
+		vector3 muzzlepos = HaloMath.RelativeV3Offset(self, 0,0,0, 25, localPos.x, localPos.y, 1.);
+		vector2 view = (angle + frandom(-40,40), pitch);
+		int adjustedAmt = max(5 * halodoom_effectintensity, 0);
+		for(int i = 0; i < adjustedAmt; i++)
+		{
+			view.x = angle + frandom(-45,45);
+			DoSpriteLightning(3, -90 + frandom(-60,70), localPos + overlayPos, xy_spread:(10,10), boltLen:50, stepsize:4.0, size:2.0);
+		}
+	}
+	
+	action void A_FireSword()
+	{
+		let hitActor = A_HaloMelee(ENERGYSWORD_DMG * 0.5, 64, (20,8), "Halo/Weapons/EnergySword/Hit", "Halo/Weapons/EnergySword/Miss", "Saw", doHitThrust:false);
+
+		if(hitActor)
+		{
+			if(!invoker.curHit) A_TakeAmmo(5, false);
+			invoker.curHit = hitActor;
+			
+			A_QuakeEx(2,3,2,10,0,120,"");
+			// vel *= 0;
+			if(hitActor.health <= 0) hitActor.bSOLID = false;
+			A_Recoil3D(-10);
+			A_SetZoom(0.94, 2);
+			A_SetRecoil(2.67,0,2);
+				
+			vector2 view;
+			double amt = 12;
+			for(int i = 0; i < floor(amt * halodoom_effectintensity); i++)
+			{
+				view.x = angle + frandom(-60,60) + 180;
+				view.y = -(pitch + frandom(-35,35));
+				BiriBiri.DoLightning(HaloPlayer(self).aimPos, view, dist:75, 0.5, 20.0, 10.0, 30, 0);
+			}	
+		}
+		
+		A_UpdateSpread();
+	}
+	
+	action void A_DoSwing()
+	{
+		invoker.curHit = NULL;
+		A_WeapSound("Halo/Weapons/EnergySword/Swing", CHANF_OVERLAP);
+	}
+	
+	action double A_MeleeLunge(double dist = 64, double thrust = 20)
+	{
+		double mDist = A_CheckMeleeRange();
+		let hplr = HaloPlayer(self);
+		if(hplr && !hplr.aimActor) thrust *= 0.25;
+		if(mDist > dist) 
+			vel += HaloMath.VecFromAngles(angle, pitch, thrust);
+			
+		return mDist;
+	}
+	
+	action void A_SetIdleFrame()
+	{
+		A_SetFrame(CountLoadedAmmo() ? 0 : 2);
+		if(invoker.handsbusy) A_SetFrame(A_GetFrame()+1);
+	}
+	
+	States
+	{
+		Ready:
+			TNT1 A 0 A_WeapSound("Halo/Weapons/EnergySword/Draw");
+			WND1 ABCDEFGHIJKLMNOPQRS 1 A_DoSelectAnim(-5);
+		Ready.Active:
+			WNI1 A 1 
+			{
+				A_SetIdleFrame();
+				if(CountLoadedAmmo()) 
+					A_StartSound("Halo/Weapons/EnergySword/Idle", CHAN_VOICE, CHANF_LOOPING);
+				else
+					A_StopSound(CHAN_VOICE);
+				
+				if(random[SwordLightning](0,5) == 5 && CountLoadedAmmo())
+					MuzzleLightning();
+				
+				A_HaloWeaponReady(0, usescope:false);
+			}
+		loop;
+		
+		Ready.Dryfire:
+			WNI1 A 12 
+			{
+				A_SetIdleFrame();
+				A_WeapSound("Halo/Weapons/EnergySword/NoBattery", CHANF_OVERLAP);
+			}
+		goto Ready.Active;
+
+		Select:
+			TNT1 A 0 A_GunRaise();
+		wait;
+
+		Deselect:
+			TNT1 A 0 A_StopSound(CHAN_VOICE);
+			WNI1 A 1 A_GunLower(27);
+		wait;
+		
+		Fire:
+			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Ready.Dryfire");
+			TNT1 A 0 
+			{ 
+				invoker.handsbusy = true; 
+				A_WeapSound("Halo/Weapons/EnergySword/Swing", CHANF_OVERLAP);
+			}
+			TNT1 A 0 A_Jump(128, "Fire2");
+		goto Fire1;
+		
+		Fire1:
+			WNF1 KLMN 2 A_AddRecoil(0.5, -0.5, 2);
+			WNF1 NNNN 1 A_Jumpif(A_MeleeLunge() < 64, "Fire1.Swing");
+		Fire1.Swing:
+			TNT1 A 0 A_DoSwing();
+			WNF1 OP 1
+			{	
+				A_FireSword();
+				A_AddRecoil(-2.0, 2.0, 2);
+			}
+			WNF1 QR 1 
+			{
+				if(!invoker.curHit) A_FireSword();
+				A_AddRecoil(-2.0, 2.0, 2);
+			}
+			WNF1 STUVW 2;
+		goto Fire.Finish;
+			
+		Fire2:
+			WNF1 ABC 1;
+			WNF1 CCCC 1 A_Jumpif(A_MeleeLunge() < 64, "Fire2.Swing");
+		Fire2.Swing:
+			TNT1 A 0 A_DoSwing();
+			WNF1 DD 1
+			{
+				A_FireSword();
+			}
+			WNF1 DD 1 
+			{	
+				if(!invoker.curHit) A_FireSword();
+				A_SetZoom(1.0, 3);
+			}
+			WNF1 EF 1 A_SetZoom(1.0, 3);
+			WNF1 GHIJ 2;
+		goto Fire.Finish;
+		
+		DoMelee:
+			TNT1 A 1 
+			{
+				let psp = player.GetPSprite(PSP_WEAPON);
+				if(psp) psp.SetState(ResolveState("SwordMelee"));
+			}
+		stop;
+		
+		SwordMelee:
+			"####" "#" 1; // This is needed to ensure this state is actually completely set.
+			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Ready.Dryfire");
+			TNT1 A 0 A_BeginMelee(false);
+			WNF1 ABCCCC 1;
+			TNT1 A 0 A_DoSwing();
+			WNF1 OP 1
+			{	
+				A_FireSword();
+				if(invoker.curHit) A_AddRecoil(-2.0, 2.0, 2);
+			}
+			WNF1 QR 1 
+			{
+				if(!invoker.curHit) A_FireSword();
+				if(invoker.curHit) A_AddRecoil(-2.0, 2.0, 2);
+			}
+			WNF1 STUVW 2;
+			TNT1 A 0 A_FinishMelee();
+		goto Fire.Finish;
+		
+		
+		Fire.Finish:
+			WNI1 A 8;
+			TNT1 A 0 { invoker.handsbusy = false; }
+		goto Ready.Active;
+		
+		Spawn:
+			WNP1 A -1;
+		stop;
+	}
+}

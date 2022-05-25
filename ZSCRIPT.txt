@@ -16,6 +16,7 @@ version "4.5"
 #include "ZScript/Player/spartan_two.zsc"
 #include "ZScript/Player/spartan_three.zsc"
 #include "ZScript/Player/spartan_four.zsc"
+#include "ZScript/Player/spartan_dummies.zsc"
 
 // UI
 #include "ZScript/SBS/halo_sbs_base.zsc"
@@ -31,20 +32,25 @@ version "4.5"
 #include "ZScript/Menus/halomenu_splash.zsc"
 #include "ZScript/Menus/halomenu_playerselection.zsc"
 #include "ZScript/Menus/halomenu_skillmenu.zsc"
+#include "ZScript/Menus/halomenu_gametype.zsc"
 
 // Items
 #include "ZScript/Items/keys.zsc"
+#include "ZScript/Items/powerup_base.zsc"
 #include "ZScript/Items/powerups.zsc"
-#include "ZScript/Weapons/grapple.zsc"
+#include "ZScript/Items/pickups.zsc"
+#include "ZScript/Items/barrels.zsc"
 
 // Weapon base
 #include "ZScript/Weapons/Base/recoilbase.zsc"
 #include "ZScript/Weapons/Base/gunbase.zsc"
+#include "ZScript/Weapons/Base/projectile_common.zsc"
 #include "ZScript/Weapons/Base/projectilebase.zsc"
 #include "ZScript/Weapons/Base/ammobase.zsc"
 #include "ZScript/Weapons/sfx.zsc"
 
 // Weapons
+#include "ZScript/Weapons/grapple.zsc"
 #include "ZScript/Weapons/magnum.zsc"
 #include "ZScript/Weapons/shotgun.zsc"
 #include "ZScript/Weapons/supershotgun.zsc"
@@ -60,6 +66,22 @@ version "4.5"
 #include "ZScript/Weapons/grenades.zsc"
 #include "ZScript/Weapons/gravityhammer.zsc"
 #include "ZScript/Weapons/fuelrod.zsc"
+
+// S2
+#include "ZScript/Weapons/sidekick.zsc"
+#include "ZScript/Weapons/smg.zsc"
+#include "ZScript/Weapons/spiker.zsc"
+#include "ZScript/Weapons/ma5b_rifle.zsc"
+#include "ZScript/Weapons/rocketlauncher.zsc"
+#include "ZScript/Weapons/dmr.zsc"
+#include "ZScript/Weapons/unmaker.zsc"
+#include "ZScript/Weapons/unmaker_bfgball.zsc"
+#include "ZScript/Weapons/beamrifle.zsc"
+#include "ZScript/Weapons/pulsecarbine.zsc"
+#include "ZScript/Weapons/energysword.zsc"
+#include "ZScript/Weapons/binaryrifle.zsc"
+#include "ZScript/Weapons/lightrifle.zsc"
+#include "ZScript/Weapons/scattershot.zsc"
 
 // Vehicles
 #include "ZScript/Vehicles/Kinematics/kine_parts.zsc" 
@@ -84,4 +106,3 @@ version "4.5"
 
 // [>> Gameplay Constants <<]
 const UNIT_METER = 8.f;
-

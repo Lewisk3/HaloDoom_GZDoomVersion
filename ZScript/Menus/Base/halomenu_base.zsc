@@ -4,6 +4,7 @@ class HaloMenuBase : ListMenu
 	double prevMS;
 	double deltatime;
 	double buttonAlpha;
+	transient CVar lang;
 	
 	// Elements
 	MenuTexture MainBG;
@@ -39,13 +40,13 @@ class HaloMenuBase : ListMenu
 	
 	override void Drawer()
 	{
-		if(MainBG) MainBG.Draw();
-		
+	    if(MainBG) MainBG.Draw();
+	
 		for(int i = 0; i < buttons.Size(); i++) 
 		{
 			buttons[i].Draw(buttonAlpha);
 		}
-		
+
 		if(!prevMS)
 		{
 			prevMS = MSTime();
@@ -54,11 +55,14 @@ class HaloMenuBase : ListMenu
 		double ftime = MSTime()-prevMS;
 		prevMS = MSTime();
 		double dtime = 1000.0 / 60.0;
-		deltatime = (ftime/dtime);
+		deltatime = (max(1,ftime)/dtime);
 	}
-
+	
+	virtual void OnMenuThink() {}
 	override bool OnUIEvent(UiEvent ev)
 	{
+		OnMenuThink();
+
 		if(ev.Type == UIEvent.Type_KeyDown)
 		{
 			string menuKeyStr = ev.KeyString;
@@ -76,7 +80,7 @@ class HaloMenuBase : ListMenu
 				}
 			}
 		}
-		
+	
 		if(mMouse) 
 		{
 			mMouse.Update(ev);
@@ -94,6 +98,7 @@ class HaloMenuBase : ListMenu
 	}
 	override bool MenuEvent(int mkey, bool fromcontroller)
 	{
+		OnMenuThink();
 		if(!mMouse) return false;
 		
 		switch (mkey)

@@ -375,13 +375,13 @@ class HaloWarthog : HaloVehicle
 	{	
 		if(onground) 
 		{
-			vel.xy *= 0.93;
-			accel *= 0.96;
+			vel.xy *= 0.85;
+			accel *= 0.92;
 		}
 		else
 		{
-			vel.xy *= 0.997;
-			accel *= 0.997;
+			vel.xy *= 0.992;
+			accel *= 0.992;
 		}
 		
 		if(pos.z+vel.z <= floorz && vel.z <= -3) 
@@ -421,41 +421,13 @@ class HaloWarthog : HaloVehicle
 				
 		// Physics
 		DoCollisionDamage(hitsound:"Halo/Warthog/Collision");
-		
+				
 		// Apply angular velocity
 		A_SetAngle(angle + angvel, SPF_INTERPOLATE);
 		if(gunner) gunner.A_SetAngle(gunner.angle + angvel, SPF_INTERPOLATE);
 		if(passenger) passenger.A_SetAngle(passenger.angle + angvel, SPF_INTERPOLATE);
-		angvel *= 0.94;
+		angvel *= 0.92;
 		
-		if(!onground) return;
-		
-		// Add tire forces for velocities
-		double tireforce = 0.50 * throttle;
-		if(abs(throttle) > 0)
-		{
-			vel.xy += GetTireDir(Tire_TL) * tireforce;
-			vel.xy += GetTireDir(Tire_TR) * tireforce;
-			vel.xy += GetTireDir(Tire_BL) * tireforce;
-			vel.xy += GetTireDir(Tire_BR) * tireforce;
-			angvel += GetTireVel(Tire_TL) * abs(tireforce);
-			angvel += GetTireVel(Tire_BR) * abs(tireforce);
-		}
-		
-		// Handle throttle and acceleration.
-		if(forwardmove)
-		{
-			vector2 movedir = (forwardmove, -sidemove).Unit();
-			throttle += movedir.x * 0.03;
-			accel += throttle * 1.5;
-		}
-		else
-		{
-			throttle *= 0.80;
-		}		
-		throttle = clamp(throttle, -0.5, 1.0);
-		accel = clamp(accel, -10, 10);
-			
 		// Validity check.
 		if(health <= 0)  
 		{
@@ -483,7 +455,35 @@ class HaloWarthog : HaloVehicle
 			horntics = 0;
 			A_StopSound(CHAN_VOICE);
 		}
-						
+		
+		if(!onground) return;
+		
+		// Add tire forces for velocities
+		double tireforce = 0.80 * throttle;
+		if(abs(throttle) > 0)
+		{
+			vel.xy += GetTireDir(Tire_TL) * tireforce;
+			vel.xy += GetTireDir(Tire_TR) * tireforce;
+			vel.xy += GetTireDir(Tire_BL) * tireforce;
+			vel.xy += GetTireDir(Tire_BR) * tireforce;
+			angvel += GetTireVel(Tire_TL) * abs(tireforce);
+			angvel += GetTireVel(Tire_BR) * abs(tireforce);
+		}
+		
+		// Handle throttle and acceleration.
+		if(forwardmove)
+		{
+			vector2 movedir = (forwardmove, -sidemove).Unit();
+			throttle += movedir.x * 0.015;
+			accel += throttle * 1.5;
+		}
+		else
+		{
+			throttle *= 0.80;
+		}		
+		throttle = clamp(throttle, -0.5, 1.0);
+		accel = clamp(accel, -10, 10);
+							
 		// Slow down while turning
 		vector2 dir = AngleToVector(angle);
 		vector2 aimdir = AngleToVector(viewcam.angle);

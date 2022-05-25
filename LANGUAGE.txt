@@ -1,2 +1,42 @@
 [enu default]
-MOD_VERSION = "1.0rc";
+MOD_VERSION = "2.0rc";
+
+GAMETYPE_HDE = "HaloDoom Evolved";
+GAMETYPE_HDE_DESC = "Default gametype. \n\n Contains all the weapons in HaloDoom Evolved.";
+
+GAMETYPE_HL1 = "Halo CE";
+GAMETYPE_HL1_DESC = "Contains only weapons featured in Halo CE.";
+
+GAMETYPE_HL2 = "Halo 2";
+GAMETYPE_HL2_DESC = "Contains only weapons featured in Halo 2.";
+
+GAMETYPE_HL3 = "Halo 3";
+GAMETYPE_HL3_DESC = "Contains only weapons featured in Halo 3 and Halo Reach.";
+
+GAMETYPE_HL4 = "Halo 4";
+GAMETYPE_HL4_DESC = "Contains only weapons featured in Halo 4.";
+
+GAMETYPE_MSX = "Project MSX";
+GAMETYPE_MSX_DESC = "Contains only weapons which function similarly to weapons featured in Project MSX.";
+
+GAMETYPE_ENERGY = "Star Wars";
+GAMETYPE_ENERGY_DESC = "Contains only Energy Weapons, NO weapons which feature reloading! Kind of a Joke gametype, and probably not very well balanced...";
+
+MENUBTN_CAMPAIGN = "CAMPAIGN";
+MENUBTN_SAVEGAME = "SAVE GAME";
+MENUBTN_LOADGAME = "LOAD GAME";
+MENUBTN_OPTIONS = "OPTIONS";
+MENUBTN_CONFIGURE = "CONFIGURE";
+MENUBTN_QUIT = "QUIT";
+
+/* 
+JP Romanji, doesn't look quite right and I think the average Japanese person 
+would probably understand the title buttons in simple English fine.
+[jp]
+MENUBTN_CAMPAIGN = "shinki ge-mu";
+MENUBTN_SAVEGAME = "sebu ge-mu";
+MENUBTN_LOADGAME = "ro-do ge-mu";
+MENUBTN_OPTIONS = "opushonzu";
+MENUBTN_CONFIGURE = "Halo opushonzu";
+MENUBTN_QUIT = "shuuryou";
+*/

@@ -1,102 +1,215 @@
 extend class HaloDoom_Events
 {
+	Array<String> weaps_all;
+	Array<String> weaps_weak;
 	Array<String> weaps_basic;
 	Array<String> weaps_mid;
+	Array<String> weaps_strong;
 	Array<String> weaps_power;
+	Array<String> weaps_energy;
+	Array<String> weaps_uber;
 	Array<String> weaps_melee;
+	
+	static bool shouldFilterWeapon(class<Weapon> weap)
+	{
+		uint gametype = HaloGun.GetGameTypeFlags( (class<HaloGun>)(weap) );
+		
+		return (halodoom_gametype != 0 && !(gametype & halodoom_gametype));
+	}
+	
+	void filterWeaponRarity(out Array<String> weaps)
+	{
+		Array<string> unfiltered;
+		unfiltered.Copy(weaps);
+		
+		uint seed = random[WeaponRaritySeed](0,100);
+		for(int i = weaps.Size()-1; i >= 0; i--)
+		{
+			let weap = (class<HaloGun>) (weaps[i]);
+			if(!weap) continue;
+			let defs = GetDefaultByType(weap);
+			if(defs.spawnRarity < seed) 
+				weaps.Delete(i);
+		}
+		
+		// We don't want to remove all weapons from spawning.
+		if(weaps.Size() <= 0) 
+			weaps.Copy(unfiltered);
+	}
+	
+	class<Actor> getWeaponFromAmmoType(class<Actor> type)
+	{
+		Array<String> weaps;
+		for(int i = 0; i < AllActorClasses.Size(); i++)
+		{
+			let weap = (class<Weapon>) (AllActorClasses[i]);
+			if(!weap) continue;
+			
+			let defs = GetDefaultByType(weap);
+			if(defs.ammotype1 == type || defs.ammotype2 == type)
+			{
+				weaps.Push(weap.getClassName());
+			}
+		}
+		
+		// Filter weapons
+		for(int i = weaps.Size()-1; i >= 0; i--)
+		{
+			if(weaps_all.Find(weaps[i]) == weaps_all.Size())
+				weaps.Delete(i);
+		}
+				
+		return weaps[random[AmmoToWeapSpawn](0,weaps.Size()-1)];
+	}
+		
+	class<Ammo> getAmmoFromWeaponType(class<Weapon> weap)
+	{
+		let defs = GetDefaultByType(weap);
+		let ammodefs = GetDefaultByType(defs.ammotype1);
+		if( !ammodefs.Icon.isValid() ) return null;
+		return defs.ammotype1;
+	}
+	
+	void getAmmoSpawnList(Array<String> weaps, out Array<String> ammos)
+	{
+		for(int i = 0; i < weaps.Size(); i++)
+		{
+			let ammoType = getAmmoFromWeaponType(weaps[i]);
+			if(ammoType) ammos.Push(ammoType.getClassName());
+		}
+	}
 	
 	void populateSpawnArrays()
 	{
+		weaps_all.Clear();
+		weaps_weak.Clear();
+		weaps_basic.Clear();
+		weaps_mid.Clear();
+		weaps_strong.Clear();
+		weaps_power.Clear();
+		weaps_energy.Clear();
+		weaps_uber.Clear();
+		weaps_melee.Clear();
+	
 		for(int i = 0; i < AllActorClasses.Size(); i++)
 		{
 			let actType = HaloGun(GetDefaultByType(AllActorClasses[i]));
 			if( !actType || actType.getClass() == "HaloGun") continue;
 			
+			// Skip weapons outside spawning parameters.
+			uint gametype = HaloGun.GetGameTypeFlags( actType.getClass() );
+			if( halodoom_gametype != 0 && !(gametype & halodoom_gametype) ) 
+				continue;
+			
 			String gunName = actType.GetClassName();
-			switch(actType.SpawnTier)
-			{
-				case HaloGun.P_NORM:  weaps_basic.Push(gunName); break;
-				case HaloGun.P_MID:	  weaps_mid.Push(gunName);   break;
-				case HaloGun.P_POWER: weaps_power.Push(gunName); break;	
-				case HaloGun.P_MELEE: weaps_melee.Push(gunName); break;
-			}
+			uint tier = actType.SpawnTier;
+			if( tier & HaloGun.P_WEAK   ) weaps_weak.Push(gunName);
+			if( tier & HaloGun.P_NORM   ) weaps_basic.Push(gunName);
+			if( tier & HaloGun.P_MID    ) weaps_mid.Push(gunName);
+			if( tier & HaloGun.P_STRONG ) weaps_strong.Push(gunName);
+			if( tier & HaloGun.P_POWER  ) weaps_power.Push(gunName);
+			if( tier & HaloGun.P_ENERGY ) weaps_energy.Push(gunName);
+			if( tier & HaloGun.P_UBER   ) weaps_uber.Push(gunName);
+			if( tier & HaloGun.P_MELEE  ) weaps_melee.Push(gunName);
+			
+			weaps_all.Push(gunName);
 		}
+	}
+	
+	bool checkItemType(class<Actor> item, string type)
+	{
+		string itemName = item.getClassname();
+		type = type.MakeLower();
+		itemName = itemName.MakeLower();
+		bool success = (item is type) || (itemName.IndexOf(type) != -1);
+		
+		return success;
 	}
 	
 	override void CheckReplacement(ReplaceEvent e)
 	{
 		Array<String> weapSpawns;
+		Array<String> ammoSpawns;
 		let item = e.Replacee;
-		int tier = 0;
 		
+		// Do not touch HaloGuns for replacement.
+		if(item is "HaloGun") return;
+				
 		// Weapon Spawning
-		if( item is "Chainsaw" || item is "Fist" || item is "Berserk" )
+		if(item is "Weapon") // If this check isn't performed then projectiles can be turned into guns?!?! 
+		{
+			if(checkItemType(item, "Chainsaw") || checkItemType(item, "Fist"))
+				weapSpawns.Append(weaps_melee);
+				
+			if(checkItemType(item, "Pistol") || checkItemType(item, "Chaingun")) 
+				weapSpawns.Append(weaps_basic);
+				
+			if( checkItemType(item, "Shotgun") && !checkItemType(item, "SuperShotgun") ) 
+				weapSpawns.Append(weaps_mid);
+			
+			if( checkItemType(item, "SuperShotgun") )
+				weapSpawns.Append(weaps_strong);
+			
+			if(checkItemType(item, "RocketLauncher"))
+				weapSpawns.Append(weaps_power);
+			
+			if(checkItemType(item, "PlasmaRifle"))
+				weapSpawns.Append(weaps_energy);
+				
+			if(checkItemType(item, "BFG9000") || checkItemType(item, "BFG")) 
+				weapSpawns.Append(weaps_uber);
+		} 
+		else if(item is "Berserk")
 			weapSpawns.Append(weaps_melee);
 			
-		if( item is "Pistol" || item is "Shotgun" || item is "Chaingun" ) 
-			weapSpawns.Append(weaps_basic);
-			
-		if( item is "SuperShotgun" || item is "RocketLauncher" || item is "PlasmaRifle" ) 
-			weapSpawns.Append(weaps_mid);
-			
-		if( item is "BFG9000" ) 
-			weapSpawns.Append(weaps_power);
-		
 		if(weapSpawns.Size() > 0)
+		{
+			filterWeaponRarity(weapSpawns);
 			e.Replacement = weapSpawns[random[WeapSpawner](0, weapSpawns.Size()-1)];
-			
+			return;
+		}
+		
 		// Nade spawning
-		if( item is "ArmorBonus" && random[NadeSpawner](0,3) == 3 )
-			e.Replacement = "FragGrenades";
-		if( item is "HealthBonus" && random[NadeSpawner](0,3) == 3 )
+		if( item is "HealthBonus" && random[NadeSpawner](0,6) == 6 )
 			e.Replacement = "PlasmaGrenades";	
 		
+		if( item is "ArmorBonus" && random[NadeSpawner](0,6) == 6 )
+			e.Replacement = "FragGrenades";
+		else if(item is "ArmorBonus" && random[NadeSpawner](0,2) == 2)
+			e.Replacement = "HealthBonus";
+		
 		// Powerup Spawning
-		if( item is "SoulSphere" )
-			e.Replacement = "Overshield_LV1";
-		if( item is "MegaSphere" )
-			e.Replacement = "Overshield_LV2";
 		if( item is "GreenArmor" )
 			e.Replacement = "Overshield_LV1";
 		if( item is "BlueArmor" )
 			e.Replacement = "Overshield_LV2";
 			
 		// Ammunition spawning
-		int ammoTier = 0;
-		
-		if( item is "Clip" || item is "ClipBox" || item is "Shell" ) 
-			ammoTier = 1;
-		if( item is "ShellBox" || item is "RocketAmmo" || item is "Cell" || item is "RocketBox") 
-			ammoTier = 2;
+		if( item is "Clip" || item is "ClipBox" ) 
+			ammoSpawns.Append(weaps_basic);
+		if( item is "Shell" ) 
+			ammoSpawns.Append(weaps_mid);
+		if( item is "ShellBox" )
+			ammoSpawns.Append(weaps_strong);
+		if(item is "RocketAmmo" || item is "RocketBox")
+			ammoSpawns.Append(weaps_power);
+		if(item is "Cell")
+			ammoSpawns.Append(weaps_energy);
 		if( item is "CellPack" )
-			ammoTier = 3;
-			
-		string AmmoClasses[9] = 
+			ammoSpawns.Append(weaps_uber);
+		
+		Array<String> validAmmos; 
+		getAmmoSpawnList(ammoSpawns, validAmmos);
+		if(validAmmos.Size() > 0)
 		{
-			"Halo_AR_Reserves",
-			"Halo_BAR_Reserves",
-			"Halo_Bulldog_Reserves",
-			"Halo_Shotgun_Reserves",
-			"Halo_CarbineReserves",
+			int weapSpawnChance = 25;
+			string ammoType = validAmmos[random[HaloAmmoSpawns](0, validAmmos.Size()-1)];
 			
-			"Halo_DBLShotgun_Reserves",
-			"Halo_Sniper_Reserves",
-			"Halo_Needler_Reserves",
-			
-			"Halo_StanchionReserves"
-		};
-			
-		switch(ammoTier)
-		{
-			case 1: // AR and Magnum, BR, Bulldog, Shotgun, Carbine
-				e.Replacement = AmmoClasses[random[HaloAmmoSpawns](0,4)];
-			break;
-			case 2: // Double Barrel, Sniper Rifle, Rocket Launcher (Season 2), Needler 
-				e.Replacement = AmmoClasses[random[HaloAmmoSpawns](5,7)];
-			break;
-			case 3: // Stanchion
-				e.Replacement = AmmoClasses[8];
-			break;
+			if(random[HaloAmmoWeaponSpawns](0,100) < weapSpawnChance) 
+				e.Replacement = getWeaponFromAmmoType(ammoType);
+			else
+				e.Replacement = ammoType;
 		}
+		
 	}
 }

@@ -23,7 +23,7 @@ class HaloPlasma_Proj : HaloBullet
 		Scale 0.12;
 		DamageType "Plasma";
 	}
-	
+		
 	virtual void A_DoLightning(double amt = 4)
 	{
 		vector2 view;
@@ -81,7 +81,7 @@ class HaloChargedPlasma_Proj : HaloPlasma_Proj
 		HaloProjectile.Speed_MPS  PLASMAPISTOL_CHARGED_BMPS;
 		HaloProjectile.HeadshotDMGFactor PLASMAPISTOL_CHARGED_HEDMOD;
 		HaloProjectile.DoExplosiveDamage 32, 128;
-		HaloProjectile.SetupHoming true, 0.125;
+		HaloProjectile.SetupHoming true, 0.125, 30;
 		
 		Alpha 0.80;
 		Scale 0.22;
@@ -171,14 +171,13 @@ class Halo_PlasmaPistol : HaloGun
 {
 	const LCD = 22;
 	double charge;
-	double heat;
 	double holdtimer;
 	double lcd_offspd;
 	vector2 lcd_offs, lcd_offs_real;
 	
 	Default
 	{
-		Weapon.SlotNumber 2;
+		Weapon.SlotNumber 4;
 		Obituary "%o was fried to a crisp by %k's Plasma Pistol.";
 		Inventory.PickupMessage	"Picked up the Type-25 Plasma Pistol.";
 		Tag "Plasma Pistol";
@@ -186,8 +185,10 @@ class Halo_PlasmaPistol : HaloGun
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_PlasmaPistol_Clip";
 		Weapon.AmmoType2 "Halo_PlasmaPistol_Clip";
-		Weapon.AmmoGive 50;
+		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 1;
+		
+		HaloGun.Availability "HL1, HL2, HL3, HL4, StarWars";
 		HaloGun.PowerTier P_NORM;
 				
 		// Recoil
@@ -196,9 +197,41 @@ class Halo_PlasmaPistol : HaloGun
 		HaloGun.BaseRecoil PLASMAPISTOL_RECOIL;
 		HaloGun.Inaccuracy PLASMAPISTOL_ACCMOD;
 		HaloGun.Crosshair "PlsPRet", 0.75;
-		HaloGun.UIGraphic "WI_PLSP", 1.0;
+		HaloGun.UIGraphic "WI_PLSP", 0.80, 0.80;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
+	}
+	
+	override void GetStatsLore(out Array<String> stats, out string lore)
+	{
+		stats.Push("Eos'Mak-pattern Plasma Pistol");
+		stats.Push("Ammo Type: Superheated Plasma Bolts");
+		stats.Push("Frame: Battery Operated Iruiru Chassis");	
+		stats.Push(String.Format("Base Damage: %d", PLASMAPISTOL_DMG*5));
+		stats.Push("Base Heat: 14%");
+	
+		lore = (
+			"The Eos'Mak-pattern Plasma Pistol or Type-25 Directed Energy Pistol "
+			"(Type-25 DEP), also known simply as the plasma pistol, is a Covenant "
+			"infantry firearm, carried commonly by the smaller species, such as the "
+			"Unggoy, Kig-Yar, and the Yanme'e, but is occasionally used by larger "
+			"species such as the Sangheili and Jiralhanae; as such it is the most "
+			"commonly encountered Covenant energy weapon. While weak on its own, "
+			"the plasma pistol has a wide variety of functions and becomes deadly "
+			"in large numbers.\n\n"
+			
+			"The plasma pistol is a Covenant directed-energy weapon that was "
+			"reverse-engineered from a Forerunner device. The weapon is powered by "
+			"a battery cell. This battery can be recharged using a variety of power "
+			"sources, including UNSC generators, provided an appropriate adaptor is "
+			"at hand. Plasma pistols have a core power output of 100-150 KV at 2~3 dA, "
+			"but when overcharged, the power output can reach 1.5 MV @ 2~3 dA.[3] The "
+			"Type-25 DEP is a semi-automatic weapon using a single collimator design "
+			"that gives the weapon its smooth and aerodynamic, claw like appearance. "
+			"The Type-25 DEP's functionality is straightforward, the rear section "
+			"of the pistol has a holographic display which indicates temperature "
+			"as the weapon is"
+		);
 	}
 	
 	action void A_FireHaloPlasma(bool charged = false)
@@ -211,7 +244,7 @@ class Halo_PlasmaPistol : HaloGun
 			A_WeapSound("Halo/Weapons/PlasmaPistol/Fire/Bass", CHANF_OVERLAP, true);
 			A_ShootProjectile("HaloPlasma_Proj", 12);
 			invoker.heat += 0.14;
-			A_TakeAmmo(1);
+			A_TakeAmmo(1, false);
 		}
 		else
 		{
@@ -219,7 +252,7 @@ class Halo_PlasmaPistol : HaloGun
 			A_WeapSound("Halo/Weapons/PlasmaPistol/Fire/Charged/Bass", CHANF_OVERLAP, true);
 			A_ShootProjectile("HaloChargedPlasma_Proj", 12);
 			invoker.heat = 1.0;
-			A_TakeAmmo(15);
+			A_TakeAmmo(15, false);
 		}
 		A_UpdateSpread();
 	}
@@ -306,8 +339,8 @@ class Halo_PlasmaPistol : HaloGun
 			{
 				A_FireHaloPlasma();
 				A_SetRecoil(0.75, 0, 2);
-				A_RQuakeEx(1,2,1,3,0,20,"",QF_RELATIVE|QF_WAVE);
-				A_RollQuake(2,5,4, true);
+				A_RQuakeEx(3,2,1,2,0,20,"",QF_RELATIVE|QF_WAVE);
+				A_RollQuake(2,8,1);
 			}
 			PLPF B 1 bright A_RecoilOffset(16,-20,4);
 			PLPF C 1 
@@ -332,15 +365,17 @@ class Halo_PlasmaPistol : HaloGun
 			TNT1 A 0 
 			{
 				invoker.charge = 0;
+				A_SetZoom(0.92, 1);
 				A_FireHaloPlasma(charged:true);
-				A_SetRecoil(5.0, 0, 2);
-				A_RQuakeEx(1,2,1,3,0,20,"",QF_RELATIVE);
-				A_RollQuake(2,20,3, true);
+				A_SetRecoil(7.0, 0, 2);
+				A_RQuakeEx(2,2,4,6,0,20,"",QF_RELATIVE|QF_WAVE);
+				A_RollQuake(2,10,3);
 			}
 			PLCF B 1 Bright;
 			PLCF C 1 
 			{
 				A_Light(0);
+				A_SetZoom(1.0, 6);
 				A_SetRecoil(-0.18, 0, 8);
 			}
 			TNT1 A 0 A_DisableLCD();

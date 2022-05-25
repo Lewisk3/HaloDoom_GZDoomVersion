@@ -154,6 +154,22 @@ class HLSBS Abstract ui
 	
 	static void DrawTexture(TextureID texture, Vector2 pos, int flags = 0, double Alpha = 1., Vector2 scale = (1, 1), double rotation = 0, Color tint=Color(0,0,0,0), vector2 texoffs = (1,1), bool absolute=false)
 	{
+		// Potential LZDoom "patch"?
+		// This word around is downright AWFUL
+		// People want LZDoom compat so I have no choice, sucks...
+		
+		let evh = HaloDoom_Events(EventHandler.Find("HaloDoom_Events"));
+		bool runningLZDoom = evh ? evh.runningLZDoom : true;
+		
+		// This horrible idea is needed so LZDoom's compiler doesn't error out.
+		uint FLG_Rotate = 0x400013ce; // Enum value of DTA_Rotate for GZDoom
+	
+		if(runningLZDoom) 
+		{
+			DrawTextureLZDoom(texture, pos, flags, Alpha, scale, 0, tint, texoffs, absolute);
+			return;
+		}
+	
 		vector2 texsize;
 		[texsize.x, texsize.y] = TexMan.GetSize(texture);
 		scale = _ProcessScale(scale, flags);
@@ -170,7 +186,7 @@ class HLSBS Abstract ui
 				DTA_DestHeight, int(abs(texsize.y*scale.y)),
 				DTA_FlipX, !!(scale.x < 0),
 				DTA_ColorOverlay, tint,
-				DTA_Rotate, rotation
+				FLG_Rotate, rotation
 			);
 		}
 		else
@@ -188,7 +204,7 @@ class HLSBS Abstract ui
 				DTA_DestHeight, int(abs(texsize.y*scale.y*scaleratio.y)),
 				DTA_FlipX, !!(scale.x < 0),
 				DTA_ColorOverlay, tint,
-				DTA_Rotate, rotation
+				FLG_Rotate, rotation
 			);
 		}
 	}
@@ -412,4 +428,43 @@ class HLSBS Abstract ui
 	}
 	
 	static void ClearClipRect() { Screen.ClearClipRect(); }
+	
+	static void DrawTextureLZDoom(TextureID texture, Vector2 pos, int flags = 0, double Alpha = 1., Vector2 scale = (1, 1), double rotation = 0, Color tint=Color(0,0,0,0), vector2 texoffs = (1,1), bool absolute=false)
+	{
+		vector2 texsize;
+		[texsize.x, texsize.y] = TexMan.GetSize(texture);
+		scale = _ProcessScale(scale, flags);
+
+		if(!absolute)
+		{
+			vector2 npos = _ProcessTextureCoords(pos, texoffs, flags, texture, scale);
+			Screen.DrawTexture(texture, false, npos.x, npos.y,
+				DTA_VirtualWidthF, GetBaseWidth(),
+				DTA_VirtualHeightF, GetBaseHeight(),
+				DTA_KeepRatio, true,
+				DTA_Alpha, alpha,
+				DTA_DestWidth, int(abs(texsize.x*scale.x)),
+				DTA_DestHeight, int(abs(texsize.y*scale.y)),
+				DTA_FlipX, !!(scale.x < 0),
+				DTA_ColorOverlay, tint
+			);
+		}
+		else
+		{
+			vector2 resolution = (Screen.GetWidth(), Screen.GetHeight());
+			vector2 scaleratio = (resolution.x/GetBaseWidth(), resolution.y/GetBaseHeight());
+			vector2 nscale = (scale.x*scaleratio.x, scale.y*scaleratio.y);
+			pos.y *= GetStatusBarHeightRatio();
+			vector2 npos = _ProcessTextureCoords(pos, texoffs, flags, texture, nscale);
+			
+			Screen.DrawTexture(texture, false, npos.x, npos.y,
+				DTA_KeepRatio, true,
+				DTA_Alpha, alpha,
+				DTA_DestWidth, int(abs(texsize.x*scale.x*scaleratio.x)),
+				DTA_DestHeight, int(abs(texsize.y*scale.y*scaleratio.y)),
+				DTA_FlipX, !!(scale.x < 0),
+				DTA_ColorOverlay, tint
+			);
+		}
+	}
 }	

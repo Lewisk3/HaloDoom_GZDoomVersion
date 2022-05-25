@@ -10,3 +10,19 @@ skybox "HDESKY"
 	HDESKY_T
 	HDESKY_B
 }
+
+
+HardwareShader Texture MISSNG
+{
+	Shader "shaders/glitch.fp"
+	Speed 2.0
+}
+
+/*
+HardwareShader Sprite BLHLA0
+{
+	Shader "shaders/lensing.fp"
+	Speed 2.0
+}
+*/
+

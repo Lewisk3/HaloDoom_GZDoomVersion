@@ -10,17 +10,27 @@ class HaloPlayer : DoomPlayer
 	GrapplingHook grapple;
 	WeaponPickupProxy pickuptarget;
 	CortanaInfo cortana;
-	Weapon NextWeapon;
+	SpartanOverlay shieldOverlay;
+	
+	Actor aimActor_nearest; // Actor closest to aim;
+	vector3 aimActor_anglesTo; // Angles to closest aimed at actor.
+	vector3 aimActor_pos;
+	Actor aimActor;
 	vector3 aimpos;
 	double soundwait;
 	double aimdist;
 	bool shields_recharging;
 	string class_desc;
+	string feature_desc;
 	FragGrenades activeGrenade;
 	VehLight flashlight;
+	int invulnTics;
+	
+	// Sound effects
+	Sound snd_ShieldRegen;
 	
 	// Door to be activated once animation finishes.
-	Line pendingDoor; 
+	transient Line pendingDoor; 
 	string pendingDoorColor;
 	
 	// Shields
@@ -39,6 +49,8 @@ class HaloPlayer : DoomPlayer
 	// UI 
 	Color screen_color;
 	double screen_fade;
+	string overlay_img;
+	bool drawWeaponInfo;
 	const FADE_RATE = 0.96;
 		
 	// CVar(s)
@@ -53,7 +65,8 @@ class HaloPlayer : DoomPlayer
 	Property SetupDashes : enable_dash, dashmax, dashpower, dashcooldown_time;
 	Property EnableSlide : canslide;
 	Property EnableGrapple : enable_grapple;
-	Property Description : class_desc;
+	Property Description : class_desc, feature_desc;
+	Property ShieldRegenSound : snd_ShieldRegen;
 	
 	Default
 	{
@@ -63,10 +76,11 @@ class HaloPlayer : DoomPlayer
 		Player.ViewHeight 41;		
 		Player.SoundClass "Spartan";
 		-DONTTRANSLATE;
+		YScale 1.10;
 
 		// UI
 		Player.DisplayName "Spartan Template";
-		HaloPlayer.Description "Template Spartan class.";
+		HaloPlayer.Description "Template Spartan class.", "";
 		
 		// Vitals
 		Health 45; 
@@ -74,14 +88,23 @@ class HaloPlayer : DoomPlayer
 		HaloPlayer.Shields 70, 3, 4; // 3 seconds to recharge, 4 seconds to max.
 		
 		// Inventory
-		Player.StartItem "Halo_Magnum", 1;
-		Player.StartItem "Halo_AR_Reserves", 120;
+		Player.StartItem "";
+		
+		// SFX
+		HaloPlayer.ShieldRegenSound "Shield/Regenerate";
 		
 		// Movement
 		HaloPlayer.LowerCrosshairY 60;
 		HaloPlayer.MovementBob 0;
 		HaloPlayer.AirControl 0.5;
 		HaloPlayer.MaxJumps 1;
+	}
+	
+	override bool OnGiveSecret(bool printmsg, bool playsound) 
+	{ 
+		SendHUDMessage("Found a secret area.");
+		A_StartSound("Halo/SecretFound", CHAN_AUTO);
+		return false; 
 	}
 	
 	// Open locked door.
@@ -92,10 +115,76 @@ class HaloPlayer : DoomPlayer
 		pendingDoor = null;
 	}
 	
+	static bool IsGameType(string types)
+	{
+		uint flags = HaloMath.gameTypesToFlags(types);
+		return !!(halodoom_gametype & flags);
+	}
+	
+	// Called when the player initially spawns, sets up spawn items.
+	virtual void SetupInventory()
+	{
+		GiveInventory("DoHelmetAnimation", 1);
+		
+		if(IsGameType("HL1"))
+		{
+			GiveInventory("Halo_MA5B", 1);
+			GiveInventory("Halo_Magnum", 1);
+			GiveInventory("Halo_AR_Reserves", 120);
+			GiveInventory("Halo_Magnum_Reserves", 36);
+		}
+		else if(IsGameType("HL2"))
+		{
+			GiveInventory("Halo_BattleRifle", 1);
+			GiveInventory("Halo_Sidekick", 1);
+			GiveInventory("Halo_BAR_Reserves", 90);
+			GiveInventory("Halo_Sidekick_Reserves", 48);
+		}
+		else if(IsGameType("MSX"))
+		{
+			GiveInventory("Halo_MA5B", 1);
+			GiveInventory("Halo_Sidekick", 1);
+			GiveInventory("Halo_AR_Reserves", 120);
+			GiveInventory("Halo_Sidekick_Reserves", 36);
+		}
+		else if(IsGameType("StarWars"))
+		{
+			GiveInventory("Halo_PlasmaRifle", 1);
+			GiveInventory("Halo_PlasmaPistol", 1);
+		}
+		else
+		{
+			GiveInventory("Halo_AssaultRifle", 1);
+			GiveInventory("Halo_Sidekick", 1);
+			GiveInventory("Halo_AR_Reserves", 120);
+			GiveInventory("Halo_Sidekick_Reserves", 48);
+		}
+	}
+	
+	virtual bool CheckCanMelee()
+	{
+		return true;
+	}
+	virtual void OnMeleeHit(Actor victim) {}
+	
+	clearscope static string GetStatInfo(class<HaloPlayer> plrType)
+	{
+		let defs = GetDefaultByType(plrType);
+		return String.Format(
+		(
+			"Health: %d\n"
+			"Shields: %d\n"
+			"Regen Speed: %ds\n"
+			"Regen Cooldown: %ds\n"
+		), defs.maxhealth, defs.maxshields, defs.shield_regenrate, defs.shield_regentime );
+	}
+	
 	override void BeginPlay()
 	{
 		regen_timer = shield_regentime*35.;
 		shields = maxshields;
+		SetupInventory();
+		
 		super.BeginPlay();
 	}
 	
@@ -142,7 +231,7 @@ class HaloPlayer : DoomPlayer
 	}
 	
 	override void Tick()
-	{
+	{	
 		// Flashlight stuff
 		if(!flashlight) 
 		{
@@ -150,13 +239,28 @@ class HaloPlayer : DoomPlayer
 			flashlight.active = false;
 		}
 		
+		// Fix for SetupInventory not selecting a Weapon by default.
+		if( !!FindInventory("HaloGun", true) && !player.ReadyWeapon )
+		{
+			let weap = PickNextWeapon();
+			if(weap) weap.Use(false);
+		}
+		
+		// Overlay stuff
+		if(!shieldOverlay) 
+			shieldOverlay = SpartanOverlay.Attach(self);
+		else
+			shieldOverlay.Update(shields, maxshields);
+		
 		// In vehicle?
 		curvehicle = Veh_Manager(FindInventory("Veh_Manager"));
 					
-		// Don't do stuff when dead.
-		if(health <= 0 || !player) 
+		// Don't do stuff when dead or a voodoo.
+		if( health <= 0 || (!player || !player.mo || player.mo != self) ) 
 		{
 			A_StopSound(CHAN_7);
+			A_StopSound(CHAN_5);
+			A_StopSound(CHAN_6);
 			super.Tick();
 			return;
 		}
@@ -183,6 +287,9 @@ class HaloPlayer : DoomPlayer
 			
 		// Used for timing certain sound fx.
 		if(soundwait) soundwait--;
+		
+		// Count-down invuln tics.
+		if(invulnTics > 0) invulnTics--;
 	
 		// Shield Regen
 		double shregentime = shield_regentime*35.;
@@ -194,7 +301,9 @@ class HaloPlayer : DoomPlayer
 				A_StartSound("Shield/Warning", CHAN_6, flags:sndflags);
 			else if(shields <= maxshields*0.25) 
 				A_StartSound("Shield/Low", CHAN_6, flags:sndflags);
-		}
+		} else if(shields > (maxshields*0.25))
+			A_StopSound(CHAN_6);
+			
 		if(regen_timer < shregentime) 
 		{	
 			regen_timer += 1;
@@ -207,7 +316,7 @@ class HaloPlayer : DoomPlayer
 			double recharge_perc = (shields / maxshields);
 			if(!shields_recharging)
 			{
-				A_StartSound("Shield/Regenerate", CHAN_5, flags:CHANF_MAYBE_LOCAL, startTime:recharge_perc*3.0);
+				A_StartSound(snd_ShieldRegen, CHAN_5, flags:CHANF_MAYBE_LOCAL, startTime:recharge_perc);
 				shields_recharging = true;
 			}
 			A_SoundVolume(CHAN_5, (1.0 - recharge_perc) + 0.1);
@@ -236,27 +345,69 @@ class HaloPlayer : DoomPlayer
 		
 		aimdist = lt.Distance / UNIT_METER; 
 		aimpos = lt.HitLocation;
-		
-		// Update next weapon.
-		let wnext = PickNextWeapon();
-		if( player.ReadyWeapon != wnext ) NextWeapon = wnext;
-		
+		aimActor = lt.HitActor;
+				
 		// Screen flash colors
 		screen_fade *= FADE_RATE;
 		
+		// Find closest aimable actor.
 		super.Tick();
+
+		Actor act;
+		double p = pitch+aimheight;
+		vector3 fromPos = (
+			cos(angle) * cos(p),
+			sin(angle) * cos(p),
+			-sin(p)
+		) * (aimActor_nearest ? (aimActor_anglesTo.z) : 10);
+		fromPos = level.vec3offset(fromPos, (pos.xy, player.viewz));
+	
+		int closestAim = int.max;
+		aimActor_nearest = null;
+		LookExParams look;
+		look.FOV = 90;
+		
+		let it = BlockThingsIterator.Create(self, 2048);
+		while(it.Next())
+		{	
+			let act = it.Thing;
+			if(!act.bSHOOTABLE || act == self || !isVisible(act, false, look)) continue;
+			vector3 toPos = (act.pos.xy, act.pos.z + (act.height*0.5));
+			vector3 toAngles = level.SphericalCoords((pos.xy, player.viewz), toPos, (angle,pitch));
+			if(toAngles.z > 1024) continue;
+			
+			double angTo = toAngles.x;
+			double pitTo = toAngles.y;
+			double aimDist = abs(angTo) + abs(pitTo) + (toAngles.z*0.25);
+			if(aimDist < closestAim)
+			{
+				closestAim = aimDist;
+				aimActor_nearest = act;
+				aimActor_pos = fromPos;
+				aimActor_anglesTo.x = angTo;
+				aimActor_anglesTo.y = pitTo;
+				aimActor_anglesTo.z = toAngles.z;
+			}
+		}
 	}
 	
 	override int DamageMobJ(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle)
 	{
-		// Get real damage amount, taking into account modified damage.
+		// Don't take damage if invuln tics are active.
+		if(invulnTics > 0) return 0;
+		
 		double dmg = GetModifiedDamage(mod, damage, true);
+		if(shields > 0)
+			dmg = HaloProjectile.ApplyShieldDamage(dmg, HaloProjectile(inflictor), mod == 'Headshot');
+		
+		// Get real damage amount, taking into account modified damage.
 		double truedamage = dmg / GAMEPLAY_DAMAGEMOD;
 		
 		if( bInvulnerable || player.cheats & (CF_GODMODE|CF_GODMODE2) ) return 0;
 		
 		if(shields > 0)
 		{
+			if(mod == 'hitscan') truedamage *= 0.5;
 			regen_timer = 0;
 			shields -= truedamage;
 			A_StopSound(CHAN_5);
@@ -266,7 +417,9 @@ class HaloPlayer : DoomPlayer
 				A_StartSound("Shield/Explode",flags:CHANF_NOSTOP);
 				double truedmg = abs(shields);
 				shields = 0;
-				return super.DamageMobJ(inflictor, source, ceil(truedmg), mod, flags | DMG_FORCED, angle);
+				
+				if(mod != 'plasma') // Shield bleed damage, so long as source isn't plasma.
+					return super.DamageMobJ(inflictor, source, ceil(truedmg), mod, flags | DMG_FORCED, angle);
 			}
 			return 0;
 		}
@@ -309,7 +462,28 @@ class HaloPlayer : DoomPlayer
 	override void CalcHeight()
 	{
 		super.CalcHeight();
-		player.viewz = pos.Z + player.viewheight + (player.bob * clamp(movebob, 0. , 1.5)); 
+		
+		double bobAngle;
+		double bob;
+		if (vel.length() ~== 0)
+		{
+			if (player.health > 0)
+			{
+				bobAngle = Level.maptime / (120 * TICRATE / 35.) * 360.;
+				bob = player.GetStillBob() * sin(bobAngle);
+			}
+			else
+			{
+				bob = 0;
+			}
+		}
+		else
+		{
+			bobAngle = Level.maptime / (20 * TICRATE / 35.) * 360.;
+			bob = player.bob * sin(bobAngle) * (waterlevel > 1 ? 0.25f : 0.5f);
+		}
+		
+		player.viewz = pos.Z + player.viewheight + (bob * clamp(movebob, 0. , 1.5)); 
 		if (Floorclip && player.playerstate != PST_DEAD && pos.Z <= floorz) player.viewz -= Floorclip;
 		if (player.viewz > ceilingz - 4) player.viewz = ceilingz - 4;
 		if (player.viewz < floorz + 4) player.viewz = floorz + 4;
@@ -368,6 +542,134 @@ class HaloPlayer : DoomPlayer
 				if(curPSprite.alpha <= 0) 
 					return ResolveState(null);
 				return ResolveState("GunLightning");
+			}
+		stop;
+	}
+}
+
+class SpartanOverlay : Actor
+{	
+	Actor source;
+	double prevShields;
+
+	Default
+	{
+		RenderStyle "Translucent";
+		Translation "0:255=@65[10,8,240]";
+		Alpha 0.5;
+		Scale 1.0;
+	}
+	
+	static SpartanOverlay Attach(Actor src)
+	{
+		let sov = SpartanOverlay(Spawn("SpartanOverlay", src.pos));
+		if(sov)
+		{
+			sov.source = src;
+		}
+		return sov;
+	}
+	
+	virtual void Update(double curshields, double maxshields)
+	{
+		
+		if(curshields < maxshields && curshields > 0)
+		{
+			alpha = 1.0 - (curshields / maxshields);
+		}
+		else
+		{
+			alpha = 0;
+		}
+		
+		if(prevShields > 0 && curshields <= 0)
+		{
+			// Shield broke
+			GiveInventory("ShieldLightningAnimator", 1);
+		}
+		
+		prevShields = curshields;
+	}
+	
+	override void Tick()
+	{
+		if(!source) 
+		{
+			Destroy();
+			return;
+		}
+		
+		// Make invisible for source, if source is player.
+		let localplr = players[consoleplayer].mo;
+		if(localplr == source)
+		{
+			bInvisible = (localplr.player.cheats & CF_CHASECAM) ? false : true;
+		}
+		
+		// Copy source values.
+		SetOrigin(source.pos, true);
+		A_SetScale(source.Scale.X, source.Scale.Y);
+		angle = source.angle;
+		pitch = source.pitch;
+		roll  = source.roll;
+		Sprite = source.Sprite;
+		Frame = source.Frame;
+		Tics = source.Tics;
+	}
+	
+	States
+	{
+		Spawn:
+			"####" "#" -1;
+		stop;
+	}
+}
+class ShieldLightningAnimator : CustomInventory
+{
+	virtual void DoLightning(vector3 atpos, double amt = 4)
+	{
+		vector2 view;
+		for(int i = 0; i < amt; i++)
+		{
+			view.x = angle + frandom(-180,180);
+			view.y = pitch + frandom(-60,60);
+			BiriBiri.DoLightning(atpos, view, dist:25, 0.5, 20.0, 10.0, 30, 0);
+		}
+	}
+	
+	virtual void DoParticles(Actor src, double amt = 5, double zoffs = 0, Color pcol = 0xFF0a08f0)
+	{
+		for(int i = 0; i < amt; i++)
+		{
+			double ang = frandom(0,360);
+			double pit = frandom(-45,45);
+			vector3 rdir = (
+				cos(ang),
+				sin(ang),
+				-sin(pit)
+			) * frandom(4,16);
+			
+			src.A_SpawnParticle(
+				pcol, SPF_FULLBRIGHT, 35, 3.0, ang,
+				0,0, zoffs, rdir.x,rdir.y,rdir.z,0,0,0,
+				frandom(0.8,1.0), 0.025
+			);
+		}
+	}
+		
+
+	States
+	{
+		Pickup:
+			TNT1 AAAAAAAAAAAAAAAAAA 4
+			{
+				vector3 atpos = (pos.xy, pos.z + (height));
+				if(player) atpos.z = player.viewz;
+				atpos.x += frandom[ShieldFX](-1,1) * 30;
+				atpos.y += frandom[ShieldFX](-1,1) * 30;
+				atpos.z += frandom[ShieldFX](0,1) * 20;
+				invoker.DoLightning(atpos, 2);
+				invoker.DoParticles(self, zoffs:height);
 			}
 		stop;
 	}

@@ -9,9 +9,17 @@ addmenukey "Grapple" +USER4
 addmenukey "Throw Grenade" "ThrowGrenade"
 addmenukey "Cycle Grenade" "NextGrenade"
 addmenukey "Toggle Flashlight" "ToggleFlashlight"
+
+AddMenuKey "Display Weapon Info" +weaponInfo
+Alias +weaponInfo "netevent +weaponInfo"
+Alias -weaponInfo "netevent -weaponInfo"
+
 alias "ToggleFlashlight" "netevent toggleflashlight"
 alias "NextGrenade" "netevent nextgrenade"
 alias "ThrowGrenade" "netevent throwgrenade"
 alias "HDEall" "netevent HaloDoom_GiveAll"
+alias "HDEamo" "netevent HaloDoom_GiveAllAmmo"
+alias "twosticksandarock" "netevent HaloDoom_GiveAllAmmo"
 alias "HDEarbitercamo" "netevent HaloDoom_ArbiterCamo"
 alias "HDEaimhax" "netevent HaloDoom_AimHax"
+alias "syncgametype" "netevent reload_gametype"

@@ -159,6 +159,7 @@ class HaloMath Abstract
 					sin(frandom(-vel_pitch,vel_pitch))
 				);
 				obj.vel = veldir * vel_spd;
+				obj.angle = (sangle + spawnang);
 			}
 			if(rstyle >= 0) obj.A_SetRenderStyle(obj.alpha, rstyle);
 		}
@@ -192,24 +193,38 @@ class HaloMath Abstract
 		}
 	}
 	
-	play static void ExplodeEx(Actor src, double pow, double dist, double dmgfalloffmod = 1.0, Name damageType = "Explosive", bool damageSelf = false, bool damageBosses = true)
+	play static void ExplodeEx(Actor src, double pow, double dist, double dmgfalloffmod = 1.0, double thrustMod = 1.0, Name damageType = "Explosive", double selfDamage = 0, bool damageBosses = true)
 	{
 		let it = ThinkerIterator.Create("Actor");
 		Actor act;
 		let shooter = src.target ? src.target : src;
 		while(act = Actor(it.Next()))
 		{
-			if(!act.bSHOOTABLE) continue;
-			if(!damageSelf && act == shooter) continue;
+			if(!act.bSHOOTABLE || !src.IsVisible(act, true)) continue;
 			if(!damageBosses && act.bBOSS) continue; 
+			
 			double todist = src.Distance2DSquared(act) - act.radius;
 			double dmgfalloff = pow * (1. - (1./(todist - (dist*dist))));
 			if(todist > dist*dist) continue; 
 			dmgfalloff *= dmgfalloffmod;
 			
+			vector3 forceDir = (src.pos - act.pos).Unit();
+			if(act == shooter) forceDir = VecFromAngles(shooter.angle, shooter.pitch, 0.5);
+			forceDir *= dmgfalloff * thrustMod;
+			act.vel -= (forceDir * 0.15);
+			
+			if(act == shooter) dmgfalloff *= selfDamage;
 			if(dmgfalloff > 0)
 				act.DamageMobJ(src, shooter, dmgfalloff * GAMEPLAY_DAMAGEMOD, damageType, 0, src.angle); 
 		}
+	}
+
+	static double DistFalloff(vector3 one, vector3 two, double maxdist)
+	{
+		double dist = (one-two).Length();
+		double distFrac = 1.0 - (dist / max(maxdist,1));
+		
+		return distFrac;
 	}
 
 	static double sign(double num)
@@ -458,12 +473,19 @@ class HaloMath Abstract
 		return dmgz <= headz && dmgz >= headz-headsize;
 	}
 	
+	play static vector3, Actor getPlayerAim(PlayerPawn plr)
+	{
+		FLineTraceData lt;
+		plr.LineTrace(plr.angle, 1024*1024, plr.pitch, 0, plr.player.viewz-plr.pos.z, 0, data:lt);
+		return lt.HitLocation, lt.HitActor;
+	}
+	
 	clearscope static vector3 SphereBetween(vector3 one, vector3 two)
 	{
 		vector3 diff = level.Vec3Diff(one, two);
 		return (
 			atan2(diff.y, diff.x),
-			atan2(diff.z, sqrt(diff.x**2 + diff.y**2)),
+			atan2(diff.z, sqrt((diff.x*diff.x) + (diff.y*diff.y))),
 			diff.Length()
 		);
 	}
@@ -485,6 +507,316 @@ class HaloMath Abstract
 	{
         return -(d * v) - (k * (p - r));
     }
+				 
+	static void getSkillsInfo(out Array<SkillInfo> skInfo)
+	{
+		// adwnawdlnkdawlknawdkln why isn't this just a feature??!?!!?!?!?
+		// ffs.
+		
+		skInfo.Clear();
+		for(int lump = -1; (lump = Wads.FindLump("MAPINFO", lump+1)) != -1;)
+		{
+			string data = Wads.ReadLump(lump);
+			string dataLower = data.MakeLower();
+	
+			// Look for `skill` keyword(s).
+			int skillIndex = 0;
+			int skillOffset = 0;
+			int loopCheck = 0;
+			while(skillIndex >= 0)
+			{
+				loopCheck++;
+				if(loopCheck > 100) 
+				{
+					console.printf("Error reading mapinfo.");
+					break;
+				}
+				
+				skillIndex = dataLower.IndexOf("skill", skillOffset);
+				if(skillIndex < 0) break;
+				
+				// Grab skill block.
+				int blockStart = dataLower.IndexOf("{", skillIndex);
+				int blockEnd = dataLower.IndexOf("}", skillIndex);
+				if(blockStart < 0 || blockEnd < 0) break;
+				
+				int blockLen = blockEnd - blockStart;
+				skillOffset = blockEnd+1; // Advance read "head".
+				
+				string skillData = data.Mid(blockStart, blockLen);
+				string skillDataLower = skillData.MakeLower();
+			
+				// Field to read from.
+				string skillPic;
+				string skillName;
+				string skillDesc;
+				
+				// Filter "confusing" fields.
+				int picName = skillDataLower.IndexOf("picname");
+				int className = skillDataLower.IndexOf("playerclassname");
+				bool gotStr;
+				
+				if(picName > -1)
+				{		
+					// Parse skillPic
+					[gotStr, skillPic] = StringHelper.parseStrElement("picname", skillData);
+					if(!gotStr) return;
+								
+					int picNameEnd = skillDataLower.IndexOf("\n", picName);
+					skillData.Remove(picName, picNameEnd-picName);
+				}
+				if(className > -1)
+				{
+					int classNameEnd = skillDataLower.IndexOf("\n", className);
+					skillData.Remove(picName, classNameEnd-className);
+				}
+				skillDataLower = skillData.MakeLower();
+				
+				// Get name
+				[gotStr, skillName] = StringHelper.parseStrElement("name", skillData);
+				if(!gotStr) return;
+				
+				// Localize name if needed.
+				bool specialName = skillName.IndexOf("$") >= 0; 
+				if(specialName) skillName = StringTable.Localize(skillName);
+				
+				// Get "desc" from `MustConfirm`
+				[gotStr, skillDesc] = StringHelper.parseStrElement("mustconfirm", skillData);
+				if(!gotStr) skillDesc = "";
+				
+				let curSkillInfo = new("SkillInfo");
+				curSkillInfo.displayName = skillName;
+				curSkillInfo.Description = skillDesc;
+				curSkillInfo.Pic = skillPic;
+						
+				skInfo.push(curSkillInfo);
+			}			
+		}
+	}
+	
+	const GT_ALL = 31;
+	static uint gameTypesToFlags(string types)
+	{
+		uint flags = 0;
+		Array<String> tokens;
+		Array<GameTypeInfo> gameTypes;
+		
+		string gtStr = types;
+		if(gtStr.Length() <= 0) return 0;
+		
+		gtStr.Replace(" ", "");
+		gtStr.Split(tokens, ",");
+		
+		uint notFound = tokens.Size();
+		if(tokens.Find("ALL") != notFound) return GT_ALL;
+		HaloMath.getGameTypes(gameTypes);
+		
+		for(int i = 0; i < gameTypes.Size(); i++)
+		{
+			if(tokens.Find(gameTypes[i].defName) != notFound)
+				flags |= !i ? 0 : (1 << (i-1));
+		}
+		
+		return flags;
+	}
+	
+	static void getGameTypes(out Array<GameTypeInfo> gtInfo)
+	{
+		gtInfo.Clear();
+		string defineKeyword = "gametype";
+		
+		for(int lump = -1; (lump = Wads.FindLump("GTDEFS", lump+1)) != -1;)
+		{
+			string data = Wads.ReadLump(lump);
+			string dataLower = data.MakeLower();
+	
+			// Look for `GameType` keyword(s).
+			int gtIndex = 0;
+			int gtOffset = 0;
+			int loopCheck = 0;
+			while(gtIndex >= 0)
+			{
+				loopCheck++;
+				if(loopCheck > 100) 
+				{
+					console.printf("Error reading GTDEFS.");
+					break;
+				}
+				
+				gtIndex = dataLower.IndexOf("gametype", gtOffset);
+				if(gtIndex < 0) break;
+						
+				// Grab gametype block.
+				int blockStart = dataLower.IndexOf("{", gtIndex);
+				int blockEnd = dataLower.IndexOf("}", gtIndex);
+				if(blockStart < 0 || blockEnd < 0) break;
+				
+				// Get defined name.
+				int nameStart = dataLower.IndexOf(" ", gtIndex)+1;
+				int nameEnd = blockStart-1;
+				int nameLen = nameEnd - nameStart;
+				
+				int blockLen = blockEnd - blockStart;
+				gtOffset = blockEnd+1; // Advance read "head".
+				
+				string gtData = data.Mid(blockStart, blockLen);
+				string gtDataLower = gtData.MakeLower();
+			
+				// Field to read from.
+				string gtDefName = data.Mid(nameStart, nameLen); 
+				gtDefName.Replace(String.Format("%c", 13), "");
+				string gtName;
+				string gtDesc;
+
+				bool exists;
+				string result;
+				[exists, gtName] = StringHelper.parseStrElement("name", gtData);
+				[exists, gtDesc] = StringHelper.parseStrElement("description", gtData);
+				
+				// Export data.
+				let curGameTypeInfo = new("GameTypeInfo");
+				curGameTypeInfo.displayName = gtName;
+				curGameTypeInfo.Description = gtDesc;
+				curGameTypeInfo.defName = gtDefName;
+				// console.printf("Type: %s\n Name: %s\n Description: %s\n\n", curGameTypeInfo.defName, curGameTypeInfo.displayName, curGameTypeInfo.Description);
+						
+				gtInfo.push(curGameTypeInfo);
+			}			
+		}
+	}
+	
+	static vector2 GetImageScaleToRes(string img, vector2 toRes, bool keepAspect = true)
+	{
+		let tex = TexMan.CheckForTexture(img);
+		vector2 size;
+		[size.x, size.y] = TexMan.GetSize(tex);
+
+		double def_aspect = toRes.x / toRes.y;
+		double aspect = 1.0;
+		
+		vector2 scaleto = (
+			toRes.x / size.x,
+			toRes.y / size.y
+		);
+		
+		if(keepAspect) aspect = (size.x / size.y) / (def_aspect);
+		size.x = scaleto.x * aspect;
+		size.y = scaleto.y;
+
+		return size;
+	}
+	
+	static double getMinimumImgScaleDown(string img, vector2 toRes)
+	{
+		let tex = TexMan.CheckForTexture(img);
+		vector2 size;
+		[size.x, size.y] = TexMan.GetSize(tex);
+		double aspect = (size.x / size.y);
+		
+		vector2 scaleto = (
+			toRes.x / size.x,
+			toRes.y / size.y
+		);
+		
+		return aspect > 1.0 ? scaleto.x : scaleto.y;
+	}
+	
+	static string GetGitBranch()
+	{
+		int lump = Wads.CheckNumForFullName("gitbranch.txt");
+		if(lump == -1) return "";
+		
+		return Wads.ReadLump(lump);
+	}
+	
+}
+
+class StringHelper Abstract
+{
+	static bool IsUpper(uint ch)
+	{
+		return ch != 0 ? ch == String.CharUpper(ch) : false;
+	}
+	
+	static void SplitByUppercase(String src, out Array<String> tokens)
+	{
+		tokens.Clear();
+		int foundat = -1;
+		for(int i = 0; i <= src.Length(); i++)
+		{
+			if(StringHelper.IsUpper(src.ByteAt(i)))
+			{
+				if(foundat >= 0) tokens.Push(src.Mid(foundat, i-foundat));
+				foundat = i;
+			}
+			else if(i >= src.Length() && foundat >= 0) 
+			{
+				tokens.Push(src.Mid(foundat, src.Length()));
+				break;
+			}
+		}
+	}
+	
+	// Attempt to automatically insert linebreaks in string.
+	static string formatLnBreaks(String str, int lineLen)
+	{
+		// Split string into words.
+		Array<string> words;
+		string newline = "\n";
+		str.Split(words, " ");
+		
+		string outStr;
+		int carriage = 0;
+		for(int i = 0; i < words.Size(); i++)
+		{
+			string word = words[i];
+			bool manualNewLine = word.IndexOf(newline, 0) != -1;
+			
+			int len = word.Length() + 1; // Add " " space at start of new word.
+			carriage += len;
+			
+			if(manualNewLine) carriage = len-1;
+			if(carriage > lineLen) 
+			{
+				outStr = outStr .. "\n";
+				carriage = len-1;
+			}
+
+			outStr = String.Format("%s %s", outStr, word);
+		}
+		
+		return outStr;
+	}
+	 
+	static bool, string parseStrElement(String type, String ln)
+	{
+		string lnLower = ln.MakeLower();
+		type = type.MakeLower();
+				
+		int element_S = lnLower.IndexOf(type);
+		int element_E = lnLower.IndexOf("\n", element_S);
+		if(element_S < 0 || element_E < 0) return false, "";
+		
+		string output = ln.Mid(element_S, element_E-element_S);
+		int strBegin = output.IndexOf("\"");
+		int strEnd = output.IndexOf("\"", strBegin+1);
+		
+		return true, output.Mid(strBegin+1, (strEnd-strBegin)-1);
+	}
+}
+
+class SkillInfo : Object
+{
+	string displayName;
+	string Description;
+	string Pic;
+}
+
+class GameTypeInfo : Object
+{
+	string defName;
+	string displayName;
+	string Description;
 }
 
 class ActorTracer : Object 

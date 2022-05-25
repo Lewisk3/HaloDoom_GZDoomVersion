@@ -12,23 +12,41 @@ class HaloSpartan_III : HaloPlayer
 			"Employing thruster packs for\n"
 			"added mobility to accomodate\n"
 			"their pugilist fighting style."
-		);
+		), "Dash, Double Jump, Black Eye";
 		
 		// Vitals
-		Health 45; 
-		Player.MaxHealth 45;
-
-		// Inventory
-		Player.StartItem "DoHelmetAnimation", 1;
-		Player.StartItem "Halo_AssaultRifle", 1;
-		Player.StartItem "Halo_Magnum", 1;
-		Player.StartItem "Halo_AR_Reserves", 120;
-		
+		Health 100; 
+		Player.MaxHealth 100;
+		HaloPlayer.Shields 30, 5, 2; // 3 seconds to recharge, 2 seconds to max.
+		HaloPlayer.ShieldRegenSound "Shield/Regenerate/Fast";
+					
 		// Movement
 		HaloPlayer.MovementBob 0;
 		HaloPlayer.CanBunnyHop false;
 		HaloPlayer.MaxJumps 2;
 		HaloPlayer.AirControl 2.0;
 		HaloPlayer.SetupDashes true, 2, 5, 2;
+	}
+	
+	const MELEE_INVULN = 35;
+	const MELEE_COOLDOWN = 35;
+	
+	int meleeTimer;
+	override bool CheckCanMelee()
+	{
+		if( (GetAge() - meleeTimer) >= MELEE_COOLDOWN )
+		{
+			meleeTimer = getAge();
+			return true;
+		}
+		return false;
+	}
+	
+	override void OnMeleeHit(Actor victim)
+	{
+		// Instantly recharge shields
+		regen_timer = shield_regentime*35.;
+		shields_recharging = false; // Force recharge sound.
+		invulnTics = MELEE_INVULN; // 20 tics of invuln.
 	}
 }

@@ -5,8 +5,8 @@ mixin class WorldAmmoBehavior
 	{
 		if(dropper is "PlayerPawn") return false;
 		
-		// Only keep dropped ammo 75% of the time.
-		if(random[WorldDroppedAmmo](0,100) < 75)
+		// Only keep dropped ammo 50% of the time.
+		if(random[WorldDroppedAmmo](0,100) > 50)
 		{
 			GoAwayAndDie();
 		}

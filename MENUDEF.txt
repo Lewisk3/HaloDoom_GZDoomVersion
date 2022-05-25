@@ -41,7 +41,12 @@ ListMenu "Intro"
 
 ListMenu "HaloPlayerClassMenu"
 {
-	class "HaloDoom_PlayerClassMenu"
+	class "HaloDoom_PlayerClassMenu" 
+}
+
+ListMenu "HaloGameTypeMenu"
+{
+	class "HaloDoom_GameTypeMenu"
 }
 
 ListMenu "SkillMenu"
@@ -55,6 +60,11 @@ ListMenu "SkillMenu"
 AddListMenu "MainMenu" 
 {
    	class "HaloDoom_TitleMenu"	
+}
+
+AddListMenu "MainMenuTextOnly"
+{
+	class "HaloDoom_TitleMenu"
 }
 
 OptionMenu "HaloDoomControlsMenu"
@@ -72,6 +82,7 @@ OptionMenu "HaloDoomControlsMenu"
 	Control    "Switch Weapons(Q)"   	, "+user1"
 	Control    "Throw Grenade"			, "ThrowGrenade"
 	Control    "Cycle Grenades"			, "NextGrenade"
+	Control    "Display Weapon Info"	, "+weaponInfo"
 	StaticText " "
 	StaticText "Spartan III", "Black"
 	Control    "Dash (Shift)"      	    , "+user3"
@@ -85,34 +96,47 @@ OptionMenu "HaloDoomGameplayOptions"
 {
 	Title "HaloDoom Gameplay Options"
 	ScrollTop 2
-	StaticText "Combat Feedback", "Sapphire"
+	StaticText "Controls", "Black"
+	SubMenu "Adjust Keybinds", "HaloDoomControlsMenu"
+	StaticText " "
+	StaticText "Combat Feedback", "Black"
 	Slider "Weapon recoil intensity", "halodoom_recoil_intensity", 0, 2.0, 0.1, 1
+	Slider "Screenshake Intensity", "r_quakeintensity", 0.0, 1.0, 0.1, 1
 	Slider "Effects intensity", "halodoom_effectintensity", 0, 3.0, 0.1, 1 
 	StaticText " "
-	StaticText "Effects", "Sapphire"
+	StaticText "Effects", "Black"
 	Option "Smoke", "halodoom_fx_smoke", "EnabledDisabled"
 	Option "Bullet Casings", "halodoom_fx_casings", "EnabledDisabled"
 	Option "Play Helmet intro animation", "halodoom_dohelmetintro", "EnabledDisabled"
 	Option "Use longer select animations", "halodoom_dofullselectanim", "EnabledDisabled"
+	Option "Spartan jump sound effect", "halodoom_snd_jumpgrunt", "EnabledDisabled"
 	Slider "Grappling Hook complexity", "halodoom_grapplecomplexity", 0.2, 2.0, 0.01, 2
 	StaticText " "
-	StaticText "HUD", "Sapphire"
+	StaticText "HUD", "Black"
 	Option "Minimap", "halodoom_showminimap", "EnabledDisabled"
 	Option "Helmet Overlay", "halodoom_showhelmet", "EnabledDisabled"
 	Option "Ammo warnings", "halodoom_doammowarnings", "EnabledDisabled"
 	Option "Crosshair", "halodoom_hidecrosshair", "DisabledEnabled"
 	Option "Hitmarkers", "halodoom_fx_hitmarkers", "EnabledDisabled"
+	Option "A-R Key Tracking", "halodoom_keyoverlays", "EnabledDisabled"
+	Option "Level Transitions", "halodoom_leveltransitions", "EnabledDisabled"
 	StaticText " "
-	StaticText "General Gameplay", "Sapphire"
+	StaticText "General Gameplay", "Black"
 	Option "Lowered crosshair", "halodoom_loweredcrosshair", "EnabledDisabled"
+	Slider "Bullet Magnetism strength", "halodoom_magnetism", 0, 90, 1, 0  
 	Option "Controller Aim Assist", "halodoom_doaimassist", "EnabledDisabled"	
 	Option "Cortana Mode", "halodoom_cortanamode", "CortanaTypes"
 	StaticText " "
-	StaticText "Movement", "Sapphire"
-	Option "Bunny hopping", "halodoom_allowbhop", "EnabledDisabled"	
-	Option "Persistent jumping", "halodoom_holdjump", "EnabledDisabled"	
+	Option "Weapon Spawning", "halodoom_gametype", "GameTypes"
+	Command "Update Spawnlists", "syncgametype"
+	StaticText "Based on this setting weapons will be removed", "Black"
+	StaticText "or added to the current play session.", "Black"
 	StaticText " "
-	StaticText "Cheats", "Sapphire"
+	StaticText "Movement", "Black"
+	Option "Bunny hopping", "halodoom_allowbhop", "EnabledDisabled"	
+	Option "Mimic Doom Friction", "halodoom_classicmovement", "EnabledDisabled"	
+	StaticText " "
+	StaticText "Cheats", "Black"
 	Option "Unlimited Weapon capacity", "halodoom_unlimitedbackpack", "EnabledDisabled"
 	Command "Spawn all weapons", "hdeall"
 	
@@ -133,5 +157,15 @@ OptionValue "CortanaTypes"
 	0, "Always On"
 	1, "Once per key"
 	2, "Disabled"
+}
+
+OptionValue "GameTypes"
+{
+	0, "HaloDoom: Evolved"
+	1, "Halo CE"
+	2, "Halo 2"
+	4, "Halo 3 (& Reach)"
+	8, "Halo 4"
+	16, "Project MSX"
 }
 

@@ -27,8 +27,10 @@ class WeaponPickupProxy : Actor
 	class<Weapon> trueitem;
 	string truepickupmsg;
 	sound truepickupsnd;
-	HaloPlayer plr;
+	HaloPlayer haloplr;
+	PlayerPawn plr; // Valid player, but player isn't HaloPlayer.
 	bool noammogive;
+	bool forcepickup;
 	int clipammo;
 	int use_hold; // How many tics the USE key has been down for.
 	
@@ -38,8 +40,26 @@ class WeaponPickupProxy : Actor
 	Default
 	{
 		Radius PICKUP_RANGE*0.25;
-		Height PICKUP_RANGE;
+		Height PICKUP_RANGE*0.25;
+		// +SOLID;
 		WeaponPickupProxy.PickupRange PICKUP_RANGE*2.;
+	}
+	
+	static bool ProcessDroppedWeapon(Weapon weap)
+	{
+		// Remove weapon 50% of the time.
+		if(random[WorldDroppedWeapon](0,100) < 50)
+		{
+			weap.Destroy();
+			return true;
+		}
+		return false;
+	}
+	
+	override bool CanCollideWith(Actor other, bool passive)
+	{
+		if(other is "PlayerPawn") return false;
+		return super.CanCollideWith(other, passive);
 	}
 	
 	static WeaponPickupProxy BecomeWeaponProxy(Weapon source, bool noammogive = false)
@@ -113,34 +133,43 @@ class WeaponPickupProxy : Actor
 		to.A_StartSound(truepickupsnd, CHAN_ITEM, CHANF_OVERLAP);
 		if(!noammogive) 
 		{
+			// Fresh weapon pick, give ammogive amounts.
 			to.GiveInventory(ammotype1, ammogive1);
 			to.GiveInventory(ammotype2, ammogive2);
+		}
+		else if(hasitem && clipammo != -1)
+		{
+			// Give amount of ammo loaded in weapon, to reserves.
+			to.GiveInventory(ammotype1, clipammo);
 		}
         return Weapon(to.FindInventory(trueitem));
 	}
 	
 	void CheckPlrCollide(double distmod=1.0)
 	{
-		let it = ThinkerIterator.Create("HaloPlayer");
-		HaloPlayer act;	
+		PlayerPawn act;	
+		if(haloplr) haloplr.pickuptarget = NULL;
+		plr = haloplr = NULL;
+		 
+		double pickup_dist = (PICKUP_RANGE*distmod)*(PICKUP_RANGE*distmod);
 		
-		if(plr) plr.pickuptarget = NULL;
-		plr = NULL;
-		
-		WeaponPickupProxy closest;
-		double pickup_dist = (PICKUP_RANGE*distmod)**2;
-		while(act = HaloPlayer(it.Next()))
+		for(int i = 0; i < MAXPLAYERS; i++)
 		{
+			if(!playerInGame[i]) continue;
+			act = players[i].mo;
+			
 			// If player is colliding with a weaponproxy item, and looking at it.
-			if( Distance3DSquared(act) <= pickup_dist )
+			if(act && Distance3DSquared(act) <= pickup_dist)
 			{
 				FLineTraceData lt;
 				act.LineTrace(act.angle, visibledist, act.pitch, TRF_ALLACTORS|TRF_ABSOFFSET, act.player.viewheight,0,0, lt);
 				Actor hitact = lt.HitActor;
 				if(hitact != self) continue;
 
+				haloplr = HaloPlayer(act);
+
 				plr = act;
-				if(!plr.countinv(trueitem)) plr.pickuptarget = self;
+				if(haloplr && !haloplr.countinv(trueitem)) haloplr.pickuptarget = self;
 				break;
 			}
 		}
@@ -168,12 +197,15 @@ class WeaponPickupProxy : Actor
 		
 	override void Tick()
 	{
-		if(pos.z != floorz) SetOrigin((pos.x,pos.y,floorz), true);
-
-		ProcessPickupCollision();
+		// Handle physics manually.
+		super.tick();
+		
+		if(pos.z != floorz && abs(vel.z) <= 1) SetOrigin((pos.x,pos.y,floorz), true);
+		
 		bool hasweap = !plr ? false : !!plr.FindInventory(trueitem);
 		CheckPlrCollide(hasweap ? 0.5 : 1.0);
 		if(!plr || !plr.player) return;
+		ProcessPickupCollision();
 			
 		// If invalid sprite, use default.
 		/*
@@ -186,7 +218,7 @@ class WeaponPickupProxy : Actor
 		
 		// Determine if current weapon is busy
 		let haloweap = HaloGun(plr.player.ReadyWeapon);
-		if(haloweap && haloweap.handsbusy) 
+		if(haloweap && haloweap.handsbusy && !forcepickup) 
 		{
 			use_hold = -1;
 			return; 
@@ -194,16 +226,18 @@ class WeaponPickupProxy : Actor
 		
 		// Count weapons
 		let wcontrol = WeaponLimitProxy(plr.FindInventory("WeaponLimitProxy"));
-		if(!wcontrol) 
+		int wcount = 1;
+		if(haloplr && !wcontrol)
 		{
 			plr.GiveInventory("WeaponLimitProxy",1);
 			return;
-		}
-		int wcount = wcontrol.CountWeapons();
-		
+		} 
+		else if(wcontrol)
+			wcount = wcontrol.CountWeapons();
+			
 		// Process pickup
-		bool isaimweap = (plr.pickuptarget == self);
-		if( (!plr.player.ReadyWeapon && wcount > 0) || (!isaimweap && !hasweap)) 
+		bool isaimweap = !haloplr ? true : (haloplr.pickuptarget == self);
+		if( (!plr.player.ReadyWeapon && wcount > 0) || (!isaimweap && !hasweap) && !forcepickup) 
 		{
 			use_hold = -1;
 			return;
@@ -222,17 +256,21 @@ class WeaponPickupProxy : Actor
 			use_hold = 0;
 		}
 		
-		if( use_hold > 4 || hasweap )
+		if( forcepickup || use_hold > 4 || hasweap || halodoom_unlimitedbackpack || (!haloplr && plr) )
 		{
 			use_hold = 0;
 			if(wcount >= MAXWEAPS && !halodoom_unlimitedbackpack)
 			{
-				if(!hasweap)
+				if(!hasweap && wcontrol)
 				{
 					wcontrol.DropSelectedWeapon(pos);
 					let nweap = GiveWeaponItem(plr);
-					nweap.Use(true);
-					Destroy();
+					if(nweap) 
+					{
+						nweap.Use(true);
+						Destroy();
+					}
+					else forcepickup = false;
 					return;
 				}
 				else if(GiveWeaponItem(plr))
@@ -244,12 +282,13 @@ class WeaponPickupProxy : Actor
 			else
 			{
 				let nweap = GiveWeaponItem(plr);
-				if(!hasweap) nweap.Use(true);
+				if(!hasweap && nweap) nweap.Use(true);
 				if(nweap) 
 				{
 					Destroy();
 					return;
-				}
+				} 
+				else forcepickup = false;
 			}
 		}
 	}
@@ -257,7 +296,7 @@ class WeaponPickupProxy : Actor
 	States
 	{
 		Spawn:
-			"####" "#" 1;
+			"####" "#" -1;
 		stop;
 	}
 }

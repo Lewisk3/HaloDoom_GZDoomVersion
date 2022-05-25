@@ -9,6 +9,74 @@ Model HaloBullet
    FrameIndex TRAC A 0 0 
 }
 
+Model HaloRocketProj
+{
+   Path "Models/Weapons"
+   SKIN 0 "rocket.png" 
+   MODEL 0 "rocket.md3" 
+   Scale 10.0 10.0 10.0 
+   AngleOffset 90
+   USEACTORPITCH 
+   
+   FrameIndex MODL A 0 0 
+}
+
+Model HaloSpiker_Bullet
+{ 
+   Path "Models/Weapons"
+   SKIN 0 "spike_shard.png" 
+   MODEL 0 "spike_shard.md3" 
+   Scale 4.0 4.0 2.5 
+   AngleOffset 90
+   USEACTORPITCH 
+   
+   FrameIndex TRAC A 0 0 
+}
+
+Model HaloSidekick_Bullet
+{ 
+   Path "Models/Weapons"
+   SKIN 0 "tracer1.tga" 
+   MODEL 0 "Tracer.md3" 
+   Scale 3.0 3.0 1.5 
+   PITCHFROMMOMENTUM 
+   
+   FrameIndex TRAC A 0 0 
+}
+
+Model HaloDMR_Bullet
+{ 
+   Path "Models/Weapons"
+   SKIN 0 "tracer1.tga" 
+   MODEL 0 "Tracer.md3" 
+   Scale 3.0 3.0 1.5 
+   PITCHFROMMOMENTUM 
+   
+   FrameIndex TRAC A 0 0 
+}
+
+Model HaloSMG_Bullet
+{ 
+   Path "Models/Weapons"
+   SKIN 0 "tracer1.tga" 
+   MODEL 0 "Tracer.md3" 
+   Scale 3.0 3.0 1.5 
+   PITCHFROMMOMENTUM 
+   
+   FrameIndex TRAC A 0 0 
+}
+
+Model HaloMAB_Bullet
+{ 
+   Path "Models/Weapons"
+   SKIN 0 "tracer1.tga" 
+   MODEL 0 "Tracer.md3" 
+   Scale 3.0 3.0 1.5 
+   PITCHFROMMOMENTUM 
+   
+   FrameIndex TRAC A 0 0 
+}
+
 Model HaloNeedleProjectile
 { 
    Path "Models/Weapons"
@@ -133,3 +201,14 @@ Model FX_Shockwave
 	
 	FrameIndex SWVE A 0 0
 }
+
+Model FX_InverseShockWave
+{
+	Model 0 "Models/Title/sky_sphere.obj"
+	Skin 0 "Models/Lasers/lazer.png" // White pixel
+	Scale 50.0 50.0 50.0 
+	DONTCULLBACKFACES
+	
+	FrameIndex SWVE A 0 0
+}
+

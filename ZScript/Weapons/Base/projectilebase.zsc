@@ -1,35 +1,6 @@
 class HaloProjectile : FastProjectile
 {
-	double meterspeed;
-	double truedamage;
-	double range_falloff;
-	double range_max;
-	double falloff_minimum;
-	double headshot_multiplier;
-	double explode_dmg;
-	double explode_radius;
-	double rip_dmgmod;
-	double rip_falloff;
-	bool do_converge;
-	vector3 spawnpos;
-	Actor hitactor;
-	int ripamount;
-	bool isHoming;
-	double homingStrength;
-	
-	// Keep track of ripped-through targets so damage isn't done multiple times.
-	Array<Actor> act_hits;
-	
-	Property SetRanges : range_falloff, range_max;
-	Property MinRangeDamage : falloff_minimum;
-	Property BaseDamage : truedamage;
-	Property Speed_MPS : meterspeed;
-	Property RipperCount : ripamount;
-	Property RipperDamageFalloff : rip_falloff;
-	Property ConvergeToAim : do_converge;
-	Property HeadshotDMGFactor : headshot_multiplier;
-	Property DoExplosiveDamage : explode_dmg, explode_radius;
-	Property SetupHoming : isHoming, homingStrength;
+	mixin HaloProjectile_Common;
 	
 	Default
 	{
@@ -52,115 +23,58 @@ class HaloProjectile : FastProjectile
 	
 	override int SpecialMissileHit(Actor victim)
 	{	
-		// Skip these victims
-		if(victim == target || !victim.bSHOOTABLE) return 1;
+		return Handle_MissileHit(victim);
+	}
 		
-		// Ripped through actors only take damage once.
-		if(act_hits.Find(victim) != act_hits.Size()) return 1;
-		
-		// Determine if victim is vehicle we're the driver of
-		if(target)
-		{
-			let curveh = Veh_Manager(target.FindInventory("Veh_Manager"));
-			if(curveh && curveh.veh == victim) return 1;
-		}
-		hitactor = victim;
-		
-		// Adjust Damage
-		AdjustRangeDamage();
-		double scaled_damage = truedamage * GAMEPLAY_DAMAGEMOD * (1.0-rip_dmgmod);
-		bool headshot = HaloMath.CheckHeadshot(self, victim);
-		if(headshot) scaled_damage *= headshot_multiplier;
-		
-		// Damage Victim
-		Name dmgType = headshot ? 'Headshot' : DamageType;
-	//	scaled_damage = target.GetModifiedDamage(dmgType, scaled_damage, false, self, target);
-		
-		victim.DamageMobJ(self, target, ceil(scaled_damage), dmgType, 0, angle);
-		if(explode_dmg > 0) A_Explode(explode_dmg, explode_radius, 0);
+	override void PostBeginPlay()
+	{
+		Init();
+		super.PostBeginPlay();
+	}
+	
+	override void Tick()
+	{		
+		activateLines();
+		super.Tick();
+	
+		if(target && GetAge() < 5) SetOrigin(Vec3Offset(target.vel.x,target.vel.y,target.vel.z), true);
+		if(isHoming) Handle_Homing();
+	}
+}
 
-		// Spawn Blood
-		class<Actor> blud = victim.GetBloodType(0);
-		if(blud && bBLOODSPLATTER && victim.bISMONSTER) victim.Spawn(blud,pos);
+class HaloSlowProjectile : Actor
+{
+	mixin HaloProjectile_Common;
 	
-		// Rip through actors
-		act_hits.Push(victim);
-		if(ripamount > 0) 
-		{
-			ripamount--;
-			rip_dmgmod += rip_falloff;
-			rip_dmgmod = clamp(rip_dmgmod, 0, 1.0); 
-			return 1;
-		}
-		
-		return -1;
-	}
-	
-	double getTravelDistance(bool tometers = true)
+	// Kabedon
+	FLineTraceData pinData;
+	vector3 pinPos;
+	vector3 pinDir;
+	Actor pinnedActor;
+	double pinDist;
+	int pinTime;
+
+	Property SetupWallpinning : pinDist, pinTime; 
+
+	Default
 	{
-		double convert = tometers ? UNIT_METER : 1.0;
-		return clamp(HaloMath.Distance3D(pos, spawnpos),1,int.max) / convert;
-	}	
-	virtual void AdjustRangeDamage()
-	{
-		// Do not calculate damage if we have no ranged damage.
-		if(range_max <= 0) return;
-		// Interpolate to minimum damage based on range maximum.
-		double dist = getTravelDistance();
-		// Negate damage at max range.
-		if(dist >= range_max)
-		{
-			// Destroy bullet so feedback is better,
-			// we wont get hit markers at above max range.
-			Destroy(); 
-			return;
-		}
+		Radius 3;
+		Height 3;
+		Speed 0;
+		Projectile;
+		+INTERPOLATEANGLES;
+		+BLOODSPLATTER;
+		DamageType "Bullet";
 		
-		// Dampen damage until minimum.
-		if(dist >= range_falloff && range_falloff > 0)
-		{
-			double distmax = dist/range_max;
-			double dmgmod = (-1.5 * (distmax**2)) + 1;
-			dmgmod = clamp(dmgmod, falloff_minimum/100., 1.0);
-			truedamage = default.truedamage*dmgmod;
-		}
+		HaloSlowProjectile.SetRanges 0, 0;
+		HaloSlowProjectile.MinRangeDamage 100; 
+		HaloSlowProjectile.BaseDamage 10;
+		HaloSlowProjectile.Speed_MPS 150.0;
+		HaloSlowProjectile.RipperCount 0;
+		HaloSlowProjectile.ConvergeToAim true;
+		HaloSlowProjectile.HeadshotDMGFactor 1.0;
 	}
-	virtual void Init()
-	{
-		spawnpos = pos;
-		A_SetSpeed((meterspeed / 35.)*UNIT_METER);
-		
-		// Re-calculate velocity with new speed.
-		double cosp = cos(pitch);
-		vel = (
-			cos(angle) * cosp,
-			sin(angle) * cosp,
-			-sin(pitch)
-		) * speed;
-		
-		SetDamage(0);
-	}
-	
-	void DoConverge(vector3 aimpos, vector2 offs)
-	{
-		// Do not follow crosshair converge for vehicles
-		let curveh = Veh_Manager(target.FindInventory("Veh_Manager"));
-		if(curveh) return;
-		
-		// Converge
-		if(do_converge)
-		{
-			vector3 toaim = level.SphericalCoords(pos, aimpos, (angle-offs.x, pitch-offs.y));
-			angle -= toaim.x;
-			pitch -= toaim.y;
-		}
-		else
-		{
-			angle -= offs.x;
-			pitch -= offs.y;
-		}
-	}
-	
+			
 	override void PostBeginPlay()
 	{
 		Init();
@@ -169,111 +83,87 @@ class HaloProjectile : FastProjectile
 	
 	override void Tick()
 	{
+		activateLines();
 		super.Tick();
+			
 		if(target && GetAge() < 5) SetOrigin(Vec3Offset(target.vel.x,target.vel.y,target.vel.z), true);
-		
-		if(isHoming)
-		{
-			// Find nearest viable target, track target.
-			if(tracer)
+		if(isHoming) Handle_Homing();
+	}
+
+	override int SpecialMissileHit(Actor victim)
+	{
+		// Victim is damaged by this function.
+		int defaultHit = Handle_MissileHit(victim);
+	
+		// Check if pinned
+		if( pinDist > 0 && pinTime > 0 && target && !victim.bNOBLOOD)
+		{		
+			vector2 aimAngles = (target.angle, target.pitch);
+			LineTrace(aimAngles.x, pinDist, aimAngles.y, TRF_THRUACTORS, data:pinData);
+			
+			bool deadEnough = victim.health <= 0;
+			if(pinData.HitLine && deadEnough)
 			{
-				vector3 dest = (tracer.pos.xy, tracer.pos.z+(tracer.height*0.5));
-				vector3 trackingAngles = level.SphericalCoords(pos, dest, (angle, pitch));
-				A_SetAngle(angle - (trackingAngles.x * homingStrength), SPF_INTERPOLATE);
-				A_SetPitch(pitch - (trackingAngles.y * homingStrength), SPF_INTERPOLATE);
+				victim.vel *= 0;
+				pinDir = HaloMath.VecFromAngles(aimAngles.x + 180, aimAngles.y, victim.radius * 0.5);
+				pinPos = level.vec3offset(pinData.hitLocation, pinDir);
+				pinPos.z -= (pos.z - victim.pos.z);
 				
-				// Update velocity
-				vector3 newVel = HaloMath.V3Offset(angle, pitch, roll, 1.0,0,0, vel.Length());
-				vel = newVel;
+				pinnedActor = victim;
+				victim.DamageMobJ(target, self, victim.health, "wallpin");
+				SetState(FindState("Pinned"));
+			
+				bSOLID = false;
+				bMISSILE = false;
+				vel *= 0;
+				return 1;
 			}
-			else
+		}
+		
+		if(defaulthit != 1 && bMISSILE) 
+		{
+			vel *= 0;
+			bMISSILE = false;
+			SetState(FindState("Death"));
+		}
+		return defaultHit;
+	}
+	
+	States
+	{
+		Spawn:	
+			TRAC A 1 Bright;
+		loop;
+	
+		Pinned:
+ 			"####" "#" 1
 			{
-				let it = ThinkerIterator.Create();
-				Actor act;
-				int mindist = int.max;
-				while(act = Actor(it.Next()))
+				if(pinnedActor) 
 				{
-					LookExParams look;
-					look.FOV = 30;
-					if(act == target) continue;
-					if(!act.bSHOOTABLE || act.bCORPSE) continue;
-					if(target && !target.IsVisible(act, false, look)) continue;
-					int dist = Distance3DSquared(act);
-					if(dist < mindist) 
-					{
-						tracer = act;
-						mindist = dist;
-					}
+					SetOrigin(level.vec3offset(pinData.HitLocation, pinDir), true);
+					pinnedActor.SetOrigin(pinPos, true);
+					
+					pinnedActor.bNOGRAVITY = true;
+					pinnedActor.vel *= 0;
+					
+					pinnedActor.tics = -1;
 				}
 			}
-		}
+			"####" "#" 0 A_JumpIf(!(pinTime--), "Pinned.Finish");
+		loop;
 		
-	}
-}
-
-class HaloSlowProjectile : Actor
-{
-	bool do_converge;
-	double meterspeed;
-	vector3 spawnpos;
-	
-	Property ConvergeToAim : do_converge;
-	Property Speed_MPS : meterspeed;
-
-	Default
-	{
-		Projectile;
-		+INTERPOLATEANGLES;
-		+BLOODSPLATTER;
-		
-		HaloSlowProjectile.ConvergeToAim true;
-		HaloSlowProjectile.Speed_MPS 10;
-	}
-	
-	double getTravelDistance(bool tometers = true)
-	{
-		double convert = tometers ? UNIT_METER : 1.0;
-		return clamp(HaloMath.Distance3D(pos, spawnpos),1,int.max) / convert;
-	}	
-	
-	virtual void Init()
-	{
-		spawnpos = pos;
-		A_SetSpeed((meterspeed / 35.)*UNIT_METER);
-		
-		// Re-calculate velocity with new speed.
-		double cosp = cos(pitch);
-		vel = (
-			cos(angle) * cosp,
-			sin(angle) * cosp,
-			-sin(pitch)
-		) * speed;
-	}
-	
-	void DoConverge(vector3 aimpos, vector2 offs)
-	{
-		// Do not follow crosshair converge for vehicles
-		let curveh = Veh_Manager(target.FindInventory("Veh_Manager"));
-		if(curveh) return;
-		
-		// Converge
-		if(do_converge)
-		{
-			vector3 toaim = level.SphericalCoords(pos, aimpos, (angle-offs.x, pitch-offs.y));
-			angle -= toaim.x;
-			pitch -= toaim.y;
-		}
-		else
-		{
-			angle -= offs.x;
-			pitch -= offs.y;
-		}
-	}
-	
-	override void PostBeginPlay()
-	{
-		Init();
-		super.PostBeginPlay();
+		Pinned.Finish:
+			TNT1 A 1
+			{
+				// Restore pinned actors flags.
+				if(pinnedActor)
+				{
+					pinnedActor.A_SetSize(8, 8);
+					pinnedActor.tics = 1;
+					pinnedActor.bNOGRAVITY = false;
+				}
+			}
+		stop;
 	}
 }
 
@@ -311,22 +201,20 @@ class NeedleCounter : Inventory
 }
 class HaloNeedleProjectile : HaloSlowProjectile
 {
-	double hitdmg;
 	double shatterdmg;
 	bool doexplode;
-	Actor hitactor;
 	vector3 hitoffs;
 	vector3 hitrelpos;
 	double hitangle;
 	double hitpitch;
 	double maxhomdist;
-	double homTurnMax, homStrength;
+	double homTurnMax;
 	int explodetimer, explodedelay, explodecount;
 	NeedleCounter needlecount;
 	Property ExplodeDelay : explodedelay;
 	Property ExplodeCount : explodecount;
-	Property NeedleDamages : hitdmg, shatterdmg;
-	Property NeedleHoming : homTurnMax, homStrength;
+	Property NeedleDamages : truedamage, shatterdmg;
+	Property NeedleHoming : homTurnMax, homingStrength, homingFOV;
 	Property NeedleHomRange : maxhomdist;
 
 	Default
@@ -335,7 +223,6 @@ class HaloNeedleProjectile : HaloSlowProjectile
 		Height 5;
 		Projectile;
 		// Speed 40; Don't increase speed, otherwise they can bounce through walls.
-		DamageFunction getNeedleDamage();
 		BounceType "Doom";
 		BounceCount 4;
 		RenderStyle "Add";
@@ -352,19 +239,16 @@ class HaloNeedleProjectile : HaloSlowProjectile
 		HaloNeedleProjectile.NeedleDamages 2, 10;
 		HaloNeedleProjectile.ExplodeDelay 35; // 1 second.
 		HaloNeedleProjectile.ExplodeCount 7; 
-		HaloNeedleProjectile.NeedleHoming 40, 0.15;
+		HaloNeedleProjectile.NeedleHoming 40, 0.15, 30;
 		HaloNeedleProjectile.NeedleHomRange 61;
 		Translation "0:255=@70[128, 17, 247]";
 	}
 	
-	virtual int getNeedleDamage()
-	{
-		return hitdmg;
-	}
-	
 	override int SpecialMissileHit(Actor victim)
 	{
-		if(hitactor || victim == target) return 1;
+		int defaultHit = Handle_MissileHit(victim);
+		if(defaultHit == 1) return 1; // Ignore invalid actors.
+		
 		hitactor = victim;
 		bSOLID = false;
 		bMISSILE = false;
@@ -376,18 +260,20 @@ class HaloNeedleProjectile : HaloSlowProjectile
 
 		explodetimer = explodedelay;
 		needlecount = NeedleCounter(victim.FindInventory("NeedleCounter"));
-		if(!needlecount) 
+		if(!needlecount && target) 
 		{
 			victim.GiveInventory("NeedleCounter", 1);
 			needlecount = NeedleCounter(victim.FindInventory("NeedleCounter"));
 		}
-		needlecount.AddNeedle(self);
+		if(needlecount) needlecount.AddNeedle(self);
 		SetState(ResolveState("Spawn.HitActor"));
-		return -1;
+		
+		return 1;
 	}
 	
 	override void Tick()
 	{
+		activateLines();
 		super.Tick();
 		
 		if(hitactor)
@@ -401,42 +287,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 		}
 		else if(getTravelDistance() < maxhomdist) // Do homing
 		{
-			// Find nearest viable target, track target.
-			if(tracer)
-			{
-				vector3 dest = (tracer.pos.xy, tracer.pos.z+(tracer.height*0.5));
-				vector3 trackingAngles = level.SphericalCoords(pos, dest, (angle, pitch));
-				if( abs(trackingAngles.x) > homTurnMax ) return;
-				
-				A_SetAngle(angle - (trackingAngles.x * homStrength), SPF_INTERPOLATE);
-				A_SetPitch(pitch - (trackingAngles.y * homStrength), SPF_INTERPOLATE);
-				
-				// Update velocity
-				vector3 newVel = HaloMath.V3Offset(angle, pitch, roll, 1.0,0,0, vel.Length());
-				vel = newVel;
-			}
-			else
-			{
-				let it = ThinkerIterator.Create();
-				Actor act;
-				int mindist = int.max;
-				LookExParams look;
-				look.FOV = 30;
-				while(act = Actor(it.Next()))
-				{
-					if(act == target) continue;
-					if(!act.bSHOOTABLE || act.bCORPSE) continue;
-					if(target && !act.isHostile(target)) continue;
-					if(target && !target.IsVisible(act, false, look)) continue;
-					
-					int dist = Distance3DSquared(act);
-					if(dist < mindist) 
-					{
-						tracer = act;
-						mindist = dist;
-					}
-				}
-			}
+			Handle_Homing(homTurnMax);
 		}
 	}
 		
@@ -617,6 +468,7 @@ class RailgunProjectile : FastProjectile
 		if(act_hits.Find(victim) != act_hits.Size()) return 1;
 	
 		victim.DamageMobj(source, self, damage, "Railgun", DMG_THRUSTLESS, angle);
+		A_Explode(expdmg * 0.25, expdmg * 0.05, 0);
 		act_hits.Push(victim);	
 		victim.BloodSplatter(pos, angle, true);
 		
@@ -767,7 +619,7 @@ class RailgunProjectile : FastProjectile
 			TNT1 A 0 
 			{
 				Spawn("Railgun_Explosion", pos);
-				A_Explode(expdmg, expdmg*0.5, 0);
+				A_Explode(expdmg, expdmg, 0);
 			}
 		Death.FadeOut:
 			"####" A 1 

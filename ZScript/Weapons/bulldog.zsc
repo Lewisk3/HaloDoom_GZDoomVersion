@@ -2,25 +2,24 @@ class Halo_Bulldog_Shells : Ammo
 {
 	Default 
 	{
-		Inventory.MaxAmount 8;
+		Inventory.MaxAmount 12;
 	}
 }
 class Halo_Bulldog_Reserves : Ammo
 {
 	mixin WorldAmmoBehavior;
-	
 	Default 
 	{
-		Radius 4;
-		Height 4;
-		Scale 0.35;
-		
-		Inventory.Amount 4;
-		Inventory.MaxAmount 40;
+		Radius 8;
+		Height 6;
+
+		Inventory.Amount 12;
+		Inventory.MaxAmount 48;
 		Inventory.Icon "HLAMC0";
-		Inventory.PickupMessage "+4 Bulldog Ammo.";
+		Inventory.PickupSound "Halo/Pickup/Ammo";
+		Inventory.PickupMessage "Picked up 12 Shells for the Riot Shotgun";
 		
-		Ammo.BackpackMaxAmount 80;
+		Ammo.BackpackMaxAmount 60;
 	}
 	
 	States
@@ -48,24 +47,26 @@ class Halo_Bulldog : HaloGun
 {
 	Default
 	{
-		Weapon.SlotNumber 1;
+		Weapon.SlotNumber 3;
 		Obituary "%o's riot was controlled by %k's Riot Shotgun.";
 		Inventory.PickupMessage	"Picked up the CQS-48 Riot Shotgun.";
 		Tag "Riot Shotgun";
 		Weapon.BobSpeed 1.68;
 		Weapon.BobRangeX 0.10;
 		Weapon.AmmoType1 "Halo_Bulldog_Reserves";
-		Weapon.AmmoGive 8;
+		Weapon.AmmoGive 12;
 		Weapon.AmmoType2 "Halo_Bulldog_Shells";
-		HaloGun.PowerTier P_NORM;
+		
+		HaloGun.Availability "HL4, MSX";
+		HaloGun.PowerTier P_STRONG;
 				
 		// Recoil
 		HaloGun.Bloom 1.0;
 		HaloGun.BloomSpeed 0.50;
 		HaloGun.BaseRecoil BULLDOG_RECOIL;
 		HaloGun.Inaccuracy BULLDOG_ACCMOD;
-		HaloGun.Crosshair "SGRet", 0.8;
-		HaloGun.UIGraphic "WI_BDOG", 0.75;
+		HaloGun.Crosshair "BDRet", 0.8;
+		HaloGun.UIGraphic "WI_BDOG", 0.65, 0.65;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
 	}
@@ -105,7 +106,7 @@ class Halo_Bulldog : HaloGun
 	
 	action state A_CheckRapidFire()
 	{
-		return A_JumpIf(A_FirePressed(), "Fire");
+		return A_JumpIf(A_ButtonStatus(BT_ATTACK, BTS_DOWN), "Fire");
 	}
 	
 	States
@@ -145,34 +146,35 @@ class Halo_Bulldog : HaloGun
 			TNT1 A 0 A_GunCheckReload();
 			BULF A 1 Bright
 			{
+				A_SetZoom(0.95, 2);
 				A_SetRecoil(7.80, 0, 2);
 				A_FireShotgun();
 				//A_RQuakeEx(2,3,2,6,0,20,"",QF_RELATIVE|QF_WAVE);
 				A_RQuakeEx(3,1,0,3,0,20,"",QF_RELATIVE|QF_WAVE);
-				A_RollQuake(3,6,4);
+				A_RollQuake(2,6,1);
 				A_RecoilOffset(0, 15, 4);
 			}
 			BULF B 1 Bright
 			{
 				A_SetRecoil(-2.05, 0, 2);
 			}
-			BULF C 1;
+			BULF C 1 A_SetZoom(1.0, 2);
 			TNT1 A 0 A_Light(0);
 			BULF D 1 A_RecoilOffset(0, 20, 4);
 			BULF EF 1;
 			BULF GHIJ 1 
 			{
 				A_RecoilOffset(0,10,6);
-				return A_CheckRapidFire();
+			//	return A_CheckRapidFire();
 			}
 			BULF K 1 
 			{
 				A_RecoilOffset(0,0,8);
 				return A_CheckRapidFire();
 			}
-		Hold:
-			BULI A 1;
-			TNT1 A 0 A_Refire("Hold");
+		/*Hold:
+			BULI A 1 A_CheckRapidFire();
+			TNT1 A 0 A_Refire("Hold");*/
 		goto Ready.Active;
 		
 		Reload:
@@ -183,7 +185,7 @@ class Halo_Bulldog : HaloGun
 			BDR1 N 6;
 			BDR1 O 1 A_SetRecoil(-1.0, 0, 2);
 			BDR1 PQRST 1;
-			BDR1 UVWXYZ 2;
+			BDR1 UVWXYZ 1;
 			BDR2 ABC 2;
 			BDR2 DEFGHIJKLMN 1; 
 			BDR2 O 1 A_SetRecoil(1.0, 0, 2);
