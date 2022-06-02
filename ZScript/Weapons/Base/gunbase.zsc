@@ -1034,11 +1034,13 @@ class HaloGun : RecoilWeapon
 			"####" E 2 
 			{
 				A_SetSFXPos(20,17,-15);
-				let nadeItem = HaloPlayer(self).activeGrenade;
+				let plr = HaloPlayer(self);
+				let nadeItem = plr.activeGrenade;
 				let nade = Spawn(nadeItem.nadeType, invoker.sfx_pos);
 				if(nade) 
 				{
-					nade.vel = HaloMath.V3Offset(angle, pitch, roll, 1,0,0, 40);
+					vector3 throwAngles = level.SphericalCoords(invoker.sfx_pos, plr.aimPos, (angle, pitch)); 
+					nade.vel = HaloMath.V3Offset(angle-throwAngles.x, pitch-throwAngles.y, roll, 1,0,0, 40);
 					nade.target = self;
 				}
 				
