@@ -179,11 +179,11 @@ class HaloGun : RecoilWeapon
 		if(wp) wp.clipammo = dropper.countinv(ammotype2);
 	}
 	
-	action double A_CheckMeleeRange(double maxrange = 512)
+	action double A_CheckMeleeRange(double maxrange = 512, bool skipWalls = false)
 	{
 		FLineTraceData lt;
 		LineTrace(angle, maxrange, pitch, 0, player.viewheight, data:lt);
-		return lt.Distance;
+		return (skipWalls && !lt.hitActor) ? maxrange : lt.Distance;
 	}
 		
 	action void DoSpriteLightning(double amt, double boltAngle, vector2 startPos, vector2 xy_spread = (20,20), double boltlen = 100, double stepsize = 1.0, double size = 1.0, double roughness = 10, uint layerStart = -200)
@@ -1062,7 +1062,7 @@ class HaloGun : RecoilWeapon
 			PNCH ABC 1 
 			{
 				// Remove this check for melee boost, lets you gain stupid speeds.
-				if(A_CheckMeleeRange() < 128) A_Recoil3D(-10); 
+				if(A_CheckMeleeRange(skipWalls:true) < 128) A_Recoil3D(-10); 
 				A_SetRecoil(0.4, -0.8, 3);
 			}
 			PNCH C 1 

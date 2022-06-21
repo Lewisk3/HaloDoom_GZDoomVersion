@@ -504,6 +504,8 @@ $random Halo/Weapons/RocketLauncher/Explode { RL_EXPLODE1 RL_EXPLODE2 RL_EXPLODE
 $random Halo/Weapons/RocketLauncher/Fire { RL_FIRE1 RL_FIRE2 RL_FIRE3 }
 $random Halo/Weapons/RocketLauncher/Mech { RL_MECH1 RL_MECH2 RL_MECH3 }
 
+$limit Halo/Weapons/RocketLauncher/Explode 0
+
 // Spiker
 SPIKER_FIRE1 "Sounds/Spiker/Spiker_Fire1.ogg"
 SPIKER_FIRE2 "Sounds/Spiker/Spiker_Fire2.ogg"
@@ -751,6 +753,9 @@ Halo/Grenade/Plasma/Explode "Sounds/Grenades/Sticky_Explode.ogg"
 Halo/Grenade/Plasma/ExplodeWater "Sounds/Grenades/Sticky_ExplodeWater.ogg"
 Halo/Grenade/Plasma/Armed "Sounds/Grenades/Sticky_Armed.ogg"
 Halo/Grenade/Plasma/FuseLoop "Sounds/Grenades/Sticky_Fuse.ogg"
+
+$limit Halo/Grenade/Plasma/Explode 0
+$limit Grenade/Frag/Explode 0
 
 // Surface Sounds
 WALKWATER1 "Sounds/SurfaceSound/Walk Water 1.ogg"

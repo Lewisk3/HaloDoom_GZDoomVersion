@@ -33,7 +33,7 @@ class HaloPickup_EVH : EventHandler
 		let plr = HaloPlayer(e.Camera);
 		if(plr) aim_weap = plr.pickuptarget;
 			
-		if(aim_weap)
+		if(aim_weap && !halodoom_unlimitedbackpack)
 		{
 			bool infront;
 			HLViewProjection viewproj = HLSBS.GetEventViewerProj(e);
