@@ -81,7 +81,7 @@ class GravityHammerField : RepulsorField
 			TNT1 A 2
 			{
 				Spawn("FX_Shockwave", pos);
-				HaloMath.ExplodeEx(self, 400, 128, 1.0, damagetype:"Crush");
+				HaloMath.ExplodeEx(self, 400, 128, 1.0, thrustMod:0.25, damagetype:"Crush");
 				let expl = Spawn("GravityHammerExplosion", pos);
 			}
 		Repulse:
@@ -228,7 +228,7 @@ class Halo_GravityHammer : HaloGun
 			TNT1 A 1 
 			{
 				vel.z += 5;
-				A_Pushback(5);				
+				A_Pushback(8);				
 				
 				A_SetFlashColor("White", 0.78);
 				A_Overlay(60, "MuzzleBiris");

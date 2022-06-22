@@ -19,6 +19,7 @@ class LSR_BeamRifle : LaserBeam
 	bool turnOff;
 	double laserDmg;
 	Property LaserDamage : laserDmg;
+	Actor prevVictim;
 
 	Default
 	{
@@ -52,10 +53,17 @@ class LSR_BeamRifle : LaserBeam
 	override void OnImpact(vector3 hitPos, Actor hitActor)
 	{
 		super.OnImpact(hitPos, hitActor);
-				
+		if(!hitActor) prevVictim = NULL;
+		
 		if(hitActor) 
 		{	
+			if(prevVictim == hitActor) 
+				laserDmg = HaloMath.Lerp(laserDmg, default.laserDmg * 5.0, 1.0 / ceil(TICRATE * 0.5));
+			else
+				laserDmg = default.laserDmg;
+				
 			hitActor.DamageMobj(self, source, laserDmg, DamageType);
+			prevVictim = hitActor;
 			
 			// Spawn Blood
 			if( hitActor.bISMONSTER && !hitActor.bNOBLOOD ) 
