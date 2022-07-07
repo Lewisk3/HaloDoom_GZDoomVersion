@@ -73,7 +73,7 @@ class LaserBeam : Actor
 		LaserBeam.AimFromWeapon true;			// Fire from weapon "muzzle", only used if TrackWeapon is enabled.
 	}
 	
-	static LaserBeam Create(Actor source, double fw, double lr, double ud, double angleOffs = 0, double pitchOffs = 0, double maxDist = 2048, class<LaserBeam> type = "LaserBeam")
+	static LaserBeam Create(Actor source, double fw, double lr, double ud, double angleOffs = 0, double pitchOffs = 0, double maxDist = 64000, class<LaserBeam> type = "LaserBeam")
 	{
 		let laser = LaserBeam(Spawn(type, source.pos));
 		if(laser) 

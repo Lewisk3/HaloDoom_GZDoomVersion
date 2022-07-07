@@ -9,7 +9,7 @@ class Halo_UnmakerReserves : Ammo
 		Scale 0.65;
 		
 		Inventory.Amount 60;
-		Inventory.MaxAmount 333;
+		Inventory.MaxAmount 666;
 		Inventory.Icon "HLAMM0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "Picked up 1 Battery for Unmaker (60%)";
@@ -202,7 +202,7 @@ class Halo_Unmaker : HaloGun
 		{
 			view.x = angle + frandom(-45,45);
 			// BiriBiri.DoLightning(muzzlepos, view, type:"UnmakerLightning", dist:50, 0.5, 8.0, 10.0, 30, 0);
-			DoSpriteLightning(3, -90 + frandom(-60,70), localPos + overlayPos, xy_spread:(10,10), boltLen:200);
+			DoSpriteLightning(3, -90 + frandom(-60,70), localPos + overlayPos, xy_spread:(10,10), boltLen:50, stepsize:3.0, size:1.5);
 		}
 	}
 		

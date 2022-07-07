@@ -289,6 +289,12 @@ class HaloNeedleProjectile : HaloSlowProjectile
 		{
 			Handle_Homing(homTurnMax);
 		}
+		
+		if(GetAge() > 35*3)
+		{
+			vel *= 0;
+			SetState(FindState("Death.Explode"));
+		}
 	}
 		
 	States

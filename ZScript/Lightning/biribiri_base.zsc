@@ -123,7 +123,7 @@ class LightningActor : Actor abstract
 		//animation:
 		if (tics != -1) 
 		{
-			if(tics > 0) tics--;
+			tics = max(0, tics-1);
 			while (!tics) 
 				if(!SetState(CurState.NextState)) return;
 		}

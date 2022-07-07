@@ -87,7 +87,7 @@ class Halo_Bulldog : HaloGun
 		A_WeapSound("Halo/Weapons/Bulldog/Fire", CHANF_OVERLAP, true);
 		A_WeapSound("Halo/Weapons/Bulldog/Fire/Bass", CHANF_OVERLAP, true);
 		A_SetSFXPos(25,-10,-10);
-		for(int i = 0; i < 12; i++)
+		for(int i = 0; i < 20; i++)
 		{
 			A_ShootProjectile("HaloBulldog_Bullet", 8);		
 			if(!(i%2)) A_SpawnSFX("MuzzleSmoke", 0,0);
