@@ -41,6 +41,7 @@ class LSR_BinaryRifle : LSR_UnmakerBeam
 		let puff = UnmakerLaserPuff(Spawn("BinaryRiflePuff", hitPos));
 		if(puff) 
 		{
+			startTracking(hitPos);
 			puff.angle = angle + 180;
 			puff.pitch = -(pitch-90);
 		}
@@ -60,7 +61,10 @@ class LSR_BinaryRifleCore : LSR_BinaryRifle
 		+BRIGHT;
 	}
 	
-	override void OnImpact(vector3 hitPos, Actor hitActor) {}
+	override void OnImpact(vector3 hitPos, Actor hitActor) 
+	{
+		startTracking(hitPos);
+	}
 }
 class BinaryRiflePuff : UnmakerLaserPuff
 {

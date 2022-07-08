@@ -20,12 +20,25 @@ class ExplosiveCoil : Actor
 		+PUSHABLE;
 		+SLIDESONWALLS;
 		
-		Health 75;
+		Health 40;
 	}
 	
 	override int DamageMobJ(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle)
 	{
 		if(damage > 0) noDmgTics = 0;
+		if( (health - damage) <= 0 ) 
+		{
+			// Find Damager.
+			let damager = inflictor;
+			if(!damager && source)
+			{
+				damager = source;
+				if(source.bMISSILE) 
+					damager = source.target;
+			}
+			target = damager;
+		}
+		
 		return super.DamageMobJ(inflictor, source, damage, mod, flags, angle);
 	}
 	
@@ -71,6 +84,20 @@ class ExplosiveCoil : Actor
 		}
 	}
 	
+	bool CanBeSeen()
+	{
+		if(target) return true; // We were hit by another actor.
+		for(int i = 0; i < MAXPLAYERS; i++)
+		{
+			PlayerInfo plr = players[i];
+			if(!plr || !plr.mo) continue;
+			
+			if(IsVisible(plr.mo, true))
+				return true;
+		}
+		return false;
+	}
+	
 	States
 	{
 		Spawn:
@@ -91,7 +118,11 @@ class ExplosiveCoil : Actor
 		TrueDeath:
 			TNT1 A 35 
 			{
-				OnExplode();
+				if(CanBeSeen()) 
+					OnExplode();		
+				else
+					A_Explode(); // Fallback explosion.
+					
 				FilterExplosions();
 			}
 		stop;
@@ -339,7 +370,8 @@ class Coil_Needler_Explosion : CheapActor
 				for(int i = 0; i < 12; i++)
 				{
 					vector3 randPos = (frandom(-1,1),frandom(-1,1),frandom(-1,1)) * 20;  
-					HaloMath.FireProjectile("HaloNeedleProjectile", pos+randPos, frandom(0,360), frandom(-30,30));
+					let needle = HaloNeedleProjectile(HaloMath.FireProjectile("HaloNeedleProjectile", pos+randPos, frandom(0,360), frandom(-30,30)));
+					if(needle) needle.target = master ? master.target : NULL;
 				}
 				
 				A_Explode(200, 160, damagetype:"Explosive");
@@ -357,7 +389,8 @@ class Coil_Needler : ExplosiveCoil
 	
 	override void OnExplode()
 	{
-		Spawn("Coil_Needler_Explosion", (pos.xy, pos.z + 30));
+		let expl = Spawn("Coil_Needler_Explosion", (pos.xy, pos.z + 30));
+		if(expl) expl.master = self;
 	}
 }
 
