@@ -119,14 +119,19 @@ class Halo_Shotgun : HaloGun
 	States
 	{
 		Ready:
+			TNT1 A 0 A_JumpIf(!A_DoFullSelectAnimation(), "Ready.Chambered");
+			TNT1 A 4 A_WeapSound("Halo/Weapons/Shotgun/Ready");
+			W3D1 ABCDEFGHIJKLMNOPQRSTUVWX 1 A_DoSelectAnim(-5, true);
+		goto Ready.Active;
+		Ready.Chambered:
 			TNT1 A 0 A_WeapSound("Halo/Weapons/Shotgun/Ready");
-			HSGS ABCDE 1 A_DoSelectAnim();
+			W3S1 FEDCBA 1 A_DoSelectAnim(-5);
 		Ready.Active:
-			HSGI A 1 A_HaloWeaponReady(WRF_ALLOWRELOAD);
+			W3I1 A 1 A_HaloWeaponReady(WRF_ALLOWRELOAD, true);
 		loop;
-		
+	
 		Ready.Dryfire:
-			HSGI A 1;
+			W3I1 A 1;
 		goto Ready.Active;
 
 		Select:
@@ -134,87 +139,113 @@ class Halo_Shotgun : HaloGun
 		wait;
 
 		Deselect:
-			HSGI A 1;
-			HSGS EDCB 1;
-			HSGS A 1 A_GunLower();
+			W3S1 ABCDE 1;
+			W3S1 F 1 A_GunLower();
 		wait;
 		
 		Fire:
 			TNT1 A 0 A_GunCheckReload();
-			HSGF A 1 Bright
+			W3F1 A 1 Bright
 			{
-				A_SetZoom(0.88, 1);
+				A_SetZoom(0.80, 2);
 				A_SetRecoil(8.78, 0, 2);
 				A_FireShotgun();
 				A_RQuakeEx(4,2,1,3,0,20,"",QF_RELATIVE|QF_WAVE);
 				A_RollQuake(6,10,1);
 				A_RecoilOffset(15, 15, 4);
 			}
-			HSGF B 1 Bright
+			W3F1 B 1 Bright;
+			W3F1 C 1
 			{
 				A_SetZoom(1.0, 6);
 			}
-			HSGF C 1;
 			TNT1 A 0 A_Light(0);
-			HSGF D 6 
+			W3F1 D 6 
 			{	
 				A_RecoilOffset(15, 20, 4);
 				A_RQuakeEx(2,2,2,4,0,20,"",QF_RELATIVE);
 			}
-			HSGF EFGH 1 
+			W3F1 EFGGGH 1 
 			{
 				A_RecoilOffset(8,10,6);
 				A_SetRecoil(-0.36, -0.13, 10);
 			}
-			HSGF IJKK 1 A_RecoilOffset(0,0,8);
+			W3F1 IJK 1 A_RecoilOffset(0,0,8);
 		goto Pump;
 		
 		Pump:
 			TNT1 A 0 A_GunCheckReload();
-			HSGP ABCDEFG 1;
+			TNT1 A 0 A_JumpIf(!(level.maptime%4), "Pump.Alt");
+			W3P1 ABCDEFG 1;
 			TNT1 A 0 A_WeapSound("Halo/Weapons/Shotgun/Pump", CHANF_OVERLAP);
-			HSGP HI 1;
-			HSGP J 1 A_SetRecoil(-0.25, -0.09, 6);
-			HSGP KLLLLK 1 A_RecoilOffset(0,10,6);
-			HSGP J 1 
+			W3P1 H 1;
+			W3P1 I 1 A_SetRecoil(-0.25, -0.09, 6);
+			W3P1 JKLLL 1 A_RecoilOffset(0,10,6);
+			W3P1 K 1 
 			{
 				A_RecoilOffset(0,0,14);
 				A_SetRecoil(0.25, 0.09, 4);
 				A_SetSFXPos(25,-25,-15);
 				A_SpawnSFX("ShellCasing", -90,20);
 			}
-			HSGP IHGFEDCBA 1;
-			HSGI A 4;
+			W3P1 JIHGFEDCBA 1;
+			W3P1 A 4;
+		goto Ready.Active;
+		
+		Pump.Alt:
+			W3P1 MNOPQRS 1;
+			TNT1 A 0 A_WeapSound("Halo/Weapons/Shotgun/Pump", CHANF_OVERLAP);
+			W3P1 T 1;
+			W3P1 U 1 A_SetRecoil(-0.09, -0.25, 6);
+			W3P1 VWXXX 1 A_RecoilOffset(0,10,6);
+			W3P1 W 1 
+			{
+				A_RecoilOffset(0,0,14);
+				A_SetRecoil(0.09, 0.25, 4);
+				A_SetSFXPos(25,-25,-25);
+				A_SpawnSFX("ShellCasing", -90,20);
+			}
+			W3P1 VUTSRQPONM 1;
+			W3P1 M 4;
 		goto Ready.Active;
 		
 		Reload:
 			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
 		Reload.Ready:
-			SGR1 ABCDEFGHI 1;
+			W3R1 ABCDEFGHIJ 1;
 		Reload.Loop:
-			SGR2 ABCDE 1;
-			SGR2 F 1
+			W3R1 JKLMNOPQR 1;
+			W3R1 S 1
 			{
 				A_ReloadSingle();
 				A_SetRecoil(-0.12, 0.12, 2);
 				A_StartSound("Halo/Weapons/Shotgun/Reload", CHAN_RELOADING, CHANF_OVERLAP);
 			}
-			SGR2 GHIJKLM 2;
+			W3R1 TUVWXYZ 1;
+			W3R2 ABC 1;
 			TNT1 A 0 A_ValidateReload("Reload.Finish");
 			TNT1 A 0 A_JumpIf(CountLoadedAmmo() <= 1, "Reload.Pump");
 			TNT1 A 0 A_JumpIf(player.cmd.buttons & BT_ATTACK, "Fire");
 		goto Reload.Loop;
 		Reload.Pump:
-			SGR3 ABCD 1;
-			SGR3 E 1 A_WeapSound("Halo/Weapons/Shotgun/Reload/Pump", CHANF_OVERLAP);
-			SGR3 FGFEDCBA 1;
+			W3R1 IHGFEDCBA 1;
+			W3P1 ABCDEFG 1;
+			W3P1 H 1 
+			{
+				A_WeapSound("Halo/Weapons/Shotgun/Pump", CHANF_OVERLAP);
+				A_RecoilOffset(0,0,14);
+				A_SetRecoil(0.25, 0.09, 4);
+			}
+			W3P1 IJKL 1;
+			W3P1 LKJIHGFEDCBA 1;
+			W3R1 ABCDEFGHIJ 1;
 		goto Reload.Loop;
 		Reload.Finish:
-			SGR1 IHGFEDCBA 1;
+			W3R1 IHGFEDCBA 1;
 		goto Ready.Active;
 		
 		Spawn:
-			SGFL A -1;
+			W3G1 A -1;
 		stop;
 	}
 }
