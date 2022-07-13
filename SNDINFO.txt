@@ -249,7 +249,7 @@ $random Halo/Weapons/Shotgun/Fire/Bass { SGBASS1 SGBASS2 SGBASS3 }
 $random Halo/Weapons/Shotgun/Reload    { SGRELOAD1 SGRELOAD2 SGRELOAD3 SGRELOAD4 }
 
 $volume Halo/Weapons/Shotgun/Fire/Bass 1.0
-$volume Halo/Weapons/Shotgun/Fire 8.0
+$volume Halo/Weapons/Shotgun/Fire 0.6
 
 // Sniper
 SNIPER_FIRE1 SNPRFIR1
