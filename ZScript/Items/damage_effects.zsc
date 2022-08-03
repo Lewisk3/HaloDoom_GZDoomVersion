@@ -21,7 +21,7 @@ class DamageFX_Item : Inventory abstract
 		inventory.maxamount 1;
 	}
 	
-	int countUniqueItems(class<Inventory> type, Actor from)
+	static int countUniqueItems(class<Inventory> type, Actor from)
 	{
 		Array<Inventory> foundItems;
 		
@@ -41,6 +41,11 @@ class DamageFX_Item : Inventory abstract
 				break;
 		}
 		return foundItems.Size();
+	}
+	
+	virtual int countEffects()
+	{
+		return countUniqueItems(getClass(), Owner);
 	}
 	
 	override void AttachToOwner(Actor other)
@@ -101,8 +106,11 @@ class DFX_Effect : CheapActor
 	override void Tick()
 	{
 		super.Tick();
-		vector3 offsPos = HaloMath.V3Offset(target.angle, target.pitch, target.roll, offs.x, offs.y, offs.z, 1.);
-		SetOrigin(level.vec3offset(target.pos, offsPos), true);
+		if(target)
+		{
+			vector3 offsPos = HaloMath.V3Offset(target.angle, target.pitch, target.roll, offs.x, offs.y, offs.z, 1.);
+			SetOrigin(level.vec3offset(target.pos, offsPos), true);
+		}
 		
 		if(!target || target.health <= 0) 
 		{
@@ -145,7 +153,8 @@ class DamageFX_Fire : DamageFX_Item
 	
 	override void FXStop()
 	{
-		Owner.A_StopSound(CHAN_7);
+		if(countEffects() <= 1)
+			Owner.A_StopSound(CHAN_7);
 	}
 	
 	override void FXVisual()
