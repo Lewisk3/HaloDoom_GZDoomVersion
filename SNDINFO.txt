@@ -12,6 +12,9 @@ Halo/Pickup/Ammo "Sounds/Ammo/AmmoPickup.ogg"
 Halo/SecretFound "Sounds/SFX/secretreveal.ogg"
 UI/PressButton BTNPRESS
 
+Fire/Ignite "Sounds/FlameThrower/FLM_STRT.ogg"
+Fire/BurnLoop "Sounds/FlameThrower/FLM_BRN_Loop.ogg"
+$limit Fire/BurnLoop 0
 
 // Ammo Crate
 Halo/AmmoCrate/Open "Sounds/Ammo/AmmoCrate_Open.ogg"

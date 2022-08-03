@@ -3,6 +3,7 @@ class DamageFX_Item : Inventory abstract
 	class<DFX_Effect> effectType;
 	Array<DFX_Effect> effectActors;
 	
+	bool firstEffect;
 	double effectTime;
 	uint effectMax; // Max amount of this effect on a single actor.
 	
@@ -12,6 +13,8 @@ class DamageFX_Item : Inventory abstract
 	
 	virtual void FXVisual() {}
 	virtual void FXLogic() {}
+	virtual void FXStart() {}
+	virtual void FXStop() {}
 		
 	Default
 	{
@@ -48,7 +51,14 @@ class DamageFX_Item : Inventory abstract
 		{
 			other.RemoveInventory(self);
 			GoAwayAndDie();
+			return;
 		}
+		
+		if(itemsCount <= 1) 
+			firstEffect = true;
+			
+		// Start Effect.
+		FXStart(); 
 	}
 	
 	override bool HandlePickup(Inventory item)
@@ -56,7 +66,7 @@ class DamageFX_Item : Inventory abstract
 		// Do not run on other items.
 		if( !(item is getClass()) )
 			return super.HandlePickup(item);
-		
+			
 		// Do not stack, but keep item.
 		return false;
 	}
@@ -68,6 +78,7 @@ class DamageFX_Item : Inventory abstract
 		// Do not process dead enemies.
 		if(Owner.health <= 0 || (default.effectTime > 0 && effectTime-- < 0) )
 		{
+			FXStop();
 			Owner.RemoveInventory(self);
 			GoAwayAndDie();
 			return;
@@ -108,6 +119,7 @@ class DFX_Effect : CheapActor
 // Effects
 class DamageFX_Fire : DamageFX_Item
 {
+	bool burning;
 	Default
 	{
 		DamageFX_Item.EffectType "DFX_FireEffect";
@@ -123,6 +135,17 @@ class DamageFX_Fire : DamageFX_Item
 		// Actors on fire take 25% more damage.
 		if (passive && damage > 0 && damageType != self.DamageType)
 			newdamage = max(0, ApplyDamageFactors(GetClass(), damageType, damage, damage * 1.25));
+	}
+	
+	override void FXStart()
+	{
+		if(firstEffect) // Only trigger on the first instance this effect is applied.
+			Owner.A_StartSound("Fire/Ignite", CHAN_7, flags:CHANF_OVERLAP);
+	}
+	
+	override void FXStop()
+	{
+		Owner.A_StopSound(CHAN_7);
 	}
 	
 	override void FXVisual()
@@ -154,6 +177,12 @@ class DamageFX_Fire : DamageFX_Item
 
 	override void FXLogic()
 	{
+		if(GetAge() > 10 && !burning && firstEffect)
+		{
+			Owner.A_StartSound("Fire/BurnLoop", CHAN_7, flags:CHANF_OVERLAP|CHANF_LOOPING);
+			burning = true;
+		}
+	
 		double rTic = random[DFXTics](0,255);
 		if(rTic < 10) 
 			Owner.DamageMobJ(target, target, Damage, DamageType, DMG_NO_ARMOR);
