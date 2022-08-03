@@ -111,7 +111,7 @@ class UnmakerLaserSmoke : FragGrenade_Smoke
 class UnmakerLaserPuff : CheapActor
 {
 	bool reFiring;
-	int laserAmt;
+	double laserAmt;
 	double smokeMax;
 	double laserDist;
 	double fadeSpeed;

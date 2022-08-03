@@ -380,6 +380,8 @@ $random Halo/Weapons/Bulldog/Fire/Bass { BLDBASS1 BLDBASS2 BLDBASS3 }
 
 $volume Halo/Weapons/Bulldog/Fire 1.0
 $volume Halo/Weapons/Bulldog/Fire/Bass 1.0
+$limit Halo/Weapons/Bulldog/Fire 0
+$limit Halo/Weapons/Bulldog/Fire/Bass 0
 
 // Gravity Hammer
 GRAVFIRE1 "Sounds/GravityHammer/GravHammer_Hit1.ogg"

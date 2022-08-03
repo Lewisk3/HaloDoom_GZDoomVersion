@@ -49,6 +49,13 @@ pulselight RedPulseLight
 	secondarySize 8
     interval 2.5
 }
+pulselight SmallOrangeFlickeringLight
+{
+	color 1.0 0.5 0.0
+	size 14    
+	secondarySize 2
+    interval 0.25
+}
 pulselight BluePulseLight
 {
 	color 0 0 0.96
@@ -184,6 +191,11 @@ object WraithPlasma
 object FuelRodPlasma
 {
 	frame FSP2 { light GreenPointLight }
+}
+
+object DFX_FireEffect
+{
+	frame FLML { light SmallOrangeFlickeringLight }
 }
 
 // Sprite brightmaps

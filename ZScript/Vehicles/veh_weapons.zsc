@@ -227,7 +227,7 @@ class TankRocket_Smoke : FastActor
 		alpha = frandom(0.5, 1.0);
 		A_SetScale(frandom(default.scale.x * 0.15, default.scale.x));
 		rollvel = frandom(-2.0, 2.0);
-		upforce = frandom(0.015, 0.08);
+		upforce = frandom(0.015, 0.08) * 0.25;
 		wind_dir = AngleToVector(frandom(0,180), frandom(-0.005, 0.005)); 
 		super.BeginPlay();
 	}
@@ -239,6 +239,7 @@ class TankRocket_Smoke : FastActor
 		SetOrigin(level.vec3offset(pos, vel), true);
 		A_SetRoll(roll + rollvel, SPF_INTERPOLATE);
 		vel += wind_dir * frandom(0.25, 1.0);
+		A_SetScale(Scale.X * 1.02, Scale.Y * 1.02);
 	}
 	
 	States
@@ -250,7 +251,7 @@ class TankRocket_Smoke : FastActor
 			SMK5 "#" 1
 			{
 				vel.z += upforce * 0.5;
-				A_FadeOut(0.004);
+				A_FadeOut(0.01);
 			}
 		wait;
 	}

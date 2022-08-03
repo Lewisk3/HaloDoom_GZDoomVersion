@@ -114,6 +114,15 @@ class HaloDoom_Events : EventHandler
 			);
 			if(!plr.soundwait) plr.soundwait = 2;
 		}
+		
+		// Process damage-type effects.
+		string dmgType = e.DamageType;
+		dmgType = dmgType.MakeLower();
+		
+		if(dmgType.IndexOf("fire") != -1 && random[DMGTypeEffect](0,100) <= 20)
+		{
+			victim.GiveInventory("DamageFX_Fire", 1);
+		}
 	}
 	
 	override void WorldThingDied(WorldEvent e)
@@ -215,6 +224,14 @@ class HaloDoom_Events : EventHandler
 		{
 			class<Actor> obj = args[1];
 			if(obj) Actor.Spawn(obj, haloplr.aimpos);
+		}
+		
+		if(args[0] == "crosshairgive" && haloplr)
+		{
+			class<Inventory> item = args[1];
+			if(!item || !haloplr.aimActor) return;
+			
+			haloplr.aimActor.GiveInventory(item, 1);
 		}
 		
 		if(multiplayer) return;

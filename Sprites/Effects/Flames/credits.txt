@@ -1,0 +1,2 @@
+Flame animations from: https://opengameart.org/content/animated-fire
+Half the frames have been removed for size optimization.

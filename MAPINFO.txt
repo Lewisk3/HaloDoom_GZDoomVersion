@@ -11,6 +11,14 @@ GameInfo
 	MenuFontColor_Header = "Blue"
 	MenuFontColor_Highlight = "Purple"
 	MenuFontColor_Selection = "Purple"
+	
+	// Attempt to fix weapon graphics stutter.
+	PrecacheClasses = "Halo_AssaultRifle", "Halo_BattleRifle", "Halo_BeamRifle", "Halo_BinaryRifle", 
+					  "Halo_Bulldog", "Halo_Carbine", "Halo_DMR", "Halo_EnergySword", "Halo_FuelRod", 
+					  "Halo_GravityHammer", "Halo_MA5B", "Halo_Magnum", "Halo_Needler", "Halo_PlasmaPistol",
+					  "Halo_PlasmaRifle", "Halo_PulseCarbine", "Halo_RocketLauncher", "Halo_ScatterShot",
+					  "Halo_Shotgun", "Halo_Sidekick", "Halo_SMG", "Halo_SniperRifle", "Halo_Spiker",
+					  "Halo_Stanchion", "Halo_SuperShotgun", "Halo_Unmaker"					  
 }
 
 Automap

@@ -166,8 +166,9 @@ class CasingSmoke : Actor
 	override void Tick()
 	{
 		super.Tick();
-		vel.z += 0.05;
+		vel.z += 0.02;
 		vel *= 0.87;
+		A_SetScale(default.Scale.X * 1.05, default.Scale.Y * 1.05);
 	}
 	
 	States
@@ -269,8 +270,11 @@ class MuzzleSparks : Actor
 	
 	Default
 	{
+		+BRIGHT;
 		+NOINTERACTION;
 		RenderStyle "Add";
+		Radius 1;
+		Height 1;
 		Scale 0.04;
 		MuzzleSparks.FXGravity 1.2;
 	}
@@ -315,7 +319,7 @@ class MuzzleSparks : Actor
 				if(++frame > 3) frame = 0;
 				A_FadeOut(1. / 25.);
 			}
-			TNT1 A 0 A_JumpIf(GetAge() > 25, "Null");
+			TNT1 A 0 A_JumpIf(GetAge() > 35, "Null");
 		loop;
 	}
 }

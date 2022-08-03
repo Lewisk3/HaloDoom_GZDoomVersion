@@ -20,7 +20,7 @@ class HaloSpartan_II : HaloPlayer
 		HaloPlayer.MovementBob 0;
 		HaloPlayer.CanBunnyHop true;
 		HaloPlayer.MaxJumps 1;
-		HaloPlayer.AirControl 1.0;
+		HaloPlayer.AirControl 2.0;
 	}
 	
 	// Called when the player initially spawns, sets up spawn items.

@@ -1,0 +1,226 @@
+class DamageFX_Item : Inventory abstract
+{
+	class<DFX_Effect> effectType;
+	Array<DFX_Effect> effectActors;
+	
+	double effectTime;
+	uint effectMax; // Max amount of this effect on a single actor.
+	
+	Property EffectType : effectType;
+	Property Duration : effectTime;
+	Property EffectLimit : effectMax;
+	
+	virtual void FXVisual() {}
+	virtual void FXLogic() {}
+		
+	Default
+	{
+		inventory.maxamount 1;
+	}
+	
+	int countUniqueItems(class<Inventory> type, Actor from)
+	{
+		Array<Inventory> foundItems;
+		
+		while(true)
+		{
+			Inventory foundItem = NULL;
+			for(let item = from.Inv; item; item = item.Inv)
+			{
+				if(foundItems.Find(item) != foundItems.Size()) continue;
+				if(item is type) 
+					foundItem = item;
+			}
+			
+			if(foundItem) 
+				foundItems.Push(foundItem);
+			else
+				break;
+		}
+		return foundItems.Size();
+	}
+	
+	override void AttachToOwner(Actor other)
+	{
+		super.AttachToOwner(other);
+		int itemsCount = countUniqueItems(getClass(), other);
+		if(itemsCount >= effectMax && effectMax > 0)
+		{
+			other.RemoveInventory(self);
+			GoAwayAndDie();
+		}
+	}
+	
+	override bool HandlePickup(Inventory item)
+	{
+		// Do not run on other items.
+		if( !(item is getClass()) )
+			return super.HandlePickup(item);
+		
+		// Do not stack, but keep item.
+		return false;
+	}
+	
+	override void DoEffect()
+	{
+		super.DoEffect();
+		
+		// Do not process dead enemies.
+		if(Owner.health <= 0 || (default.effectTime > 0 && effectTime-- < 0) )
+		{
+			Owner.RemoveInventory(self);
+			GoAwayAndDie();
+			return;
+		}
+		
+		FXVisual();
+		FXLogic();
+		
+		// Filter dead effects.
+		for(int i = effectActors.Size()-1; i > 0; i--)
+		{
+			if(!effectActors[i]) effectActors.Delete(i);
+		}
+	}
+} 
+class DFX_Effect : CheapActor
+{
+	vector3 offs;
+	
+	override void Tick()
+	{
+		super.Tick();
+		vector3 offsPos = HaloMath.V3Offset(target.angle, target.pitch, target.roll, offs.x, offs.y, offs.z, 1.);
+		SetOrigin(level.vec3offset(target.pos, offsPos), true);
+		
+		if(!target || target.health <= 0) 
+		{
+			if(offs.z > target.height && !target.bSOLID) 
+			{
+				double ratio = abs(target.default.height - target.height);
+				offs.z -= ratio * 0.5;
+			}
+			return;
+		}
+	}
+}
+
+// Effects
+class DamageFX_Fire : DamageFX_Item
+{
+	Default
+	{
+		DamageFX_Item.EffectType "DFX_FireEffect";
+		DamageFX_Item.Duration 7 * TICRATE;
+		DamageFX_Item.EffectLimit 5;
+		
+		Damage (3);
+		DamageType "Burn";
+	}
+	
+	override void ModifyDamage(int damage, Name damageType, out int newdamage, bool passive, Actor inflictor, Actor source, int flags)
+	{
+		// Actors on fire take 25% more damage.
+		if (passive && damage > 0 && damageType != self.DamageType)
+			newdamage = max(0, ApplyDamageFactors(GetClass(), damageType, damage, damage * 1.25));
+	}
+	
+	override void FXVisual()
+	{		
+		// Spawn fire effects
+		double effectCount = max(2, 20 * halodoom_effectintensity);
+		
+		if(effectActors.Size() < effectCount)
+		{
+			vector3 spawnPos = Owner.pos;
+			vector3 offsPos = (
+				frandom[DFXPos](-Owner.radius, Owner.radius) * 0.5,
+				frandom[DFXPos](-Owner.radius, Owner.radius) * 0.5,
+				10 + frandom[DFXPos](0, Owner.height) * 0.8
+			);
+			
+			spawnPos.xy += offsPos.xy;
+			spawnPos.z += offsPos.z;
+			
+			let fire = DFX_Effect(Spawn(effectType, spawnPos));
+			if(fire)
+			{
+				fire.offs = offsPos;
+				fire.target = Owner;
+				effectActors.Push(fire);
+			}
+		}
+	}
+
+	override void FXLogic()
+	{
+		double rTic = random[DFXTics](0,255);
+		if(rTic < 10) 
+			Owner.DamageMobJ(target, target, Damage, DamageType, DMG_NO_ARMOR);
+			
+		if(rTic > 250)
+		{
+			let pain = Owner.FindState("Pain");
+			if(pain) Owner.SetState(pain);
+		}
+	}
+}
+class DFX_FireEffect : DFX_Effect
+{
+	double maxScale;
+	double scaleSpeed;
+
+	Property SetupScales : maxScale, scaleSpeed;
+
+	Default
+	{
+		+BRIGHT;
+		RenderStyle "Add";
+		Scale 0.75;
+		+ROLLSPRITE;
+		DFX_FireEffect.SetupScales 1.0, 0.5;
+	}
+	
+	override void BeginPlay()
+	{
+		super.BeginPlay();
+		maxScale = frandom[DFXActor](0.25,1.25);
+		scaleSpeed = frandom[DFXActor](0.2,0.8);
+		roll = frandom(-30,30);
+	}
+
+	bool doFade;
+	override void Tick()
+	{
+		super.Tick();
+		
+		if(doFade)
+		{	
+			alpha -= 0.0075;
+			if(alpha <= 0) Destroy();
+			return;
+		}
+		
+		double x = (HaloMath.TWOPI * GetAge()) * scaleSpeed;
+		double scale = (0.5 * ( sin(x * (HaloMath.PI/2.) ) + 1 )) * maxScale;
+		roll += frandom[DFXActor](-0.25,0.25);
+		
+		// Randomize roll on scale up.
+		if(scale > 0.01 && self.Scale.X <= 0.01) 
+			roll = frandom[DFXActor](-30,30);
+		
+		// Fadeout and die if time limit is hit.
+		if(GetAge() > 35*3) 
+			doFade = true;
+		
+		alpha = scale;
+		A_SetScale(scale * default.Scale.X, scale * default.Scale.Y);
+	}
+	
+	States
+	{
+		Spawn:
+			FLML ABCDEFGHIJKLMNOPQRSTUVWXYZ 1;
+		loop;
+	}
+}
