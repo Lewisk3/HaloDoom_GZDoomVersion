@@ -134,7 +134,7 @@ class DamageFX_Fire : DamageFX_Item
 		DamageFX_Item.Duration 7 * TICRATE;
 		DamageFX_Item.EffectLimit 5;
 		
-		Damage (3);
+		Damage (4);
 		DamageType "Burn";
 	}
 	
@@ -142,7 +142,7 @@ class DamageFX_Fire : DamageFX_Item
 	{
 		// Actors on fire take 25% more damage.
 		if (passive && damage > 0 && damageType != self.DamageType)
-			newdamage = max(0, ApplyDamageFactors(GetClass(), damageType, damage, damage * 1.25));
+			newdamage = max(0, ApplyDamageFactors(GetClass(), damageType, damage, damage * 1.10));
 	}
 	
 	override void FXStart()
@@ -193,7 +193,7 @@ class DamageFX_Fire : DamageFX_Item
 		}
 	
 		double rTic = random[DFXTics](0,255);
-		if(rTic < 10) 
+		if(rTic < 5) 
 			Owner.DamageMobJ(target, target, Damage, DamageType, DMG_NO_ARMOR);
 			
 		if(rTic > 250)

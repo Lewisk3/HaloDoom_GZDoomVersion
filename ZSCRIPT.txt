@@ -68,7 +68,6 @@ version "4.5"
 #include "ZScript/Weapons/grenades.zsc"
 #include "ZScript/Weapons/gravityhammer.zsc"
 #include "ZScript/Weapons/fuelrod.zsc"
-#include "ZScript/Weapons/flamethrower.zsc"
 
 // S2
 #include "ZScript/Weapons/sidekick.zsc"
@@ -85,6 +84,9 @@ version "4.5"
 #include "ZScript/Weapons/binaryrifle.zsc"
 #include "ZScript/Weapons/lightrifle.zsc"
 #include "ZScript/Weapons/scattershot.zsc"
+
+// S3
+#include "ZScript/Weapons/flamethrower.zsc"
 
 // Vehicles
 #include "ZScript/Vehicles/Kinematics/kine_parts.zsc" 

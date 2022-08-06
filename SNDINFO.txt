@@ -718,6 +718,23 @@ Halo/Weapons/ScatterShot/Zoom/OUT "Sounds/ScatterShot/Scatter_Zoomout.ogg"
 $random Halo/Weapons/ScatterShot/Fire      { ScatterShot_FIRE1 ScatterShot_FIRE2 ScatterShot_FIRE3 }
 $random Halo/Weapons/ScatterShot/Fire/Bass { ScatterShot_LOW1 ScatterShot_LOW2 ScatterShot_LOW3  }
 
+// Flamer
+Halo/Weapons/Flamer/Draw "Sounds/Flamethrower/FT_Draw.ogg"
+Halo/Weapons/Flamer/IdleLoop "Sounds/Flamethrower/FT_IdleLoop.ogg"
+FT_Start1 "Sounds/Flamethrower/FT_FireStart1.ogg"
+FT_Start2 "Sounds/Flamethrower/FT_FireStart2.ogg"
+FT_Start3 "Sounds/Flamethrower/FT_FireStart3.ogg"
+FT_Start4 "Sounds/Flamethrower/FT_FireStart4.ogg"
+FT_End1 "Sounds/Flamethrower/FT_LoopEnd1.ogg"
+FT_End2 "Sounds/Flamethrower/FT_LoopEnd2.ogg"
+FT_End3 "Sounds/Flamethrower/FT_LoopEnd3.ogg"
+FT_End4 "Sounds/Flamethrower/FT_LoopEnd4.ogg"
+
+Halo/Weapons/Flamer/Fire/Loop "Sounds/Flamethrower/FT_LoopMain.ogg"
+
+$random Halo/Weapons/Flamer/Fire/Start { FT_Start1 FT_Start2 FT_Start3 FT_Start4 }
+$random Halo/Weapons/Flamer/Fire/End { FT_End1 FT_End2 FT_End3 FT_End4 }
+
 // Hit feedback
 HMHIT1 HMHit1
 HMHIT2 HMHit2

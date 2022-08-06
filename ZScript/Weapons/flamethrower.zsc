@@ -96,16 +96,19 @@ class HaloFlames : CheapActor
 		// Actor collision checking
 		let blockingIt = BlockThingsIterator.Create(self, 16);
 		Actor victim;
-		while(blockingIt.Next())
+		
+		// Do not attack every frame.
+		if( !(GetAge()%2) )
 		{
-			victim = blockingIt.Thing;
-			if(!victim.bSHOOTABLE) continue;
-			if(victim == target) continue;
-			
-			victim.DamageMobJ(self, target, Damage, damageType);
+			while(blockingIt.Next())
+			{
+				victim = blockingIt.Thing;
+				if(!victim.bSHOOTABLE) continue;
+				if(victim == target) continue;
+				
+				victim.DamageMobJ(self, target, Damage, damageType);
+			}
 		}
-		
-		
 		if(alpha <= 0.1) Destroy();
 	}
 	
@@ -161,7 +164,7 @@ class Halo_Flamethrower : HaloGun
 		HaloGun.BaseRecoil 0;
 		HaloGun.Inaccuracy 0;
 		HaloGun.Crosshair "RktRet", 0.75;
-		HaloGun.UIGraphic "WI_RKT", 1.0, 1.0;
+		HaloGun.UIGraphic "MISSNG", 0.75, 0.75;
 		
 		HaloGun.Availability "HL3, HL4";
 		HaloGun.PowerTier P_POWER;
@@ -175,9 +178,18 @@ class Halo_Flamethrower : HaloGun
 		[hitPos, flame] = A_ShootProjectile("HaloFlames", 16, -8);	
 		if(flame)
 		{
+			let haloplr = HaloPlayer(self);
 			// Idk why I have to manually set these here...
+			A_SetSFXPos(25, 16, -8);
 			flame.angle = angle;
 			flame.pitch = pitch;
+			
+			if(haloplr)
+			{
+				vector3 aimAngles = level.SphericalCoords(invoker.sfx_pos, haloplr.aimPos, (angle, pitch)); 	
+				flame.angle += aimAngles.x;
+				flame.pitch -= aimAngles.y;
+			}
 			
 			// Ignore self damage.
 			flame.target = self;
@@ -190,14 +202,25 @@ class Halo_Flamethrower : HaloGun
 			A_TakeAmmo();
 	}
 	
+	action void A_StopFlames()
+	{
+		A_StopSound(CHAN_7);
+		A_WeapSound("Halo/Weapons/Flamer/Fire/End");
+	}
+	
 	States
 	{
 		
 		Ready:
-			TNT1 A 0 A_WeapSound("Halo/Weapons/RocketLauncher/Draw");
-			WRS1 ABCDEFGHIJKLMNO 1 A_DoSelectAnim();
+			TNT1 A 0 A_WeapSound("Halo/Weapons/Flamer/Draw");
+			WRS1 ABCDEFGHHHIJKLMNO 1 A_DoSelectAnim();
 		Ready.Active:
-			WRI1 A 1 A_HaloWeaponReady(WRF_ALLOWRELOAD, true);
+			WRI1 A 1 
+			{
+				A_StopSound(CHAN_7);
+				A_StartSound("Halo/Weapons/Flamer/IdleLoop", CHAN_VOICE, CHANF_OVERLAP|CHANF_LOOPING);
+				A_HaloWeaponReady(WRF_ALLOWRELOAD, true);
+			}
 		loop;
 		
 		Ready.Dryfire:
@@ -209,22 +232,32 @@ class Halo_Flamethrower : HaloGun
 		wait;
 
 		Deselect:
-			WRS1 ONMLKJIHGFEDCB 1;
-			WRS1 A 1 A_GunLower();
+			WRS1 EDCB 1;
+			WRS1 A 1 
+			{
+				A_StopSound(CHAN_7);
+				A_StopSound(CHAN_VOICE);
+				A_GunLower();
+			}
 		wait;
 				
 		Fire:
 			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Ready.Dryfire");
-			WRF1 B 1 Bright
+			WRF1 B 1 Bright 
 			{
+				A_StopFlames();
+				A_WeapSound("Halo/Weapons/Flamer/Fire/Start", CHANF_OVERLAP);
+				A_WeapSound("Fire/Ignite", CHANF_OVERLAP);
 				A_FireFlamer();
-				A_RollQuake(1,12,1);
 			}
-			WRF1 B 1 Bright A_FireFlamer();
 		Fire.Loop:
 			WRF1 CDEFGHI 1 Bright 
 			{
+				A_RollQuake(1,12,1);
+				A_RQuakeEx(2,2,4,2,0,20,"",QF_RELATIVE|QF_WAVE);
 				A_FireFlamer();
+				A_StartSound("Halo/Weapons/Flamer/Fire/Loop", CHAN_7, CHANF_OVERLAP|CHANF_LOOPING);
+				A_StartSound("Fire/BurnLoop", CHAN_7, CHANF_OVERLAP|CHANF_LOOPING);
 				A_RecoilOffset(
 					frandom[FlamerOffs](-0.65, 0.65), 
 					frandom[FlamerOffs](-0.25, 0.05), 
@@ -233,11 +266,12 @@ class Halo_Flamethrower : HaloGun
 			}
 			WRF1 J 1 A_ReFire("Fire.Loop");
 		Fire.Stop:
+			TNT1 A 0 A_StopFlames();
 			WRF1 KLMMMMM 1 A_RecoilOffset(0,0, 4);
 		goto Ready.Active;
 		
 		Spawn:
-			WIP1 A -1;
+			MSNG A -1;
 		stop;
 	}
 }
