@@ -114,7 +114,7 @@ class DFX_Effect : CheapActor
 		
 		if(!target || target.health <= 0) 
 		{
-			if(offs.z > target.height && !target.bSOLID) 
+			if(target && offs.z > target.height && !target.bSOLID) 
 			{
 				double ratio = abs(target.default.height - target.height);
 				offs.z -= ratio * 0.5;

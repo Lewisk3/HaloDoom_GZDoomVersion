@@ -89,6 +89,11 @@ object UnmakerLightning
 	Frame BEAM { light TinyYellowPointLight }
 }
 */
+object HaloFlames
+{
+	Frame XTH1 { light OrangePointLight }
+	Frame XTH2 { light OrangePointLight }
+}
 
 object HaloScatterShot_Proj
 {

@@ -1,0 +1,243 @@
+class Halo_FlamerFuel : Ammo 
+{
+	Default 
+	{
+		Inventory.MaxAmount 100;
+	}
+}
+
+class HaloFlames : CheapActor
+{
+	double rollDir;
+	
+	Default
+	{
+		RenderStyle "Add";
+		+BRIGHT;
+		Speed 10;
+		Scale 0.08;
+		+ROLLSPRITE;
+		+FLOAT;
+		
+		DamageType "Fire";
+		Damage (1); // Damage per tic.
+		Radius 8; 
+		Height 8;
+	}
+
+	override void BeginPlay()
+	{
+		super.BeginPlay();
+		
+		roll = frandom[FlamerFX](-180,180);
+		double scaleMod = frandom[FlamerFX](0.95,1.05);
+		
+		A_SetScale(
+			default.Scale.X * scaleMod, 
+			default.Scale.Y * scaleMod * randompick[FlamerFX](-1,1)
+		);
+		
+		angle += frandom[FlamesWindFX](-0.12,0.12);
+		pitch += frandom[FlamesWindFX](-0.09,0.09);
+		rollDir = randompick[FlamerFX](-1,1);
+	}
+
+	override void Tick()
+	{
+		super.Tick();
+		if(isFrozen()) return;
+		
+		vel = HaloMath.VecFromAngles(angle, pitch, Speed);
+		if(target && GetAge() < 20) vel += target.vel;
+		
+		double shadeAlpha = HaloMath.Lerp(0, 3.0, GetAge() / 15.0);
+		if(shadeAlpha < 1.0)
+		{
+			A_SetRenderStyle(alpha, STYLE_AddShaded);
+			
+			Color shadeCol = HLStatusColor.HSLtoRGB( 270 / 360.0, 1.0, 0.40); 
+			SetShade(shadeCol);
+		}
+		else
+			A_SetRenderStyle(alpha, STYLE_Add);
+		
+		// Check collision before moving.
+		vector3 toPos = level.vec3offset(pos, vel);
+		FCheckPosition posCheck;
+		
+		bool zCollsion = (toPos.z < floorz || toPos.z > ceilingz);
+		if( !CheckMove(toPos.xy, PCM_NOACTORS, tm:posCheck) || zCollsion )
+		{
+			bool validate = true;
+			Line ln = blockingLine;			
+			
+			if ( ln && (ln.flags & Line.ML_BLOCKMONSTERS) )
+				validate = false;
+			
+			if(validate)
+			{
+				vel.xy *= 0;
+				vel.z = zCollsion ? 0 : vel.z * 0.25;
+				toPos = level.vec3offset(pos, vel);
+			}
+		}
+		SetOrigin(toPos, true);
+		
+		angle += frandom[FlamesWindFX](-0.12,0.12);
+		pitch += frandom[FlamesWindFX](-0.09,0.09);
+		roll += frandom[FlamerFX](0.1,1.0) * rollDir;
+		
+		A_SetScale(
+			Scale.X * 1.02, 
+			Scale.Y * 1.02
+		);
+		alpha *= 0.98;
+		
+		// Actor collision checking
+		let blockingIt = BlockThingsIterator.Create(self, 16);
+		Actor victim;
+		while(blockingIt.Next())
+		{
+			victim = blockingIt.Thing;
+			if(!victim.bSHOOTABLE) continue;
+			if(victim == target) continue;
+			
+			victim.DamageMobJ(self, target, Damage, damageType);
+		}
+		
+		
+		if(alpha <= 0.1) Destroy();
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_Jump(255, random(0,10));
+			XTH1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 2;
+			XTH2 ABCDEFGH 1;
+			XTH2 IJKLMNOP 1
+			{
+				A_FadeOut(0.01);
+				if( !(level.maptime%4) && !isFrozen() )
+				{
+					let smoke = Spawn("FlamerSmoke", pos);
+					smoke.A_SetScale(Scale.X * 0.5, Scale.Y * 0.5);
+					smoke.vel = vel * 0.35;
+				}
+			}
+			XTH3 QRSTU 1;
+			XTH2 V 1;
+		wait;
+	}
+}
+
+class FlamerSmoke : TankRocket_Smoke
+{
+	Default
+	{	
+		Scale 0.125;
+	}
+}
+
+class Halo_Flamethrower : HaloGun
+{	
+	int fireCounter;
+	
+	Default
+	{
+		Weapon.SlotNumber 6;
+		Obituary "%o was burnt to a crisp by %k's Flamethrower.";
+		Inventory.PickupMessage	"Picked up the M6634 Flamethrower.";
+		Tag "Flamethrower";
+		Weapon.BobSpeed 1.32;
+		Weapon.BobRangeX 0.50;
+		Weapon.AmmoType1 "Halo_FlamerFuel";
+		Weapon.AmmoType2 "Halo_FlamerFuel";
+		Weapon.AmmoGive 50;
+				
+		// Recoil
+		HaloGun.Bloom 0;
+		HaloGun.BloomSpeed 1.0;
+		HaloGun.BaseRecoil 0;
+		HaloGun.Inaccuracy 0;
+		HaloGun.Crosshair "RktRet", 0.75;
+		HaloGun.UIGraphic "WI_RKT", 1.0, 1.0;
+		
+		HaloGun.Availability "HL3, HL4";
+		HaloGun.PowerTier P_POWER;
+		
+		RecoilWeapon.YOffsetRange -10, 40;
+	}
+		
+	action void A_FireFlamer()
+	{
+		vector3 hitPos; Actor flame;
+		[hitPos, flame] = A_ShootProjectile("HaloFlames", 16, -8);	
+		if(flame)
+		{
+			// Idk why I have to manually set these here...
+			flame.angle = angle;
+			flame.pitch = pitch;
+			
+			// Ignore self damage.
+			flame.target = self;
+		}
+		
+		//A_SetSFXPos(25,-10,-10);
+		//A_SpawnSFX("MuzzleSmoke", 0,0);
+		
+		if( ((++invoker.fireCounter)%5) >= 4 )
+			A_TakeAmmo();
+	}
+	
+	States
+	{
+		
+		Ready:
+			TNT1 A 0 A_WeapSound("Halo/Weapons/RocketLauncher/Draw");
+			WRS1 ABCDEFGHIJKLMNO 1 A_DoSelectAnim();
+		Ready.Active:
+			WRI1 A 1 A_HaloWeaponReady(WRF_ALLOWRELOAD, true);
+		loop;
+		
+		Ready.Dryfire:
+			WRI1 A 4 A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
+		goto Ready.Active;
+
+		Select:
+			TNT1 A 1 A_GunRaise();
+		wait;
+
+		Deselect:
+			WRS1 ONMLKJIHGFEDCB 1;
+			WRS1 A 1 A_GunLower();
+		wait;
+				
+		Fire:
+			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Ready.Dryfire");
+			WRF1 B 1 Bright
+			{
+				A_FireFlamer();
+				A_RollQuake(1,12,1);
+			}
+			WRF1 B 1 Bright A_FireFlamer();
+		Fire.Loop:
+			WRF1 CDEFGHI 1 Bright 
+			{
+				A_FireFlamer();
+				A_RecoilOffset(
+					frandom[FlamerOffs](-0.65, 0.65), 
+					frandom[FlamerOffs](-0.25, 0.05), 
+					2, true
+				);
+			}
+			WRF1 J 1 A_ReFire("Fire.Loop");
+		Fire.Stop:
+			WRF1 KLMMMMM 1 A_RecoilOffset(0,0, 4);
+		goto Ready.Active;
+		
+		Spawn:
+			WIP1 A -1;
+		stop;
+	}
+}

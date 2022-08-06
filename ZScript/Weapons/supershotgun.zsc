@@ -87,10 +87,13 @@ class SSG_SparkTracer : CheapActor
 			}
 		}
 		
-		if( !(GetAge() % 2) ) 
+		//if( !(GetAge() % 2) ) 
+		
+		let trail = Spawn("HaloRocketTrail", pos);
+		if(trail) 
 		{
-			let trail = Spawn("HaloRocketTrail", pos);
-			if(trail) trail.A_SetScale(0.05,0.05);
+			trail.A_SetScale(0.03,0.03);
+			trail.alpha = 0.35;
 		}
 	}
 	
@@ -109,7 +112,7 @@ class SSG_MuzzleExplosion : CheapActor
 		RenderStyle "Add";
 		+BRIGHT;
 		+ROLLSPRITE;
-		Scale 0.8;
+		Scale 0.5;
 	}
 	
 	States
