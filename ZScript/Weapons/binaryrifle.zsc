@@ -78,6 +78,7 @@ class Halo_BinaryRifle : HaloGun
 {
 	Default
 	{
+		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 5;
 		Obituary "%o was disintegrated by %k's Binary Rifle.";
 		Inventory.PickupMessage	"Picked up the Binary Rifle.";

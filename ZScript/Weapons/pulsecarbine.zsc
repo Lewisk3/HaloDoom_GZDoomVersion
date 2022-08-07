@@ -59,6 +59,7 @@ class Halo_PulseCarbine : HaloGun
 
 	Default
 	{
+		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 4;
 		Obituary "%o was sublimated by %k's Pulse Carbine.";
 		Inventory.PickupMessage	"Picked up the Pulse Carbine.";

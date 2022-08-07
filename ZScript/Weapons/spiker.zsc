@@ -168,6 +168,7 @@ class Halo_Spiker : HaloGun
 {
 	Default
 	{
+		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 2;
 		Obituary "%o was skewered by %k's Spiker.";
 		Inventory.PickupMessage	"Picked up the Type-25 Spiker.";

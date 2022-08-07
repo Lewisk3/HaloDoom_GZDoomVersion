@@ -62,6 +62,7 @@ class Halo_AssaultRifle : HaloGun
 	
 	Default
 	{
+		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 1;
 		Obituary "%o learned the Rifleman's Creed from %k's Assault Rifle.";
 		Inventory.PickupMessage	"Picked up the MA4B Assault Rifle.";

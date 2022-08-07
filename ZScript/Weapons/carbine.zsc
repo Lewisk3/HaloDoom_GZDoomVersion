@@ -79,6 +79,7 @@ class Halo_Carbine : HaloGun
 
 	Default
 	{
+		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 4;
 		Obituary "%o was took down by %k's Carbine.";
 		Inventory.PickupMessage	"Picked up the Type-51 Carbine.";

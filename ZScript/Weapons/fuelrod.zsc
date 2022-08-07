@@ -139,6 +139,7 @@ class Halo_FuelRod : HaloGun
 {
 	Default
 	{
+		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 5;
 		Obituary "%o felt %k's green rod.";
 		Inventory.PickupMessage	"Picked up the Type-33 Fuel-Rod gun.";

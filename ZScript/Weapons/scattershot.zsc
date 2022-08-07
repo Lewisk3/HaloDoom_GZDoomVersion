@@ -116,6 +116,7 @@ class Halo_ScatterShot : HaloGun
 {
 	Default
 	{
+		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 5;
 		Obituary "%o's guts were scattered by %k's Scatter Shot.";
 		Inventory.PickupMessage	"Picked up the Scatter Shot.";

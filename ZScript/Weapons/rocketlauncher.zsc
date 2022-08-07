@@ -228,6 +228,7 @@ class Halo_RocketLauncher : HaloGun
 {	
 	Default
 	{
+		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 6;
 		Obituary "%o got the Alex Mercer treatment from %k's Rocket Launcher.";
 		Inventory.PickupMessage	"Picked up the M41 SSR MAV/AW Rocket Launcher.";

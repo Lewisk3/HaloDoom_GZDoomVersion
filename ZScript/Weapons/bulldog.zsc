@@ -46,7 +46,8 @@ class HaloBulldog_Bullet : HaloBullet
 class Halo_Bulldog : HaloGun
 {
 	Default
-	{
+	{	
+		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 3;
 		Obituary "%o's riot was controlled by %k's Riot Shotgun.";
 		Inventory.PickupMessage	"Picked up the CQS-48 Riot Shotgun.";

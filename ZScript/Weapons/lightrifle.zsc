@@ -80,6 +80,7 @@ class Halo_LightRifle : HaloGun
 {
 	Default
 	{
+		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 5;
 		Obituary "%o was blinded by %k's Light Rifle.";
 		Inventory.PickupMessage	"Picked up the Light Rifle.";

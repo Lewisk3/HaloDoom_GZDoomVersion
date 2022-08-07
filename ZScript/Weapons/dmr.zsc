@@ -57,6 +57,7 @@ class Halo_DMR : HaloGun
 {
 	Default
 	{
+		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 4;
 		Obituary "%o got the Call of Duty treatment from %k's DMR.";
 		Inventory.PickupMessage	"Picked up the M392 Designated Marksman Rifle.";

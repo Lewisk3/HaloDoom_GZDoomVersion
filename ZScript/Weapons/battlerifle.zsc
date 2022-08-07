@@ -53,6 +53,7 @@ class Halo_BattleRifle : HaloGun
 {	
 	Default
 	{
+		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 1;
 		Obituary "%o got a taste of competitive halo by %k's Battle Rifle.";
 		Inventory.PickupMessage	"Picked up the Battle Rifle.";

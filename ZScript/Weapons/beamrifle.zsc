@@ -97,6 +97,7 @@ class Halo_BeamRifle : HaloGun
 	
 	Default
 	{
+		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 6;
 		Obituary "%o was melted by %k's Beam Rifle.";
 		Inventory.PickupMessage	"Picked up the Type-50 Particle Beam Rifle.";

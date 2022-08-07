@@ -96,6 +96,7 @@ class Halo_GravityHammer : HaloGun
 
 	Default
 	{
+		//$Category "HaloDoom/Weapons"
 		Height 127;
 		Weapon.SlotNumber 5;
 		Obituary "%o was turned into a viscous red jelly by %k's Gravity Hammer.";

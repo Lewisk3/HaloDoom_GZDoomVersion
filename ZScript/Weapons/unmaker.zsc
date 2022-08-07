@@ -165,6 +165,7 @@ class Halo_Unmaker : HaloGun
 {
 	Default
 	{
+		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 8;
 		Obituary "%o was undone by %k's Unmaker.";
 		Inventory.PickupMessage	"Error 666: Weapon not recognized. No Data available in Weapon Wiki.";

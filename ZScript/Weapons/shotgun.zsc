@@ -48,6 +48,7 @@ class Halo_Shotgun : HaloGun
 {
 	Default
 	{
+		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 3;
 		Obituary "%o got an 8-Gauge Breakfast from %k's Tactical Shotgun";
 		Inventory.PickupMessage	"Picked up the M35 Tactical Shotgun";

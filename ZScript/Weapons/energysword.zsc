@@ -12,6 +12,7 @@ class Halo_EnergySword : HaloGun
 
 	Default
 	{
+		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 1;
 		Obituary "%o was \"Omae wa mou shindeiru'd\" by %k's Energy Sword.";
 		Inventory.PickupMessage	"Picked up the Energy Sword.";

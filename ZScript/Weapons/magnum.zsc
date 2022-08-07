@@ -55,6 +55,7 @@ class Halo_Magnum : HaloGun
 {
 	Default
 	{
+		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 2;
 		Obituary "%o got a taste of Halo CE Competitive from %k's Magnum.";
 		Inventory.PickupMessage	"Picked up the M6D-PD Magnum.";

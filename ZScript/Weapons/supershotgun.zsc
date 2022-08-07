@@ -147,6 +147,7 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 {
 	Default
 	{
+		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 3;
 		Obituary "%o's existance took a 180 from %k's Double Barreled Shotgun.";
 		Inventory.PickupMessage	"Picked up the M180 Double Barrel.";

@@ -48,6 +48,7 @@ class Halo_Sidekick : HaloGun
 {
 	Default
 	{
+		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 2;
 		Obituary "%o was flicked by %k's Sidekick.";
 		Inventory.PickupMessage	"Picked up the MK50 Sidekick.";

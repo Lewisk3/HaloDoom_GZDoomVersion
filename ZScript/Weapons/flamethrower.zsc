@@ -148,6 +148,7 @@ class Halo_Flamethrower : HaloGun
 	
 	Default
 	{
+		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 6;
 		Obituary "%o was burnt to a crisp by %k's Flamethrower.";
 		Inventory.PickupMessage	"Picked up the M6634 Flamethrower.";

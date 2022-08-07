@@ -186,6 +186,8 @@ class Halo_Ring : Actor
 {
 	Default
 	{
+		//$Category "HaloDoom/Title"
+		Tag "Halo Ring";
 		+NOINTERACTION;
 		+INTERPOLATEANGLES;
 	}
@@ -205,6 +207,8 @@ class Halo_RingPlanet : Actor
 {
 	Default
 	{
+		//$Category "HaloDoom/Title"
+		Tag "Planet";
 		+NOINTERACTION;
 		+WALLSPRITE;
 		Scale 0.75;
@@ -222,6 +226,8 @@ class Halo_Sky : Actor
 {
 	Default
 	{
+		//$Category "HaloDoom/Title"
+		Tag "Space Skybox";
 		+NOINTERACTION;
 	}
 	
