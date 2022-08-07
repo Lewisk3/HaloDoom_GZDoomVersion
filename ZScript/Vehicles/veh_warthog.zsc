@@ -248,6 +248,8 @@ class HaloWarthog : HaloVehicle
 		Health 1000;
 		HaloVehicle.Armored 500;
 		MaxSlopeSteepness 0.2;
+		
+		// -SLIDESONWALLS;
 	}
 	
 	// Setup tires and turret.
@@ -466,8 +468,8 @@ class HaloWarthog : HaloVehicle
 			vel.xy += GetTireDir(Tire_TR) * tireforce;
 			vel.xy += GetTireDir(Tire_BL) * tireforce;
 			vel.xy += GetTireDir(Tire_BR) * tireforce;
-			angvel += GetTireVel(Tire_TL) * abs(tireforce);
-			angvel += GetTireVel(Tire_BR) * abs(tireforce);
+			angvel += GetTireVel(Tire_TL) * abs(tireforce * 0.75);
+			angvel += GetTireVel(Tire_BR) * abs(tireforce * 0.75);
 		}
 		
 		// Handle throttle and acceleration.

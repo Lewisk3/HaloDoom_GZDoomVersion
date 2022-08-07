@@ -721,6 +721,12 @@ $random Halo/Weapons/ScatterShot/Fire/Bass { ScatterShot_LOW1 ScatterShot_LOW2 S
 // Flamer
 Halo/Weapons/Flamer/Draw "Sounds/Flamethrower/FT_Draw.ogg"
 Halo/Weapons/Flamer/IdleLoop "Sounds/Flamethrower/FT_IdleLoop.ogg"
+Halo/Weapons/Flamer/Weld/Start "Sounds/Flamethrower/FT_WelderStart.ogg"
+Halo/Weapons/Flamer/Weld/Loop "Sounds/Flamethrower/FT_WelderLoop.ogg"
+Halo/Weapons/Flamer/Weld/End "Sounds/Flamethrower/FT_WelderEnd.ogg"
+Halo/Weapons/Flamer/Weld/RepairLoop "Sounds/Flamethrower/FT_HealingLoop.ogg"
+Halo/Weapons/Flamer/Weld/RepairEnd "Sounds/Flamethrower/FT_HealingLoop_End.ogg"
+
 FT_Start1 "Sounds/Flamethrower/FT_FireStart1.ogg"
 FT_Start2 "Sounds/Flamethrower/FT_FireStart2.ogg"
 FT_Start3 "Sounds/Flamethrower/FT_FireStart3.ogg"

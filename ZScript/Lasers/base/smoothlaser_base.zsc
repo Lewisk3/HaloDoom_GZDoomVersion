@@ -5,9 +5,16 @@ class LaserBeamDecal : CheapActor
 	
 	Default
 	{
+		+ROLLSPRITE;
 		+FLATSPRITE;
 		+MOVEWITHSECTOR
 		RenderStyle "Add";
+	}
+	
+	override void BeginPlay()
+	{
+		super.BeginPlay();
+		roll = frandom[LasDecalRoll](-180,180);
 	}
 	
 	override void Tick()
