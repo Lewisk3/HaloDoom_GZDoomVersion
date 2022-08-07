@@ -98,7 +98,7 @@ class HaloFlames : CheapActor
 		Actor victim;
 		
 		// Do not attack every frame.
-		if( !(GetAge()%2) )
+		if( !(GetAge()%2) && GetAge() < 35)
 		{
 			while(blockingIt.Next())
 			{
@@ -272,7 +272,7 @@ class Halo_Flamethrower : HaloGun
 		goto Ready.Active;
 		
 		Spawn:
-			MSNG A -1;
+			WRG1 A -1;
 		stop;
 	}
 }
