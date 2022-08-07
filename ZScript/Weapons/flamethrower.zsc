@@ -432,8 +432,10 @@ class Halo_Flamethrower : HaloGun
 		goto Ready.Active;
 		
 		AltFire:
+			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Ready.Dryfire");
 			WRW1 A 1 Bright A_BeginWelding();
 		Weld.Loop:
+			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Weld.Stop");
 			TNT1 A 0 
 			{
 				A_StartSound("Halo/Weapons/Flamer/Weld/Loop", CHAN_7, CHANF_OVERLAP|CHANF_LOOPING);
