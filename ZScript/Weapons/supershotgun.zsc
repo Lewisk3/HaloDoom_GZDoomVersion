@@ -133,7 +133,7 @@ class HaloDBLShotgun_Bullet : HaloBullet
 {
 	Default
 	{
-		DamageType "SSG";
+		DamageType "Fire";
 		HaloProjectile.SetRanges DBLSHOTGUN_RANGE1, DBLSHOTGUN_RANGE2;
 		HaloProjectile.MinRangeDamage DBLSHOTGUN_MINDMG; 
 		HaloProjectile.BaseDamage DBLSHOTGUN_DMG;
