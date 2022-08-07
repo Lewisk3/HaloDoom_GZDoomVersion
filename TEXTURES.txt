@@ -483,14 +483,6 @@ Sprite "HRR1[0", 620, 400
 	Patch "AR1RLD27", 0, 0
 }
 
-Sprite "HRR10", 620, 400
-{
-	XScale 1.300
-	YScale 1.300
-	Offset 75, 176
-	Patch "AR1RLD28", 0, 0
-}
-
 Sprite "HRR1]0", 620, 400
 {
 	XScale 1.300
