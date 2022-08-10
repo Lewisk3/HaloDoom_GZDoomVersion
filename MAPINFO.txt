@@ -66,6 +66,7 @@ DoomEdNums
 	16055 = "Halo_Stanchion"
 	16056 = "Halo_DBLShotgun"
 	16057 = "Halo_Unmaker"
+	16058 = "Halo_PlasmaCaster"
 }
 
 map Titlemap "Titlemap"
