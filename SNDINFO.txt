@@ -741,6 +741,22 @@ Halo/Weapons/Flamer/Fire/Loop "Sounds/Flamethrower/FT_LoopMain.ogg"
 $random Halo/Weapons/Flamer/Fire/Start { FT_Start1 FT_Start2 FT_Start3 FT_Start4 }
 $random Halo/Weapons/Flamer/Fire/End { FT_End1 FT_End2 FT_End3 FT_End4 }
 
+// Plasma Caster
+PlasmaCaster_FIRE1 "Sounds/PlasmaCaster/PCaster_Fire1.ogg"
+PlasmaCaster_FIRE2 "Sounds/PlasmaCaster/PCaster_Fire2.ogg"
+PlasmaCaster_FIRE3 "Sounds/PlasmaCaster/PCaster_Fire3.ogg"
+PlasmaCaster_CFIRE1 "Sounds/PlasmaCaster/PCaster_ChargeFire1.ogg"
+PlasmaCaster_CFIRE2 "Sounds/PlasmaCaster/PCaster_ChargeFire2.ogg"
+PlasmaCaster_CFIRE3 "Sounds/PlasmaCaster/PCaster_ChargeFire3.ogg"
+
+Halo/Weapons/PlasmaCaster/Draw "Sounds/PlasmaCaster/PCaster_Draw.ogg"
+Halo/Weapons/PlasmaCaster/Reload "Sounds/PlasmaCaster/PCaster_Reload.ogg"
+Halo/Weapons/PlasmaCaster/ChargeBegin "Sounds/PlasmaCaster/PCaster_ChargeLoop1.ogg"
+Halo/Weapons/PlasmaCaster/ChargeLoop "Sounds/PlasmaCaster/PCaster_ChargeLoop2.ogg"
+
+$random Halo/Weapons/PlasmaCaster/Fire { PlasmaCaster_FIRE1 PlasmaCaster_FIRE2 PlasmaCaster_FIRE3 }
+$random Halo/Weapons/PlasmaCaster/ChargedFire { PlasmaCaster_CFIRE1 PlasmaCaster_CFIRE2 PlasmaCaster_CFIRE3 }
+
 // Hit feedback
 HMHIT1 HMHit1
 HMHIT2 HMHit2

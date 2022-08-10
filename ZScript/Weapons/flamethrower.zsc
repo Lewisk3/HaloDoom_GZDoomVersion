@@ -291,7 +291,7 @@ class Halo_Flamethrower : HaloGun
 		HaloGun.BaseRecoil 0;
 		HaloGun.Inaccuracy 0;
 		HaloGun.Crosshair "RktRet", 0.35;
-		HaloGun.UIGraphic "MISSNG", 0.75, 0.75;
+		HaloGun.UIGraphic "WI_FLM", 0.75, 0.75;
 		
 		HaloGun.Availability "HL3, HL4";
 		HaloGun.PowerTier P_POWER;
