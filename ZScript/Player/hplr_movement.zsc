@@ -65,6 +65,9 @@ extend class HaloPlayer
 	
 	// CVars
 	transient CVar cv_snd_jump;
+	
+	// Special movement
+	LedgeTrigger ledgeGrabber;
 
 	void DoDoomGroundAccel(double spd)
 	{
@@ -230,6 +233,9 @@ extend class HaloPlayer
 		bool moving = (cmd.forwardmove || cmd.sidemove);
 		
 		doomermovement = halodoom_classicmovement;
+		
+		// Add a ledge grabber if we don't have one.
+		if(!ledgeGrabber) ledgeGrabber = LedgeTrigger.Init( self, 24,0,16 );
 		
 		// Play sound if landed from a fall.
 		double zdiff = vel.z-oldvel.z;
@@ -640,5 +646,110 @@ class SlideAnimator : Inventory
 			plr.player.DesiredFOV = def_fov;
 			GoAwayAndDie();
 		}
+	}
+}
+
+// Ledge grabbing
+class LedgeTrigger : CheapActor
+{
+	Actor plr;
+	vector3 offs;
+	vector3 grabPos;
+	uint grabTics;
+	uint grabDelay;
+	uint grabCooldown;
+	
+	static LedgeTrigger Init(Actor src, double fw, double lr, double ud)
+	{
+		let grab = LedgeTrigger(Spawn("LedgeTrigger", src.pos));
+		if(grab)
+		{
+			grab.plr = src;
+			grab.offs = (fw, lr, ud);
+		}
+		return grab;
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		if(!plr || !plr.player) return;
+
+		while(grabTics > 0)
+		{
+			plr.vel *= 0; // Stop moving.
+			plr.player.cheats |= CF_FROZEN;
+			
+			if(plr.player.cmd.buttons & BT_JUMP)
+			{
+				// Cancel grab.
+				grabTics = 0;
+			}
+			
+			if(grabDelay) 
+			{
+			//	console.printf("Waiting for grab animation...");
+				grabDelay--;
+			}
+			if(grabDelay <= 0)
+			{
+				grabTics--;
+			//	console.printf("Grabbing ledge...");
+				vector3 toPos = HaloMath.Lerp3D(plr.pos, grabPos, 0.1);
+				plr.SetOrigin(toPos, true);
+			}
+			
+			if(grabTics <= 0)
+			{	
+				plr.player.cheats &= ~CF_FROZEN;
+			//	console.printf("Success.");
+			}
+			return;
+		}
+		if(grabCooldown) grabCooldown--;
+			
+		double lookHeight = plr.player.viewz-plr.pos.z;
+		vector3 fromPos = (plr.pos.xy, plr.player.viewz);
+		
+		// Update pos
+		vector3 followPos = HaloMath.V3Offset(plr.angle, 0, plr.roll, offs.x,offs.y,offs.z, 1.0);
+		SetOrigin(level.vec3offset(fromPos, followPos), true);
+		
+		bool falling = !plr.player.onground && plr.vel.z < 0;		
+		bool hitFloor = pos.z <= floorz;
+	
+		// Check for physical floor.
+		FLineTraceData lt;
+		LineTrace(angle, 16, 90, flags:TRF_THRUACTORS, data:lt);
+		if(lt.HitType == TRACE_HitFloor) hitFloor = true;
+		
+		if(falling && hitFloor && grabCooldown <= 0)
+		{
+			bool validPos = plr.IsVisible(self, true);
+		
+			// Perform raycast from the player to determine if reachable.
+			vector3 dir = level.vec3diff(fromPos, pos).Unit();
+			double dist = (pos-fromPos).Length();
+			
+			double angleTo = atan2(dir.y, dir.x);
+			double pitchTo = asin(dir.z);
+			
+			if( plr.CheckPosition(pos.xy) && validPos )
+			{
+				// We have a clear path towards the ledge.
+				// console.printf("Grabbing ledge");
+				grabPos = (pos.xy, pos.z + plr.height);
+				grabTics = 20;
+				grabDelay = 15;
+				grabCooldown = grabTics + grabDelay + 20;
+			}
+		}
+	}	
+
+	States
+	{
+		Spawn:
+			TNT1 A -1; // PLSS for Debug
+		stop;
 	}
 }

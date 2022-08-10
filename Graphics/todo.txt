@@ -1,5 +1,3 @@
-Flame Thrower
-Plasma Caster
 Needler Javelin
 GPMG
 Clamber

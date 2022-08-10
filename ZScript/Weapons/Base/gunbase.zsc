@@ -774,6 +774,13 @@ class HaloGun : RecoilWeapon
 			// Only melee if hands are not already being used for something else.
 			CallMeleeState("DoMelee", true);
 		}
+		
+		// Check for LedgeGrab
+		let ledgeStatus = plr.ledgeGrabber;
+		if(ledgeStatus && ledgeStatus.grabTics > 0 && !handsbusy)
+		{
+			CallMeleeState("LedgeGrab", true);
+		}
 				
 		// Slide
 		let feetpsp = Owner.player.GetPSprite(FEET_OVERLAY);
@@ -1013,6 +1020,33 @@ class HaloGun : RecoilWeapon
 			"####" "#" 1;
 		loop;
 		
+		LedgeGrab:
+			TNT1 A 0 
+			{
+				A_BeginMelee();
+				A_OverlayOffset(OverlayID(), 0, 180);
+			}
+			
+			// Hand up
+			CLMB AAAA 1 A_OverlayOffset(OverlayID(), 0, -60, WOF_ADD | WOF_INTERPOLATE);
+			
+			// Wait
+			CLMB AAAAAAAAAA 1 A_SetRoll(roll + 0.5);
+			
+			// Hand down
+			CLMB AAAAAAAAAA 1
+			{
+				A_OverlayOffset(OverlayID(), 0, 30, WOF_ADD | WOF_INTERPOLATE);
+				A_SetRoll(roll - 0.5);
+			}
+			TNT1 A 20;
+			TNT1 A 0
+			{
+				A_FinishMelee();
+				A_OverlayOffset(OverlayID(), 0, 0, WOF_ADD | WOF_INTERPOLATE);
+			}
+		stop;	
+			
 		ThrowFrag: 
 			TNT1 A 0 
 			{
