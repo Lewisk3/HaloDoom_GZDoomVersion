@@ -1024,7 +1024,7 @@ class HaloGun : RecoilWeapon
 			TNT1 A 0 
 			{
 				A_BeginMelee();
-				A_OverlayOffset(OverlayID(), 0, 180);
+				A_OverlayOffset(OverlayID(), 0, 200);
 			}
 			
 			// Hand up

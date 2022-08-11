@@ -290,7 +290,7 @@ class Halo_Flamethrower : HaloGun
 		HaloGun.BloomSpeed 1.0;
 		HaloGun.BaseRecoil 0;
 		HaloGun.Inaccuracy 0;
-		HaloGun.Crosshair "RktRet", 0.35;
+		HaloGun.Crosshair "FLMRet", 0.5;
 		HaloGun.UIGraphic "WI_FLM", 0.75, 0.75;
 		
 		HaloGun.Availability "HL3, HL4";

@@ -12,11 +12,11 @@ class Halo_PlasmaCaster_Reserves : Ammo
 	{
 		Radius 8;
 		Height 6;
-		Scale 0.65;
+		Scale 0.04;
 
 		Inventory.Amount 2;
 		Inventory.MaxAmount 15;
-		Inventory.Icon "HLAMP0";
+		Inventory.Icon "HLAMR0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "Picked up 2 Rounds for the Plasma Caster";
 		
@@ -26,7 +26,7 @@ class Halo_PlasmaCaster_Reserves : Ammo
 	States
 	{
 		Spawn:
-			HLAM P -1 Bright;
+			HLAM R -1 Bright;
 		stop;
 	}
 }
@@ -118,8 +118,8 @@ class Halo_PlasmaCaster : HaloGun
 		HaloGun.BloomSpeed 0.30;
 		HaloGun.BaseRecoil 0;
 		HaloGun.Inaccuracy 20;
-		HaloGun.Crosshair "FuelRET", 0.65;
-		HaloGun.UIGraphic "MISSNG", 0.75, 0.75;
+		HaloGun.Crosshair "PLCTRet", 0.75;
+		HaloGun.UIGraphic "WI_PLCT", 0.75, 0.75;
 		
 		HaloGun.Availability "HL4";
 		HaloGun.PowerTier P_POWER | P_ENERGY;
