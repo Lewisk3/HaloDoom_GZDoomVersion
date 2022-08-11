@@ -688,21 +688,23 @@ class LedgeTrigger : CheapActor
 			
 			if(grabDelay) 
 			{
-			//	console.printf("Waiting for grab animation...");
+				// Wait for grab animation.
 				grabDelay--;
 			}
 			if(grabDelay <= 0)
 			{
 				grabTics--;
-			//	console.printf("Grabbing ledge...");
 				vector3 toPos = HaloMath.Lerp3D(plr.pos, grabPos, 0.1);
 				plr.SetOrigin(toPos, true);
+				
+				// Set position to grab pos.
+				if(grabTics <= 0) plr.SetOrigin(grabPos, true);
 			}
 			
 			if(grabTics <= 0)
 			{	
+				// Finish grab
 				plr.player.cheats &= ~CF_FROZEN;
-			//	console.printf("Success.");
 			}
 			return;
 		}
@@ -725,22 +727,16 @@ class LedgeTrigger : CheapActor
 		
 		if(falling && hitFloor && grabCooldown <= 0)
 		{
+			// Perform visibility check to make sure we don't grab things through the floor.
 			bool validPos = plr.IsVisible(self, true);
-		
-			// Perform raycast from the player to determine if reachable.
-			vector3 dir = level.vec3diff(fromPos, pos).Unit();
-			double dist = (pos-fromPos).Length();
-			
-			double angleTo = atan2(dir.y, dir.x);
-			double pitchTo = asin(dir.z);
-			
+						
 			if( plr.CheckPosition(pos.xy) && validPos )
 			{
 				// We have a clear path towards the ledge.
-				// console.printf("Grabbing ledge");
+				// Setup grabbing sequence.
 				grabPos = (pos.xy, pos.z + plr.height);
 				grabTics = 20;
-				grabDelay = 15;
+				grabDelay = 8;
 				grabCooldown = grabTics + grabDelay + 20;
 			}
 		}

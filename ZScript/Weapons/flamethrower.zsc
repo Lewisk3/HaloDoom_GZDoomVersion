@@ -296,6 +296,8 @@ class Halo_Flamethrower : HaloGun
 		HaloGun.Availability "HL3, HL4";
 		HaloGun.PowerTier P_POWER;
 		
+		HaloGun.LowerOnMelee 200; // Lower off screen.
+		
 		RecoilWeapon.YOffsetRange -10, 40;
 	}
 		

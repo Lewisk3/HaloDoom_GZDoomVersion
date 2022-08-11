@@ -10,6 +10,12 @@ Halo/Flashlight/OFF "Sounds/SFX/Flashlight_Off.ogg"
 Halo/Pickup/Weapon "Sounds/SFX/GunPickup.ogg"
 Halo/Pickup/Ammo "Sounds/Ammo/AmmoPickup.ogg"
 Halo/SecretFound "Sounds/SFX/secretreveal.ogg"
+
+CLAMBER1 "Sounds/Clamber/Clamber1.ogg"
+CLAMBER2 "Sounds/Clamber/Clamber2.ogg"
+CLAMBER3 "Sounds/Clamber/Clamber3.ogg"
+$random Halo/LedgeGrab { CLAMBER1 CLAMBER2 CLAMBER3 }
+
 UI/PressButton BTNPRESS
 
 Fire/Ignite "Sounds/FlameThrower/FLM_STRT.ogg"
