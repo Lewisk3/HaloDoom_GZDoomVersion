@@ -15,6 +15,10 @@ material texture models/Vehicles/Ghost/ghost.png {
 	glossiness 1.0
 }
 
+material texture models/Weapons/steel1.png {
+	shader "shaders/simsun.fp"
+}
+
 material texture models/Vehicles/Warthog/warthog.png {
 	shader "shaders/simsun.fp"
 }

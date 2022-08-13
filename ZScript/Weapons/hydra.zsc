@@ -1,0 +1,318 @@
+class Halo_Hydra_Clip : Ammo 
+{
+	Default 
+	{
+		Inventory.MaxAmount 6;
+	}
+}
+class Halo_Hydra_Reserves : Ammo
+{
+	mixin WorldAmmoBehavior;
+	Default 
+	{
+		Radius 8;
+		Height 6;
+		Scale 0.65;
+
+		Inventory.Amount 4;
+		Inventory.MaxAmount 48;
+		Inventory.Icon "HLAMP0";
+		Inventory.PickupSound "Halo/Pickup/Ammo";
+		Inventory.PickupMessage "Picked up 4 Rounds for the Hydra";
+		
+		Ammo.BackpackMaxAmount 48;
+	}
+	
+	States
+	{
+		Spawn:
+			HLAM P -1 Bright;
+		stop;
+	}
+}
+
+class HydraMissile : HaloProjectile
+{
+	Default
+	{
+		Radius 10;
+		Height 10;
+		Scale 3.0;
+		
+		DamageType "Rocket";
+		HaloProjectile.SetRanges HYDRA_RANGE1, HYDRA_RANGE2;
+		HaloProjectile.MinRangeDamage HYDRA_MINDMG; 
+		HaloProjectile.BaseDamage HYDRA_DMG;
+		HaloProjectile.Speed_MPS HYDRA_BMPS;
+	}
+	
+	virtual void SpawnTrail(double amt = 8)
+	{
+		// Smoke trail(s)
+		Spawn("HydraTrail", level.vec3offset(pos, -vel));  	
+		
+		amt = max(1, amt * halodoom_effectintensity);
+		for(int i = 0; i < amt; i++)
+		{
+			double frac = 1.0 + (i/amt);
+			Spawn("HydraTrail", level.vec3offset(pos, -(vel*frac)));
+		}
+	}
+	
+	States
+	{
+		Spawn:
+			TRAC A 1 NoDelay
+			{
+				SmokeTrail.Start("Orange", pos - vel, pos + (vel.Unit() * 1024), (-angle, -pitch), 0.35);
+			}
+		SpawnLoop:
+			TRAC A 1 NoDelay SpawnTrail();
+		loop;
+		
+		Death:
+			TNT1 A 35
+			{
+				Spawn("HydraExplosion", pos);
+				HaloMath.SpawnFX("HydraExplosion", pos - vel, 60, 10, 10, 10); 
+				HaloMath.SpawnFX("HydraSmoke", pos - vel, angle, 3, 4, 4, rstyle:STYLE_Subtract);
+				HaloMath.ExplodeEx(self, HYDRA_EXPDMG, 64, 1.0, 0.25);
+				A_QuakeEx(1,1,1, 35,0,1024, "", QF_SCALEDOWN);
+			}
+		stop;
+	}
+}
+class HydraMissile_Tracking : HydraMissile
+{
+	Default
+	{
+		HaloProjectile.Speed_MPS HYDRA_BMPS * 0.55;	
+		HaloProjectile.SetupHoming true, 0.36, 75;
+	}
+	
+	States
+	{
+		Spawn:
+			TRAC A 1 NoDelay SpawnTrail(4);
+		loop;
+	}
+}
+
+class HydraSmoke : TankRocket_Smoke
+{
+	Default
+	{	
+		Scale 0.125;
+	}
+}
+
+class HydraExplosion : CheapActor
+{
+	Default
+	{
+		RenderStyle "Add";
+		Scale 0.5;
+		
+		+BRIGHT;
+		+ROLLSPRITE;
+	}
+	
+	override void BeginPlay()
+	{
+		super.beginPlay();
+		roll = frandom[HydraFX](-180,180);
+		A_SetScale(scale.X * frandom[HydraFX](0.75,1.25) * randompick[HydraFX](-1,1));
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_Jump(255, random[HydraFX](0,3));
+		SpawnHit:
+			FX58 ABCDEFGHIJKLMNOPQ 1
+			{
+				tics = randompick(1,2);
+			}
+			FX58 Q 1 A_FadeOut(0.1);
+		wait;
+	}	
+}
+
+class HydraTrail : CheapActor
+{
+	Default
+	{
+		RenderStyle "Add";
+		Scale 0.01;
+		
+		+BRIGHT;
+		+ROLLSPRITE;
+	}
+	
+	override void BeginPlay()
+	{
+		super.beginPlay();
+		roll = frandom[HydraFX](-180,180);
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		if(isFrozen()) return;
+		roll += 0.1;
+		A_SetScale(Scale.X * 1.08);
+		alpha -= 0.02;
+		
+		SetOrigin(level.vec3offset(pos, vel), true);
+	}
+	
+	States
+	{
+		Spawn:
+			XTH1 ACEGIKMOQS 1;
+			XTH1 U 1 A_Fadeout(0.05);
+		wait;
+	}
+}
+
+class Halo_Hydra : HaloGun
+{	
+	Default
+	{
+		//$Category "HaloDoom/Weapons"
+		Weapon.SlotNumber 5;
+		Obituary "%o was torn to giblets by %k's Hydra Missiles.";
+		Inventory.PickupMessage	"Picked up the MLRS-2 Hydra.";
+		Tag "Hydra";
+		Weapon.BobSpeed 1.5;
+		Weapon.BobRangeX 0.12;
+		Weapon.AmmoType1 "Halo_Hydra_Reserves";
+		Weapon.AmmoType2 "Halo_Hydra_Clip";
+		Weapon.AmmoGive 6;
+				
+		// Recoil
+		HaloGun.Bloom 0.8;
+		HaloGun.BloomSpeed 0.30;
+		HaloGun.BaseRecoil 1;
+		HaloGun.Inaccuracy 0;
+		HaloGun.Crosshair "HYD1Ret", 0.65;
+		HaloGun.UIGraphic "WI_HYDR", 0.60, 0.60;
+		HaloGun.SetupScope 1.1, 1.0;
+		
+		HaloGun.Availability "HL4";
+		HaloGun.PowerTier P_STRONG;
+		
+		RecoilWeapon.YOffsetRange 0, 40;
+	}
+	
+	
+	action void A_FireHydraMissile(bool homing = false)
+	{
+		A_Light(2);
+		A_WeapSound("Halo/Weapons/Hydra/Fire", 0, true);
+		A_WeapSound("Halo/Weapons/Hydra/Fire/Bass", CHANF_OVERLAP, true);
+		
+		class<HaloProjectile> mslType = "HydraMissile";
+		if(A_CheckInScope()) mslType = "HydraMissile_Tracking";
+		
+		A_ShootProjectile(mslType, 8, 4);	
+		A_SetSFXPos(25,-10,-10);
+		A_SpawnSFX("MuzzleSmoke", 0,0);
+		
+		A_TakeAmmo();
+	}
+	
+	override void DoEffect()
+	{
+		super.DoEffect();
+		
+		if(zoomed)
+			A_UpdateCrosshair("HYD2Ret", self);
+		else
+			A_UpdateCrosshair("", self);
+	}
+	
+	States
+	{
+		
+		Ready:
+			TNT1 A 0 
+			{
+				A_WeapSound("Halo/Weapons/Hydra/Draw");
+				return A_JumpIf(A_DoFullSelectAnimation(), "Ready.Pickup");
+			}
+			WTS1 GFEDCBA 1 A_DoSelectAnim();
+		goto Ready.Active;
+		Ready.Pickup:
+			WTP1 ABCDEFGHIJKL 1 A_DoSelectAnim(0, true);
+		Ready.Active:
+			WTI1 A 1 A_HaloWeaponReady(WRF_ALLOWRELOAD, true);
+		loop;
+		
+		Ready.Dryfire:
+			WTI1 A 4 A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
+		goto Ready.Active;
+
+		Select:
+			TNT1 A 1 A_GunRaise();
+		wait;
+
+		Deselect:
+			WTS1 ABCDEF 1;
+			WTS1 G 1 A_GunLower();
+		wait;
+				
+		Fire:
+			TNT1 A 0 A_GunCheckReload();
+			WTF1 A 1 A_SetFrame(random[HydraFX](1,3));
+			WTF1 "#" 1 Bright
+			{
+				A_SetZoom(0.93,1);
+				A_RecoilOffset(random(6,12),24,3);
+				A_SetRecoil(1.25, 0.3, 3);
+				A_FireHydraMissile();
+				A_RQuakeEx(3,2,3,6,0,20,"",QF_RELATIVE|QF_SCALEDOWN);
+			}
+			TNT1 A 0 A_SetFrame(random[HydraFX](1,3));
+			WTF1 "#" 1 Bright;
+			WTF1 E 1
+			{	
+				A_RecoilOffset(0,0,4);
+				A_Light(0);
+			}
+			WTF1 FG 1 A_SetZoom(1.0, 8);
+			WTF1 H 1;
+			WTI1 A 4;
+		goto Ready.Active;
+		
+		Reload: // 44
+			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
+			WTR1 ABC 1;
+			WTR1 D 1 A_WeapSound("Halo/Weapons/Hydra/ReloadReady", CHANF_OVERLAP);
+			WTR1 EFGG 1;
+			WTR1 H 2 A_WeapSound("Halo/Weapons/Hydra/ReloadOpen", CHANF_OVERLAP);
+			WTR1 I 2;
+		Reload.Loop:
+			WTR1 JKLM 2;
+			WTR1 N 2 
+			{
+				A_WeapSound("Halo/Weapons/Hydra/ReloadLoad", CHANF_OVERLAP);
+				A_ReloadSingle();
+			}
+			WTR1 OPQRSTUV 2;
+			TNT1 A 0 A_ValidateReload("Reload.Close");
+			TNT1 A 0 A_JumpIf(player.cmd.buttons & BT_ATTACK, "Reload.Close"); // Check for reload cancel
+		goto Reload.Loop;
+		
+		Reload.Close:
+			TNT1 A 0 A_WeapSound("Halo/Weapons/Hydra/ReloadClose", CHANF_OVERLAP);
+			WTR1 WXYZ 2;
+			TNT1 A 0 A_WeapSound("Halo/Weapons/Hydra/ReloadReady", CHANF_OVERLAP); // Transition 
+			WTR2 ABCDEFG 1;
+		goto Ready.Active;
+		
+		Spawn:
+			WTG1 A -1;
+		stop;
+	}
+}

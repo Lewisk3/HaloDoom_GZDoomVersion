@@ -9,6 +9,21 @@ Model HaloBullet
    FrameIndex TRAC A 0 0 
 }
 
+Model HydraMissile
+{ 
+   Path "Models/Weapons"
+   MODEL 0 "hydra_missile.md3"
+   SurfaceSkin 0 0 "glow02.png" // Thruster
+   SurfaceSkin 0 1 "steel1.png" // Body
+   SurfaceSkin 0 2 "missile_head.png" // Head
+   
+   Scale 1.0 1.0 1.0 
+   PITCHFROMMOMENTUM 
+   USEACTORROLL
+   
+   FrameIndex TRAC A 0 0 
+}
+
 Model SSG_SparkTracer
 { 
    Path "Models/Weapons"

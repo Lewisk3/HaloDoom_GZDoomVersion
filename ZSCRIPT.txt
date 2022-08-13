@@ -88,6 +88,7 @@ version "4.5"
 // S3
 #include "ZScript/Weapons/flamethrower.zsc"
 #include "ZScript/Weapons/plasmacaster.zsc"
+#include "ZScript/Weapons/hydra.zsc"
 
 // Vehicles
 #include "ZScript/Vehicles/Kinematics/kine_parts.zsc" 

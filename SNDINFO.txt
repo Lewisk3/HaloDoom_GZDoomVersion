@@ -763,6 +763,24 @@ Halo/Weapons/PlasmaCaster/ChargeLoop "Sounds/PlasmaCaster/PCaster_ChargeLoop2.og
 $random Halo/Weapons/PlasmaCaster/Fire { PlasmaCaster_FIRE1 PlasmaCaster_FIRE2 PlasmaCaster_FIRE3 }
 $random Halo/Weapons/PlasmaCaster/ChargedFire { PlasmaCaster_CFIRE1 PlasmaCaster_CFIRE2 PlasmaCaster_CFIRE3 }
 
+// Hydra
+HYDRA_FIRE1 "Sounds/Hydra/Hydra_Fire1.ogg"
+HYDRA_FIRE2 "Sounds/Hydra/Hydra_Fire2.ogg"
+HYDRA_FIRE3 "Sounds/Hydra/Hydra_Fire3.ogg"
+HYDRA_RELOAD1 "Sounds/Hydra/Hydra_Reload1.ogg"
+HYDRA_RELOAD2 "Sounds/Hydra/Hydra_Reload2.ogg"
+HYDRA_RELOAD3 "Sounds/Hydra/Hydra_Reload3.ogg"
+HYDRA_RELOAD4 "Sounds/Hydra/Hydra_Reload4.ogg"
+
+Halo/Weapons/Hydra/Draw "Sounds/Hydra/Hydra_Draw.ogg"
+Halo/Weapons/Hydra/ReloadReady "Sounds/Hydra/Hydra_ReloadPreopen.ogg"
+Halo/Weapons/Hydra/ReloadOpen "Sounds/Hydra/Hydra_ReloadOpen.ogg"
+Halo/Weapons/Hydra/ReloadClose "Sounds/Hydra/Hydra_ReloadClose.ogg"
+
+$random Halo/Weapons/Hydra/ReloadLoad { HYDRA_RELOAD1 HYDRA_RELOAD2 HYDRA_RELOAD3 HYDRA_RELOAD4 }
+$random Halo/Weapons/Hydra/Fire { HYDRA_FIRE1 HYDRA_FIRE2 HYDRA_FIRE3 }
+$limit Halo/Weapons/Hydra/Fire 0
+
 // Hit feedback
 HMHIT1 HMHit1
 HMHIT2 HMHit2
