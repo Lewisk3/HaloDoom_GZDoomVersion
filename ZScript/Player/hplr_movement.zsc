@@ -734,7 +734,7 @@ class LedgeTrigger : CheapActor
 			{
 				// We have a clear path towards the ledge.
 				// Setup grabbing sequence.
-				grabPos = (pos.xy, pos.z + plr.height);
+				grabPos = (pos.xy, pos.z);
 				grabTics = 20;
 				grabDelay = 8;
 				grabCooldown = grabTics + grabDelay + 20;
