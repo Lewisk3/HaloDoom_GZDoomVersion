@@ -67,7 +67,7 @@ class HydraMissile : HaloProjectile
 				SmokeTrail.Start("Orange", pos - vel, pos + (vel.Unit() * 1024), (-angle, -pitch), 0.35);
 			}
 		SpawnLoop:
-			TRAC A 1 NoDelay SpawnTrail();
+			TRAC A 1 SpawnTrail();
 		loop;
 		
 		Death:
@@ -177,6 +177,9 @@ class HydraTrail : CheapActor
 
 class Halo_Hydra : HaloGun
 {	
+	double lockonPerc;
+	Actor lockedVictim;
+
 	Default
 	{
 		//$Category "HaloDoom/Weapons"
@@ -206,30 +209,129 @@ class Halo_Hydra : HaloGun
 	}
 	
 	
-	action void A_FireHydraMissile(bool homing = false)
+	action void A_FireHydraMissile()
 	{
 		A_Light(2);
 		A_WeapSound("Halo/Weapons/Hydra/Fire", 0, true);
 		A_WeapSound("Halo/Weapons/Hydra/Fire/Bass", CHANF_OVERLAP, true);
 		
 		class<HaloProjectile> mslType = "HydraMissile";
-		if(A_CheckInScope()) mslType = "HydraMissile_Tracking";
+		if(invoker.lockonPerc >= 1.0 && invoker.lockedVictim) 
+			mslType = "HydraMissile_Tracking";
 		
-		A_ShootProjectile(mslType, 8, 4);	
+		vector3 hitPos; Actor proj;
+		[hitPos, proj] = A_ShootProjectile(mslType, 8, 4);	
+		if(proj && invoker.lockedVictim) 
+			proj.tracer = invoker.lockedVictim;
+		
 		A_SetSFXPos(25,-10,-10);
 		A_SpawnSFX("MuzzleSmoke", 0,0);
 		
 		A_TakeAmmo();
 	}
 	
+	
+	const HYDRA_LOCKINGRANGE = 30;
 	override void DoEffect()
 	{
 		super.DoEffect();
 		
+		// Only run this code on the currently active weapon.
+		let haloplr = HaloPlayer(Owner);
+		if(!haloplr || !Owner.player || Owner.player.ReadyWeapon != self) return;
+		
+		// Lockon logic
+		let aimVictim = haloplr.aimActor_nearest;
+		vector3 toAngles = haloplr.aimActor_anglesTo;
+		
+		// Determine if target is in locking range.
+		if(lockedVictim)
+		{
+			toAngles = level.SphericalCoords(
+				(Owner.pos.xy, Owner.player.viewz), 
+				(lockedVictim.pos.xy, lockedVictim.pos.z + (lockedVictim.height*0.5)),
+				(Owner.angle,Owner.pitch)
+			);
+		}
+		
+		bool inRange = (
+			abs(toAngles.x) <= HYDRA_LOCKINGRANGE && 
+			abs(toAngles.y) <= HYDRA_LOCKINGRANGE
+		);
+		
+		// Lock onto target.
+		if(!lockedVictim && zoomed && aimVictim && inRange)
+		{	
+			if(lockonPerc < 1.0) lockonPerc += 0.02;
+			if(lockonPerc >= 1.0) lockedVictim = aimVictim;
+		}
+
+		// Conditions for losing lock.
+		bool staleVictim = ( lockonPerc >= 1.0 && (!lockedVictim || lockedVictim.health <= 0) );
+		bool blockedVictim = lockedVictim && !Owner.IsVisible(lockedVictim, true);
+		if( !zoomed || !inRange || staleVictim || blockedVictim )
+		{
+			lockonPerc = 0;
+			lockedVictim = NULL;
+		}
+		
+		// Clamp lock-on status to valid range.
+		lockonPerc = clamp(lockonPerc, 0, 1.0);
+		
+		// Update crosshair based to indicate mode.
+		A_UpdateCrosshair(zoomed ? "HYD2Ret" : "", self);
+	}
+	
+	// UI lock-on effects.
+	ui double iconBob, iconBobPhase, alphaBob, alphaBobPhase;
+	
+	override void OverlayUIFX(RenderEvent e, double dT)
+	{
+		if(!lockedVictim || lockonPerc < 1.0) return;
+		
+		HLViewProjection viewproj = HLSBS.GetEventViewerProj(e);
+		bool infront;
+		vector2 apos;
+		[infront, apos] = HLSBS.GetActorHUDPos (
+			viewproj, lockedVictim, 0, 0, lockedVictim.height*0.5
+		);
+		
+		iconBob = sin(iconBobPhase) * 0.1;
+		iconBobPhase += dT * 8.0;
+		
+		// Draw locked-on graphic.
+		if(infront) 
+		{
+			HLSBS.DrawImage("Graphics/UI/Weapons/HydraLockIcon.png", apos, alpha:0.6, scale:(0.8+iconBob,0.8+iconBob), absolute:true);
+		}
+	}
+	
+	override bool DrawAmmoUI(vector2 ammoPos, double dT)
+	{
+		uint flags = HLSBS.SS_NOASPECTCORRECTION;
 		if(zoomed)
-			A_UpdateCrosshair("HYD2Ret", self);
-		else
-			A_UpdateCrosshair("", self);
+		{
+			double scale = 1.0;
+			vector2 drawPos = (2,48);
+			vector2 midPos = (1920/2., 1080/2.);
+			
+			HLSBS.DrawImage("Graphics/UI/Weapons/HydraLockStatsBG.png", drawPos, flags | HLSBS.SS_SCREEN_CENTER, scale:(scale,scale));
+			
+			double width = HaloMath.Lerp(0, 69, lockonPerc); 
+			HLSBS.SetClipRect( midPos.x+drawPos.x - 34, midPos.y+drawPos.y - 8, width, 16, flags, visual:false);
+			HLSBS.DrawImage("Graphics/UI/Weapons/HydraLockStatsFG.png", drawPos, flags | HLSBS.SS_SCREEN_CENTER, scale:(scale,scale));
+			HLSBS.ClearClipRect();
+			
+			if(lockonPerc >= 1.0)
+			{
+				alphaBob = 0.5 + (cos(alphaBobPhase) * 0.5);
+				alphaBobPhase += dT * 16.0;
+				
+				HLSBS.DrawImage("Graphics/UI/Weapons/HydraLocked.png", drawPos, flags | HLSBS.SS_SCREEN_CENTER, alpha:alphaBob, scale:(scale,scale));
+			}
+		}
+		
+		return false; // Do not override ammo draw behavior.
 	}
 	
 	States

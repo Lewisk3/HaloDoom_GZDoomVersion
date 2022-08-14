@@ -133,13 +133,25 @@ class HaloGun : RecoilWeapon
 	// Called when a new level is loaded.
 	virtual void LevelLoaded()
 	{
-		if(handsbusy) 
-		{
-			let haloplr = HaloPlayer(Owner);
-			if(haloplr) haloplr.ResetMovementMods();
-			
-			A_FinishMelee();
-		}
+		let haloplr = HaloPlayer(Owner);
+		if(haloplr) haloplr.ResetMovementMods();
+		
+		if(handsbusy) A_FinishMelee();
+	}
+	
+	// UI Stuff
+	ui virtual void OverlayUIFX(RenderEvent ev, double deltaTime)
+	{
+		// Used for custom overlay elements for specific weapons.
+	}
+	
+	ui virtual bool DrawAmmoUI(vector2 ammoPos, double deltaTime)
+	{
+		// Used for customizing ammunition display.
+		// returning true blocks the default ammo drawing code.
+		// returns false by default.
+		
+		return false;
 	}
 	
 	clearscope virtual void GetStatsLore(out Array<String> stats, out string lore)

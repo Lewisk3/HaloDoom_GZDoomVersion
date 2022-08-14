@@ -193,6 +193,10 @@ class Halo_OverlayUI : EventHandler
 		if(levelTransition)
 			levelTransition.Process(deltaTime);
 		
+		// Draw weapon-specific UI
+		let curweap = HaloGun(haloplr.player.ReadyWeapon);
+		if(curweap) curweap.OverlayUIFX(e, deltaTime);
+		
 		// Keep track of time, always.
 		if(!prevMS)
 		{
