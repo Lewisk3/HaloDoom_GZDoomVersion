@@ -387,7 +387,8 @@ class HaloGun : RecoilWeapon
 				aimpos = plr.aimpos;
 				bool inRange = (
 					abs(plr.aimActor_anglesTo.x) <= halodoom_magnetism && 
-					abs(plr.aimActor_anglesTo.y) <= halodoom_magnetism
+					abs(plr.aimActor_anglesTo.y) <= halodoom_magnetism && 
+					abs(plr.aimActor_anglesTo.z) <= 1024
 				);
 				
 				if( plr.aimActor_nearest && inRange && !plr.aimActor )  

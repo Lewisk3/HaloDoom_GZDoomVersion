@@ -374,7 +374,7 @@ class HaloPlayer : DoomPlayer
 			if(!act.bSHOOTABLE || act == self || !isVisible(act, false, look)) continue;
 			vector3 toPos = (act.pos.xy, act.pos.z + (act.height*0.5));
 			vector3 toAngles = level.SphericalCoords((pos.xy, player.viewz), toPos, (angle,pitch));
-			if(toAngles.z > 1024) continue;
+			if(toAngles.z > 10000) continue;
 			
 			double angTo = toAngles.x;
 			double pitTo = toAngles.y;

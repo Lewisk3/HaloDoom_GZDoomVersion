@@ -90,6 +90,12 @@ class HydraMissile_Tracking : HydraMissile
 		HaloProjectile.SetupHoming true, 0.36, 75;
 	}
 	
+	override void Handle_Homing(double turnmax)
+	{
+		if(GetAge() > TICRATE*3) return; // Don't home endlessly.
+		super.Handle_Homing(turnmax);
+	}
+	
 	States
 	{
 		Spawn:
@@ -262,7 +268,7 @@ class Halo_Hydra : HaloGun
 		// Lock onto target.
 		if(!lockedVictim && zoomed && aimVictim && inRange)
 		{	
-			if(lockonPerc < 1.0) lockonPerc += 0.02;
+			if(lockonPerc < 1.0) lockonPerc += 0.04;
 			if(lockonPerc >= 1.0) lockedVictim = aimVictim;
 		}
 
