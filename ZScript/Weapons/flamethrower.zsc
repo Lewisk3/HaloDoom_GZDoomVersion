@@ -103,6 +103,7 @@ class HaloFlames : CheapActor
 			while(blockingIt.Next())
 			{
 				victim = blockingIt.Thing;
+				if(Distance3DSquared(victim) > 64*64) continue;
 				if(!victim.bSHOOTABLE) continue;
 				if(victim == target) continue;
 				

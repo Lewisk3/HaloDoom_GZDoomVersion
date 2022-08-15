@@ -93,7 +93,7 @@ class Halo_Magnum : HaloGun
 		
 		if(HaloPlayer.IsGameType("HL1"))
 		{
-			damage_modifier = 0.5;
+			damage_modifier = 0.35;
 			SpawnTier = P_MID;
 		}
 		else
