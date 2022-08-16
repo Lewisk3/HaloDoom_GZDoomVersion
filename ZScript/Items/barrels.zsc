@@ -23,6 +23,22 @@ class ExplosiveCoil : Actor
 		Health 40;
 	}
 	
+	override bool Used(Actor user)
+	{	
+		if(I_HoldingCoil.IsHoldingCoil(user))
+			I_HoldingCoil.DropCoil(user);
+		else
+			I_HoldingCoil.GrabCoil(user, self);
+			
+		return false;
+	}
+	
+	override bool CanCollideWith(Actor other, bool passive)
+	{
+		if(I_HoldingCoil.GetHoldingCoil(other) == self) return false;
+		return super.CanCollideWith(other, passive);
+	}
+	
 	override int DamageMobJ(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle)
 	{
 		if(damage > 0) noDmgTics = 0;
@@ -37,6 +53,9 @@ class ExplosiveCoil : Actor
 					damager = source.target;
 			}
 			target = damager;
+			
+			if(target.master is "ExplosiveCoil")
+				target = target.master.target;
 		}
 		
 		return super.DamageMobJ(inflictor, source, damage, mod, flags, angle);
@@ -126,6 +145,71 @@ class ExplosiveCoil : Actor
 				FilterExplosions();
 			}
 		stop;
+	}
+}
+
+class I_HoldingCoil : Inventory
+{
+	ExplosiveCoil coil;
+	Default
+	{
+		Inventory.MaxAmount 1;
+	}
+	
+	static ExplosiveCoil GetHoldingCoil(Actor parent)
+	{
+		let holdc = I_HoldingCoil(parent.FindInventory("I_HoldingCoil"));
+		if(!holdc || !holdc.coil) return NULL;
+		
+		return holdc.coil;
+	}
+	
+	static void DropCoil(Actor parent)
+	{
+		let holdc = I_HoldingCoil(parent.FindInventory("I_HoldingCoil"));
+		if(!holdc || !holdc.coil) return;
+		
+		holdc.coil.bNOGRAVITY = false;
+		holdc.coil = NULL;
+	}
+	
+	static I_HoldingCoil GrabCoil(Actor parent, ExplosiveCoil coil)
+	{
+		if(IsHoldingCoil(parent)) return NULL; // Do not attempt to grab 2 coils at once.
+		parent.GiveInventory("I_HoldingCoil", 1);
+		
+		let holdc = I_HoldingCoil(parent.FindInventory("I_HoldingCoil"));
+		if(holdc) holdc.coil = coil;
+		
+		return holdc;
+	}
+	
+	static bool IsHoldingCoil(Actor parent)
+	{
+		return !!parent.FindInventory("I_HoldingCoil");
+	}
+	
+	override void DoEffect()
+	{
+		super.DoEffect();
+		
+		if(!coil) 
+		{
+			Owner.RemoveInventory(self);
+			GoAwayAndDie();
+			return;
+		}
+		else
+		{
+			let followPos = HaloMath.V3Offset(Owner.angle, Owner.pitch, Owner.roll, 42, 0, 10, 1.0);
+			followPos = level.vec3offset(Owner.vel, followPos);
+			
+			coil.SetOrigin(level.vec3offset(Owner.pos, followPos), true);
+			coil.bNOGRAVITY = true;
+			coil.vel = Owner.vel;
+			
+			Owner.vel.xy *= 0.8;
+		}
 	}
 }
 
@@ -297,7 +381,11 @@ class Coil_Hardlight_Explosion : CheapActor
 					beam.setEnabled(true);
 					let beamCore = LaserBeam.Create(self, 10, 0, 0, view.x,view.y, type:"LSR_LightRifleCore");
 					beamCore.setEnabled(true);
-					if( !(i%4) ) HaloMath.FireProjectile("HaloScatterShot_Proj", pos, view.x, view.y);
+					if( !(i%4) ) 
+					{
+						let plasball = HaloMath.FireProjectile("HaloScatterShot_Proj", pos, view.x, view.y);
+						if(plasball) plasball.target = master ? master.target : NULL;
+					}
 				}
 				
 				HaloMath.SpawnFX("UnmakerBallSmoke", pos+randPos, frandom(0,360), random(5,10), 64, 10, 0, 0, 8);
@@ -335,6 +423,7 @@ class Coil_Hardlight : ExplosiveCoil
 		if(expl) 
 		{
 			expl.lowEffects = lowEffects;
+			expl.master = self;
 		}
 		A_DoLightning(10);
 	}

@@ -203,14 +203,14 @@ class Halo_PlasmaRifle : HaloGun
 			}
 			PSRR BCDEFGH 1; 
 			TNT1 A 0 A_RQuakeEx(2,2,0,12,0,20,"");
-			PSRR IJKLMNOPQRSTUVWWWWWWWWWWWWWXYZ 2 
+			PSRR IJKLMNOPQRSTUVWWWWWWXYZ 2 
 			{
 				for(int i = 0; i < floor(4 * halodoom_effectintensity); i++) 
 				{
 					A_SetSFXPos(25, -20 + frandom(-8,8), -10 + frandom(-10,10));
 					A_SpawnSFX("MuzzleSmoke", 0,0);
 				}
-				invoker.heat -= 0.05;
+				invoker.heat -= 0.07;
 			}
 			PSR2 ABCDEFGH 1;
 			TNT1 A 0 

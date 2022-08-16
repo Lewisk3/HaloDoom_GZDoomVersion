@@ -238,6 +238,7 @@ class Halo_Hydra : HaloGun
 	}
 	
 	
+	const CHAN_LOCKSFX = 10;
 	const HYDRA_LOCKINGRANGE = 30;
 	override void DoEffect()
 	{
@@ -247,7 +248,7 @@ class Halo_Hydra : HaloGun
 		let haloplr = HaloPlayer(Owner);
 		if(!haloplr || !Owner.player || Owner.player.ReadyWeapon != self) 
 		{
-			Owner.A_StopSound(CHAN_VOICE);
+			Owner.A_StopSound(CHAN_LOCKSFX);
 			return;
 		}
 		
@@ -277,11 +278,11 @@ class Halo_Hydra : HaloGun
 			if(lockonPerc < 1.0) 
 			{
 				lockonPerc += 0.04;
-				Owner.A_StartSound("Halo/Weapons/Hydra/Locking", CHAN_VOICE, CHANF_LOOPING);
+				Owner.A_StartSound("Halo/Weapons/Hydra/Locking", CHAN_LOCKSFX, CHANF_LOOPING);
 			}
 			if(lockonPerc >= 1.0) 
 			{
-				Owner.A_StartSound("Halo/Weapons/Hydra/Locked", CHAN_VOICE, CHANF_LOOPING);
+				Owner.A_StartSound("Halo/Weapons/Hydra/Locked", CHAN_LOCKSFX, CHANF_LOOPING);
 				lockedVictim = aimVictim;
 			}
 		}
@@ -294,7 +295,7 @@ class Halo_Hydra : HaloGun
 			lockonPerc = 0;
 			lockedVictim = NULL;
 			desiredLock = NULL;
-			Owner.A_StopSound(CHAN_VOICE);
+			Owner.A_StopSound(CHAN_LOCKSFX);
 		}
 		
 		// Clamp lock-on status to valid range.
@@ -394,6 +395,11 @@ class Halo_Hydra : HaloGun
 		}
 		
 		return false; // Do not override ammo draw behavior.
+	}
+	
+	override void OnDropSwap()
+	{
+		A_StopSound(CHAN_LOCKSFX);
 	}
 	
 	States

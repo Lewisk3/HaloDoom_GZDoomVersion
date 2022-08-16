@@ -73,7 +73,7 @@ mixin class HaloProjectile_Common
 		// Find nearest viable target, track target.
 		if(tracer)
 		{
-			vector3 dest = (tracer.pos.xy, tracer.pos.z+(tracer.height*0.5));
+			vector3 dest = (tracer.pos.xy, tracer.pos.z+(tracer.height*0.7));
 			vector3 trackingAngles = level.SphericalCoords(pos, dest, (angle, pitch));
 			A_SetAngle(angle - (trackingAngles.x * homingStrength), SPF_INTERPOLATE);
 			A_SetPitch(pitch - (trackingAngles.y * homingStrength), SPF_INTERPOLATE);

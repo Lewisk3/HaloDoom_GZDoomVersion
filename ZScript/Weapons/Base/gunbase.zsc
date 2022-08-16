@@ -379,6 +379,7 @@ class HaloGun : RecoilWeapon
 			
 			// Follow player's velocity on spawn.
 			aproj.vel += vel;
+			aproj.target = self;
 			
 			vector2 recoil = (
 				(A_RecoilSpread()*spreadmod*scopemod),

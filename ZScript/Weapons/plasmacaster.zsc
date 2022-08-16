@@ -54,7 +54,8 @@ class PlasmaCasterClusterProj : PlasmaGrenade_Proj
 {
 	override void DoExplode()
 	{
-		Spawn("PlasmaGrenadeExplosion", pos);
+		let expl = Spawn("PlasmaGrenadeExplosion", pos);
+		if(expl) expl.target = target;
 		
 		for(int i = 0; i < 2; i++)
 		{

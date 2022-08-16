@@ -322,7 +322,8 @@ class PlasmaGrenade_Proj : Actor
 	
 	virtual void DoExplode()
 	{
-		Spawn("PlasmaGrenadeExplosion", pos);
+		let expl = Spawn("PlasmaGrenadeExplosion", pos);
+		if(expl) expl.target = target;
 	}
 	
 	States
@@ -455,7 +456,7 @@ class PlasmaGrenadeExplosion : CheapActor
 			}
 			TNT1 A 0 
 			{
-				HaloMath.ExplodeEx(self, explosionDmg, explosionRadius, thrustMod:0.25, damagetype:damagetype);
+				HaloMath.ExplodeEx(self, explosionDmg, explosionRadius, thrustMod:0.25, damagetype:damagetype, selfDamage:0.1);
 			}
 			SX04 ABCDEFGHIJKLMNOPQ 1 Bright;
 		stop;

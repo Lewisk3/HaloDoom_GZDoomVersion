@@ -367,9 +367,16 @@ class Halo_Flamethrower : HaloGun
 		{
 			invoker.weldlaser.setEnabled(false);
 			invoker.weldlaserCore.setEnabled(false);
-			invoker.weldlaser.A_StopSound(CHAN_VOICE);
+			invoker.weldlaser.A_StopSound(CHAN_FLAMEIDLE);
 		}
 	}
+	
+	const CHAN_FLAMEIDLE = 12;
+	override void OnDropSwap()
+	{
+		A_StopSound(CHAN_FLAMEIDLE);
+	}
+	
 	
 	States
 	{
@@ -381,7 +388,7 @@ class Halo_Flamethrower : HaloGun
 			WRI1 A 1 
 			{
 				A_StopSound(CHAN_7);
-				A_StartSound("Halo/Weapons/Flamer/IdleLoop", CHAN_VOICE, CHANF_OVERLAP|CHANF_LOOPING);
+				A_StartSound("Halo/Weapons/Flamer/IdleLoop", CHAN_FLAMEIDLE, CHANF_OVERLAP|CHANF_LOOPING);
 				A_HaloWeaponReady(WRF_ALLOWRELOAD, usescope:false);
 			}
 		loop;
@@ -399,7 +406,7 @@ class Halo_Flamethrower : HaloGun
 			WRS1 A 1 
 			{
 				A_StopSound(CHAN_7);
-				A_StopSound(CHAN_VOICE);
+				A_StopSound(CHAN_FLAMEIDLE);
 				A_GunLower();
 			}
 		wait;
