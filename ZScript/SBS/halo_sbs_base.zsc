@@ -185,6 +185,7 @@ class HLSBS Abstract ui
 				DTA_DestWidth, int(abs(texsize.x*scale.x)),
 				DTA_DestHeight, int(abs(texsize.y*scale.y)),
 				DTA_FlipX, !!(scale.x < 0),
+				DTA_FlipY, !!(scale.y < 0),
 				DTA_ColorOverlay, tint,
 				FLG_Rotate, rotation
 			);
@@ -203,6 +204,7 @@ class HLSBS Abstract ui
 				DTA_DestWidth, int(abs(texsize.x*scale.x*scaleratio.x)),
 				DTA_DestHeight, int(abs(texsize.y*scale.y*scaleratio.y)),
 				DTA_FlipX, !!(scale.x < 0),
+				DTA_FlipY, !!(scale.y < 0),
 				DTA_ColorOverlay, tint,
 				FLG_Rotate, rotation
 			);
@@ -446,6 +448,7 @@ class HLSBS Abstract ui
 				DTA_DestWidth, int(abs(texsize.x*scale.x)),
 				DTA_DestHeight, int(abs(texsize.y*scale.y)),
 				DTA_FlipX, !!(scale.x < 0),
+				DTA_FlipY, !!(scale.y < 0),
 				DTA_ColorOverlay, tint
 			);
 		}
@@ -463,6 +466,7 @@ class HLSBS Abstract ui
 				DTA_DestWidth, int(abs(texsize.x*scale.x*scaleratio.x)),
 				DTA_DestHeight, int(abs(texsize.y*scale.y*scaleratio.y)),
 				DTA_FlipX, !!(scale.x < 0),
+				DTA_FlipY, !!(scale.y < 0),
 				DTA_ColorOverlay, tint
 			);
 		}

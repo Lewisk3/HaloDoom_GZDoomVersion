@@ -777,6 +777,9 @@ Halo/Weapons/Hydra/ReloadReady "Sounds/Hydra/Hydra_ReloadPreopen.ogg"
 Halo/Weapons/Hydra/ReloadOpen "Sounds/Hydra/Hydra_ReloadOpen.ogg"
 Halo/Weapons/Hydra/ReloadClose "Sounds/Hydra/Hydra_ReloadClose.ogg"
 
+Halo/Weapons/Hydra/Locking "Sounds/Hydra/Locking.ogg"
+Halo/Weapons/Hydra/Locked "Sounds/Hydra/Locked.ogg"
+
 $random Halo/Weapons/Hydra/ReloadLoad { HYDRA_RELOAD1 HYDRA_RELOAD2 HYDRA_RELOAD3 HYDRA_RELOAD4 }
 $random Halo/Weapons/Hydra/Fire { HYDRA_FIRE1 HYDRA_FIRE2 HYDRA_FIRE3 }
 $limit Halo/Weapons/Hydra/Fire 0

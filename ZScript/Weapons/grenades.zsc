@@ -453,7 +453,10 @@ class PlasmaGrenadeExplosion : CheapActor
 				
 				A_QuakeEx(2,2,2,20,0,1024);
 			}
-			TNT1 A 0 A_Explode(explosionDmg, explosionRadius, damagetype:damagetype);
+			TNT1 A 0 
+			{
+				HaloMath.ExplodeEx(self, explosionDmg, explosionRadius, thrustMod:0.25, damagetype:damagetype);
+			}
 			SX04 ABCDEFGHIJKLMNOPQ 1 Bright;
 		stop;
 	}

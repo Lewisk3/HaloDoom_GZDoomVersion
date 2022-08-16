@@ -15,12 +15,12 @@ class Halo_PlasmaCaster_Reserves : Ammo
 		Scale 0.04;
 
 		Inventory.Amount 2;
-		Inventory.MaxAmount 15;
+		Inventory.MaxAmount 25;
 		Inventory.Icon "HLAMR0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "Picked up 2 Rounds for the Plasma Caster";
 		
-		Ammo.BackpackMaxAmount 15;
+		Ammo.BackpackMaxAmount 25;
 	}
 	
 	States
@@ -161,7 +161,7 @@ class Halo_PlasmaCaster : HaloGun
 			}
 		}
 	
-		A_TakeAmmo(2);
+		A_TakeAmmo(4);
 	}
 		
 	States

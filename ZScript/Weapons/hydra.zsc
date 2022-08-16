@@ -76,7 +76,7 @@ class HydraMissile : HaloProjectile
 				Spawn("HydraExplosion", pos);
 				HaloMath.SpawnFX("HydraExplosion", pos - vel, 60, 10, 10, 10); 
 				HaloMath.SpawnFX("HydraSmoke", pos - vel, angle, 3, 4, 4, rstyle:STYLE_Subtract);
-				HaloMath.ExplodeEx(self, HYDRA_EXPDMG, 64, 1.0, 0.25);
+				HaloMath.ExplodeEx(self, HYDRA_EXPDMG, 64, 1.0, 0.25, damageBosses:false);
 				A_QuakeEx(1,1,1, 35,0,1024, "", QF_SCALEDOWN);
 			}
 		stop;
@@ -184,7 +184,7 @@ class HydraTrail : CheapActor
 class Halo_Hydra : HaloGun
 {	
 	double lockonPerc;
-	Actor lockedVictim;
+	Actor lockedVictim, desiredLock;
 
 	Default
 	{
@@ -244,7 +244,11 @@ class Halo_Hydra : HaloGun
 		
 		// Only run this code on the currently active weapon.
 		let haloplr = HaloPlayer(Owner);
-		if(!haloplr || !Owner.player || Owner.player.ReadyWeapon != self) return;
+		if(!haloplr || !Owner.player || Owner.player.ReadyWeapon != self) 
+		{
+			Owner.A_StopSound(CHAN_VOICE);
+			return;
+		}
 		
 		// Lockon logic
 		let aimVictim = haloplr.aimActor_nearest;
@@ -268,8 +272,17 @@ class Halo_Hydra : HaloGun
 		// Lock onto target.
 		if(!lockedVictim && zoomed && aimVictim && inRange)
 		{	
-			if(lockonPerc < 1.0) lockonPerc += 0.04;
-			if(lockonPerc >= 1.0) lockedVictim = aimVictim;
+			desiredLock = aimVictim;
+			if(lockonPerc < 1.0) 
+			{
+				lockonPerc += 0.04;
+				Owner.A_StartSound("Halo/Weapons/Hydra/Locking", CHAN_VOICE, CHANF_LOOPING);
+			}
+			if(lockonPerc >= 1.0) 
+			{
+				Owner.A_StartSound("Halo/Weapons/Hydra/Locked", CHAN_VOICE);
+				lockedVictim = aimVictim;
+			}
 		}
 
 		// Conditions for losing lock.
@@ -279,6 +292,8 @@ class Halo_Hydra : HaloGun
 		{
 			lockonPerc = 0;
 			lockedVictim = NULL;
+			desiredLock = NULL;
+			Owner.A_StopSound(CHAN_VOICE);
 		}
 		
 		// Clamp lock-on status to valid range.
@@ -289,26 +304,66 @@ class Halo_Hydra : HaloGun
 	}
 	
 	// UI lock-on effects.
-	ui double iconBob, iconBobPhase, alphaBob, alphaBobPhase;
+	ui double iconBob, iconBobPhase, alphaBob, alphaBobPhase, blink, blinkPhase;
 	
 	override void OverlayUIFX(RenderEvent e, double dT)
 	{
-		if(!lockedVictim || lockonPerc < 1.0) return;
+		if(!desiredLock) return;
 		
 		HLViewProjection viewproj = HLSBS.GetEventViewerProj(e);
-		bool infront;
-		vector2 apos;
-		[infront, apos] = HLSBS.GetActorHUDPos (
-			viewproj, lockedVictim, 0, 0, lockedVictim.height*0.5
+		bool infront, edgefront;
+		vector2 apos_mid, apos_TL, apos_TR, apos_BL, apos_BR;
+		[infront, apos_mid] = HLSBS.GetActorHUDPos (
+			viewproj, desiredLock, -2, -1, desiredLock.height*0.5
 		);
 		
-		iconBob = sin(iconBobPhase) * 0.1;
-		iconBobPhase += dT * 8.0;
+		double converge = min(0.97, lockonPerc);
+		double toRadius = desiredLock.radius;
+		double toHeight_Top = desiredLock.height;
+		double toHeight_Bottom = 0;
+		
+		toRadius -= HaloMath.Lerp(0, toRadius, converge);
+		toHeight_Top -= HaloMath.Lerp(0, toHeight_Top*0.5, converge);
+		toHeight_Bottom += HaloMath.Lerp(0, toHeight_Top, converge);
+		
+		[edgefront, apos_TL] = HLSBS.GetActorHUDPos (
+			viewproj, desiredLock, -toRadius, 0,  toHeight_Top
+		);
+		[edgefront, apos_TR] = HLSBS.GetActorHUDPos (
+			viewproj, desiredLock,  toRadius*0.8, 0, toHeight_Top
+		);
+		[edgefront, apos_BL] = HLSBS.GetActorHUDPos (
+			viewproj, desiredLock, -toRadius, 0, toHeight_Bottom
+		);
+		[edgefront, apos_BR] = HLSBS.GetActorHUDPos (
+			viewproj, desiredLock,  toRadius, 0, toHeight_Bottom
+		);
+		
+		iconBob = sin(iconBobPhase) * 0.2;
+		iconBobPhase += dT * 10.0;
+		
+		blink = (-sin(blinkPhase) * 0.5) + 0.5; //max(0, HaloMath.Sign(-sin(blinkPhase)) );
+		blinkPhase += dT * 10.0;
 		
 		// Draw locked-on graphic.
 		if(infront) 
-		{
-			HLSBS.DrawImage("Graphics/UI/Weapons/HydraLockIcon.png", apos, alpha:0.6, scale:(0.8+iconBob,0.8+iconBob), absolute:true);
+		{	
+			if(lockonPerc >= 1.0 && lockedVictim)
+			{
+				double iconSize = 1.5;
+				iconSize += iconBob;
+				
+				HLSBS.DrawImage("Graphics/UI/lockBlink0.png", apos_mid, alpha:0.6,   scale:(iconSize,iconSize), absolute:true);
+				HLSBS.DrawImage("Graphics/UI/lockBlink1.png", apos_mid, alpha:blink, scale:(iconSize,iconSize), absolute:true);
+			}
+			else
+			{
+				double edgeSize = 1.5;
+				HLSBS.DrawImage("Graphics/UI/lockEdge.png", apos_TL, alpha:0.6, scale:(-edgeSize, edgeSize), absolute:true);
+				HLSBS.DrawImage("Graphics/UI/lockEdge.png", apos_TR, alpha:0.6, scale:( edgeSize, edgeSize), absolute:true);
+				HLSBS.DrawImage("Graphics/UI/lockEdge.png", apos_BL, alpha:0.6, scale:(-edgeSize,-edgeSize), absolute:true);
+				HLSBS.DrawImage("Graphics/UI/lockEdge.png", apos_BR, alpha:0.6, scale:( edgeSize,-edgeSize), absolute:true);
+			}
 		}
 	}
 	

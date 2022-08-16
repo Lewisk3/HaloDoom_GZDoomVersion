@@ -324,6 +324,7 @@ class HaloGun : RecoilWeapon
 	{
 		double scopemod = (invoker.scoperecoil == 0) ? 1.0 : invoker.scoperecoil;
 		double finalspread = frandom[GunRecoil](-invoker.baserecoil, invoker.baserecoil)*(1.0+(invoker.spreadmod*invoker.accmod)) * scopemod;
+		if(invoker.handsbusy) finalspread *= 2.5;
 		return finalspread;
 	}
 	
