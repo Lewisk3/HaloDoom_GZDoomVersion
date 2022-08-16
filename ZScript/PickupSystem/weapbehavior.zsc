@@ -321,6 +321,7 @@ class WeaponLimitProxy : Inventory
 			let wp = WeaponPickupProxy.BecomeWeaponProxy(Weapon(temp), true);
 			if(wp) wp.clipammo = plr.countinv(selweap.ammotype2);
 		}
+		if(HaloGun(selweap)) HaloGun(selweap).OnDropSwap();
 		plr.player.ReadyWeapon = NULL;
 		
 		// Interestingly, inventory items stay on the map at ALL times.

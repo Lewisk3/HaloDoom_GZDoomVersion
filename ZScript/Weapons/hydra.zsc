@@ -44,6 +44,7 @@ class HydraMissile : HaloProjectile
 		HaloProjectile.MinRangeDamage HYDRA_MINDMG; 
 		HaloProjectile.BaseDamage HYDRA_DMG;
 		HaloProjectile.Speed_MPS HYDRA_BMPS;
+		HaloProjectile.ShieldDamageFactors 0.6, 0.6;
 	}
 	
 	virtual void SpawnTrail(double amt = 8)
@@ -280,7 +281,7 @@ class Halo_Hydra : HaloGun
 			}
 			if(lockonPerc >= 1.0) 
 			{
-				Owner.A_StartSound("Halo/Weapons/Hydra/Locked", CHAN_VOICE);
+				Owner.A_StartSound("Halo/Weapons/Hydra/Locked", CHAN_VOICE, CHANF_LOOPING);
 				lockedVictim = aimVictim;
 			}
 		}

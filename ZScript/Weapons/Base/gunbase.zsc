@@ -191,6 +191,12 @@ class HaloGun : RecoilWeapon
 		if(wp) wp.clipammo = dropper.countinv(ammotype2);
 	}
 	
+	// Called when a weapon is dropped then switched out for another.
+	virtual void OnDropSwap()
+	{
+		if(Owner) Owner.A_StopSound(CHAN_VOICE);
+	}
+	
 	action double A_CheckMeleeRange(double maxrange = 512, bool skipWalls = false)
 	{
 		FLineTraceData lt;
