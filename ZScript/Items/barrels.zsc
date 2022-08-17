@@ -54,7 +54,7 @@ class ExplosiveCoil : Actor
 			}
 			target = damager;
 			
-			if(target.master is "ExplosiveCoil")
+			if( target && (target.master is "ExplosiveCoil") )
 				target = target.master.target;
 		}
 		
