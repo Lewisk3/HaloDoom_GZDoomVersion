@@ -69,6 +69,10 @@ class HaloGun : RecoilWeapon
 	flagdef SI_Rotate : sightFlags, 1;
 	flagdef SI_AlwaysHide : sightFlags, 2;
 	
+	// Sight buttons
+	bool ADS_Pressed, ADS_Held, ADS_Up, ADS_Down;
+	uint ADS_DownTics;
+	
 	// Disable HUD while selected.
 	bool HUD_Hide;
 	
@@ -765,7 +769,7 @@ class HaloGun : RecoilWeapon
 		}
 	}
 	
-	void DoActionButtons()
+	virtual void DoActionButtons()
 	{
 		let psp  = Owner.player.GetPSprite(PSP_WEAPON);
 		bool inreload = psp && InStateSequence(psp.CurState,FindState("Reload"));
@@ -816,6 +820,18 @@ class HaloGun : RecoilWeapon
 			Owner.player.SetPSprite(MELEE_OVERLAY, FindState("GrappleStart"));
 			if(inreload) psp.SetState(FindState("Ready.Active"));
 		}
+		
+		// ADS buttons
+		ADS_Pressed  = ADS_Down && A_ButtonStatus(BT_ALTATTACK, BTS_UP, Owner);
+		ADS_Down	 = A_ButtonStatus(BT_ALTATTACK, BTS_DOWN, Owner);
+		ADS_Up       = A_ButtonStatus(BT_ALTATTACK, BTS_UP, Owner);
+
+		if(ADS_Down) 
+			ADS_DownTics++;
+		else 
+			ADS_DownTics = 0;
+			
+		ADS_Held     = ADS_DownTics > 2;
 	}
 	
 	// [Lewisk3] Checks if a button was recently pressed.
