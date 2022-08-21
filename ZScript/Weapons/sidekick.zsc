@@ -132,8 +132,6 @@ class Halo_Sidekick : HaloGun
 			WEG1 A 1 
 			{
 				A_HaloWeaponReady(WRF_ALLOWRELOAD, usescope:false);
-				
-				invoker.sightsHold = invoker.ADS_Held && !invoker.ADS_Pressed;
 				return A_JumpIf(invoker.ADS_Held || invoker.ADS_Pressed, "Sights.Enable");
 			}
 		loop;
@@ -301,8 +299,12 @@ class Halo_Sidekick : HaloGun
 		goto Ready.Active;
 		
 		Sights.Enable:
-			WEZ1 M 1; // ABCDEFGHIJKL
-			TNT1 A 0 A_SetSights(1);	
+			WEZ1 M 2; // ABCDEFGHIJKL
+			TNT1 A 0 
+			{
+				invoker.sightsHold = invoker.ADS_Held;
+				A_SetSights(1);	
+			}
 		goto Ready.ADS;
 		
 		Sights.Disable:
