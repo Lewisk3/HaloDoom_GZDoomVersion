@@ -374,7 +374,7 @@ class Halo_Flamethrower : HaloGun
 	const CHAN_FLAMEIDLE = 12;
 	override void OnDropSwap()
 	{
-		A_StopSound(CHAN_FLAMEIDLE);
+		Owner.A_StopSound(CHAN_FLAMEIDLE);
 	}
 	
 	

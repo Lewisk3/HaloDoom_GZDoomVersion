@@ -399,7 +399,7 @@ class Halo_Hydra : HaloGun
 	
 	override void OnDropSwap()
 	{
-		A_StopSound(CHAN_LOCKSFX);
+		Owner.A_StopSound(CHAN_LOCKSFX);
 	}
 	
 	States
