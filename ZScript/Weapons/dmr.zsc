@@ -172,7 +172,7 @@ class Halo_DMR : HaloGun
 				A_Light(0);
 				A_SetRecoil(-0.18, 0, 8);
 			}
-			TNT1 A 0 A_WeapSound("Halo/Weapons/DMR/Mech", CHANF_OVERLAP);
+			TNT1 A 0 A_WeapSound("Halo/Weapons/DMR/Fire/Mech", CHANF_OVERLAP);
 			WJF1 DEFG 1 A_RecoilOffset(0,0,4);
 			WJF1 HI 1;
 			WJI1 A 8;
