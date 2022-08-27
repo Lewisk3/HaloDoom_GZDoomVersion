@@ -241,16 +241,16 @@ class Halo_PlasmaPistol : HaloGun
 
 		if(!charged)
 		{
-			A_WeapSound("Halo/Weapons/PlasmaPistol/Fire", 0, true);
-			A_WeapSound("Halo/Weapons/PlasmaPistol/Fire/Bass", CHANF_OVERLAP, true);
+			A_WeapSound("Halo/Weapons/PlasmaPistol/Fire", 0);
+			A_WeapSound("Halo/Weapons/PlasmaPistol/Fire/Bass", CHANF_OVERLAP);
 			A_ShootProjectile("HaloPlasma_Proj", 12);
 			invoker.heat += 0.14;
 			A_TakeAmmo(1, false);
 		}
 		else
 		{
-			A_WeapSound("Halo/Weapons/PlasmaPistol/Fire/Charged", 0, true);
-			A_WeapSound("Halo/Weapons/PlasmaPistol/Fire/Charged/Bass", CHANF_OVERLAP, true);
+			A_WeapSound("Halo/Weapons/PlasmaPistol/Fire/Charged", 0);
+			A_WeapSound("Halo/Weapons/PlasmaPistol/Fire/Charged/Bass", CHANF_OVERLAP);
 			A_ShootProjectile("HaloChargedPlasma_Proj", 12);
 			invoker.heat = 1.0;
 			A_TakeAmmo(15, false);

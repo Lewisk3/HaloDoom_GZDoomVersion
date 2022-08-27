@@ -131,8 +131,8 @@ class Halo_Carbine : HaloGun
 	
 	action void A_FireCarbine()
 	{
-		A_WeapSound("Halo/Weapons/Carbine/Fire", CHANF_OVERLAP, true);
-		A_WeapSound("Halo/Weapons/Carbine/Fire/Bass", CHANF_OVERLAP, true);
+		A_WeapSound("Halo/Weapons/Carbine/Fire", CHANF_OVERLAP);
+		A_WeapSound("Halo/Weapons/Carbine/Fire/Bass", CHANF_OVERLAP);
 		vector3 shootpos = A_ShootProjectile("HaloCarbine_Bullet", 1, 0);
 		A_SetSFXPos(25,-5, -5);
 		

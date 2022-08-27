@@ -117,8 +117,8 @@ class Halo_BattleRifle : HaloGun
 	action void A_FireRifle()
 	{
 		A_Light(2);
-		A_WeapSound("Halo/Weapons/BattleRifle/Fire", 0, true);
-		A_WeapSound("Halo/Weapons/BattleRifle/Fire/Bass", CHANF_OVERLAP, true);
+		A_WeapSound("Halo/Weapons/BattleRifle/Fire", 0);
+		A_WeapSound("Halo/Weapons/BattleRifle/Fire/Bass", CHANF_OVERLAP);
 		A_ShootProjectile("HaloBattleRifle_Bullet", 10);	
 		A_SetSFXPos(20,-22,-15);
 		A_SpawnSFX("BulletCasing", -90,-20);

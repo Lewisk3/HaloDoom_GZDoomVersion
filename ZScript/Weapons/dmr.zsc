@@ -109,8 +109,8 @@ class Halo_DMR : HaloGun
 	action void A_FireDMR()
 	{
 		A_Light(4);
-		A_WeapSound("Halo/Weapons/DMR/Fire", CHANF_OVERLAP, true);
-		A_WeapSound("Halo/Weapons/DMR/Fire/Bass", CHANF_OVERLAP, true);
+		A_WeapSound("Halo/Weapons/DMR/Fire", CHANF_OVERLAP);
+		A_WeapSound("Halo/Weapons/DMR/Fire/Bass", CHANF_OVERLAP);
 		vector3 shootpos = A_ShootProjectile("HaloDMR_Bullet", 2, 6);
 		
 		A_SetSFXPos(25,-10,-8);

@@ -219,8 +219,8 @@ class Halo_Hydra : HaloGun
 	action void A_FireHydraMissile()
 	{
 		A_Light(2);
-		A_WeapSound("Halo/Weapons/Hydra/Fire", 0, true);
-		A_WeapSound("Halo/Weapons/Hydra/Fire/Bass", CHANF_OVERLAP, true);
+		A_WeapSound("Halo/Weapons/Hydra/Fire", 0);
+		A_WeapSound("Halo/Weapons/Hydra/Fire/Bass", CHANF_OVERLAP);
 		
 		class<HaloProjectile> mslType = "HydraMissile";
 		if(invoker.lockonPerc >= 1.0 && invoker.lockedVictim) 

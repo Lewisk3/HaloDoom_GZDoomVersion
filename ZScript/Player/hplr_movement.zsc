@@ -680,7 +680,7 @@ class LedgeTrigger : CheapActor
 			plr.vel *= 0; // Stop moving.
 			plr.player.cheats |= CF_FROZEN;
 			
-			if(plr.player.cmd.buttons & BT_JUMP)
+			if(plr.player.cmd.buttons & BT_CROUCH)
 			{
 				// Cancel grab.
 				grabTics = 0;

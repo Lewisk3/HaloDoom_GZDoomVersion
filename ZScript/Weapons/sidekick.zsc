@@ -87,8 +87,8 @@ class Halo_Sidekick : HaloGun
 	action void A_FireSidekick(bool middle = false)
 	{
 		A_Light(2);
-		A_WeapSound("Halo/Weapons/Sidekick/Fire", 0, true);
-		A_WeapSound("Halo/Weapons/Sidekick/Fire/Bass", CHANF_OVERLAP, true);
+		A_WeapSound("Halo/Weapons/Sidekick/Fire", 0);
+		A_WeapSound("Halo/Weapons/Sidekick/Fire/Bass", CHANF_OVERLAP);
 		A_ShootProjectile("HaloSidekick_Bullet", middle ? 0 : 12);
 		A_SetSFXPos(25, middle ? 0 : -9,-7);
 		A_SpawnSFX("MuzzleSmoke", 0,0);

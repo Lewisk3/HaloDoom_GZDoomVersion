@@ -173,8 +173,8 @@ class Halo_ScatterShot : HaloGun
 	action void A_FireScatterShot()
 	{
 		A_Light(4);
-		A_WeapSound("Halo/Weapons/ScatterShot/Fire", CHANF_OVERLAP, true);
-		A_WeapSound("Halo/Weapons/ScatterShot/Fire/Bass", CHANF_OVERLAP, true);
+		A_WeapSound("Halo/Weapons/ScatterShot/Fire", CHANF_OVERLAP);
+		A_WeapSound("Halo/Weapons/ScatterShot/Fire/Bass", CHANF_OVERLAP);
 		
 		double spread = 6;
 		double xoffs = 14;

@@ -104,8 +104,8 @@ class Halo_Shotgun : HaloGun
 	action void A_FireShotgun()
 	{
 		A_Light(2);
-		A_WeapSound("Halo/Weapons/Shotgun/Fire", CHANF_OVERLAP, true);
-		A_WeapSound("Halo/Weapons/Shotgun/Fire/Bass", CHANF_OVERLAP, true);
+		A_WeapSound("Halo/Weapons/Shotgun/Fire", CHANF_OVERLAP);
+		A_WeapSound("Halo/Weapons/Shotgun/Fire/Bass", CHANF_OVERLAP);
 		A_SetSFXPos(25,-10,-10);
 		for(int i = 0; i < 15; i++)
 		{
