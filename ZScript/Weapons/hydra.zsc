@@ -369,7 +369,7 @@ class Halo_Hydra : HaloGun
 		}
 	}
 	
-	override bool DrawAmmoUI(vector2 ammoPos, double dT)
+	override void DrawCrosshairUI(double dT)
 	{
 		uint flags = HLSBS.SS_NOASPECTCORRECTION;
 		if(zoomed)
@@ -393,8 +393,6 @@ class Halo_Hydra : HaloGun
 				HLSBS.DrawImage("Graphics/UI/Weapons/HydraLocked.png", drawPos, flags | HLSBS.SS_SCREEN_CENTER, alpha:alphaBob, scale:(scale,scale));
 			}
 		}
-		
-		return false; // Do not override ammo draw behavior.
 	}
 	
 	override void OnDropSwap()

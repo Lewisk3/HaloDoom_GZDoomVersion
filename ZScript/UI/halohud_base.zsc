@@ -129,15 +129,15 @@ class HaloHUD : Object ui
 		}
 		
 		// Messages setup
-		base.msgpos = (80, 600);
+		base.msgpos = (60, 60);
 	}
 		
 	virtual HaloMessage CreateMessage(String msg)
 	{
-		Color msgcol = 0x4002a7de;
-		vector2 msgscale = (1.0, 0.8);
+		Color msgcol = 0x40FFFFFF;
+		vector2 msgscale = (0.5, 0.5);
 		
-		let hmsg = HaloMessage.CreateMessage("Fonts/HaloSmallerFont.fon2", msg, base.msgpos, msgscale, tint:msgcol, msgClass:"HaloHUD_Message");
+		let hmsg = HaloMessage.CreateMessage("Fonts/HaloSmallerFont.fon2", msg, base.msgpos, msgscale, tint:msgcol);
 		return hmsg;
 	}
 	
@@ -413,17 +413,18 @@ class HaloStatusBar : BaseStatusBar
 			if(ActiveHUD) ActiveHUD.Draw(deltaTime);
 			
 			// Weapons
+			let haloweap = HaloGun(haloplr.player.ReadyWeapon);
 			if(!automapactive)
 			{
 				if(!hideCrosshair.getBool()) DrawCrosshairs();
+				if(haloweap) haloweap.DrawCrosshairUI(deltaTime);
 				DrawSight();
 			}
 			
 			// Message Queue
 			DrawMessages();
 			
-			// Weapon Description
-			let haloweap = HaloGun(haloplr.player.ReadyWeapon);
+			// Weapon Description			
 			if(haloplr.drawWeaponInfo && !weaponInfoBox)
 			{
 				weaponInfoBox = FadingImage.Create("Graphics/UI/LoreTab/LoreTab.png", 0.1);
