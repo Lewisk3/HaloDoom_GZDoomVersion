@@ -39,7 +39,6 @@ class HaloDoomHUD : HaloHUD
 {
 	// Interpolated vars
 	double curshields;
-	double dimalpha;
 	double curbattery;
 	double dashmeter;
 	double lowAmmoBlink;
@@ -65,17 +64,9 @@ class HaloDoomHUD : HaloHUD
 		return hmsg;
 	}
 	
-	override void Draw (double deltaTime)	
+	override void Draw (int state, double deltaTime)	
 	{
-		if(!base) return;
-		if(!haloplr) 
-		{
-			haloplr = base.haloplr;
-			return;	
-		}
-		
-		// Update deltaTime
-		self.deltaTime = deltaTime;
+		super.Draw(state, deltaTime);
 
 		// Vitals
 		DrawBars(); 
@@ -331,16 +322,8 @@ class HaloDoomHUD : HaloHUD
 			lowshield_timer = BLINKRATE;
 			shieldwarn = false;
 		}
+		base.DrawShieldRegen();
 		
-		if( haloplr.regen_timer >= (haloplr.shield_regentime*35.) && dimalpha > 0 &&
-			haloplr.shields < haloplr.maxshields )
-		{
-			dimalpha = HaloMath.Lerp(dimalpha, 0, 0.025*deltatime);
-			Screen.Dim("42ADF5",dimalpha,0,0,Screen.GetWidth(),Screen.getHeight());
-		}
-		else
-			dimalpha = 0.4;
-
 		// Constants
 		string shbg  = shieldwarn ? "sh_rbg"  : "sh_nbg";
 		string shou  = shieldwarn ? "sh_rout" : "sh_nout";

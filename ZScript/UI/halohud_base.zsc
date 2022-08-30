@@ -121,12 +121,9 @@ class HaloHUD : Object ui
 		self.haloplr = base.haloplr;
 		
 		// Create the font used for the fullscreen HUD
-		if(!mHUDFont)
-		{
-			fnt = "BigFont";
-			fntHaloAmmo = "HaloAmmoFont";
-			mHUDFont = HUDFont.Create(fnt);
-		}
+		fnt = "BigFont";
+		fntHaloAmmo = "HaloAmmoFont";
+		mHUDFont = HUDFont.Create(fnt);
 		
 		// Messages setup
 		base.msgpos = (60, 60);
@@ -141,7 +138,7 @@ class HaloHUD : Object ui
 		return hmsg;
 	}
 	
-	virtual void Draw (double deltaTime)	
+	virtual void Draw (int state, double deltaTime)	
 	{
 		if(!base) return;
 		if(!haloplr) 
@@ -166,6 +163,9 @@ class HaloStatusBar : BaseStatusBar
 	// Delta-time logic.
 	double prevMS; 
 	double deltatime;
+	
+	// GFX
+	double shregen_dimalpha;
 	
 	// Crosshair vars
 	double curbloom;
@@ -363,11 +363,11 @@ class HaloStatusBar : BaseStatusBar
 		
 		// Always draw HUD
 		BeginHUD();
-		DrawMainBar (TicFrac);
+		DrawMainBar (state, TicFrac);
 		
 	}
 	
-	void DrawMainBar (double TicFrac)
+	void DrawMainBar (int state, double TicFrac)
 	{
 		if(CPlayer && CPlayer.mo)
 		{	
@@ -410,7 +410,7 @@ class HaloStatusBar : BaseStatusBar
 			if(showHelmet && showHelmet.getBool()) 
 				DrawHelmet();
 			
-			if(ActiveHUD) ActiveHUD.Draw(deltaTime);
+			if(ActiveHUD) ActiveHUD.Draw(state, deltaTime);
 			
 			// Weapons
 			let haloweap = HaloGun(haloplr.player.ReadyWeapon);
@@ -420,7 +420,7 @@ class HaloStatusBar : BaseStatusBar
 				if(haloweap) haloweap.DrawCrosshairUI(deltaTime);
 				DrawSight();
 			}
-			
+						
 			// Message Queue
 			DrawMessages();
 			
@@ -526,6 +526,19 @@ class HaloStatusBar : BaseStatusBar
 			double dtime = 1000.0 / ANIM_FPS;
 			deltatime = (ftime/dtime);
 		}
+	}
+	
+	virtual void DrawShieldRegen(Color flashColor = 0x42ADF5, double flashSpd = 0.025)
+	{
+		// Shield regen effects
+		if( haloplr.regen_timer >= (haloplr.shield_regentime*35.) && shregen_dimalpha > 0 &&
+			haloplr.shields < haloplr.maxshields )
+		{
+			shregen_dimalpha = HaloMath.Lerp(shregen_dimalpha, 0, flashSpd*deltatime);
+			Screen.Dim(flashColor,shregen_dimalpha,0,0,Screen.GetWidth(),Screen.getHeight());
+		}
+		else
+			shregen_dimalpha = 0.4;
 	}
 	
 	void DrawHelmet()
