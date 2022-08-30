@@ -152,7 +152,7 @@ class DoomHUD : HaloHUD
 		let berserk = CPlayer.mo.FindInventory("PowerStrength");
 		base.DrawImage(berserk? "PSTRA0" : "MEDIA0", (20, -2));
 		base.DrawString(mHUDFont, base.FormatNumber(CPlayer.health, 3), (44, -20));
-		base.DrawString(mHUDFont, base.FormatNumber(haloplr.shields, 3), (44, -40));
+		base.DrawString(mHUDFont, base.FormatNumber(100 * (haloplr.shields / haloplr.maxshields), 3), (44, -40));
 		
 		Inventory ammotype1, ammotype2;
 		[ammotype1, ammotype2] = base.GetCurrentAmmo();

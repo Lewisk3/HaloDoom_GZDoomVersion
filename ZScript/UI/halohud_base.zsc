@@ -361,6 +361,12 @@ class HaloStatusBar : BaseStatusBar
 		if(!showHelmet) showHelmet = CVar.GetCVar("halodoom_showhelmet", CPlayer);
 		if(!activeHudIndex) activeHudIndex = CVar.GetCVar("halodoom_hudtype_index", CPlayer);
 		
+		if(activeHudIndex)
+		{
+			if(activeHudIndex.getInt() >= huds.Size()) 
+				activeHudIndex.SetInt(0);
+		}
+		
 		// Always draw HUD
 		BeginHUD();
 		DrawMainBar (state, TicFrac);
@@ -381,9 +387,7 @@ class HaloStatusBar : BaseStatusBar
 			if(activeHudIndex && ActiveHUD)
 			{
 				int selHUD = activeHudIndex.getInt();
-				if(selHUD > huds.Size()) 
-					activeHudIndex.SetInt(0);
-				else if(huds[selHUD] != ActiveHUD)
+				if(huds[selHUD] != ActiveHUD)
 				{
 					ActiveHUD = huds[selHUD];
 					ActiveHUD.Init(self);

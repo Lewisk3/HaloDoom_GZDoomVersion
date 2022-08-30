@@ -36,6 +36,12 @@ class OptionMenuItemHaloHUDSelector : OptionMenuItem
 		
 		// Get selection here
 		uint sel = GetSelection();
+		if(sel >= hudTypes.Size()) 
+		{
+			SetSelection(0);
+			sel = 0;
+		}
+		
 		String text = "Default";
 		if(hudTypes.Size() > 1) text = hudTypes[sel].getClassName();
 		
