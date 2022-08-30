@@ -65,6 +65,7 @@ extend class HaloPlayer
 	
 	// CVars
 	transient CVar cv_snd_jump;
+	transient CVar cv_vol_footstep;
 	
 	// Special movement
 	LedgeTrigger ledgeGrabber;
@@ -195,8 +196,11 @@ extend class HaloPlayer
 	
 	void PlaySurfaceSound(string type)
 	{
+		double vol = 1.0;
 		string surfaceType = GetFloorSurface();
-		A_StartSound(String.Format("%s/%s", surfaceType, type), CHAN_AUTO);
+		if(cv_vol_footstep) vol *= cv_vol_footstep.getFloat();
+		
+		A_StartSound(String.Format("%s/%s", surfaceType, type), CHAN_AUTO, volume:vol);
 	}
 	
 	void ResetMovementMods()
@@ -207,9 +211,12 @@ extend class HaloPlayer
 	}
 	
 	void PlayFootsteps()
-	{
+	{	
 		double curSpeed = vel.xy.Length();
 		double vol = curSpeed / (15 * speed * forwardMove1);
+		
+		if(!cv_vol_footstep) cv_vol_footstep = CVar.GetCVar("halodoom_footstep_volume", player);
+		if(cv_vol_footstep) vol *= cv_vol_footstep.getFloat();
 
 		// Don't play if moving too slowly or sliding.
 		if(curSpeed <= 1 || FindInventory("SlideAnimator")) 

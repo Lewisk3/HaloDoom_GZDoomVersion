@@ -1,0 +1,79 @@
+
+class OptionMenuItemHaloHUDSelector : OptionMenuItem
+{
+	Array<class<HaloHUD> > hudTypes;
+	CVar cv_HUDSelect;
+
+	void Init(String label, CVar hudCVar, bool center = false)
+	{
+		super.Init(label, "", center);
+		cv_HUDSelect = hudCVar;
+		mCentered = center;
+		
+		HaloStatusBar.ParseHDEHUDS(hudTypes);
+	}
+
+	virtual void SetSelection(int value)
+	{
+		if(!cv_HUDSelect) return;
+		cv_HUDSelect.SetInt(value);
+	}
+	
+	virtual int GetSelection()
+	{
+		// Return CVar selection.
+		if(!cv_HUDSelect) return 0;
+		return cv_HUDSelect.GetInt();
+	}
+
+	override int Draw(OptionMenuDescriptor desc, int y, int indent, bool selected)
+	{
+		if (mCentered)
+		{
+			indent = (screen.GetWidth() / 2);
+		}
+		drawLabel(indent, y, selected? OptionMenuSettings.mFontColorSelection : OptionMenuSettings.mFontColor, isGrayed());
+		
+		// Get selection here
+		uint sel = GetSelection();
+		String text = "Default";
+		if(hudTypes.Size() > 1) text = hudTypes[sel].getClassName();
+		
+		drawValue(indent, y, OptionMenuSettings.mFontColorValue, text, isGrayed());
+		return indent;
+	}
+
+	override bool MenuEvent (int mkey, bool fromcontroller)
+	{
+		int cnt = hudTypes.Size();
+		if (cnt > 0 && !isGrayed())
+		{
+			uint sel = GetSelection();
+			if (mkey == Menu.MKEY_Left)
+			{
+				if (sel == -1) sel = 0;
+				else if (--sel < 0) sel = cnt - 1;
+			}
+			else if (mkey == Menu.MKEY_Right || mkey == Menu.MKEY_Enter)
+			{
+				if (++sel >= cnt) sel = 0;
+			}
+			else
+			{
+				return Super.MenuEvent(mkey, fromcontroller);
+			}
+			SetSelection(sel);
+			Menu.MenuSound("menu/change");
+		}
+		else
+		{
+			return Super.MenuEvent(mkey, fromcontroller);
+		}
+		return true;
+	}
+	
+	virtual bool isGrayed()
+	{
+		return hudTypes.Size() < 2;
+	}
+}
