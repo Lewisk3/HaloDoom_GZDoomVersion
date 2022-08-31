@@ -48,7 +48,7 @@ class HaloFlames : CheapActor
 		if(isFrozen()) return;
 		
 		vel = HaloMath.VecFromAngles(angle, pitch, Speed);
-		if(target && GetAge() < 20) vel += target.vel;
+		if(target && GetAge() < 3) vel += target.vel;
 		
 		double shadeAlpha = HaloMath.Lerp(0, 3.0, GetAge() / 15.0);
 		if(shadeAlpha < 1.0)

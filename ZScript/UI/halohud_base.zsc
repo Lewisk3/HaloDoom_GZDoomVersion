@@ -364,7 +364,14 @@ class HaloStatusBar : BaseStatusBar
 		if(activeHudIndex)
 		{
 			if(activeHudIndex.getInt() >= huds.Size()) 
+			{
 				activeHudIndex.SetInt(0);
+				if(huds.Size() > 0)
+				{
+					ActiveHUD = huds[0];
+					ActiveHUD.Init(self);
+				}
+			}
 		}
 		
 		// Always draw HUD

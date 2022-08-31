@@ -1146,7 +1146,7 @@ class HaloGun : RecoilWeapon
 			PNCH C 1 
 			{
 				A_SetRecoil(0.80, -1.20, 3);
-				A_HaloMelee(50, 70, hitsnd:"Halo/Melee/`", "Halo/Melee/Ouch");
+				A_HaloMelee(50, 70, hitsnd:"Halo/Melee/Punch", "Halo/Melee/Ouch");
 			}
 			PNCH DEFG 1 
 			{
