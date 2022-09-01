@@ -69,6 +69,7 @@ class Halo_Shotgun : HaloGun
 		HaloGun.Inaccuracy SHOTGUN_ACCMOD;
 		HaloGun.Crosshair "SGRet", 0.8;
 		HaloGun.UIGraphic "WI_SG", 1.0, 1.0;
+		HaloGun.SetupUIAmmo "WI_AMM5", 16, 16, 0, 14;
 	}
 	
 	override void GetStatsLore(out Array<String> stats, out string lore)

@@ -121,6 +121,8 @@ class Halo_PlasmaCaster : HaloGun
 		HaloGun.Inaccuracy 20;
 		HaloGun.Crosshair "PLCTRet", 0.75;
 		HaloGun.UIGraphic "WI_PLCT", 0.75, 0.75;
+		HaloGun.SetupUIAmmo "WI_AMM2", 24, 16, 0, 5;
+		HaloGun.UIAmmo_Scale_Offset 1.5, 0,0;
 		
 		HaloGun.Availability "HL4";
 		HaloGun.PowerTier P_POWER | P_ENERGY;

@@ -76,6 +76,7 @@ class Halo_Needler : HaloGun
 		
 		HaloGun.Crosshair "NedleRet", 1.0;
 		HaloGun.UIGraphic "WI_NEDL", 0.6, 0.45;
+		HaloGun.SetupUIAmmo "WI_AMM4", 12, 14, 0, 10;
 		
 		RecoilWeapon.YOffsetRange 0, 40;
 	}

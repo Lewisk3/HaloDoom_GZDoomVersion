@@ -47,6 +47,7 @@ class Halo_MA5B : HaloGun
 		HaloGun.Inaccuracy ARMA5B_ACCMOD;
 		HaloGun.Crosshair "MA5BRet", 1.0;
 		HaloGun.UIGraphic "WI_MA5B", 1.0, 1.0;
+		HaloGun.SetupUIAmmo "WI_AMM7", 12, 14, 0, 15;
 		
 		HaloGun.Availability "HL1, MSX";
 		HaloGun.PowerTier P_NORM;

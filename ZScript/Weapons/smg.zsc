@@ -68,6 +68,7 @@ class Halo_SMG : HaloGun
 		HaloGun.Crosshair "SMGRet", 1.0;
 		HaloGun.UIGraphic "WI_SMG", 0.4, 0.4;
 		HaloGun.UISight "SI_SMG", 1.0, 1.0;
+		HaloGun.SetupUIAmmo "WI_AMM7", 12, 14, 0, 15;
 		HaloGun.SetupScope 1.25, 0.8;
 		+HaloGun.SI_Fullscreen;
 		+HaloGun.SI_Rotate;

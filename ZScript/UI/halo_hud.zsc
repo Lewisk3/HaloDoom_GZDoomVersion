@@ -68,6 +68,11 @@ class HaloDoomHUD : HaloHUD
 	{
 		super.Draw(state, deltaTime);
 
+		DrawElements();
+	}
+	
+	virtual void DrawElements()
+	{
 		// Vitals
 		DrawBars(); 
 		
@@ -88,7 +93,7 @@ class HaloDoomHUD : HaloHUD
 	// 24 ammo per line.
 	const AMMO_MAX = 14.;
 	const AMMOG_SIZE = 10. * 1.25;
-	void DrawWeaponsAmmo()
+	virtual void DrawWeaponsAmmo()
 	{
 		Weapon curweap = haloplr.player.ReadyWeapon;
 		if(!curweap) return; // Just in case somehow the player has no weapon
@@ -194,13 +199,14 @@ class HaloDoomHUD : HaloHUD
 					HLSBS.DrawImage(heatbars, ampos + (-60,-10), flags:iconFlags, scale:(-1.5,1.5));
 				}
 			}
-			else if(curweap.AmmoType2 && curweap.AmmoType2 != curweap.AmmoType1)
+			else if(curweap.AmmoType2 && curweap.AmmoType2 != curweap.AmmoType1 && halo_curweap)
 			{
 				// Draw projectile ammunition 
 				
+				// curweap.hudAmmo_graphic, hudAmmo_spacing, hudAmmo_XMax, hudAmmo_YMax
+				
 				double cur_ammo  = haloplr.countinv(curweap.AmmoType2);
 				double clip_ammo = GetDefaultByType(curweap.AmmoType2).MaxAmount;
-				int ymax = ceil(clip_ammo/AMMO_MAX);
 				vector2 amoffs;
 		
 				Color tint = 0;
@@ -213,21 +219,51 @@ class HaloDoomHUD : HaloHUD
 				else
 					lowAmmoBlink = 0;
 				
-				for(int i = 0; i < clip_ammo; i++)
+				if(halo_curweap.hudAmmo_YMax > 0)
 				{
-					double iconAlpha = (cur_ammo--) > 0 ? 0.8 : 0.15;
-									
-					HLSBS.DrawImage(
-						"WI_AMMO", 
-						ampos + ( amoffs * (AMMOG_SIZE*1.25) ) + (115,-25), 
-						flags:iconFlags, iconAlpha, (1.25,1.25), tint:tint
-					);
-					
-					amoffs.y++;
-					if(amoffs.y >= ymax) 
+					int ymax = ceil(clip_ammo/halo_curweap.hudAmmo_YMax);
+					for(int i = 0; i < clip_ammo; i++)
 					{
-						amoffs.y = 0;
-						amoffs.x--;
+						double iconAlpha = (cur_ammo--) > 0 ? 0.8 : 0.15;
+						vector2 ammoOffs = (115 + halo_curweap.hudAmmo_xOffs, -25 + halo_curweap.hudAmmo_yOffs);
+						vector2 amdrawOffs = (amoffs.x * halo_curweap.hudAmmo_xSpacing, amoffs.y * halo_curweap.hudAmmo_ySpacing) * 1.25;
+										
+						HLSBS.DrawImage(
+							halo_curweap.hudAmmo_graphic, 
+							ampos + amdrawOffs + ammoOffs, 
+							flags:iconFlags, iconAlpha, (1.25,1.25) * halo_curweap.hudAmmo_scale, tint:tint
+						);
+						
+						amoffs.y++;
+						if(amoffs.y >= ymax) 
+						{
+							amoffs.y = 0;
+							amoffs.x--;
+						}
+					}
+				}
+				
+				if(halo_curweap.hudAmmo_XMax > 0)
+				{
+					int xmax = halo_curweap.hudAmmo_XMax;
+					for(int i = 0; i < clip_ammo; i++)
+					{
+						double iconAlpha = (cur_ammo--) > 0 ? 0.8 : 0.15;
+						vector2 ammoOffs = (-75 + halo_curweap.hudAmmo_xOffs, -25 + halo_curweap.hudAmmo_yOffs);
+						vector2 amdrawOffs = (amoffs.x * halo_curweap.hudAmmo_xSpacing, amoffs.y * halo_curweap.hudAmmo_ySpacing) * 1.25;
+										
+						HLSBS.DrawImage(
+							halo_curweap.hudAmmo_graphic, 
+							ampos + amdrawOffs + ammoOffs, 
+							flags:iconFlags, iconAlpha, (1.25,1.25) * halo_curweap.hudAmmo_scale, tint:tint
+						);
+											
+						amoffs.x++;
+						if(amoffs.x >= xmax) 
+						{
+							amoffs.x = 0;
+							amoffs.y++;
+						}
 					}
 				}
 			}
@@ -271,10 +307,10 @@ class HaloDoomHUD : HaloHUD
 		}
 	}
 	
-	void DrawAbilities()
+	virtual void DrawAbilities(vector2 offs = (0,0), double scale = 1.0)
 	{
-		vector2 ablpos = (160,740);
-		double ablscale = 0.85;
+		vector2 ablpos = (160,740) + offs;
+		double ablscale = 0.85 * scale;
 		if(haloplr.enable_dash)
 		{
 			double dashperc = (haloplr.dashcounter / double(haloplr.dashmax));
@@ -282,7 +318,7 @@ class HaloDoomHUD : HaloHUD
 			dashmeter = HaloMath.Lerp(dashmeter, fullpos, 0.10 * deltatime);
 			
 			HLSBS.DrawImage("DASHBG", ablpos, scale:(ablscale,ablscale));
-			HLSBS.SetClipRect(ablpos.x - 24, ablpos.y - 32, dashmeter, 64);
+			HLSBS.SetClipRect(ablpos.x - (24*scale), ablpos.y - (32*scale), dashmeter*scale, 64*scale);
 			HLSBS.DrawImage("DASHCRGE", ablpos, scale:(ablscale,ablscale));
 			HLSBS.ClearClipRect();
 			if(dashperc <= 0)
@@ -305,7 +341,7 @@ class HaloDoomHUD : HaloHUD
 		}
 	}
 
-	void DrawBars()
+	virtual void DrawBars()
 	{
 		double BLINKRATE = base.ANIM_FPS/6.;
 		if(haloplr.shields <= 0)
@@ -381,7 +417,7 @@ class HaloDoomHUD : HaloHUD
 		HLSBS.DrawImage(hbar, healthpos, flags, 0.8, scale:(1.0,1.15));
 	}
 
-	void drawRadarLine( double x0, double y0, double x1, double y1, Color col, vector2 origin = (0,0), double maxdist = 128)
+	virtual void drawRadarLine( double x0, double y0, double x1, double y1, Color col, vector2 origin = (0,0), double maxdist = 128)
 	{	
 		double scrw = Screen.getWidth();
 		double scrh = Screen.getHeight();
@@ -421,14 +457,14 @@ class HaloDoomHUD : HaloHUD
 		vec.y = oldx;
 		return vec;
 	}
-	void DrawRadar()
+	virtual void DrawRadar(vector2 offs = (0,0), double scale = 1.0)
 	{
 		// -- CVars / Constants --
 		double zoom = 7;
-		double radarsize = 120;
+		double radarsize = 120 * scale;
 		double minimap_renderdist = 800;
 		double acor = HLSBS.GetAspectScale();
-		Vector2 baseoffs = ( 230, 894 );
+		Vector2 baseoffs = ( 230, 894 ) + offs;
 		Vector2 plrpos2D = (haloplr.pos.x, haloplr.pos.y);
 		Color linecol = Color( 0xFF, 0x79, 0xC1, 0xC9);
 		Color radrcol = Color( 0xFF, 0x2D, 0x3E, 0x5B);
@@ -436,7 +472,7 @@ class HaloDoomHUD : HaloHUD
 		Vector2 map_middle = (dp.x+baseoffs.x,dp.y+baseoffs.y);
 			
 		// Draw radar bg
-		HLSBS.DrawImage("RADARBG", baseoffs);
+		HLSBS.DrawImage("RADARBG", baseoffs, scale:(scale,scale));
 		
 		// Draw Minimap
 		if( base.showMinimap && base.showMinimap.getBool() )
@@ -542,13 +578,8 @@ class HaloCE_Message : HaloMessage
 	}
 }
 
-class HaloCE_HUD : HaloHUD
-{
-	// Interpolated vars
-	double curshields;
-	double curbattery;
-	double dashmeter;
-	
+class HaloCE_HUD : HaloDoomHUD
+{	
 	override void Init(HaloStatusBar base)
 	{
 		super.Init(base);
@@ -566,27 +597,27 @@ class HaloCE_HUD : HaloHUD
 		return hmsg;
 	}
 	
-	override void Draw (int state, double deltaTime)	
+	override void DrawElements()
 	{
-		super.Draw(state, deltaTime);
-
 		// Vitals
 		DrawBars(); 
 		
 		// Weapons
 		if(!automapactive)
 		{
-			DrawAbilities();
+			DrawCompass();
+			DrawAbilities((-25,75),0.7);
 			DrawWeaponsAmmo();
-			DrawRadar();
+			DrawRadar((-50,50), 0.8);
 		}
 		
-		// Keys
-		DrawKeys(base.CPlayer, 50, 10, 30,30);		
+		// Keys and Objectives
+		DrawKeys(base.CPlayer, 50, 10, 30,30);			
+		DrawObjectives();
 	}
-
+	
 	// 24 ammo per line.
-	void DrawWeaponsAmmo()
+	override void DrawWeaponsAmmo()
 	{
 		Weapon curweap = haloplr.player.ReadyWeapon;
 		if(!curweap) return; // Just in case somehow the player has no weapon
@@ -594,13 +625,11 @@ class HaloCE_HUD : HaloHUD
 		// Find other weapon manually.
 		let haloweap = HaloGun(curweap);
 		Weapon otherweap = haloweap ? haloweap.FindNextWeapon() : curweap;
+		
+		
 	}
 	
-	void DrawAbilities()
-	{
-	}
-
-	void DrawBars()
+	override void DrawBars()
 	{
 		base.DrawShieldRegen();
 		
@@ -628,6 +657,9 @@ class HaloCE_HUD : HaloHUD
 		double shieldperc = curshields / haloplr.maxshields;
 		
 		// Setup shield parameters
+		double shWarnAlpha = 0;
+		if(shieldperc <= 0.1) shWarnAlpha = 0.5 + (sin(level.maptime * 15) * 0.5);
+		
 		if(shieldperc > 2.0) 
 		{
 			HLSBS.DrawImage(shRed, shPos, flags:shDrawFlags, scale:(shScale,shScale));
@@ -640,10 +672,7 @@ class HaloCE_HUD : HaloHUD
 			shBackground = shRed;
 			shieldperc -= 1.0;
 		}
-		
-		double shWarnAlpha = 0;
-		if(shieldperc <= 0.1) shWarnAlpha = 0.5 + (sin(level.maptime * 15) * 0.5);
-		
+
 		double shClipOffs = 292 * (1.0-shieldperc);
 		HLSBS.DrawImage(shForeground, shPos, flags:shDrawFlags, scale:(shScale,shScale));
 		HLSBS.DrawImage(shOutline_Warn, shPos, flags:shDrawFlags, alpha:shWarnAlpha, scale:(shScale,shScale));
@@ -660,9 +689,5 @@ class HaloCE_HUD : HaloHUD
 		string hbCurrent = String.Format(hbGFXBase, healthbars);
 		
 		HLSBS.DrawImage(hbCurrent, shPos + (-5,20), flags:shDrawFlags);
-	}
-	
-	void DrawRadar()
-	{
 	}	
 }

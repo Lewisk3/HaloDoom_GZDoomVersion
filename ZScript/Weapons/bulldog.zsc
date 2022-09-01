@@ -68,6 +68,7 @@ class Halo_Bulldog : HaloGun
 		HaloGun.Inaccuracy BULLDOG_ACCMOD;
 		HaloGun.Crosshair "BDRet", 0.8;
 		HaloGun.UIGraphic "WI_BDOG", 0.65, 0.65;
+		HaloGun.SetupUIAmmo "WI_AMM5", 16, 16, 0, 6;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
 	}

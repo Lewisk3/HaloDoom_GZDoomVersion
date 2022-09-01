@@ -208,6 +208,8 @@ class Halo_Hydra : HaloGun
 		HaloGun.Crosshair "HYD1Ret", 0.65;
 		HaloGun.UIGraphic "WI_HYDR", 0.60, 0.60;
 		HaloGun.SetupScope 1.1, 1.0;
+		HaloGun.SetupUIAmmo "WI_AMM3", 32, 16, 0, 3;
+		HaloGun.UIAmmo_Scale_Offset 1.0, -24,0;
 		
 		HaloGun.Availability "HL4";
 		HaloGun.PowerTier P_STRONG;

@@ -74,6 +74,8 @@ class Halo_BattleRifle : HaloGun
 		HaloGun.UISight "SI_BR", 0.3, 0.7;
 		HaloGun.SetupScope 2.0, 0.25;
 		HaloGun.ZoomSounds "Halo/Weapons/Zoom/IN", "Halo/Weapons/Zoom/OUT";
+		HaloGun.SetupUIAmmo "WI_AMM6", 20, 12, 0, 9;
+		HaloGun.UIAmmo_Scale_Offset 0.7, 0,0;
 		
 		HaloGun.Availability "HL2, HL3, HL4";
 		HaloGun.PowerTier P_NORM;

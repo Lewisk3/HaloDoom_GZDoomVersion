@@ -66,6 +66,7 @@ class Halo_Sidekick : HaloGun
 		HaloGun.Inaccuracy SIDEKICK_ACCMOD;
 		HaloGun.Crosshair "SdkRet", 1.0;
 		HaloGun.UIGraphic "WI_SDK", 0.35, 0.35;
+		HaloGun.SetupUIAmmo "WI_AMM7", 12, 14, 0, 6;
 		
 		HaloGun.Availability "HL2, HL4, MSX";
 		HaloGun.PowerTier P_NORM;

@@ -81,6 +81,13 @@ class HaloGun : RecoilWeapon
 	Sound snd_zoomin;
 	Sound snd_zoomout;
 	
+	// HUD Ammo Setup
+	string hudAmmo_graphic;
+	double hudAmmo_scale;
+	double hudAmmo_xSpacing, hudAmmo_ySpacing;
+	double hudAmmo_xOffs, hudAmmo_yOffs;
+	uint hudAmmo_XMax, hudAmmo_YMax;
+	
 	Property Bloom : bloomamt;
 	Property BloomSpeed : bloomspd;
 	Property Crosshair : wcrosshair, wcrosshairscale;
@@ -91,6 +98,8 @@ class HaloGun : RecoilWeapon
 	Property BackpackReloadTime : backpack_reloadmaxtime;
 	property UIGraphic : UI_Icon, iconScaleX, iconScaleY;
 	Property UISight : UI_Sight, sightscale, sightalpha;
+	Property SetupUIAmmo : hudAmmo_graphic, hudAmmo_xSpacing, hudAmmo_ySpacing, hudAmmo_XMax, hudAmmo_YMax;
+	Property UIAmmo_Scale_Offset : hudAmmo_scale, hudAmmo_xOffs, hudAmmo_yOffs;
 	Property SetupScope : scopezoom, scoperecoil;
 	Property ZoomSounds : snd_zoomin, snd_zoomout;
 	Property LowerOnMelee : meleelower;
@@ -127,6 +136,8 @@ class HaloGun : RecoilWeapon
 		HaloGun.PowerTier P_NULL;
 		HaloGun.Availability "ALL";
 		HaloGun.Rarity 100;
+		HaloGun.SetupUIAmmo "WI_AMMO", 12.5, 12.5, 0, 14;
+		HaloGun.UIAmmo_Scale_Offset 1.0, 0,0;
 		Weapon.BobRangeX 1.5;
 		Weapon.BobRangeY 0.6;
 		Weapon.BobSpeed 0.5;
