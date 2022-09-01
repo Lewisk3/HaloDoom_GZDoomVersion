@@ -519,3 +519,150 @@ class HaloDoomHUD : HaloHUD
 	void DrawObjectives() {}
 	void DrawCompass() {}
 }
+
+// Halo CE
+class HaloCE_Message : HaloMessage
+{
+	// Used for custom HUD message behavior	
+	override void Animate(double dt, double spd)
+	{
+		switch(stage)
+		{
+			case 0:
+				alpha = desired_alpha * 3.0;
+				stage++;
+			break;
+			
+			// Begin fadeout.
+			case 1:
+				alpha -= 0.01 * dt;
+				if(alpha <= 0) msg = "";
+			break;
+		}	
+	}
+}
+
+class HaloCE_HUD : HaloHUD
+{
+	// Interpolated vars
+	double curshields;
+	double curbattery;
+	double dashmeter;
+	
+	override void Init(HaloStatusBar base)
+	{
+		super.Init(base);
+		
+		// Messages setup
+		base.msgpos = (40, 200);
+	}
+		
+	override HaloMessage CreateMessage(String msg)
+	{
+		Color msgcol = 0x4002a7de;
+		vector2 msgscale = (1.0, 0.8) * 0.75;
+		
+		let hmsg = HaloMessage.CreateMessage("Fonts/HaloSmallerFont.fon2", msg, base.msgpos, msgscale, tint:msgcol, msgClass:"HaloCE_Message");
+		return hmsg;
+	}
+	
+	override void Draw (int state, double deltaTime)	
+	{
+		super.Draw(state, deltaTime);
+
+		// Vitals
+		DrawBars(); 
+		
+		// Weapons
+		if(!automapactive)
+		{
+			DrawAbilities();
+			DrawWeaponsAmmo();
+			DrawRadar();
+		}
+		
+		// Keys
+		DrawKeys(base.CPlayer, 50, 10, 30,30);		
+	}
+
+	// 24 ammo per line.
+	void DrawWeaponsAmmo()
+	{
+		Weapon curweap = haloplr.player.ReadyWeapon;
+		if(!curweap) return; // Just in case somehow the player has no weapon
+		
+		// Find other weapon manually.
+		let haloweap = HaloGun(curweap);
+		Weapon otherweap = haloweap ? haloweap.FindNextWeapon() : curweap;
+	}
+	
+	void DrawAbilities()
+	{
+	}
+
+	void DrawBars()
+	{
+		base.DrawShieldRegen();
+		
+		vector2 shPos = (1700, 70);
+		double shScale = 1.5;
+		uint shDrawFlags = HLSBS.SS_NOASPECTCORRECTION;
+		
+		// Shields		
+		string shOutline_Warn = "Graphics/UI/CE_HUD/Shields/CE Shield Outline Red.png";
+		string shOutline_Norm = "Graphics/UI/CE_HUD/Shields/CE Shield Outline Blue.png";
+		string shBlue  = "Graphics/UI/CE_HUD/Shields/CE Shield inside base.png";
+		string shRed   = "Graphics/UI/CE_HUD/Shields/CE Shield inside OS1.png";
+		string shGreen = "Graphics/UI/CE_HUD/Shields/CE Shield inside OS2.png";
+		
+		string shBackground = shBlue;
+		string shForeground = shOutline_Norm;
+		
+		// Interpolate Shields
+		if(curshields != haloplr.shields) 
+		{
+			double ispd = (haloplr.shields > curshields) ? 0.05 : 0.2;
+			curshields = HaloMath.Lerp(curshields, haloplr.shields, ispd*deltatime);
+		}
+		if(curshields == 0) curshields = haloplr.shields;
+		double shieldperc = curshields / haloplr.maxshields;
+		
+		// Setup shield parameters
+		if(shieldperc > 2.0) 
+		{
+			HLSBS.DrawImage(shRed, shPos, flags:shDrawFlags, scale:(shScale,shScale));
+			shBackground = shGreen;
+			shieldperc -= 2.0;
+		}
+		else if(shieldperc > 1.0) 
+		{
+			HLSBS.DrawImage(shBlue, shPos, flags:shDrawFlags, scale:(shScale,shScale));
+			shBackground = shRed;
+			shieldperc -= 1.0;
+		}
+		
+		double shWarnAlpha = 0;
+		if(shieldperc <= 0.1) shWarnAlpha = 0.5 + (sin(level.maptime * 15) * 0.5);
+		
+		double shClipOffs = 292 * (1.0-shieldperc);
+		HLSBS.DrawImage(shForeground, shPos, flags:shDrawFlags, scale:(shScale,shScale));
+		HLSBS.DrawImage(shOutline_Warn, shPos, flags:shDrawFlags, alpha:shWarnAlpha, scale:(shScale,shScale));
+		HLSBS.SetClipRect( (shPos.x - 125) + shClipOffs, shPos.y - 50, 292 - shClipOffs, 100);
+		HLSBS.DrawImage(shBackground, shPos, flags:shDrawFlags, scale:(shScale,shScale));
+		HLSBS.ClearClipRect();
+		
+		// Health
+		double maxHP = haloplr.GetMaxHealth();
+		double hpratio = haloplr.health / maxHP; 
+		int healthbars = clamp(ceil(hpratio * 9), 1, 25);
+		
+		string hbGFXBase = "Graphics/UI/CE_HUD/Health/CE_HB%d.png";
+		string hbCurrent = String.Format(hbGFXBase, healthbars);
+		
+		HLSBS.DrawImage(hbCurrent, shPos + (-5,20), flags:shDrawFlags);
+	}
+	
+	void DrawRadar()
+	{
+	}	
+}
