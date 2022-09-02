@@ -126,7 +126,6 @@ class HaloDoomHUD : HaloHUD
 		
 		if(halodoom_unlimitedbackpack)
 		{
-			// TODO: Draw all weapons.
 			Weapon weap = NULL;
 			Array<int> slots;
 			slots.Resize(10);
@@ -637,6 +636,42 @@ class HaloCE_HUD : HaloDoomHUD
 		vector2 weapPos = (160,70);
 		double weapScale = 1.5;
 		
+		if(halodoom_unlimitedbackpack)
+		{
+			Weapon weap = NULL;
+			Array<int> slots;
+			slots.Resize(10);
+			
+			for(let i = haloplr.Inv; i; i = i.Inv)
+			{
+				weap = Weapon(i);
+				if(!weap) continue;
+				
+				double num = weap.slotnumber;
+				if(num < 0) num = 0;
+				
+				double cnt = slots[num];
+				vector2 offs = (
+					0, (num*100) + cnt*20
+				);
+				if(!HaloGun(weap)) 
+				{
+					offs.x += 25;
+					offs.y += 20;
+				}
+				
+				vector2 scale;
+				string icon;
+				[icon, scale] = base.GetWeaponUIDetails(weap, (1.0,1.0));
+				HLSBS.DrawImage(icon, (1850,200)+offs, weapDrawFlags, 0.8, scale*0.5);
+				slots[num]++;
+			}	
+			for(int i = 1; i <= slots.Size(); i++)
+			{
+				HLSBS.DrawString(fntHaloAmmo, i.."", (1800, 280+((i-1)*100)), flags:weapDrawFlags, scale:(0.05,0.05));
+			}
+		}
+		
 		HLSBS.DrawImage(weapHousing, weapPos, flags:weapDrawFlags, scale:(weapScale,weapScale)); 
 		if(haloweap && haloweap.uses_battery)
 		{
@@ -659,11 +694,13 @@ class HaloCE_HUD : HaloDoomHUD
 		);
 		
 		// Draw active ammunition
-		if(haloweap && curweap.AmmoType2)
+		vector2 ampos = weapPos + (-15,60);
+		bool skipAmmoDraw = haloweap.DrawAmmoUI(ampos, deltaTime);
+		
+		if(!skipAmmoDraw && haloweap && curweap.AmmoType2)
 		{
 			double clip_ammo = GetDefaultByType(curweap.AmmoType2).MaxAmount;
 			vector2 amoffs = (0,0);
-			vector2 ampos = weapPos + (-15,60);
 
 			Color tint = 0;
 			if( (cur_ammo / clip_ammo) <= 0.4 ) 
@@ -703,7 +740,7 @@ class HaloCE_HUD : HaloDoomHUD
 					}
 				}
 			}
-			else
+			else if(!skipAmmoDraw)
 			{
 				// Draw heat guage
 				HLSBS.DrawImage(weapChargeBG, ampos + (38,-12), flags:weapDrawFlags, scale:(weapScale * 1.05,weapScale * 0.6));
@@ -785,11 +822,12 @@ class HaloCE_HUD : HaloDoomHUD
 		// Health
 		double maxHP = haloplr.GetMaxHealth();
 		double hpratio = haloplr.health / maxHP; 
+		double hpScale = 1.35;
 		int healthbars = clamp(ceil(hpratio * 9), 1, 25);
 		
 		string hbGFXBase = "Graphics/UI/CE_HUD/Health/CE_HB%d.png";
 		string hbCurrent = String.Format(hbGFXBase, healthbars);
 		
-		HLSBS.DrawImage(hbCurrent, shPos + (-5,20), flags:shDrawFlags);
+		HLSBS.DrawImage(hbCurrent, shPos + (-30,23), flags:shDrawFlags, scale:(hpScale, hpScale));
 	}	
 }
