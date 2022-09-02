@@ -712,7 +712,7 @@ class HaloCE_HUD : HaloDoomHUD
 			else
 				lowAmmoBlink = 0;
 			
-			if(!haloweap.uses_battery)
+			if( !haloweap.uses_battery && (curweap.AmmoType1 != curweap.AmmoType2) )
 			{
 				// Halo CE HUD only supports drawing ammo along the X axis.
 				int xmax = clip_ammo < 20 ? max(haloweap.hudAmmo_xMax, haloweap.hudAmmo_yMax) : 20;
@@ -721,7 +721,7 @@ class HaloCE_HUD : HaloDoomHUD
 				for(int i = 0; i < clip_ammo; i++)
 				{
 					double iconAlpha = (cur_ammo--) > 0 ? 0.8 : 0.15;
-					vector2 ammoOffs = (-80 + (haloweap.hudAmmo_xOffs*0.25), -20 + haloweap.hudAmmo_yOffs);
+					vector2 ammoOffs = (-80 + abs(haloweap.hudAmmo_xOffs*0.25), -20 + max(0,haloweap.hudAmmo_yOffs) );
 					vector2 amdrawOffs = (amoffs.x * haloweap.hudAmmo_xSpacing, amoffs.y * haloweap.hudAmmo_ySpacing) * 1.25;
 					amdrawoffs.x += xshift;
 									
