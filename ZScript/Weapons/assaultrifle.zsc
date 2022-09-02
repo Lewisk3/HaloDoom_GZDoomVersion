@@ -80,7 +80,7 @@ class Halo_AssaultRifle : HaloGun
 		HaloGun.Inaccuracy ARIFLE_ACCMOD;
 		HaloGun.Crosshair "RifleRet", 1.0;
 		HaloGun.UIGraphic "WI_AR", 1.0, 1.0;
-		HaloGun.SetupUIAmmo "WI_AMM7", 12, 14, 0, 15;
+		HaloGun.SetupUIAmmo "WI_AMM7", 12, 14, 0, 8;
 		
 		HaloGun.Availability "HL3, HL4";
 		HaloGun.PowerTier P_NORM;

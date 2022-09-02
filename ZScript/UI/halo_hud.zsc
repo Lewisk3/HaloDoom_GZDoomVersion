@@ -52,7 +52,7 @@ class HaloDoomHUD : HaloHUD
 		super.Init(base);
 		
 		// Messages setup
-		base.msgpos = (80, 600);
+		msgpos = (80, 600);
 	}
 		
 	override HaloMessage CreateMessage(String msg)
@@ -60,7 +60,7 @@ class HaloDoomHUD : HaloHUD
 		Color msgcol = 0x4002a7de;
 		vector2 msgscale = (1.0, 0.8);
 		
-		let hmsg = HaloMessage.CreateMessage("Fonts/HaloSmallerFont.fon2", msg, base.msgpos, msgscale, tint:msgcol, msgClass:"HaloHUD_Message");
+		let hmsg = HaloMessage.CreateMessage("Fonts/HaloSmallerFont.fon2", msg, msgpos, msgscale, tint:msgcol, msgClass:"HaloHUD_Message");
 		return hmsg;
 	}
 	
@@ -585,7 +585,7 @@ class HaloCE_HUD : HaloDoomHUD
 		super.Init(base);
 		
 		// Messages setup
-		base.msgpos = (40, 200);
+		msgpos = (40, 200);
 	}
 		
 	override HaloMessage CreateMessage(String msg)
@@ -593,7 +593,7 @@ class HaloCE_HUD : HaloDoomHUD
 		Color msgcol = 0x4002a7de;
 		vector2 msgscale = (1.0, 0.8) * 0.75;
 		
-		let hmsg = HaloMessage.CreateMessage("Fonts/HaloSmallerFont.fon2", msg, base.msgpos, msgscale, tint:msgcol, msgClass:"HaloCE_Message");
+		let hmsg = HaloMessage.CreateMessage("Fonts/HaloSmallerFont.fon2", msg, msgpos, msgscale, tint:msgcol, msgClass:"HaloCE_Message");
 		return hmsg;
 	}
 	
@@ -619,6 +619,7 @@ class HaloCE_HUD : HaloDoomHUD
 	// 24 ammo per line.
 	override void DrawWeaponsAmmo()
 	{
+		if(!haloplr) return;
 		Weapon curweap = haloplr.player.ReadyWeapon;
 		if(!curweap) return; // Just in case somehow the player has no weapon
 		
@@ -626,6 +627,107 @@ class HaloCE_HUD : HaloDoomHUD
 		let haloweap = HaloGun(curweap);
 		Weapon otherweap = haloweap ? haloweap.FindNextWeapon() : curweap;
 		
+		uint weapDrawFlags = HLSBS.SS_NOASPECTCORRECTION;
+		string weapHousing  = "Graphics/UI/CE_HUD/Combat/CEWepHousing.png";
+		string grenHousing  = "Graphics/UI/CE_HUD/Combat/CEGrenadeHousing.png";
+		string weapBullet   = "Graphics/UI/CE_HUD/Combat/CEWeapIcon_Bullet.png";
+		string weapBattery  = "Graphics/UI/CE_HUD/Combat/CEWeapIcon_Battery.png";
+		string weapChargeBG = "Graphics/UI/CE_HUD/Combat/CEWeapHeatMeter.png";
+		string weapChargeFG = "Graphics/UI/CE_HUD/Combat/CEWeapHeatMeter_FG.png";
+		vector2 weapPos = (160,70);
+		double weapScale = 1.5;
+		
+		HLSBS.DrawImage(weapHousing, weapPos, flags:weapDrawFlags, scale:(weapScale,weapScale)); 
+		if(haloweap && haloweap.uses_battery)
+		{
+			HLSBS.DrawImage(weapBattery, weapPos + (55,0), flags:weapDrawFlags, scale:(weapScale,weapScale)); 
+		}
+		else
+		{
+			HLSBS.DrawImage(weapBullet, weapPos + (55,0), flags:weapDrawFlags, scale:(weapScale,weapScale)); 
+		}
+		
+		// Draw reserve ammunition
+		int reserve_ammo = curweap.AmmoType1 ? haloplr.CountInv(curweap.AmmoType1) : haloplr.CountInv(curweap.AmmoType2);
+		int cur_ammo = curweap.AmmoType2 ? haloplr.CountInv(curweap.AmmoType2) : haloplr.CountInv(curweap.AmmoType1);
+		
+		HLSBS.DrawString(
+			fntHaloAmmo,
+			String.Format("%03d", reserve_ammo), weapPos+(12,-12),
+			flags:HLSBS.SS_TEXT_RIGHT | weapDrawFlags,
+			scale:(0.18,0.15) * 0.85
+		);
+		
+		// Draw active ammunition
+		if(haloweap && curweap.AmmoType2)
+		{
+			double clip_ammo = GetDefaultByType(curweap.AmmoType2).MaxAmount;
+			vector2 amoffs = (0,0);
+			vector2 ampos = weapPos + (-15,60);
+
+			Color tint = 0;
+			if( (cur_ammo / clip_ammo) <= 0.4 ) 
+			{
+				double tintAlpha = sin(lowAmmoBlink * 5) * 160;
+				tint = Color(int(tintAlpha), 255,8,8);
+				lowAmmoBlink += deltaTime;
+			}
+			else
+				lowAmmoBlink = 0;
+			
+			if(!haloweap.uses_battery)
+			{
+				// Halo CE HUD only supports drawing ammo along the X axis.
+				int xmax = clip_ammo < 20 ? max(haloweap.hudAmmo_xMax, haloweap.hudAmmo_yMax) : 20;
+				double xshift = 0;
+				
+				for(int i = 0; i < clip_ammo; i++)
+				{
+					double iconAlpha = (cur_ammo--) > 0 ? 0.8 : 0.15;
+					vector2 ammoOffs = (-80 + (haloweap.hudAmmo_xOffs*0.25), -20 + haloweap.hudAmmo_yOffs);
+					vector2 amdrawOffs = (amoffs.x * haloweap.hudAmmo_xSpacing, amoffs.y * haloweap.hudAmmo_ySpacing) * 1.25;
+					amdrawoffs.x += xshift;
+									
+					HLSBS.DrawImage(
+						haloweap.hudAmmo_graphic, 
+						ampos + amdrawOffs + ammoOffs, 
+						flags:weapDrawFlags, iconAlpha, (1.25,1.25) * haloweap.hudAmmo_scale, tint:tint
+					);
+										
+					amoffs.x++;
+					if(amoffs.x >= xmax) 
+					{
+						amoffs.x = 0;
+						amoffs.y++;
+						xshift += -0.25 * haloweap.hudAmmo_xSpacing;
+					}
+				}
+			}
+			else
+			{
+				// Draw heat guage
+				HLSBS.DrawImage(weapChargeBG, ampos + (38,-12), flags:weapDrawFlags, scale:(weapScale * 1.05,weapScale * 0.6));
+				
+				double heatWidth = haloweap.heat * 200;
+				HLSBS.SetClipRect( (ampos.x - 120), (ampos.y - 32), heatWidth*weapScale*1.05, 64*weapScale*0.6, visual:false);
+				HLSBS.DrawImage(weapChargeFG, ampos + (38,-12), flags:weapDrawFlags, scale:(weapScale * 1.05,weapScale * 0.6)); 
+				HLSBS.ClearClipRect();
+				
+			}
+		}
+		
+		// Draw grenades
+		vector2 nadepos   = weapPos + (150,0);
+		vector2 nadescale = (0.75, 0.75);
+		
+		let curNade = haloplr.activeGrenade;
+		if(curNade && curNade.Amount > 0)
+		{
+			String nadeGraphic = String.Format("Graphics/UI/%s", curNade.hudIcon);
+			HLSBS.DrawImage(nadeGraphic, nadepos + (-20,0), scale:nadescale);
+			HLSBS.DrawString(fntHaloAmmo, String.Format("%d", curNade.Amount), nadepos+(5,-10), scale:(0.18,0.15) * 0.75);
+			HLSBS.DrawImage(grenHousing, nadepos, flags:weapDrawFlags, scale:(weapScale,weapScale)); 
+		}		
 		
 	}
 	

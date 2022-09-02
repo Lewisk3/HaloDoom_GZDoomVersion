@@ -99,6 +99,7 @@ class HaloHUD : Object ui
 	HUDFont mHUDFont;
 	Font fnt;
 	Font fntHaloAmmo;
+	vector2 msgpos;
 	
 	// Timing
 	double deltaTime;
@@ -126,7 +127,7 @@ class HaloHUD : Object ui
 		mHUDFont = HUDFont.Create(fnt);
 		
 		// Messages setup
-		base.msgpos = (60, 60);
+		msgpos = (60, 60);
 	}
 		
 	virtual HaloMessage CreateMessage(String msg)
@@ -134,7 +135,7 @@ class HaloHUD : Object ui
 		Color msgcol = 0x40FFFFFF;
 		vector2 msgscale = (0.5, 0.5);
 		
-		let hmsg = HaloMessage.CreateMessage("Fonts/HaloSmallerFont.fon2", msg, base.msgpos, msgscale, tint:msgcol);
+		let hmsg = HaloMessage.CreateMessage("Fonts/HaloSmallerFont.fon2", msg, msgpos, msgscale, tint:msgcol);
 		return hmsg;
 	}
 	
@@ -288,7 +289,11 @@ class HaloStatusBar : BaseStatusBar
 		
 		// HUD style integration
 		RegisterHDEHUDS(self, huds);
-		if(!ActiveHUD && huds.Size() > 0) ActiveHUD = huds[0];
+		if(!ActiveHUD && huds.Size() > 0) 
+		{
+			ActiveHUD = huds[0];
+			ActiveHUD.Init(self);
+		}
 	}
 	
 	// Override message behavior
