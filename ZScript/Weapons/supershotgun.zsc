@@ -74,7 +74,8 @@ class SSG_SparkTracer : CheapActor
 		if(lt.HitType != TRACE_HitNone)
 		{
 			let hitActor = lt.HitActor;
-			if(hitActor != target)
+			bool hitGeo = lt.HitType == TRACE_HitWall || lt.HitType == TRACE_HitFloor || lt.HitType == TRACE_HitCeiling;
+			if( hitGeo || hitActor != target && hitActor && hitActor.CanCollideWith(self, false) )
 			{
 				if(hitActor) 
 				{

@@ -21,6 +21,15 @@ class DamageFX_Item : Inventory abstract
 		inventory.maxamount 1;
 	}
 	
+	virtual void DisableItem()
+	{
+		// Remove effects and such.
+		for(int i = 0; i < effectActors.Size(); i++)
+		{
+			if(effectActors[i]) effectActors[i].Destroy();
+		}
+	}
+	
 	static int countUniqueItems(class<Inventory> type, Actor from)
 	{
 		Array<Inventory> foundItems;
@@ -128,6 +137,7 @@ class DFX_Effect : CheapActor
 class DamageFX_Fire : DamageFX_Item
 {
 	bool burning;
+	
 	Default
 	{
 		DamageFX_Item.EffectType "DFX_FireEffect";

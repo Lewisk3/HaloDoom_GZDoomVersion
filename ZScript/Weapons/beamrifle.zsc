@@ -38,8 +38,8 @@ class LSR_BeamRifle : LaserBeam
 	{
 		aimAtCrosshair();
 		
-		if(hitData.hitType != TRACE_HitNone) 
-			OnImpact(hitData.HitLocation, hitData.hitActor);
+		if(hitData.results.hitType != TRACE_HitNone) 
+			OnImpact(hitData.results.HitPos, hitData.results.hitActor);
 	
 		if(turnOff)
 		{
@@ -72,7 +72,7 @@ class LSR_BeamRifle : LaserBeam
 
 		for(int i = 0; i < floor(3 * halodoom_effectintensity); i++)
 		{
-			let smoke = Spawn("RisingSmoke", hitData.hitLocation);
+			let smoke = Spawn("RisingSmoke", hitData.results.hitPos);
 			if(smoke) smoke.A_SetScale(0.25);
 		}
 	}

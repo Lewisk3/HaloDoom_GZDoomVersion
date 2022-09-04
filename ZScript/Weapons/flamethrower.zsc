@@ -174,8 +174,8 @@ class LSR_WeldingBeam : LaserBeam
 	{
 		aimAtCrosshair();
 		
-		if(hitData.hitType != TRACE_HitNone) 
-			OnImpact(hitData.HitLocation, hitData.hitActor);
+		if(hitData.results.hitType != TRACE_HitNone) 
+			OnImpact(hitData.results.HitPos, hitData.results.hitActor);
 			
 		if( !(GetAge()%2) )
 			flicker = !flicker; 

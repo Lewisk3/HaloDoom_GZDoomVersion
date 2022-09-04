@@ -73,6 +73,11 @@ mixin class HaloProjectile_Common
 		// Find nearest viable target, track target.
 		if(tracer)
 		{
+			if(!tracer.CanCollideWith(self, false)) 
+			{
+				tracer = NULL;
+				return;
+			}
 			vector3 dest = (tracer.pos.xy, tracer.pos.z+(tracer.height*0.7));
 			vector3 trackingAngles = level.SphericalCoords(pos, dest, (angle, pitch));
 			A_SetAngle(angle - (trackingAngles.x * homingStrength), SPF_INTERPOLATE);
@@ -93,7 +98,7 @@ mixin class HaloProjectile_Common
 			while(it.Next())
 			{
 				let act = it.Thing; 
-				if(act == target) continue;
+				if( act == target || !act.CanCollideWith(self, false) ) continue;
 				if(!act.bSHOOTABLE || act.bCORPSE || act.health <= 0) continue;
 				if(target && !target.IsVisible(act, false, look)) continue;
 				int dist = Distance3DSquared(act);
@@ -109,7 +114,7 @@ mixin class HaloProjectile_Common
 	virtual int Handle_MissileHit(Actor victim)
 	{
 		// Skip these victims
-		if(victim == target || !victim.bSHOOTABLE) return 1;
+		if( victim == target || !victim.bSHOOTABLE || !victim.CanCollideWith(self, false) ) return 1;
 				
 		// Ripped through actors only take damage once.
 		if(act_hits.Find(victim) != act_hits.Size()) return 1;

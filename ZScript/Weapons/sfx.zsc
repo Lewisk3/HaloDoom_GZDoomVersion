@@ -481,7 +481,7 @@ class RepulsorField : Actor
 		while(act = Actor(physIt.Next()))
 		{
 			if(!act.bSOLID && !act.bMISSILE) continue;
-			if(!act.IsVisible(self, true)) continue;
+			if(!act.IsVisible(self, true) || !act.CanCollideWith(self, false) ) continue;
 			
 			vector3 affectorPos = (act.pos.xy, act.pos.z + (act.height*0.5));
 			vector3 forceDir = HaloMath.SphereBetween(pos, affectorPos);

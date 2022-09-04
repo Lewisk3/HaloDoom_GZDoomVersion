@@ -305,8 +305,11 @@ class HaloGun : RecoilWeapon
 			double inertia = HaloMath.GetInertia(victim.mass);
 			victim.DamageMobJ(source, source, damage, damageType, 0, source.angle);
 			if(!victim.bNOBLOOD) victim.BloodSplatter(lt.HitLocation, source.angle, true);
-			victim.Thrust(fpthrust.x*inertia, source.angle);
-			victim.vel.z += (fpthrust.y*inertia);
+			if(!victim.bDONTTHRUST) 
+			{
+				victim.vel.z += (fpthrust.y*inertia);
+				victim.Thrust(fpthrust.x*inertia, source.angle);
+			}
 			source.A_Quake(2,3,0,20,"");
 			source.A_StartSound(hitsnd, CHAN_WEAPON, flags:CHANF_OVERLAP);
 			
@@ -419,7 +422,7 @@ class HaloGun : RecoilWeapon
 					abs(plr.aimActor_anglesTo.z) <= 1024
 				);
 				
-				if( plr.aimActor_nearest && inRange && !plr.aimActor )  
+				if( plr.aimActor_nearest && inRange && plr.aimActor != plr.aimActor_nearest )  
 					aimpos = (plr.aimActor_nearest.pos.xy, plr.aimActor_pos.z);
 				
 			}

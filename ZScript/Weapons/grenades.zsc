@@ -308,7 +308,8 @@ class PlasmaGrenade_Proj : Actor
 	{
 		if(!victim.bSHOOTABLE) return -1;
 		if(hitactor) return -1;
-		if(victim == target) return -1;
+		if(victim == target) return 1;
+		if(!victim.CanCollideWith(self, false)) return 1;
 		
 		if( !hitactor && ShouldStick() )
 		{

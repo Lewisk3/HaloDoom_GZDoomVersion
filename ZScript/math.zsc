@@ -200,7 +200,7 @@ class HaloMath Abstract
 		let shooter = src.target ? src.target : src;
 		while(act = Actor(it.Next()))
 		{
-			if(!act.bSHOOTABLE || !src.IsVisible(act, true)) continue;
+			if(!act.bSHOOTABLE || !src.IsVisible(act, true) || !act.CanCollideWith(src, false)) continue;
 			if(!damageBosses && act.bBOSS) continue; 
 			
 			double todist = src.Distance2DSquared(act) - act.radius;
