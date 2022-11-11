@@ -71,6 +71,7 @@ version "4.5"
 #include "ZScript/Weapons/grenades.zsc"
 #include "ZScript/Weapons/gravityhammer.zsc"
 #include "ZScript/Weapons/fuelrod.zsc"
+#include "ZScript/Weapons/commando.zsc"
 
 // S2
 #include "ZScript/Weapons/sidekick.zsc"
@@ -116,3 +117,48 @@ version "4.5"
 
 // [>> Gameplay Constants <<]
 const UNIT_METER = 8.f;
+
+
+
+class CoverTest : Actor
+{
+	Default
+	{
+		+SHOOTABLE;
+		+SOLID;
+		+DONTTHRUST;
+		
+		RenderStyle "Add";
+		Alpha 0.35;
+		Health int.max;
+		Radius 16;
+		Height 64;
+	}
+	
+	override bool CanCollideWith(Actor other, bool passive)
+	{
+		if(other.target is "HaloPlayer") return false;
+		return super.CanCollideWith(other, passive);
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		for(let item = Inv; item; item = item.Inv)
+		{
+			if(item is "DamageFX_Item")
+			{
+				DamageFX_Item(item).DisableItem();
+				RemoveInventory(item);
+				item.Destroy();
+			}
+		}
+	}
+	
+	States
+	{
+		Spawn:
+			FATT A -1;
+		stop;
+	}
+}

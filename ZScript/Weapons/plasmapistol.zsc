@@ -17,7 +17,6 @@ class HaloPlasma_Proj : HaloBullet
 		HaloProjectile.HeadshotDMGFactor PLASMAPISTOL_HEDMOD;
 		
 		RenderStyle "Add";
-		DamageType "Fire";
 		Translation "0:255=@65[5,240,44]";
 		Alpha 0.90;
 		Scale 0.12;

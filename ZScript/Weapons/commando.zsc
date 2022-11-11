@@ -1,0 +1,314 @@
+class Halo_CMDO_Clip : Ammo 
+{
+	Default 
+	{
+		Inventory.MaxAmount 20;
+	}
+}
+class Halo_CMDO_Reserves : Ammo
+{
+	mixin WorldAmmoBehavior;
+	Default 
+	{
+		Radius 8;
+		Height 6;
+		Scale 0.65;
+
+		Inventory.Amount 20;
+		Inventory.MaxAmount 140;
+		Inventory.Icon "HLAMB0"; // TODO: Unique ammo drop sprite
+		Inventory.PickupSound "Halo/Pickup/Ammo";
+		Inventory.PickupMessage "Picked up 20 Rounds for the VK78 Commando";
+		
+		Ammo.BackpackMaxAmount 140;
+	}
+	
+	States
+	{
+		Spawn:
+			HLAM B -1 Bright;
+		stop;
+	}
+}
+
+class HaloCommando_Bullet : HaloBullet 
+{
+	Default
+	{
+		HaloProjectile.SetRanges COMMANDO_RANGE1, COMMANDO_RANGE2;
+		HaloProjectile.MinRangeDamage COMMANDO_MINDMG; 
+		HaloProjectile.BaseDamage COMMANDO_DMG;
+		HaloProjectile.Speed_MPS COMMANDO_BMPS;
+		HaloProjectile.HeadshotDMGFactor COMMANDO_HEDMOD;
+		
+		// Do normal damage to body (1.0), 25% headshot bonus
+		HaloProjectile.ShieldDamageFactors 1.0, 1.25;
+		Scale 0.35;
+	}
+}
+
+class Halo_Commando : HaloGun
+{	
+	Default
+	{
+		//$Category "HaloDoom/Weapons"
+		Weapon.SlotNumber 1;
+		Obituary "%o was filled with holes by %k's VK78 Commando.";
+		Inventory.PickupMessage	"Picked up the VK78 Commando.";
+		Tag "VK78 Commando";
+		Weapon.BobSpeed 1.36;
+		Weapon.BobRangeX 0.48;
+		Weapon.AmmoType1 "Halo_CMDO_Reserves";
+		Weapon.AmmoType2 "Halo_CMDO_Clip";
+		Weapon.AmmoGive 20;
+				
+		// Recoil	
+		HaloGun.Bloom 0.6;
+		HaloGun.BloomSpeed 0.2;
+		HaloGun.BaseRecoil COMMANDO_RECOIL;
+		HaloGun.Inaccuracy COMMANDO_ACCMOD;
+		
+		HaloGun.Crosshair "BARRet", 1.0;
+		HaloGun.UIGraphic "WI_BTR", 1.0, 1.0;
+		HaloGun.SetupUIAmmo "WI_AMM7", 12, 14, 0, 8;
+		
+		HaloGun.Availability "HL4";
+		HaloGun.PowerTier P_NORM;
+		
+		RecoilWeapon.YOffsetRange -5, 40;
+	}
+	
+	override void GetStatsLore(out Array<String> stats, out string lore)
+	{
+		stats.Push("VK78 Commando");
+		stats.Push("Ammo Type: 6.5mm");
+		// stats.Push("Frame: Bullpup"); Not sure atm.
+		stats.Push("Feed System: 20 Round Detachable Box Magazine");	
+		stats.Push(String.Format("Base Damage: %d", COMMANDO_DMG));
+	
+		lore = (
+			"Manufactured by Vakara GesmbH, the VK78 Commando is an automatic rifle "
+			"that has been in service since at least the late 25th century. It fires "
+			"6.5mm rounds and is fed by a detachable box magazine that typically holds "
+			"20 rounds. Along its top, it features a mounting rail for optics, with "
+			"one common configuration including a sight akin to a recon sight. The "
+			"model employed by forces attached to the UNSC Infinity in the aftermath "
+			"of the emergence of the Created had an olive drab and matte black finish, "
+			"with a vertical white stripe running across its front end, from the "
+			"foregrip up to the rail."
+			" "
+			"The VK78 had entered production as early as the late 25th century, "
+			"when it was in service with the Colonial Military Authority (CMA). "
+			"In 2495, it was chosen as a replacement for the older HMG-38 heavy "
+			"machine gun rifle among CMA frontier forces.[1] It remained in service "
+			"for at least a further six decades, seeing use within the UNSC Armed" 
+			"Forces at the Battle for Installation 07 in December, 2559, and in "
+			"ensuing conflicts the following year"
+		);
+	}
+	
+	override void MarkPrecacheSounds()
+	{
+		// Prevent stutters by precaching weapon sounds.
+		MarkSound("Halo/Weapons/Commando/Fire");
+		MarkSound("Halo/Weapons/Commando/Fire/Bass");
+		MarkSound("Halo/Weapons/Commando/Mech");
+		MarkSound("Halo/Weapons/Commando/Reload/Full");
+		MarkSound("Halo/Weapons/Commando/Reload/Empty");
+		MarkSound("Halo/Weapons/Commando/Select");
+	}
+	
+	action void A_FireCommando()
+	{
+		A_Light(2);
+		A_WeapSound("Halo/Weapons/Commando/Fire", 0);
+		A_WeapSound("Halo/Weapons/Commando/Fire/Bass", CHANF_OVERLAP);
+		A_ShootProjectile("HaloCommando_Bullet", 10);	
+		
+		A_SetSFXPos(20,-15,-7);
+		A_SpawnSFX("BulletCasing", -90,-20);
+		A_SetSFXPos(25,-8,-6);
+		
+		for(int i = 0; i < 3; i++)
+			A_SpawnSFX("MuzzleSmoke", 0,0);
+			
+		A_TakeAmmo();
+		A_UpdateSpread();
+	}
+	
+	action void A_ReloadSound()
+	{
+		Sound reload_snd = "Halo/Weapons/Commando/Reload/Full";
+		if(!CountLoadedAmmo()) reload_snd = "Halo/Weapons/Commando/Reload/Empty";
+		A_StartSound(reload_snd, CHAN_RELOADING, CHANF_OVERLAP);
+	}
+	
+	States
+	{
+		
+		Ready:
+			TNT1 A 0 
+			{
+				A_WeapSound("Halo/Weapons/Commando/Select");
+				return A_JumpIf(A_DoFullSelectAnimation(), "Ready.Chamber");
+			}
+			WUD1 ABCDEF 1 A_DoSelectAnim();
+			WUD2 IJKLMNOPQRSTUVWX 1;
+		goto Ready.Active;
+		Ready.Chamber:
+			TNT1 A 0 A_DoSelectAnim(0, true);
+			WUD1 ABCDEFGHIJKLMNOPQRSTUVWXY 1;
+			WUD2 ABCDEFGHIJKLMNOPQRSTUVWX 1;
+		Ready.Active:
+			WUI1 A 1 A_HaloWeaponReady(WRF_ALLOWRELOAD, true);
+		loop;
+		
+		Ready.Dryfire:
+			WUI1 A 4 A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
+		goto Ready.Active;
+
+		Select:
+			TNT1 A 1 A_GunRaise();
+		wait;
+
+		Deselect:
+			WUD2 XWVUTSRQPONMLKJI 1;
+			WUD1 FEDCBA 1;
+			W2S1 A 1 A_GunLower();
+		wait;
+		
+		// 550 RPM
+		// 4 frames per shot
+		Fire:
+			TNT1 A 0 A_GunCheckReload();
+			TNT1 A 0 A_JumpIf(CountLoadedAmmo() <= 1, "FireE");
+			TNT1 A 0 A_Jump(128, "Fire1", "Fire2", "Fire3");
+		Fire1:
+			TNT1 A 0 
+			{
+				A_SetFrame(random[CommandoFlash](1,2));
+			}
+			WUF1 "#" 1 Bright
+			{
+				A_FireCommando();
+				A_SetRecoil(0.8, 0, 2);
+				A_RQuakeEx(2,3,2,4,0,20,"",QF_RELATIVE|QF_WAVE|QF_SCALEDOWN);
+			//	A_RollQuake(1,6,2);
+			}
+			WUF1 D 1 Bright
+			{
+				A_Light(0);
+				A_MechanismSound("Halo/Weapons/Commando/Mech");
+			}
+			WUF1 E 1 A_SetRecoil(-0.1, 0, 3);
+			WUF1 FG 1 A_RecoilOffset(0,0,2);
+			TNT1 A 0 A_Refire("Fire");
+			WUF1 HIJKLMNOPQ 1;
+		goto Ready.Active;
+		Fire2:
+			TNT1 A 0 
+			{
+				A_SetFrame(random[CommandoFlash](17,18));
+			}
+			WUF1 "#" 1 Bright
+			{
+				A_FireCommando();
+				A_SetRecoil(-0.4, 0.1, 2);
+				A_RQuakeEx(2,2,2,4,0,20,"",QF_RELATIVE|QF_WAVE|QF_SCALEDOWN);
+				A_RollQuake(1,12,2);
+			}
+			WUF1 T 1 Bright
+			{
+				A_Light(0);
+				A_MechanismSound("Halo/Weapons/Commando/Mech");
+			}
+			WUF1 U 1 A_SetRecoil(-0.07, 0, 2);
+			WUF1 VW 1 A_RecoilOffset(0,0,2);
+			TNT1 A 0 A_Refire("Fire");
+			WUF1 XYZ 1;
+			WUF2 ABCDEFGH 1;
+		goto Ready.Active;
+		Fire3:
+			TNT1 A 0 
+			{
+				A_SetFrame(random[CommandoFlash](9,10));
+			}
+			WUF2 "#" 1 Bright
+			{
+				A_FireCommando();
+				A_SetRecoil(1.8, 0, 1);
+				A_RQuakeEx(2,3,2,3,0,20,"",QF_RELATIVE|QF_WAVE|QF_SCALEDOWN);
+			//	A_RollQuake(1,6,2);
+			}
+			WUF2 L 1 Bright
+			{
+				A_Light(0);
+				A_MechanismSound("Halo/Weapons/Commando/Mech");
+			}
+			WUF2 M 1 A_SetRecoil(-0.15, 0, 3);
+			WUF2 NO 1 A_RecoilOffset(0,0,2);
+			TNT1 A 0 A_Refire("Fire");
+			WUF2 PQRSTUVWXY 1;
+		goto Ready.Active;
+		FireE:
+			TNT1 A 0 
+			{
+				A_SetFrame(random[CommandoFlash](2,3));
+			}
+			WUF3 "#" 1 Bright
+			{
+				A_FireCommando();
+				A_SetRecoil(0.7, 0, 2);
+				A_RQuakeEx(2,2,2,4,0,20,"",QF_RELATIVE|QF_WAVE|QF_SCALEDOWN);
+			//	A_RollQuake(1,6,2);
+			}
+			WUF3 E 1 Bright
+			{
+				A_Light(0);
+				A_MechanismSound("Halo/Weapons/Commando/Mech");
+			}
+			WUF3 F 1 A_SetRecoil(-0.1, 0, 5);
+			WUF3 GH 1 A_RecoilOffset(0,0,2);
+			WUF3 IJKLMNOPQRST 1;
+		goto Reload;
+		
+		Reload:
+			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
+			TNT1 A 0 A_ScopeDisable();
+			TNT1 A 0 A_ReloadSound();
+			TNT1 A 0 A_JumpIf(!CountReloadAmmo(), "Reload.Empty");
+			
+			WUR1 ABCDEFGHIJKLMNOPQRS 1;
+			WUR1 T 1 A_SetRecoil(0.4, -0.2, 3);
+			WUR1 UVWXYZ 1;
+			WUR2 ABCDEFGHIJK 1;
+			WUR2 L 1 
+			{
+				A_ReloadClip();
+				A_SetRecoil(-0.4, 0.2, 3);
+			}
+			WUR2 MNOPQRSTUVWXYZ 1;
+			WUR3 MNOPQRSTUVW 1;
+		goto Ready.Active;
+		
+		Reload.Empty:
+			WUR3 XYZ 1;
+			WUR4 ABCDEFGHIJK 1;
+			WUR4 L 1 A_SetRecoil(0, -0.2, 8);
+			WUR4 MNOPQRSTUVWXYZ 1;
+			WUR5 ABCDEFGH 1;
+			WUR5 I 1 
+			{
+				A_ReloadClip();
+				A_SetRecoil(-0.4, 0.2, 3);
+			}
+			WUR5 JKLMNOPQRSTUVWXYZ 1;
+			WUR6 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1;
+			WUR7 ABCDEFGH 1;
+		goto Ready.Active;
+		
+		Spawn:
+			W2G1 A -1;
+		stop;
+	}
+}

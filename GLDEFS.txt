@@ -18,6 +18,12 @@ HardwareShader Texture MISSNG
 	Speed 2.0
 }
 
+HardwareShader PostProcess Screen
+{
+	Shader "Shaders/visor.fp" 330
+	// Enabled
+}
+
 /*
 HardwareShader Sprite BLHLA0
 {

@@ -48,7 +48,7 @@ class HaloPickup_EVH : EventHandler
 				aim_weap, 16, 0, (aim_weap.height/3)+10
 			);	
 
-			if(infront) 
+			if(infront && aim_weap.trueitem) 
 			{
 				string weapname = GetDefaultByType(aim_weap.trueitem).GetTag();
 				string pickup1 = PICKUP_STR1;

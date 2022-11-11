@@ -65,7 +65,7 @@ class Halo_BattleRifle : HaloGun
 		Weapon.AmmoGive 36;
 				
 		// Recoil
-		HaloGun.Bloom 0.8;
+		HaloGun.Bloom 0.2;
 		HaloGun.BloomSpeed 0.30;
 		HaloGun.BaseRecoil BARIFLE_RECOIL;
 		HaloGun.Inaccuracy BARIFLE_ACCMOD;
@@ -127,6 +127,7 @@ class Halo_BattleRifle : HaloGun
 		A_SetSFXPos(25,-10,-10);
 		A_SpawnSFX("MuzzleSmoke", 0,0);
 		A_TakeAmmo();
+		A_UpdateSpread();
 	}
 	
 	action void A_ReloadSound()

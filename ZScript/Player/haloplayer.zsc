@@ -231,7 +231,7 @@ class HaloPlayer : DoomPlayer
 	}
 	
 	override void Tick()
-	{	
+	{		
 		// Flashlight stuff
 		if(!flashlight) 
 		{

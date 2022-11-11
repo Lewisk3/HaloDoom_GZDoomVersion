@@ -413,7 +413,7 @@ class HaloDoom_Events : EventHandler
 class HaloDoom_EngineEvents : StaticEventHandler 
 {		
 	ui bool intro_played;
-	
+
 	override void UITick()
 	{
 		let curmenu = Menu.GetCurrentMenu();

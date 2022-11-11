@@ -238,6 +238,7 @@ extend class HaloPlayer
 		let player = self.player;
 		UserCmd cmd = player.cmd;
 		bool moving = (cmd.forwardmove || cmd.sidemove);
+		if(player.cheats & CF_PREDICTING) return;
 		
 		doomermovement = halodoom_classicmovement;
 		
@@ -387,6 +388,7 @@ extend class HaloPlayer
 		let player = self.player;
 		uint btns = player.cmd.buttons;
 		uint obtns = player.oldbuttons;
+		if(player.cheats & CF_PREDICTING) return;
 		
 		if(!cv_snd_jump) cv_snd_jump = CVar.GetCVar("halodoom_snd_jumpgrunt", player);
 		
@@ -429,6 +431,7 @@ extend class HaloPlayer
 		if (player.crouchoffset != 0) player.crouching = 1;
 		if (waterlevel >= 2) Vel.Z = 4 * Speed;
 		if (bNoGravity) Vel.Z = 3.;
+		if(player.cheats & CF_PREDICTING) return false;
 		
 		if (level.IsJumpingAllowed())
 		{
