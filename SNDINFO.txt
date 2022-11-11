@@ -472,6 +472,28 @@ $volume Halo/Weapons/SMG/Fire 1.0
 $volume Halo/Weapons/SMG/Fire/Bass 1.0
 $volume Halo/Weapons/SMG/Mech 0.2
 
+// Commando
+
+CMDO_FIR1 "Sounds/Commando/Commando_Fire1.ogg"
+CMDO_FIR2 "Sounds/Commando/Commando_Fire2.ogg"
+CMDO_FIR3 "Sounds/Commando/Commando_Fire3.ogg"
+CMDO_FAR1 "Sounds/Commando/Commando_Far1.ogg"
+CMDO_FAR2 "Sounds/Commando/Commando_Far2.ogg"
+CMDO_FAR3 "Sounds/Commando/Commando_Far3.ogg"
+CMDO_LOW1 "Sounds/Commando/Commando_Low1.ogg"
+CMDO_LOW2 "Sounds/Commando/Commando_Low2.ogg"
+CMDO_LOW3 "Sounds/Commando/Commando_Low3.ogg"
+CMDO_MECH1 "Sounds/Commando/Commando_Mech1.ogg"
+CMDO_MECH2 "Sounds/Commando/Commando_Mech2.ogg"
+CMDO_MECH3 "Sounds/Commando/Commando_Mech3.ogg"
+Halo/Weapons/Commando/Reload "Sounds/Commando/Commando_Reload.ogg"
+Halo/Weapons/Commando/Reload/Empty "Sounds/Commando/Commando_ReloadEmpty.ogg"
+Halo/Weapons/Commando/Select "Sounds/Commando/Commando_Draw.ogg"
+
+$random Halo/Weapons/Commando/Fire { CMDO_FIR1 CMDO_FIR2 CMDO_FIR3 }
+$random Halo/Weapons/Commando/Fire/Bass { CMDO_LOW1 CMDO_LOW2 CMDO_LOW3 }
+$random Halo/Weapons/Commando/Mech { CMDO_MECH1 CMDO_MECH2 CMDO_MECH3 }
+
 // MA5B
 MA5B_FIRE1 "Sounds/MA5B/MA5B_Fire1.ogg"
 MA5B_FIRE2 "Sounds/MA5B/MA5B_Fire2.ogg"

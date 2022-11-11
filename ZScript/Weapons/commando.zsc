@@ -96,14 +96,14 @@ class Halo_Commando : HaloGun
 			"of the emergence of the Created had an olive drab and matte black finish, "
 			"with a vertical white stripe running across its front end, from the "
 			"foregrip up to the rail."
-			" "
+			"\n"
 			"The VK78 had entered production as early as the late 25th century, "
 			"when it was in service with the Colonial Military Authority (CMA). "
 			"In 2495, it was chosen as a replacement for the older HMG-38 heavy "
 			"machine gun rifle among CMA frontier forces.[1] It remained in service "
 			"for at least a further six decades, seeing use within the UNSC Armed" 
 			"Forces at the Battle for Installation 07 in December, 2559, and in "
-			"ensuing conflicts the following year"
+			"ensuing conflicts the following year. "
 		);
 	}
 	
@@ -138,7 +138,7 @@ class Halo_Commando : HaloGun
 	
 	action void A_ReloadSound()
 	{
-		Sound reload_snd = "Halo/Weapons/Commando/Reload/Full";
+		Sound reload_snd = "Halo/Weapons/Commando/Reload";
 		if(!CountLoadedAmmo()) reload_snd = "Halo/Weapons/Commando/Reload/Empty";
 		A_StartSound(reload_snd, CHAN_RELOADING, CHANF_OVERLAP);
 	}
