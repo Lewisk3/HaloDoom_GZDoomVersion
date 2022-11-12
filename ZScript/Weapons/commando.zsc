@@ -16,7 +16,7 @@ class Halo_CMDO_Reserves : Ammo
 
 		Inventory.Amount 20;
 		Inventory.MaxAmount 140;
-		Inventory.Icon "HLAMB0"; // TODO: Unique ammo drop sprite
+		Inventory.Icon "HLAMT0"; // TODO: Unique ammo drop sprite
 		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "Picked up 20 Rounds for the VK78 Commando";
 		
@@ -26,7 +26,7 @@ class Halo_CMDO_Reserves : Ammo
 	States
 	{
 		Spawn:
-			HLAM B -1 Bright;
+			HLAM T -1 Bright;
 		stop;
 	}
 }

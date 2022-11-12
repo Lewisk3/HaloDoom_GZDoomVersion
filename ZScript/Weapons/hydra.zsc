@@ -16,7 +16,7 @@ class Halo_Hydra_Reserves : Ammo
 
 		Inventory.Amount 4;
 		Inventory.MaxAmount 48;
-		Inventory.Icon "HLAMP0";
+		Inventory.Icon "HLAMS0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "Picked up 4 Rounds for the Hydra";
 		
@@ -26,7 +26,7 @@ class Halo_Hydra_Reserves : Ammo
 	States
 	{
 		Spawn:
-			HLAM P -1 Bright;
+			HLAM S -1 Bright;
 		stop;
 	}
 }
