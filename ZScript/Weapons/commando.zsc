@@ -68,9 +68,15 @@ class Halo_Commando : HaloGun
 		HaloGun.BaseRecoil COMMANDO_RECOIL;
 		HaloGun.Inaccuracy COMMANDO_ACCMOD;
 		
-		HaloGun.Crosshair "BARRet", 1.0;
-		HaloGun.UIGraphic "WI_BTR", 1.0, 1.0;
+		HaloGun.Crosshair "CMDORet", 1.0;
+		HaloGun.UIGraphic "WI_CMDO", 1.0, 1.0;
 		HaloGun.SetupUIAmmo "WI_AMM7", 12, 14, 0, 8;
+		
+		HaloGun.UISight "SI_CMDO", 1.0, 1.0;
+		HaloGun.SetupScope 1.5, 0.15;
+		+HaloGun.SI_Fullscreen;
+		+HaloGun.SI_Rotate;
+		+HaloGun.SI_AlwaysHide;
 		
 		HaloGun.Availability "HL4";
 		HaloGun.PowerTier P_NORM;
@@ -123,7 +129,7 @@ class Halo_Commando : HaloGun
 		A_Light(2);
 		A_WeapSound("Halo/Weapons/Commando/Fire", 0);
 		A_WeapSound("Halo/Weapons/Commando/Fire/Bass", CHANF_OVERLAP);
-		A_ShootProjectile("HaloCommando_Bullet", 10);	
+		A_ShootProjectile("HaloCommando_Bullet", A_CheckInScope() ? 0 : 10);	
 		
 		A_SetSFXPos(20,-15,-7);
 		A_SpawnSFX("BulletCasing", -90,-20);
@@ -308,7 +314,7 @@ class Halo_Commando : HaloGun
 		goto Ready.Active;
 		
 		Spawn:
-			W2G1 A -1;
+			WUG1 A -1;
 		stop;
 	}
 }
