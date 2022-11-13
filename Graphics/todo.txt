@@ -1,3 +1,2 @@
-Hydra
 Needler Javelin
 GPMG
