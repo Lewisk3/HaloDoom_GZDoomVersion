@@ -470,7 +470,7 @@ $random Halo/Weapons/SMG/Mech { SMG_MECH1 SMG_MECH2 SMG_MECH3 }
 
 $volume Halo/Weapons/SMG/Fire 1.0
 $volume Halo/Weapons/SMG/Fire/Bass 1.0
-$volume Halo/Weapons/SMG/Mech 0.2
+$volume Halo/Weapons/SMG/Mech 1.0
 
 // Commando
 
