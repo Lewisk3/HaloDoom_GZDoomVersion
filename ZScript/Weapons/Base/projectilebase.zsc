@@ -247,7 +247,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 	override int SpecialMissileHit(Actor victim)
 	{
 		int defaultHit = Handle_MissileHit(victim);
-		if(defaultHit == 1) return 1; // Ignore invalid actors.
+		if(defaultHit == 1 || !victim || victim.health <= 0) return 1; // Ignore invalid actors.
 		
 		hitactor = victim;
 		bSOLID = false;
