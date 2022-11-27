@@ -16,7 +16,7 @@ class Halo_CMDO_Reserves : Ammo
 
 		Inventory.Amount 20;
 		Inventory.MaxAmount 140;
-		Inventory.Icon "HLAMT0"; // TODO: Unique ammo drop sprite
+		Inventory.Icon "HLAMT0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "Picked up 20 Rounds for the Commando";
 		
