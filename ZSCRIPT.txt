@@ -107,8 +107,6 @@ version "4.5"
 
 // Laser(s)
 #include "ZScript/Lasers/base/smoothlaser_base.zsc"
-#include "ZScript/Lasers/base/laser_base.zsc"
-#include "ZScript/Lasers/base/laserfx_base.zsc"
 #include "ZScript/Lasers/halo_lasers.zsc"
 
 // BiriBiri (Lightning)

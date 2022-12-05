@@ -647,26 +647,6 @@ class RailgunProjectile : FastProjectile
 	}
 }
 
-class LSR_Railgun : Laser
-{
-	Default
-	{
-		Radius 2;
-		Scale 1.25;
-		RenderStyle "Add";
-		Alpha 0.75;
-		Laser.Interpolation 1.0;
-		Translation "0:255=@80[255,255,255]"; // 255 200 5
-	}
-	
-	States
-	{
-		Spawn:
-			BEAM A 1 Bright;
-		loop;
-	}	
-}
-
 class RailgunTrail : SmokeTrail
 {
 	Default
