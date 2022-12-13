@@ -159,8 +159,8 @@ Halo/Weapons/Mag_MD6/Reload 	  HW_MAGR
 Halo/Weapons/Mag_MD6/Reload/Empty HW_MAGRE
 
 $volume Halo/Weapons/Mag_MD6/Fire 1.0
-$volume Halo/Weapons/Mag_MD6/Fire/Bass 0.65
-$volume Halo/Weapons/Mag_MD6/Mech 0.9
+$volume Halo/Weapons/Mag_MD6/Fire/Bass 0.67
+$volume Halo/Weapons/Mag_MD6/Mech 1.0
 
 // AssaultRifle
 ARFIRE1 "Sounds/AssaultRifle/ARFire1.ogg"
@@ -259,7 +259,7 @@ $random Halo/Weapons/Shotgun/Fire/Bass { SGBASS1 SGBASS2 SGBASS3 }
 $random Halo/Weapons/Shotgun/Reload    { SGRELOAD1 SGRELOAD2 SGRELOAD3 SGRELOAD4 }
 
 $volume Halo/Weapons/Shotgun/Fire/Bass 1.0
-$volume Halo/Weapons/Shotgun/Fire 0.6
+$volume Halo/Weapons/Shotgun/Fire 0.8
 
 // Sniper
 SNIPER_FIRE1 SNPRFIR1
