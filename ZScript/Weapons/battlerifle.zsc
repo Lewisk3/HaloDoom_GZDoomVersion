@@ -44,7 +44,7 @@ class HaloBattleRifle_Bullet : HaloBullet
 		HaloProjectile.HeadshotDMGFactor BARIFLE_HEDMOD;
 		
 		// Do normal damage to body (1.0), don't deal any headshot bonus to head.
-		HaloProjectile.ShieldDamageFactors 1.0, 1.0;
+		HaloProjectile.ShieldDamageFactors 0.8, 0.8;
 		Scale 0.5;
 	}
 }
