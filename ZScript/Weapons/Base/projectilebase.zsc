@@ -453,6 +453,7 @@ class RailgunProjectile : FastProjectile
 	vector3 endpos;
 	vector3 posoffs;
 	vector3 dir;
+	double railScale;
 	
 	// Keep track of ripped-through targets so damage isn't done multiple times.
 	int ripamount;
@@ -491,6 +492,7 @@ class RailgunProjectile : FastProjectile
 		victim.vel.z += 10*inertia;
 		
 		// Rip through actors
+		if(victim.health > 0) return 0; // Do not rip through bosses.
 		if(ripamount > 0) 
 		{
 			ripamount--;
@@ -505,7 +507,7 @@ class RailgunProjectile : FastProjectile
 		return super.CanCollideWith(other, passive);
 	}
 	
-	static RailgunProjectile FireRailgun(Actor source, double dmg, double expdmg, vector3 offs, vector2 viewoffs = (0,0))
+	static RailgunProjectile FireRailgun(Actor source, double dmg, double expdmg, vector3 offs, double size = 1.0, vector2 viewoffs = (0,0), bool doShockwave = true, vector3 colors = (0xFFFF0000, 0xFFfc9d03, 0xFFFFFFFF))
 	{
 		vector3 spawnpos = HaloMath.RelativeV3Offset(source, 0,0,0, offs.x, offs.y, offs.z, 1.);
 		let proj = RailgunProjectile(Actor.Spawn("RailgunProjectile", spawnpos));
@@ -525,43 +527,47 @@ class RailgunProjectile : FastProjectile
 				-sin(proj.pitch)
 			) * ((proj.default.speed / 35) * UNIT_METER);
 			proj.dir = proj.vel.Unit();
-	
-			FLineTraceData lt;
-			proj.LineTrace(proj.angle, int.max, proj.pitch, TRF_THRUACTORS, offsetforward:source.radius+16, data:lt);
-			vector3 hitpos = lt.HitLocation;
-			proj.endpos = hitpos;
-			proj.aimdist = lt.Distance;
-			
+
 			double trueDamage = source.GetModifiedDamage("Railgun", dmg, false, proj, source);
+			let lt = RailTracer.RailTrace(source, proj.angle, proj.pitch, 4096*4096, proj.default.ripamount, trueDamage + expdmg, traceFlags:0);
+
+			//FLineTraceData lt;
+			//proj.LineTrace(proj.angle, int.max, proj.pitch, TRF_THRUACTORS, offsetforward:source.radius+16, data:lt);
+			vector3 hitpos = lt.results.HitPos;
+			proj.endpos = hitpos;
+			proj.aimdist = lt.results.Distance;			
+		
 			proj.SetDamage(trueDamage);
 			proj.expdmg = expdmg;
+			proj.railScale = size;
 			
-			Spawn("Railgun_MuzzleExplosion", proj.pos);
+			let muzexp = Spawn("Railgun_MuzzleExplosion", proj.pos);
+			if(muzexp) muzexp.A_SetScale(min(muzexp.default.Scale.X * 2., size));
 			
 			// Outer-most trail
-			let smok = SmokeTrail.Start(0xFFFF0000, spawnpos, hitpos, (proj.angle, proj.pitch), 0.5, type:"RailgunTrail");
+			let smok = SmokeTrail.Start(int(colors.x), spawnpos, hitpos, (proj.angle, proj.pitch), 0.5, type:"RailgunTrail");
 			if(smok)
 			{
-				smok.A_SetScale(15.0 * 0.7);
+				smok.A_SetScale(15.0 * 0.7 * size);
 			}
 			
 			// Outer trail
-			smok = SmokeTrail.Start(0xFFfc9d03, spawnpos, hitpos, (proj.angle, proj.pitch), 1.0, type:"RailgunTrail");
+			smok = SmokeTrail.Start(int(colors.y), spawnpos, hitpos, (proj.angle, proj.pitch), 1.0, type:"RailgunTrail");
 			if(smok)
 			{
-				smok.A_SetScale(10.0 * 0.7);
+				smok.A_SetScale(10.0 * 0.7 * size);
 			}
 			
 			// Inner trail
-			smok = SmokeTrail.Start(0xFFFFFFFF, spawnpos, hitpos, (proj.angle, proj.pitch), 3.0);
+			smok = SmokeTrail.Start(int(colors.z), spawnpos, hitpos, (proj.angle, proj.pitch), 3.0);
 			if(smok)
 			{
-				smok.A_SetScale(5.0 * 0.7);
+				smok.A_SetScale(5.0 * 0.7 * size);
 			}
 			
 			// Shockwave
-			proj.Shockwave(0.2, 0, 0xFF313de8); 
-			proj.Biri(10, 200, 0);
+			if(doShockwave) proj.Shockwave(0.2 * size, 0, 0xFF313de8); 
+			proj.Biri(min(12, 10 * size), min(200, 200 * size), 0);
 			
 			//proj.Shockwave(0.1, 0.1);
 			//proj.Biri(5, 100, 0.1);
@@ -606,7 +612,7 @@ class RailgunProjectile : FastProjectile
 	{
 		super.Tick();
 		if (isFrozen()) return;
-		Biri(3);
+		Biri(min(3, floor(3 * railScale)));
 	}
 	
 	States
@@ -624,7 +630,8 @@ class RailgunProjectile : FastProjectile
 		Death:
 			TNT1 A 0 
 			{
-				Spawn("Railgun_Explosion", pos);
+				let expl = Spawn("Railgun_Explosion", pos);
+				if(expl) expl.A_SetScale(railScale * expl.default.Scale.X);
 				A_Explode(expdmg, expdmg, 0);
 			}
 		Death.FadeOut:
@@ -640,7 +647,7 @@ class RailgunProjectile : FastProjectile
 				if(GetAge()%5 == 0)
 				{
 					for(int i = 0; i < 2; i++)
-						BiriBiri.DoLightning(pos, (angle+frandom(-45, 45)+180, frandom(-90,90)), dist:80, 1.0, 6.0, 5, 100);
+						BiriBiri.DoLightning(pos, (angle+frandom(-45, 45)+180, frandom(-90,90)), dist:80*railScale, 1.0, 6.0, 5, 100);
 				}
 			}
 		wait;
@@ -703,7 +710,8 @@ class Railgun_Explosion : FastActor
 			TNT1 A 1
 			{
 				A_StartSound("Halo/Scorpion/MissileExplosion", flags:CHANF_OVERLAP, attenuation: 0.1);
-				Spawn("ImpactSparks", pos);
+				let sprks = Spawn("ImpactSparks", pos);
+				sprks.A_SetScale(scale.x / 1.75);
 			}
 			SX04 A 1 Bright
 			{	
@@ -712,7 +720,7 @@ class Railgun_Explosion : FastActor
 				{
 					// flare.A_SetRenderStyle(1.0, STYLE_AddShaded);
 					// flare.SetShade(0xFF313de8);
-					flare.A_SetScale(0.5);
+					flare.A_SetScale(0.5 * (scale.x / 1.75));
 				}
 				
 				// Flying explosions
@@ -731,7 +739,7 @@ class Railgun_Explosion : FastActor
 					let expl = Spawn("TankRocket_FlyingExplosion", level.vec3offset(pos, spawndir));
 					if(expl)
 					{
-						expl.A_SetScale(0.25);
+						expl.A_SetScale(0.2 * (scale.x / 1.75));
 						double velang = frandom(-180,180);
 						vector3 veldir = (
 							cos(velang),
@@ -771,5 +779,51 @@ class Railgun_MuzzleExplosion : FastActor
 			}
 			FX58 Q 1 Bright A_FadeOut(0.05);
 		stop;
+	}
+}
+
+class RailTracer : LineActivatorTracer
+{
+	int ripamt;
+	double raildmg;
+		
+	static RailTracer RailTrace(Actor src, double tangle, double tpitch, double dist, int ripamount, double dmg, uint traceflags = 0)
+	{
+		let tracer = new("RailTracer");
+		if(tracer) 
+		{
+			tracer.src = src;
+			tracer.ripamt = ripamount;
+			tracer.raildmg = dmg;
+			
+			let angles = Quat.FromAngles(tangle, tpitch, src.roll);
+			vector3 dir = angles * (1.0,0,0);
+			vector3 tracePos = level.vec3offset(src.pos, angles * (src.radius+16,0,0));
+			if(src.player) tracePos.z = src.player.viewz;
+			tracer.Trace(tracePos, src.CurSector, dir, dist, traceflags);
+		}
+		return tracer;
+	}
+		
+	override ETraceStatus TraceCallback()
+	{
+		if(results.HitType == Trace_HitWall)
+			return HandleWall();
+		
+		if(results.HitType == Trace_HitFloor || results.HitType == Trace_HitCeiling)
+			return Trace_Stop;
+		
+		if(results.HitType == Trace_HitActor)
+		{
+			let hitAct = results.HitActor;
+			if(hitAct == src || !hitAct.bSOLID && !hitAct.bSHOOTABLE) 
+				return Trace_Skip;
+
+			if( ripamt-- > 0 && hitAct && (hitAct.health - raildmg) <= 0 )
+				return Trace_Skip;
+			else 
+				return Trace_Stop;
+		}
+		return Trace_Stop;
 	}
 }

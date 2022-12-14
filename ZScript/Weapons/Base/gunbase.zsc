@@ -203,6 +203,13 @@ class HaloGun : RecoilWeapon
 			weapslist.Push(actType.getTag());
 		}
 	}
+	
+	action void A_HUDMessage(string msg, Actor plr = NULL)
+	{
+		if(!plr) plr = self;
+		let hplr = HaloPlayer(plr);
+		if(hplr) hplr.SendHUDMessage(msg);
+	}
 
 	// Weapon functions
 	override void OnDrop (Actor dropper) 
@@ -956,6 +963,11 @@ class HaloGun : RecoilWeapon
 	action int CountReservedAmmo()
 	{
 		return countinv(invoker.AmmoType1);
+	}
+	action bool CheckFullyLoaded()
+	{
+		let rammo = GetDefaultByType(invoker.AmmoType2);
+		return countinv(invoker.AmmoType2) >= rammo.maxamount;
 	}
 	
 	// Check if we need to reload, if we do, jump to Reload.

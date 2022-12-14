@@ -35,6 +35,8 @@ class Halo_StanchionReserves : Ammo
 
 class Halo_Stanchion : HaloGun
 {
+	int fxCounter; // Used for charge lightning.
+
 	Default
 	{
 		//$Category "HaloDoom/Weapons"
@@ -67,6 +69,7 @@ class Halo_Stanchion : HaloGun
 		RecoilWeapon.YOffsetRange 0, 100;
 	}
 	
+	
 	action void MuzzleLightning()
 	{
 		vector3 muzzlepos = HaloMath.RelativeV3Offset(self, 0,0,0, 25,10,-8, 1.);
@@ -78,6 +81,17 @@ class Halo_Stanchion : HaloGun
 			BiriBiri.DoLightning(muzzlepos, view, dist:50, 0.5, 8.0, 10.0, 30, 0);
 		}
 	}
+	
+	action void A_SpriteLightning(int amt = 10, vector2 posoffs = (0,0))
+	{
+		uint boltlen = 60;
+		vector2 muzzlePos = (280,20) + posoffs;
+		DoSpriteLightning(
+			amt,
+			frandom(-180,180), muzzlePos, boltlen:boltlen, 
+			stepsize:2.5, roughness:14
+		);
+	}
 		
 	override void MarkPrecacheSounds()
 	{
@@ -88,22 +102,41 @@ class Halo_Stanchion : HaloGun
 		// MarkSound("Halo/Weapons/Stanchion/Ready");
 	}
 	
-	action void A_FireStanchion()
+	action void A_FireStanchion(bool charged = false)
 	{
-		A_Light(4);
-		A_WeapSound("Halo/Weapons/Stanchion/Fire", CHANF_OVERLAP, true);
-		A_WeapSound("Halo/Weapons/Stanchion/Fire/Bass", CHANF_OVERLAP, true);
-		
 		// Lowered crosshair shenanigans.
 		vector2 aimoffs = (0,0);
 		if(A_GetWeapYOffs() > 0 && !A_CheckInScope()) aimoffs.y = 5;
-		RailgunProjectile.FireRailgun(self, STANCHION_DMG, STANCHION_DMG*0.25, (50, 8, -6), aimoffs);
-		
-		A_SetSFXPos(25,-5,-7);
-		for(int i = 0; i < 15; i++)
-			A_SpawnSFX("MuzzleSmoke", 0,0);
+	
+		if(charged)
+		{
+			A_Light(4);
+			A_WeapSound("Halo/Weapons/Stanchion/Fire", CHANF_OVERLAP, true);
+			A_WeapSound("Halo/Weapons/Stanchion/Fire/Bass", CHANF_OVERLAP, true);
 			
-		A_TakeAmmo(20);
+			RailgunProjectile.FireRailgun(self, STANCHION_DMG, STANCHION_DMG*0.25, (50, 8, -6), size:3.0, viewoffs:aimoffs);	
+			A_SetSFXPos(25,-5,-7);
+			for(int i = 0; i < 15; i++)
+				A_SpawnSFX("MuzzleSmoke", 0,0);
+		}
+		else
+		{
+			A_Light(2);
+			A_WeapSound("Halo/Weapons/Stanchion/Uncharged/Fire", CHANF_OVERLAP, true);
+			A_WeapSound("Halo/Weapons/Stanchion/Uncharged/Fire/Bass", CHANF_OVERLAP, true);
+			
+			double dmg = STANCHION_DMG*0.1;
+			double spread = A_RecoilSpread();
+			aimoffs.x += spread * 0.2;
+			aimoffs.y += spread * 0.2;
+			
+			RailgunProjectile.FireRailgun(self, dmg, dmg*0.25, (50, 8, -6), size:0.6, viewoffs:aimoffs, doShockwave: false, colors:(0xFF0228e6, 0xFF5100ff, 0xFFFFFFFF) );	
+			A_SetSFXPos(25,-5,-7);
+			for(int i = 0; i < 5; i++)
+				A_SpawnSFX("MuzzleSmoke", 0,0);
+				
+			A_TakeAmmo(5);
+		}
 		A_UpdateSpread();
 	}
 
@@ -113,6 +146,7 @@ class Halo_Stanchion : HaloGun
 		DoSmoke:	
 			TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 3 
 			{
+				invoker.heat *= 0.9;
 				let psp = player.GetPSprite(OverlayID());
 				if(psp) psp.frame = random(3,8);
 				A_SetSFXPos(25,-5,-7);
@@ -120,7 +154,8 @@ class Halo_Stanchion : HaloGun
 					A_SpawnSFX("MuzzleSmoke", 0,0);
 				if(!(psp.frame%5)) MuzzleLightning();
 			}
-		stop;
+			TNT1 A 0 { invoker.heat = 0; }
+ 		stop;
 		
 		Ready:
 			TNT1 A 0 A_WeapSound("Halo/Weapons/Stanchion/Ready");
@@ -129,6 +164,7 @@ class Halo_Stanchion : HaloGun
 			STCI A 1 
 			{
 				A_HaloWeaponReady(WRF_ALLOWRELOAD, true);
+				A_StopSound(CHAN_7);
 			}
 		loop;
 		
@@ -147,29 +183,60 @@ class Halo_Stanchion : HaloGun
 		
 		Fire:
 			TNT1 A 0 A_GunCheckReload();
+			TNT1 A 0 A_JumpIf(invoker.heat >= 1.0, "Fire.Charged");
+		Fire.Normal:
+			TNT1 A 0 A_SetZoom(0.8, 1);
+			STCF A 1 Bright
+			{
+				A_RecoilOffset(20,20,2);
+				A_SetRecoil(2.78, 0, 2);
+				A_FireStanchion(false);
+				A_RQuakeEx(4,2,1,3,0,20,"",QF_RELATIVE|QF_WAVE|QF_SCALEDOWN);
+				A_RollQuake(6,10,1);
+				A_SetZoom(0.8, 2);
+			}
+			TNT1 A 0 A_Light(0);
+			STCF BCD 1 Bright 
+			{
+				A_RecoilOffset(10,10,4);
+				A_SetZoom(1.0, 6);
+			}
+			STCF EEE 1 A_SetZoom(1.0, 6);
+			STCF E 2 
+			{
+				A_RecoilOffset(0,0,6);
+				A_RQuakeEx(2,2,2,4,0,20,"",QF_RELATIVE|QF_SCALEDOWN);
+			}
+			STCF FGHI 1;
+		goto Ready.Active;
+		
+		Fire.Charged:
 			TNT1 A 0 A_SetZoom(0.7, 1);
 			STCF A 1 Bright
 			{
 				A_RecoilOffset(60,60,6);
 				A_SetRecoil(4.42, 0, 2);
-				A_FireStanchion();
-				A_RollQuake(8, 45, 1);
-				A_RQuakeEx(2,10,2,10,0,20,"",QF_RELATIVE|QF_WAVE);
-				A_Pushback(20);
+				A_FireStanchion(true);
+				A_RollQuake(8, 30, 1);
+				A_RQuakeEx(2,10,2,10,0,20,"",QF_RELATIVE|QF_WAVE|QF_SCALEDOWN);
+				A_Pushback(30);
+				A_SetZoom(0.7, 1);
 			}
 			STCF BCD 1 Bright A_RecoilOffset(60,60,6);
 			TNT1 A 0 
 			{
 				A_Light(0);
-				A_RQuakeEx(3,3,3,8,0,20,"",QF_RELATIVE);
+				A_RQuakeEx(3,3,3,8,0,20,"",QF_RELATIVE|QF_SCALEDOWN);
 			}
-			STCF EEEEEE 1 A_SetZoom(1.0, 12);
+			STCF EEEEEEEEEEEEEEE 1 A_SetZoom(1.0, 16);
 			STCF E 10 A_RecoilOffset(0,0,10);
 			STCF FGHI 1;
 			STCI A 20 A_Overlay(60, "DoSmoke");
 		goto Ready.Active;
 					
 		Reload:
+			STCI A 4;
+			TNT1 A 0 A_JumpIf(A_ButtonStatus(BT_RELOAD, BTS_HELD), "Reload.ChargeStart");
 			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
 			TNT1 A 0 A_ScopeDisable();
 			TNT1 A 0 A_StartSound("Halo/Weapons/Stanchion/Reload", CHAN_RELOADING, CHANF_OVERLAP);
@@ -184,6 +251,60 @@ class Halo_Stanchion : HaloGun
 			STCR RSTU 2;
 			TNT1 A 0 A_SetRecoil(-0.45, 0, 4);
 			STCR VWX 3;
+		goto Ready.Active;
+
+		Reload.ChargeStart:
+			STCI A 1 
+			{
+				bool lowBattery = CountLoadedAmmo() < 25;
+				bool tooHot = invoker.heat >= 1.2;
+				if(tooHot || lowBattery) 
+				{
+					A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
+					if(lowBattery) A_HUDMessage("Cannot begin charge: LOW BATTERY");
+					if(tooHot) A_HUDMessage("Charge Status: 100%");
+					return ResolveState("Reload.ChargeEnd");
+				}
+				A_StartSound("Halo/Weapons/Stanchion/Charge/Start", CHAN_7, CHANF_OVERLAP|CHANF_NOSTOP);
+				return ResolveState(null);
+			}
+			STCI AAAAAAAAAAAAAAAAAA 3
+			{
+				bool stopCharge = A_ButtonStatus(BT_RELOAD, BTS_UP);
+				if(stopCharge)
+				{
+					return ResolveState("Reload.ChargeEnd");
+				}
+				if(invoker.fxCounter++ >= 2)
+				{
+					A_SpriteLightning(amt:10, posoffs:(-90,60));
+					A_RecoilOffset(frandom(-8,8),frandom(-8,8),2);
+					invoker.fxCounter = 0;
+				}
+				return ResolveState(null);
+			}
+		Reload.ChargeLoop:
+			STCI A 1 
+			{
+				A_RecoilOffset(frandom(-2,2),frandom(-2,2),2);
+				A_StartSound("Halo/Weapons/Stanchion/Charge/Loop", CHAN_7, CHANF_OVERLAP|CHANF_LOOPING);
+				if(invoker.fxCounter++ > 2)
+				{
+					A_SpriteLightning(amt:10, posoffs:(-90,60));
+					invoker.fxCounter = 0;
+				}
+				if( !(int(invoker.heat*100)%5) ) A_TakeAmmo(1);
+				if(!(level.maptime%20)) A_HUDMessage(String.Format("Charge Status: %d%%", min(100,invoker.heat * 100)));
+				invoker.heat += 0.01;
+			}
+			TNT1 A 0 A_JumpIf(A_ButtonStatus(BT_RELOAD, BTS_DOWN) && invoker.heat < 1.2, "Reload.ChargeLoop");
+		Reload.ChargeEnd:
+			STCI A 6 
+			{
+				A_WeapSound("Halo/Weapons/Stanchion/ChargeEnd", CHANF_OVERLAP);
+				A_RecoilOffset(0,0,6);
+				A_StopSound(CHAN_7);
+			}
 		goto Ready.Active;
 
 		Scope.ON:
@@ -213,6 +334,10 @@ class Halo_Stanchion : HaloGun
 				return ret;
 			}
 		loop;
+		
+		SetupGunLightning:
+			BIRI D 0;
+		goto GunLightning;
 
 		Spawn:
 			STNF A -1;

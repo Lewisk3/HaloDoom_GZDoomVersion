@@ -241,14 +241,28 @@ class LineActivatorTracer : LineTracer
 	Actor src;
 	Array<Line> HitLines;
 	
-	play static LineActivatorTracer DoTrace(Actor src, double tangle, double tpitch, double dist, uint traceflags = 0)
+	play void ReTrace(double tangle, double tpitch, double dist, uint traceflags = 0)
 	{
-		LineActivatorTracer tracer = new("LineActivatorTracer");
+		let angles = Quat.FromAngles(tangle, tpitch, src.roll);
+		vector3 dir = angles * (1.0,0,0);
+		vector3 tracePos = level.vec3offset(src.pos, angles * (src.radius+16,0,0));
+		if(src.player) tracePos.z = src.player.viewz;
+		
+		Trace(tracePos, src.CurSector, dir, dist, traceflags);
+	}
+	
+	play static LineActivatorTracer DoTrace(Actor src, double tangle, double tpitch, double dist, uint traceflags = 0, class<LineActivatorTracer> traceType = "LineActivatorTracer")
+	{
+		let tracer = LineActivatorTracer(new(traceType));
 		if(tracer) 
 		{
 			tracer.src = src;
-			vector3 dir = HaloMath.VecFromAngles(tangle, tpitch);
-			tracer.Trace(src.pos, src.CurSector, dir, dist, traceflags);
+			let angles = Quat.FromAngles(tangle, tpitch, src.roll);
+			vector3 dir = angles * (1.0,0,0);
+			vector3 tracePos = level.vec3offset(src.pos, angles * (src.radius+16,0,0));
+			if(src.player) tracePos.z = src.player.viewz;
+			
+			tracer.Trace(tracePos, src.CurSector, dir, dist, traceflags);
 		}
 		return tracer;
 	}
@@ -256,7 +270,7 @@ class LineActivatorTracer : LineTracer
 	// Thanks to PhantomBeta 
 	// (https://github.com/Doom2fan/Se7evidas/blob/master/PK3%20Source/S7ZScript/Bases/S7_Projectile/Linetracer.ZS)
     transient Array<F3DFloor> ffloorsToIgnore;
-	ETraceStatus HandleWall() 
+	virtual ETraceStatus HandleWall() 
 	{
 		let hl = Results.HitLine;
 		HitLines.push(hl);

@@ -18,7 +18,6 @@ class Veh_Manager : Inventory
 		if(passive) newdamage = 0;
 	}
 	
-	
 	static Veh_Manager Setup(PlayerPawn to, VehBase onveh, bool disableweaps = true)
 	{
 		to.GiveInventoryType("Veh_Manager");
