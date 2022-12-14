@@ -633,6 +633,7 @@ class HaloCE_HUD : HaloDoomHUD
 		string weapBattery  = "Graphics/UI/CE_HUD/Combat/CEWeapIcon_Battery.png";
 		string weapChargeBG = "Graphics/UI/CE_HUD/Combat/CEWeapHeatMeter.png";
 		string weapChargeFG = "Graphics/UI/CE_HUD/Combat/CEWeapHeatMeter_FG.png";
+		string weapBatteryFill = "Graphics/UI/CE_HUD/Combat/CEWeapIcon_BatteryFill.png";
 		vector2 weapPos = (160,70);
 		double weapScale = 1.5;
 		
@@ -676,6 +677,14 @@ class HaloCE_HUD : HaloDoomHUD
 		if(haloweap && haloweap.uses_battery)
 		{
 			HLSBS.DrawImage(weapBattery, weapPos + (55,0), flags:weapDrawFlags, scale:(weapScale,weapScale)); 
+			if(haloweap.ammotype2 != haloweap.ammotype1)
+			{
+				let ammodefs = GetDefaultByType(haloweap.ammotype2);
+				double perc = haloplr.countinv(haloweap.ammotype2) / double(ammodefs.maxamount);
+				HLSBS.SetClipRect(weapPos.x + 24, weapPos.y - 16, 60 * perc, 32); 
+			}
+			HLSBS.DrawImage(weapBatteryFill, weapPos + (55,0), flags:weapDrawFlags, scale:(weapScale,weapScale)); 
+			HLSBS.ClearClipRect();
 		}
 		else
 		{
