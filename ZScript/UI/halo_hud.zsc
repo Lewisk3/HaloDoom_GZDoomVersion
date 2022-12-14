@@ -704,7 +704,7 @@ class HaloCE_HUD : HaloDoomHUD
 		
 		// Draw active ammunition
 		vector2 ampos = weapPos + (-15,60);
-		bool skipAmmoDraw = haloweap.DrawAmmoUI(ampos, deltaTime);
+		bool skipAmmoDraw = haloweap && haloweap.DrawAmmoUI(ampos, deltaTime);
 		
 		if(!skipAmmoDraw && haloweap && curweap.AmmoType2)
 		{
