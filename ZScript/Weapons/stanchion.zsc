@@ -130,7 +130,7 @@ class Halo_Stanchion : HaloGun
 			aimoffs.x += spread * 0.2;
 			aimoffs.y += spread * 0.2;
 			
-			RailgunProjectile.FireRailgun(self, dmg, dmg*0.25, (50, 8, -6), size:0.6, viewoffs:aimoffs, doShockwave: false, colors:(0xFF0228e6, 0xFF5100ff, 0xFFFFFFFF) );	
+			RailgunProjectile.FireRailgun(self, SNIPER_DMG*2.0, 96, (50, 8, -6), size:0.6, viewoffs:aimoffs, doShockwave: false, colors:(0xFF0228e6, 0xFF5100ff, 0xFFFFFFFF) );	
 			A_SetSFXPos(25,-5,-7);
 			for(int i = 0; i < 5; i++)
 				A_SpawnSFX("MuzzleSmoke", 0,0);

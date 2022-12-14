@@ -55,7 +55,7 @@ class LSR_BeamRifle : LaserBeam
 		super.OnImpact(hitPos, hitActor);
 		if(!hitActor) prevVictim = NULL;
 		
-		if(hitActor) 
+		if(hitActor && hitActor != source) 
 		{	
 			if(prevVictim == hitActor) 
 				laserDmg = HaloMath.Lerp(laserDmg, default.laserDmg * 5.0, 1.0 / ceil(TICRATE * 0.5));

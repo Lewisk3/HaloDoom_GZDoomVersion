@@ -761,6 +761,7 @@ class Railgun_MuzzleExplosion : FastActor
 	{
 		+ROLLSPRITE;
 		Scale 0.5;
+		Alpha 0.5;
 	}
 	
 	States
