@@ -683,14 +683,13 @@ class HaloGun : RecoilWeapon
 				if(backpack_reloadtimer <= 0)
 				{
 					let rammo = GetDefaultByType(AmmoType2);
-					int reserves = countinv(AmmoType1);
-					int takeammo = rammo.maxamount - countinv(AmmoType2); 
+					int reserves = Owner.countinv(AmmoType1);
+					int takeammo = rammo.maxamount - Owner.countinv(AmmoType2); 
 					if(takeammo > reserves) takeammo = reserves;
-					GiveInventory(AmmoType2,takeammo);
-					DepleteAmmo(takeammo);
+					Owner.GiveInventory(AmmoType2,takeammo);
+					DepleteAmmo(takeammo, Owner);
 					backpack_reloading = false;
 					backpack_reloadtimer = 0;
-					// console.printf("Finished backpack reload");
 				}
 			}
 			return;
@@ -917,9 +916,10 @@ class HaloGun : RecoilWeapon
 		);
 	}
 	
-	action void DepleteAmmo(int amt)
+	action void DepleteAmmo(int amt, Actor ptr = NULL)
 	{
-		if(!sv_infiniteammo) TakeInventory(invoker.AmmoType1, amt);
+		if(!ptr) ptr = self;
+		if(!sv_infiniteammo) ptr.TakeInventory(invoker.AmmoType1, amt);
 	}
 	
 	// For reloading clips/magazines

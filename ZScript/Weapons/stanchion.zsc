@@ -155,7 +155,7 @@ class Halo_Stanchion : HaloGun
 		DoSmoke:	
 			TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 3 
 			{
-				invoker.heat *= 0.85;
+				invoker.heat *= 0.9;
 				let psp = player.GetPSprite(OverlayID());
 				if(psp) psp.frame = random(3,8);
 				A_SetSFXPos(25,-5,-7);
