@@ -322,8 +322,7 @@ class Halo_MA5B : HaloGun
 			WHR6 J 1 A_SetRecoil(2.0, -0.6, 1); // Mag Slap;
 			WHR6 KLMNOPQSTUVWXYZ 1;
 			WHR7 ABCDEFGHIJKLMNOPQ 1;
-		goto Ready.Active;
-		
+			TNT1 A 0 A_Jump(255, "Ready.Active"); // Fix for backpack reload logic.
 		Reload.Tactical:
 			WHR1 ABCDEFGHIJKLMNOPQ 1;
 			WHR1 R 1 A_SetRecoil(-1.25, 0.3, 2); // Mag Out

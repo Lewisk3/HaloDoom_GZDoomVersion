@@ -214,13 +214,13 @@ class Halo_Needler : HaloGun
 			NDR1 ABCDEFGHIJKLMNOPQRS 1;
 			NDR1 TU 1 A_SetRecoil(-1.75, 0, 2);
 			NDR1 VW 1;
-		goto Reload.Finish;
+			TNT1 A 0 A_Jump(255, "Reload.Finish"); // Fix for backpack reload logic.
 		
 		Reload.Tactical:
 			NDR3 ABCDEFGHIJKLMNOPQRS 1;
 			NDR3 TU 1 A_SetRecoil(-1.75, 0, 2);
 			NDR3 VW 1;
-		goto Reload.Finish;
+			TNT1 A 0 A_Jump(255, "Reload.Finish"); // Fix for backpack reload logic.
 		
 		Reload.Finish:
 			TNT1 A 0 A_ReloadClip();

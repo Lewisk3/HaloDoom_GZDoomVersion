@@ -702,10 +702,10 @@ class HaloGun : RecoilWeapon
 		uint btns = Owner.player.cmd.buttons;
 		uint oldbtns = Owner.player.oldbuttons;
 		let psp  = Owner.player.GetPSprite(PSP_WEAPON);
-		bool inreload = psp && InStateSequence(psp.CurState,FindState("Reload"));
+		bool inreload = psp && InStateSequence(psp.CurState,ResolveState("Reload"));
 		
 		// WeapSound features
-		bool infire = psp && InStateSequence(psp.CurState,FindState("Fire"));
+		bool infire = psp && InStateSequence(psp.CurState,ResolveState("Fire"));
 		if( !infire || !((btns & BT_ATTACK) && (oldbtns & BT_ATTACK)) ) 
 			first_shot = true;
 		
