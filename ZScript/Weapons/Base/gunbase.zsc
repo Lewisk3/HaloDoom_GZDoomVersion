@@ -795,6 +795,9 @@ class HaloGun : RecoilWeapon
 		}
 	}
 	
+	// Called when quickswap is initiated.
+	virtual void OnQuickswap() {}
+	
 	virtual void DoActionButtons()
 	{
 		let psp  = Owner.player.GetPSprite(PSP_WEAPON);
@@ -809,6 +812,7 @@ class HaloGun : RecoilWeapon
 			{
 				Owner.player.WeaponState |= WF_WEAPONSWITCHOK | WF_REFIRESWITCHOK;
 				State tostate = !inreload ? FindState("Deselect") : FindState("Deselect.Quick");
+				OnQuickswap();
 				psp.SetState(tostate);
 				nextweap.Use(false);
 			}

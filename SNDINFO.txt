@@ -297,9 +297,11 @@ StanchionUC_Fire2 "Sounds/Stanchion/Stanch_SFire_2.ogg"
 StanchionUC_Fire3 "Sounds/Stanchion/Stanch_SFire_3.ogg"
 StanchionUC_Fire4 "Sounds/Stanchion/Stanch_SFire_4.ogg"
 
-
 Halo/Weapons/Stanchion/Charge/Start "Sounds/Stanchion/Stanch_ChargeBegin.ogg"
 Halo/Weapons/Stanchion/Charge/Loop "Sounds/Stanchion/Stanch_Charge_Loop.ogg"
+Halo/Weapons/Stanchion/Charge/Complete "Sounds/Stanchion/Stanch_Charge_Complete.ogg"
+Halo/Weapons/Stanchion/Charged/Loop "Sounds/Stanchion/Stanch_Charge_Complete_Loop.ogg"
+
 Halo/Weapons/Stanchion/Fire/Bass  "Sounds/Stanchion/StanchionBass.ogg"
 Halo/Weapons/Stanchion/Uncharged/Fire/Bass  "Sounds/Stanchion/StanchionBass.ogg"
 
