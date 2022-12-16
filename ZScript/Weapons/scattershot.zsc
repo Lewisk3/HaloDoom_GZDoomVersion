@@ -128,7 +128,7 @@ class Halo_ScatterShot : HaloGun
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 5;
 		
-		HaloGun.Availability "HL4, StarWars";
+		HaloGun.Availability "HL4, StarWars, SpartanOverkill";
 		HaloGun.PowerTier P_STRONG;
 		HaloGun.Rarity 10;
 				
@@ -150,6 +150,12 @@ class Halo_ScatterShot : HaloGun
 		HaloGun.ZoomSounds "Halo/Weapons/ScatterShot/Zoom/IN", "Halo/Weapons/ScatterShot/Zoom/OUT";
 
 		RecoilWeapon.YOffsetRange -10, 40;
+	}
+		
+	override int GetPowerTier()
+	{	
+		if(HaloPlayer.IsGameType("SpartanOverkill")) return P_NORM | P_MID;
+		return super.GetPowerTier();
 	}
 	
 	action void A_FireSpreadShots(vector2 offs = (8, -4), double fireAngle = 0, double spacing = 5)

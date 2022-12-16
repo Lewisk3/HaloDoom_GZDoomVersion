@@ -109,7 +109,7 @@ class Halo_BeamRifle : HaloGun
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 1;
 		
-		HaloGun.Availability "HL2, HL3, HL4, StarWars";
+		HaloGun.Availability "HL2, HL3, HL4, StarWars, SpartanOverkill";
 		HaloGun.PowerTier P_POWER | P_ENERGY;
 				
 		// Recoil
@@ -124,6 +124,12 @@ class Halo_BeamRifle : HaloGun
 		HaloGun.SetupScope 2.0, 1.0;
 		
 		RecoilWeapon.YOffsetRange 0, 40;
+	}
+	
+	override int GetPowerTier()
+	{	
+		if(HaloPlayer.IsGameType("SpartanOverkill")) return P_STRONG | P_ENERGY;
+		return super.GetPowerTier();
 	}
 		
 	action void A_BeginLaser()

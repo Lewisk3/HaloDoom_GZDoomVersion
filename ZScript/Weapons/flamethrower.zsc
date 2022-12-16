@@ -294,12 +294,18 @@ class Halo_Flamethrower : HaloGun
 		HaloGun.Crosshair "FLMRet", 0.5;
 		HaloGun.UIGraphic "WI_FLM", 0.75, 0.75;
 		
-		HaloGun.Availability "HL3, HL4, StarWars";
+		HaloGun.Availability "HL3, HL4, StarWars, SpartanOverkill";
 		HaloGun.PowerTier P_POWER;
 		
 		HaloGun.LowerOnMelee 200; // Lower off screen.
 		
 		RecoilWeapon.YOffsetRange -10, 40;
+	}
+	
+	override int GetPowerTier()
+	{	
+		if(HaloPlayer.IsGameType("SpartanOverkill")) return P_NORM | P_MID;
+		return super.GetPowerTier();
 	}
 		
 	action void A_FireFlamer()

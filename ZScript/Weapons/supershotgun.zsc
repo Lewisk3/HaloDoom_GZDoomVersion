@@ -159,7 +159,7 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 		Weapon.AmmoGive 8;
 		Weapon.AmmoType2 "Halo_DBLShotgun_Shells";
 		
-		HaloGun.Availability "HL1, HL2, HL3, HL4";
+		HaloGun.Availability "HL1, HL2, HL3, HL4, SpartanOverkill";
 		HaloGun.PowerTier P_STRONG;
 				
 		// Recoil
@@ -173,6 +173,12 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 		HaloGun.SetupUIAmmo "WI_AMM5", 16, 16, 0, 14;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
+	}
+	
+	override int GetPowerTier()
+	{	
+		if(HaloPlayer.IsGameType("SpartanOverkill")) return P_NORM | P_MID;
+		return super.GetPowerTier();
 	}
 	
 	override void GetStatsLore(out Array<String> stats, out string lore)

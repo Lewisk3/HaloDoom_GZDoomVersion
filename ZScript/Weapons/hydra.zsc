@@ -211,12 +211,17 @@ class Halo_Hydra : HaloGun
 		HaloGun.SetupUIAmmo "WI_AMM3", 32, 16, 0, 3;
 		HaloGun.UIAmmo_Scale_Offset 1.0, -24,0;
 		
-		HaloGun.Availability "HL4";
+		HaloGun.Availability "HL4, SpartanOverkill";
 		HaloGun.PowerTier P_STRONG;
 		
 		RecoilWeapon.YOffsetRange 0, 40;
 	}
-	
+
+	override int GetPowerTier()
+	{	
+		if(HaloPlayer.IsGameType("SpartanOverkill")) return P_MID | P_STRONG;
+		return super.GetPowerTier();
+	}	
 	
 	action void A_FireHydraMissile()
 	{

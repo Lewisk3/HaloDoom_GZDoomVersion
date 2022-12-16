@@ -10,7 +10,8 @@ class HaloGun : RecoilWeapon
 		P_POWER  = 1 << 5,
 		P_ENERGY = 1 << 6,
 		P_UBER   = 1 << 7,
-		P_MELEE  = 1 << 8
+		P_MELEE  = 1 << 8,
+		P_ANY    = 1 << 9
 	}
 				
 	transient CVar cvfx_smoke;
@@ -222,6 +223,12 @@ class HaloGun : RecoilWeapon
 	virtual void OnDropSwap()
 	{
 		if(Owner) Owner.A_StopSound(CHAN_VOICE);
+	}
+	
+	// Used for dynamically changing the spawn tier of certain weapons. 
+	virtual int GetPowerTier()
+	{
+		return SpawnTier;
 	}
 	
 	action double A_CheckMeleeRange(double maxrange = 512, bool skipWalls = false)

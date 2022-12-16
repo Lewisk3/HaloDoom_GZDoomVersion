@@ -19,7 +19,6 @@ class HaloDoom_Events : EventHandler
 	override void OnRegister()
 	{
 		engHandle = HaloDoom_EngineEvents(StaticEventHandler.Find("HaloDoom_EngineEvents"));
-		populateSpawnArrays();
 				
 		// Initialize footsteps
 		surfacesDatabase = Dictionary.Create();
@@ -355,6 +354,7 @@ class HaloDoom_Events : EventHandler
 	
 	override void WorldLoaded(WorldEvent e)
 	{
+		populateSpawnArrays();
 		if(!e.IsSaveGame)
 		{
 			// Clear used keys

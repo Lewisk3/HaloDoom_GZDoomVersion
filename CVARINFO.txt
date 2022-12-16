@@ -24,3 +24,4 @@ server bool halodoom_allowbhop = true;
 server bool halodoom_doaimassist = false;
 server bool halodoom_unlimitedbackpack = false;
 server bool halodoom_meetyourunmaker = false;
+server int halodoom_holdmoarweapons = 0;

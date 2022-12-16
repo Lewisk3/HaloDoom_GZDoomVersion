@@ -90,7 +90,7 @@ class Halo_BinaryRifle : HaloGun
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 5;
 		
-		HaloGun.Availability "HL4, StarWars";
+		HaloGun.Availability "HL4, StarWars, SpartanOverkill";
 		HaloGun.PowerTier P_POWER;
 		HaloGun.Rarity 10;
 				
@@ -111,6 +111,12 @@ class Halo_BinaryRifle : HaloGun
 		
 		HaloGun.ZoomSounds "Halo/Weapons/BinaryRifle/Zoom/IN", "Halo/Weapons/BinaryRifle/Zoom/OUT";
 		RecoilWeapon.YOffsetRange -10, 40;
+	}
+	
+	override int GetPowerTier()
+	{	
+		if(HaloPlayer.IsGameType("SpartanOverkill")) return P_MID;
+		return super.GetPowerTier();
 	}
 	
 	action void A_FireBinaryRifle()

@@ -175,7 +175,7 @@ class Halo_Unmaker : HaloGun
 		Weapon.AmmoType1 "Halo_UnmakerReserves";
 		Weapon.AmmoType2 "Halo_UnmakerReserves";
 		
-		HaloGun.Availability "HL1, HL2, HL3, HL4, MSX, StarWars";
+		HaloGun.Availability "HL1, HL2, HL3, HL4, MSX, StarWars, SpartanOverkill";
 		HaloGun.PowerTier P_UBER;
 				
 		// Recoil
@@ -191,6 +191,11 @@ class Halo_Unmaker : HaloGun
 		RecoilWeapon.YOffsetRange -10, 100;
 	}
 	
+	override int GetPowerTier()
+	{	
+		if(HaloPlayer.IsGameType("SpartanOverkill")) return P_UBER;
+		return super.GetPowerTier();
+	}
 	
 	action void MuzzleLightning()
 	{

@@ -92,7 +92,7 @@ class Halo_LightRifle : HaloGun
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 2;
 		
-		HaloGun.Availability "HL4, StarWars";
+		HaloGun.Availability "HL4, StarWars, SpartanOverkill";
 		HaloGun.PowerTier P_MID;
 		HaloGun.Rarity 10;
 				
@@ -113,6 +113,12 @@ class Halo_LightRifle : HaloGun
 		HaloGun.ZoomSounds "Halo/Weapons/LightRifle/Zoom/IN", "Halo/Weapons/LightRifle/Zoom/OUT";
 		RecoilWeapon.YOffsetRange -10, 40;
 	}
+	
+	override int GetPowerTier()
+	{	
+		if(HaloPlayer.IsGameType("SpartanOverkill")) return P_MID;
+		return super.GetPowerTier();
+	}	
 		
 	action void A_FireLightRifleBurst(int ammouse = 2)
 	{

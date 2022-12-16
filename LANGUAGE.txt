@@ -22,6 +22,9 @@ GAMETYPE_MSX_DESC = "Contains only weapons which function similarly to weapons f
 GAMETYPE_ENERGY = "Star Wars";
 GAMETYPE_ENERGY_DESC = "Contains only Energy Weapons, NO weapons which feature reloading! Kind of a Joke gametype, and probably not very well balanced...";
 
+GAMETYPE_OVERKILL = "Spartan Overkill";
+GAMETYPE_OVERKILL_DESC = "Power Fantasy gametype, best used on Slaughter mapsets.";
+
 MENUBTN_CAMPAIGN = "CAMPAIGN";
 MENUBTN_SAVEGAME = "SAVE GAME";
 MENUBTN_LOADGAME = "LOAD GAME";

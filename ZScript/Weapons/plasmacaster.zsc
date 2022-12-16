@@ -124,12 +124,18 @@ class Halo_PlasmaCaster : HaloGun
 		HaloGun.SetupUIAmmo "WI_AMM2", 24, 16, 0, 5;
 		HaloGun.UIAmmo_Scale_Offset 1.5, 0,0;
 		
-		HaloGun.Availability "HL4";
+		HaloGun.Availability "HL4, SpartanOverkill";
 		HaloGun.PowerTier P_POWER | P_ENERGY;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
 	}
-		
+
+	override int GetPowerTier()
+	{	
+		if(HaloPlayer.IsGameType("SpartanOverkill")) return P_MID | P_STRONG | P_ENERGY;
+		return super.GetPowerTier();
+	}
+
 	action void A_FirePlasmaBall()
 	{
 		A_Light(2);

@@ -39,3 +39,9 @@ GameType StarWars
 	Name "$GAMETYPE_ENERGY"
 	Description "$GAMETYPE_ENERGY_DESC"
 }
+
+GameType SpartanOverkill
+{
+	Name "$GAMETYPE_OVERKILL"
+	Description "$GAMETYPE_OVERKILL_DESC"
+}

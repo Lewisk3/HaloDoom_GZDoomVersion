@@ -152,6 +152,15 @@ class HaloPlayer : DoomPlayer
 			GiveInventory("Halo_PlasmaRifle", 1);
 			GiveInventory("Halo_PlasmaPistol", 1);
 		}
+		else if(IsGameType("SpartanOverkill"))
+		{
+			GiveInventory("Halo_Magnum", 1);
+			GiveInventory("Halo_Magnum_Reserves", 36);
+			GiveInventory("Halo_Bulldog", 1);
+			GiveInventory("Halo_Bulldog_Reserves", 20);
+			GiveInventory("plasmagrenades", 4);
+			GiveInventory("fraggrenades", 4);
+		}
 		else
 		{
 			GiveInventory("Halo_AssaultRifle", 1);

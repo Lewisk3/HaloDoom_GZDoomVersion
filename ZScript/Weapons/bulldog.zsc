@@ -58,7 +58,7 @@ class Halo_Bulldog : HaloGun
 		Weapon.AmmoGive 12;
 		Weapon.AmmoType2 "Halo_Bulldog_Shells";
 		
-		HaloGun.Availability "HL4, MSX";
+		HaloGun.Availability "HL4, MSX, SpartanOverkill";
 		HaloGun.PowerTier P_STRONG;
 				
 		// Recoil
@@ -71,6 +71,12 @@ class Halo_Bulldog : HaloGun
 		HaloGun.SetupUIAmmo "WI_AMM5", 16, 16, 0, 6;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
+	}
+	
+	override int GetPowerTier()
+	{	
+		if(HaloPlayer.IsGameType("SpartanOverkill")) return P_NORM | P_MID;
+		return super.GetPowerTier();
 	}
 	
 	override void MarkPrecacheSounds()

@@ -67,7 +67,7 @@ class Halo_SniperRifle : HaloGun
 		Weapon.AmmoGive 6;
 		Weapon.AmmoType2 "Halo_SniperClip";
 		
-		HaloGun.Availability "HL1, HL2, HL3, HL4";
+		HaloGun.Availability "HL1, HL2, HL3, HL4, SpartanOverkill";
 		HaloGun.PowerTier P_POWER;
 				
 		// Recoil
@@ -85,6 +85,12 @@ class Halo_SniperRifle : HaloGun
 		HaloGun.UIAmmo_Scale_Offset 1.5, 100, 0;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
+	}
+	
+	override int GetPowerTier()
+	{	
+		if(HaloPlayer.IsGameType("SpartanOverkill")) return P_NORM | P_MID;
+		return super.GetPowerTier();
 	}
 		
 	override void GetStatsLore(out Array<String> stats, out string lore)

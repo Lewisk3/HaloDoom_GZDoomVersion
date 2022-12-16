@@ -150,7 +150,7 @@ class Halo_FuelRod : HaloGun
 		Weapon.AmmoType1 "Halo_FuelClip";
 		Weapon.AmmoType2 "Halo_FuelClip";
 		
-		HaloGun.Availability "HL1, HL2, HL3, HL4, StarWars";
+		HaloGun.Availability "HL1, HL2, HL3, HL4, StarWars, SpartanOverkill";
 		HaloGun.PowerTier P_POWER;
 		
 		// This is basically hacks
@@ -169,6 +169,12 @@ class Halo_FuelRod : HaloGun
 		HaloGun.UIGraphic "WI_FUELR", 0.5, 0.35;
 
 		RecoilWeapon.YOffsetRange -5, 100;
+	}
+	
+	override int GetPowerTier()
+	{	
+		if(HaloPlayer.IsGameType("SpartanOverkill")) return P_STRONG;
+		return super.GetPowerTier();
 	}
 	
 	override void MarkPrecacheSounds()

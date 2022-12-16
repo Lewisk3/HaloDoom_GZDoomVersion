@@ -259,7 +259,7 @@ class WeaponPickupProxy : Actor
 		if( forcepickup || use_hold > 4 || hasweap || halodoom_unlimitedbackpack || (!haloplr && plr) )
 		{
 			use_hold = 0;
-			if(wcount >= MAXWEAPS && !halodoom_unlimitedbackpack)
+			if(wcount >= (MAXWEAPS + halodoom_holdmoarweapons) && !halodoom_unlimitedbackpack)
 			{
 				if(!hasweap && wcontrol)
 				{
@@ -352,7 +352,7 @@ class WeaponLimitProxy : Inventory
 		plr = PlayerPawn(Owner);
 		if(!plr || !plr.player) return;
 		
-		if(CountWeapons() > MAXWEAPS && !halodoom_unlimitedbackpack) 
+		if(CountWeapons() > (MAXWEAPS + halodoom_holdmoarweapons) && !halodoom_unlimitedbackpack) 
 		{
 			double rang = ceil(frandom(0,90)*4.);
 			vector3 fw = ( cos(plr.angle+rang)*32, sin(plr.angle+rang)*32, 0 );

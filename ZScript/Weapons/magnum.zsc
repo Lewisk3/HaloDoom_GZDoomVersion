@@ -78,11 +78,18 @@ class Halo_Magnum : HaloGun
 		HaloGun.ZoomSounds "Halo/Weapons/Zoom/IN", "Halo/Weapons/Zoom/OUT";
 		HaloGun.SetupUIAmmo "WI_AMM5", 16, 16, 0, 14;
 		
-		HaloGun.Availability "HL1, HL3, HL4";
+		HaloGun.Availability "HL1, HL3, HL4, SpartanOverkill";
 		HaloGun.PowerTier P_STRONG;
 		HaloGun.Rarity 70;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
+	}
+
+	override int GetPowerTier()
+	{
+		if(HaloPlayer.IsGameType("HL1")) return P_MID;
+		if(HaloPlayer.IsGameType("SpartanOverkill")) return P_NORM;
+		return super.GetPowerTier();
 	}
 	
 	override void DoEffect()
@@ -92,10 +99,9 @@ class Halo_Magnum : HaloGun
 		// Modify weapon stats if running with CE gametype.
 		if(!Owner.player || Owner.player.ReadyWeapon != self) return;
 		
-		if(HaloPlayer.IsGameType("HL1"))
+		if(HaloPlayer.IsGameType("HL1")) 
 		{
 			damage_modifier = 0.35;
-			SpawnTier = P_MID;
 		}
 		else
 		{
