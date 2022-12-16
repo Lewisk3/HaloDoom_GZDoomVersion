@@ -361,7 +361,7 @@ class RecoilWeapon : Weapon
 		}
 		else
 		{
-			zoomfactor = FrameInterpolate(zoomfactor, defzoom + zoom_offs, zoomtimer / zoom_intensity);
+			zoomfactor = FrameInterpolate(zoomfactor, defzoom + zoom_offs, zoomtimer);
 			if(zoomfactor > 0)O_ZoomFactor(zoomfactor + basezoom, ZOOM_INSTANT);
 		}
 		
