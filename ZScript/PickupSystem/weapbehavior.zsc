@@ -281,8 +281,9 @@ class WeaponPickupProxy : Actor
 			}
 			else
 			{
+				bool switchOnPickup = plr.player.GetNeverSwitch() && halodoom_unlimitedbackpack;
 				let nweap = GiveWeaponItem(plr);
-				if(!hasweap && nweap) nweap.Use(true);
+				if(!hasweap && nweap && !switchOnPickup) nweap.Use(true);
 				if(nweap) 
 				{
 					Destroy();
