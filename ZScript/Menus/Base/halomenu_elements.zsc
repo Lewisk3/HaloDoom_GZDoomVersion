@@ -69,12 +69,13 @@ class ANImageQueue ui
 		
 		let cur = images[top];
 		if(!cur) return;
+		cur.Animate(deltatime);
+		
 		if(!cur.active) 
 		{
 			Pop();
 			cur.Destroy();
 		}
-		cur.Animate(deltatime);
 	}
 }
 

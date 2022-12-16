@@ -151,7 +151,7 @@ class HaloDoom_TitleMenu : HaloMenuBase
 			{
 				MenuSound("UI/PressButton");
 				buttons[i].clicked = false;
-				Close();
+				// Close();
 				
 				Switch(buttons[i].type)
 				{

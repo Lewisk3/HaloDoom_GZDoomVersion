@@ -245,8 +245,7 @@ class Halo_ScatterShot : HaloGun
 				A_RecoilOffset(0,0,18);
 				A_SetZoom(1.0, 8);
 			}
-			WQF1 FGHI 1;
-			WQI1 A 8;
+			WQF1 FGHIA 1;
 		goto Ready.Active;
 		
 		Spawn:
