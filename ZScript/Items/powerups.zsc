@@ -382,8 +382,8 @@ class HaloPower_Visor : HaloPower_Haste replaces Infrared
 		Powerup.Duration 0x7FFFFFFD;
 		Powerup.Type "PowerHaloVisor";
 		
-		Tag "Nightvision Visor";
-		Inventory.PickupMessage "Picked up a nightvision visor. (It seems to be a little damaged)";
+		Tag "V.I.S.R. Module";
+		Inventory.PickupMessage "Picked up a V.I.S.R. Module. (Warning: Damage Detected)";
 		Inventory.PickupSound "Halo/Powerup/Visor";
 		-HaloPowerGiver.FXHOVER;
 		+HaloPowerGiver.USETOPICKUP;
