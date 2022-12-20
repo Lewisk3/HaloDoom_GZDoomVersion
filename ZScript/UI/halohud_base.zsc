@@ -530,12 +530,13 @@ class HaloStatusBar : BaseStatusBar
 				uint flags = HLSBS.SS_SCREEN_CENTER | HLSBS.SS_COORDS_TEXGRID | HLSBS.SS_NOASPECTCORRECTION;
 				HLSBS.DrawImage(img, (0.5,0.5), flags, curAlpha, scale:(scaleMod.x,scaleMod.y));
 			}
-			
+						
 			// Call powerup UI functions
 			for(let item = haloplr.Inv; item.Inv; item = item.Inv)
 			{
 				let pwr = HaloPowerup(item);
 				if(!pwr) continue;
+				
 				pwr.HUDDraw(ActiveHUD, deltatime);
 			}
 			

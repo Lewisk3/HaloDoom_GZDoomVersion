@@ -297,6 +297,11 @@ class PowerHaloVisor : HaloPowerup
 		}
 	}
 	
+	override void DetachFromOwner ()
+	{
+		Shader.SetEnabled(Owner.player, "visorShader", false);
+	}
+	
 	void HighlightActor(Actor act)
 	{
 		let highlight = HaloVisorHighlight(Spawn("HaloVisorHighlight", act.pos));
