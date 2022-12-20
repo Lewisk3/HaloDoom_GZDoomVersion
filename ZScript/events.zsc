@@ -207,7 +207,13 @@ class HaloDoom_Events : EventHandler
 			}
 			if(e.Name ~== "toggleflashlight")
 			{
-				if(haloplr.flashlight) 
+				if(haloplr.visor)
+				{
+					haloplr.visor.SetEnabled(!haloplr.visor.enabled);
+					string flStatus = haloplr.visor.enabled ? "ON" : "OFF";
+					haloplr.A_StartSound("Halo/Visor/" .. flStatus, CHAN_AUTO);
+				}
+				else if(haloplr.flashlight) 
 				{
 					haloplr.flashlight.active = !haloplr.flashlight.active;
 					string flStatus = haloplr.flashlight.active ? "ON" : "OFF";

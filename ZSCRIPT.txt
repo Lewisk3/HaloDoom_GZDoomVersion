@@ -116,8 +116,6 @@ version "4.5"
 // [>> Gameplay Constants <<]
 const UNIT_METER = 8.f;
 
-
-
 class CoverTest : Actor
 {
 	Default
@@ -160,3 +158,4 @@ class CoverTest : Actor
 		stop;
 	}
 }
+

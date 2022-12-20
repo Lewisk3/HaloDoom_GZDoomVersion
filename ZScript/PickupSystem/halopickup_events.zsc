@@ -31,8 +31,8 @@ class HaloPickup_EVH : EventHandler
 		// Draw HUD projections
 		aim_weap = NULL;
 		let plr = HaloPlayer(e.Camera);
-		if(plr) aim_weap = plr.pickuptarget;
-			
+		if(plr) aim_weap = plr.pickuptarget;	
+		
 		if(aim_weap && !halodoom_unlimitedbackpack)
 		{
 			bool infront;

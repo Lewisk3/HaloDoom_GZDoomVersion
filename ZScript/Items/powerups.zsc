@@ -57,28 +57,27 @@ class HasteTrail : HaloScatterShot_Trail
 	}
 }
 
-class HaloPower_Haste : PowerupGiver replaces SoulSphere
+class HaloPowerGiver : PowerupGiver abstract
 {
 	double bobz;
 	double oldfloorz;
 	Sector spawnSector;
 	vector3 spawnPos;
+	uint fxFlags;
+	
+	flagdef FXHOVER : fxFlags, 0;
+	flagdef USETOPICKUP : fxFlags, 2;
 
 	Default
 	{
 		+BRIGHT;
-		Scale 0.05;
 		Height 32;
 		Radius 16;
 		+NOGRAVITY;
-		+ROLLSPRITE;
 		+INTERPOLATEANGLES;
 		
-		Powerup.Duration -30;
-		Powerup.Type "PowerHaloSpeedBoost";
-		Inventory.PickupMessage "Double Time!";
-		Inventory.PickupSound "Halo/Powerup/Speed";
 		+INVENTORY.AUTOACTIVATE;
+		+HaloPowerGiver.FXHOVER;
 	}
 	
 	override void BeginPlay()
@@ -87,6 +86,67 @@ class HaloPower_Haste : PowerupGiver replaces SoulSphere
 		spawnPos = pos;
 		spawnSector = CurSector;
 		SetOrigin((pos.xy, spawnPos.z + height), true);
+	}
+	
+	ui virtual void UIOverlayDraw(RenderEvent ev, Actor cam, double dt)
+	{
+		if(bUSETOPICKUP && cam.Distance3DSquared(self) <= 5000+(radius*radius))
+		{
+			bool infront;
+			HLViewProjection viewproj = HLSBS.GetEventViewerProj(ev);
+			
+			vector2 apos, bpos;
+			[infront, apos] = HLSBS.GetActorHUDPos (
+				viewproj,
+				self, 30, 0, (self.height/3)+5
+			);
+			[infront, bpos] = HLSBS.GetActorHUDPos (
+				viewproj,
+				self, 30, 0, (self.height/3)+10
+			);	
+
+			if(infront) 
+			{
+				string pickup1 = PICKUP_STR1;
+				string pickup2 = PICKUP_STR2;
+				pickup1.Replace("$WEAPNAME",GetTag());
+				pickup2.Replace("Hold", "Press");
+				
+				HLSBS.DrawString3D("smallfont", 
+					pickup1, 
+					apos, 0, 
+					Font.CR_GRAY, 
+					scale:(0.75,0.75),
+					distance: ev.Camera.Distance3D(self)
+				);
+				HLSBS.DrawString3D("smallfont", 
+					pickup2, 
+					bpos, 0, 
+					0, 
+					scale:(0.5,0.5),
+					distance: ev.Camera.Distance3D(self)
+				);
+			}
+		}
+	}
+	
+	override bool CanPickup(Actor toucher)
+	{
+		if(bUSETOPICKUP) return false;
+		return CanPickup(toucher);
+	}
+	
+	override bool Used(Actor user)
+	{
+		if(!bUSETOPICKUP) return false;
+		
+		if(!user.FindInventory((class<Inventory>)(PowerupType))) 
+		{
+			TryPickup(user);
+			PrintPickupMessage(user.CheckLocalView(), PickupMessage());
+			if(!bQuiet) PlayPickupSound(user);				
+		}
+		return false;
 	}
 	
 	override void AttachToOwner(Actor other)
@@ -114,23 +174,12 @@ class HaloPower_Haste : PowerupGiver replaces SoulSphere
 	
 	virtual void OnPickup(Actor other)
 	{
-		let hplr = HaloPlayer(other);
-		if(!hplr) return;
-		hplr.shields += 100;
+		
 	}
 	
 	virtual void VisualFX()
 	{
-		roll += 2;
 		bobz = sin(level.maptime*10) * 5;
-		HaloPowerup.DoParticles(self, pcol:"Gold", zoffset:0);
-		
-		vector2 localPos = (frandom(-1,1) * 6, frandom(-1,1) * (6 / 1.2));
-		vector3 trailPos = HaloMath.RelativeV3Offset(self, frandom(0,360),0,0, 0, localPos.x, localPos.y + bobz, 1.);			
-		let trail = Spawn("HasteTrail", trailPos - (0,0, height*0.5));
-		trail.vel.z = bobz*0.25;
-		
-		if( !(getAge()%10) ) DoLightning(10);
 	}
 	
 	override void Tick()
@@ -140,7 +189,8 @@ class HaloPower_Haste : PowerupGiver replaces SoulSphere
 		vel *= 0.94;
 		if(oldfloorz != floorz && spawnSector == CurSector)
 		{
-			SetOrigin((pos.xy, floorz + height ), true);
+			double addz = bFXHOVER ? height : 0;
+			SetOrigin((pos.xy, floorz + addz), true);
 			oldfloorz = floorz;
 		}
 		
@@ -152,6 +202,42 @@ class HaloPower_Haste : PowerupGiver replaces SoulSphere
 		
 		SetOrigin(level.vec3offset(pos, (0,0,bobz*0.25)), true);
 		VisualFX();
+	}
+}
+
+class HaloPower_Haste : HaloPowerGiver replaces SoulSphere
+{
+	Default
+	{
+		Scale 0.05;
+		Height 32;
+		Radius 16;
+
+		Powerup.Duration -30;
+		Powerup.Type "PowerHaloSpeedBoost";
+		Inventory.PickupMessage "Double Time!";
+		Inventory.PickupSound "Halo/Powerup/Speed";
+	}
+	
+	override void OnPickup(Actor other)
+	{
+		let hplr = HaloPlayer(other);
+		if(!hplr) return;
+		hplr.shields += 100;
+	}
+	
+	override void VisualFX()
+	{
+		roll += 2;
+		bobz = sin(level.maptime*10) * 5;
+		HaloPowerup.DoParticles(self, pcol:"Gold", zoffset:0);
+		
+		vector2 localPos = (frandom(-1,1) * 6, frandom(-1,1) * (6 / 1.2));
+		vector3 trailPos = HaloMath.RelativeV3Offset(self, frandom(0,360),0,0, 0, localPos.x, localPos.y + bobz, 1.);			
+		let trail = Spawn("HasteTrail", trailPos - (0,0, height*0.5));
+		trail.vel.z = bobz*0.25;
+		
+		if( !(getAge()%10) ) DoLightning(10);
 	}
 	
 	States
@@ -281,6 +367,47 @@ class HaloPower_Fullmap : HaloPower_ActiveCamo replaces Allmap
 	{
 		Spawn:
 			PWAM A -1;
+		stop;
+	}
+}
+
+class HaloPower_Visor : HaloPower_Haste replaces Infrared
+{
+	Default
+	{
+		+BRIGHT;
+		Scale 0.05;
+		Height 24;
+		Powerup.Duration 0x7FFFFFFD;
+		Powerup.Type "PowerHaloVisor";
+		
+		Tag "Nightvision Visor";
+		Inventory.PickupMessage "Picked up a nightvision visor. (It seems to be a little damaged)";
+		Inventory.PickupSound "Halo/Powerup/Visor";
+		-HaloPowerGiver.FXHOVER;
+		+HaloPowerGiver.USETOPICKUP;
+	}
+		
+	override void OnPickup(Actor other) 
+	{
+		A_StopSound(CHAN_BODY);
+	}
+	
+	override void VisualFX()
+	{
+		// bobz = sin(level.maptime*4) * 3;
+		// HaloPowerup.DoParticles(self, pcol:"Red", amt: 3, zoffset:0);	
+		
+		double blink = (0.5 * sin(level.maptime*15)) + 0.5;
+		if(blink >= 1.0) bBRIGHT = !bBRIGHT;
+		
+		A_StartSound("Halo/Powerup/Visor/Alert", CHAN_BODY, CHANF_LOOPING);
+	}
+	
+	States
+	{
+		Spawn:
+			PWVS A -1; // NoDelay A_SpriteOffset(0,30);
 		stop;
 	}
 }

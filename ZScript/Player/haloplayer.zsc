@@ -24,6 +24,7 @@ class HaloPlayer : DoomPlayer
 	string feature_desc;
 	FragGrenades activeGrenade;
 	VehLight flashlight;
+	PowerHaloVisor visor;
 	int invulnTics;
 	
 	// Sound effects
@@ -246,6 +247,12 @@ class HaloPlayer : DoomPlayer
 		{
 			flashlight = VehLight.Attach( self, intense_in_out:(350,16,40), offset:(10,0,0) );
 			flashlight.active = false;
+		}
+		
+		// Find visor
+		if(!visor)
+		{
+			visor = PowerHaloVisor(FindInventory("PowerHaloVisor"));
 		}
 		
 		// Fix for SetupInventory not selecting a Weapon by default.

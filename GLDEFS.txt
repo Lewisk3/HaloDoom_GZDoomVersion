@@ -20,9 +20,17 @@ HardwareShader Texture MISSNG
 
 HardwareShader PostProcess Screen
 {
-	Shader "Shaders/visor.fp" 330
+	Shader "Shaders/fisheye.fp" 330
 	// Enabled
 }
+
+HardwareShader PostProcess Scene
+{
+	Name "visorShader"
+	Shader "shaders/visor.fp" 330
+	Uniform float timer
+}
+
 
 /*
 HardwareShader Sprite BLHLA0

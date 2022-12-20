@@ -30,7 +30,7 @@ class ShieldProcessor : Inventory
 		inventory.maxamount 1;
 		ShieldProcessor.MaxShields 100;
 		ShieldProcessor.RegenSpeeds 2 * 35, 4 * 35; 
-		ShieldProcessor.ForwardOffset 5;
+		// ShieldProcessor.ForwardOffset 5;
 	}
 	
 	override void AttachToOwner(Actor other)

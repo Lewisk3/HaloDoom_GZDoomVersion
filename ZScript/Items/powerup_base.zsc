@@ -3,6 +3,11 @@ class HaloPowerup : Powerup
 	string powerupGraphic;
 	Property UIEffect : powerupGraphic;
 	
+	ui virtual void HUDDraw(HaloHUD hudbase, double dt)
+	{
+		// Used to draw stuff to the HUD
+	}
+	
 	override void DoEffect()
 	{
 		super.DoEffect();
@@ -260,6 +265,168 @@ class HaloOvershield : Inventory
 					hplr.overlay_img = ""; 
 				GoAwayAndDie();
 			}
+		stop;
+	}
+}
+
+// Visor
+class PowerHaloVisor : HaloPowerup
+{
+	bool enabled;
+
+	Default
+	{
+		Powerup.Duration 0x7FFFFFFD; 
+		Inventory.maxamount 1;
+		+INVENTORY.UNDROPPABLE;
+		+INVENTORY.PERSISTENTPOWER;
+		
+		HaloPowerup.UIEffect "Graphics/Powerups/VisorOverlay.png"; 
+	}
+
+	override void HUDDraw(HaloHUD hudbase, double dt)
+	{
+		if(enabled)
+		{
+			Shader.SetEnabled(Owner.player, "visorShader", true);
+			Shader.SetUniform1f(Owner.player, "visorShader", "timer", gametic);
+		}
+		else
+		{
+			Shader.SetEnabled(Owner.player, "visorShader", false);
+		}
+	}
+	
+	void HighlightActor(Actor act)
+	{
+		let highlight = HaloVisorHighlight(Spawn("HaloVisorHighlight", act.pos));
+		if(highlight) 
+		{
+			highlight.ChangeStatNum(MAX_STATNUM); 
+			highlight.master = act;
+			highlight.visorSource = self;
+		}
+	}
+	
+	override void DoEffect()
+	{
+		super.DoEffect();
+		
+		if(enabled)
+		{
+			let highlightIt = ThinkerIterator.Create("HaloVisorHighlight");
+			Actor highlight;
+			
+			let it = ThinkerIterator.Create();
+			Actor act;
+			
+			while(act = Actor(it.Next()))
+			{	
+				if(!act.bSHOOTABLE && !act.bSOLID || act.health <= 0 || act.bCORPSE) continue;
+				bool hasHighlight = false;
+				while(highlight = Actor(highlightIt.Next()))
+				{	
+					if(highlight && highlight.master == act)
+						hasHighlight = true;
+				}
+				if(!hasHighlight) HighlightActor(act);
+			}
+		}
+		else
+		{
+			powerupGraphic = "NONE";
+		}
+	}
+
+	void SetEnabled(bool onoff)
+	{
+		enabled = onoff;
+		
+		if(enabled)
+		{
+			powerupGraphic = default.powerupGraphic;
+			if(!Owner.FindInventory("HaloVisorFullbright"))
+				Owner.GiveInventory("HaloVisorFullbright",1);
+		}
+		else
+		{
+			Owner.TakeInventory("HaloVisorFullbright", 1);
+			powerupGraphic = "NONE";
+		}
+	}
+}
+class HaloVisorFullbright : PowerLightAmp
+{
+	Default
+	{
+		Powerup.Duration 0x7FFFFFFD; 
+		Inventory.maxamount 1;
+		+INVENTORY.UNDROPPABLE;
+		+INVENTORY.PERSISTENTPOWER;
+	}
+
+	override void DoEffect()
+	{
+		super.DoEffect();
+		
+		if(Owner.player.fixedcolormap < PlayerInfo.NUMCOLORMAPS) 
+			Owner.player.fixedlightlevel = 1;
+	}
+}
+
+class HaloVisorHighlight : CheapActor
+{
+	PowerHaloVisor visorSource;
+
+	Default
+	{
+		RenderStyle "Translucent";
+		Alpha 0.5;	
+	}
+	
+	override void Tick()
+	{
+		if( !visorSource || !visorSource.enabled || !visorSource.owner ||
+			!master || master.health <= 0 || master.bCORPSE	)  
+		{
+			Destroy();
+			return;
+		}
+		
+		bInvisible = (players[consoleplayer] != visorSource.owner.player) || players[consoleplayer].mo == master;
+		bBRIGHT = true;
+		angle = master.angle;
+		pitch = master.pitch;
+		roll  = master.roll;
+		Sprite = master.Sprite;
+		Frame = master.Frame;
+		bFloorClip = master.bFloorClip;
+		floorclip = master.floorclip;
+		
+		vector3 posOffs = (0,0,0);
+		if(!master.vel.z) posOffs.z = 4; // WTAF is going on here?!?!
+
+		A_SetScale(master.Scale.X, master.Scale.Y);
+		if(master.bISMONSTER && !master.bFriendly)
+			A_SetTranslation("VISOR_ENEMY");
+		else
+			A_SetTranslation("VISOR_FRIENDLY");
+		
+		Actor owner = visorSource.owner;
+		vector3 fwd = (
+			cos(owner.angle) * cos(owner.pitch),
+			sin(owner.angle) * cos(owner.pitch),
+			-sin(owner.pitch)
+		) * -2;
+		
+		SetOrigin(level.vec3offset(master.pos, posOffs + fwd), false);
+		prev = master.pos;
+	}
+	
+	States
+	{
+		Spawn:
+			"####" "#" -1;
 		stop;
 	}
 }
