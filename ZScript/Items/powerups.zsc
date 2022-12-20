@@ -133,12 +133,12 @@ class HaloPowerGiver : PowerupGiver abstract
 	override bool CanPickup(Actor toucher)
 	{
 		if(bUSETOPICKUP) return false;
-		return CanPickup(toucher);
+		return super.CanPickup(toucher);
 	}
 	
 	override bool Used(Actor user)
 	{
-		if(!bUSETOPICKUP) return false;
+		if(!bUSETOPICKUP) return super.Used(user);
 		
 		if(!user.FindInventory((class<Inventory>)(PowerupType))) 
 		{
@@ -376,6 +376,7 @@ class HaloPower_Visor : HaloPower_Haste replaces Infrared
 	Default
 	{
 		+BRIGHT;
+		-NOGRAVITY;
 		Scale 0.05;
 		Height 24;
 		Powerup.Duration 0x7FFFFFFD;
