@@ -29,6 +29,7 @@ HardwareShader PostProcess Scene
 	Name "visorShader"
 	Shader "shaders/visor.fp" 330
 	Uniform float timer
+	Uniform float curSectorLight
 }
 
 

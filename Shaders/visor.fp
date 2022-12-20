@@ -80,16 +80,18 @@ void main()
 	// Curve
 	vec2 FragCoord = vec2( TexCoord.x, TexCoord.y );
     vec2 q = FragCoord.xy;
+	vec2 nq = FragCoord.xy;
     q.y = 1 - q.y;
     vec2 uv = q;
     //uv = mix( curve( uv ), uv, 0.5 );
     
 	vec3 oricol = texture( InputTexture, vec2(q.x,q.y) ).xyz;
-    
+	vec3 oricol_inv = texture( InputTexture, vec2(nq.x,nq.y) ).xyz;
+
 	// Main color, Bleed
 	vec3 col;
-	float x =  sin(0.1*Timer+uv.y*13.0)*sin(0.23*Timer+uv.y*19.0)*sin(0.3+0.11*Timer+uv.y*23.0)*0.0012;
-	float o =sin(FragCoord.y*1.5)/iResolution.x;
+	float x = sin(0.1*Timer+uv.y*13.0)*sin(0.23*Timer+uv.y*19.0)*sin(0.3+0.11*Timer+uv.y*23.0)*0.0012;
+	float o = sin(FragCoord.y*1.5)/iResolution.x;
 	x+=o*0.25;
     col.r = blur(InputTexture,vec2(x+uv.x+0.0009,uv.y+0.0009),iResolution.y/2000.0).x+0.02;
     col.g = blur(InputTexture,vec2(x+uv.x+0.0000,uv.y-0.0011),iResolution.y/2000.0).y+0.02;
@@ -125,7 +127,7 @@ void main()
 	// Scanlines
 	float scans = clamp( 0.35+0.18*sin(6.0*Timer+uv.y*iResolution.y*1.5), 0.0, 1.0);
 	float s = pow(scans,0.4);
-	//col = col*vec3( s) ;
+	col = col*vec3( s) ;
 
 	// Vertical lines (aperture) 
 	col*=1.0-0.23*vec3(clamp((mod(FragCoord.x, 2.0)-1.0)*2.0,0.0,1.0));
@@ -149,6 +151,14 @@ void main()
 	//col.r *= 0.7;
 	//col.g *= 0.7;
 	//col.b *= 1.8;
+	
+	if( rand(seed+0.00001*Timer) > 0.998 && (oricol_inv.r*255 > 100 || oricol_inv.g*255 > 100) )
+	{
+		col *= 0.5;
+	}
+	
+	float lightlevel = curSectorLight;
+	col += (1.0,1.0,1.0) * (lightlevel/255.);
 	
     FragColor = vec4(col,1.0);
 }

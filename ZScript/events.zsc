@@ -209,6 +209,10 @@ class HaloDoom_Events : EventHandler
 			{
 				if(haloplr.visor)
 				{
+					// Disable flashlight
+					if(haloplr.flashlight && haloplr.flashlight.active) 
+						haloplr.flashlight.active = false;
+					
 					haloplr.visor.SetEnabled(!haloplr.visor.enabled);
 					string flStatus = haloplr.visor.enabled ? "ON" : "OFF";
 					haloplr.A_StartSound("Halo/Visor/" .. flStatus, CHAN_AUTO);

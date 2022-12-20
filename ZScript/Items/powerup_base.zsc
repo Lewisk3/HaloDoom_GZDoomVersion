@@ -290,6 +290,7 @@ class PowerHaloVisor : HaloPowerup
 		{
 			Shader.SetEnabled(Owner.player, "visorShader", true);
 			Shader.SetUniform1f(Owner.player, "visorShader", "timer", gametic);
+			Shader.SetUniform1f(Owner.player, "visorShader", "curSectorLight", Owner.CurSector.lightlevel);
 		}
 		else
 		{
@@ -387,6 +388,7 @@ class HaloVisorHighlight : CheapActor
 	{
 		RenderStyle "Translucent";
 		Alpha 0.5;	
+		+ISMONSTER;
 	}
 	
 	override void Tick()
@@ -407,9 +409,10 @@ class HaloVisorHighlight : CheapActor
 		Frame = master.Frame;
 		bFloorClip = master.bFloorClip;
 		floorclip = master.floorclip;
+		spriteoffset = master.spriteoffset;
 		
 		vector3 posOffs = (0,0,0);
-		if(!master.vel.z) posOffs.z = 4; // WTAF is going on here?!?!
+		//if(master.vel.z <= 0) posOffs.z = 4; // WTAF is going on here?!?!
 
 		A_SetScale(master.Scale.X, master.Scale.Y);
 		if(master.bISMONSTER && !master.bFriendly)
