@@ -116,6 +116,8 @@ version "4.5"
 // [>> Gameplay Constants <<]
 const UNIT_METER = 8.f;
 
+
+// Stuff that may be used later 
 class CoverTest : Actor
 {
 	Default
@@ -159,3 +161,18 @@ class CoverTest : Actor
 	}
 }
 
+// Custom intermission test
+class SeamlessIntermission : StatusScreen
+{
+	override void initStats ()
+	{
+		CurState = LeavingIntermission;
+		nowipe = true;
+	}
+
+	override void updateStats () {}
+	override void Drawer()
+	{
+		HLSBS.DrawString("HaloFont", "LOADING", (0,0), flags:HLSBS.SS_SCREEN_CENTER|HLSBS.SS_TEXT_CENTER);
+	}
+}

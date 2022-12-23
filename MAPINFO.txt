@@ -12,6 +12,8 @@ GameInfo
 	MenuFontColor_Highlight = "Purple"
 	MenuFontColor_Selection = "Purple"
 	
+	// statscreen_single = "SeamlessIntermission"
+	
 	// Attempt to fix weapon graphics stutter.
 	PrecacheClasses = "Halo_AssaultRifle", "Halo_BattleRifle", "Halo_BeamRifle", "Halo_BinaryRifle", 
 					  "Halo_Bulldog", "Halo_Carbine", "Halo_DMR", "Halo_EnergySword", "Halo_FuelRod", 

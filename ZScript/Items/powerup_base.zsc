@@ -11,10 +11,19 @@ class HaloPowerup : Powerup
 	override void DoEffect()
 	{
 		super.DoEffect();
+		string finalGraphic = SelectUIGraphic();
+		if(finalGraphic != "") SetOverlayIMG(finalGraphic);
+	}
+	
+	virtual string SelectUIGraphic()
+	{
+		return !isBlinking() ? powerupGraphic : "NONE";
+	}
+	
+	void SetOverlayIMG(string toImg)
+	{
 		let hplr = HaloPlayer(Owner);
-		if(hplr && powerupGraphic) 
-			hplr.overlay_img = !isBlinking() ? powerupGraphic : "";
-			
+		if(hplr) hplr.overlay_img = toImg;
 	}
 	
 	static void DoParticles(Actor source, Color pcol = 0xFF21c24c, double amt = 60, double dist = 16, double zoffset = 12)
@@ -273,6 +282,7 @@ class HaloOvershield : Inventory
 class PowerHaloVisor : HaloPowerup
 {
 	bool enabled;
+	ui double curLight;
 
 	Default
 	{
@@ -284,23 +294,36 @@ class PowerHaloVisor : HaloPowerup
 		HaloPowerup.UIEffect "Graphics/Powerups/VisorOverlay.png"; 
 	}
 
+	override void AttachToOwner(Actor other)
+	{
+		super.AttachToOwner(other);
+		SetEnabled(false);
+	}
+	
+	override void DetachFromOwner ()
+	{
+		SetEnabled(false);
+		Shader.SetEnabled(Owner.player, "visorShader", false);
+	}
+	
+	override string SelectUIGraphic()
+	{
+		return enabled ? powerupGraphic : "";
+	}
+
 	override void HUDDraw(HaloHUD hudbase, double dt)
 	{
+		curLight = HaloMath.Lerp(curLight, Owner.CurSector.lightlevel, 0.06 * dt);
 		if(enabled)
 		{
 			Shader.SetEnabled(Owner.player, "visorShader", true);
 			Shader.SetUniform1f(Owner.player, "visorShader", "timer", gametic);
-			Shader.SetUniform1f(Owner.player, "visorShader", "curSectorLight", Owner.CurSector.lightlevel);
+			Shader.SetUniform1f(Owner.player, "visorShader", "curSectorLight", curLight);
 		}
 		else
 		{
 			Shader.SetEnabled(Owner.player, "visorShader", false);
 		}
-	}
-	
-	override void DetachFromOwner ()
-	{
-		Shader.SetEnabled(Owner.player, "visorShader", false);
 	}
 	
 	void HighlightActor(Actor act)
@@ -338,10 +361,6 @@ class PowerHaloVisor : HaloPowerup
 				if(!hasHighlight) HighlightActor(act);
 			}
 		}
-		else
-		{
-			powerupGraphic = "NONE";
-		}
 	}
 
 	void SetEnabled(bool onoff)
@@ -357,7 +376,10 @@ class PowerHaloVisor : HaloPowerup
 		else
 		{
 			Owner.TakeInventory("HaloVisorFullbright", 1);
+			
+			// Unset overlay image.
 			powerupGraphic = "NONE";
+			SetOverlayIMG(powerupGraphic);
 		}
 	}
 }
