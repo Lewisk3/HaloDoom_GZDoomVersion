@@ -4,6 +4,7 @@ class ExplosiveCoil : Actor
 	int coilFrame;
 	int noDmgTics;
 	int delay;
+	bool explodeOnImpact;
 
 	Property CoilFrame : coilFrame;
 
@@ -19,6 +20,8 @@ class ExplosiveCoil : Actor
 		+DONTTHRUST;
 		+PUSHABLE;
 		+SLIDESONWALLS;
+		+NOBLOCKMONST;
+		+CANPASS;
 		
 		Health 40;
 	}
@@ -68,6 +71,13 @@ class ExplosiveCoil : Actor
 			dmgOverlay = EnergyCoilOverlay.Setup(self);
 		
 		noDmgTics++;
+		
+		if( explodeOnImpact && (vel.xy.Length() <= 0.01 || abs(vel.z) == 0) ) 
+		{
+			A_Die();
+			SetState(FindState("Death"));
+			explodeOnImpact = false;
+		}
 		
 		if(noDmgTics > 35 && health > 0) 
 			health += ceil(SpawnHealth() * 0.01);

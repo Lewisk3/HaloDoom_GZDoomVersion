@@ -37,6 +37,7 @@ class HaloGun : RecoilWeapon
 	double rotation_sens;
 	bool donefirstdrawanim; 
 	bool handsbusy; // Keep track of melee stuff and other hand actions.
+	bool feetbusy; 
 	Weapon NextWeapon;
 	
 	// UI Stuff
@@ -153,6 +154,7 @@ class HaloGun : RecoilWeapon
 		if(haloplr) haloplr.ResetMovementMods();
 		
 		if(handsbusy) A_FinishMelee();
+		if(feetbusy) A_FinishKick();
 	}
 	
 	// UI Stuff
@@ -293,14 +295,18 @@ class HaloGun : RecoilWeapon
 		}
 	}
 	
-	action Actor A_HaloMelee(int damage, double range = 48, vector2 fpthrust = (12,5), Sound hitsnd = "", Sound wallsnd = "", Name damageType = "Melee", bool doHitThrust = true)
+	action Actor A_HaloMelee(int damage, double range = 48, vector2 fpthrust = (12,5), Sound hitsnd = "", Sound wallsnd = "", Name damageType = "Melee", bool doHitThrust = true, bool forceThrust = false)
 	{
-		return DoHaloMelee(self, damage,range,fpthrust,hitsnd,wallsnd,damageType,doHitThrust);
+		return DoHaloMelee(self, damage,range,fpthrust,hitsnd,wallsnd,damageType,doHitThrust,forceThrust);
 	}
 	
-	static Actor DoHaloMelee(Actor source, int damage, double range = 48, vector2 fpthrust = (12,5), Sound hitsnd = "", Sound wallsnd = "", Name damageType = "Melee", bool doHitThrust = true)
-	{	
+	action Actor A_GetMeleeVictim(double range = 48)
+	{
 		FLineTraceData lt;
+		return invoker.GetMeleeVictim(self, lt, range);
+	}
+	static Actor GetMeleeVictim(Actor source, out FLineTraceData lt, double range = 48)
+	{
 		double aimz = source.player ? source.player.viewheight : (source.height * 0.5);
 		source.LineTrace(source.angle, range, source.pitch, 0, aimz, data:lt);
 		Actor victim = lt.HitActor;
@@ -311,15 +317,27 @@ class HaloGun : RecoilWeapon
 			victim = lt.hitActor;
 		}
 		
+		return victim;
+	}
+	
+	static Actor DoHaloMelee(Actor source, int damage, double range = 48, vector2 fpthrust = (12,5), Sound hitsnd = "", Sound wallsnd = "", Name damageType = "Melee", bool doHitThrust = true, bool forceThrust = false)
+	{	
+		FLineTraceData lt;
+		let victim = GetMeleeVictim(source, lt, range);
+		
 		if(victim && victim.bSHOOTABLE) 
 		{
 			vector3 victimAngles = level.sphericalCoords(victim.pos, source.pos, (victim.angle, victim.pitch));
 			if(abs(victimAngles.x) >= 120) damage *= 3.45; // Backstab!
 		
 			double inertia = HaloMath.GetInertia(victim.mass);
-			victim.DamageMobJ(source, source, damage, damageType, 0, source.angle);
-			if(!victim.bNOBLOOD) victim.BloodSplatter(lt.HitLocation, source.angle, true);
-			if(!victim.bDONTTHRUST) 
+			if(damage > 0) 
+			{	
+				victim.DamageMobJ(source, source, damage, damageType, 0, source.angle);
+				if(!victim.bNOBLOOD) victim.BloodSplatter(lt.HitLocation, source.angle, true);
+			}
+			
+			if(!victim.bDONTTHRUST || forceThrust) 
 			{
 				victim.vel.z += (fpthrust.y*inertia);
 				victim.Thrust(fpthrust.x*inertia, source.angle);
@@ -641,7 +659,20 @@ class HaloGun : RecoilWeapon
 		{
 			Owner.A_StopSound(CHAN_RELOADING);
 			Owner.player.SetPSprite(MELEE_OVERLAY, FindState(stateName));
-			if(inreload) psp.SetState(FindState("Ready.Active"));
+			if(inreload) psp.SetState(ResolveState("Ready.Active"));
+			return true;
+		}
+		return false;
+	}
+	
+	bool CallKickState(StateLabel stateName, bool force = false)
+	{
+		let psp  = Owner.player.GetPSprite(PSP_WEAPON);
+		let footpsp = Owner.player.GetPSprite(FEET_OVERLAY);
+
+		if(footpsp.CurState == NULL || force)
+		{
+			Owner.player.SetPSprite(FEET_OVERLAY, ResolveState(stateName));
 			return true;
 		}
 		return false;
@@ -650,7 +681,13 @@ class HaloGun : RecoilWeapon
 	bool CheckMeleeState(StateLabel stateName)
 	{
 		let meleepsp = Owner.player.GetPSprite(MELEE_OVERLAY);
-		return meleepsp && InStateSequence(meleepsp.CurState, FindState(stateName));
+		return meleepsp && InStateSequence(meleepsp.CurState, ResolveState(stateName));
+	}
+	
+	bool CheckKickState(StateLabel stateName)
+	{
+		let footpsp = Owner.player.GetPSprite(FEET_OVERLAY);
+		return footpsp && InStateSequence(footpsp.CurState, ResolveState(stateName));
 	}
 	
 	action void A_RWeaponReady(uint flags=0)
@@ -830,10 +867,17 @@ class HaloGun : RecoilWeapon
 		if(!plr) return;
 		
 		// Melee attack
-		if( A_ButtonStatus(BT_USER2, BTS_PRESSED, Owner) && (!handsbusy || CheckMeleeState("GrappleWait")) && plr.CheckCanMelee() )
+		FLineTraceData meleeLT;
+		bool meleeReady = !inreload && (!handsbusy || CheckMeleeState("GrappleWait"));
+		bool barrelKick = GetMeleeVictim(Owner, meleeLT, 70) is "ExplosiveCoil" || !!I_HoldingCoil.GetHoldingCoil(Owner);
+		if( A_ButtonStatus(BT_USER2, BTS_PRESSED, Owner) && plr.CheckCanMelee() )
 		{
 			// Only melee if hands are not already being used for something else.
-			CallMeleeState("DoMelee", true);
+			// Otherwise, kick.
+			if(meleeReady && !barrelKick)
+				CallMeleeState("DoMelee", true); // DoMelee
+			else 
+				CallKickState("DoKick", true);
 		}
 		
 		// Check for LedgeGrab
@@ -844,12 +888,9 @@ class HaloGun : RecoilWeapon
 		}
 				
 		// Slide
-		let feetpsp = Owner.player.GetPSprite(FEET_OVERLAY);
-		if( !!Owner.FindInventory("SlideAnimator") && !InStateSequence(feetpsp.CurState, FindState("SlideStart")) )
-		{
-			Owner.player.SetPSprite(FEET_OVERLAY, FindState("SlideStart"));
-		}
-		
+		if( !!Owner.FindInventory("SlideAnimator") )
+			CallKickState("SlideStart");
+			
 		// Grapple
 		if(plr.grapple && !handsbusy)
 		{
@@ -1070,6 +1111,14 @@ class HaloGun : RecoilWeapon
 		if(raise) invoker.staticoffs.y = 0;
 		invoker.handsbusy = false;
 	}
+	action void A_BeginKick()
+	{
+		invoker.feetbusy = true;
+	}
+	action void A_FinishKick()
+	{
+		invoker.feetbusy = false;
+	}
 	
 	// Custom lower and raise.
 	action void A_GunLower(int speed = 32)
@@ -1167,7 +1216,7 @@ class HaloGun : RecoilWeapon
 		stop;
 		
 		DoMelee:
-			TNT1 A 8 
+			TNT1 A 2 
 			{
 				A_BeginMelee();
 				A_OverlayFlags(OverlayID(), PSPF_ADDBOB|PSPF_ADDWEAPON, 0);
@@ -1194,6 +1243,68 @@ class HaloGun : RecoilWeapon
 				A_OverlayOffset(OverlayID(), 3, 3, WOF_ADD | WOF_INTERPOLATE);
 			}
 			TNT1 A 0 A_FinishMelee();
+		stop;
+		
+		DoKick:
+			TNT1 A 1 
+			{
+				A_BeginKick();
+				A_OverlayFlags(OverlayID(), PSPF_ADDBOB|PSPF_ADDWEAPON, 0);
+				A_OverlayOffset(OverlayID(), -30, 25);
+				return A_JumpIf(!player.onground, "DoKick.Air");
+			}	
+			TNT1 A 0 A_StartSound("Halo/Melee/Swing", flags:CHANF_OVERLAP);
+			HSKI BCD 1 
+			{
+				A_SetRecoil(0.3, 0, 3);
+			}
+			HSKI E 1 
+			{
+				A_SetRecoil(1.20, 0, 3);
+				let holdingCoil = I_HoldingCoil.GetHoldingCoil(self);
+				let victim = A_GetMeleeVictim(70);
+				if(victim == holdingCoil)
+					I_HoldingCoil.DropCoil(self);
+				
+				if( (victim is "ExplosiveCoil") )
+				{
+					if(holdingCoil) holdingCoil.explodeOnImpact = true;
+					A_HaloMelee(0, 70, fpthrust:(16,16), hitsnd:"Halo/Melee/Punch", "Halo/Melee/Ouch", forceThrust:true);
+				}
+				else
+				{
+					A_HaloMelee(50, 70, fpthrust:(12,12), hitsnd:"Halo/Melee/Punch", "Halo/Melee/Ouch");
+				}
+			}
+			HSKI FGHI 1;
+			HSKI I 4;
+			HSKI IIDCBA 1 A_SetRecoil(-0.3, 0, 5);
+			TNT1 A 0 A_FinishKick();
+		stop;
+		
+		DoKick.Air:
+			TNT1 A 1 
+			{
+				A_BeginKick();
+				A_OverlayFlags(OverlayID(), PSPF_ADDBOB|PSPF_ADDWEAPON, 0);
+				A_OverlayOffset(OverlayID(), -30, 25);
+			}	
+			TNT1 A 0 A_StartSound("Halo/Melee/Swing", flags:CHANF_OVERLAP);
+			HSKI JKLM 1 
+			{
+				A_SetRecoil(0.4, 0.8, 3);
+			}
+			HSKI N 1 
+			{
+				A_SetRecoil(0.80, 1.20, 3);
+				let victim = A_GetMeleeVictim(70);
+				double meleeDmg = (victim is "ExplosiveCoil") ? 0 : 50;
+	
+				A_HaloMelee(meleeDmg, 70, fpthrust:(12,12), hitsnd:"Halo/Melee/Punch", "Halo/Melee/Ouch");
+			}
+			HSKI N 8;
+			HSKI OPQRST 1 A_SetRecoil(-0.1, 0.2, 5);
+			TNT1 A 0 A_FinishKick();
 		stop;
 		
 		// I would use an inventory item to animate this but, GZDoom's
@@ -1228,6 +1339,7 @@ class HaloGun : RecoilWeapon
 		SlideStart:
 			SLID A 1 
 			{
+				A_BeginKick();
 				A_OverlayFlags(OverlayID(), PSPF_ADDBOB|PSPF_ADDWEAPON, 0);
 				A_OverlayOffset(OverlayID(), 0, 80);
 			}
@@ -1245,6 +1357,7 @@ class HaloGun : RecoilWeapon
 		
 		SlideFinish:
 			SLID AAA 1 A_OverlayOffset(OverlayID(), 0, 30, WOF_ADD|WOF_INTERPOLATE); 
+			TNT1 A 0 A_FinishKick(); 
 		stop;
 				
 				

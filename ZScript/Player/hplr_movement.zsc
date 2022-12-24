@@ -309,7 +309,8 @@ extend class HaloPlayer
 		if( (btns & BT_CROUCH) && !(obtns & BT_CROUCH) && vel.length() > 5 && player.onground && canslide && slidecooldown <= 0)
 		{
 			// If slide success and not predicting movement, play slide sound.
-			if( SlideAnimator.DoSlide(self, SLIDE_TICS) && !(player.cheats & CF_PREDICTING) )
+			let haloweap = HaloGun(player.ReadyWeapon);
+			if( SlideAnimator.DoSlide(self, SLIDE_TICS) && !(player.cheats & CF_PREDICTING) && (haloweap && !haloweap.feetbusy) )
 			{
 				slidecooldown = SLIDE_COOL;
 				A_StartSound("Halo/Spartan/Slide", CHAN_BODY, CHANF_OVERLAP);
