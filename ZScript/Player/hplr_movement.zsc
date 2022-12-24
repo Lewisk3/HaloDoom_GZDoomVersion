@@ -630,7 +630,11 @@ class SlideAnimator : Inventory
 		
 		vector2 addvel = AngleToVector(atan2(plr.vel.y, plr.vel.x), 1.5);
 		
-		if(plr.player.onground) plr.vel.xy += addvel;
+		if(plr.player.onground) 
+			plr.vel.xy += addvel;
+		else
+			timeout = 0;
+			
 		plr.fricmod = 1.0;
 		plr.block_moveinput = true;
 		
