@@ -295,7 +295,7 @@ class Halo_Commando : HaloGun
 			}
 			WUR2 MNOPQRSTUVWXYZ 1;
 			WUR3 MNOPQRSTUVW 1;
-		goto Ready.Active;
+			TNT1 A 0 A_GotoState("Ready.Active");
 		
 		Reload.Empty:
 			WUR3 XYZ 1;

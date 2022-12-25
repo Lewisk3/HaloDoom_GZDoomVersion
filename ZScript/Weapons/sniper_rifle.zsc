@@ -190,23 +190,7 @@ class Halo_SniperRifle : HaloGun
 		goto Bolt;
 		
 		// 1,280ms @ 40ms per frame rendered.
-		// ~45 frames
-		Bolt:
-			TNT1 A 0 A_ScopeDisable();
-			TNT1 A 0 A_StartSound("Halo/Weapons/Sniper/Bolt",CHAN_WEAPON,CHANF_OVERLAP);
-			HSNB ABCDEFGH 1;
-			HSNB IJKLMNO 1 A_SetRecoil(-0.34, 0.67, 1);
-			TNT1 A 0 
-			{
-				A_SetSFXPos(25,-20,-20);
-				A_SpawnSFX("SmallCasing", -90,-20);
-			}
-			HSNB PPO 2;
-			HSNB ONNMLKJ 1; 
-			HSNB IHGFE 1 A_SetRecoil(0.34, -0.67, 1);
-			HSNB DCBAA 1;
-		goto Ready.Active;
-				
+		// ~45 frames				
 		Reload:
 			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
 			TNT1 A 0 A_ScopeDisable();
@@ -223,6 +207,22 @@ class Halo_SniperRifle : HaloGun
 			HSR2 CDEFGHIJ 1;
 			HSR2 KLMNOPQRST 2;
 			TNT1 A 0 A_JumpIf(!CountReloadAmmo(), "Bolt");
+			TNT1 A 0 A_GotoState("Ready.Active"); 
+			
+		Reload.Bolt:
+			TNT1 A 0 A_ScopeDisable();
+			TNT1 A 0 A_StartSound("Halo/Weapons/Sniper/Bolt",CHAN_WEAPON,CHANF_OVERLAP);
+			HSNB ABCDEFGH 1;
+			HSNB IJKLMNO 1 A_SetRecoil(-0.34, 0.67, 1);
+			TNT1 A 0 
+			{
+				A_SetSFXPos(25,-20,-20);
+				A_SpawnSFX("SmallCasing", -90,-20);
+			}
+			HSNB PPO 2;
+			HSNB ONNMLKJ 1; 
+			HSNB IHGFE 1 A_SetRecoil(0.34, -0.67, 1);
+			HSNB DCBAA 1;
 		goto Ready.Active;
 
 		Scope.ON:

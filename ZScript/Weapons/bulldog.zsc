@@ -254,8 +254,8 @@ class Halo_Bulldog : HaloGun
 			TNT1 A 0 A_ReloadClip();
 			WAR2 JKLMNOPQRSTUVWXYZ 1;
 			WAR3 ABCDEFGHIJK 1;
-		goto Ready.Active;
-		
+			TNT1 A 0 A_GotoState("Ready.Active");
+
 		Reload.Empty:
 			WAR3 LMNOPQRSTUVWXYZ 1;
 			WAR4 ABCDEFGH 1;

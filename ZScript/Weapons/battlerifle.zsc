@@ -244,8 +244,8 @@ class Halo_BattleRifle : HaloGun
 			TNT1 A 0 A_ReloadClip();
 			W2R2 OPQRSTUVWXYZ 1;
 			W2R3 ABCDEFGHIJKLMNO 1;
-		goto Ready.Active;
-		
+			TNT1 A 0 A_GotoState("Ready.Active");
+
 		Reload.Empty: // 25
 			W2R3 PQRSTUVWXYZ 1;
 			W2R4 AB 1;

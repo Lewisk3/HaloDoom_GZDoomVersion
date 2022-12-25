@@ -1136,6 +1136,13 @@ class HaloGun : RecoilWeapon
 	{
 		A_RRaise(speed);
 	}
+	
+	action state A_GotoState(StateLabel stat)
+	{
+		// This may seem odd but, it's needed for InStateSequence to register properly
+		// for reload sequences which use multiple statelabels.
+		return ResolveState(stat);
+	}
 
 	States
 	{	
