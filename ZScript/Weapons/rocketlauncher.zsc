@@ -249,7 +249,6 @@ class Halo_RocketLauncher : HaloGun
 		HaloGun.SetupUIAmmo "WI_AMM3", 57, 16, 0, 2;
 		HaloGun.UIAmmo_Scale_Offset 2.0, -24,0;
 		
-		HaloGun.Availability "HL1, HL2, HL3, HL4, MSX, SpartanOverkill";
 		HaloGun.PowerTier P_POWER;
 		
 		RecoilWeapon.YOffsetRange -10, 40;

@@ -75,7 +75,6 @@ class Halo_GPMG : HaloGun
 		+HaloGun.SI_Rotate;
 		+HaloGun.SI_AlwaysHide;
 		
-		HaloGun.Availability "HL2, HL3";
 		HaloGun.PowerTier P_NORM;
 		
 		RecoilWeapon.YOffsetRange -10, 40;

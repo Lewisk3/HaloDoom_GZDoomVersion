@@ -175,7 +175,6 @@ class Halo_Unmaker : HaloGun
 		Weapon.AmmoType1 "Halo_UnmakerReserves";
 		Weapon.AmmoType2 "Halo_UnmakerReserves";
 		
-		HaloGun.Availability "HL1, HL2, HL3, HL4, MSX, StarWars, SpartanOverkill";
 		HaloGun.PowerTier P_UBER;
 				
 		// Recoil

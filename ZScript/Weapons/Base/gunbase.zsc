@@ -184,26 +184,44 @@ class HaloGun : RecoilWeapon
 		lore = "Error 404: Description not found.";
 	}
 
-	// Game Type functions.
-	clearscope static uint getGameTypeFlags(class<HaloGun> weap)
+	// Game Type function(s).		
+	clearscope static void getGameTypeWeapons(string gametypeName, out Array<String> weapslist)
 	{
-		let weapDefs = GetDefaultByType(weap);
-		return HaloMath.gameTypesToFlags(weapDefs.gametypes_str);
-	}
+		Array<GameTypeInfo> gametypes;
+		HaloMath.getGameTypes(gametypes);
 		
-	clearscope static void getGameTypeWeapons(uint gametype, out Array<String> weapslist)
-	{
-		for(int i = 0; i < AllActorClasses.Size(); i++)
+		for(int i = 0; i < gametypes.Size(); i++)
 		{
-			let actType = HaloGun(GetDefaultByType(AllActorClasses[i]));
-			if( !actType || actType.getClass() == "HaloGun") continue;
-			
-			// Skip weapons outside spawning parameters.
-			uint weapon_gametype = Halogun.getGameTypeFlags(actType.getClass());
-			if( gametype != 0 && !(weapon_gametype & gametype) ) 
-				continue;
+			let gt = gametypes[i];
+			if(gt.defName ~== gametypeName)
+			{
+				if( !(gt.flags & gt.DONTFILTERWEAPONS) )
+				{
+					for(int w = 0; w < gt.weaponClasses.Size(); w++)
+					{
+						let weapClass = (class<Weapon>)(gt.weaponClasses[w]);
+						if(weapClass) 
+						{
+							let defs = GetDefaultByType(weapClass);
+							weapsList.Push(defs.getTag());
+						}
+						else
+						{
+							console.printf("\c[DarkRed]GameType \"%s\" Error :> Unknown weapon class %s.", StringTable.Localize(gt.displayName), gt.weaponClasses[w]);
+						}
+					}
+				}
+				else
+				{
+					for(int i = 0; i < AllActorClasses.Size(); i++)
+					{
+						let actType = HaloGun(GetDefaultByType(AllActorClasses[i]));
+						if( !actType || actType.getClass() == "HaloGun") continue;
 						
-			weapslist.Push(actType.getTag());
+						weapslist.Push(actType.getTag());
+					}
+				}
+			}
 		}
 	}
 	

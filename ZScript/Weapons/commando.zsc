@@ -78,7 +78,6 @@ class Halo_Commando : HaloGun
 		+HaloGun.SI_Rotate;
 		+HaloGun.SI_AlwaysHide;
 		
-		HaloGun.Availability "HL4";
 		HaloGun.PowerTier P_NORM;
 		
 		RecoilWeapon.YOffsetRange -5, 40;

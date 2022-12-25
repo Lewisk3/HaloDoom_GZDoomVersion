@@ -58,7 +58,6 @@ class Halo_PlasmaRifle : HaloGun
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 1;
 		
-		HaloGun.Availability "HL1, HL2, HL3, HL4, MSX, StarWars";
 		HaloGun.PowerTier P_ENERGY | P_NORM;
 		HaloGun.Rarity 60;
 				

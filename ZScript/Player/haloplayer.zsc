@@ -118,8 +118,8 @@ class HaloPlayer : DoomPlayer
 	
 	static bool IsGameType(string types)
 	{
-		uint flags = HaloMath.gameTypesToFlags(types);
-		return !!(halodoom_gametype & flags);
+		let gt = HaloMath.getCurrentGameType();
+		return gt.defName ~== types;
 	}
 	
 	// Called when the player initially spawns, sets up spawn items.

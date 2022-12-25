@@ -150,7 +150,6 @@ class Halo_FuelRod : HaloGun
 		Weapon.AmmoType1 "Halo_FuelClip";
 		Weapon.AmmoType2 "Halo_FuelClip";
 		
-		HaloGun.Availability "HL1, HL2, HL3, HL4, StarWars, SpartanOverkill";
 		HaloGun.PowerTier P_POWER;
 		
 		// This is basically hacks

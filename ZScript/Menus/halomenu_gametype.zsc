@@ -103,14 +103,13 @@ class HaloDoom_GameTypeMenu : HaloMenuBase
 			HLSBS.DrawString("HaloFont", gtDesc, (desc_pos.x+50,desc_pos.y+80), flags:drawFlags, Font.CR_WHITE, scale:(0.15,0.15), linespacing:130);
 			
 			Array<String> gametype_weaps;
-			HaloGun.getGameTypeWeapons( !index ? 0 : 1 << (index-1), gametype_weaps );
+			HaloGun.getGameTypeWeapons(gameType.defName, gametype_weaps);
 			
 			String weaps = "";
 			for(int i = 0; i < gametype_weaps.Size(); i++)
 			{
 				string comma = ", ";
 				if(i >= gametype_weaps.Size()-1) comma = ".";
-				
 				weaps = weaps .. gametype_weaps[i] .. comma;
 			}
 				
@@ -133,7 +132,7 @@ class HaloDoom_GameTypeMenu : HaloMenuBase
 				
 				// Setup gametype
 				CVar gameType = CVar.GetCVar("halodoom_gametype");
-				gameType.SetInt(!i ? 0 : 1 << (i-1));
+				gameType.SetInt(i);
 			
 				// Enter playeclass menu.
 				Menu.SetMenu("HaloPlayerClassMenu");

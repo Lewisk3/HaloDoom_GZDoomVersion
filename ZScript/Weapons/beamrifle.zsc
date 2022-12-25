@@ -109,7 +109,6 @@ class Halo_BeamRifle : HaloGun
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 1;
 		
-		HaloGun.Availability "HL2, HL3, HL4, StarWars, SpartanOverkill";
 		HaloGun.PowerTier P_POWER | P_ENERGY;
 				
 		// Recoil

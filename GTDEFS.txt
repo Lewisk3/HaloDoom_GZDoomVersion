@@ -2,46 +2,54 @@ GameType HDE
 {
 	Name "$GAMETYPE_HDE"
 	Description "$GAMETYPE_HDE_DESC"
+	flag.dontfilterweapons; 
 }
 
 GameType HL1
 {
 	Name "$GAMETYPE_HL1"
 	Description "$GAMETYPE_HL1_DESC"
+	RestrictWeapons "halo_magnum, halo_shotgun, halo_dblshotgun, halo_sniperrifle, halo_stanchion, halo_plasmapistol, halo_plasmarifle, halo_needler, halo_fuelrod, halo_ma5b, halo_rocketlauncher, halo_unmaker, halo_energysword"
 }
 
 GameType HL2
 {
 	Name "$GAMETYPE_HL2"
 	Description "$GAMETYPE_HL2_DESC"
+	RestrictWeapons "halo_shotgun, halo_dblshotgun, halo_battlerifle, halo_sniperrifle, halo_stanchion, halo_carbine, halo_plasmapistol, halo_plasmarifle, halo_needler, halo_fuelrod, halo_sidekick, halo_smg, halo_rocketlauncher, halo_unmaker, halo_beamrifle, halo_energysword"
 }
 
 GameType HL3
 {
 	Name "$GAMETYPE_HL3"
 	Description "$GAMETYPE_HL3_DESC"
+	RestrictWeapons "halo_magnum, halo_shotgun, halo_dblshotgun, halo_assaultrifle, halo_battlerifle, halo_sniperrifle, halo_stanchion, halo_carbine, halo_plasmapistol, halo_plasmarifle, halo_needler, halo_gravityhammer, halo_fuelrod, halo_smg, halo_spiker, halo_rocketlauncher, halo_dmr, halo_unmaker, halo_beamrifle, halo_energysword, halo_flamethrower"
 }
 
 GameType HL4
 {
 	Name "$GAMETYPE_HL4"
 	Description "$GAMETYPE_HL4_DESC"
+	RestrictWeapons "halo_magnum, halo_shotgun, halo_dblshotgun, halo_assaultrifle, halo_battlerifle, halo_sniperrifle, halo_stanchion, halo_carbine, halo_plasmapistol, halo_plasmarifle, halo_needler, halo_bulldog, halo_gravityhammer, halo_fuelrod, halo_commando, halo_sidekick, halo_rocketlauncher, halo_dmr, halo_unmaker, halo_beamrifle, halo_pulsecarbine, halo_energysword, halo_binaryrifle, halo_lightrifle, halo_scattershot, halo_flamethrower, halo_plasmacaster, halo_hydra"
 }
 
 GameType MSX
 {
 	Name "$GAMETYPE_MSX"
 	Description "$GAMETYPE_MSX_DESC"
+	RestrictWeapons "halo_shotgun, halo_stanchion, halo_plasmarifle, halo_bulldog, halo_sidekick, halo_ma5b, halo_rocketlauncher, halo_unmaker, halo_energysword"
 }
 
 GameType StarWars
 {
 	Name "$GAMETYPE_ENERGY"
 	Description "$GAMETYPE_ENERGY_DESC"
+	RestrictWeapons "halo_plasmapistol, halo_plasmarifle, halo_gravityhammer, halo_fuelrod, halo_unmaker, halo_beamrifle, halo_pulsecarbine, halo_energysword, halo_binaryrifle, halo_lightrifle, halo_scattershot, halo_flamethrower"
 }
 
 GameType SpartanOverkill
 {
 	Name "$GAMETYPE_OVERKILL"
 	Description "$GAMETYPE_OVERKILL_DESC"
+	RestrictWeapons "halo_magnum, halo_dblshotgun, halo_sniperrifle, halo_stanchion, halo_bulldog, halo_gravityhammer, halo_fuelrod, halo_rocketlauncher, halo_unmaker, halo_beamrifle, halo_energysword, halo_binaryrifle, halo_lightrifle, halo_scattershot, halo_flamethrower, halo_plasmacaster, halo_hydra"
 }

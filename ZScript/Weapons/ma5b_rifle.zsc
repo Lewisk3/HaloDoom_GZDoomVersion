@@ -49,7 +49,6 @@ class Halo_MA5B : HaloGun
 		HaloGun.UIGraphic "WI_MA5B", 1.0, 1.0;
 		HaloGun.SetupUIAmmo "WI_AMM7", 12, 14, 0, 15;
 		
-		HaloGun.Availability "HL1, MSX";
 		HaloGun.PowerTier P_NORM;
 		HaloGun.Rarity 80;
 		

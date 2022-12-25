@@ -591,30 +591,15 @@ class HaloMath Abstract
 		}
 	}
 	
-	const GT_ALL = 31;
-	static uint gameTypesToFlags(string types)
+	static GameTypeInfo getCurrentGameType()
 	{
-		uint flags = 0;
-		Array<String> tokens;
 		Array<GameTypeInfo> gameTypes;
-		
-		string gtStr = types;
-		if(gtStr.Length() <= 0) return 0;
-		
-		gtStr.Replace(" ", "");
-		gtStr.Split(tokens, ",");
-		
-		uint notFound = tokens.Size();
-		if(tokens.Find("ALL") != notFound) return GT_ALL;
 		HaloMath.getGameTypes(gameTypes);
 		
-		for(int i = 0; i < gameTypes.Size(); i++)
-		{
-			if(tokens.Find(gameTypes[i].defName) != notFound)
-				flags |= !i ? 0 : (1 << (i-1));
-		}
+		if(halodoom_gametype < 0 || halodoom_gametype >= gameTypes.Size())
+			return gameTypes[0];
 		
-		return flags;
+		return gameTypes[halodoom_gametype];
 	}
 	
 	static void getGameTypes(out Array<GameTypeInfo> gtInfo)
@@ -664,19 +649,37 @@ class HaloMath Abstract
 				gtDefName.Replace(String.Format("%c", 13), "");
 				string gtName;
 				string gtDesc;
+				string gtWeaps = "";
+				Array<string> weapClasses;
+				bool gtNoFilterWeapons;
 
 				bool exists;
 				string result;
-				[exists, gtName] = StringHelper.parseStrElement("name", gtData);
-				[exists, gtDesc] = StringHelper.parseStrElement("description", gtData);
+				[exists, gtName]  = StringHelper.parseStrElement("name", gtData);
+				[exists, gtDesc]  = StringHelper.parseStrElement("description", gtData);
+				[exists, gtWeaps] = StringHelper.parseStrElement("restrictweapons", gtData);
+				gtNoFilterWeapons = gtData.IndexOf("flag.dontfilterweapons;") != -1;
+				
+				if(gtWeaps != "" && !gtNoFilterWeapons)
+				{
+					gtWeaps.Replace(String.Format("%c", 13), "");
+					gtWeaps.Replace(" ", ""); // Remove spaces
+					gtWeaps.Split(weapClasses, ",");
+				}
 				
 				// Export data.
 				let curGameTypeInfo = new("GameTypeInfo");
 				curGameTypeInfo.displayName = gtName;
 				curGameTypeInfo.Description = gtDesc;
 				curGameTypeInfo.defName = gtDefName;
-				// console.printf("Type: %s\n Name: %s\n Description: %s\n\n", curGameTypeInfo.defName, curGameTypeInfo.displayName, curGameTypeInfo.Description);
-						
+				
+				if(weapClasses.Size() > 0)
+					curGameTypeInfo.weaponClasses.Copy(weapClasses);
+				
+				// Set flags
+				if(gtNoFilterWeapons) curGameTypeInfo.flags |= GameTypeInfo.DONTFILTERWEAPONS;
+			
+				// console.printf("Type: %s\n Name: %s\n Description: %s\n\n", curGameTypeInfo.defName, curGameTypeInfo.displayName, curGameTypeInfo.Description);		
 				gtInfo.push(curGameTypeInfo);
 			}			
 		}
@@ -811,9 +814,23 @@ class SkillInfo : Object
 
 class GameTypeInfo : Object
 {
+	enum GTFlags
+	{
+		DONTFILTERWEAPONS = 1 << 0, // Allow all weapons in this gametype.
+	}
+
 	string defName;
 	string displayName;
 	string Description;
+	Array<String> weaponClasses;
+	uint flags;
+	
+	bool HasWeapon(string className)
+	{
+	//	console.printf("[%s :> %d] Looking for: %s :> IND %d (%d)", defName, halodoom_gametype, className.MakeLower(), weaponClasses.Find(className), weaponClasses.Size());
+		className = className.MakeLower();
+		return (flags & DONTFILTERWEAPONS) || ( weaponClasses.Find(className) != weaponClasses.Size() );
+	}
 }
 
 class ActorTracer : Object 

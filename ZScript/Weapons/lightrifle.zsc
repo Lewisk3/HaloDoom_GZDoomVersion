@@ -92,7 +92,6 @@ class Halo_LightRifle : HaloGun
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 2;
 		
-		HaloGun.Availability "HL4, StarWars, SpartanOverkill";
 		HaloGun.PowerTier P_MID;
 		HaloGun.Rarity 10;
 				

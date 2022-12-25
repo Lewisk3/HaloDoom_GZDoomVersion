@@ -144,7 +144,7 @@ class HaloDBLShotgun_Bullet : HaloBullet
 	}
 }
 
-class Halo_DBLShotgun : HaloGun replaces SuperShotgun
+class Halo_DBLShotgun : HaloGun
 {
 	Default
 	{
@@ -159,7 +159,6 @@ class Halo_DBLShotgun : HaloGun replaces SuperShotgun
 		Weapon.AmmoGive 8;
 		Weapon.AmmoType2 "Halo_DBLShotgun_Shells";
 		
-		HaloGun.Availability "HL1, HL2, HL3, HL4, SpartanOverkill";
 		HaloGun.PowerTier P_STRONG;
 				
 		// Recoil

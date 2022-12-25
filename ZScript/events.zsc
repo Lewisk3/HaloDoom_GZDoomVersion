@@ -252,9 +252,7 @@ class HaloDoom_Events : EventHandler
 				let classtype = AllActorClasses[i];
 				if(classtype is "HaloGun" && classtype != "HaloGun") 
 				{
-					let weap = (class<Weapon>) (classtype);
-					if(shouldFilterWeapon(weap)) continue;
-					
+					if(shouldFilterWeapon(classtype.getClassName())) continue;	
 					guns.Push(AllActorClasses[i]);
 				}
 			}

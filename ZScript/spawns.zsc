@@ -11,11 +11,10 @@ extend class HaloDoom_Events
 	Array<String> weaps_melee;
 	bool gotSpawns;
 	
-	static bool shouldFilterWeapon(class<Weapon> weap)
+	static bool shouldFilterWeapon(string weap)
 	{
-		uint gametype = HaloGun.GetGameTypeFlags( (class<HaloGun>)(weap) );
-		
-		return (halodoom_gametype != 0 && !(gametype & halodoom_gametype));
+		let gt = HaloMath.getCurrentGameType();
+		return !gt.HasWeapon(weap);
 	}
 	
 	void filterWeaponRarity(out Array<String> weaps)
@@ -92,6 +91,7 @@ extend class HaloDoom_Events
 		weaps_uber.Clear();
 		weaps_melee.Clear();
 	
+		let curGameType = HaloMath.getCurrentGameType();
 		for(int i = 0; i < AllActorClasses.Size(); i++)
 		{
 			let classType = AllActorClasses[i].getClassName();
@@ -101,8 +101,7 @@ extend class HaloDoom_Events
 			let actType = HaloGun(Actor.Spawn(classType));
 			
 			// Skip weapons outside spawning parameters.
-			uint gametype = HaloGun.GetGameTypeFlags( actType.getClass() );
-			if( halodoom_gametype != 0 && !(gametype & halodoom_gametype) ) 
+			if( !curGameType.HasWeapon(actType.getClassName()) )
 			{
 				actType.Destroy();
 				continue;

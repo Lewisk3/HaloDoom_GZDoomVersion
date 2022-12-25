@@ -71,7 +71,6 @@ class Halo_PulseCarbine : HaloGun
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 1;
 		
-		HaloGun.Availability "HL4, StarWars";
 		HaloGun.PowerTier P_ENERGY;
 				
 		// Recoil

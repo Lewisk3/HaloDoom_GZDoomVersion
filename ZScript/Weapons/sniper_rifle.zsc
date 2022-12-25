@@ -67,7 +67,6 @@ class Halo_SniperRifle : HaloGun
 		Weapon.AmmoGive 6;
 		Weapon.AmmoType2 "Halo_SniperClip";
 		
-		HaloGun.Availability "HL1, HL2, HL3, HL4, SpartanOverkill";
 		HaloGun.PowerTier P_POWER;
 				
 		// Recoil
