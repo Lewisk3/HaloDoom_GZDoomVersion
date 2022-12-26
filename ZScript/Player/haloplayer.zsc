@@ -126,7 +126,10 @@ class HaloPlayer : DoomPlayer
 	virtual void SetupInventory()
 	{
 		GiveInventory("DoHelmetAnimation", 1);
+		let gt = HaloMath.getCurrentGameType();
+		gt.GiveLoadout(self);
 		
+		/*
 		if(IsGameType("HL1"))
 		{
 			GiveInventory("Halo_MA5B", 1);
@@ -169,6 +172,7 @@ class HaloPlayer : DoomPlayer
 			GiveInventory("Halo_AR_Reserves", 120);
 			GiveInventory("Halo_Sidekick_Reserves", 48);
 		}
+		*/
 	}
 	
 	virtual bool CheckCanMelee()

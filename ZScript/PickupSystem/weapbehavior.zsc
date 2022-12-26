@@ -259,7 +259,8 @@ class WeaponPickupProxy : Actor
 		if( forcepickup || use_hold > 4 || hasweap || halodoom_unlimitedbackpack || (!haloplr && plr) )
 		{
 			use_hold = 0;
-			if(wcount >= (MAXWEAPS + halodoom_holdmoarweapons) && !halodoom_unlimitedbackpack)
+			int weaponlimit = wcontrol.curGameType ? wcontrol.curGameType.getWeaponLimit() : 2;
+			if(wcount >= (weaponlimit + halodoom_holdmoarweapons) && !halodoom_unlimitedbackpack)
 			{
 				if(!hasweap && wcontrol)
 				{
@@ -305,6 +306,9 @@ class WeaponPickupProxy : Actor
 class WeaponLimitProxy : Inventory
 {
 	PlayerPawn plr;
+	int cl_gametype;
+	GameTypeInfo curGameType;
+	
 	Default
 	{
 		inventory.maxamount 1;
@@ -351,8 +355,15 @@ class WeaponLimitProxy : Inventory
 		super.DoEffect();
 		plr = PlayerPawn(Owner);
 		if(!plr || !plr.player) return;
+		if(!curGameType || cl_gametype != halodoom_gametype) 
+		{
+			curGameType = HaloMath.getCurrentGameType();
+			cl_gametype = halodoom_gametype;
+			return;
+		}
 		
-		if(CountWeapons() > (MAXWEAPS + halodoom_holdmoarweapons) && !halodoom_unlimitedbackpack) 
+		int weaponlimit = curGameType.getWeaponLimit() + halodoom_holdmoarweapons;
+		if(CountWeapons() > weaponlimit && !halodoom_unlimitedbackpack) 
 		{
 			double rang = ceil(frandom(0,90)*4.);
 			vector3 fw = ( cos(plr.angle+rang)*32, sin(plr.angle+rang)*32, 0 );

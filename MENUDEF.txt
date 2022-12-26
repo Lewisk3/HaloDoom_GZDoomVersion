@@ -167,8 +167,10 @@ OptionValue "GameTypes"
 	0, "HaloDoom: Evolved"
 	1, "Halo CE"
 	2, "Halo 2"
-	4, "Halo 3 (& Reach)"
-	8, "Halo 4"
-	16, "Project MSX"
+	3, "Halo 3 (& Reach)"
+	4, "Halo 4"
+	5, "Project MSX"
+	6, "StarWars"
+	7, "Spartan Overkill"
 }
 

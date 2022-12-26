@@ -2,35 +2,50 @@ GameType HDE
 {
 	Name "$GAMETYPE_HDE"
 	Description "$GAMETYPE_HDE_DESC"
+	BackpackLimit 2
 	flag.dontfilterweapons; 
+	StartWeapons "halo_assaultrifle, halo_sidekick"
+	StartAmmo "halo_ar_reserves, 3; halo_sidekick_reserves, 2"
 }
 
 GameType HL1
 {
 	Name "$GAMETYPE_HL1"
 	Description "$GAMETYPE_HL1_DESC"
+	BackpackLimit 2
 	RestrictWeapons "halo_magnum, halo_shotgun, halo_dblshotgun, halo_sniperrifle, halo_stanchion, halo_plasmapistol, halo_plasmarifle, halo_needler, halo_fuelrod, halo_ma5b, halo_rocketlauncher, halo_unmaker, halo_energysword"
+	StartWeapons "halo_ma5b, halo_magnum"
+	StartAmmo "halo_ar_reserves, 3; halo_magnum_reserves, 2"
 }
 
 GameType HL2
 {
 	Name "$GAMETYPE_HL2"
 	Description "$GAMETYPE_HL2_DESC"
+	BackpackLimit 2
 	RestrictWeapons "halo_shotgun, halo_dblshotgun, halo_battlerifle, halo_sniperrifle, halo_stanchion, halo_carbine, halo_plasmapistol, halo_plasmarifle, halo_needler, halo_fuelrod, halo_sidekick, halo_smg, halo_rocketlauncher, halo_unmaker, halo_beamrifle, halo_energysword"
+	StartWeapons "halo_battlerifle, halo_sidekick"
+	StartAmmo "halo_bar_reserves, 3; halo_sidekick_reserves, 2"
 }
 
 GameType HL3
 {
 	Name "$GAMETYPE_HL3"
 	Description "$GAMETYPE_HL3_DESC"
+	BackpackLimit 2
 	RestrictWeapons "halo_magnum, halo_shotgun, halo_dblshotgun, halo_assaultrifle, halo_battlerifle, halo_sniperrifle, halo_stanchion, halo_carbine, halo_plasmapistol, halo_plasmarifle, halo_needler, halo_gravityhammer, halo_fuelrod, halo_smg, halo_spiker, halo_rocketlauncher, halo_dmr, halo_unmaker, halo_beamrifle, halo_energysword, halo_flamethrower"
+	StartWeapons "halo_assaultrifle, halo_sidekick"
+	StartAmmo "halo_ar_reserves, 3; halo_sidekick_reserves, 2"
 }
 
 GameType HL4
 {
 	Name "$GAMETYPE_HL4"
 	Description "$GAMETYPE_HL4_DESC"
+	BackpackLimit 2
 	RestrictWeapons "halo_magnum, halo_shotgun, halo_dblshotgun, halo_assaultrifle, halo_battlerifle, halo_sniperrifle, halo_stanchion, halo_carbine, halo_plasmapistol, halo_plasmarifle, halo_needler, halo_bulldog, halo_gravityhammer, halo_fuelrod, halo_commando, halo_sidekick, halo_rocketlauncher, halo_dmr, halo_unmaker, halo_beamrifle, halo_pulsecarbine, halo_energysword, halo_binaryrifle, halo_lightrifle, halo_scattershot, halo_flamethrower, halo_plasmacaster, halo_hydra"
+	StartWeapons "halo_assaultrifle, halo_sidekick"
+	StartAmmo "halo_ar_reserves, 3; halo_sidekick_reserves, 2"
 }
 
 GameType MSX
@@ -38,18 +53,26 @@ GameType MSX
 	Name "$GAMETYPE_MSX"
 	Description "$GAMETYPE_MSX_DESC"
 	RestrictWeapons "halo_shotgun, halo_stanchion, halo_plasmarifle, halo_bulldog, halo_sidekick, halo_ma5b, halo_rocketlauncher, halo_unmaker, halo_energysword"
+	flag.unlimitedbackpack;
+	StartWeapons "halo_ma5b, halo_sidekick"
+	StartAmmo "halo_ar_reserves, 3; halo_sidekick_reserves, 2"
 }
 
 GameType StarWars
 {
 	Name "$GAMETYPE_ENERGY"
 	Description "$GAMETYPE_ENERGY_DESC"
+	BackpackLimit 2
 	RestrictWeapons "halo_plasmapistol, halo_plasmarifle, halo_gravityhammer, halo_fuelrod, halo_unmaker, halo_beamrifle, halo_pulsecarbine, halo_energysword, halo_binaryrifle, halo_lightrifle, halo_scattershot, halo_flamethrower"
+	StartWeapons "halo_plasmapistol, halo_plasmarifle"
 }
 
 GameType SpartanOverkill
 {
 	Name "$GAMETYPE_OVERKILL"
 	Description "$GAMETYPE_OVERKILL_DESC"
+	BackpackLimit 4
 	RestrictWeapons "halo_magnum, halo_dblshotgun, halo_sniperrifle, halo_stanchion, halo_bulldog, halo_gravityhammer, halo_fuelrod, halo_rocketlauncher, halo_unmaker, halo_beamrifle, halo_energysword, halo_binaryrifle, halo_lightrifle, halo_scattershot, halo_flamethrower, halo_plasmacaster, halo_hydra"
+	StartWeapons "halo_magnum, halo_bulldog"
+	StartAmmo "plasmagrenades, 4; fraggrenades, 4; halo_magnum_reserves, 4; halo_bulldog_reserves, 4"
 }

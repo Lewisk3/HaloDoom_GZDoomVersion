@@ -650,15 +650,25 @@ class HaloMath Abstract
 				string gtName;
 				string gtDesc;
 				string gtWeaps = "";
+				string gtStartingWeapons = "";
+				string gtStartingAmmo = "";
+				int gtWeapLimit;
 				Array<string> weapClasses;
-				bool gtNoFilterWeapons;
+				Array<string> startWeapons;
+				Array<string> startAmmo;
 
 				bool exists;
 				string result;
 				[exists, gtName]  = StringHelper.parseStrElement("name", gtData);
 				[exists, gtDesc]  = StringHelper.parseStrElement("description", gtData);
 				[exists, gtWeaps] = StringHelper.parseStrElement("restrictweapons", gtData);
-				gtNoFilterWeapons = gtData.IndexOf("flag.dontfilterweapons;") != -1;
+				[exists, gtStartingWeapons] = StringHelper.parseStrElement("StartWeapons", gtData);
+				[exists, gtStartingAmmo] = StringHelper.parseStrElement("StartAmmo", gtData);
+				[exists, gtWeapLimit] = StringHelper.parseIntElement("BackpackLimit", gtData);
+				
+				// Flag(s)
+				bool gtNoFilterWeapons = gtData.IndexOf("flag.dontfilterweapons;") != -1;
+				bool gtUnlimitedBackpack = gtData.IndexOf("flag.unlimitedbackpack;") != -1;
 				
 				if(gtWeaps != "" && !gtNoFilterWeapons)
 				{
@@ -666,19 +676,41 @@ class HaloMath Abstract
 					gtWeaps.Replace(" ", ""); // Remove spaces
 					gtWeaps.Split(weapClasses, ",");
 				}
+	
+				if(gtStartingWeapons != "")
+				{
+					gtStartingWeapons.Replace(String.Format("%c", 13), "");
+					gtStartingWeapons.Replace(" ", ""); // Remove spaces
+					gtStartingWeapons.Split(startWeapons, ",");
+				}
+				
+				if(gtStartingAmmo != "")
+				{
+					gtStartingAmmo.Replace(String.Format("%c", 13), "");
+					gtStartingAmmo.Replace(" ", ""); // Remove spaces
+					gtStartingAmmo.Split(startAmmo, ";");
+				}
 				
 				// Export data.
 				let curGameTypeInfo = new("GameTypeInfo");
 				curGameTypeInfo.displayName = gtName;
 				curGameTypeInfo.Description = gtDesc;
 				curGameTypeInfo.defName = gtDefName;
+				curGameTypeInfo.backpackLimit = gtWeapLimit;
 				
 				if(weapClasses.Size() > 0)
 					curGameTypeInfo.weaponClasses.Copy(weapClasses);
 				
+				if(startWeapons.Size() > 0)
+					curGameTypeInfo.loadoutWeapons.Copy(startWeapons);
+					
+				if(startAmmo.Size() > 0)
+					curGameTypeInfo.loadoutAmmo.Copy(startAmmo);
+				
 				// Set flags
-				if(gtNoFilterWeapons) curGameTypeInfo.flags |= GameTypeInfo.DONTFILTERWEAPONS;
-			
+				if(gtNoFilterWeapons  ) curGameTypeInfo.flags |= GameTypeInfo.DONTFILTERWEAPONS;
+				if(gtUnlimitedBackpack) curGameTypeInfo.flags |= GameTypeInfo.UNLIMITEDBACKPACK;
+				
 				// console.printf("Type: %s\n Name: %s\n Description: %s\n\n", curGameTypeInfo.defName, curGameTypeInfo.displayName, curGameTypeInfo.Description);		
 				gtInfo.push(curGameTypeInfo);
 			}			
@@ -803,6 +835,19 @@ class StringHelper Abstract
 		
 		return true, output.Mid(strBegin+1, (strEnd-strBegin)-1);
 	}
+	
+	static bool, int parseIntElement(String type, String ln)
+	{
+		string lnLower = ln.MakeLower();
+		type = type.MakeLower();
+				
+		int element_S = lnLower.IndexOf(type);
+		int element_E = lnLower.IndexOf("\n", element_S);
+		if(element_S < 0 || element_E < 0) return false, 0;
+		
+		string output = ln.Mid(element_S+type.Length(), element_E-element_S);
+		return true, output.ToInt();
+	}
 }
 
 class SkillInfo : Object
@@ -817,12 +862,14 @@ class GameTypeInfo : Object
 	enum GTFlags
 	{
 		DONTFILTERWEAPONS = 1 << 0, // Allow all weapons in this gametype.
+		UNLIMITEDBACKPACK = 1 << 1
 	}
 
 	string defName;
 	string displayName;
 	string Description;
-	Array<String> weaponClasses;
+	int backpackLimit;
+	Array<String> weaponClasses, loadoutWeapons, loadoutAmmo;
 	uint flags;
 	
 	bool HasWeapon(string className)
@@ -830,6 +877,36 @@ class GameTypeInfo : Object
 	//	console.printf("[%s :> %d] Looking for: %s :> IND %d (%d)", defName, halodoom_gametype, className.MakeLower(), weaponClasses.Find(className), weaponClasses.Size());
 		className = className.MakeLower();
 		return (flags & DONTFILTERWEAPONS) || ( weaponClasses.Find(className) != weaponClasses.Size() );
+	}
+	
+	int getWeaponLimit()
+	{
+		return (flags & UNLIMITEDBACKPACK) ? 999 : max(1, backpackLimit);
+	}
+	
+	play void GiveLoadout(Actor to)
+	{
+		for(int w = 0; w < loadoutWeapons.Size(); w++)
+		{
+			let weap = (class<Weapon>)(loadoutWeapons[w]);
+			if(!weap) continue;
+			
+			to.GiveInventory(weap, 1);
+		}
+		
+		for(int a = 0; a < loadoutAmmo.Size(); a++)
+		{
+			string ammoStr = loadoutAmmo[a];
+			Array<string> args;
+			ammoStr.Split(args, ",");
+			
+			let ammocls = (class<Inventory>)(args[0]);
+			if(!ammocls) continue;
+			
+			let defs = GetDefaultByType(ammocls);
+			int amount = args[1].ToInt() * defs.amount; 
+			if(amount > 0) to.GiveInventory(ammocls, amount);
+		}
 	}
 }
 
