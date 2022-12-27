@@ -106,7 +106,10 @@ class HaloHUD : Object ui
 
 	// Basic Functions
 	mixin BasicHUDFeatures;
-
+	
+	vector2 powerupPos;
+	double powerupScale;
+	
 	static HaloHUD Create(HaloStatusBar base, class<HaloHUD> type)
 	{
 		let hud = HaloHUD(new(type));
@@ -128,6 +131,8 @@ class HaloHUD : Object ui
 		
 		// Messages setup
 		msgpos = (60, 60);
+		powerupPos = (200,200);
+		powerupScale = 1.0;
 	}
 		
 	virtual HaloMessage CreateMessage(String msg)

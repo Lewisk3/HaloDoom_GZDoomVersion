@@ -163,7 +163,38 @@ class HaloArmorBonus : HaloShieldCharge replaces ArmorBonus
 }
 
 // Backpack or Ammo Crate
-class HaloAmmoCrate : Actor replaces Backpack
+class HaloBackpackSpawner : CheapActor replaces Backpack
+{
+	override void PostBeginPlay()
+	{
+		super.PostBeginPlay();
+		
+		string item = "HaloAmmoCrate";
+		Array<String> items;
+		items.Push(item);
+		
+		for(int i = 0; i < AllActorClasses.Size(); i++)
+		{
+			let itmcls = (class<HaloPowerGiver>) (AllActorClasses[i]);
+			if(!itmcls) continue;
+			
+			let defs = GetDefaultByType(itmcls);
+			if(!defs.bBACKPACKSPAWN) continue;
+			
+			if(random[BackpackSpawns](0,100) <= defs.backpackSpawnChance)
+				items.Push(defs.getClassName());
+		}
+		
+		if(items.Size() > 0)
+			item = items[random[BackpackSpawns](0,items.Size()-1)];
+		
+		// Spawn item then gtfo
+		Spawn(item, pos);
+		Destroy();
+	}
+}
+
+class HaloAmmoCrate : Actor
 {
 	bool opened;
 	bool empty;

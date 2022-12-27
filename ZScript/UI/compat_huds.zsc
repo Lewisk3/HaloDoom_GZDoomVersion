@@ -90,9 +90,13 @@ class DoomHUD : HaloHUD
 	
 	double dashmeter;
 	void DrawAbilities()
-	{
+	{	
 		vector2 ablpos = (140.7,189);
 		double ablscale = 0.12;
+		
+		powerupPos = (100,1200);
+		powerupScale = 1.0;
+		
 		if(haloplr.enable_dash)
 		{
 			double dashperc = (haloplr.dashcounter / double(haloplr.dashmax));

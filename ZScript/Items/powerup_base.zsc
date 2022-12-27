@@ -278,6 +278,96 @@ class HaloOvershield : Inventory
 	}
 }
 
+// Jetpack
+class PowerJetpack : HaloPowerup
+{
+	bool coolingdown;
+	double thrustTime, rechargeTime;
+	double fuel;
+	ui double graphicFuel;
+	Property ThrustDuration : thrustTime;
+	Property RechargeTimer : rechargeTime;
+	
+	Default
+	{
+		Powerup.Duration 0x7FFFFFFD; 
+		Inventory.maxamount 1;
+		+INVENTORY.UNDROPPABLE;
+		+INVENTORY.PERSISTENTPOWER;
+		PowerJetpack.ThrustDuration 5; // 5 seconds of thrust when tanks are full.
+		PowerJetpack.RechargeTimer 5; // 5 seconds to fully recharge.
+	}
+	
+	override string SelectUIGraphic()
+	{
+		return "";
+	}
+
+	override void HUDDraw(HaloHUD hudbase, double dt)
+	{
+		graphicFuel = HaloMath.Lerp(graphicFuel, fuel, 0.1 * dt);
+		if(graphicFuel >= 0.8 || graphicFuel <= 0.1) graphicFuel = fuel;
+		
+		double perc = graphicFuel;
+		let pxl = TexMan.CheckForTexture("BLANK", TexMan.Type_Any);
+		
+		vector2 circlePos = hudbase.powerupPos;
+		double radius = 40 * hudbase.powerupScale;
+		double points = 360;
+		double circleAlpha = 0.35;
+		
+		double angfrac = 360/points;
+		double pointPerc = points*perc;
+		
+		Color circleColor = 0xFF63E3DF;
+		if(coolingdown) circleColor = 0xFFE03B3B;
+		
+		// Initialize Circle 
+		Shape2D circle = new("Shape2D");
+		circle.PushCoord((0,0)); // Middle
+		double startPoint = points - pointPerc;
+		
+		// Push coordinates and polygons
+		for(double i = startPoint; i <= points; i++) circle.PushCoord((cos(angfrac*i),sin(angfrac*i)));
+		for(double i = 1; i <= pointPerc; i++) circle.PushTriangle(i,i+1,0);
+		
+		// Vertices
+		vector2 circleRes = ( Screen.getWidth() / HLSBS.getBaseWidth(), Screen.getHeight() / HLSBS.getBaseHeight() );
+		vector2 adjustedPos = (circlePos.x * circleRes.x, circlePos.y * circleRes.y);
+		circle.Clear(Shape2D.C_Verts);
+		circle.PushVertex((adjustedPos.x,adjustedPos.y)); // Middle
+		for(double i = 0; i <= pointPerc; i++) 
+			circle.PushVertex((adjustedPos.x+cos(angfrac*i)*radius*circleRes.x,adjustedPos.y+sin(angfrac*i)*radius*circleRes.y));
+		
+		let icon = TexMan.CheckForTexture("Graphics/UI/Abilities/JetpackIcon2.png");
+		vector2 iconSize;
+		[iconSize.x, iconSize.y] = TexMan.getSize(icon);
+		vector2 iconScale = ((radius*2) / iconSize.x, (radius*2) / iconSize.y);
+		
+		HLSBS.DrawShape(pxl, circle, alpha:circleAlpha, tint:circleColor);
+		HLSBS.DrawImage("Graphics/UI/Abilities/JetpackIcon2.png", circlePos, alpha:1.0, scale:iconScale, texoffs:(1,1));
+	}
+	
+	override void DoEffect()
+	{
+		// TODO: Maybe figure out a nice way of moving Jetpack movement code here?
+		super.DoEffect();
+		let haloplr = HaloPlayer(Owner);
+		if(!haloplr) return;
+		
+		if(fuel <= 0 && haloplr.doJetpackMovement) 
+			coolingdown = true;
+		
+		if(fuel < 1.0 && !haloplr.doJetpackMovement) 
+		{
+			fuel += 1.0 / (35 * rechargeTime);
+			if(fuel >= 0.5) coolingdown = false;
+		}
+		fuel = clamp(fuel, 0, 1.0);
+	}
+	
+}
+
 // Visor
 class PowerHaloVisor : HaloPowerup
 {

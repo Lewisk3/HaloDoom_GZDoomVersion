@@ -61,12 +61,17 @@ class HaloPowerGiver : PowerupGiver abstract
 {
 	double bobz;
 	double oldfloorz;
+	double backpackSpawnChance;
 	Sector spawnSector;
 	vector3 spawnPos;
+	vector2 overlayUseOffs;
 	uint fxFlags;
 	
 	flagdef FXHOVER : fxFlags, 0;
 	flagdef USETOPICKUP : fxFlags, 2;
+	flagdef BACKPACKSPAWN : fxFlags, 3;
+
+	Property BackpackRarity : backpackSpawnChance;
 
 	Default
 	{
@@ -78,6 +83,7 @@ class HaloPowerGiver : PowerupGiver abstract
 		
 		+INVENTORY.AUTOACTIVATE;
 		+HaloPowerGiver.FXHOVER;
+		HaloPowerGiver.BackpackRarity 100;
 	}
 	
 	override void BeginPlay()
@@ -98,11 +104,11 @@ class HaloPowerGiver : PowerupGiver abstract
 			vector2 apos, bpos;
 			[infront, apos] = HLSBS.GetActorHUDPos (
 				viewproj,
-				self, 30, 0, (self.height/3)+5
+				self, 30+overlayUseOffs.x, 0, (self.height/3)+5+overlayUseOffs.y
 			);
 			[infront, bpos] = HLSBS.GetActorHUDPos (
 				viewproj,
-				self, 30, 0, (self.height/3)+10
+				self, 30+overlayUseOffs.x, 0, (self.height/3)+10+overlayUseOffs.y
 			);	
 
 			if(infront) 
@@ -371,6 +377,158 @@ class HaloPower_Fullmap : HaloPower_ActiveCamo replaces Allmap
 	}
 }
 
+class HaloPower_Jetpack : HaloPower_Haste
+{
+	JetpackExhaust leftFire, rightFire;
+
+	Default
+	{
+		+BRIGHT;
+		+FORCEYBILLBOARD; 
+		Scale 0.5;
+		Height 24;
+		Powerup.Duration 0x7FFFFFFD;
+		Powerup.Type "PowerJetpack";
+		
+		Tag "Jetpack";
+		Inventory.PickupMessage "Picked up a Jetpack (Hold JUMP to activate)";
+		Inventory.PickupSound "Halo/Powerup/Visor";
+		-HaloPowerGiver.FXHOVER;
+		+HaloPowerGiver.USETOPICKUP;
+		+HaloPowerGiver.BACKPACKSPAWN;
+	}
+		
+	override void OnPickup(Actor other) 
+	{
+		A_StopSound(CHAN_BODY);
+		if(leftFire) leftFire.Destroy();
+		if(rightFire) rightFire.Destroy();
+	}
+	
+	override void VisualFX()
+	{
+		overlayUseOffs = (-15,10);
+		if(pos.z < floorz+16) SetOrigin((pos.xy, floorz+16), true);
+		bobz = sin(level.maptime*4) * 2;
+		
+		let viewerPlr = players[consoleplayer].mo;
+		Quat dir = Quat.FromAngles(viewerPlr.angle, pitch, roll);
+		vector3 leftPos  = (0, -18, 26);
+		vector3 rightPos = (0,  18, 26);
+		
+		if(!leftFire)
+		{
+			leftFire = JetpackExhaust(Spawn("JetpackExhaust",pos));
+			if(leftFire) leftFire.A_SetScale(0.35);
+		}
+		else
+		{
+			leftFire.SetOrigin(level.vec3offset(pos, dir * leftPos), true);
+		}
+		
+		if(!rightFire)
+		{
+			rightFire = JetpackExhaust(Spawn("JetpackExhaust",pos));
+			if(rightFire) rightFire.A_SetScale(0.35);
+		}
+		else
+		{
+			rightFire.SetOrigin(level.vec3offset(pos, dir * rightPos), true);
+		}
+		
+		A_StartSound("Halo/Powerup/Jetpack/Loop", CHAN_BODY, CHANF_LOOPING);
+	}
+	
+	States
+	{
+		Spawn:
+			PWJP A -1; // NoDelay A_SpriteOffset(0,30);
+		stop;
+	}
+}
+
+class JetpackExhaust : CheapActor
+{
+	Default
+	{
+		Scale 0.75;
+		Alpha 0.65;
+		Damage 128;
+		RenderStyle "Add";
+		+INTERPOLATEANGLES;
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		Scale.Y = -Scale.X;
+		
+		if(!(getAge() % 3))
+		{
+			if(master) HaloMath.ExplodeEx(master, 2,96, 0.5, 0.3, "Fire", infiniteHeight:true);
+			let smk = Spawn("JetpackSmoke", pos + (0,0,-15*(scale.x/0.75)));
+			if(smk) smk.A_SetScale(Scale.X * 0.15);	
+		}
+	}
+	
+	States
+	{
+		Spawn:
+			FLML ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 Bright;
+		loop;
+	}
+}
+
+class JetpackSmoke : CheapActor
+{
+	double rollvel;
+	vector2 wind_dir;
+	Default
+	{
+		Scale 1.0;
+		+ROLLSPRITE;
+	}
+	
+	override void BeginPlay()
+	{	
+		alpha = frandom(0.5, 1.0);
+		A_SetScale(frandom(default.scale.x * 0.15, default.scale.x));
+		rollvel = frandom(-2.0, 2.0);
+		wind_dir = AngleToVector(frandom(0,180), frandom(-0.005, 0.005)); 
+		super.BeginPlay();
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		vel.z -= 0.1;
+		
+		SetOrigin(level.vec3offset(pos, vel), true);
+		A_SetRoll(roll + rollvel, SPF_INTERPOLATE);
+		vel += wind_dir * frandom(0.25, 1.0);
+		if(getAge() <= 20)
+			A_SetScale(Scale.X * 0.96, Scale.Y * 0.96);
+	}
+	
+	States
+	{
+		Spawn:
+			XTH1 ACEGIKMOQSUWY 1 Bright;
+			XTH2 BDFHJLNPRTV 1 Bright;
+		Smoke:
+			TNT1 A 0;
+			SMK5 "#" 1 { frame = random(0, 23); }
+		SmokeLoop:
+			SMK5 "#" 1 
+			{
+				A_SetScale(Scale.X * 1.07, Scale.Y * 1.07);
+				A_FadeOut(0.03);
+			}
+		wait;
+	}
+}
+ 
+
 class HaloPower_Visor : HaloPower_Haste replaces Infrared
 {
 	Default
@@ -387,6 +545,7 @@ class HaloPower_Visor : HaloPower_Haste replaces Infrared
 		Inventory.PickupSound "Halo/Powerup/Visor";
 		-HaloPowerGiver.FXHOVER;
 		+HaloPowerGiver.USETOPICKUP;
+		+HaloPowerGiver.BACKPACKSPAWN;
 	}
 		
 	override void OnPickup(Actor other) 

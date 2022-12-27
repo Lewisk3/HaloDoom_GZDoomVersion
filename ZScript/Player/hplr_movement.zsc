@@ -371,7 +371,7 @@ extend class HaloPlayer
 		oldvel = vel;
 		PlayFootsteps();
 		
-		// JetpackMove();
+		JetpackMove();
 		
 		// View angles
 		A_SetViewAngle(viewangle + viewAnglesVel.x, SPF_INTERPOLATE);
@@ -392,18 +392,19 @@ extend class HaloPlayer
 	JetpackExhaust jetRightExhaust;
 	void JetpackMove()
 	{
+		let jetPower = PowerJetpack(FindInventory("PowerJetpack"));
 		if(jetLeftExhaust  && !doJetpackMovement) jetLeftExhaust.Destroy();
 		if(jetRightExhaust && !doJetpackMovement) jetRightExhaust.Destroy();
 		
-		if(bFly) // Do not jetpack while flying.
+		if(bFly || !jetPower) // Do not jetpack while flying, or if we don't have the powerup.
 		{
 			jumpHeld = jetThrustPerc = doJetpackMovement = 0;
 			return;
 		}
-		
+			
 		uint btns = player.cmd.buttons;
 		uint obtns = player.oldbuttons;
-		bool jumpdown = (btns & BT_JUMP) && (obtns & BT_JUMP);
+		bool jumpdown = ((btns & BT_JUMP) && (obtns & BT_JUMP)) && (jetPower.fuel > 0) && !jetPower.coolingdown;
 		
 		if(jumpdown)
 		{
@@ -422,6 +423,7 @@ extend class HaloPlayer
 		
 		if(jumpHeld >= JETHOLD && jumpdown)
 		{
+			jetPower.fuel -= 1.0 / (35*jetPower.thrustTime);
 			if(jumpHeld == JETHOLD) doJump();
 			
 			vector3 leftPos  = (-25,-5 + -10,-10);
@@ -903,86 +905,5 @@ class LedgeTrigger : CheapActor
 		Spawn:
 			TNT1 A -1; // PLSS for Debug
 		stop;
-	}
-}
-
-class JetpackExhaust : CheapActor
-{
-	Default
-	{
-		Scale 0.75;
-		Alpha 0.65;
-		Damage 128;
-		RenderStyle "Add";
-		+INTERPOLATEANGLES;
-	}
-	
-	override void Tick()
-	{
-		super.Tick();
-		Scale.Y = -Scale.X;
-		
-		if(!(getAge() % 3))
-		{
-			if(master) HaloMath.ExplodeEx(master, 2,128, 0.5, 0.3, "Fire", infiniteHeight:false);
-			let smk = Spawn("JetpackSmoke", pos + (0,0,-15));
-			if(smk) smk.A_SetScale(Scale.X * 0.15);	
-		}
-	}
-	
-	States
-	{
-		Spawn:
-			FLML ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 Bright;
-		loop;
-	}
-}
-
-class JetpackSmoke : CheapActor
-{
-	double rollvel;
-	vector2 wind_dir;
-	Default
-	{
-		Scale 1.0;
-		+ROLLSPRITE;
-	}
-	
-	override void BeginPlay()
-	{	
-		alpha = frandom(0.5, 1.0);
-		A_SetScale(frandom(default.scale.x * 0.15, default.scale.x));
-		rollvel = frandom(-2.0, 2.0);
-		wind_dir = AngleToVector(frandom(0,180), frandom(-0.005, 0.005)); 
-		super.BeginPlay();
-	}
-	
-	override void Tick()
-	{
-		super.Tick();
-		vel.z -= 0.1;
-		
-		SetOrigin(level.vec3offset(pos, vel), true);
-		A_SetRoll(roll + rollvel, SPF_INTERPOLATE);
-		vel += wind_dir * frandom(0.25, 1.0);
-		if(getAge() <= 20)
-			A_SetScale(Scale.X * 0.96, Scale.Y * 0.96);
-	}
-	
-	States
-	{
-		Spawn:
-			XTH1 ACEGIKMOQSUWY 1 Bright;
-			XTH2 BDFHJLNPRTV 1 Bright;
-		Smoke:
-			TNT1 A 0;
-			SMK5 "#" 1 { frame = random(0, 23); }
-		SmokeLoop:
-			SMK5 "#" 1 
-			{
-				A_SetScale(Scale.X * 1.07, Scale.Y * 1.07);
-				A_FadeOut(0.03);
-			}
-		wait;
 	}
 }
