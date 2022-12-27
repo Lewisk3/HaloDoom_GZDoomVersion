@@ -250,12 +250,12 @@ extend class HaloPlayer
 		let player = self.player;
 		UserCmd cmd = player.cmd;
 		bool moving = (cmd.forwardmove || cmd.sidemove);
-		if(player.cheats & CF_PREDICTING) return;
+		bool predicting = (player.cheats & CF_PREDICTING);
 		
 		doomermovement = halodoom_classicmovement;
 		
 		// Add a ledge grabber if we don't have one.
-		if(!ledgeGrabber) ledgeGrabber = LedgeTrigger.Init( self, 24,0,16 );
+		if(!ledgeGrabber && !predicting) ledgeGrabber = LedgeTrigger.Init( self, 24,0,16 );
 		
 		// Play sound if landed from a fall.
 		double zdiff = vel.z-oldvel.z;
@@ -320,7 +320,17 @@ extend class HaloPlayer
 		uint btns = player.cmd.buttons;
 		uint obtns = player.oldbuttons;
 		
+		// View angles
+		A_SetViewAngle(viewangle + viewAnglesVel.x, SPF_INTERPOLATE);
+		A_SetViewPitch(viewpitch + viewAnglesVel.y, SPF_INTERPOLATE);
+		A_SetViewRoll (viewroll  - viewAnglesVel.z, SPF_INTERPOLATE);
+		viewAnglesVel *= 0.92;
+		viewroll  *= 0.87;
+		viewangle *= 0.92; 
+		viewpitch *= 0.92;
+		
 		// Slide
+		if(predicting) return; // Don't run movement abilities while predicting.
 		if( (btns & BT_CROUCH) && !(obtns & BT_CROUCH) && vel.length() > 5 && player.onground && canslide && slidecooldown <= 0)
 		{
 			// If slide success and not predicting movement, play slide sound.
@@ -372,15 +382,6 @@ extend class HaloPlayer
 		PlayFootsteps();
 		
 		JetpackMove();
-		
-		// View angles
-		A_SetViewAngle(viewangle + viewAnglesVel.x, SPF_INTERPOLATE);
-		A_SetViewPitch(viewpitch + viewAnglesVel.y, SPF_INTERPOLATE);
-		A_SetViewRoll (viewroll  - viewAnglesVel.z, SPF_INTERPOLATE);
-		viewAnglesVel *= 0.92;
-		viewroll  *= 0.87;
-		viewangle *= 0.92; 
-		viewpitch *= 0.92;
 	}		
 	
 	int jumpHeld;
