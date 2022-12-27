@@ -388,14 +388,9 @@ extend class HaloPlayer
 	int jetQuake;
 	const SND_JETLOOP = 20;
 	const JETHOLD = 15;
-	JetpackExhaust jetLeftExhaust;
-	JetpackExhaust jetRightExhaust;
 	void JetpackMove()
 	{
-		let jetPower = PowerJetpack(FindInventory("PowerJetpack"));
-		if(jetLeftExhaust  && !doJetpackMovement) jetLeftExhaust.Destroy();
-		if(jetRightExhaust && !doJetpackMovement) jetRightExhaust.Destroy();
-		
+		let jetPower = PowerJetpack(FindInventory("PowerJetpack"));		
 		if(bFly || !jetPower) // Do not jetpack while flying, or if we don't have the powerup.
 		{
 			jumpHeld = jetThrustPerc = doJetpackMovement = 0;
@@ -425,28 +420,7 @@ extend class HaloPlayer
 		{
 			jetPower.fuel -= 1.0 / (35*jetPower.thrustTime);
 			if(jumpHeld == JETHOLD) doJump();
-			
-			vector3 leftPos  = (-25,-5 + -10,-10);
-			vector3 rightPos = (-25,-5 +  10,-10);
-			vector3 plrPos = level.vec3offset((pos.xy, player.viewz), vel);
-			
-			Quat dir = Quat.FromAngles(angle, pitch, roll);
-			if(!jetLeftExhaust)
-				jetLeftExhaust = JetpackExhaust(Spawn("JetpackExhaust",pos));
-			else
-			{
-				jetLeftExhaust.target = self;
-				jetLeftExhaust.SetOrigin(level.vec3offset(plrPos, dir * leftPos), true);
-			}
-		
-			if(!jetRightExhaust)
-				jetRightExhaust = JetpackExhaust(Spawn("JetpackExhaust",pos));
-			else
-			{
-				jetRightExhaust.target = self;
-				jetRightExhaust.SetOrigin(level.vec3offset(plrPos, dir * rightPos), true);
-			}	
-			
+				
 			jetThrustPerc = HaloMath.Lerp(jetThrustPerc, 1.0, 0.08);
 			if(jetThrustPerc > 0.65) jetThrustPerc = 1.0;
 			
