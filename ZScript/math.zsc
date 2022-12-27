@@ -193,7 +193,7 @@ class HaloMath Abstract
 		}
 	}
 	
-	play static void ExplodeEx(Actor src, double pow, double dist, double dmgfalloffmod = 1.0, double thrustMod = 1.0, Name damageType = "Explosive", double selfDamage = 0, bool damageBosses = true)
+	play static void ExplodeEx(Actor src, double pow, double dist, double dmgfalloffmod = 1.0, double thrustMod = 1.0, Name damageType = "Explosive", double selfDamage = 0, bool damageBosses = true, bool infiniteHeight = true)
 	{
 		let it = ThinkerIterator.Create("Actor");
 		Actor act;
@@ -203,15 +203,22 @@ class HaloMath Abstract
 			if(!act.bSHOOTABLE || !src.IsVisible(act, true) || !act.CanCollideWith(src, false)) continue;
 			if(!damageBosses && act.bBOSS) continue; 
 			
-			double todist = src.Distance2DSquared(act) - act.radius;
+			double todist = infiniteHeight ? src.Distance2DSquared(act) : src.Distance3DSquared(act);
+			todist -= act.radius;
+			
 			double dmgfalloff = pow * (1. - (1./(todist - (dist*dist))));
 			if(todist > dist*dist) continue; 
 			dmgfalloff *= dmgfalloffmod;
 			
 			vector3 forceDir = (src.pos - act.pos).Unit();
-			if(act == shooter) forceDir = VecFromAngles(shooter.angle, shooter.pitch, 0.5);
-			forceDir *= dmgfalloff * thrustMod;
-			act.vel -= (forceDir * 0.15);
+			
+			// NaN != NaN, checking forceDir == forceDir prevents NaN resulting from Unit.
+			if( !(forceDir ~== (0,0,0)) && forceDir == forceDir )
+			{
+				if(act == shooter) forceDir = VecFromAngles(shooter.angle, shooter.pitch, 0.5);
+				forceDir *= dmgfalloff * thrustMod;
+				act.vel -= (forceDir * 0.15);
+			}
 			
 			if(act == shooter) dmgfalloff *= selfDamage;
 			if(dmgfalloff > 0)

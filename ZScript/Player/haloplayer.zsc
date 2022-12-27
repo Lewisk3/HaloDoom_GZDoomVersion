@@ -509,6 +509,12 @@ class HaloPlayer : DoomPlayer
 		if (player.viewz < floorz + 4) player.viewz = floorz + 4;
 	}
 	
+	override vector2 BobWeapon(double ticfrac)
+	{
+		if(player.onground) return super.BobWeapon(ticfrac);
+		return (0,0);
+	}
+	
 	States
 	{
 		Spawn:

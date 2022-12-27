@@ -16,6 +16,7 @@ extend class HaloPlayer
 	const AIRACCEL   = 40;
 	
 	bool doomermovement;
+	bool doJetpackMovement; // Different air movement code.
 	
 	// Switches
 	bool enable_grapple;
@@ -62,6 +63,7 @@ extend class HaloPlayer
 	
 	// Velocities
 	vector3 oldvel;
+	vector3 viewAnglesVel;
 	
 	// CVars
 	transient CVar cv_snd_jump;
@@ -120,7 +122,7 @@ extend class HaloPlayer
 	}
 
 	void DoQuakeGroundAccel(vector3 wishdir, double spd)
-	{
+	{	
 		if(doomermovement) 
 		{
 			DoDoomGroundAccel(DOOMGNDACCEL*spd);
@@ -136,6 +138,16 @@ extend class HaloPlayer
 	
 	void DoQuakeAirAccel(vector3 wishdir, double spd, bool dobhop)
 	{
+		if(doJetpackMovement) 
+		{
+			vector2 moveDir = (player.cmd.forwardmove, -player.cmd.sidemove).Unit();
+			viewAnglesVel.y += moveDir.x * 0.1;
+			viewAnglesVel.z += moveDir.y * 0.17;
+		
+			vel += wishdir * (spd * 1.1);
+			return;
+		}
+	
 		if(speedboost) spd *= speedboost;
 		if(dobhop)
 		{
@@ -267,6 +279,9 @@ extend class HaloPlayer
 		if( player.onground && (fricwait > 4 || !halodoom_allowbhop || !enable_bhop) && fric > 0) 
 			DoQuakeFriction(fric);
 			
+		// Air friction
+		if(!player.onground) DoAirFriction();
+			
 		player.onground = (pos.z <= floorz) || bOnMobj || bMBFBouncer || (player.cheats & CF_NOCLIP2);
 		if(player.onground) 
 			fricwait ++;
@@ -288,7 +303,7 @@ extend class HaloPlayer
 			if(wishdir.Length())
 			{
 				wishdir = wishdir.Unit();
-				if(player.onground || bFly) 
+				if( (player.onground || bFly) && !doJetpackMovement ) 
 					DoQuakeGroundAccel(wishdir, Speed);
 				else
 					DoQuakeAirAccel(wishdir, Speed, halodoom_allowbhop && enable_bhop);
@@ -355,7 +370,126 @@ extend class HaloPlayer
 		
 		oldvel = vel;
 		PlayFootsteps();
+		
+		// JetpackMove();
+		
+		// View angles
+		A_SetViewAngle(viewangle + viewAnglesVel.x, SPF_INTERPOLATE);
+		A_SetViewPitch(viewpitch + viewAnglesVel.y, SPF_INTERPOLATE);
+		A_SetViewRoll (viewroll  - viewAnglesVel.z, SPF_INTERPOLATE);
+		viewAnglesVel *= 0.92;
+		viewroll  *= 0.87;
+		viewangle *= 0.92; 
+		viewpitch *= 0.92;
 	}		
+	
+	int jumpHeld;
+	double jetThrustPerc;
+	int jetQuake;
+	const SND_JETLOOP = 20;
+	const JETHOLD = 15;
+	JetpackExhaust jetLeftExhaust;
+	JetpackExhaust jetRightExhaust;
+	void JetpackMove()
+	{
+		if(jetLeftExhaust  && !doJetpackMovement) jetLeftExhaust.Destroy();
+		if(jetRightExhaust && !doJetpackMovement) jetRightExhaust.Destroy();
+		
+		if(bFly) // Do not jetpack while flying.
+		{
+			jumpHeld = jetThrustPerc = doJetpackMovement = 0;
+			return;
+		}
+		
+		uint btns = player.cmd.buttons;
+		uint obtns = player.oldbuttons;
+		bool jumpdown = (btns & BT_JUMP) && (obtns & BT_JUMP);
+		
+		if(jumpdown)
+		{
+			jumpHeld++;
+			if(jumpHeld == int(JETHOLD*0.8))
+				A_StartSound("Halo/Powerup/Jetpack/Burst", CHAN_AUTO, CHANF_OVERLAP);
+		}
+		else if(jumpHeld > 0)
+		{
+			A_StopSound(SND_JETLOOP);
+			jetQuake = 0;
+			jumpHeld--;
+			if(jumpHeld >= 8) vel.z += GetGravity() * 0.8;
+			if(player.onground) jumpHeld = 0;
+		}
+		
+		if(jumpHeld >= JETHOLD && jumpdown)
+		{
+			if(jumpHeld == JETHOLD) doJump();
+			
+			vector3 leftPos  = (-25,-5 + -10,-10);
+			vector3 rightPos = (-25,-5 +  10,-10);
+			vector3 plrPos = level.vec3offset((pos.xy, player.viewz), vel);
+			
+			Quat dir = Quat.FromAngles(angle, pitch, roll);
+			if(!jetLeftExhaust)
+				jetLeftExhaust = JetpackExhaust(Spawn("JetpackExhaust",pos));
+			else
+			{
+				jetLeftExhaust.master = self;
+				jetLeftExhaust.SetOrigin(level.vec3offset(plrPos, dir * leftPos), true);
+			}
+		
+			if(!jetRightExhaust)
+				jetRightExhaust = JetpackExhaust(Spawn("JetpackExhaust",pos));
+			else
+			{
+				jetRightExhaust.master = self;
+				jetRightExhaust.SetOrigin(level.vec3offset(plrPos, dir * rightPos), true);
+			}	
+			
+			jetThrustPerc = HaloMath.Lerp(jetThrustPerc, 1.0, 0.08);
+			if(jetThrustPerc > 0.65) jetThrustPerc = 1.0;
+			
+			if(jetThrustPerc >= 1.0) 
+				A_StartSound("Halo/Powerup/Jetpack/Loop", SND_JETLOOP, CHANF_LOOPING);
+			else
+				A_StopSound(SND_JETLOOP);
+
+			
+			double jetBob = 0;
+			if(jetThrustPerc >= 1.0)
+				jetBob = sin(GetAge() * 10) * 1.75;
+				
+			doJetpackMovement = true;
+			double thrust = jetThrustPerc * (GetGravity()*1.000000000000000000001);
+			
+			if( (player.viewz + thrust) >= (floorz+200)) 
+				vel.z = 0;
+			else
+				vel.z += thrust;
+				
+			jumpHeld = JETHOLD * 2;
+			
+			// Math is odd to apply this on vel.z, so just change the position.
+			SetOrigin((pos.xy, pos.z + jetBob), true);
+			
+			if(++jetQuake >= 8)
+			{
+				if(jetThrustPerc >= 1.0)
+					A_QuakeEx(2,0,4,12, 0, 64, "", QF_RELATIVE | QF_WAVE | QF_SCALEUP, 0.7,0.7,0.7);
+				else
+					A_QuakeEx(2,2,2,12, 0, 64, "", QF_WAVE | QF_SCALEUP | QF_SCALEDOWN);
+					
+				jetQuake = 0;
+			}
+		}
+		else
+		{
+			if(doJetpackMovement) A_StartSound("Halo/Powerup/Jetpack/Off", CHAN_AUTO, CHANF_OVERLAP);
+			A_StopSound(SND_JETLOOP);
+			if(player.onground) jetThrustPerc = 0;
+			jetThrustPerc = HaloMath.Lerp(jetThrustPerc, 0, 0.04);
+			doJetpackMovement = false;
+		}
+	}
 	
 	void DetectController()
 	{
@@ -402,9 +536,10 @@ extend class HaloPlayer
 		bool doholdjump = enable_bhop && halodoom_allowbhop;
 		if(player.onground) jumpcounter = 0;
 		
-		if(!player.onground && (btns & BT_JUMP) && !(obtns & BT_JUMP) && jumpcounter < maxjumps)
+		if(!player.onground && jumpHeld <= 2 && (btns & BT_JUMP) && !(obtns & BT_JUMP) && jumpcounter < maxjumps)
 		{
 			// Double jump
+			jumpHeld = 0;
 			vel.z = 0;	
 			if(doJump())
 			{
@@ -417,6 +552,7 @@ extend class HaloPlayer
 		else if ( player.onground && (btns & BT_JUMP) && (!(obtns & BT_JUMP) || doholdjump) )
 		{
 			// Normal jump
+			jumpHeld = 0;
 			if(doJump())
 			{
 				if ( !(player.cheats & CF_PREDICTING) && cv_snd_jump.getBool() ) 
@@ -490,6 +626,11 @@ extend class HaloPlayer
 			vel.xy *= DOOMGNDFRIC;
 	}
 	
+	void DoAirFriction()
+	{
+		if(doJetpackMovement) vel.xy *= 0.92;
+	}
+	
 	void DoQuakeFriction(double friction)
 	{
 		if(doomermovement)
@@ -519,7 +660,7 @@ extend class HaloPlayer
 		
 		// Apply friction
 		double curspeed = vel.Length();
-		if(curspeed)
+		if( !(curspeed ~== 0) )
 		{
 			double control = (swimming ? curspeed : (curspeed < maxspd ? GNDFRIC : curspeed));
 			double drop = control * unitfric;
@@ -762,5 +903,86 @@ class LedgeTrigger : CheapActor
 		Spawn:
 			TNT1 A -1; // PLSS for Debug
 		stop;
+	}
+}
+
+class JetpackExhaust : CheapActor
+{
+	Default
+	{
+		Scale 0.75;
+		Alpha 0.65;
+		Damage 128;
+		RenderStyle "Add";
+		+INTERPOLATEANGLES;
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		Scale.Y = -Scale.X;
+		
+		if(!(getAge() % 3))
+		{
+			if(master) HaloMath.ExplodeEx(master, 2,128, 0.5, 0.3, "Fire", infiniteHeight:false);
+			let smk = Spawn("JetpackSmoke", pos + (0,0,-15));
+			if(smk) smk.A_SetScale(Scale.X * 0.15);	
+		}
+	}
+	
+	States
+	{
+		Spawn:
+			FLML ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 Bright;
+		loop;
+	}
+}
+
+class JetpackSmoke : CheapActor
+{
+	double rollvel;
+	vector2 wind_dir;
+	Default
+	{
+		Scale 1.0;
+		+ROLLSPRITE;
+	}
+	
+	override void BeginPlay()
+	{	
+		alpha = frandom(0.5, 1.0);
+		A_SetScale(frandom(default.scale.x * 0.15, default.scale.x));
+		rollvel = frandom(-2.0, 2.0);
+		wind_dir = AngleToVector(frandom(0,180), frandom(-0.005, 0.005)); 
+		super.BeginPlay();
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		vel.z -= 0.1;
+		
+		SetOrigin(level.vec3offset(pos, vel), true);
+		A_SetRoll(roll + rollvel, SPF_INTERPOLATE);
+		vel += wind_dir * frandom(0.25, 1.0);
+		if(getAge() <= 20)
+			A_SetScale(Scale.X * 0.96, Scale.Y * 0.96);
+	}
+	
+	States
+	{
+		Spawn:
+			XTH1 ACEGIKMOQSUWY 1 Bright;
+			XTH2 BDFHJLNPRTV 1 Bright;
+		Smoke:
+			TNT1 A 0;
+			SMK5 "#" 1 { frame = random(0, 23); }
+		SmokeLoop:
+			SMK5 "#" 1 
+			{
+				A_SetScale(Scale.X * 1.07, Scale.Y * 1.07);
+				A_FadeOut(0.03);
+			}
+		wait;
 	}
 }
