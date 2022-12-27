@@ -436,7 +436,7 @@ class HaloPower_Jetpack : HaloPower_Haste
 			rightFire.SetOrigin(level.vec3offset(pos, dir * rightPos), true);
 		}
 		
-		A_StartSound("Halo/Powerup/Jetpack/Loop", CHAN_BODY, CHANF_LOOPING);
+		A_StartSound("Halo/Powerup/Jetpack/Loop", CHAN_BODY, CHANF_LOOPING, volume:0.35);
 	}
 	
 	States
@@ -465,7 +465,7 @@ class JetpackExhaust : CheapActor
 		
 		if(!(getAge() % 3))
 		{
-			if(master) HaloMath.ExplodeEx(master, 2,96, 0.5, 0.3, "Fire", infiniteHeight:true);
+			if(target) HaloMath.ExplodeEx(self, 2,96, 0.5, 0.3, "Fire", infiniteHeight:true);
 			let smk = Spawn("JetpackSmoke", pos + (0,0,-15*(scale.x/0.75)));
 			if(smk) smk.A_SetScale(Scale.X * 0.15);	
 		}

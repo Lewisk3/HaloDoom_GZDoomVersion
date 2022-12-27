@@ -358,14 +358,13 @@ class PowerJetpack : HaloPowerup
 		if(fuel <= 0 && haloplr.doJetpackMovement) 
 			coolingdown = true;
 		
-		if(fuel < 1.0 && !haloplr.doJetpackMovement) 
+		if(fuel < 1.0 && !haloplr.doJetpackMovement && haloplr.jumpHeld < 8) 
 		{
 			fuel += 1.0 / (35 * rechargeTime);
 			if(fuel >= 0.5) coolingdown = false;
 		}
 		fuel = clamp(fuel, 0, 1.0);
-	}
-	
+	}	
 }
 
 // Visor

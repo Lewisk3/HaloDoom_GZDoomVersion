@@ -457,7 +457,7 @@ class HaloGun : RecoilWeapon
 			);
 			
 			aproj.angle = angle;
-			aproj.pitch = pitch;
+			aproj.pitch = pitch + viewpitch;
 			
 			vector3 aimpos = aproj.pos;
 			if(plr)
@@ -1278,7 +1278,11 @@ class HaloGun : RecoilWeapon
 				A_OverlayOffset(OverlayID(), -30, 25);
 				return A_JumpIf(!player.onground, "DoKick.Air");
 			}	
-			TNT1 A 0 A_StartSound("Halo/Melee/Swing", flags:CHANF_OVERLAP);
+			TNT1 A 0 
+			{
+				A_StartSound("Halo/Melee/Swing", flags:CHANF_OVERLAP);
+				if(A_CheckMeleeRange(skipWalls:true) < 128) A_Recoil3D(-10); 
+			}
 			HSKI BCD 1 
 			{
 				A_SetRecoil(0.3, 0, 3);

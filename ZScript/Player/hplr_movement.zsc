@@ -435,7 +435,7 @@ extend class HaloPlayer
 				jetLeftExhaust = JetpackExhaust(Spawn("JetpackExhaust",pos));
 			else
 			{
-				jetLeftExhaust.master = self;
+				jetLeftExhaust.target = self;
 				jetLeftExhaust.SetOrigin(level.vec3offset(plrPos, dir * leftPos), true);
 			}
 		
@@ -443,7 +443,7 @@ extend class HaloPlayer
 				jetRightExhaust = JetpackExhaust(Spawn("JetpackExhaust",pos));
 			else
 			{
-				jetRightExhaust.master = self;
+				jetRightExhaust.target = self;
 				jetRightExhaust.SetOrigin(level.vec3offset(plrPos, dir * rightPos), true);
 			}	
 			

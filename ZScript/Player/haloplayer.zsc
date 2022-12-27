@@ -657,8 +657,8 @@ class ShieldLightningAnimator : CustomInventory
 		vector2 view;
 		for(int i = 0; i < amt; i++)
 		{
-			view.x = angle + frandom(-180,180);
-			view.y = pitch + frandom(-60,60);
+			view.x = angle + frandom[ShieldLightning](-180,180);
+			view.y = pitch + frandom[ShieldLightning](-60,60);
 			BiriBiri.DoLightning(atpos, view, dist:25, 0.5, 20.0, 10.0, 30, 0);
 		}
 	}
@@ -667,18 +667,18 @@ class ShieldLightningAnimator : CustomInventory
 	{
 		for(int i = 0; i < amt; i++)
 		{
-			double ang = frandom(0,360);
-			double pit = frandom(-45,45);
+			double ang = frandom[ShieldParticles](0,360);
+			double pit = frandom[ShieldParticles](-45,45);
 			vector3 rdir = (
 				cos(ang),
 				sin(ang),
 				-sin(pit)
-			) * frandom(4,16);
+			) * frandom[ShieldParticles](4,16);
 			
 			src.A_SpawnParticle(
 				pcol, SPF_FULLBRIGHT, 35, 3.0, ang,
 				0,0, zoffs, rdir.x,rdir.y,rdir.z,0,0,0,
-				frandom(0.8,1.0), 0.025
+				frandom[ShieldParticles](0.8,1.0), 0.025
 			);
 		}
 	}
