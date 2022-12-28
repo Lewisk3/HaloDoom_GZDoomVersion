@@ -149,15 +149,11 @@ class ExplosiveCoil : Actor
 		TrueDeath:
 			TNT1 A 35 
 			{
-				OnExplode();
-				/*
-				console.printf("%d", level.maptime);
 				if(CanBeSeen()) 
 					OnExplode();		
 				else
 					A_Explode(); // Fallback explosion.
-				*/
-				
+
 				FilterExplosions();
 			}
 		stop;
@@ -326,8 +322,8 @@ class Coil_Plasma : ExplosiveCoil
 		vector2 view;
 		for(int i = 0; i < amt; i++)
 		{
-			view.x = frandom[CoilRNG](0,360);
-			view.y = frandom[CoilRNG](-20,20);
+			view.x = frandom[CoilPlasmaRNG](0,360);
+			view.y = frandom[CoilPlasmaRNG](-20,20);
 			BiriBiri.DoLightning((pos.xy,pos.z+30), view, dist:100, 0.5, 20.0, 10.0, 30, 0);
 		}
 	}
@@ -366,18 +362,18 @@ class Coil_Hardlight_Explosion : CheapActor
 				A_StartSound("Halo/Weapons/Unmaker/BFG/Explode", CHAN_VOICE, flags:CHANF_OVERLAP);
 				A_StartSound("Halo/Weapons/BeamRifle/Laser/Fire", CHAN_VOICE, flags:CHANF_OVERLAP);
 				
-				vector3 randPos = (frandom[CoilRNG](-1,1),frandom[CoilRNG](-1,1),frandom[CoilRNG](-1,1)) * 30;  
+				vector3 randPos = (frandom[CoilLightRNG](-1,1),frandom[CoilLightRNG](-1,1),frandom[CoilLightRNG](-1,1)) * 30;  
 				if(!lowEffects)
 				{
-					HaloMath.SpawnFX("UnmakerLaserPuff", pos+randPos, frandom[CoilRNG](0,360), 5, 45, 20);
+					HaloMath.SpawnFX("UnmakerLaserPuff", pos+randPos, frandom[CoilLightRNG](0,360), 5, 45, 20);
 					
 					for(int i = 0; i < 5 * halodoom_effectintensity; i++)
 					{
-						randPos = (frandom[CoilRNG](-1,1),frandom[CoilRNG](-1,1),frandom[CoilRNG](-1,1)) * 20;  
+						randPos = (frandom[CoilLightRNG](-1,1),frandom[CoilLightRNG](-1,1),frandom[CoilLightRNG](-1,1)) * 20;  
 						let puff = UnmakerLaserPuff(Spawn("UnmakerLaserPuff", pos+randPos));
 						if(puff) 
 						{
-							puff.angle = frandom[CoilRNG](0,360);
+							puff.angle = frandom[CoilLightRNG](0,360);
 							puff.pitch = -90;
 							puff.laserAmt = 0.25;
 							puff.laserDist = 25;
@@ -389,8 +385,8 @@ class Coil_Hardlight_Explosion : CheapActor
 				for(int i = 0; i < (10 + projBoost) * halodoom_effectintensity; i++)
 				{
 					vector2 view = (
-						frandom[CoilRNG](0,360), 
-						frandom[CoilRNG](-30,30)
+						frandom[CoilLightRNG](0,360), 
+						frandom[CoilLightRNG](-30,30)
 					);
 					
 					let beam = LaserBeam.Create(self, 10, 0, 0, view.x,view.y, type:"LSR_LightRifle");
@@ -404,7 +400,7 @@ class Coil_Hardlight_Explosion : CheapActor
 					}
 				}
 				
-				HaloMath.SpawnFX("UnmakerBallSmoke", pos+randPos, frandom[CoilRNG](0,360), random[CoilRNG](5,10), 64, 10, 0, 0, 8);
+				HaloMath.SpawnFX("UnmakerBallSmoke", pos+randPos, frandom[CoilLightRNG](0,360), random[CoilLightRNG](5,10), 64, 10, 0, 0, 8);
 				
 				A_Explode(200, 160, damagetype:"Plasma");
 				A_Quake(3, 10, 0, 1024, "");
@@ -474,8 +470,8 @@ class Coil_Needler_Explosion : CheapActor
 				
 				for(int i = 0; i < 12; i++)
 				{
-					vector3 randPos = (frandom[CoilRNG](-1,1),frandom[CoilRNG](-1,1),frandom[CoilRNG](-1,1)) * 20;  
-					let needle = HaloNeedleProjectile(HaloMath.FireProjectile("HaloNeedleProjectile", pos+randPos, frandom[CoilRNG](0,360), frandom[CoilRNG](-30,30)));
+					vector3 randPos = (frandom[CoilNeedleRNG](-1,1),frandom[CoilNeedleRNG](-1,1),frandom[CoilNeedleRNG](-1,1)) * 20;  
+					let needle = HaloNeedleProjectile(HaloMath.FireProjectile("HaloNeedleProjectile", pos+randPos, frandom[CoilNeedleRNG](0,360), frandom[CoilNeedleRNG](-30,30)));
 					if(needle) needle.target = master ? master.target : NULL;
 				}
 				

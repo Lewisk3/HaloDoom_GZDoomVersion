@@ -246,6 +246,13 @@ class HaloPlayer : DoomPlayer
 	
 	override void Tick()
 	{		
+		bool predicting = (player.cheats & CF_PREDICTING); 
+		if(predicting)
+		{
+			super.Tick();
+			return;
+		}
+		
 		// Flashlight stuff
 		if(!flashlight) 
 		{
