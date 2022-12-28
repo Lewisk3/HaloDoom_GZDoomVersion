@@ -329,13 +329,17 @@ extend class HaloPlayer
 		viewangle *= 0.92; 
 		viewpitch *= 0.92;
 		
+		player.vel = vel.xy;
+		if(block_moveinput) player.vel *= 0;
+		oldvel = vel;
+		
 		// Slide
 		if(predicting) return; // Don't run movement abilities while predicting.
 		if( (btns & BT_CROUCH) && !(obtns & BT_CROUCH) && vel.length() > 5 && player.onground && canslide && slidecooldown <= 0)
 		{
 			// If slide success and not predicting movement, play slide sound.
 			let haloweap = HaloGun(player.ReadyWeapon);
-			if( SlideAnimator.DoSlide(self, SLIDE_TICS) && !(player.cheats & CF_PREDICTING) && (haloweap && !haloweap.feetbusy) )
+			if( SlideAnimator.DoSlide(self, SLIDE_TICS) && (haloweap && !haloweap.feetbusy) )
 			{
 				slidecooldown = SLIDE_COOL;
 				A_StartSound("Halo/Spartan/Slide", CHAN_BODY, CHANF_OVERLAP);
@@ -346,7 +350,7 @@ extend class HaloPlayer
 		if( (btns & BT_DASH) && !(obtns & BT_DASH) && dashcounter < dashmax )
 		{
 			DashAnimator.DoDash(self, lastmovedir, dashpower);
-			if (!(player.cheats & CF_PREDICTING)) A_StartSound("Halo/Spartan/Dash", CHAN_BODY, CHANF_OVERLAP);
+			A_StartSound("Halo/Spartan/Dash", CHAN_BODY, CHANF_OVERLAP);
 			dashcounter++;
 			dashcooldown = dashcooldown_time * 35.0;
 		}
@@ -374,13 +378,8 @@ extend class HaloPlayer
 		// Determine if grapple is deployable.
 		if(enable_grapple && !grapple)
 			gpl_validsurface = GrapplingHook.CanDeploy(self, (-5,-2,-2));
-		
-		player.vel = vel.xy;
-		if(block_moveinput) player.vel *= 0;
-		
-		oldvel = vel;
-		PlayFootsteps();
-		
+			
+		PlayFootsteps();		
 		JetpackMove();
 	}		
 	

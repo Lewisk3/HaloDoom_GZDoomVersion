@@ -233,9 +233,13 @@ class LaserBeam : Actor
 			A_SetPitch(toPitch+90, SPF_INTERPOLATE);
 		}
 		
-		// View Interpolation.
-		if(source.player) source.player.cheats |= CF_INTERPVIEW;
-		
+		// View Interpolation.	
+		if(source.player) 
+		{
+			if(source.player.cheats & CF_PREDICTING) return;
+			source.player.cheats |= CF_INTERPVIEW;
+		}
+	
 		// Do linetrace to determine aim distance.
 		double zoffs = source.player ? (source.player.viewz-source.pos.z) : source.height * 0.5;
 		if(!hitData)

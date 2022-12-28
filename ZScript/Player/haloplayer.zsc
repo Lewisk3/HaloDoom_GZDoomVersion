@@ -414,7 +414,7 @@ class HaloPlayer : DoomPlayer
 	override int DamageMobJ(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle)
 	{
 		// Don't take damage if invuln tics are active.
-		if(invulnTics > 0) return 0;
+		if(invulnTics > 0 || !player) return 0;
 		
 		double dmg = GetModifiedDamage(mod, damage, true);
 		if(shields > 0)

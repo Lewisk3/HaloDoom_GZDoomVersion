@@ -243,7 +243,7 @@ class HaloDoom_Events : EventHandler
 			haloplr.aimActor.GiveInventory(item, 1);
 		}
 		
-		if(multiplayer) return;
+		if(multiplayer && sv_cheats == 0) return;
 		if(e.Name == "HaloDoom_GiveAll")
 		{	
 			Array<class<HaloGun> > guns;
