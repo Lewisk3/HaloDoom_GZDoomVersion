@@ -149,12 +149,13 @@ class ExplosiveCoil : Actor
 		TrueDeath:
 			TNT1 A 35 
 			{
+				console.printf("%d", level.maptime);
 				if(CanBeSeen()) 
 					OnExplode();		
 				else
 					A_Explode(); // Fallback explosion.
 					
-				//FilterExplosions();
+				FilterExplosions();
 			}
 		stop;
 	}
