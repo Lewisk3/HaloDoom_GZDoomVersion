@@ -234,7 +234,7 @@ class DFX_FireEffect : DFX_Effect
 		super.BeginPlay();
 		maxScale = frandom[DFXActor](0.25,1.25);
 		scaleSpeed = frandom[DFXActor](0.2,0.8);
-		roll = frandom(-30,30);
+		roll = frandom[DFXActor](-30,30);
 	}
 
 	bool doFade;

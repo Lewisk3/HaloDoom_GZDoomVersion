@@ -55,23 +55,23 @@ class HaloPowerup : Powerup
 			source.A_SpawnParticle(
 				pcol, SPF_FULLBRIGHT, 1, 3.0, 0,
 				spos.x, spos.y, spos.z + zoffs, 0,0,0,0,0,0,
-				frandom(0.15,1.0), 0.025
+				frandom[PrtSpawn](0.15,1.0), 0.025
 			);
 			
-			if(random(0,5)==5)
+			if(random[PrtSpawn](0,5)==5)
 			{
-				ang = frandom(0,360);
-				pit = frandom(-45,45);
+				ang = frandom[PrtSpawn](0,360);
+				pit = frandom[PrtSpawn](-45,45);
 				vector3 rdir = (
 					cos(ang),
 					sin(ang),
 					-sin(pit)
-				) * frandom(2,8);
+				) * frandom[PrtSpawn](2,8);
 				
 				source.A_SpawnParticle(
 					pcol, SPF_FULLBRIGHT, 10, 3.0, ang,
 					0,0, zoffs, rdir.x,rdir.y,rdir.z,0,0,0,
-					frandom(0.15,1.0), 0.025
+					frandom[PrtSpawn](0.15,1.0), 0.025
 				);
 			}
 		}
@@ -246,7 +246,7 @@ class HaloOvershield : Inventory
 		if( (GetAge() % randompick(10,25,50)) != 0 ) return;
 		for(int i = 0; i < amt; i++)
 		{
-			vector2 angles = (frandom(0,360), frandom(-40,40));
+			vector2 angles = (frandom[BiriRNG](0,360), frandom[BiriRNG](-40,40));
 			BiriBiri.DoLightning(pos + (0,0, GetBobOffset() + 12), angles, dist:50, 1.0, 14.0, 10.0, 50, 0);
 		}
 	}

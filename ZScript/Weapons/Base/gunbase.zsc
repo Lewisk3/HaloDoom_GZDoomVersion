@@ -268,14 +268,14 @@ class HaloGun : RecoilWeapon
 		{
 			curAngle = boltAngle;
 			curPos = startPos + (
-				frandom(-xy_spread.x,xy_spread.x), 
-				frandom(-xy_spread.y,xy_spread.y)
+				frandom[BiriRNG](-xy_spread.x,xy_spread.x), 
+				frandom[BiriRNG](-xy_spread.y,xy_spread.y)
 			);
 			prevBiri = NULL;
 			
 			for(int i = 0; i < boltlen; i++)
 			{
-				curAngle += frandom(-roughness, roughness);
+				curAngle += frandom[BiriRNG](-roughness, roughness);
 				vector2 dir = ( cos(curAngle), sin(curAngle) ) * (boltSize * stepsize);
 				curPos += dir;
 				

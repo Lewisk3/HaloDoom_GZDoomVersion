@@ -3,7 +3,7 @@ class BiriBiri : Actor abstract
 {
 	static void Sparks(Actor from)
 	{
-		vector3 pvel = GetDir(from.angle, from.pitch) * frandom(-2,2);
+		vector3 pvel = GetDir(from.angle, from.pitch) * frandom[BiriRNG](-2,2);
 		from.A_SpawnParticle(
 			0xFFFFB8, SPF_FULLBRIGHT, 
 			35, 1, velx: pvel.x, pvel.y, pvel.z,
@@ -22,7 +22,7 @@ class BiriBiri : Actor abstract
 		// Initialize
 		LightningActor prev;
 		double str = strength;
-		double boltalpha = frandom(0.08, 1.0);
+		double boltalpha = frandom[BiriRNG](0.08, 1.0);
 		double pitchmov;
 		
 		int adjustedDist = max(dist * halodoom_effectintensity, 5);
@@ -60,7 +60,7 @@ class BiriBiri : Actor abstract
 				vector3 tobiri = level.SphericalCoords(biri.pos, prev.pos, (biri.angle, biri.pitch+90));
 				biri.angle -= tobiri.x;
 				biri.pitch -= tobiri.y;
-				prev.pitch += frandom(0, roughness);
+				prev.pitch += frandom[BiriRNG](0, roughness);
 				
 				// Update Lightning direction.
 				double movedir = frandom[LightningPitch](-str,str);
@@ -77,9 +77,9 @@ class BiriBiri : Actor abstract
 				biri.Scale.Y = newscale;
 				
 				// Random change to branch into smaller bolt
-				if( branchchance && (random(0,branchchance) == branchchance) && (len/dist) >= 0.5)				
+				if( branchchance && (random[BiriRNG](0,branchchance) == branchchance) && (len/dist) >= 0.5)				
 				{
-					vector2 newangs = (biri.angle + frandom(-45,45), biri.pitch + frandom(-90,90));
+					vector2 newangs = (biri.angle + frandom[BiriRNG](-45,45), biri.pitch + frandom[BiriRNG](-90,90));
 					DoLightning(biri.pos, newangs, type, dist*0.25, stepsize, strength*2.0, 0);
 				}
 				

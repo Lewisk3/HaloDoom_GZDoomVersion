@@ -40,8 +40,8 @@ class HaloScatterShot_Proj : HaloSlowProjectile
 		vector2 view;
 		for(int i = 0; i < amt; i++)
 		{
-			view.x = angle + frandom(-60,60) + 180;
-			view.y = pitch + frandom(-35,35);
+			view.x = angle + frandom[ScatterRNG](-60,60) + 180;
+			view.y = pitch + frandom[ScatterRNG](-35,35);
 			BiriBiri.DoLightning(pos, view, type:"UnmakerLightning", dist:25, 0.5, 20.0, 10.0, 30, 0);
 		}
 	}

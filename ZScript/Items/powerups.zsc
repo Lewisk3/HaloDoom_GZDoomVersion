@@ -168,11 +168,11 @@ class HaloPowerGiver : PowerupGiver abstract
 
 		for(int i = 0; i < adjustedAmt; i++)
 		{
-			vector2 localPos = (frandom(-1,1) * dist, frandom(-1,1) * (dist / 1.2));
+			vector2 localPos = (frandom[BiriRNG](-1,1) * dist, frandom[BiriRNG](-1,1) * (dist / 1.2));
 			vector3 lightningPos = HaloMath.RelativeV3Offset(self, 0,0,0, 0, localPos.x, localPos.y + bobz, 1.);
 			lightningPos.z -= (height*0.5);
-			view.x = frandom(0,360);
-			view.y = frandom(-60,60);
+			view.x = frandom[BiriRNG](0,360);
+			view.y = frandom[BiriRNG](-60,60);
 
 			BiriBiri.DoLightning(lightningPos, view, type:type, dist:30, 1.0, 12.0, 10.0, 30, 0);
 		}
@@ -238,8 +238,8 @@ class HaloPower_Haste : HaloPowerGiver replaces SoulSphere
 		bobz = sin(level.maptime*10) * 5;
 		HaloPowerup.DoParticles(self, pcol:"Gold", zoffset:0);
 		
-		vector2 localPos = (frandom(-1,1) * 6, frandom(-1,1) * (6 / 1.2));
-		vector3 trailPos = HaloMath.RelativeV3Offset(self, frandom(0,360),0,0, 0, localPos.x, localPos.y + bobz, 1.);			
+		vector2 localPos = (frandom[HasteRNG](-1,1) * 6, frandom[HasteRNG](-1,1) * (6 / 1.2));
+		vector3 trailPos = HaloMath.RelativeV3Offset(self, frandom[HasteRNG](0,360),0,0, 0, localPos.x, localPos.y + bobz, 1.);			
 		let trail = Spawn("HasteTrail", trailPos - (0,0, height*0.5));
 		trail.vel.z = bobz*0.25;
 		
@@ -302,7 +302,7 @@ class HaloPower_Strength : HaloPower_Haste replaces Megasphere
 		if(!(GetAge()%4))
 			HaloMath.SpawnFX("PowerStrengthSmoke", fxpos, angle, 1, 20, 20, rstyle:STYLE_Subtract);
 			
-		if( !(getAge()%20) ) DoLightning(random(4,8), type:"PowerStrengthLightning");
+		if( !(getAge()%20) ) DoLightning(random[BiriRNG](4,8), type:"PowerStrengthLightning");
 	}
 	
 	States
@@ -491,10 +491,10 @@ class JetpackSmoke : CheapActor
 	
 	override void BeginPlay()
 	{	
-		alpha = frandom(0.5, 1.0);
-		A_SetScale(frandom(default.scale.x * 0.15, default.scale.x));
-		rollvel = frandom(-2.0, 2.0);
-		wind_dir = AngleToVector(frandom(0,180), frandom(-0.005, 0.005)); 
+		alpha = frandom[JetFX](0.5, 1.0);
+		A_SetScale(frandom[JetFX](default.scale.x * 0.15, default.scale.x));
+		rollvel = frandom[JetFX](-2.0, 2.0);
+		wind_dir = AngleToVector(frandom[JetFX](0,180), frandom[JetFX](-0.005, 0.005)); 
 		super.BeginPlay();
 	}
 	
@@ -505,7 +505,7 @@ class JetpackSmoke : CheapActor
 		
 		SetOrigin(level.vec3offset(pos, vel), true);
 		A_SetRoll(roll + rollvel, SPF_INTERPOLATE);
-		vel += wind_dir * frandom(0.25, 1.0);
+		vel += wind_dir * frandom[JetFX](0.25, 1.0);
 		if(getAge() <= 20)
 			A_SetScale(Scale.X * 0.96, Scale.Y * 0.96);
 	}
@@ -517,7 +517,7 @@ class JetpackSmoke : CheapActor
 			XTH2 BDFHJLNPRTV 1 Bright;
 		Smoke:
 			TNT1 A 0;
-			SMK5 "#" 1 { frame = random(0, 23); }
+			SMK5 "#" 1 { frame = random[JetFX](0, 23); }
 		SmokeLoop:
 			SMK5 "#" 1 
 			{

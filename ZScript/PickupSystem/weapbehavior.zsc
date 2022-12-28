@@ -186,7 +186,7 @@ class WeaponPickupProxy : Actor
 			if(curpickup == self) continue;
 			double curdist = Distance2DSquared(curpickup);
 			if(curdist > maxdist) continue;
-			double angto = frandom(0,360);
+			double angto = frandom[WeapControl](0,360);
 			vector2 outpos = (
 				cos(angto) * -4,
 				sin(angto) * -4
@@ -365,7 +365,7 @@ class WeaponLimitProxy : Inventory
 		int weaponlimit = curGameType.getWeaponLimit() + halodoom_holdmoarweapons;
 		if(CountWeapons() > weaponlimit && !halodoom_unlimitedbackpack) 
 		{
-			double rang = ceil(frandom(0,90)*4.);
+			double rang = ceil(frandom[WeapControl](0,90)*4.);
 			vector3 fw = ( cos(plr.angle+rang)*32, sin(plr.angle+rang)*32, 0 );
 			DropSelectedWeapon(plr.Vec3Offset(fw.x,fw.y,0));
 			let nextweap = plr.PickNextWeapon();

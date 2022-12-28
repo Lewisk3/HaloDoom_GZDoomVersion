@@ -66,7 +66,7 @@ class PlasmaCasterClusterProj : PlasmaGrenade_Proj
 				mini.vel = HaloMath.VecFromAngles(
 					angle + 180 + frandom[CasterCluster](-60,60), 0, 8
 				);
-				mini.vel.z = frandom(5,10);
+				mini.vel.z = frandom[CasterCluster](5,10);
 			}
 		}
 	}

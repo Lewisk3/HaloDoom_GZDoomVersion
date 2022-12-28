@@ -89,7 +89,7 @@ class Halo_Stanchion : HaloGun
 		int adjustedAmt = max(5 * halodoom_effectintensity, 0);
 		for(int i = 0; i < adjustedAmt; i++)
 		{
-			view.x = angle + frandom(-20,20);
+			view.x = angle + frandom[WeapFX](-20,20);
 			BiriBiri.DoLightning(muzzlepos, view, dist:50, 0.5, 8.0, 10.0, 30, 0);
 		}
 	}
@@ -100,7 +100,7 @@ class Halo_Stanchion : HaloGun
 		vector2 muzzlePos = (280,20) + posoffs;
 		DoSpriteLightning(
 			amt,
-			frandom(-180,180), muzzlePos, boltlen:boltlen, 
+			frandom[WeapFX](-180,180), muzzlePos, boltlen:boltlen, 
 			stepsize:2.5, roughness:14
 		);
 	}
@@ -162,9 +162,9 @@ class Halo_Stanchion : HaloGun
 			{
 				invoker.heat *= 0.9;
 				let psp = player.GetPSprite(OverlayID());
-				if(psp) psp.frame = random(3,8);
+				if(psp) psp.frame = random[WeapFX](3,8);
 				A_SetSFXPos(25,-5,-7);
-				for(int i = 0; i < random(1,5); i++)
+				for(int i = 0; i < random[WeapFX](1,5); i++)
 					A_SpawnSFX("MuzzleSmoke", 0,0);
 				if(!(psp.frame%5)) MuzzleLightning();
 			}
@@ -184,7 +184,7 @@ class Halo_Stanchion : HaloGun
 					if(A_GetFrame(OverlayID()) == 4)
 					{
 						A_SpriteLightning(amt:10, posoffs:(-90,60));
-						A_RecoilOffset(frandom(-4,4),frandom(-4,4),2);
+						A_RecoilOffset(frandom[WeapFX](-4,4),frandom[WeapFX](-4,4),2);
 					}
 				}
 				else
@@ -329,7 +329,7 @@ class Halo_Stanchion : HaloGun
 				if(invoker.fxCounter++ >= 2)
 				{
 					A_SpriteLightning(amt:10, posoffs:(-90,60));
-					A_RecoilOffset(frandom(-8,8),frandom(-8,8),2);
+					A_RecoilOffset(frandom[WeapFX](-8,8),frandom[WeapFX](-8,8),2);
 					invoker.fxCounter = 0;
 				}
 				return ResolveState(null);
@@ -337,7 +337,7 @@ class Halo_Stanchion : HaloGun
 		Reload.ChargeLoop:
 			STCI A 1 
 			{
-				A_RecoilOffset(frandom(-2,2),frandom(-2,2),2);
+				A_RecoilOffset(frandom[WeapFX](-2,2),frandom[WeapFX](-2,2),2);
 				A_StartSound("Halo/Weapons/Stanchion/Charge/Loop", CHAN_CHARGING, CHANF_OVERLAP|CHANF_LOOPING);
 				if(invoker.fxCounter++ > 2)
 				{

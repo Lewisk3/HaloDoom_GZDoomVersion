@@ -442,7 +442,7 @@ class Halo_Hydra : HaloGun
 			WTF1 "#" 1 Bright
 			{
 				A_SetZoom(0.93,1);
-				A_RecoilOffset(random(6,12),24,3);
+				A_RecoilOffset(random[WeapFX](6,12),24,3);
 				A_SetRecoil(1.25, 0.3, 3);
 				A_FireHydraMissile();
 				A_RQuakeEx(3,2,3,6,0,20,"",QF_RELATIVE|QF_SCALEDOWN);

@@ -331,18 +331,18 @@ class HaloNeedleProjectile : HaloSlowProjectile
 					
 					for(int i = 0; i < 100; i++) 
 					{
-						double ang = frandom(0,360);
-						double pit = frandom(-45,45);
+						double ang = frandom[NeedleDeath](0,360);
+						double pit = frandom[NeedleDeath](-45,45);
 						vector3 rdir = (
 							cos(ang),
 							sin(ang),
 							-sin(pit)
-						) * frandom(20,35);
+						) * frandom[NeedleDeath](20,35);
 						
 						A_SpawnParticle(
 							"Purple", SPF_FULLBRIGHT, 20, 10.0, ang,
 							0,0, hitactor.height*0.5, rdir.x,rdir.y,rdir.z,0,0,0,
-							frandom(0.5,1.0), 0.0125
+							frandom[NeedleDeath](0.5,1.0), 0.0125
 						);
 					}
 					
@@ -360,9 +360,9 @@ class HaloNeedleProjectile : HaloSlowProjectile
 					A_SpawnParticle(
 						"Purple", SPF_FULLBRIGHT|SPF_RELVEL,
 						 35,5,
-						 angle+frandom(-90,90), 
-						 frandom(-20,20),frandom(-20,20),frandom(-10,10),
-						 10,10,frandom(-8,8),0,0,-0.1,1.0,0.14,0.15);
+						 angle+frandom[NeedleDeath](-90,90), 
+						 frandom[NeedleDeath](-20,20),frandom[NeedleDeath](-20,20),frandom[NeedleDeath](-10,10),
+						 10,10,frandom[NeedleDeath](-8,8),0,0,-0.1,1.0,0.14,0.15);
 				}
 			}
 		stop;
@@ -595,13 +595,13 @@ class RailgunProjectile : FastProjectile
 	void Biri(double amt = 5, double dist = 50, double fixed_dist = -1)
 	{
 		double ang = angle+180;
-		biridist = fixed_dist >= 0 ? fixed_dist : frandom(0, 1.0);
+		biridist = fixed_dist >= 0 ? fixed_dist : frandom[BiriRNG](0, 1.0);
 		int adjustedAmt = max(5 * halodoom_effectintensity, 0);
 		for(int i = 0; i < amt; i++)
 		{
 			vector3 biripos = level.vec3offset(startpos, dir * (aimdist * biridist));
-			BiriBiri.DoLightning(biripos, (ang + frandom(-60,60), 0), dist:dist, 1.0, 10.0, 5, 200);
-			if(fixed_dist < 0) biridist += frandom(-0.05, 0.05);
+			BiriBiri.DoLightning(biripos, (ang + frandom[BiriRNG](-60,60), 0), dist:dist, 1.0, 10.0, 5, 200);
+			if(fixed_dist < 0) biridist += frandom[BiriRNG](-0.05, 0.05);
 			biripos.z -= 10;
 			Spawn("LightningLight", biripos);
 			if(i == 0) Spawn("LightSmoke", biripos);
@@ -637,7 +637,7 @@ class RailgunProjectile : FastProjectile
 		Death.FadeOut:
 			"####" A 1 
 			{
-				bool blink = random(0,1);
+				bool blink = random[BiriRNG](0,1);
 				if(blink) 
 					sprite = GetSpriteIndex("LITA");
 				else
@@ -647,7 +647,7 @@ class RailgunProjectile : FastProjectile
 				if(GetAge()%5 == 0)
 				{
 					for(int i = 0; i < 2; i++)
-						BiriBiri.DoLightning(pos, (angle+frandom(-45, 45)+180, frandom(-90,90)), dist:80*railScale, 1.0, 6.0, 5, 100);
+						BiriBiri.DoLightning(pos, (angle+frandom[BiriRNG](-45, 45)+180, frandom[BiriRNG](-90,90)), dist:80*railScale, 1.0, 6.0, 5, 100);
 				}
 			}
 		wait;
@@ -724,27 +724,27 @@ class Railgun_Explosion : FastActor
 				}
 				
 				// Flying explosions
-				double adjustedAmt = max(random[railExplode](15,30) * halodoom_effectintensity, 0);
+				double adjustedAmt = max(random[RailgunEXP](15,30) * halodoom_effectintensity, 0);
 				for(int i = 0; i < adjustedAmt; i++)
 				{
-					double spawnang = frandom(0,180);
-					double spawndist = frandom(-10, 10);
+					double spawnang = frandom[RailgunEXP](0,180);
+					double spawndist = frandom[RailgunEXP](-10, 10);
 					vector3 spawndir = (
 						cos(angle + spawnang),
 						sin(angle + spawnang),
 						0
 					) * spawndist;
 					
-					spawndir.z = frandom(-30,30);
+					spawndir.z = frandom[RailgunEXP](-30,30);
 					let expl = Spawn("TankRocket_FlyingExplosion", level.vec3offset(pos, spawndir));
 					if(expl)
 					{
 						expl.A_SetScale(0.2 * (scale.x / 1.75));
-						double velang = frandom(-180,180);
+						double velang = frandom[RailgunEXP](-180,180);
 						vector3 veldir = (
 							cos(velang),
 							sin(velang),
-							sin(frandom(-45,45)) * 1.5
+							sin(frandom[RailgunEXP](-45,45)) * 1.5
 						);
 						expl.vel = veldir * 10;
 					}

@@ -52,19 +52,19 @@ class HaloCarbine_Bullet : HaloBullet
 			{
 				for(int i = 0; i < 10; i++)
 				{
-					double sAngle = frandom(-30,30);
-					double sPitch = frandom(-30,30);
+					double sAngle = frandom[WeapFX](-30,30);
+					double sPitch = frandom[WeapFX](-30,30);
 					vector3 offs = (
-						frandom(-15,15),
-						frandom(-15,15),
-						frandom(-15,15)
+						frandom[WeapFX](-15,15),
+						frandom[WeapFX](-15,15),
+						frandom[WeapFX](-15,15)
 					);
 					
 					vector3 pvel = (
 						cos(angle+sAngle),
 						sin(angle+sAngle),
 						sin(pitch+sPitch)
-					) * -frandom(4,10);
+					) * -frandom[WeapFX](4,10);
 					A_SpawnParticle(0x11f220, SPF_FULLBRIGHT|SPF_RELPOS, 10, 5, sAngle, offs.x, offs.y, offs.z, pvel.x, pvel.y, pvel.z);
 				}
 			}

@@ -140,23 +140,23 @@ class HaloMath Abstract
 		int adjustedAmt = max(amt * halodoom_effectintensity, 0);
 		for(int i = 0; i < adjustedAmt; i++)
 		{
-			double spawnang = frandom(0,180);
-			double spawndist = frandom(-maxdist, maxdist);
+			double spawnang = frandom[SpFX](0,180);
+			double spawndist = frandom[SpFX](-maxdist, maxdist);
 			vector3 spawndir = (
 				cos(sangle + spawnang),
 				sin(sangle + spawnang),
 				0
 			) * spawndist;
 			
-			spawndir.z = frandom(-ydist,ydist);
+			spawndir.z = frandom[SpFX](-ydist,ydist);
 			let obj = Actor.Spawn(type, level.vec3offset(frompos, spawndir));
 			if(obj && vel_spd != 0)
 			{
-				double velang = frandom(-vel_angle,vel_angle);
+				double velang = frandom[SpFX](-vel_angle,vel_angle);
 				vector3 veldir = (
 					cos(velang),
 					sin(velang),
-					sin(frandom(-vel_pitch,vel_pitch))
+					sin(frandom[SpFX](-vel_pitch,vel_pitch))
 				);
 				obj.vel = veldir * vel_spd;
 				obj.angle = (sangle + spawnang);
@@ -170,13 +170,13 @@ class HaloMath Abstract
 		int adjustedAmt = max(amt * halodoom_effectintensity, 0);
 		for(int i = 0; i < adjustedAmt; i++)
 		{
-			double part_angle = (ptr.angle+180)+frandom(-ang_spread.x,ang_spread.x);
-			double part_pitch = ptr.pitch+frandom(-ang_spread.y,ang_spread.y);
+			double part_angle = (ptr.angle+180)+frandom[PrtSpawn](-ang_spread.x,ang_spread.x);
+			double part_pitch = ptr.pitch+frandom[PrtSpawn](-ang_spread.y,ang_spread.y);
 
 			vector3 partpos = (
-				cos(part_angle)*frandom(-pos_spread.x,pos_spread.x),
-				sin(part_angle)*frandom(-pos_spread.y,pos_spread.y),
-				sin(part_pitch)*frandom(-pos_spread.z,pos_spread.z)
+				cos(part_angle)*frandom[PrtSpawn](-pos_spread.x,pos_spread.x),
+				sin(part_angle)*frandom[PrtSpawn](-pos_spread.y,pos_spread.y),
+				sin(part_pitch)*frandom[PrtSpawn](-pos_spread.z,pos_spread.z)
 			);
 			
 			vector3 partvel = (

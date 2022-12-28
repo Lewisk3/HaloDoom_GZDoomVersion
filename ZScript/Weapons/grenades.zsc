@@ -211,7 +211,7 @@ class FragGrenadeExplosion : CheapActor
 			TNT1 A 0 
 			{
 				vector3 fxpos = (pos.xy, pos.z+40);
-				HaloMath.SpawnFX("FragGrenade_FlyingExplosion", fxpos, angle, random(5,12), 10, 20, 180,45, 25);
+				HaloMath.SpawnFX("FragGrenade_FlyingExplosion", fxpos, angle, random[FragRNG](5,12), 10, 20, 180,45, 25);
 				A_Explode(damage, 256);
 			}
 			SX04 EFGHIJKLMNOPQ 1 Bright
@@ -373,8 +373,8 @@ class PlasmaGrenade_Smoke : Actor
 	{
 		super.BeginPlay();
 		
-		roll = frandom(-60,90);
-		A_SetScale(default.scale.x * frandom(0.25, 0.75));
+		roll = frandom[FragRNG](-60,90);
+		A_SetScale(default.scale.x * frandom[FragRNG](0.25, 0.75));
 	}
 	
 	States

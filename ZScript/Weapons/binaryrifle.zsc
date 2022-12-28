@@ -176,7 +176,7 @@ class Halo_BinaryRifle : HaloGun
 			WOF1 C 2 Bright;
 			WOF1 D 1 Bright
 			{
-				A_RecoilOffset(random(-12,12),12,3);
+				A_RecoilOffset(random[WeapFX](-12,12),12,3);
 				A_SetRecoil(4.20, 2.40, 2);
 				A_RollQuake(4, 10, 2);
 			}

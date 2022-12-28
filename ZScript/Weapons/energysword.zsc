@@ -39,15 +39,15 @@ class Halo_EnergySword : HaloGun
 	
 	action void MuzzleLightning()
 	{
-		vector2 localPos = (frandom(-10,10), frandom(-20,0));
+		vector2 localPos = (frandom[WeapFX](-10,10), frandom[WeapFX](-20,0));
 		vector2 overlayPos = (260,110);
 		vector3 muzzlepos = HaloMath.RelativeV3Offset(self, 0,0,0, 25, localPos.x, localPos.y, 1.);
-		vector2 view = (angle + frandom(-40,40), pitch);
+		vector2 view = (angle + frandom[WeapFX](-40,40), pitch);
 		int adjustedAmt = max(5 * halodoom_effectintensity, 0);
 		for(int i = 0; i < adjustedAmt; i++)
 		{
-			view.x = angle + frandom(-45,45);
-			DoSpriteLightning(3, -90 + frandom(-60,70), localPos + overlayPos, xy_spread:(10,10), boltLen:50, stepsize:4.0, size:2.0);
+			view.x = angle + frandom[WeapFX](-45,45);
+			DoSpriteLightning(3, -90 + frandom[WeapFX](-60,70), localPos + overlayPos, xy_spread:(10,10), boltLen:50, stepsize:4.0, size:2.0);
 		}
 	}
 	
@@ -71,8 +71,8 @@ class Halo_EnergySword : HaloGun
 			double amt = 12;
 			for(int i = 0; i < floor(amt * halodoom_effectintensity); i++)
 			{
-				view.x = angle + frandom(-60,60) + 180;
-				view.y = -(pitch + frandom(-35,35));
+				view.x = angle + frandom[WeapFX](-60,60) + 180;
+				view.y = -(pitch + frandom[WeapFX](-35,35));
 				BiriBiri.DoLightning(HaloPlayer(self).aimPos, view, dist:75, 0.5, 20.0, 10.0, 30, 0);
 			}	
 		}

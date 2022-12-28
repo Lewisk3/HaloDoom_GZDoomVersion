@@ -137,7 +137,7 @@ class Halo_PulseCarbine : HaloGun
 			TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 3 
 			{
 				let psp = player.GetPSprite(OverlayID());
-				if(psp) psp.frame = random(3,8);
+				if(psp) psp.frame = random[WeapFX](3,8);
 				A_SetSFXPos(25,-8,-15);
 				double amt = (invoker.heat * 5) * halodoom_effectintensity;
 				
@@ -224,7 +224,7 @@ class Halo_PulseCarbine : HaloGun
 			{
 				for(int i = 0; i < floor(4 * halodoom_effectintensity); i++) 
 				{
-					A_SetSFXPos(25, -20 + frandom(-8,8), -10 + frandom(-10,10));
+					A_SetSFXPos(25, -20 + frandom[WeapFX](-8,8), -10 + frandom[WeapFX](-10,10));
 					A_SpawnSFX("MuzzleSmoke", 0,0);
 				}
 				invoker.heat -= 0.2;
@@ -250,7 +250,7 @@ class Halo_PulseCarbine : HaloGun
 			{
 				for(int i = 0; i < floor(4 * halodoom_effectintensity); i++) 
 				{
-					A_SetSFXPos(25, -20 + frandom(-8,8), -10 + frandom(-10,10));
+					A_SetSFXPos(25, -20 + frandom[WeapFX](-8,8), -10 + frandom[WeapFX](-10,10));
 					A_SpawnSFX("MuzzleSmoke", 0,0);
 				}
 				invoker.heat -= 0.1;

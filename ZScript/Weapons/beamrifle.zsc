@@ -175,7 +175,7 @@ class Halo_BeamRifle : HaloGun
 			TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 3 
 			{
 				let psp = player.GetPSprite(OverlayID());
-				if(psp) psp.frame = random(3,8);
+				if(psp) psp.frame = random[WeapFX](3,8);
 				A_SetSFXPos(25,-8,-10);
 				double amt = (invoker.heat * 5) * halodoom_effectintensity;
 				
@@ -237,7 +237,7 @@ class Halo_BeamRifle : HaloGun
 				}
 				
 				A_AddRecoil(0.012, 0, 2);
-				A_RecoilOffset(frandom(-4,4), frandom(-8,8), 2);
+				A_RecoilOffset(frandom[WeapFX](-4,4), frandom[WeapFX](-8,8), 2);
 				A_RollQuake(1,10,1);
 				A_Light( (!(GetAge()%4)) * 2 );
 				invoker.heat += 0.017;
@@ -283,7 +283,7 @@ class Halo_BeamRifle : HaloGun
 			{
 				for(int i = 0; i < floor(4 * halodoom_effectintensity); i++) 
 				{
-					A_SetSFXPos(25, -20 + frandom(-8,8), -10 + frandom(-10,10));
+					A_SetSFXPos(25, -20 + frandom[WeapFX](-8,8), -10 + frandom[WeapFX](-10,10));
 					A_SpawnSFX("MuzzleSmoke", 0,0);
 				}
 				invoker.heat -= 0.1;

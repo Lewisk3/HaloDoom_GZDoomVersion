@@ -116,7 +116,7 @@ class HaloFlames : CheapActor
 	States
 	{
 		Spawn:
-			TNT1 A 0 NoDelay A_Jump(255, random(0,10));
+			TNT1 A 0 NoDelay A_Jump(255, random[WeapFX](0,10));
 			XTH1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 2;
 			XTH2 ABCDEFGH 1;
 			XTH2 IJKLMNOP 1

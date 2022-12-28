@@ -184,7 +184,7 @@ class Halo_GPMG : HaloGun
 			WFF1 "#" 1 Bright
 			{
 				A_FireSMG();
-				A_RecoilOffset(frandom(-4,4),frandom(-4,4),2);
+				A_RecoilOffset(frandom[WeapFX](-4,4),frandom[WeapFX](-4,4),2);
 				A_SetRecoil(1.5, 0, 1);
 				//A_RQuakeEx(2,2,2,2,0,20,"",QF_RELATIVE);
 				A_RollQuake(1,10,1);

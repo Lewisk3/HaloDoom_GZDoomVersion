@@ -320,8 +320,8 @@ class Coil_Plasma : ExplosiveCoil
 		vector2 view;
 		for(int i = 0; i < amt; i++)
 		{
-			view.x = frandom(0,360);
-			view.y = frandom(-20,20);
+			view.x = frandom[CoilRNG](0,360);
+			view.y = frandom[CoilRNG](-20,20);
 			BiriBiri.DoLightning((pos.xy,pos.z+30), view, dist:100, 0.5, 20.0, 10.0, 30, 0);
 		}
 	}
@@ -360,18 +360,18 @@ class Coil_Hardlight_Explosion : CheapActor
 				A_StartSound("Halo/Weapons/Unmaker/BFG/Explode", CHAN_VOICE, flags:CHANF_OVERLAP);
 				A_StartSound("Halo/Weapons/BeamRifle/Laser/Fire", CHAN_VOICE, flags:CHANF_OVERLAP);
 				
-				vector3 randPos = (frandom(-1,1),frandom(-1,1),frandom(-1,1)) * 30;  
+				vector3 randPos = (frandom[CoilRNG](-1,1),frandom[CoilRNG](-1,1),frandom[CoilRNG](-1,1)) * 30;  
 				if(!lowEffects)
 				{
-					HaloMath.SpawnFX("UnmakerLaserPuff", pos+randPos, frandom(0,360), 5, 45, 20);
+					HaloMath.SpawnFX("UnmakerLaserPuff", pos+randPos, frandom[CoilRNG](0,360), 5, 45, 20);
 					
 					for(int i = 0; i < 5 * halodoom_effectintensity; i++)
 					{
-						randPos = (frandom(-1,1),frandom(-1,1),frandom(-1,1)) * 20;  
+						randPos = (frandom[CoilRNG](-1,1),frandom[CoilRNG](-1,1),frandom[CoilRNG](-1,1)) * 20;  
 						let puff = UnmakerLaserPuff(Spawn("UnmakerLaserPuff", pos+randPos));
 						if(puff) 
 						{
-							puff.angle = frandom(0,360);
+							puff.angle = frandom[CoilRNG](0,360);
 							puff.pitch = -90;
 							puff.laserAmt = 0.25;
 							puff.laserDist = 25;
@@ -383,8 +383,8 @@ class Coil_Hardlight_Explosion : CheapActor
 				for(int i = 0; i < (10 + projBoost) * halodoom_effectintensity; i++)
 				{
 					vector2 view = (
-						frandom(0,360), 
-						frandom(-30,30)
+						frandom[CoilRNG](0,360), 
+						frandom[CoilRNG](-30,30)
 					);
 					
 					let beam = LaserBeam.Create(self, 10, 0, 0, view.x,view.y, type:"LSR_LightRifle");
@@ -398,7 +398,7 @@ class Coil_Hardlight_Explosion : CheapActor
 					}
 				}
 				
-				HaloMath.SpawnFX("UnmakerBallSmoke", pos+randPos, frandom(0,360), random(5,10), 64, 10, 0, 0, 8);
+				HaloMath.SpawnFX("UnmakerBallSmoke", pos+randPos, frandom[CoilRNG](0,360), random[CoilRNG](5,10), 64, 10, 0, 0, 8);
 				
 				A_Explode(200, 160, damagetype:"Plasma");
 				A_Quake(3, 10, 0, 1024, "");
@@ -421,8 +421,8 @@ class Coil_Hardlight : ExplosiveCoil
 		vector2 view;
 		for(int i = 0; i < amt; i++)
 		{
-			view.x = frandom(0,360);
-			view.y = frandom(-20,20);
+			view.x = frandom[CoilRNG](0,360);
+			view.y = frandom[CoilRNG](-20,20);
 			BiriBiri.DoLightning((pos.xy,pos.z+30), view, type:"UnmakerLightning", dist:100, 0.5, 20.0, 10.0, 30, 0);
 		}
 	}
@@ -468,8 +468,8 @@ class Coil_Needler_Explosion : CheapActor
 				
 				for(int i = 0; i < 12; i++)
 				{
-					vector3 randPos = (frandom(-1,1),frandom(-1,1),frandom(-1,1)) * 20;  
-					let needle = HaloNeedleProjectile(HaloMath.FireProjectile("HaloNeedleProjectile", pos+randPos, frandom(0,360), frandom(-30,30)));
+					vector3 randPos = (frandom[CoilRNG](-1,1),frandom[CoilRNG](-1,1),frandom[CoilRNG](-1,1)) * 20;  
+					let needle = HaloNeedleProjectile(HaloMath.FireProjectile("HaloNeedleProjectile", pos+randPos, frandom[CoilRNG](0,360), frandom[CoilRNG](-30,30)));
 					if(needle) needle.target = master ? master.target : NULL;
 				}
 				
@@ -521,9 +521,9 @@ class FX_Blackhole : RepulsorField
 		vector2 view;
 		for(int i = 0; i < amt; i++)
 		{
-			view.x = frandom(0,360);
-			view.y = frandom(-20,20);
-			vector3 randPos = (frandom(-1,1),frandom(-1,1),frandom(-1,1)) * 64;  
+			view.x = frandom[BlackholeRNG](0,360);
+			view.y = frandom[BlackholeRNG](-20,20);
+			vector3 randPos = (frandom[BlackholeRNG](-1,1),frandom[BlackholeRNG](-1,1),frandom[BlackholeRNG](-1,1)) * 64;  
 			BiriBiri.DoLightning(level.vec3offset(pos, randPos), view, type:"BlackholeLightning", dist:100, 2.5, 20.0, 10.0, 30, 0);
 		}
 	}
@@ -531,9 +531,9 @@ class FX_Blackhole : RepulsorField
 	override void Tick()
 	{
 		super.tick();
-		frame = random(3,5);
+		frame = random[BlackholeRNG](3,5);
 		roll+=2;
-		if( !(GetAge() % random(4,6)) )
+		if( !(GetAge() % random[BlackholeRNG](4,6)) )
 			A_DoLightning();
 			
 		if(!level.isFrozen()) 
@@ -566,8 +566,8 @@ class FX_Blackhole : RepulsorField
 			ELEX "#" 6
 			{
 				
-				HaloMath.SpawnFX("FragGrenade_Smoke", pos, angle, random(1,4), 20, 20, rstyle:STYLE_Subtract);
-				tics = random(3,12);
+				HaloMath.SpawnFX("FragGrenade_Smoke", pos, angle, random[BlackholeRNG](1,4), 20, 20, rstyle:STYLE_Subtract);
+				tics = random[BlackholeRNG](3,12);
 				Spawn("FX_InverseShockWave", pos);
 			}
 		loop;
