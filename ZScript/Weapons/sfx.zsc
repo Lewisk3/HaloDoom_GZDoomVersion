@@ -124,8 +124,8 @@ class BulletCasing : Actor
 			if(smoke) 
 			{
 				smoke.vel = vel;
-				smoke.A_SetScale(frandom(0.04,0.15));
-				smoke.alpha = frandom(0.05,0.5);
+				smoke.A_SetScale(frandom[SpawnSmoke](0.04,0.15));
+				smoke.alpha = frandom[SpawnSmoke](0.05,0.5);
 			}
 		}
 		super.Tick();
@@ -144,7 +144,7 @@ class BulletCasing : Actor
 			"####" A 2100 // 1 minute 
 			{
 				bNOINTERACTION = true;
-				frame = random(10,13);
+				frame = random[SpawnSmoke](10,13);
 			}
 		WaitDeath:
 			"####" "#" 1 A_FadeOut(0.002);
@@ -199,11 +199,11 @@ class MuzzleSmoke : CasingSmoke
 	override void BeginPlay()
 	{
 		super.BeginPlay();
-		rolldir = randompick(-1,1);
-		fadespd = frandom(0.8,2.0);
-		vel.x += frandom(-1,1);
-		vel.y += frandom(-1,1);
-		A_SetScale(frandom(0.02,0.1));
+		rolldir = randompick[MuzzleSM](-1,1);
+		fadespd = frandom[MuzzleSM](0.8,2.0);
+		vel.x += frandom[MuzzleSM](-1,1);
+		vel.y += frandom[MuzzleSM](-1,1);
+		A_SetScale(frandom[MuzzleSM](0.02,0.1));
 	}
 	
 	override void Tick()
@@ -282,7 +282,7 @@ class MuzzleSparks : Actor
 	override void BeginPlay()
 	{
 		super.BeginPlay();
-		grav += frandom(-grav*0.1, grav*0.1);
+		grav += frandom[MuzzleSP](-grav*0.1, grav*0.1);
 	}
 	
 	override void Tick()
@@ -301,8 +301,8 @@ class MuzzleSparks : Actor
 		if(smoke) 
 		{
 		//	smoke.vel = vel;
-			smoke.A_SetScale(frandom(0.10,0.15));
-			smoke.alpha = frandom(0.07,0.14);
+			smoke.A_SetScale(frandom[MuzzleSP](0.10,0.15));
+			smoke.alpha = frandom[MuzzleSP](0.07,0.14);
 		}
 	}
 	
@@ -311,7 +311,7 @@ class MuzzleSparks : Actor
 		Spawn:
 			TNT1 A 0 NoDelay 
 			{
-				vel *= frandom(0.8, 1.2);
+				vel *= frandom[MuzzleSP](0.8, 1.2);
 			}
 		SpawnLoop:
 			IPF2 "#" 1 Bright 
