@@ -275,7 +275,7 @@ class CoilSpawner : CheapActor replaces ExplosiveBarrel
 		for(int i = 0; i < AllActorClasses.Size(); i++)
 		{
 			let cls = AllActorClasses[i];
-			if(cls is "Coil_Needler") continue;
+			if( !(cls is "Coil_Plasma") ) continue;
 			if(cls is "ExplosiveCoil" && cls.getClassName() != "ExplosiveCoil") 
 				spawns.Push(cls);
 		}
