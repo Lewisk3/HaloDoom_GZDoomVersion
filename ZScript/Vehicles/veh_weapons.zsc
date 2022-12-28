@@ -89,30 +89,30 @@ class TankRocket : FastProjectile
 		vector3 fxpos = level.vec3offset(pos, fxoffs);
 		Spawn("TankRocket_Explosion", fxpos);
 		
-		HaloMath.SpawnFX("TankRocket_MiniExplosion", fxpos, angle, random(5,15), 160, 40);
-		HaloMath.SpawnFX("TankRocket_Smoke", fxpos, angle, random(10,30), 120, 60);
-		HaloMath.SpawnFX("TankRocket_Smoke", fxpos, angle, random(10,30), 80, 60, rstyle:STYLE_Subtract);
+		HaloMath.SpawnFX("TankRocket_MiniExplosion", fxpos, angle, random[VehpartFX](5,15), 160, 40);
+		HaloMath.SpawnFX("TankRocket_Smoke", fxpos, angle, random[VehpartFX](10,30), 120, 60);
+		HaloMath.SpawnFX("TankRocket_Smoke", fxpos, angle, random[VehpartFX](10,30), 80, 60, rstyle:STYLE_Subtract);
 		
 		// Flying explosions
-		for(int i = 0; i < random(20,30); i++)
+		for(int i = 0; i < random[VehpartFX](20,30); i++)
 		{
-			double spawnang = frandom(0,180);
-			double spawndist = frandom(-30, 30);
+			double spawnang = frandom[VehpartFX](0,180);
+			double spawndist = frandom[VehpartFX](-30, 30);
 			vector3 spawndir = (
 				cos(angle + spawnang),
 				sin(angle + spawnang),
 				0
 			) * spawndist;
 			
-			spawndir.z = frandom(-30,30);
+			spawndir.z = frandom[VehpartFX](-30,30);
 			let expl = Spawn("TankRocket_FlyingExplosion", level.vec3offset(fxpos, spawndir));
 			if(expl)
 			{
-				double velang = frandom(-180,180);
+				double velang = frandom[VehpartFX](-180,180);
 				vector3 veldir = (
 					cos(velang),
 					sin(velang),
-					sin(frandom(-45,45))
+					sin(frandom[VehpartFX](-45,45))
 				);
 				expl.vel = veldir * 15;
 			}
@@ -205,7 +205,7 @@ class ImpactSparks : FastActor
 			TNT1 A 0; 
 			IPF2 "#" 4 Bright
 			{
-				frame = random(0,3);
+				frame = random[VehpartFX](0,3);
 			}
 		stop;
 	}
@@ -224,11 +224,11 @@ class TankRocket_Smoke : FastActor
 	
 	override void BeginPlay()
 	{	
-		alpha = frandom(0.5, 1.0);
-		A_SetScale(frandom(default.scale.x * 0.15, default.scale.x));
-		rollvel = frandom(-2.0, 2.0);
-		upforce = frandom(0.015, 0.08) * 0.25;
-		wind_dir = AngleToVector(frandom(0,180), frandom(-0.005, 0.005)); 
+		alpha = frandom[VehpartFX](0.5, 1.0);
+		A_SetScale(frandom[VehpartFX](default.scale.x * 0.15, default.scale.x));
+		rollvel = frandom[VehpartFX](-2.0, 2.0);
+		upforce = frandom[VehpartFX](0.015, 0.08) * 0.25;
+		wind_dir = AngleToVector(frandom[VehpartFX](0,180), frandom[VehpartFX](-0.005, 0.005)); 
 		super.BeginPlay();
 	}
 	
@@ -238,7 +238,7 @@ class TankRocket_Smoke : FastActor
 		
 		SetOrigin(level.vec3offset(pos, vel), true);
 		A_SetRoll(roll + rollvel, SPF_INTERPOLATE);
-		vel += wind_dir * frandom(0.25, 1.0);
+		vel += wind_dir * frandom[VehpartFX](0.25, 1.0);
 		A_SetScale(Scale.X * 1.02, Scale.Y * 1.02);
 	}
 	
@@ -246,7 +246,7 @@ class TankRocket_Smoke : FastActor
 	{
 		Spawn:	
 			TNT1 A 0;
-			SMK5 "#" 1 { frame = random(0, 23); }
+			SMK5 "#" 1 { frame = random[VehpartFX](0, 23); }
 		SpawnLoop:
 			SMK5 "#" 1
 			{
@@ -268,10 +268,10 @@ class TankRocket_DarkSmoke : FastActor
 	
 	override void BeginPlay()
 	{	
-		alpha = frandom(0.35, 0.77);
-		double sc = frandom(0.10,0.20);
+		alpha = frandom[VehpartFX](0.35, 0.77);
+		double sc = frandom[VehpartFX](0.10,0.20);
 		A_SetScale(default.Scale.X * sc, default.Scale.Y * sc);
-		rollvel = frandom(-2.0, 2.0);
+		rollvel = frandom[VehpartFX](-2.0, 2.0);
 		super.BeginPlay();
 	}
 	
@@ -301,8 +301,8 @@ class TankRocket_MiniExplosion : TankRocket_Smoke
 	{
 		Spawn:	
 			TNT1 A 0;
-			TNT1 A 0 A_JumpIf(random(0,2)==2, "SpawnLoop_Two");
-			TNT1 A 0 A_SetScale(frandom(2.0, 3.0));
+			TNT1 A 0 A_JumpIf(random[VehpartFX](0,2)==2, "SpawnLoop_Two");
+			TNT1 A 0 A_SetScale(frandom[VehpartFX](2.0, 3.0));
 		SpawnLoop_One:
 			FX58 AAABCDEFGHIJKLMNOP 2 Bright
 			{
@@ -333,7 +333,7 @@ class TankRocket_FlyingExplosion : FastActor
 	override void BeginPlay()
 	{	
 		super.BeginPlay();	
-		A_SetScale(frandom(default.scale.x * 0.3, default.scale.x));
+		A_SetScale(frandom[VehpartFX](default.scale.x * 0.3, default.scale.x));
 	}
 	
 	override void Tick()
@@ -455,26 +455,26 @@ class WraithPlasma : Actor
 		}
 		
 		// Flying explosions
-		for(int i = 0; i < random(20,30); i++)
+		for(int i = 0; i < random[VehpartFX](20,30); i++)
 		{
-			double spawnang = frandom(0,180);
-			double spawndist = frandom(-30, 30);
+			double spawnang = frandom[VehpartFX](0,180);
+			double spawndist = frandom[VehpartFX](-30, 30);
 			vector3 spawndir = (
 				cos(angle + spawnang),
 				sin(angle + spawnang),
 				0
 			) * spawndist;
 			
-			spawndir.z = frandom(-30,30);
+			spawndir.z = frandom[VehpartFX](-30,30);
 			let expl = Spawn("WraithPlasma_FlyingPlasma", level.vec3offset(fxpos, spawndir));
 			if(expl)
 			{
 				UpdateFXColor(expl, effectShade);
-				double velang = frandom(-180,180);
+				double velang = frandom[VehpartFX](-180,180);
 				vector3 veldir = (
 					cos(velang),
 					sin(velang),
-					sin(frandom(-45,45))
+					sin(frandom[VehpartFX](-45,45))
 				);
 				expl.vel = veldir * 15;
 				expl.Scale.X *= Scale.X;
@@ -548,7 +548,7 @@ class WraithPlasma_Explosion : FastActor
 			{		
 				A_Explode(250, 300);
 				A_StartSound("Halo/Wraith/MissileExplosion", flags:CHANF_OVERLAP, attenuation: 0.1);
-				HaloMath.SpawnFX("TankRocket_Smoke", (pos.xy, pos.z+30), angle, random(4,12), 120, 60);
+				HaloMath.SpawnFX("TankRocket_Smoke", (pos.xy, pos.z+30), angle, random[VehpartFX](4,12), 120, 60);
 				Spawn("FX_Shockwave", pos);
 				let sparks = Spawn("ImpactSparks", pos);
 				if(sparks)
@@ -585,7 +585,7 @@ class WraithPlasma_FlyingPlasma : FastActor
 	override void BeginPlay()
 	{	
 		super.BeginPlay();	
-		A_SetScale(frandom(default.scale.x * 0.15, default.scale.x * 0.50));
+		A_SetScale(frandom[VehpartFX](default.scale.x * 0.15, default.scale.x * 0.50));
 	}
 	
 	override void Tick()
