@@ -376,6 +376,11 @@ class PowerJetpack : HaloPowerup
 			jetpack.angle = haloplr.angle;
 			jetpack.pitch = haloplr.pitch - 90;
 			jetpack.roll = haloplr.roll;
+			jetpack.bONLYVISIBLEINMIRRORS = ( 
+				players[consoleplayer].mo == haloplr  && 
+				haloplr.player.camera == haloplr      && 
+			  !(haloplr.player.cheats & CF_CHASECAM) 
+			); 
 		}
 		else
 		{	
