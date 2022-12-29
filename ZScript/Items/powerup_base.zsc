@@ -631,3 +631,4 @@ class HaloVisorHighlight : CheapActor
 		stop;
 	}
 }
+

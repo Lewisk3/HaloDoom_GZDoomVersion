@@ -249,3 +249,13 @@ Model FX_InverseShockWave
 	FrameIndex SWVE A 0 0
 }
 
+Model I_Frozen
+{
+	Model 0 "Models/Equipment/Ice/Ice.obj"
+	Skin 0 "Models/Equipment/Ice/tex_rust.jpeg"
+	Scale 30.0 30.0 30.0
+	ZOffset 20;
+	// DONTCULLBACKFACES
+	
+	FrameIndex MODL A 0 0
+}

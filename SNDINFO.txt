@@ -129,6 +129,21 @@ Halo/Powerup/Jetpack/Loop "Sounds/Items/Jetpack/Jetpack_loop.ogg"
 Halo/Powerup/Jetpack/Off  "Sounds/Items/Jetpack/Jetpack_off.ogg"
 $random Halo/Powerup/Jetpack/Burst { JETBURST1 JETBURST2 JETBURST3 }
 
+CRYOFIRE1 "Sounds/Items/Icebeam/Icebeam_Fire_Start1.ogg"
+CRYOFIRE2 "Sounds/Items/Icebeam/Icebeam_Fire_Start2.ogg"
+CRYOFIRE3 "Sounds/Items/Icebeam/Icebeam_Fire_Start3.ogg" 
+CRYOFREEZE1 "Sounds/Items/Icebeam/NME_Frozen1.ogg" 
+CRYOFREEZE2 "Sounds/Items/Icebeam/NME_Frozen2.ogg" 
+CRYOFREEZE3 "Sounds/Items/Icebeam/NME_Frozen3.ogg" 
+
+Halo/Powerup/CryoCannon/Alert "Sounds/Items/Icebeam/Icebeam_Alert.ogg" 
+Halo/Powerup/CryoCannon/FireLoop "Sounds/Items/Icebeam/Icebeam_Fire_Loop.ogg"
+Halo/Powerup/CryoCannon/FireTail "Sounds/Items/Icebeam/Icebeam_Fire_Tail.ogg"
+$random Halo/Powerup/CryoCannon/Fire { CRYOFIRE1 CRYOFIRE2 CRYOFIRE3 }
+$random Halo/Powerup/CryoCannon/Freeze { CRYOFREEZE1 CRYOFREEZE2 CRYOFREEZE3 }
+
+
+
 // Melee
 Halo/Melee/Punch1 "Sounds/Melee/PunchHit1.ogg"
 Halo/Melee/Punch2 "Sounds/Melee/PunchHit2.ogg"

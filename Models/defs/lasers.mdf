@@ -7,6 +7,23 @@ Model LSR_CarbineTrail
 	FrameIndex MODL A 0 0
 } 
 
+Model FreezerLaserBeam
+{
+	Model 0 "Models/Lasers/lazer.md3"
+	Skin 0 "Models/Lasers/lazer.png"
+	USEACTORPITCH
+	
+	FrameIndex MODL A 0 0
+} 
+Model FreezerLaserBeam_Core
+{
+	Model 0 "Models/Lasers/lazer.md3"
+	Skin 0 "Models/Lasers/lazer.png"
+	USEACTORPITCH
+	
+	FrameIndex MODL A 0 0
+} 
+
 Model LSR_WeldingBeam
 {
 	Model 0 "Models/Lasers/lazer.md3"

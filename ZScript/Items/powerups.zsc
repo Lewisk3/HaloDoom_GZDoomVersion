@@ -571,3 +571,47 @@ class HaloPower_Visor : HaloPower_Haste replaces Infrared
 		stop;
 	}
 }
+
+
+class HaloPower_Icebeam : HaloPower_Haste replaces Infrared
+{
+	Default
+	{
+		+BRIGHT;
+		-NOGRAVITY;
+		Scale 0.05;
+		Height 24;
+		Powerup.Duration 0x7FFFFFFD;
+		Powerup.Type "PowerFreezerBeam";
+		
+		Tag "Cryo Cannon";
+		Inventory.PickupMessage "Picked up the Cryo Cannon";
+		Inventory.PickupSound "Halo/Powerup/Visor";
+		-HaloPowerGiver.FXHOVER;
+		+HaloPowerGiver.USETOPICKUP;
+		// +HaloPowerGiver.BACKPACKSPAWN;
+	}
+		
+	override void OnPickup(Actor other) 
+	{
+		A_StopSound(CHAN_BODY);
+	}
+	
+	override void VisualFX()
+	{
+		// bobz = sin(level.maptime*4) * 3;
+		// HaloPowerup.DoParticles(self, pcol:"Red", amt: 3, zoffset:0);	
+		
+		double blink = (0.5 * sin(level.maptime*15)) + 0.5;
+		if(blink >= 1.0) bBRIGHT = !bBRIGHT;
+		
+		A_StartSound("Halo/Powerup/CryoCannon/Alert", CHAN_BODY, CHANF_LOOPING, volume:0.35);
+	}
+	
+	States
+	{
+		Spawn:
+			PWCU A -1; // NoDelay A_SpriteOffset(0,30);
+		stop;
+	}
+}

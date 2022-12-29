@@ -93,6 +93,7 @@ version "4.5"
 #include "ZScript/Weapons/flamethrower.zsc"
 #include "ZScript/Weapons/plasmacaster.zsc"
 #include "ZScript/Weapons/hydra.zsc"
+#include "ZScript/Items/freezerbeam.zsc"
 
 // Vehicles
 #include "ZScript/Vehicles/Kinematics/kine_parts.zsc" 

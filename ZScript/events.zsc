@@ -186,6 +186,11 @@ class HaloDoom_Events : EventHandler
 		{			
 			if(e.Name ~== "+weaponInfo") haloplr.drawWeaponInfo = true;
 			if(e.Name ~== "-weaponInfo") haloplr.drawWeaponInfo = false;
+			if(e.Name ~== "+icebeam")
+			{
+				let frzbeam = PowerFreezerBeam(haloplr.FindInventory("PowerFreezerBeam"));
+				if(frzbeam) frzbeam.tryfire = true;
+			}
 		
 			if(e.Name ~== "haveashield")
 			{
