@@ -139,10 +139,14 @@ CRYOFREEZE3 "Sounds/Items/Icebeam/NME_Frozen3.ogg"
 Halo/Powerup/CryoCannon/Alert "Sounds/Items/Icebeam/Icebeam_Alert.ogg" 
 Halo/Powerup/CryoCannon/FireLoop "Sounds/Items/Icebeam/Icebeam_Fire_Loop.ogg"
 Halo/Powerup/CryoCannon/FireTail "Sounds/Items/Icebeam/Icebeam_Fire_Tail.ogg"
+Halo/Powerup/CryoCannon/Overheat "Sounds/Items/Icebeam/Icebeam_Overheat.ogg"
 $random Halo/Powerup/CryoCannon/Fire { CRYOFIRE1 CRYOFIRE2 CRYOFIRE3 }
 $random Halo/Powerup/CryoCannon/Freeze { CRYOFREEZE1 CRYOFREEZE2 CRYOFREEZE3 }
 
-
+ICEEXPLODE1 "Sounds/Items/Icebeam/Icecube/Ice_XPL1.ogg"
+ICEEXPLODE2 "Sounds/Items/Icebeam/Icecube/Ice_XPL2.ogg"
+ICEEXPLODE3 "Sounds/Items/Icebeam/Icecube/Ice_XPL3.ogg"
+$random Halo/Icecube/Explode { ICEEXPLODE1 ICEEXPLODE2 ICEEXPLODE3 }
 
 // Melee
 Halo/Melee/Punch1 "Sounds/Melee/PunchHit1.ogg"

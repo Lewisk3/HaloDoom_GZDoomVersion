@@ -61,11 +61,11 @@ class HaloShieldCharge : Inventory
 	
 	static const double skillMod[] =
 	{
-		1.0, // Easy
-		0.8, // Normal
-		0.5, // Heroic
-		0.3, // Legendary
-		0.1  // Mythic
+		1.2, // Easy
+		1.0, // Normal
+		0.7, // Heroic
+		0.5, // Legendary
+		0.2  // Mythic
 	};
 	
 	override bool TryPickup(in out Actor toucher)
