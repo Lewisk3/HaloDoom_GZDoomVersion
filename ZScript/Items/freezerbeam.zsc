@@ -444,7 +444,6 @@ class I_Frozen : Inventory
 		}
 		
 		// Health and tracking
-		if(health <= 0) IceExplode();
 		if( (Owner.health <= 0 || Owner.bCORPSE) || thawed )
 		{
 			Owner.tics = 1;
@@ -468,7 +467,11 @@ class I_Frozen : Inventory
 		
 		XDeath:
 		Death:
-		goto Held;
+			TNT1 A 1 
+			{
+				IceExplode();
+			}
+		wait;
 	}
 }
 
