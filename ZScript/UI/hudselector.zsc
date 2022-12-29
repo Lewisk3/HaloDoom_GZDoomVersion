@@ -35,7 +35,7 @@ class OptionMenuItemHaloHUDSelector : OptionMenuItem
 		drawLabel(indent, y, selected? OptionMenuSettings.mFontColorSelection : OptionMenuSettings.mFontColor, isGrayed());
 		
 		// Get selection here
-		uint sel = GetSelection();
+		int sel = GetSelection();
 		if(sel >= hudTypes.Size()) 
 		{
 			SetSelection(0);
@@ -54,7 +54,7 @@ class OptionMenuItemHaloHUDSelector : OptionMenuItem
 		int cnt = hudTypes.Size();
 		if (cnt > 0 && !isGrayed())
 		{
-			uint sel = GetSelection();
+			int sel = GetSelection();
 			if (mkey == Menu.MKEY_Left)
 			{
 				if (sel == -1) sel = 0;

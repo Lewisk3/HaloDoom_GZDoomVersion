@@ -121,7 +121,7 @@ class Halo_OverlayUI : EventHandler
 				
 		if(args[0] == "hitmark")
 		{
-			uint plrnum = e.Args[0];
+			int plrnum = e.Args[0];
 			// Saftey check.
 			if(ui_hitmarkers.Size() < plrnum) return;
 			

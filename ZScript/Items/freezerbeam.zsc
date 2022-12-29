@@ -23,6 +23,11 @@ class PowerFreezerBeam : HaloPowerup
 		+INVENTORY.PERSISTENTPOWER;
 	}
 	
+	override void HUDDraw(HaloHUD hudbase, double dt)
+	{
+	
+	}
+	
 	action void A_InitOverlay()
 	{
 		A_OverlayFlags(OverlayID(), PSPF_ADDWEAPON, false);
@@ -112,10 +117,6 @@ class PowerFreezerBeam : HaloPowerup
 			invoker.freezerLaser.SetEnabled(false);
 			invoker.freezerLaser.StopTracking();
 		}
-	}
-
-	override void HUDDraw(HaloHUD hudbase, double dt)
-	{
 	}
 		
 	override void DoEffect()

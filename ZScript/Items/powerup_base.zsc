@@ -309,43 +309,24 @@ class PowerJetpack : HaloPowerup
 		if(graphicFuel >= 0.8 || graphicFuel <= 0.1) graphicFuel = fuel;
 		
 		double perc = graphicFuel;
-		let pxl = TexMan.CheckForTexture("BLANK", TexMan.Type_Any);
-		
-		vector2 circlePos = hudbase.powerupPos;
-		double radius = 40 * hudbase.powerupScale;
-		double points = 360;
-		double circleAlpha = 0.35;
-		
-		double angfrac = 360/points;
-		double pointPerc = points*perc;
-		
+		double radius = 40 * hudbase.powerupScale; 
 		Color circleColor = 0xFF63E3DF;
 		if(coolingdown) circleColor = 0xFFE03B3B;
 		
-		// Initialize Circle 
-		Shape2D circle = new("Shape2D");
-		circle.PushCoord((0,0)); // Middle
-		double startPoint = points - pointPerc;
+		let pxl = TexMan.CheckForTexture("BLANK", TexMan.Type_Any);
 		
-		// Push coordinates and polygons
-		for(double i = startPoint; i <= points; i++) circle.PushCoord((cos(angfrac*i),sin(angfrac*i)));
-		for(double i = 1; i <= pointPerc; i++) circle.PushTriangle(i,i+1,0);
+		HLSBS.DrawPartialCircle(
+			hudbase.powerupPos, radius, circleColor ,
+			fillpercent:perc, alpha:0.35
+		);
 		
-		// Vertices
-		vector2 circleRes = ( Screen.getWidth() / HLSBS.getBaseWidth(), Screen.getHeight() / HLSBS.getBaseHeight() );
-		vector2 adjustedPos = (circlePos.x * circleRes.x, circlePos.y * circleRes.y);
-		circle.Clear(Shape2D.C_Verts);
-		circle.PushVertex((adjustedPos.x,adjustedPos.y)); // Middle
-		for(double i = 0; i <= pointPerc; i++) 
-			circle.PushVertex((adjustedPos.x+cos(angfrac*i)*radius*circleRes.x,adjustedPos.y+sin(angfrac*i)*radius*circleRes.y));
-		
-		let icon = TexMan.CheckForTexture("Graphics/UI/Abilities/JetpackIcon2.png");
+		String graphic = "Graphics/UI/Abilities/JetpackIcon2.png";
+		let icon = TexMan.CheckForTexture(graphic);
 		vector2 iconSize;
 		[iconSize.x, iconSize.y] = TexMan.getSize(icon);
 		vector2 iconScale = ((radius*2) / iconSize.x, (radius*2) / iconSize.y);
 		
-		HLSBS.DrawShape(pxl, circle, alpha:circleAlpha, tint:circleColor);
-		HLSBS.DrawImage("Graphics/UI/Abilities/JetpackIcon2.png", circlePos, alpha:1.0, scale:iconScale, texoffs:(1,1));
+		HLSBS.DrawImage(graphic, hudbase.powerupPos, alpha:1.0, scale:iconScale, texoffs:(1,1));
 	}
 	
 	JetpackExhaust jetLeftExhaust;
@@ -474,7 +455,10 @@ class PowerHaloVisor : HaloPowerup
 	override void DetachFromOwner ()
 	{
 		SetEnabled(false);
-		Shader.SetEnabled(Owner.player, "visorShader", false);
+		
+		let cplr = players[consoleplayer];
+		if(Owner && Owner.player == cplr)
+			PPShader.SetEnabled("visorShader", false);
 	}
 	
 	override string SelectUIGraphic()
@@ -487,13 +471,13 @@ class PowerHaloVisor : HaloPowerup
 		curLight = HaloMath.Lerp(curLight, Owner.CurSector.lightlevel, 0.06 * dt);
 		if(enabled)
 		{
-			Shader.SetEnabled(Owner.player, "visorShader", true);
-			Shader.SetUniform1f(Owner.player, "visorShader", "timer", gametic);
-			Shader.SetUniform1f(Owner.player, "visorShader", "curSectorLight", curLight);
+			PPShader.SetEnabled("visorShader", true);
+			PPShader.SetUniform1f("visorShader", "timer", gametic);
+			PPShader.SetUniform1f("visorShader", "curSectorLight", curLight);
 		}
 		else
 		{
-			Shader.SetEnabled(Owner.player, "visorShader", false);
+			PPShader.SetEnabled("visorShader", false);
 		}
 	}
 	

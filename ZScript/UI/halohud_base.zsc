@@ -185,7 +185,7 @@ class HaloStatusBar : BaseStatusBar
 	bool draw_distance;
 	
 	// Message handling
-	uint msgmax;
+	int msgmax;
 	double msgfade;
 	Array<HaloMessage> messages;
 	Array<class<FragGrenades> > grenadeTypes;
@@ -331,7 +331,7 @@ class HaloStatusBar : BaseStatusBar
 		
 	void PushMessage(HaloMessage halomsg, double spacing = 30)
 	{
-		uint count = messages.Size()-1;
+		int count = messages.Size()-1;
 		if(count >= msgmax) 
 		{
 			messages.Delete(0);
@@ -339,9 +339,11 @@ class HaloStatusBar : BaseStatusBar
 		}
 		
 		// Push other messages down
-		for(int i = 0; i <= count; i++)
-			messages[i].desired_pos.y += spacing;
-			
+		if(messages.Size() > 0)
+		{
+			for(int i = 0; i <= count; i++)
+				messages[i].desired_pos.y += spacing;
+		}	
 		messages.Push(halomsg);
 	}
 	

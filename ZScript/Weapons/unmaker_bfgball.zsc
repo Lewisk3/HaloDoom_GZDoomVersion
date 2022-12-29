@@ -81,7 +81,7 @@ class UnmakerBall : HaloSlowProjectile
 			vector2 view = (0, 0);
 			int adjustedAmt = max(20 * halodoom_effectintensity, 0);
 			bool doFireLasers = true;
-			uint effectCount = 0;
+			int effectCount = 0;
 			
 			for(int i = 0; i < 20; i++)
 			{

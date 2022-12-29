@@ -5,7 +5,7 @@ class DamageFX_Item : Inventory abstract
 	
 	bool firstEffect;
 	double effectTime;
-	uint effectMax; // Max amount of this effect on a single actor.
+	int effectMax; // Max amount of this effect on a single actor.
 	
 	Property EffectType : effectType;
 	Property Duration : effectTime;
