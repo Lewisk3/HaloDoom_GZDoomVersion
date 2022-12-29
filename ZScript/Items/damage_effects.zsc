@@ -88,6 +88,7 @@ class DamageFX_Item : Inventory abstract
 	override void DoEffect()
 	{
 		super.DoEffect();
+		if(!Owner) return;
 		
 		// Do not process dead enemies.
 		if(Owner.health <= 0 || (default.effectTime > 0 && effectTime-- < 0) )

@@ -3,6 +3,7 @@
 class PowerFreezerBeam : HaloPowerup
 {
 	bool tryfire;
+	bool idle;
 	ui double curLight;
 	double cooldown;
 	double heat;
@@ -14,6 +15,9 @@ class PowerFreezerBeam : HaloPowerup
 	const CHAN_FREEZER = PSP_FREEZER;
 	
 	vector2 pspOffs;
+	
+	ui double graphicHeat;
+	ui double graphicCooldown;
 
 	Default
 	{
@@ -25,7 +29,58 @@ class PowerFreezerBeam : HaloPowerup
 	
 	override void HUDDraw(HaloHUD hudbase, double dt)
 	{
-	
+		double maxCooldown = (35.0*15.0);
+		graphicCooldown = HaloMath.Lerp(graphicCooldown, cooldown / maxCooldown, 0.1 * dt);
+		graphicHeat = HaloMath.Lerp(graphicHeat, heat / 100.0, 0.1 * dt);
+		
+		if(graphicHeat >= 0.8 || graphicHeat <= 0.1) 
+			graphicHeat = heat / 100.0;
+			
+		if(graphicCooldown >= 0.99 || graphicCooldown <= 0.01) 
+			graphicCooldown = (cooldown / maxCooldown);
+		
+		vector2 drawPos = hudbase.powerupPos + ((96,0) * hudbase.powerupScale);
+		vector2 heatPos = hudbase.powerupPos + ((96+48,0) * hudbase.powerupScale);
+		double perc = graphicCooldown;
+		double radius = 40 * hudbase.powerupScale; 
+		Color circleColor = 0xFF63E3DF;
+		if(idle && cooldown > 0) circleColor = 0xFFE03B3B;
+		
+		let pxl = TexMan.CheckForTexture("BLANK", TexMan.Type_Any);
+		
+		HLSBS.DrawPartialCircle(
+			drawPos, radius, circleColor ,
+			fillpercent:perc, alpha:0.35
+		);
+		
+		String graphic = "Graphics/UI/Abilities/IcebeamIcon.png";
+		String heatFG = "Graphics/UI/Abilities/IcebeamHeat_FG.png";
+		String heatBG = "Graphics/UI/Abilities/IcebeamHeat_BG.png";
+		
+		let icon = TexMan.CheckForTexture(graphic);
+		vector2 iconSize;
+		[iconSize.x, iconSize.y] = TexMan.getSize(icon);
+		vector2 iconScale = ((radius*2) / iconSize.x, (radius*2) / iconSize.y);
+		
+		icon = TexMan.CheckForTexture(heatFG);
+		vector2 heatSize;
+		vector2 heatScale = (iconScale * 1.25);
+		[heatSize.x, heatSize.y] = TexMan.getSize(icon);
+		heatSize.x *= heatScale.x;
+		heatSize.y *= heatScale.y;
+		
+		HLSBS.DrawImage(graphic, drawPos, alpha:1.0, scale:iconScale, texoffs:(1,1));
+		HLSBS.DrawImage(heatBG,  heatPos, alpha:1.0, scale:heatScale, texoffs:(1,1));
+		
+		double heatDiff = heatSize.y * (1.0-graphicHeat);
+		HLSBS.SetClipRect(
+			heatPos.x - (heatSize.x*0.5), (heatPos.y - (heatSize.y*0.5)) + heatDiff, 
+			heatSize.x, heatSize.y - heatDiff, 
+			visual:false
+		);
+		
+		HLSBS.DrawImage(heatFG,  heatPos, alpha:1.0, scale:heatScale, texoffs:(1,1));
+		HLSBS.ClearClipRect();
 	}
 	
 	action void A_InitOverlay()
@@ -127,9 +182,8 @@ class PowerFreezerBeam : HaloPowerup
 		let haloplr = HaloPlayer(Owner);
 		if(!haloplr) return;
 		
+		cooldown = clamp(cooldown, 0, (35.0*15.0));
 		heat = clamp(heat, 0, 100);
-		
-		console.printf("C: %f, H: %f", cooldown, heat);
 		
 		let psp = Owner.player.FindPSprite(PSP_FREEZER);
 		if(psp)
@@ -162,6 +216,7 @@ class PowerFreezerBeam : HaloPowerup
 		FreezeBeam.Idle:
 			TNT1 A 1
 			{
+				invoker.idle = true;
 				let haloplr = HaloPlayer(self);
 				if(haloplr)
 				{
@@ -191,7 +246,11 @@ class PowerFreezerBeam : HaloPowerup
 		loop;
 			
 		FreezeBeam.Raise:
-			FRZB A 10 A_LerpOffset(-30,0, false);
+			FRZB A 10 
+			{
+				A_LerpOffset(-30,0, false);
+				invoker.idle = false;
+			}
 		goto FreezeBeam.Ready;
 		
 		FreezeBeam.Lower:
@@ -227,6 +286,7 @@ class PowerFreezerBeam : HaloPowerup
 					if(invoker.heat >= 100)
 					{
 						// Overheated
+						A_LaserOff();
 						A_StartSound("Halo/Powerup/CryoCannon/Overheat", CHAN_AUTO, CHANF_OVERLAP);
 						return ResolveState("FreezeBeam.Vent");
 					}
@@ -250,7 +310,6 @@ class PowerFreezerBeam : HaloPowerup
 		FreezeBeam.Vent:
 			FRZB A 2
 			{
-				A_LaserOff();
 				A_LerpOffset(0,0, false);
 			}
 			FRZB A 4 
@@ -378,9 +437,7 @@ class I_Frozen : Inventory
 		}
 		Scale.X = 0.8 * xmul;
 		Scale.Y = 1.2 * ymul;
-		
-		console.printf("%f, %f [%d", freezePerc, freezeTics, frozen);
-			
+
 		// Effects
 		if(freezePerc >= 0.5) 
 		{
