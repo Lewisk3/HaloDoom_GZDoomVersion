@@ -40,7 +40,7 @@ class PowerFreezerBeam : HaloPowerup
 			graphicCooldown = (cooldown / maxCooldown);
 		
 		vector2 drawPos = hudbase.powerupPos + ((96,0) * hudbase.powerupScale);
-		vector2 heatPos = hudbase.powerupPos + ((128,-28) * hudbase.powerupScale);
+		vector2 heatPos = hudbase.powerupPos + ((96+48,0) * hudbase.powerupScale);
 		double perc = graphicCooldown;
 		double radius = 40 * hudbase.powerupScale; 
 		Color circleColor = 0xFF63E3DF;
@@ -65,7 +65,7 @@ class PowerFreezerBeam : HaloPowerup
 		
 		icon = TexMan.CheckForTexture(heatFG);
 		vector2 heatSize;
-		vector2 heatScale = (iconScale * 1.35);
+		vector2 heatScale = (iconScale * 1.25);
 		[heatSize.x, heatSize.y] = TexMan.getSize(icon);
 		heatSize.x *= heatScale.x;
 		heatSize.y *= heatScale.y;
@@ -73,11 +73,12 @@ class PowerFreezerBeam : HaloPowerup
 		HLSBS.DrawImage(graphic, drawPos, alpha:1.0, scale:iconScale, texoffs:(1,1));
 		HLSBS.DrawImage(ring, drawPos, alpha:1.0, scale:iconScale*1.05, texoffs:(1,1));
 		
+		/*
 		int heatTics = max(1,graphicHeat*6);
 		string heatImg = "Graphics/UI/Abilities/Icebeam_Heat/IHB%d.png";
 		HLSBS.DrawImage(String.Format(heatImg,heatTics), heatPos, alpha:1.0, scale:heatScale, rotation:-90, texoffs:(1,1));
+		*/
 		
-		/*
 		HLSBS.DrawImage(heatBG,  heatPos, alpha:1.0, scale:heatScale, texoffs:(1,1));
 		double heatDiff = heatSize.y * (1.0-graphicHeat);
 		HLSBS.SetClipRect(
@@ -87,7 +88,6 @@ class PowerFreezerBeam : HaloPowerup
 		);
 		HLSBS.DrawImage(heatFG,  heatPos, alpha:1.0, scale:heatScale, texoffs:(1,1));
 		HLSBS.ClearClipRect();
-		*/
 	}
 	
 	action void A_InitOverlay()
@@ -126,14 +126,18 @@ class PowerFreezerBeam : HaloPowerup
 		invoker.pspOffs.y = toy;
 	}
 	
+	virtual void SetupPSprite(Actor src)
+	{
+		if(!src.player) return;
+		src.player.SetPSprite(PSP_FREEZER, ResolveState("InitFreezerBeam"));
+		let psp = src.player.FindPSprite(PSP_FREEZER);
+		if(psp) psp.caller = self;
+	}
+	
 	override void AttachToOwner(Actor other)
 	{
 		super.AttachToOwner(other);
-		if(!other.player) return;
-		
-		other.player.SetPSprite(PSP_FREEZER, ResolveState("InitFreezerBeam"));
-		let psp = Owner.player.FindPSprite(PSP_FREEZER);
-		if(psp) psp.caller = self;
+		SetupPSprite(other);
 	}
 	
 	
@@ -203,6 +207,10 @@ class PowerFreezerBeam : HaloPowerup
 			
 			psp.x = HaloMath.Lerp(psp.x, pspOffs.x, 0.1);
 			psp.y = HaloMath.Lerp(psp.y, pspOffs.y, 0.1);
+		}
+		else
+		{
+			SetupPSprite(Owner);
 		}
 	}
 	

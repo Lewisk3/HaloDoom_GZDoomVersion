@@ -897,10 +897,14 @@ class GameTypeInfo : Object
 	{
 		for(int w = 0; w < loadoutWeapons.Size(); w++)
 		{
-			let weap = (class<Weapon>)(loadoutWeapons[w]);
+			// Was class<Weapon> but, that makes things less interesting.
+			// Now any inventory item can be put in the StartWeapons field.
+			let weap = (class<Inventory>)(loadoutWeapons[w]);
 			if(!weap) continue;
 			
 			to.GiveInventory(weap, 1);
+			let itm = to.FindInventory(weap);
+			if( itm is "Powerup" ) itm.AttachToOwner(to);
 		}
 		
 		for(int a = 0; a < loadoutAmmo.Size(); a++)

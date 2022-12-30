@@ -605,7 +605,7 @@ class HaloPower_Icebeam : HaloPower_Haste replaces Infrared
 		double blink = (0.5 * sin(level.maptime*15)) + 0.5;
 		if(blink >= 1.0) bBRIGHT = !bBRIGHT;
 		
-		A_StartSound("Halo/Powerup/CryoCannon/Alert", CHAN_BODY, CHANF_LOOPING, volume:0.35);
+		A_StartSound("Halo/Powerup/CryoCannon/Alert", CHAN_BODY, CHANF_LOOPING, volume:0.1);
 	}
 	
 	States
