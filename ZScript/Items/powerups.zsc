@@ -589,7 +589,7 @@ class HaloPower_Icebeam : HaloPower_Haste replaces Infrared
 		Inventory.PickupSound "Halo/Powerup/Visor";
 		-HaloPowerGiver.FXHOVER;
 		+HaloPowerGiver.USETOPICKUP;
-		// +HaloPowerGiver.BACKPACKSPAWN;
+		+HaloPowerGiver.BACKPACKSPAWN;
 	}
 		
 	override void OnPickup(Actor other) 

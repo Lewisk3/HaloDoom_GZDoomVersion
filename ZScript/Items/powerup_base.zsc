@@ -321,12 +321,14 @@ class PowerJetpack : HaloPowerup
 		);
 		
 		String graphic = "Graphics/UI/Abilities/JetpackIcon2.png";
+		string ring = "Graphics/UI/Abilities/JetpackRing.png";
 		let icon = TexMan.CheckForTexture(graphic);
 		vector2 iconSize;
 		[iconSize.x, iconSize.y] = TexMan.getSize(icon);
 		vector2 iconScale = ((radius*2) / iconSize.x, (radius*2) / iconSize.y);
 		
 		HLSBS.DrawImage(graphic, hudbase.powerupPos, alpha:1.0, scale:iconScale, texoffs:(1,1));
+		HLSBS.DrawImage(ring, hudbase.powerupPos, alpha:1.0, scale:iconScale*1.05, texoffs:(1,1));
 	}
 	
 	JetpackExhaust jetLeftExhaust;

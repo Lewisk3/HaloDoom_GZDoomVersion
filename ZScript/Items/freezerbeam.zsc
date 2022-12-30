@@ -40,7 +40,7 @@ class PowerFreezerBeam : HaloPowerup
 			graphicCooldown = (cooldown / maxCooldown);
 		
 		vector2 drawPos = hudbase.powerupPos + ((96,0) * hudbase.powerupScale);
-		vector2 heatPos = hudbase.powerupPos + ((96+48,0) * hudbase.powerupScale);
+		vector2 heatPos = hudbase.powerupPos + ((128,-28) * hudbase.powerupScale);
 		double perc = graphicCooldown;
 		double radius = 40 * hudbase.powerupScale; 
 		Color circleColor = 0xFF63E3DF;
@@ -54,8 +54,9 @@ class PowerFreezerBeam : HaloPowerup
 		);
 		
 		String graphic = "Graphics/UI/Abilities/IcebeamIcon.png";
-		String heatFG = "Graphics/UI/Abilities/IcebeamHeat_FG.png";
-		String heatBG = "Graphics/UI/Abilities/IcebeamHeat_BG.png";
+		string ring    = "Graphics/UI/Abilities/JetpackRing.png";
+		String heatFG  = "Graphics/UI/Abilities/IcebeamHeat_FG.png";
+		String heatBG  = "Graphics/UI/Abilities/IcebeamHeat_BG.png";
 		
 		let icon = TexMan.CheckForTexture(graphic);
 		vector2 iconSize;
@@ -64,23 +65,29 @@ class PowerFreezerBeam : HaloPowerup
 		
 		icon = TexMan.CheckForTexture(heatFG);
 		vector2 heatSize;
-		vector2 heatScale = (iconScale * 1.25);
+		vector2 heatScale = (iconScale * 1.35);
 		[heatSize.x, heatSize.y] = TexMan.getSize(icon);
 		heatSize.x *= heatScale.x;
 		heatSize.y *= heatScale.y;
 		
 		HLSBS.DrawImage(graphic, drawPos, alpha:1.0, scale:iconScale, texoffs:(1,1));
-		HLSBS.DrawImage(heatBG,  heatPos, alpha:1.0, scale:heatScale, texoffs:(1,1));
+		HLSBS.DrawImage(ring, drawPos, alpha:1.0, scale:iconScale*1.05, texoffs:(1,1));
 		
+		int heatTics = max(1,graphicHeat*6);
+		string heatImg = "Graphics/UI/Abilities/Icebeam_Heat/IHB%d.png";
+		HLSBS.DrawImage(String.Format(heatImg,heatTics), heatPos, alpha:1.0, scale:heatScale, rotation:-90, texoffs:(1,1));
+		
+		/*
+		HLSBS.DrawImage(heatBG,  heatPos, alpha:1.0, scale:heatScale, texoffs:(1,1));
 		double heatDiff = heatSize.y * (1.0-graphicHeat);
 		HLSBS.SetClipRect(
 			heatPos.x - (heatSize.x*0.5), (heatPos.y - (heatSize.y*0.5)) + heatDiff, 
 			heatSize.x, heatSize.y - heatDiff, 
 			visual:false
 		);
-		
 		HLSBS.DrawImage(heatFG,  heatPos, alpha:1.0, scale:heatScale, texoffs:(1,1));
 		HLSBS.ClearClipRect();
+		*/
 	}
 	
 	action void A_InitOverlay()

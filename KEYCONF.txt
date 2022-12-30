@@ -11,7 +11,7 @@ addmenukey "Cycle Grenade" "NextGrenade"
 addmenukey "Toggle Flashlight" "ToggleFlashlight"
 
 AddMenuKey "Display Weapon Info" +weaponInfo
-AddMenuKey "Fire Freeze Cannon" +icebeam
+AddMenuKey "Fire Cryo Cannon" +icebeam
 Alias +weaponInfo "netevent +weaponInfo"
 Alias -weaponInfo "netevent -weaponInfo"
 Alias +icebeam "netevent +icebeam"
