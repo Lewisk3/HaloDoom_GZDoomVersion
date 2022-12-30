@@ -551,8 +551,8 @@ class HaloPlayer : DoomPlayer
 			HALO O 5;
 			HALO P 5 A_XScream;
 			HALO Q 5 A_NoBlocking;
-			HALO RSTUV 5;
-			HALO W -1;
+			HALO RSTU 5;
+			HALO V -1;
 			Stop;
 			
 		GunLightning:

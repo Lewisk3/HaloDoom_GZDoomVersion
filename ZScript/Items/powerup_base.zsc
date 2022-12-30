@@ -355,7 +355,7 @@ class PowerJetpack : HaloPowerup
 		if(haloplr.health > 0)
 		{
 			if(!jetpack) jetpack = JetpackIcon(Spawn("JetpackIcon", pos));
-			jetpack.SetOrigin(level.vec3offset(plrPos, dir * (-10, -4, -17)), true);
+			jetpack.SetOrigin(level.vec3offset(plrPos, dir * (-10, 0, -17)), true);
 			jetpack.angle = haloplr.angle;
 			jetpack.pitch = haloplr.pitch - 90;
 			jetpack.roll = haloplr.roll;
@@ -375,8 +375,8 @@ class PowerJetpack : HaloPowerup
 			
 		if(haloplr.jumpHeld > 10 && haloplr.health > 0)
 		{
-			vector3 leftPos  = (-10,-5 + -10,-10);
-			vector3 rightPos = (-10,-5 +  10,-10);
+			vector3 leftPos  = (-10, -10,-10);
+			vector3 rightPos = (-10,  10,-10);
 
 			if(!jetLeftExhaust)
 				jetLeftExhaust = JetpackExhaust(Spawn("JetpackExhaust",pos));
