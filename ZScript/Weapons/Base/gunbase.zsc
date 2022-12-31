@@ -255,9 +255,9 @@ class HaloGun : RecoilWeapon
 		return (skipWalls && !lt.hitActor) ? maxrange : lt.Distance;
 	}
 		
-	action void DoSpriteLightning(double amt, double boltAngle, vector2 startPos, vector2 xy_spread = (20,20), double boltlen = 100, double stepsize = 1.0, double size = 1.0, double roughness = 10, uint layerStart = -200)
+	action void DoSpriteLightning(double amt, double boltAngle, vector2 startPos, vector2 xy_spread = (20,20), double boltlen = 100, double stepsize = 1.0, double size = 1.0, double roughness = 10, int layerStart = -600)
 	{
-		uint curLayer = layerStart;
+		int curLayer = layerStart;
 		double boltSize = 0.5;
 		double curAngle = boltAngle;
 		vector2 curPos = startPos;
@@ -280,9 +280,10 @@ class HaloGun : RecoilWeapon
 				curPos += dir;
 				
 				player.setPSprite(curLayer, ResolveState("SetupGunLightning"));
-				PSprite curBiri = player.GetPSprite(curLayer);
+				PSprite curBiri = player.FindPSprite(curLayer);
 				if(curBiri)
 				{
+					curBiri.caller = invoker;
 					curBiri.x = curPos.x;
 					curBiri.y = curPos.y;
 					curBiri.bPivotPercent = true;
@@ -574,13 +575,13 @@ class HaloGun : RecoilWeapon
 		
 	action void A_FollowRotation(int DEST_LAYER, int SRC_LAYER, double mul = 1.0)
 	{
-		let src_psp = player.GetPSprite(SRC_LAYER);
+		let src_psp = player.FindPSprite(SRC_LAYER);
 		A_OverlayPivotAlign(DEST_LAYER, PSPA_CENTER, PSPA_CENTER);
 		A_OverlayRotate(DEST_LAYER, src_psp.rotation*mul);
 	}
 	action void A_FollowRotatedPos(int DEST_LAYER, int SRC_LAYER, vector2 max, double mul = 1.0, vector2 offs = (0,0))
 	{
-		let src_psp = player.GetPSprite(SRC_LAYER);
+		let src_psp = player.FindPSprite(SRC_LAYER);
 		vector2 rvec = (cos(src_psp.rotation+90)*max.x, sin(src_psp.rotation)*max.y) * mul;
 		if(!invoker.handsbusy) rvec.y -= invoker.staticoffs.y;
 		bool hidezoom = invoker.scopezoom >= 2.0 && invoker.zoomed;
@@ -588,7 +589,7 @@ class HaloGun : RecoilWeapon
 		A_OverlayOffset(DEST_LAYER, rvec.x + offs.x, rvec.y + offs.y + (hidezoom ? 0x7FFFFF : 0));
 		
 		// Scale
-		let dst_psp = player.GetPSprite(DEST_LAYER);
+		let dst_psp = player.FindPSprite(DEST_LAYER);
 		if(dst_psp && src_psp) dst_psp.scale = src_psp.scale; 
 	}
 	
@@ -611,26 +612,26 @@ class HaloGun : RecoilWeapon
 	{
 		let spr = GetSpriteIndex(spr);
 		if(!player) return;
-		let psp = player.GetPSprite(layer);
+		let psp = player.FindPSprite(layer);
 		if(psp) psp.Sprite = spr;
 	}
 	
 	action void A_SetFrameTics(int tics, uint layer = PSP_WEAPON)
 	{
 		if(!player) return;
-		let psp = player.GetPSprite(layer);
+		let psp = player.FindPSprite(layer);
 		if(psp) psp.Tics = tics;
 	}
 	action int A_GetFrame(uint layer = PSP_WEAPON)
 	{
 		if(!player) return 0;
-		let psp = player.GetPSprite(layer);
+		let psp = player.FindPSprite(layer);
 		return psp ? psp.Frame : 0;
 	}
 	action void A_SetFrame(int frm, uint layer = PSP_WEAPON)
 	{
 		if(!player) return;
-		let psp = player.GetPSprite(layer);
+		let psp = player.FindPSprite(layer);
 		if(psp) psp.Frame = frm;
 	}
 	
@@ -666,11 +667,11 @@ class HaloGun : RecoilWeapon
 	
 	bool CallMeleeState(StateLabel stateName, bool force = false)
 	{
-		let psp  = Owner.player.GetPSprite(PSP_WEAPON);
-		let meleepsp = Owner.player.GetPSprite(MELEE_OVERLAY);
+		let psp  = Owner.player.FindPSprite(PSP_WEAPON);
+		let meleepsp = Owner.player.FindPSprite(MELEE_OVERLAY);
 		bool inreload = psp && InStateSequence(psp.CurState,FindState("Reload"));
 		
-		if(meleepsp.CurState == NULL || force)
+		if(!meleepsp || meleepsp.CurState == NULL || force)
 		{
 			Owner.A_StopSound(CHAN_RELOADING);
 			Owner.player.SetPSprite(MELEE_OVERLAY, FindState(stateName));
@@ -682,10 +683,10 @@ class HaloGun : RecoilWeapon
 	
 	bool CallKickState(StateLabel stateName, bool force = false)
 	{
-		let psp  = Owner.player.GetPSprite(PSP_WEAPON);
-		let footpsp = Owner.player.GetPSprite(FEET_OVERLAY);
+		let psp  = Owner.player.FindPSprite(PSP_WEAPON);
+		let footpsp = Owner.player.FindPSprite(FEET_OVERLAY);
 
-		if(footpsp.CurState == NULL || force)
+		if(!footpsp || footpsp.CurState == NULL || force)
 		{
 			Owner.player.SetPSprite(FEET_OVERLAY, ResolveState(stateName));
 			return true;
@@ -695,13 +696,13 @@ class HaloGun : RecoilWeapon
 	
 	bool CheckMeleeState(StateLabel stateName)
 	{
-		let meleepsp = Owner.player.GetPSprite(MELEE_OVERLAY);
+		let meleepsp = Owner.player.FindPSprite(MELEE_OVERLAY);
 		return meleepsp && InStateSequence(meleepsp.CurState, ResolveState(stateName));
 	}
 	
 	bool CheckKickState(StateLabel stateName)
 	{
-		let footpsp = Owner.player.GetPSprite(FEET_OVERLAY);
+		let footpsp = Owner.player.FindPSprite(FEET_OVERLAY);
 		return footpsp && InStateSequence(footpsp.CurState, ResolveState(stateName));
 	}
 	
@@ -760,7 +761,7 @@ class HaloGun : RecoilWeapon
 		// Get useful data
 		uint btns = Owner.player.cmd.buttons;
 		uint oldbtns = Owner.player.oldbuttons;
-		let psp  = Owner.player.GetPSprite(PSP_WEAPON);
+		let psp = Owner.player.FindPSprite(PSP_WEAPON);
 		bool inreload = psp && InStateSequence(psp.CurState,ResolveState("Reload"));
 		
 		// WeapSound features
@@ -858,7 +859,7 @@ class HaloGun : RecoilWeapon
 	
 	virtual void DoActionButtons()
 	{
-		let psp  = Owner.player.GetPSprite(PSP_WEAPON);
+		let psp  = Owner.player.FindPSprite(PSP_WEAPON);
 		bool inreload = psp && InStateSequence(psp.CurState,FindState("Reload"));
 	
 		// Process weapon switch
@@ -883,10 +884,10 @@ class HaloGun : RecoilWeapon
 		
 		// Melee attack
 		FLineTraceData meleeLT;
-		let meleepsp = Owner.player.GetPSprite(MELEE_OVERLAY);
+		let meleepsp = Owner.player.FindPSprite(MELEE_OVERLAY);
 		bool meleeReady = Owner.player.onground && !inreload && (!handsbusy || CheckMeleeState("GrappleWait"));
 		bool barrelKick = GetMeleeVictim(Owner, meleeLT, 70) is "ExplosiveCoil" || !!I_HoldingCoil.GetHoldingCoil(Owner);
-		bool inmelee = meleepsp.CurState != NULL;
+		bool inmelee = meleepsp && meleepsp.CurState != NULL;
 
 		if( A_ButtonStatus(BT_USER2, BTS_PRESSED, Owner) && plr.CheckCanMelee() )
 		{
@@ -1078,7 +1079,7 @@ class HaloGun : RecoilWeapon
 	}
 	action void A_ScopeON(bool usePerspective = true)
 	{
-		let psp = player.GetPSprite(PSP_WEAPON);
+		let psp = player.FindPSprite(PSP_WEAPON);
 		if(psp && usePerspective) 
 		{
 			// Min scale, should be around 3x
@@ -1095,7 +1096,7 @@ class HaloGun : RecoilWeapon
 	}
 	action void A_ScopeOFF()
 	{
-		let psp = player.GetPSprite(PSP_WEAPON);
+		let psp = player.FindPSprite(PSP_WEAPON);
 		if(psp) psp.scale = (1.,1.);
 		invoker.staticoffs = (0,0);
 		invoker.zoomed = false;
@@ -1505,7 +1506,7 @@ class HaloGun : RecoilWeapon
 		DoGunLightning:
 			"####" "#" 1
 			{
-				let curPSprite = player.GetPSprite(OverlayID());
+				let curPSprite = player.FindPSprite(OverlayID());
 				curPSprite.alpha *= 0.25;
 				
 				if(curPSprite.alpha <= 0.01) 

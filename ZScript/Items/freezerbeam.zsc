@@ -202,6 +202,7 @@ class PowerFreezerBeam : HaloPowerup
 			if(InStateSequence(ResolveState("FreezeBeam.Fire"), psp.CurState) && tryfire) 
 			{
 				// Cancel firing
+				tryfire = false;
 				psp.SetState(ResolveState("FreezeBeam.StopFire"));
 			}
 			
@@ -248,7 +249,7 @@ class PowerFreezerBeam : HaloPowerup
 						else
 						{
 							let frz = I_Frozen(haloplr.aimActor.FindInventory("I_Frozen"));
-							if( (frz && frz.frozen) || !haloplr.aimActor.bSHOOTABLE || (haloplr.aimActor is "I_Frozen") )
+							if( (frz && frz.frozen && !frz.thawing) || !haloplr.aimActor.bSHOOTABLE || (haloplr.aimActor is "I_Frozen") )
 								return ResolveState(null);
 						}
 						
@@ -306,7 +307,7 @@ class PowerFreezerBeam : HaloPowerup
 						return ResolveState("FreezeBeam.Vent");
 					}
 						
-					if(frz && frz.frozen)
+					if(frz && frz.frozen && !frz.thawing)
 						return ResolveState("FreezeBeam.StopFire");
 				}
 				else
@@ -361,6 +362,7 @@ class I_Frozen : Inventory
 	double freezePerc;
 	double frozenTics;
 	bool frozen;
+	bool thawing;
 
 	Default
 	{
@@ -480,11 +482,17 @@ class I_Frozen : Inventory
 		// Thawing
 		if( freezeTics > 0 && (!frozen || frozenTics > (35*10)) ) 
 		{
+			thawing = true;
 			freezeTics -= 0.5; // Slowly thaw out.
 			if(freezeTics <= 1) freezeTics = -1;
 			
 			if(frozen && freezeTics <= 10) frozen = false;
 		}
+		else if(frozen)
+		{
+			thawing = false;
+		}
+		
 		bool thawed = (freezeTics < 0 && freezePerc <= 0.001);
 		
 		// Owner properties
@@ -518,7 +526,8 @@ class I_Frozen : Inventory
 		
 		// Health and tracking
 		if( (Owner.health <= 0 || Owner.bCORPSE) || thawed )
-		{
+		{ 
+			if(Owner.health <= 0) IceExplode();
 			Owner.tics = 1;
 			Owner.bFLOAT = Owner.default.bFLOAT;
 			
@@ -613,9 +622,14 @@ class FreezerLaserBeam : LaserBeam
 			trackingActor.GiveInventory("I_Frozen", 1);
 			frz = I_Frozen(trackingActor.FindInventory("I_Frozen"));
 		}
-		if(!frz || frz.frozen) return;
+		if( !frz || (frz.frozen && !frz.thawing) ) return;
 	
 		frz.freezeTics+=8;
+		if(frz.thawing)
+		{
+			frz.frozen = false;
+			frz.thawing = false;
+		}
 		if(!(frz.freezeTics%40)) 
 			trackingActor.TriggerPainChance(damageType, true);
 		
