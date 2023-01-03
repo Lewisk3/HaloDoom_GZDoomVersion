@@ -26,6 +26,35 @@ class HaloDoom_Events : EventHandler
 		runningLZDoom = !!CVar.GetCVar("vid_displaybits");
 	}
 	
+	override void PlayerSpawned(PlayerEvent e)
+	{
+		if(halodoom_allpoweredup) GivePlayerPowerups(e.PlayerNumber);
+	}
+	override void PlayerRespawned(PlayerEvent e)
+	{
+		if(halodoom_allpoweredup) GivePlayerPowerups(e.PlayerNumber);
+	}
+	
+	void GivePlayerPowerups(int pnum)
+	{
+		let plr = players[pnum];
+		if(plr && plr.mo)
+		{
+			for(int i = 0; i < AllActorClasses.Size(); i++)
+			{
+				let classtype = AllActorClasses[i];
+				if(classtype is "HaloPowerGiver" && classtype != "HaloPowerGiver") 
+				{
+					let power = (class<HaloPowerGiver>)(classtype);
+					let defs = GetDefaultByType(power);
+					if(!defs.bUPGRADEPOWER) continue;
+					
+					plr.mo.GiveInventory((class<Inventory>)(defs.powerupType), 1);
+				}
+			}
+		}
+	}
+	
 	void StringFilterEOL(out string src)
 	{
 		for(int i = src.Length(); i >= 0; i--)

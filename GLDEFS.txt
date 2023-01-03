@@ -34,8 +34,8 @@ HardwareShader PostProcess Scene
 
 material texture "Models/Equipment/Ice/tex_rust.jpeg"
 {
-	normal "Models/Equipment/Ice/Ice_NRM.jpg
-	specular "Models/Equipment/Ice/Ice_SPEC.jpg
+	normal "Models/Equipment/Ice/Ice_NRM.jpg"
+	specular "Models/Equipment/Ice/Ice_SPEC.jpg"
 }
 
 

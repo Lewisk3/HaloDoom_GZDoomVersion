@@ -128,23 +128,7 @@ class HaloPlayer : DoomPlayer
 		GiveInventory("DoHelmetAnimation", 1);
 		let gt = HaloMath.getCurrentGameType();
 		gt.GiveLoadout(self);
-		
-		if(halodoom_allpoweredup)
-		{
-			for(int i = 0; i < AllActorClasses.Size(); i++)
-			{
-				let classtype = AllActorClasses[i];
-				if(classtype is "HaloPowerGiver" && classtype != "HaloPowerGiver") 
-				{
-					let power = (class<HaloPowerGiver>)(classtype);
-					let defs = GetDefaultByType(power);
-					if(!defs.bUPGRADEPOWER) continue;
-					
-					GiveInventory((class<Inventory>)(defs.powerupType), 1);
-				}
-			}
-		}
-		
+				
 		/*
 		if(IsGameType("HL1"))
 		{
