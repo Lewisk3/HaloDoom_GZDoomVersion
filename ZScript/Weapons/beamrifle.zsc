@@ -174,7 +174,7 @@ class Halo_BeamRifle : HaloGun
 		DoSmoke:	
 			TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 3 
 			{
-				let psp = player.GetPSprite(OverlayID());
+				let psp = player.FindPSprite(OverlayID());
 				if(psp) psp.frame = random[WeapFX](3,8);
 				A_SetSFXPos(25,-8,-10);
 				double amt = (invoker.heat * 5) * halodoom_effectintensity;

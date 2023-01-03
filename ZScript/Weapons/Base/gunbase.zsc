@@ -940,7 +940,6 @@ class HaloGun : RecoilWeapon
 		// Grapple
 		if(plr.grapple && !handsbusy)
 		{
-			console.printf("Grapple is non-NULL");
 			Owner.player.SetPSprite(MELEE_OVERLAY, FindState("GrappleStart"));
 			if(inreload) psp.SetState(FindState("Ready.Active"));
 		}
