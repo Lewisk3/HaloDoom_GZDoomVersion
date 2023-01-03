@@ -940,6 +940,7 @@ class HaloGun : RecoilWeapon
 		// Grapple
 		if(plr.grapple && !handsbusy)
 		{
+			console.printf("Grapple is non-NULL");
 			Owner.player.SetPSprite(MELEE_OVERLAY, FindState("GrappleStart"));
 			if(inreload) psp.SetState(FindState("Ready.Active"));
 		}
@@ -1387,10 +1388,6 @@ class HaloGun : RecoilWeapon
 			TNT1 A 0 A_FinishKick();
 		stop;
 		
-		// I would use an inventory item to animate this but, GZDoom's
-		// PSprite system is a broken mess due to the devs implementing pointless 
-		// "restrictions" in the name of "Security" in a games engine already
-		// restricted enough by nature. 
 		GrappleStart:
 			TNT1 A 0 A_BeginMelee();
 			GRPL A 1 

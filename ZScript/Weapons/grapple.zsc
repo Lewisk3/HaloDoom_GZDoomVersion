@@ -144,8 +144,6 @@ class GrapplingHook : KineLimb
 			if(bInvisible) seg.A_SetScale(0);
 		}
 		
-		console.printf("Retracing: %d, Lerp %f", retracting, lerp); 
-		
 		// Retract
 		if(retracting) 
 		{	
@@ -162,6 +160,7 @@ class GrapplingHook : KineLimb
 			{
 				ClearSegs();
 				Destroy();
+				haloplr.grapple = NULL;
 			}
 			return;
 		}
