@@ -700,7 +700,7 @@ class PowerRepulsor : HaloPowerup
 		while(act = Actor(it.Next()))
 		{
 			if(!act.bMISSILE) continue;
-			if(act is "LaserBeam" || act.damage <= 0) continue; // LOL
+			if(act is "LaserBeam") continue; // LOL
 			if(!Owner.IsVisible(act, false, look)) continue;
 			if(act.Distance3DSquared(Owner) > reflectDist) continue;
 			
