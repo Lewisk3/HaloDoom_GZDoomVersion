@@ -817,7 +817,7 @@ class PowerRepulsor : HaloPowerup
 			{
 				parryTics--;
 				Owner.player.cheats |= CF_INTERPVIEW;
-				Level.SetFrozen(true);
+				if(!multiplayer) Level.SetFrozen(true);
 				
 				// Freeze PSprites
 				let pspr = Owner.player.psprites;
@@ -843,7 +843,7 @@ class PowerRepulsor : HaloPowerup
 		
 			parryTics = default.parryTics;
 			parrying = false;
-			Level.SetFrozen(false);
+			if(!multiplayer) Level.SetFrozen(false);
 		}
 	}
 }

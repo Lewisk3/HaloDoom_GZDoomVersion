@@ -744,38 +744,7 @@ class HaloGun : RecoilWeapon
 			cvfx_casings = CVar.GetCVar("halodoom_fx_casings", Owner.player);
 		
 		if(debug_sfxpos) Spawn("FXFollower", sfx_pos);
-		
-		// Update next weapon.
-		if(Owner.player)
-		{
-			let wnext = PlayerPawn(Owner).PickNextWeapon();
-			if( Owner.player.ReadyWeapon != wnext ) NextWeapon = wnext;
-		}
-		
-		if(!CheckWeaponSelected()) 
-		{
-			if(handsbusy) 
-			{
-				staticoffs.y = 0;
-				handsbusy = false;
-			}
-			if(backpack_reloading)
-			{
-				backpack_reloadtimer--;
-				if(backpack_reloadtimer <= 0)
-				{
-					let rammo = GetDefaultByType(AmmoType2);
-					int reserves = Owner.countinv(AmmoType1);
-					int takeammo = rammo.maxamount - Owner.countinv(AmmoType2); 
-					if(takeammo > reserves) takeammo = reserves;
-					Owner.GiveInventory(AmmoType2,takeammo);
-					DepleteAmmo(takeammo, Owner);
-					backpack_reloading = false;
-					backpack_reloadtimer = 0;
-				}
-			}
-			return;
-		}
+
 		if(!Owner.player) return;
 		let vehman = Veh_Manager(Owner.FindInventory("Veh_Manager"));
 		if(vehman && vehman.disableweaps) return;
@@ -810,6 +779,38 @@ class HaloGun : RecoilWeapon
 		
 		// Do not run this stuff while predicting.
 		if(Owner.player.cheats & CF_PREDICTING) return; 
+		
+		// Update next weapon.
+		if(Owner.player)
+		{
+			let wnext = PlayerPawn(Owner).PickNextWeapon();
+			if( Owner.player.ReadyWeapon != wnext ) NextWeapon = wnext;
+		}
+		
+		if(!CheckWeaponSelected()) 
+		{
+			if(handsbusy) 
+			{
+				staticoffs.y = 0;
+				handsbusy = false;
+			}
+			if(backpack_reloading)
+			{
+				backpack_reloadtimer--;
+				if(backpack_reloadtimer <= 0)
+				{
+					let rammo = GetDefaultByType(AmmoType2);
+					int reserves = Owner.countinv(AmmoType1);
+					int takeammo = rammo.maxamount - Owner.countinv(AmmoType2); 
+					if(takeammo > reserves) takeammo = reserves;
+					Owner.GiveInventory(AmmoType2,takeammo);
+					DepleteAmmo(takeammo, Owner);
+					backpack_reloading = false;
+					backpack_reloadtimer = 0;
+				}
+			}
+			return;
+		}
 		
 		if(Owner.health > 0)
 			DoActionButtons();

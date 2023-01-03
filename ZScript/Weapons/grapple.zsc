@@ -116,6 +116,8 @@ class GrapplingHook : KineLimb
 	
 	override void Update()
 	{
+		if(plr && plr.player && (plr.player.cheats & CF_PREDICTING)) return;
+		
 		endpos = HaloMath.Lerp3D(fixedpos, hookpos, lerp);
 		GetRelPos();
 		if(GetAge() >= 35*10) retracting = true;
