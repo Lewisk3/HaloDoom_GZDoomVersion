@@ -336,11 +336,11 @@ class HaloGun : RecoilWeapon
 		return victim;
 	}
 	
-	static Actor DoHaloMelee(Actor source, int damage, double range = 48, vector2 fpthrust = (12,5), Sound hitsnd = "", Sound wallsnd = "", Name damageType = "Melee", bool doHitThrust = true, bool forceThrust = false)
-	{	
+	static void CallTryMelee(Actor source, double range = 100)
+	{
 		FLineTraceData lt;
 		let victim = GetMeleeVictim(source, lt, range);
-		
+	
 		// Call on try melee for powerups
 		for(let item = source.Inv; item.Inv; item = item.Inv)
 		{
@@ -349,6 +349,13 @@ class HaloGun : RecoilWeapon
 			
 			hpwr.OnTryMelee(lt);
 		}
+	}
+	
+	static Actor DoHaloMelee(Actor source, int damage, double range = 48, vector2 fpthrust = (12,5), Sound hitsnd = "", Sound wallsnd = "", Name damageType = "Melee", bool doHitThrust = true, bool forceThrust = false)
+	{	
+		FLineTraceData lt;
+		let victim = GetMeleeVictim(source, lt, range);
+		CallTryMelee(source);
 		
 		if(victim && victim.bSHOOTABLE) 
 		{
@@ -1267,6 +1274,7 @@ class HaloGun : RecoilWeapon
 				// Remove this check for melee boost, lets you gain stupid speeds.
 				if(A_CheckMeleeRange(skipWalls:true) < 128) A_Recoil3D(-10); 
 				A_SetRecoil(0.4, -0.8, 3);
+				HaloGun.CallTryMelee(self); // Makes Parrying attacks more responsive.
 			}
 			PNCH C 1 
 			{
@@ -1300,6 +1308,7 @@ class HaloGun : RecoilWeapon
 			HSKI BCD 1 
 			{
 				A_SetRecoil(0.3, 0, 3);
+				HaloGun.CallTryMelee(self); // Makes Parrying attacks more responsive.
 			}
 			HSKI E 1 
 			{
@@ -1341,6 +1350,7 @@ class HaloGun : RecoilWeapon
 			{
 				A_SetViewRoll(viewroll + 1, SPF_INTERPOLATE);
 				A_SetRecoil(0.4, 0.8, 3);
+				HaloGun.CallTryMelee(self); // Makes Parrying attacks more responsive.
 			}
 			HSKI N 1 
 			{

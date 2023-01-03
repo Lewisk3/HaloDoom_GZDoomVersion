@@ -199,7 +199,10 @@ class Halo_EnergySword : HaloGun
 			"####" "#" 1; // This is needed to ensure this state is actually completely set.
 			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Ready.Dryfire");
 			TNT1 A 0 A_BeginMelee(false);
-			WNF1 ABCCCC 1;
+			WNF1 ABCCCC 1
+			{
+				HaloGun.CallTryMelee(self); // Makes Parrying attacks more responsive.
+			}
 			TNT1 A 0 A_DoSwing();
 			WNF1 OP 1
 			{	
