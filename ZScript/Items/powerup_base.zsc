@@ -706,7 +706,7 @@ class PowerRepulsor : HaloPowerup
 			act.vel *= -(act.vel.Length()*2.0);
 			act.vel += Owner.vel * (act.vel dot Owner.vel);
 			act.GiveInventory("MissileExplooder", 1);
-			act.SetDamage(act.damage * 2.0);
+			act.SetDamage(act.damage * 20.0);
 			SmokeTrail.Start(0xFFFFAAAA, act.pos, level.vec3offset(act.pos, act.vel), (act.angle, act.pitch), 0.45); 
 						
 			BeginParry();
@@ -883,7 +883,7 @@ class ParriedExplosion : CheapActor
 			{
 				vector3 fxpos = (pos.xy, pos.z+40);
 				HaloMath.SpawnFX("FragGrenade_FlyingExplosion", fxpos, angle, random[ParryRNG](2,5), 10, 20, 180,45, 25);
-				A_Explode(damage * 4.0, 128, flags: 0);
+				A_Explode(damage, 128, flags: 0);
 			}
 			SX04 EFGHIJKLMNOPQ 1 Bright
 			{
