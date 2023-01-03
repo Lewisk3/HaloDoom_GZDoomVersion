@@ -225,7 +225,7 @@ extend class HaloPlayer
 	void PlayFootsteps()
 	{	
 		double curSpeed = vel.xy.Length();
-		double vol = curSpeed / (15 * speed * forwardMove1);
+		double vol = curSpeed / max(0.01, 15 * speed * forwardMove1);
 		
 		if(!cv_vol_footstep) cv_vol_footstep = CVar.GetCVar("halodoom_footstep_volume", player);
 		if(cv_vol_footstep) vol *= cv_vol_footstep.getFloat();
