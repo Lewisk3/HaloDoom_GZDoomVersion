@@ -106,8 +106,9 @@ class HaloHUD : Object ui
 
 	// Basic Functions
 	mixin BasicHUDFeatures;
-	
-	vector2 powerupPos;
+
+	Array<double> powerupPosX;
+	Array<double> powerupPosY;
 	double powerupScale;
 	
 	static HaloHUD Create(HaloStatusBar base, class<HaloHUD> type)
@@ -131,8 +132,61 @@ class HaloHUD : Object ui
 		
 		// Messages setup
 		msgpos = (60, 60);
-		powerupPos = (200,200);
 		powerupScale = 1.0;
+		
+		double powerCount;
+		for(int i = 0; i < AllActorClasses.Size(); i++)
+		{
+			let classtype = (class<HaloPowerGiver>) (AllActorClasses[i]);
+			if(classtype is "HaloPowerGiver" && classtype != "HaloPowerGiver") 
+			{
+				let def = GetDefaultByType(classtype);
+				if(def.bUPGRADEPOWER) powerCount++;
+			}
+		}
+		
+		powerupPosX.Resize(powerCount);
+		powerupPosY.Resize(powerCount);
+		if(powerupPosX.Size() > 0 && powerupPosY.Size() > 0)
+		{
+			// Default pos
+			for(int i = 0; i < powerCount; i++)
+			{
+				powerupPosX[i] = 200 + (54*i);
+				powerupPosY[i] = 200;
+			}
+		}
+	}
+			
+	virtual vector2 getPowerupPos(int slot)
+	{
+		slot = (slot-1)%powerupPosX.Size();
+		return (powerupPosX[slot], powerupPosY[slot]);
+	}
+	
+	virtual void DrawPowerups(vector2 offs = (0,0), double scale = 1.0)
+	{
+		// Powerups
+		string powerBG = "Graphics/UI/Abilities/PowerupBG.png";
+		let icon = TexMan.CheckForTexture(powerBG);
+		vector2 iconSize;
+		[iconSize.x, iconSize.y] = TexMan.getSize(icon);
+		vector2 iconScale = ((80*scale) / iconSize.x, (80*scale) / iconSize.y);
+		
+		double spacing = 105;
+		double middle = floor(powerupPosX.Size() / 2) * spacing;
+		for(int i = 0; i < powerupPosX.Size(); i++)
+		{
+			powerupPosX[i] = ((1920. / 2.) - (middle * scale)) + offs.x; 
+			powerupPosY[i] = 1030 + offs.y;
+			powerupPosX[i] += i*(spacing*scale);
+					
+			HLSBS.DrawImage(
+				powerBG, 
+				(powerupPosX[i], powerupPosY[i]), 
+				alpha:0.3, scale:iconScale
+			);
+		}
 	}
 		
 	virtual HaloMessage CreateMessage(String msg)

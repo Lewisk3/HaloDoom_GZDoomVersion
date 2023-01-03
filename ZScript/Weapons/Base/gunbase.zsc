@@ -341,6 +341,15 @@ class HaloGun : RecoilWeapon
 		FLineTraceData lt;
 		let victim = GetMeleeVictim(source, lt, range);
 		
+		// Call on try melee for powerups
+		for(let item = source.Inv; item.Inv; item = item.Inv)
+		{
+			let hpwr = HaloPowerup(item);
+			if(!hpwr) continue;
+			
+			hpwr.OnTryMelee(lt);
+		}
+		
 		if(victim && victim.bSHOOTABLE) 
 		{
 			vector3 victimAngles = level.sphericalCoords(victim.pos, source.pos, (victim.angle, victim.pitch));
@@ -763,6 +772,7 @@ class HaloGun : RecoilWeapon
 		uint oldbtns = Owner.player.oldbuttons;
 		let psp = Owner.player.FindPSprite(PSP_WEAPON);
 		bool inreload = psp && InStateSequence(psp.CurState,ResolveState("Reload"));
+		if(!psp) return;
 		
 		// WeapSound features
 		bool infire = psp && InStateSequence(psp.CurState,ResolveState("Fire"));
@@ -784,6 +794,9 @@ class HaloGun : RecoilWeapon
 			psp.rotation = HaloMath.Lerp(psp.rotation, 0, 0.1);
 			
 		psp.rotation = clamp(psp.rotation, -rotation_range, rotation_range);
+		
+		// Do not run this stuff while predicting.
+		if(Owner.player.cheats & CF_PREDICTING) return; 
 		
 		if(Owner.health > 0)
 			DoActionButtons();

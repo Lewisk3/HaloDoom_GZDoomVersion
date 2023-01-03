@@ -93,9 +93,11 @@ class DoomHUD : HaloHUD
 	{	
 		vector2 ablpos = (140.7,189);
 		double ablscale = 0.12;
-		
-		powerupPos = (100,1200);
+	
 		powerupScale = 1.0;
+
+		// Powerups
+		DrawPowerups( (0,-950), 1.0 );
 		
 		if(haloplr.enable_dash)
 		{

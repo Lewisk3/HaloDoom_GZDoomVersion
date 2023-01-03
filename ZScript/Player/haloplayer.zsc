@@ -179,7 +179,16 @@ class HaloPlayer : DoomPlayer
 	{
 		return true;
 	}
-	virtual void OnMeleeHit(Actor victim) {}
+	virtual void OnMeleeHit(Actor victim) 
+	{
+		for(let item = Inv; item.Inv; item = item.Inv)
+		{
+			let hpwr = HaloPowerup(item);
+			if(!hpwr) continue;
+			
+			hpwr.OnMeleeHit(victim);
+		}
+	}
 	
 	clearscope static string GetStatInfo(class<HaloPlayer> plrType)
 	{

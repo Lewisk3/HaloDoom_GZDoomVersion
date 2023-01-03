@@ -70,6 +70,7 @@ class HaloPowerGiver : PowerupGiver abstract
 	flagdef FXHOVER : fxFlags, 0;
 	flagdef USETOPICKUP : fxFlags, 2;
 	flagdef BACKPACKSPAWN : fxFlags, 3;
+	flagdef UPGRADEPOWER : fxFlags, 4; 
 
 	Property BackpackRarity : backpackSpawnChance;
 
@@ -396,6 +397,7 @@ class HaloPower_Jetpack : HaloPower_Haste
 		-HaloPowerGiver.FXHOVER;
 		+HaloPowerGiver.USETOPICKUP;
 		+HaloPowerGiver.BACKPACKSPAWN;
+		+HaloPowerGiver.UPGRADEPOWER;
 	}
 		
 	override void OnPickup(Actor other) 
@@ -572,7 +574,6 @@ class HaloPower_Visor : HaloPower_Haste replaces Infrared
 	}
 }
 
-
 class HaloPower_Icebeam : HaloPower_Haste replaces Infrared
 {
 	Default
@@ -590,6 +591,7 @@ class HaloPower_Icebeam : HaloPower_Haste replaces Infrared
 		-HaloPowerGiver.FXHOVER;
 		+HaloPowerGiver.USETOPICKUP;
 		+HaloPowerGiver.BACKPACKSPAWN;
+		+HaloPowerGiver.UPGRADEPOWER;
 	}
 		
 	override void OnPickup(Actor other) 
@@ -612,6 +614,47 @@ class HaloPower_Icebeam : HaloPower_Haste replaces Infrared
 	{
 		Spawn:
 			PWCU A -1; // NoDelay A_SpriteOffset(0,30);
+		stop;
+	}
+}
+
+class HaloPower_Repulsor : HaloPower_Haste replaces Infrared
+{
+	Default
+	{
+		+BRIGHT;
+		-NOGRAVITY;
+		Scale 0.05;
+		Height 24;
+		Powerup.Duration 0x7FFFFFFD;
+		Powerup.Type "PowerRepulsor";
+		
+		Tag "Repulsor";
+		Inventory.PickupMessage "Picked up the Repulsor";
+		Inventory.PickupSound "Halo/Powerup/Visor";
+		-HaloPowerGiver.FXHOVER;
+		+HaloPowerGiver.USETOPICKUP;
+		+HaloPowerGiver.BACKPACKSPAWN;
+		+HaloPowerGiver.UPGRADEPOWER;
+	}
+		
+	override void OnPickup(Actor other) 
+	{
+		A_StopSound(CHAN_BODY);
+	}
+	
+	override void VisualFX()
+	{
+		double blink = (0.5 * sin(level.maptime*15)) + 0.5;
+		if(blink >= 1.0) bBRIGHT = !bBRIGHT;
+		
+		A_StartSound("Halo/Powerup/Repulsor/Alert", CHAN_BODY, CHANF_LOOPING, volume:0.1);
+	}
+	
+	States
+	{
+		Spawn:
+			PWRP A -1;
 		stop;
 	}
 }

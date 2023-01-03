@@ -200,7 +200,7 @@ class HaloDoom_Events : EventHandler
 					console.printf("Gave shield.");
 				}
 			}
-		
+				
 			if(e.Name ~== "throwgrenade")
 			{
 				let haloweap = HaloGun(haloplr.player.ReadyWeapon);
@@ -270,6 +270,27 @@ class HaloDoom_Events : EventHandler
 			}
 		}
 		
+		if(e.Name ~== "HaloDoom_SpawnHaloPowerups")
+		{
+			Array<class<HaloPowerGiver> > powers;
+			for(int i = 0; i < AllActorClasses.Size(); i++)
+			{
+				let classtype = AllActorClasses[i];
+				if(classtype is "HaloPowerGiver" && classtype != "HaloPowerGiver") 
+				{
+					powers.Push(AllActorClasses[i]);
+				}
+			}
+			
+			int spacing = 360./powers.Size();
+			for(int i = 0; i < powers.Size(); i++)
+			{
+				let powerType = powers[i];
+				vector2 spawnpos = Actor.AngleToVector(i*spacing, 80);
+				Actor.Spawn(powerType, src.mo.Vec3Offset(spawnpos.x,spawnpos.y, src.mo.floorz));
+			}
+		}
+
 		if(e.Name == "HaloDoom_GiveAllAmmo") // twosticksandarock
 		{
 			Array<class<Ammo> > gunAmmo;

@@ -308,9 +308,7 @@ class HaloDoomHUD : HaloHUD
 	
 	virtual void DrawAbilities(vector2 offs = (0,0), double scale = 1.0)
 	{	
-		powerupPos = (160,740) + ((-16,-88)*scale) + offs;
 		powerupScale = scale;
-		
 		vector2 ablpos = (160,740) + offs;
 		double ablscale = 0.85 * scale;
 		if(haloplr.enable_dash)
@@ -341,6 +339,8 @@ class HaloDoomHUD : HaloHUD
 			}
 			ablpos.x += 128;
 		}
+		
+		DrawPowerups((0,0), scale);
 	}
 
 	virtual void DrawBars()

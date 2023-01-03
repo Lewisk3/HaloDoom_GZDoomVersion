@@ -118,6 +118,7 @@ Halo/Powerup/Shield1 "Sounds/Items/power_shield1.ogg"
 Halo/Powerup/Shield2 "Sounds/Items/power_shield2.ogg"
 Halo/Powerup/Visor   "Sounds/SFX/GunPickup.ogg"
 Halo/Powerup/Visor/Alert "Sounds/Items/Visr/Visr_Alert.ogg"
+Halo/Powerup/Repulsor/Alert "Sounds/Items/Repulsor/Alert_Repulsor.ogg"
  
 Halo/Visor/ON "Sounds/Items/Visr/Visr_On.ogg"
 Halo/Visor/OFF "Sounds/Items/Visr/Visr_Off.ogg"
@@ -127,6 +128,7 @@ JETBURST2 "Sounds/Items/Jetpack/Jetpack_Burst2.ogg"
 JETBURST3 "Sounds/Items/Jetpack/Jetpack_Burst3.ogg"
 Halo/Powerup/Jetpack/Loop "Sounds/Items/Jetpack/Jetpack_loop.ogg"
 Halo/Powerup/Jetpack/Off  "Sounds/Items/Jetpack/Jetpack_off.ogg"
+Halo/Powerup/Repulsor "Sounds/Items/power_repulsor.ogg"
 $random Halo/Powerup/Jetpack/Burst { JETBURST1 JETBURST2 JETBURST3 }
 
 CRYOFIRE1 "Sounds/Items/Icebeam/Icebeam_Fire_Start1.ogg"

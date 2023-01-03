@@ -80,7 +80,11 @@ class SmokeTrail : CheapActor
 		Spawn:
 			BEAM A 4;
 		Spawn.Loop:
-			BEAM A 1 A_FadeOut(fadespd);
+			BEAM A 1 
+			{
+				A_FadeOut(fadespd);
+				A_SetScale(scale.x * 1.03, scale.y * 1.03);
+			}
 		loop;
 	}
 }

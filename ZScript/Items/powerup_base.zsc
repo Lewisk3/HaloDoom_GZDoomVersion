@@ -20,6 +20,16 @@ class HaloPowerup : Powerup
 		return !isBlinking() ? powerupGraphic : "NONE";
 	}
 	
+	virtual void OnMeleeHit(Actor victim)
+	{
+		// Called from HaloPlayer on all HaloPowerups.
+	}
+	
+	virtual void OnTryMelee(FLineTraceData lt)
+	{
+		// Called from DoHaloMelee (HaloGun) on all HaloPowerups.
+	}
+	
 	void SetOverlayIMG(string toImg)
 	{
 		let hplr = HaloPlayer(Owner);
@@ -308,6 +318,7 @@ class PowerJetpack : HaloPowerup
 		graphicFuel = HaloMath.Lerp(graphicFuel, fuel, 0.1 * dt);
 		if(graphicFuel >= 0.8 || graphicFuel <= 0.1) graphicFuel = fuel;
 		
+		vector2 circlePos = hudbase.getPowerupPos(1);
 		double perc = graphicFuel;
 		double radius = 40 * hudbase.powerupScale; 
 		Color circleColor = 0xFF63E3DF;
@@ -316,7 +327,7 @@ class PowerJetpack : HaloPowerup
 		let pxl = TexMan.CheckForTexture("BLANK", TexMan.Type_Any);
 		
 		HLSBS.DrawPartialCircle(
-			hudbase.powerupPos, radius, circleColor ,
+			circlePos, radius, circleColor ,
 			fillpercent:perc, alpha:0.35
 		);
 		
@@ -327,8 +338,8 @@ class PowerJetpack : HaloPowerup
 		[iconSize.x, iconSize.y] = TexMan.getSize(icon);
 		vector2 iconScale = ((radius*2) / iconSize.x, (radius*2) / iconSize.y);
 		
-		HLSBS.DrawImage(graphic, hudbase.powerupPos, alpha:1.0, scale:iconScale, texoffs:(1,1));
-		HLSBS.DrawImage(ring, hudbase.powerupPos, alpha:1.0, scale:iconScale*1.05, texoffs:(1,1));
+		HLSBS.DrawImage(graphic, circlePos, alpha:1.0, scale:iconScale, texoffs:(1,1));
+		HLSBS.DrawImage(ring, circlePos, alpha:1.0, scale:iconScale*1.05, texoffs:(1,1));
 	}
 	
 	JetpackExhaust jetLeftExhaust;
@@ -618,3 +629,252 @@ class HaloVisorHighlight : CheapActor
 	}
 }
 
+// Repulsor
+class PowerRepulsor : HaloPowerup
+{
+	int parryWait;
+	int parryTics;
+	bool parrying;
+	double cooldown;
+	double cooldownTime;
+	ui double graphicCooldown;
+	
+	Property FreezeTime : parryTics;
+	Property Cooldown : cooldownTime;
+
+	Default
+	{
+		Powerup.Duration 0x7FFFFFFD; 
+		Inventory.maxamount 1;
+		+INVENTORY.UNDROPPABLE;
+		+INVENTORY.PERSISTENTPOWER;
+		PowerRepulsor.FreezeTime 8;
+		PowerRepulsor.Cooldown 35*3;
+		
+		HaloPowerup.UIEffect ""; 
+	}
+	
+	override void OnTryMelee(FLineTraceData lt)
+	{
+		if(cooldown > 0 || !Owner || !Owner.player) return;
+		
+		let haloweap = HaloGun(Owner.player.ReadyWeapon);
+		if(!haloweap) return;
+	
+		let victim = lt.HitActor;
+		if(victim)
+		{
+			bool inMissile = victim.InStateSequence(victim.CurState, victim.FindState("Missile"));
+			bool inMelee = victim.InStateSequence(victim.CurState, victim.FindState("Melee"));
+			if( inMissile || inMelee || victim.bINCOMBAT )
+			{
+				victim.TriggerPainChance("Parry", true);
+				double inertia = HaloMath.GetInertia(victim.mass);
+				
+				vector3 thrust = HaloMath.VecFromAngles(Owner.angle, Owner.pitch, 10) * inertia;; 
+				victim.vel += thrust;
+				victim.vel.z += 10 * inertia;
+				
+				Owner.vel -= thrust;
+				Owner.vel.z += 5 * inertia;
+				BeginParry();
+				
+				let expl = Spawn("ParriedExplosion", lt.HitLocation);
+				if(expl)
+				{
+					expl.master = Owner;
+					expl.target = Owner;
+					expl.SetDamage(32);
+				}
+			}
+		}
+		
+		// Check for missiles		
+		let it = ThinkerIterator.Create();
+		Actor act;
+		LookExParams look;
+		look.FOV = 30;
+		double reflectDist = 100*100;
+		
+		while(act = Actor(it.Next()))
+		{
+			if(!act.bMISSILE) continue;
+			if(!Owner.IsVisible(act, false, look)) continue;
+			if(act.Distance3DSquared(Owner) > reflectDist) continue;
+			
+			act.target = Owner;
+			act.vel *= -(act.vel.Length()*2.0);
+			act.vel += Owner.vel * (act.vel dot Owner.vel);
+			act.GiveInventory("MissileExplooder", 1);
+			act.SetDamage(act.damage * 2.0);
+			SmokeTrail.Start(0xFFFFAAAA, act.pos, level.vec3offset(act.pos, act.vel), (act.angle, act.pitch), 0.45); 
+						
+			BeginParry();
+		}
+	}
+	
+	void BeginParry()
+	{
+		if(cooldown > 0 || !Owner.player) return;
+		
+		let shockwave = Spawn("FX_Shockwave", (Owner.pos.xy, Owner.player.viewz));
+		if(shockwave) shockwave.alpha = 0.5;
+		
+		parrying = true;
+		Owner.A_StartSound("Halo/Powerup/Repulsor", CHAN_AUTO, CHANF_OVERLAP|CHANF_NOPAUSE);
+		Owner.A_QuakeEx(3,3,3,12,0,256, "", flags:QF_SCALEDOWN);
+		cooldown = cooldownTime;
+		parryWait = 2;
+		
+		let haloplr = HaloPlayer(Owner);
+		if(haloplr) haloplr.InvulnTics = 16;
+	}
+
+	override void AttachToOwner(Actor other)
+	{
+		super.AttachToOwner(other);
+
+	}
+	override void DetachFromOwner ()
+	{
+	}
+	
+	override string SelectUIGraphic()
+	{
+		return powerupGraphic;
+	}
+
+	override void HUDDraw(HaloHUD hudbase, double dt)
+	{
+		graphicCooldown = HaloMath.Lerp(graphicCooldown, cooldown / double(cooldownTime), 0.1 * dt);
+		if(graphicCooldown >= 0.8 || graphicCooldown <= 0.1) 
+		{
+			graphicCooldown = cooldown / double(cooldownTime);
+		}
+		
+		double perc = graphicCooldown;
+		double radius = 40 * hudbase.powerupScale; 
+		vector2 circlePos = hudbase.getPowerupPos(3);
+		Color circleColor = 0xFFE03B3B;
+		
+		let pxl = TexMan.CheckForTexture("BLANK", TexMan.Type_Any);
+		String graphic = "Graphics/UI/Abilities/RepulsorIcon.png";
+		string ring = "Graphics/UI/Abilities/JetpackRing.png";
+		let icon = TexMan.CheckForTexture(graphic);
+		vector2 iconSize;
+		[iconSize.x, iconSize.y] = TexMan.getSize(icon);
+		vector2 iconScale = ((radius*2) / iconSize.x, (radius*2) / iconSize.y);
+		
+		
+		HLSBS.DrawImage(graphic, circlePos, alpha:1.0, scale:iconScale, texoffs:(1,1));
+		HLSBS.DrawPartialCircle(
+			circlePos, radius, circleColor ,
+			fillpercent:perc, alpha:0.35
+		);
+		
+		HLSBS.DrawImage(ring, circlePos, alpha:1.0, scale:iconScale*1.05, texoffs:(1,1));
+	}
+
+	override void DoEffect()
+	{
+		super.DoEffect();
+			
+		// [From GZDoom pk3]
+		// 	[RH] Do not change LEVEL_FROZEN on odd tics, or the Revenant's tracer
+		// 	will get thrown off.
+		// 	[ED850] Don't change it if the player is predicted either.
+		if( (Level.maptime & 1) || (Owner != null && Owner.player != null && (Owner.player.cheats & CF_PREDICTING)) )
+		{
+			return;
+		}
+				
+		// No cooldown when QuadDamage is active.
+		if(Owner.FindInventory("HaloPower_Strength")) cooldown = 0;
+		
+		cooldown = max(0,cooldown-1);
+		if(parrying && parryTics > 0)
+		{
+			if(--parryWait <= 0)
+			{
+				parryTics--;
+				Owner.player.cheats |= CF_INTERPVIEW;
+				Level.SetFrozen(true);
+			}
+		}
+		else
+		{
+			parryTics = default.parryTics;
+			parrying = false;
+			Level.SetFrozen(false);
+		}
+	}
+}
+
+class MissileExplooder : Inventory
+{
+	Default
+	{
+		Inventory.maxamount 1;
+	}
+	
+	override void DoEffect()
+	{
+		super.DoEffect();
+		if(!Owner) 
+		{
+			GoAwayAndDie();
+			return;
+		}
+		
+		if( !Owner.bMISSILE || Owner.vel ~== (0,0,0) )
+		{
+			// Explood
+			let expl = Spawn("ParriedExplosion", Owner.pos);
+			if(expl)
+			{
+				expl.master = Owner;
+				expl.target = Owner.target;
+				expl.SetDamage(Owner.damage);
+			}
+			Owner.A_StartSound("Halo/Weapons/RocketLauncher/Explode", CHAN_AUTO, CHANF_OVERLAP, volume:0.5);
+			Owner.RemoveInventory(self);
+			GoAwayAndDie();
+			return;
+		}
+	}
+}
+
+class ParriedExplosion : CheapActor
+{
+	Default
+	{
+		Scale 0.3;
+		Alpha 0.8;
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0;
+			TNT1 A 1 
+			{
+				let flare = Spawn("TankRocket_Flare", (pos.xy, pos.z+20));
+				if(flare) flare.A_SetScale(0.75);
+				A_QuakeEx(2,2,2,10,0,1024, "", QF_SCALEDOWN);
+			}
+			SX04 ABCD 1 Bright;
+			TNT1 A 0 
+			{
+				vector3 fxpos = (pos.xy, pos.z+40);
+				HaloMath.SpawnFX("FragGrenade_FlyingExplosion", fxpos, angle, random[ParryRNG](2,5), 10, 20, 180,45, 25);
+				A_Explode(damage * 4.0, 128, flags: 0);
+			}
+			SX04 EFGHIJKLMNOPQ 1 Bright
+			{
+				vector3 fxpos = (pos.xy, pos.z+20);
+				if(!(frame%6))
+					HaloMath.SpawnFX("FragGrenade_Smoke", fxpos, angle, 1, 20, 20, rstyle:STYLE_Subtract);
+			}
+		stop;
+	}
+}
