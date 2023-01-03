@@ -161,7 +161,7 @@ class HaloDoomHUD : HaloHUD
 		}
 		
 		vector2 ampos = (1640, 160);
-		bool skipAmmoDraw = halo_curweap.DrawAmmoUI(ampos, deltaTime);
+		bool skipAmmoDraw = halo_curweap && halo_curweap.DrawAmmoUI(ampos, deltaTime);
 		
 		// Ammo display
 		if(!skipAmmoDraw)
