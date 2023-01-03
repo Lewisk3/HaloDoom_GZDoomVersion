@@ -118,7 +118,8 @@ class GrapplingHook : KineLimb
 	{
 		endpos = HaloMath.Lerp3D(fixedpos, hookpos, lerp);
 		GetRelPos();
-
+		if(GetAge() >= 35*10) retracting = true;
+	
 		let haloplr = HaloPlayer(plr);
 		uint btns = plr.player.cmd.buttons; 
 		
