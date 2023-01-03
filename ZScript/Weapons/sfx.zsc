@@ -475,7 +475,7 @@ class RepulsorField : Actor
 		}
 	}
 	
-	void A_DoRepulse(double limit = 6)
+	void A_DoRepulse(Actor src, double limit = 6)
 	{
 		double ZDoomToReal = 1.0;
 			
@@ -505,8 +505,15 @@ class RepulsorField : Actor
 			vector3 pushForce = HaloMath.VecFromAngles(forceDir.x, forceDir.y, force); 
 			pushForce.xy *= 0.8;
 			pushForce.z *= -1;
-			act.vel += pushForce;
 			
+			if(forceDir.z <= 96 && src)
+			{
+				act.vel += HaloMath.VecFromAngles(src.angle, src.pitch, force); 
+			}
+			else
+			{
+				act.vel += pushForce;
+			}
 			if(act.bMISSILE) act.vel = HaloMath.VecFromAngles(forceDir.x, -forceDir.y, act.vel.Length());
 		}
 	}
@@ -516,7 +523,7 @@ class RepulsorField : Actor
 		Spawn:
 			TNT1 A 2 NoDelay DrawField();
 		Repulse:
-			TNT1 A 1 A_DoRepulse();
+			TNT1 A 1 A_DoRepulse(target);
 		loop;
 	}
 }

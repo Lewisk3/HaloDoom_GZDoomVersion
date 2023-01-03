@@ -23,6 +23,7 @@ class Halo_EnergySword : HaloGun
 		Weapon.AmmoType2 "Halo_EnergySword_Clip";
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 1;
+		HaloGun.DisableKicking true;
 		
 		HaloGun.PowerTier P_MELEE;
 				

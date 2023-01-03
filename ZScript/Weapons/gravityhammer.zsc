@@ -85,7 +85,7 @@ class GravityHammerField : RepulsorField
 				let expl = Spawn("GravityHammerExplosion", pos);
 			}
 		Repulse:
-			TNT1 AAAAAAAA 1 A_DoRepulse();
+			TNT1 AAAAAAAA 1 A_DoRepulse(target);
 		stop;
 	}
 }

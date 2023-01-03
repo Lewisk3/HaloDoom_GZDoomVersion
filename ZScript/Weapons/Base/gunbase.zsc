@@ -38,6 +38,7 @@ class HaloGun : RecoilWeapon
 	bool donefirstdrawanim; 
 	bool handsbusy; // Keep track of melee stuff and other hand actions.
 	bool feetbusy; 
+	bool nokick; // Disables kick for this weapon.
 	Weapon NextWeapon;
 	
 	// UI Stuff
@@ -108,6 +109,7 @@ class HaloGun : RecoilWeapon
 	Property PowerTier : SpawnTier;
 	Property Rarity : SpawnRarity;
 	Property _ProjDamageMod : damage_modifier;
+	Property DisableKicking : nokick;
 
 	enum ButtonStates
 	{
@@ -592,12 +594,16 @@ class HaloGun : RecoilWeapon
 	action void A_FollowRotation(int DEST_LAYER, int SRC_LAYER, double mul = 1.0)
 	{
 		let src_psp = player.FindPSprite(SRC_LAYER);
+		if(!src_psp) return;
+	
 		A_OverlayPivotAlign(DEST_LAYER, PSPA_CENTER, PSPA_CENTER);
 		A_OverlayRotate(DEST_LAYER, src_psp.rotation*mul);
 	}
 	action void A_FollowRotatedPos(int DEST_LAYER, int SRC_LAYER, vector2 max, double mul = 1.0, vector2 offs = (0,0))
 	{
 		let src_psp = player.FindPSprite(SRC_LAYER);
+		if(!src_psp) return;
+		
 		vector2 rvec = (cos(src_psp.rotation+90)*max.x, sin(src_psp.rotation)*max.y) * mul;
 		if(!invoker.handsbusy) rvec.y -= invoker.staticoffs.y;
 		bool hidezoom = invoker.scopezoom >= 2.0 && invoker.zoomed;
@@ -915,7 +921,7 @@ class HaloGun : RecoilWeapon
 			// Otherwise, kick.
 			if(meleeReady && !barrelKick)
 				CallMeleeState("DoMelee", true); // DoMelee
-			else if(!feetbusy && !inmelee)
+			else if(!feetbusy && !inmelee && !nokick)
 				CallKickState("DoKick", true);
 		}
 		

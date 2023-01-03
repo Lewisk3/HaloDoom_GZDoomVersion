@@ -539,7 +539,7 @@ class FX_Blackhole : RepulsorField
 			A_DoLightning();
 			
 		if(!level.isFrozen()) 
-			A_DoRepulse();
+			A_DoRepulse(target);
 			
 		
 		let it = ThinkerIterator.Create();
