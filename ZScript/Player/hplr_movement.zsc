@@ -365,14 +365,9 @@ extend class HaloPlayer
 		if( (btns & BT_GRAPPLE) && !(obtns & BT_GRAPPLE) && enable_grapple && (weap && !weap.handsbusy) )
 		{
 			if(grapple)
-			{
 				grapple.Retract();
-				return;
-			}
 			else
-			{
 				grapple = GrapplingHook.Deploy(self, (-10,-8,-10));
-			}
 		}
 		
 		// Determine if grapple is deployable.

@@ -144,6 +144,8 @@ class GrapplingHook : KineLimb
 			if(bInvisible) seg.A_SetScale(0);
 		}
 		
+		console.printf("Retracing: %d, Lerp %f", retracting, lerp); 
+		
 		// Retract
 		if(retracting) 
 		{	
