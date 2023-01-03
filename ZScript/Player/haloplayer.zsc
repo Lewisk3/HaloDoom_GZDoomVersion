@@ -254,7 +254,13 @@ class HaloPlayer : DoomPlayer
 	}
 	
 	override void Tick()
-	{		
+	{	
+		if(!player) 
+		{
+			super.Tick();
+			return;
+		}
+		
 		bool predicting = (player.cheats & CF_PREDICTING); 
 		if(predicting)
 		{
