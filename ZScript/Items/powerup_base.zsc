@@ -811,17 +811,20 @@ class PowerRepulsor : HaloPowerup
 		}
 		else
 		{
+			if(parrying)
+			{
+				// Resume PSprites
+				let pspr = Owner.player.psprites;
+				while (pspr)
+				{
+					pspr.Tics = 1;
+					pspr = pspr.Next;
+				}
+			}
+		
 			parryTics = default.parryTics;
 			parrying = false;
 			Level.SetFrozen(false);
-			
-			// Resume PSprites
-			let pspr = Owner.player.psprites;
-			while (pspr)
-			{
-				pspr.Tics = 1;
-				pspr = pspr.Next;
-			}
 		}
 	}
 }
