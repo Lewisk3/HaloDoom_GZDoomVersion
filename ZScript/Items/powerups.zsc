@@ -87,6 +87,14 @@ class HaloPowerGiver : PowerupGiver abstract
 		HaloPowerGiver.BackpackRarity 100;
 	}
 	
+	virtual void PlayAlertSound(Sound snd, double volume = 1.0)
+	{
+		let cplr = players[consoleplayer].mo;
+		if(cplr && cplr.FindInventory( (class<Inventory>)(powerupType) )) return;
+		
+		A_StartSound(snd, CHAN_BODY, CHANF_NOSTOP, volume:volume);
+	}
+	
 	override void BeginPlay()
 	{
 		super.beginPlay();
@@ -438,7 +446,11 @@ class HaloPower_Jetpack : HaloPower_Haste
 			rightFire.SetOrigin(level.vec3offset(pos, dir * rightPos), true);
 		}
 		
-		A_StartSound("Halo/Powerup/Jetpack/Loop", CHAN_BODY, CHANF_LOOPING, volume:0.35);
+		let cplr = players[consoleplayer].mo;
+		if(cplr && !cplr.FindInventory("PowerJetpack"))
+			A_StartSound("Halo/Powerup/Jetpack/Loop", CHAN_BODY, CHANF_LOOPING, volume:0.35);
+		else
+			A_StopSound(CHAN_BODY);
 	}
 	
 	States
@@ -563,7 +575,7 @@ class HaloPower_Visor : HaloPower_Haste replaces Infrared
 		double blink = (0.5 * sin(level.maptime*15)) + 0.5;
 		if(blink >= 1.0) bBRIGHT = !bBRIGHT;
 		
-		A_StartSound("Halo/Powerup/Visor/Alert", CHAN_BODY, CHANF_LOOPING);
+		PlayAlertSound("Halo/Powerup/Visor/Alert");
 	}
 	
 	States
@@ -607,7 +619,7 @@ class HaloPower_Icebeam : HaloPower_Haste replaces Infrared
 		double blink = (0.5 * sin(level.maptime*15)) + 0.5;
 		if(blink >= 1.0) bBRIGHT = !bBRIGHT;
 		
-		A_StartSound("Halo/Powerup/CryoCannon/Alert", CHAN_BODY, CHANF_LOOPING, volume:0.1);
+		PlayAlertSound("Halo/Powerup/CryoCannon/Alert", 0.3);
 	}
 	
 	States
@@ -648,7 +660,7 @@ class HaloPower_Repulsor : HaloPower_Haste replaces Infrared
 		double blink = (0.5 * sin(level.maptime*15)) + 0.5;
 		if(blink >= 1.0) bBRIGHT = !bBRIGHT;
 		
-		A_StartSound("Halo/Powerup/Repulsor/Alert", CHAN_BODY, CHANF_LOOPING, volume:0.1);
+		PlayAlertSound("Halo/Powerup/Repulsor/Alert", 0.1);
 	}
 	
 	States
