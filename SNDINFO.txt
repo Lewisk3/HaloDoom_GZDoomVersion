@@ -118,7 +118,7 @@ Halo/Powerup/Shield1 "Sounds/Items/power_shield1.ogg"
 Halo/Powerup/Shield2 "Sounds/Items/power_shield2.ogg"
 Halo/Powerup/Visor   "Sounds/SFX/GunPickup.ogg"
 Halo/Powerup/Visor/Alert "Sounds/Items/Visr/Visr_Alert.ogg"
-Halo/Powerup/Repulsor/Alert "Sounds/Items/Repulsor/Alert_Repulsor.ogg"
+Halo/Powerup/Repulsor/Alert "Sounds/Items/Alert_Repulsor.ogg"
  
 Halo/Visor/ON "Sounds/Items/Visr/Visr_On.ogg"
 Halo/Visor/OFF "Sounds/Items/Visr/Visr_Off.ogg"
