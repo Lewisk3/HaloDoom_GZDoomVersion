@@ -30,7 +30,7 @@ class ShieldProcessor : Inventory
 		inventory.maxamount 1;
 		ShieldProcessor.MaxShields 100;
 		ShieldProcessor.RegenSpeeds 2 * 35, 4 * 35; 
-		// ShieldProcessor.ForwardOffset 5;
+		ShieldProcessor.ForwardOffset 5;
 	}
 	
 	override void AttachToOwner(Actor other)
@@ -145,11 +145,14 @@ class ShieldProcessor : Inventory
 		vel = Owner.vel;
 		A_SetScale(Owner.Scale.X, Owner.Scale.Y);
 		
+		let viewer = players[consoleplayer].mo;
+		if(!viewer) return;
+		
 		vector3 fwd = (
-			cos(Owner.angle) * cos(Owner.pitch),
-			sin(Owner.angle) * cos(Owner.pitch),
-			-sin(Owner.pitch)
-		) * forwardOffs;
+			cos(viewer.angle) * cos(viewer.pitch),
+			sin(viewer.angle) * cos(viewer.pitch),
+			-sin(viewer.pitch)
+		) * -forwardOffs;
 		
 		SetOrigin(level.vec3offset(Owner.pos, vel + fwd), true);
 		

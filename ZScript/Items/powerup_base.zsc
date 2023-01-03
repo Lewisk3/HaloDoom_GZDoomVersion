@@ -696,15 +696,17 @@ class PowerRepulsor : HaloPowerup
 		look.FOV = 30;
 		double reflectDist = 100*100;
 		
+		vector3 dir = HaloMath.VecFromAngles(Owner.angle, Owner.pitch);
 		while(act = Actor(it.Next()))
 		{
 			if(!act.bMISSILE) continue;
+			if(act is "LaserBeam" || act.damage <= 0) continue; // LOL
 			if(!Owner.IsVisible(act, false, look)) continue;
 			if(act.Distance3DSquared(Owner) > reflectDist) continue;
 			
 			act.target = Owner;
-			act.vel *= -(act.vel.Length()*2.0);
-			act.vel += Owner.vel * (act.vel dot Owner.vel);
+			act.vel = dir * (act.vel.Length()*4.0);
+			act.vel += Owner.vel;
 			act.GiveInventory("MissileExplooder", 1);
 			act.SetDamage(act.damage * 20.0);
 			SmokeTrail.Start(0xFFFFAAAA, act.pos, level.vec3offset(act.pos, act.vel), (act.angle, act.pitch), 0.45); 
