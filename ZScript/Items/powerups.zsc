@@ -400,7 +400,7 @@ class HaloPower_Jetpack : HaloPower_Haste
 		Powerup.Type "PowerJetpack";
 		
 		Tag "Jetpack";
-		Inventory.PickupMessage "Picked up a Jetpack (Hold JUMP to activate)";
+		Inventory.PickupMessage "Picked up a Series 8 SOLA Jetpack (Hold JUMP to activate)";
 		Inventory.PickupSound "Halo/Powerup/Visor";
 		-HaloPowerGiver.FXHOVER;
 		+HaloPowerGiver.USETOPICKUP;
@@ -642,7 +642,7 @@ class HaloPower_Repulsor : HaloPower_Haste replaces Infrared
 		Powerup.Type "PowerRepulsor";
 		
 		Tag "Repulsor";
-		Inventory.PickupMessage "Picked up the Repulsor";
+		Inventory.PickupMessage "Picked up the Series T-35 Repulsor";
 		Inventory.PickupSound "Halo/Powerup/Visor";
 		-HaloPowerGiver.FXHOVER;
 		+HaloPowerGiver.USETOPICKUP;
