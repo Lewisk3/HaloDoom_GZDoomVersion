@@ -79,7 +79,12 @@ class PlasmaGrenades : FragGrenades
 }
 
 // Nade projectiles
-class FragGrenade_Proj : Actor
+class HaloGrenade_Proj : Actor
+{
+	// TODO: Unique nade behavior
+}
+
+class FragGrenade_Proj : HaloGrenade_Proj
 {
 	Default
 	{	
@@ -164,8 +169,6 @@ class FragGrenade_Proj : Actor
 		stop;
 	}
 }
-
-
 class FragGrenade_Smoke : TankRocket_Smoke
 {
 	Default
@@ -173,7 +176,6 @@ class FragGrenade_Smoke : TankRocket_Smoke
 		Scale 1.0;
 	}
 }
-
 class FragGrenade_FlyingExplosion : TankRocket_FlyingExplosion
 {
 	Default
@@ -226,7 +228,7 @@ class FragGrenadeExplosion : CheapActor
 
 
 // Plasma Grenade
-class PlasmaGrenade_Proj : Actor
+class PlasmaGrenade_Proj : HaloGrenade_Proj
 {
 	Actor hitactor;
 	bool onfloor;
@@ -357,7 +359,6 @@ class PlasmaGrenade_Proj : Actor
 		stop;
 	}
 }
-
 class PlasmaGrenade_Smoke : Actor
 {
 	Default
@@ -389,7 +390,6 @@ class PlasmaGrenade_Smoke : Actor
 		wait;
 	}
 }
-
 class PlasmaGrenade_Trail : Actor
 {
 	Default
@@ -412,7 +412,6 @@ class PlasmaGrenade_Trail : Actor
 		wait;
 	}
 }
-
 class PlasmaGrenadeExplosion : CheapActor
 {	
 	double explosionRadius, explosionDmg;

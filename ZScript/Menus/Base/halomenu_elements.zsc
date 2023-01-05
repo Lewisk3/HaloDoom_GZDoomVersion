@@ -64,7 +64,7 @@ class ANImageQueue ui
 		double dtime = 1000.0 / 60.0;
 		deltatime = (ftime/dtime);
 		
-		uint top = images.Size()-1;
+		int top = images.Size()-1;
 		if(top < 0) return;
 		
 		let cur = images[top];
