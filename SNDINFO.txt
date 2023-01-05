@@ -316,7 +316,7 @@ $random Halo/Weapons/Sniper/Fire      { SNIPER_FIRE1 SNIPER_FIRE2 SNIPER_FIRE3 }
 $random Halo/Weapons/Sniper/Fire/Bass { SNIPER_LOW1 SNIPER_LOW2 SNIPER_LOW3 }
 
 $volume Halo/Weapons/Sniper/Fire/Bass 1.0
-$volume Halo/Weapons/Sniper/Fire 0.6
+$volume Halo/Weapons/Sniper/Fire 1.0
 
 // Stanchion
 Stanchion_Fire1 "Sounds/Stanchion/StanchionFire1.ogg"
