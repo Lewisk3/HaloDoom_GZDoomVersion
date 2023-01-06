@@ -306,6 +306,12 @@ class HaloPlayer : DoomPlayer
 			return;
 		}
 		
+		// Clean up stuff on death.
+		if(player.playerstate == PST_DEAD) 
+		{
+			if(flashlight) flashlight.Destroy();
+		}
+		
 		// Flashlight stuff
 		if(!flashlight) 
 		{

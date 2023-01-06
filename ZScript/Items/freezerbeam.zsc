@@ -139,10 +139,10 @@ class PowerFreezerBeam : HaloPowerup
 		super.AttachToOwner(other);
 		SetupPSprite(other);
 	}
-	
-	
+		
 	override void DetachFromOwner ()
 	{
+		if(freezerLaser) freezerLaser.Destroy();
 	}
 	
 	override string SelectUIGraphic()
@@ -198,7 +198,7 @@ class PowerFreezerBeam : HaloPowerup
 		
 		let psp = Owner.player.FindPSprite(PSP_FREEZER);
 		if(psp)
-		{
+		{		
 			if(InStateSequence(ResolveState("FreezeBeam.Fire"), psp.CurState) && tryfire) 
 			{
 				// Cancel firing

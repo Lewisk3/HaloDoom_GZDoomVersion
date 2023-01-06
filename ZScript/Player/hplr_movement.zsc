@@ -432,7 +432,8 @@ extend class HaloPlayer
 			doJetpackMovement = true;
 			double thrust = jetThrustPerc * (GetGravity()*1.000000000000000000001);
 			
-			if( (player.viewz + thrust) >= (floorz+200)) 
+			double maxZ = min(ceilingz-50, (floorz+200));
+			if( (player.viewz + thrust) >= maxZ ) 
 				vel.z = 0;
 			else
 				vel.z += thrust;
