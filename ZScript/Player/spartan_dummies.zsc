@@ -95,7 +95,7 @@ class DummyShield : ShieldProcessor
 		if(shields > 0)
 		{
 			dmg = HaloProjectile.ApplyShieldDamage(dmg, HaloProjectile(inflictor), mod == 'Headshot');
-			A_StopSound(CHAN_5);
+			A_StopSound(CHAN_SHIELDLOOP);
 			Owner.A_StartSound("Shield/TakeDamage",flags:CHANF_NOSTOP);
 		}
 		target = source;

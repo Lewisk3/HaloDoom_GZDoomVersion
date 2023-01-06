@@ -46,7 +46,7 @@ class PlasmaCasterProj : PlasmaGrenade_Proj
 	
 	override bool ShouldStick()
 	{
-		return bounceCount <= 0;
+		return true; //bounceCount <= 0;
 	}
 }
 

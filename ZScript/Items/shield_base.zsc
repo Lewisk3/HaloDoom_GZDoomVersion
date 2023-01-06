@@ -1,6 +1,9 @@
 
 class ShieldProcessor : Inventory
 {
+	const CHAN_SHIELDLOOP = 81;
+	const CHAN_SHIELDWARN = 80;
+
 	double shields;
 	double maxshields;
 	double prevShields;
@@ -82,9 +85,9 @@ class ShieldProcessor : Inventory
 		if(snd_ShieldLow)
 		{
 			if(shields <= maxshields*0.25) 
-				Owner.A_StartSound(snd_ShieldLow, CHAN_5, CHANF_LOOPING);
+				Owner.A_StartSound(snd_ShieldLow, CHAN_SHIELDLOOP, CHANF_LOOPING);
 			else
-				Owner.A_StopSound(CHAN_5);
+				Owner.A_StopSound(CHAN_SHIELDLOOP);
 		}
 		
 		// Shield Regen

@@ -104,6 +104,7 @@ OptionMenu "HaloDoomGameplayOptions"
 	Slider "Weapon recoil intensity", "halodoom_recoil_intensity", 0, 2.0, 0.1, 1
 	Slider "Screenshake Intensity", "r_quakeintensity", 0.0, 1.0, 0.1, 1
 	Slider "Effects intensity", "halodoom_effectintensity", 0, 3.0, 0.1, 1 
+	Option "Spartan One-liners", "halodoom_spartanvoicelines", "EnabledDisabled"
 	StaticText " "
 	StaticText "Effects", "Black"
 	Option "Smoke", "halodoom_fx_smoke", "EnabledDisabled"

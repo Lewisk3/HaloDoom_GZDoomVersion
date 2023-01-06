@@ -29,6 +29,7 @@ class HaloPlayer : DoomPlayer
 	
 	// Sound effects
 	Sound snd_ShieldRegen;
+	const CHAN_VOICELINES = 69;
 	
 	// Door to be activated once animation finishes.
 	transient Line pendingDoor; 
@@ -120,6 +121,43 @@ class HaloPlayer : DoomPlayer
 	{
 		let gt = HaloMath.getCurrentGameType();
 		return gt.defName ~== types;
+	}
+	
+	virtual void OnEnemyKilled(Actor victim)
+	{
+		if(!player) return;
+		
+		let cv_voicelines = CVar.GetCVar("halodoom_spartanvoicelines", player);
+		if(!cv_voicelines || !cv_voicelines.getBool()) return;
+		
+		String SNDGender = "";
+		switch(player.GetGender())
+		{
+			case GENDER_FEMALE:
+				SNDGender = "F";
+			break;
+			
+			default:
+			case GENDER_MALE:
+				SNDGender = "M";
+			break;
+		}
+		
+		int res = random[OnelinersRNG](0,100);
+		if(res >= 70)
+		{
+			string SNDBase = String.Format("Halo/Spartan/%s/GotKill", SNDGender);
+			string SNDType = "";
+			
+			if(victim is "Revenant")
+				SNDType = "Revenant";
+			else if(victim.bSHADOW || victim.GetRenderStyle() == STYLE_OPTFUZZY)
+				SNDType = "Spectre";
+		
+			string SNDFinal = (SNDType != "") ? String.Format("%s_%s", SNDBase, SNDType) : SNDBase;
+			// console.printf("Final %s", SNDFinal);
+			A_StartSound(SNDFinal, CHAN_VOICELINES, volume:0.8);
+		}
 	}
 	
 	// Called when the player initially spawns, sets up spawn items.
@@ -300,9 +338,9 @@ class HaloPlayer : DoomPlayer
 		// Don't do stuff when dead or a voodoo.
 		if( health <= 0 || (!player || !player.mo || player.mo != self) ) 
 		{
-			A_StopSound(CHAN_7);
-			A_StopSound(CHAN_5);
-			A_StopSound(CHAN_6);
+			A_StopSound(CHAN_7); // Various Weapon loop sound effects.
+			A_StopSound(ShieldProcessor.CHAN_SHIELDLOOP);
+			A_StopSound(ShieldProcessor.CHAN_SHIELDWARN);
 			super.Tick();
 			return;
 		}
@@ -340,11 +378,11 @@ class HaloPlayer : DoomPlayer
 		if(regen_timer < shregentime)
 		{
 			if(shields <= 0) 
-				A_StartSound("Shield/Warning", CHAN_6, flags:sndflags);
+				A_StartSound("Shield/Warning", ShieldProcessor.CHAN_SHIELDLOOP, flags:sndflags);
 			else if(shields <= maxshields*0.25) 
-				A_StartSound("Shield/Low", CHAN_6, flags:sndflags);
+				A_StartSound("Shield/Low", ShieldProcessor.CHAN_SHIELDLOOP, flags:sndflags);
 		} else if(shields > (maxshields*0.25))
-			A_StopSound(CHAN_6);
+			A_StopSound(ShieldProcessor.CHAN_SHIELDLOOP);
 			
 		if(regen_timer < shregentime) 
 		{	
@@ -358,18 +396,18 @@ class HaloPlayer : DoomPlayer
 			double recharge_perc = (shields / maxshields);
 			if(!shields_recharging)
 			{
-				A_StartSound(snd_ShieldRegen, CHAN_5, flags:CHANF_MAYBE_LOCAL, startTime:recharge_perc);
+				A_StartSound(snd_ShieldRegen, ShieldProcessor.CHAN_SHIELDWARN, flags:CHANF_MAYBE_LOCAL, startTime:recharge_perc);
 				shields_recharging = true;
 			}
-			A_SoundVolume(CHAN_5, (1.0 - recharge_perc) + 0.1);
+			A_SoundVolume(ShieldProcessor.CHAN_SHIELDWARN, (1.0 - recharge_perc) + 0.1);
 			shields += maxshields/(shield_regenrate*35.);
 			shields = clamp(shields, 0, maxshields);
-			A_StopSound(CHAN_6);
+			A_StopSound(ShieldProcessor.CHAN_SHIELDLOOP);
 		}
 		if(shields >= maxshields)
 		{
 			shields_recharging = false;
-			A_StopSound(CHAN_5);
+			A_StopSound(ShieldProcessor.CHAN_SHIELDWARN);
 		}
 		
 		// Aim Assist
@@ -452,7 +490,8 @@ class HaloPlayer : DoomPlayer
 			if(mod == 'hitscan') truedamage *= 0.5;
 			regen_timer = 0;
 			shields -= truedamage;
-			A_StopSound(CHAN_5);
+			shields_recharging = false;
+			A_StopSound(ShieldProcessor.CHAN_SHIELDWARN);
 			A_StartSound("Shield/TakeDamage",flags:CHANF_NOSTOP);
 			if(shields <= 0) 
 			{	

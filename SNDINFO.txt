@@ -948,6 +948,25 @@ Halo/Spartan/ZipLine/End "Sounds/Players/Abilities/zip_end.ogg"
 Halo/Spartan/Land/Normal "Sounds/Players/land_normal.ogg"
 Halo/Spartan/Land/Hard "Sounds/Players/land_hard.ogg"
 
+M_GOTKILL1 "Sounds/Players/M_KILL1.ogg"
+M_GOTKILL2 "Sounds/Players/M_KILL2.ogg"
+M_GOTKILL3 "Sounds/Players/M_KILL3.ogg"
+M_GOTKILL4 "Sounds/Players/M_KILL4.ogg"
+M_GOTKILLREV1 "Sounds/Players/M_Kill_Rev1.ogg"
+M_GOTKILLREV2 "Sounds/Players/M_Kill_Rev2.ogg"
+M_GOTKILLSPECTRE1 "Sounds/Players/M_Kill_Spectre1.ogg"
+M_GOTKILLSPECTRE2 "Sounds/Players/M_Kill_Spectre2.ogg"
+
+$random Halo/Spartan/M/GotKill_Spectre { M_GOTKILLSPECTRE1 M_GOTKILLSPECTRE2 }
+$random Halo/Spartan/M/GotKill_Revenant { M_GOTKILLREV1 M_GOTKILLREV2 }
+$random Halo/Spartan/M/GotKill { M_GOTKILL1 M_GOTKILL2 M_GOTKILL3 M_GOTKILL4 }
+
+F_GOTKILL1 "Sounds/Players/Female/F_KILL1.ogg"
+F_GOTKILL2 "Sounds/Players/Female/F_KILL2.ogg"
+F_GOTKILL3 "Sounds/Players/Female/F_KILL3.ogg"
+F_GOTKILL4 "Sounds/Players/Female/F_KILL4.ogg"
+$random Halo/Spartan/F/GotKill { F_GOTKILL1 F_GOTKILL2 F_GOTKILL3 F_GOTKILL4 }
+
 $random Halo/Spartan/Dash { Halo/Spartan/Dash1 Halo/Spartan/Dash2 Halo/Spartan/Dash3 Halo/Spartan/Dash4 }
 $random Halo/Spartan/Slide { Halo/Spartan/Slide1 Halo/Spartan/Slide2 Halo/Spartan/Slide3 }
 $random Halo/Spartan/DoubleJump { Halo/Spartan/DoubleJump1 Halo/Spartan/DoubleJump2 }
@@ -966,3 +985,16 @@ $playersound	Spartan  male	*land	  "Sounds/Players/land_normal.ogg"
 $playersound	Spartan  male	*jump	  "Sounds/Players/jump1.ogg"
 $playersound	Spartan  male	*fist	  dspunch
 $playersound	Spartan  male	*usefail  "Sounds/Melee/MeleeMiss.ogg"
+
+$playersound	Spartan  female	*death 	  "Sounds/Players/Female/F_Death1.ogg" 
+$playersound	Spartan  female	*xdeath	  "Sounds/Players/Female/F_Death4.ogg" 
+$playersound	Spartan  female	*gibbed	  "Sounds/Players/Female/F_Death2.ogg" 
+$playersound	Spartan  female	*pain100  "Sounds/Players/Female/F_Death3.ogg" 
+$playersound	Spartan  female	*pain75	  "Sounds/Players/Female/F_Pain_High.ogg" 
+$playersound	Spartan  female	*pain50	  "Sounds/Players/Female/F_Pain_Med.ogg" 
+$playersound	Spartan  female	*pain25	  "Sounds/Players/Female/F_Pain_Low.ogg" 
+$playersound	Spartan  female	grunt	  "Sounds/Players/Female/F_Jump.ogg"
+$playersound	Spartan  female	*land	  "Sounds/Players/land_normal.ogg"
+$playersound	Spartan  female	*jump	  "Sounds/Players/Female/F_Jump.ogg"
+$playersound	Spartan  female	*fist	  dspunch
+$playersound	Spartan  female	*usefail  "Sounds/Melee/MeleeMiss.ogg"

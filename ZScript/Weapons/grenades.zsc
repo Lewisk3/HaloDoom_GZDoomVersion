@@ -273,6 +273,7 @@ class PlasmaGrenade_Proj : HaloGrenade_Proj
 			{
 				bNOGRAVITY = true;
 				vel *= 0;
+				SetState(FindState("Death"));
 			}			
 		}		
 		

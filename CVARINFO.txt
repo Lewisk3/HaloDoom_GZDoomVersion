@@ -26,3 +26,4 @@ server bool halodoom_unlimitedbackpack = false;
 server bool halodoom_meetyourunmaker = false;
 server int halodoom_holdmoarweapons = 0;
 server bool halodoom_allpoweredup = false;
+user bool halodoom_spartanvoicelines = false;
