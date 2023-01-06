@@ -706,9 +706,11 @@ class PowerRepulsor : HaloPowerup
 			if(!act.bMISSILE) continue;
 			if(act is "LaserBeam") continue; // LOL
 			if(!Owner.IsVisible(act, false, look)) continue;
+			console.printf("Just need distance %s", act.getClassName());
 			if(!haloproj && act.Distance3DSquared(Owner) > reflectDist) continue;
+			console.printf("Distance is good");
 			if( haloproj && act.Distance3DSquared(Owner) > (reflectDist*2.0)) continue;
-			if(damage <= 0 && !haloproj && !haloslowproj && !nade) continue;
+			if(act.damage <= 0 && !haloproj && !haloslowproj && !nade) continue;
 
 			act.target = Owner;
 			act.vel = dir * (act.vel.Length()*4.0);
