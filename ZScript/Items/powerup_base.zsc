@@ -701,13 +701,14 @@ class PowerRepulsor : HaloPowerup
 		{
 			let haloproj = HaloProjectile(act);
 			let haloslowproj = HaloSlowProjectile(act);
-		
+			let nade = HaloGrenade_Proj(act);
+
 			if(!act.bMISSILE) continue;
 			if(act is "LaserBeam") continue; // LOL
 			if(!Owner.IsVisible(act, false, look)) continue;
 			if(!haloproj && act.Distance3DSquared(Owner) > reflectDist) continue;
 			if( haloproj && act.Distance3DSquared(Owner) > (reflectDist*2.0)) continue;
-			if(damage <= 0 && !haloproj && !haloslowproj) continue;
+			if(damage <= 0 && !haloproj && !haloslowproj && !nade) continue;
 
 			act.target = Owner;
 			act.vel = dir * (act.vel.Length()*4.0);
