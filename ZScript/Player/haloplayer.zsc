@@ -144,7 +144,7 @@ class HaloPlayer : DoomPlayer
 		}
 		
 		int res = random[OnelinersRNG](0,100);
-		if(res >= 70)
+		if( res >= 70 && !IsActorPlayingSound(CHAN_VOICELINES) )
 		{
 			string SNDBase = String.Format("Halo/Spartan/%s/GotKill", SNDGender);
 			string SNDType = "";
@@ -156,7 +156,7 @@ class HaloPlayer : DoomPlayer
 		
 			string SNDFinal = (SNDType != "") ? String.Format("%s_%s", SNDBase, SNDType) : SNDBase;
 			// console.printf("Final %s", SNDFinal); 
-			A_StartSound(SNDFinal, CHAN_VOICELINES, CHANF_NOPAUSE);
+			A_StartSound(SNDFinal, CHAN_VOICELINES, CHANF_NOPAUSE|CHANF_NOSTOP);
 		}
 	}
 	
