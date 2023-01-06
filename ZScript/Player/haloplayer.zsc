@@ -156,7 +156,7 @@ class HaloPlayer : DoomPlayer
 		
 			string SNDFinal = (SNDType != "") ? String.Format("%s_%s", SNDBase, SNDType) : SNDBase;
 			// console.printf("Final %s", SNDFinal);
-			A_StartSound(SNDFinal, CHAN_VOICELINES, volume:0.8);
+			A_StartSound(SNDFinal, CHAN_VOICELINES);
 		}
 	}
 	
