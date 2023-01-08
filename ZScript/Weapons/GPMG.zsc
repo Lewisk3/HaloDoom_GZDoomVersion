@@ -15,12 +15,12 @@ class Halo_GPMG_Reserves : Ammo
 		Scale 0.65;
 
 		Inventory.Amount 25;
-		Inventory.MaxAmount 150;
+		Inventory.MaxAmount 200;
 		Inventory.Icon "HLAMO0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "Picked up 25 Rounds for the GPMG";
 		
-		Ammo.BackpackMaxAmount 150;
+		Ammo.BackpackMaxAmount 200;
 	}
 	
 	States
