@@ -2,7 +2,7 @@ class Halo_GPMG_Clip : Ammo
 {
 	Default 
 	{
-		Inventory.MaxAmount 100;
+		Inventory.MaxAmount 50;
 	}
 }
 class Halo_GPMG_Reserves : Ammo
@@ -14,13 +14,13 @@ class Halo_GPMG_Reserves : Ammo
 		Height 6;
 		Scale 0.65;
 
-		Inventory.Amount 50;
-		Inventory.MaxAmount 300;
+		Inventory.Amount 25;
+		Inventory.MaxAmount 150;
 		Inventory.Icon "HLAMO0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
-		Inventory.PickupMessage "Picked up 50 Rounds for the GPMG";
+		Inventory.PickupMessage "Picked up 25 Rounds for the GPMG";
 		
-		Ammo.BackpackMaxAmount 300;
+		Ammo.BackpackMaxAmount 150;
 	}
 	
 	States
@@ -98,7 +98,7 @@ class Halo_GPMG : HaloGun
 		Weapon.BobRangeX 0.80;
 		Weapon.AmmoType1 "Halo_GPMG_Reserves";
 		Weapon.AmmoType2 "Halo_GPMG_Clip";
-		Weapon.AmmoGive 100;
+		Weapon.AmmoGive 50;
 				
 		// Recoil
 		HaloGun.Bloom 0.12;
