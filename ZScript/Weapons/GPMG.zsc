@@ -72,7 +72,7 @@ class GPMGBulletExplosion : CheapActor
 				
 				let flare = Spawn("TankRocket_Flare", (pos.xy, pos.z+20));
 				if(flare) flare.A_SetScale(0.35);
-				HaloMath.ExplodeEx(self, 32, 128, infiniteHeight:false);
+				HaloMath.ExplodeEx(self, 32, 128, damageBosses:false, infiniteHeight:false);
 			}
 			SX04 ABCD 1 Bright;
 			TNT1 A 0 
@@ -84,7 +84,6 @@ class GPMGBulletExplosion : CheapActor
 		stop;
 	}
 }
-
 
 class Halo_GPMG : HaloGun 
 {	
@@ -111,7 +110,8 @@ class Halo_GPMG : HaloGun
 		HaloGun.SetupUIAmmo "WI_AMMO", 12.5, 12.5, 0, 9;
 		HaloGun.UIAmmo_Scale_Offset 1.0, 0, -10;
 
-		HaloGun.PowerTier P_STRONG;
+		HaloGun.PowerTier P_POWER;
+		HaloGun.Rarity 50;
 		
 		RecoilWeapon.YOffsetRange -4, 40;
 	}
