@@ -829,20 +829,35 @@ class StringHelper Abstract
 		return outStr;
 	}
 	 
-	static bool, string parseStrElement(String type, String ln)
+	static bool, string parseStrElement(String type, String ln, bool filterNewLines = true, bool filterSpaces = true)
 	{
+		string quote = "\"";
 		string lnLower = ln.MakeLower();
 		type = type.MakeLower();
-				
+		
 		int element_S = lnLower.IndexOf(type);
-		int element_E = lnLower.IndexOf("\n", element_S);
+		int elementStr_S = lnLower.IndexOf(quote, element_S);
+		int element_E = lnLower.IndexOf(quote, elementStr_S+1);
+		
+		/*
+		console.printf("Parsing: [%s] \nfor StringKeyword %s", ln, type);
+		console.printf("Starting At: %d -> %s \n", element_S, lnLower.Mid(element_S));
+		console.printf("String Starts: %d -> %s \n", elementStr_S, lnLower.Mid(elementStr_S));
+		console.printf("Ending At: %d -> %s \n", element_E, lnLower.Mid(element_E));
+		console.printf("\n\n");
+		*/
+		
 		if(element_S < 0 || element_E < 0) return false, "";
 		
-		string output = ln.Mid(element_S, element_E-element_S);
-		int strBegin = output.IndexOf("\"");
-		int strEnd = output.IndexOf("\"", strBegin+1);
+		String output = ln.Mid(elementStr_S+1, (element_E-elementStr_S)-1);	
+		if(filterNewLines) output.Replace("\n", "");
+		if(filterSpaces) 
+		{
+			output.Replace(" ", "");
+			output.Replace("\t", "");
+		}
 		
-		return true, output.Mid(strBegin+1, (strEnd-strBegin)-1);
+		return true, output;
 	}
 	
 	static bool, int parseIntElement(String type, String ln)

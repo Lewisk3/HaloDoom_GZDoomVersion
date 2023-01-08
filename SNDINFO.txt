@@ -541,6 +541,28 @@ $random Halo/Weapons/Commando/Fire { CMDO_FIR1 CMDO_FIR2 CMDO_FIR3 }
 $random Halo/Weapons/Commando/Fire/Bass { CMDO_LOW1 CMDO_LOW2 CMDO_LOW3 }
 $random Halo/Weapons/Commando/Mech { CMDO_MECH1 CMDO_MECH2 CMDO_MECH3 }
 
+// GPMG
+Halo/Weapons/GPMG/Reload "Sounds/GPMG/GPMG_Reload.ogg"
+Halo/Weapons/GPMG/Reload/Empty "Sounds/GPMG/GPMG_ReloadEmpty.ogg"
+Halo/Weapons/GPMG/Draw "Sounds/GPMG/GPMG_Draw.ogg"
+
+GPMG_FIRE1 "Sounds/GPMG/GPMG_Fire1.ogg"
+GPMG_FIRE2 "Sounds/GPMG/GPMG_Fire2.ogg"
+GPMG_FIRE3 "Sounds/GPMG/GPMG_Fire3.ogg"
+GPMG_FIRE4 "Sounds/GPMG/GPMG_Fire4.ogg"
+GPMG_LOW1 "Sounds/GPMG/GPMG_Low1.ogg"
+GPMG_LOW2 "Sounds/GPMG/GPMG_Low2.ogg"
+GPMG_LOW3 "Sounds/GPMG/GPMG_Low3.ogg"
+GPMG_LOW4 "Sounds/GPMG/GPMG_Low4.ogg"
+GPMG_MECH1 "Sounds/GPMG/GPMG_Mech1.ogg"
+GPMG_MECH2 "Sounds/GPMG/GPMG_Mech2.ogg"
+GPMG_MECH3 "Sounds/GPMG/GPMG_Mech3.ogg"
+GPMG_MECH4 "Sounds/GPMG/GPMG_Mech4.ogg"
+
+$random Halo/Weapons/GPMG/Fire { GPMG_FIRE1 GPMG_FIRE2 GPMG_FIRE3 GPMG_FIRE4 }
+$random Halo/Weapons/GPMG/Fire/Bass  { GPMG_LOW1 GPMG_LOW2 GPMG_LOW3 GPMG_LOW4 }
+$random Halo/Weapons/GPMG/Mech { GPMG_MECH1 GPMG_MECH2 GPMG_MECH3 GPMG_MECH4 }
+
 // MA5B
 MA5B_FIRE1 "Sounds/MA5B/MA5B_Fire1.ogg"
 MA5B_FIRE2 "Sounds/MA5B/MA5B_Fire2.ogg"

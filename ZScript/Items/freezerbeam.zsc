@@ -296,7 +296,7 @@ class PowerFreezerBeam : HaloPowerup
 					*/
 						
 					let frz = I_Frozen(invoker.laserTarget.FindInventory("I_Frozen"));
-					invoker.cooldown += 4;
+					invoker.cooldown += 8;
 					invoker.heat += 4;
 					
 					if(invoker.heat >= 100)
