@@ -1,6 +1,6 @@
 GameInfo
 {
-	AddEventHandlers = "HaloPickup_EVH", "Halo_OverlayUI", "HaloDoom_Events", "HaloDoom_EngineEvents"
+	AddEventHandlers = "HaloPickup_EVH", "Halo_OverlayUI", "HaloDoom_Events", "HaloDoom_EngineEvents", "HaloSkulls_Events"
 	StatusBarClass = "HaloStatusBar"
 	PlayerClasses = "HaloSpartan_II", "HaloSpartan_III", "HaloSpartan_IV", "DoomPlayer"
 	

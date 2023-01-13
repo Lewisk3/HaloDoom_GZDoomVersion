@@ -8,11 +8,19 @@ class HaloDoom_Events : EventHandler
 	
 	HaloDoom_EngineEvents engHandle;
 	Dictionary surfacesDatabase;
+	Dictionary splashDatabase;
 	
 	static Dictionary GetSurfacesData()
 	{
 		let haloEvents = HaloDoom_Events(EventHandler.Find("HaloDoom_Events"));
 		if(haloEvents) return haloEvents.surfacesDatabase;
+		return null;
+	}
+	
+	static Dictionary GetSplashData()
+	{
+		let haloEvents = HaloDoom_Events(EventHandler.Find("HaloDoom_Events"));
+		if(haloEvents) return haloEvents.splashDatabase;
 		return null;
 	}
 	
@@ -22,7 +30,8 @@ class HaloDoom_Events : EventHandler
 				
 		// Initialize footsteps
 		surfacesDatabase = Dictionary.Create();
-		PopulateFootsteps();
+		splashDatabase = Dictionary.Create();
+		PopulateSurfaces();
 		runningLZDoom = !!CVar.GetCVar("vid_displaybits");
 	}
 	
@@ -60,8 +69,10 @@ class HaloDoom_Events : EventHandler
 		for(int i = src.Length(); i >= 0; i--)
 			if(src.ByteAt(i) == TOK_EndOfLine) src.Remove(i,1);
 	}
-	void PopulateFootsteps()
+	void PopulateSurfaces()
 	{
+		string tok_Splash = "splash";
+	
 		// Read stepdefs 
 		for(int lump = -1; (lump = Wads.FindLump("SURFDEFS", lump+1)) != -1;)
 		{
@@ -91,12 +102,23 @@ class HaloDoom_Events : EventHandler
 			for(int i = 0; i < dataPoints.Size(); i++)
 			{
 				string defs = dataPoints[i];
+				string defsLower = dataPoints[i].MakeLower();
 				if(defs == "" || defs.Length() <= 0) continue;
 				
 				int argStart = defs.IndexOf("{");
 				if(argStart < 0) 
 					ThrowAbortException("STEPDEFS Error, expecting { following sound name.");
-					
+				
+				int keyword_Splash = defsLower.IndexOf(tok_Splash);
+				string splashname = "";
+				
+				if(keyword_Splash >= 0) 
+				{
+					int start = keyword_Splash+tok_Splash.Length();
+					splashname = defs.Mid(start, argStart-start);
+					StringFilterEOL(splashname);
+				}
+				
 				string soundname = defs.Left(argStart);
 				string textures = defs.Mid(argStart+1, defs.Length()-argStart);
 				StringFilterEOL(soundname);
@@ -110,7 +132,10 @@ class HaloDoom_Events : EventHandler
 					string texName = textureNames[t];
 					StringFilterEOL(texName);
 					
-					surfacesDatabase.Insert(texName, soundName);
+					if(splashname)
+						splashDatabase.Insert(texName, splashname);
+					else
+						surfacesDatabase.Insert(texName, soundName);
 				}
 			}
 		}

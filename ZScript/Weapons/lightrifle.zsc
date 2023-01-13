@@ -50,6 +50,7 @@ class LSR_LightRifle : LSR_UnmakerBeam
 		}
 		
 		DoLaserDecal(laserDecalType);
+		Spawn("BulletSplashSpawner", hitPos);
 		if(hitActor) hitActor.DamageMobJ(self, source, LIGHTRIFLE_DMG, "Plasma");
 	}
 }

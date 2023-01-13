@@ -46,6 +46,7 @@ class HaloMagnum_Bullet : HaloBullet
 		HaloProjectile.HeadshotDMGFactor MAGNUM_HEDMOD;
 		HaloProjectile.ShieldDamageFactors 1.0, 1.0;
 		HaloProjectile.RipperCount 2;
+		HaloProjectile.SplashSpawner "LargeSplashSpawner";
 		
 		Scale 2.0;
 	}

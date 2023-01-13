@@ -15,6 +15,7 @@ class HaloPlasmaRifle_Proj : HaloPlasma_Proj
 		HaloProjectile.BaseDamage PLASMARIFLE_DMG; 
 		HaloProjectile.Speed_MPS  PLASMARIFLE_BMPS;
 		HaloProjectile.HeadshotDMGFactor PLASMARIFLE_HEDMOD;
+		HaloProjectile.SplashSpawner "PlasmaSplashSpawner";
 		
 		RenderStyle "Add";
 		Translation "0:255=@65[10,8,240]";

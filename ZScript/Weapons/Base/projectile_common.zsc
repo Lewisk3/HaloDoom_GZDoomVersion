@@ -18,6 +18,7 @@ mixin class HaloProjectile_Common
 	bool isHoming;
 	double homingStrength;
 	double homingFOV;
+	class<Actor> splashSpawner;
 	
 	// Shield stuff
 	double shield_HeadshotDMG;
@@ -26,6 +27,7 @@ mixin class HaloProjectile_Common
 	// Keep track of ripped-through targets so damage isn't done multiple times.
 	Array<Actor> act_hits;
 	
+	Property SplashSpawner : splashSpawner;
 	Property SetRanges : range_falloff, range_max;
 	Property MinRangeDamage : falloff_minimum;
 	Property BaseDamage : truedamage;
@@ -56,6 +58,12 @@ mixin class HaloProjectile_Common
 		}
 		
 		return dmg;
+	}
+	
+	virtual void SpawnSplash()
+	{
+		let splash = Actor.Spawn(splashSpawner, (pos.x, pos.y, floorz));
+		if(splash) splash.target = self;
 	}
 	
 	virtual void ActivateLines()

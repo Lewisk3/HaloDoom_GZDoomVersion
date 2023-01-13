@@ -61,6 +61,7 @@ class LSR_UnmakerBeam : LaserBeam
 		let puff = UnmakerLaserPuff(Spawn("UnmakerLaserPuff", hitPos));
 		if(puff) 
 		{
+			Spawn("LargeSplashSpawner", hitPos);
 			if(lowEffects) puff.laserAmt = 0;
 			puff.angle = angle + 180;
 			puff.pitch = -(pitch-90);

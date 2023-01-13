@@ -54,6 +54,7 @@ version "4.10.0"
 #include "ZScript/Weapons/Base/projectilebase.zsc"
 #include "ZScript/Weapons/Base/ammobase.zsc"
 #include "ZScript/Weapons/sfx.zsc"
+#include "ZScript/Weapons/bullet_splashes.zsc"
 
 // Weapons
 #include "ZScript/Weapons/grapple.zsc"
@@ -115,6 +116,11 @@ version "4.10.0"
 // BiriBiri (Lightning)
 #include "ZScript/Lightning/biribiri_base.zsc"
 #include "ZScript/Lightning/biribiri_parts.zsc"
+
+// Skull Events
+#include "ZScript/Skulls/skulls_base.zsc" 
+#include "ZScript/Skulls/skulls_events.zsc" 
+#include "ZScript/Skulls/skulls.zsc" 
 
 // [>> Gameplay Constants <<]
 const UNIT_METER = 8.f;

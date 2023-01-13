@@ -49,6 +49,7 @@ class HaloSniper_Bullet : HaloBullet
 		HaloProjectile.RipperCount 3;
 		HaloProjectile.DoExplosiveDamage 64, 128;
 		HaloProjectile.ShieldDamageFactors 0.5, 2.0;
+		HaloProjectile.SplashSpawner "LargeSplashSpawner";
 	}
 }
 

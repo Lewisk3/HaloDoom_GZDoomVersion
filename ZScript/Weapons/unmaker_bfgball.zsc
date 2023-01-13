@@ -21,6 +21,7 @@ class UnmakerBall : HaloSlowProjectile
 		HaloSlowProjectile.MinRangeDamage 100; 
 		HaloSlowProjectile.BaseDamage Unmaker_DMG * 0.25;
 		HaloSlowProjectile.Speed_MPS Unmaker_BMPS;
+		HaloSlowProjectile.SplashSpawner "LargeSplashSpawner";
 	}
 	
 	void FireLasers(double amt = 5, double maxDist = 1024)

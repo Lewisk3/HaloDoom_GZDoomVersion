@@ -15,7 +15,7 @@ class FragGrenades : Inventory
 
 	Default
 	{
-		Inventory.MaxAmount 4;
+		Inventory.MaxAmount 3;
 		Inventory.PickupMessage "Picked up a Frag Grenade";
 		Inventory.PickupSound "Halo/Grenade/Frag/Pickup";
 		+Inventory.KEEPDEPLETED;
@@ -198,6 +198,7 @@ class FragGrenadeExplosion : CheapActor
 			TNT1 A 0;
 			TNT1 A 1 
 			{
+				Spawn("LargeSplashSpawner", pos);
 				let shockwave = Spawn("FX_Shockwave", pos);
 				if(shockwave) shockwave.alpha = 0.5;
 				
@@ -434,6 +435,8 @@ class PlasmaGrenadeExplosion : CheapActor
 			TNT1 A 0;
 			TNT1 A 1 
 			{
+				Spawn("PlasmaSplashSpawner", pos);
+				Spawn("LargeSplashSpawner", pos);
 				vector3 fxpos = (pos.xy, pos.z+20);
 				HaloMath.SpawnFX("PlasmaGrenade_Smoke", fxpos, angle, 20, 20, 20, frandom[SFX](0,360), frandom[SFX](-30,30), frandom[SFX](-3, 3));
 				HaloMath.SpawnFX("WraithPlasma_FlyingPlasma", fxpos, angle, random[SFX](5,12), 10, 20, 180,45, 12);

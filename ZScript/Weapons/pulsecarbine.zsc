@@ -18,6 +18,7 @@ class HaloPulseCarbine_Proj : HaloPlasma_Proj
 		HaloProjectile.Speed_MPS  PULSECARBINE_BMPS * 0.25;
 		HaloProjectile.HeadshotDMGFactor PULSECARBINE_HEDMOD;
 		HaloProjectile.SetupHoming true, PULSECARBINE_HOM * 0.25, 10;
+		HaloProjectile.SplashSpawner "PlasmaSplashSpawner";
 		
 		RenderStyle "Add";
 		Translation "0:255=@65[10,8,240]";

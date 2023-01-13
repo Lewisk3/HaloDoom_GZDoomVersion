@@ -135,12 +135,12 @@ class HaloMath Abstract
 		return proj;
 	}
 
-	play static void SpawnFX(class<Actor> type, vector3 frompos, double sangle, double amt, double maxdist, double ydist, double vel_angle = 0, double vel_pitch = 0, double vel_spd = 0, int rstyle = -1)
+	play static void SpawnFX(class<Actor> type, vector3 frompos, double sangle, double amt, double maxdist, double ydist, double vel_angle = 0, double vel_pitch = 0, double vel_spd = 0, int rstyle = -1, bool absPitch = false)
 	{
 		int adjustedAmt = max(amt * halodoom_effectintensity, 0);
 		for(int i = 0; i < adjustedAmt; i++)
 		{
-			double spawnang = frandom[SpFX](0,180);
+			double spawnang = 0; //frandom[SpFX](0,180);
 			double spawndist = frandom[SpFX](-maxdist, maxdist);
 			vector3 spawndir = (
 				cos(sangle + spawnang),
@@ -152,11 +152,11 @@ class HaloMath Abstract
 			let obj = Actor.Spawn(type, level.vec3offset(frompos, spawndir));
 			if(obj && vel_spd != 0)
 			{
-				double velang = frandom[SpFX](-vel_angle,vel_angle);
+				double velang = (sangle + spawnang) + frandom[SpFX](-vel_angle,vel_angle);
 				vector3 veldir = (
 					cos(velang),
 					sin(velang),
-					sin(frandom[SpFX](-vel_pitch,vel_pitch))
+					absPitch ? -sin(vel_pitch*frandom[SpFX](0.8,1.2)) : sin(frandom[SpFX](-vel_pitch,vel_pitch))
 				);
 				obj.vel = veldir * vel_spd;
 				obj.angle = (sangle + spawnang);
@@ -768,6 +768,43 @@ class HaloMath Abstract
 		return Wads.ReadLump(lump);
 	}
 	
+	
+	static void getActiveSkulls(out Array<string> skulls)
+	{
+		string activeSkulls = halodoom_activeskulls;
+		activeSkulls = activeSkulls.MakeLower();
+		activeSkulls.Filter();
+		activeSkulls.Replace(" ", "");
+		activeSkulls.Replace("\t", "");
+		activeSkulls.Replace(String.Format("%c", 13), "");
+		activeSkulls.Split(skulls, ",");
+	}
+	
+	/*
+		// Whenever GZDoom fixes static thinkers...
+		static void getSkullClasses(out Array<class<HaloSkull> > skullClasses)
+		{
+			skullClasses.Clear();
+			for(int lump = -1; (lump = Wads.FindLump("SKULLS", lump+1)) != -1;)
+			{
+				string data = Wads.ReadLump(lump);
+				data = data.Filter();
+
+				data.Replace(" ", "");
+				data.Replace("\t", "");
+				data.Replace(String.Format("%c", 13), "");
+				
+				Array<string> lines;
+				data.Split(lines, "\n");
+				
+				foreach(token : lines)
+				{
+					let cls = (class<HaloSkull>)(token);
+					if(cls) skullClasses.Push(cls);
+				}
+			}
+		}
+	*/
 }
 
 class StringHelper Abstract

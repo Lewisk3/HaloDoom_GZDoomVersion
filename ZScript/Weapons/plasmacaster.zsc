@@ -48,12 +48,19 @@ class PlasmaCasterProj : PlasmaGrenade_Proj
 	{
 		return true; //bounceCount <= 0;
 	}
+	
+	override void DoExplode()
+	{
+		super.DoExplode();
+		Spawn("PlasmaSplashSpawner", pos);
+	}
 }
 
 class PlasmaCasterClusterProj : PlasmaGrenade_Proj
 {
 	override void DoExplode()
 	{
+		Spawn("PlasmaSplashSpawner", pos);
 		let expl = Spawn("PlasmaGrenadeExplosion", pos);
 		if(expl) expl.target = target;
 		

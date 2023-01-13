@@ -1,0 +1,82 @@
+// For Skull events
+class HaloSkulls_Events : EventHandler
+{
+	Array<HaloSkull> skulls;
+	
+	override void WorldTick()
+	{
+		foreach(sk : skulls)
+			if(sk.enabled) sk.WorldTick();
+	}
+	override void WorldThingDied(WorldEvent e) 
+	{
+		foreach(sk : skulls)
+			if(sk.enabled) sk.WorldThingDied(e);
+	}
+	override void WorldThingDamaged(WorldEvent e)
+	{
+		foreach(sk : skulls)
+			if(sk.enabled) sk.WorldThingDamaged(e);
+	}
+	override void WorldLinePreActivated(WorldEvent e)
+	{
+		foreach(sk : skulls)
+			if(sk.enabled) sk.WorldLinePreActivated(e);
+	}
+	override void PlayerRespawned (PlayerEvent e)
+	{
+		foreach(sk : skulls)
+			if(sk.enabled) sk.PlayerRespawned(e);
+	}
+	override void PlayerEntered (PlayerEvent e)
+	{
+		foreach(sk : skulls)
+			if(sk.enabled) sk.PlayerEntered(e);
+	}
+	override void PlayerDisconnected (PlayerEvent e)
+	{
+		foreach(sk : skulls)
+			if(sk.enabled) sk.PlayerDisconnected(e);
+	}
+	override void RenderOverlay (RenderEvent e)
+	{
+		foreach(sk : skulls)
+			if(sk.enabled) sk.RenderOverlay(e);
+	}
+	override void WorldThingSpawned(WorldEvent e)
+	{
+		foreach(sk : skulls)
+			if(sk.enabled) sk.WorldThingSpawned(e);
+	}
+	
+	override void WorldLoaded (WorldEvent e)
+	{
+		// Setup Skulls
+		foreach(cls : AllActorClasses)
+		{
+			if( !(cls is "HaloSkull") || cls.getClassName() == "HaloSkull" ) continue;
+			let sk = HaloSkull(Actor.Spawn(cls));
+			sk.Init();
+		}
+		Array<String> activeSkulls;
+		HaloMath.getActiveSkulls(activeSkulls);
+		int SKULLNOTFOUND = activeSkulls.Size();
+		
+		skulls.Clear();	
+		let it = ThinkerIterator.Create("HaloSkull");
+		HaloSkull sk;
+		while(sk = HaloSkull(it.Next())) 
+		{
+			string clsName = sk.getClassName();
+			clsName = clsName.MakeLower();
+			
+			if(activeSkulls.Find(clsName) != SKULLNOTFOUND)
+				sk.enabled = true;
+				
+			skulls.Push(sk);
+		}
+		
+		foreach(sk : skulls)
+			if(sk.enabled) sk.WorldLoaded(e);
+	}
+}

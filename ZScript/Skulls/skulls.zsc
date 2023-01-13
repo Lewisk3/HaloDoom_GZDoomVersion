@@ -1,0 +1,91 @@
+class SkullFX_Confetti : CheapActor
+{
+	double fallRate;
+	Default
+	{
+		Scale 0.1;
+		RenderStyle "Shaded";
+		+ROLLSPRITE;
+		+BRIGHT;
+	}
+	
+	override void BeginPlay()
+	{
+		super.BeginPlay();
+		let cplr = players[consoleplayer].mo;
+		let col = HLStatusColor.HSLtoRGB(frandom[Confetti](0,1.0), 1.0, 0.5);
+		SetShade(col);
+		fallRate = frandom[Confetti](0.2, 0.3);
+		Scale.X *= frandom[Confetti](0.9,1.1);
+		Scale.Y *= frandom[Confetti](0.5,2.0);
+		roll = frandom[Confetti](0,360);
+		angle = cplr.angle;
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		if(isFrozen()) return;
+			
+		if(pos.z <= floorz)
+		{
+			vel *= 0;
+			bFLATSPRITE = true;
+			bBRIGHT = false;
+			SetOrigin((pos.xy,floorz), true);
+			alpha -= 0.007;
+			
+			return;
+		}
+		else if(vel.z < 0)
+		{
+			vector2 windir = (cos(angle+90), sin(angle+90));
+			vel.xy += windir * (sin(GetAge() * 10) * 0.2);
+			roll += frandom[Confetti](-0.3,0.3);
+		}
+		vel *= 0.9; 
+		vel.z -= GetGravity() * fallRate;
+		
+		// Handle velocity
+		SetOrigin(level.vec3offset(pos, vel), true);
+	}
+	
+	States
+	{
+		Spawn:
+			CNFT A 1;
+		loop;
+	}
+}
+
+class Skull_Confetti : HaloSkull
+{
+	override void WorldThingDamaged(WorldEvent e)
+	{
+		let cplr = players[consoleplayer].mo;
+		Actor victim = e.Thing;
+		Actor damager = e.Inflictor;
+		if(!damager) damager = e.DamageSource;
+		
+		Name dmgType = e.DamageType;
+		if(victim.health <= 0 && dmgType == "Headshot")
+		{
+			// Confetti!
+			vector3 spawnPos = (victim.pos.xy, victim.pos.z+(victim.height+10));
+			for(int i = 0; i < frandom[ConfettiBomb](20,40); i++)
+			{
+				let cf = Spawn("SkullFX_Confetti", spawnPos);
+				if(cf)
+				{
+					double cfAngle = frandom[ConfettiBomb](0,360);
+					double cfPitch = frandom[ConfettiBomb](-20,-80);
+					cf.vel = (
+						cos(cfAngle),
+						sin(cfAngle),
+						-sin(cfPitch) * 1.5
+					) * frandom[ConfettiBomb](6,12);
+				}
+			}
+		}
+	}
+}

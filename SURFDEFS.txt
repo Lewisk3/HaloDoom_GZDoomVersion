@@ -51,3 +51,45 @@
 	# The sky may be, but there may not be footsounds for it.
 	F_SKY1
 }
+
+# Splash Surfaces
+Splash "Splash/Water"
+{
+	FWATER1,
+	FWATER2,
+    FWATER3,
+    FWATER4
+}
+Splash "Splash/Acid"
+{
+	NUKAGE1,
+    NUKAGE2,
+    NUKAGE3
+}
+Splash "Splash/Blood"
+{
+	BLOOD1,
+    BLOOD2,
+    BLOOD3
+}
+Splash "Splash/Lava"
+{
+	LAVA1,
+    LAVA2,
+    LAVA3,
+    LAVA4
+}
+Splash "Splash/Slime"
+{
+    SLIME01,
+    SLIME02,
+    SLIME04,
+    SLIME05,
+    SLIME06,
+    SLIME07,
+    SLIME08,
+	SFLR6_1,
+    SFLR6_4,
+    SFLR7_1,
+    SFLR7_4
+}

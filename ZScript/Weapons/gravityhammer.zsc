@@ -21,6 +21,7 @@ class GravityHammerExplosion : CheapActor
 			TNT1 A 0;
 			TNT1 A 1 
 			{
+				Spawn("LargeSplashSpawner", pos);
 				let sparks = Spawn("ImpactSparks", pos);
 				if(sparks) sparks.A_SetScale(2.0);
 				

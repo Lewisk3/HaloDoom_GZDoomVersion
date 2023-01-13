@@ -46,6 +46,7 @@ class LSR_BinaryRifle : LSR_UnmakerBeam
 			puff.pitch = -(pitch-90);
 		}
 		
+		Spawn("LargeSplashSpawner", hitPos);
 		if(hitActor) hitActor.DamageMobJ(self, source, hitDmg, "Fire");
 	}
 }

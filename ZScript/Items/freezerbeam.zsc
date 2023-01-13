@@ -41,7 +41,7 @@ class PowerFreezerBeam : HaloPowerup
 		
 		vector2 drawPos = hudbase.getPowerupPos(2);
 		vector2 heatPos = drawPos + ((48,0) * hudbase.powerupScale);
-		double perc = graphicCooldown;
+		double perc = clamp(graphicCooldown, 0, 1.0);
 		double radius = 40 * hudbase.powerupScale; 
 		Color circleColor = 0xFF63E3DF;
 		if(idle && cooldown > 0) circleColor = 0xFFE03B3B;
@@ -236,7 +236,13 @@ class PowerFreezerBeam : HaloPowerup
 				let haloplr = HaloPlayer(self);
 				if(haloplr)
 				{
-					if(invoker.cooldown > 0) invoker.cooldown -= 2;
+					if(invoker.cooldown > 0) 
+					{
+						invoker.cooldown -= 1;
+						
+						 // Don't be ready to fire if we're cooling down.
+						invoker.tryfire = false;
+					}
 					if(invoker.heat > 0) invoker.heat--;
 					
 					if(invoker.tryfire && !invoker.cooldown && invoker.heat <= 20)
@@ -296,8 +302,8 @@ class PowerFreezerBeam : HaloPowerup
 					*/
 						
 					let frz = I_Frozen(invoker.laserTarget.FindInventory("I_Frozen"));
-					invoker.cooldown += 8;
-					invoker.heat += 4;
+					invoker.cooldown += 35;
+					invoker.heat += 6;
 					
 					if(invoker.heat >= 100)
 					{

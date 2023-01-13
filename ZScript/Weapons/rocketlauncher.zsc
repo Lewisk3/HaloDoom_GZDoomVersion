@@ -39,6 +39,7 @@ class HaloRocketProj : HaloSlowProjectile
 		HaloSlowProjectile.MinRangeDamage ROCKET_MINDMG; 
 		HaloSlowProjectile.BaseDamage ROCKET_DMG;
 		HaloSlowProjectile.Speed_MPS ROCKET_BMPS * 0.25;
+		HaloSlowProjectile.SplashSpawner "LargeSplashSpawner";
 		
 		DamageType "Rocket";
 		Scale 0.35;

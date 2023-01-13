@@ -126,7 +126,7 @@ extend class HaloDoom_Events
 		gotSpawns = true;
 	}
 	
-	bool checkItemType(class<Actor> item, string type)
+	static bool checkItemType(class<Actor> item, string type)
 	{
 		string itemName = item.getClassname();
 		type = type.MakeLower();
@@ -136,16 +136,51 @@ extend class HaloDoom_Events
 		return success;
 	}
 	
+	class<Actor> GetSkullsReplacement(class<Actor> item)
+	{
+		// I would use "out" for this, but apparently it doesn't work
+		// correctly with class<Type> variables.
+		if(!item) return "";
+		
+		string skReplace = "";
+		let skullSpawnEvents = HaloSkulls_Events(EventHandler.Find("HaloSkulls_Events"));
+		if(skullSpawnEvents)
+		{
+			foreach(sk : skullSpawnEvents.skulls)
+			{
+				if(sk.enabled) 
+				{
+					skReplace = sk.FilterSpawns(item);
+				}
+			}
+		}
+		
+		if(skReplace != "")
+		{
+			let cls = (class<Actor>)(skReplace);
+			if(cls) return cls;
+		}
+		return "";
+	}
+	
 	override void CheckReplacement(ReplaceEvent e)
 	{
 		Array<String> weapSpawns;
 		Array<String> ammoSpawns;
 		let item = e.Replacee;
-		
+
 		if(!gotSpawns) populateSpawnArrays(); 
 		
-		// Do not touch HaloGuns for replacement.
-		if(item is "HaloGun") return;
+		let skr = GetSkullsReplacement(item);
+		if(skr != "") 
+		{
+			e.Replacement = skr;
+			e.IsFinal = true;
+			return;
+		}
+		
+		// Do not touch HaloGuns for replacement.		
+		if(item is "HaloGun" || e.IsFinal) return;
 				
 		// Weapon Spawning
 		if(item is "Weapon") // If this check isn't performed then projectiles can be turned into guns?!?! 
@@ -222,6 +257,5 @@ extend class HaloDoom_Events
 			else
 				e.Replacement = ammoType;
 		}
-		
 	}
 }
