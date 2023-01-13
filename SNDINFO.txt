@@ -912,6 +912,39 @@ $random Casings/Pistol { CASING1 CASING2 CASING3 CASING4 }
 $random Casings/Rifle  { RIFCASING1 RIFCASING2 RIFCASING3 RIFCASING4 }
 $random Casings/HighCalibur { HCCASING1 HCCASING2 HCCASING3 HCCASING4 HCCASING5 HCCASING6 HCCASING7 }
 
+// Bullet SFX
+NDLRICOCHET1 "Sounds/Needler/Ricochet/Needle_Ricochet1.ogg"
+NDLRICOCHET2 "Sounds/Needler/Ricochet/Needle_Ricochet2.ogg"
+NDLRICOCHET3 "Sounds/Needler/Ricochet/Needle_Ricochet3.ogg"
+NDLRICOCHET4 "Sounds/Needler/Ricochet/Needle_Ricochet4.ogg"
+NDLRICOCHET5 "Sounds/Needler/Ricochet/Needle_Ricochet5.ogg"
+NDLRICOCHET6 "Sounds/Needler/Ricochet/Needle_Ricochet6.ogg"
+NDLDESPAWN1 "Sounds/Needler/Projectile_Despawn/Needler_Projectile_Despawn1.ogg"
+NDLDESPAWN2 "Sounds/Needler/Projectile_Despawn/Needler_Projectile_Despawn2.ogg"
+NDLDESPAWN3 "Sounds/Needler/Projectile_Despawn/Needler_Projectile_Despawn3.ogg"
+NDLDESPAWN4 "Sounds/Needler/Projectile_Despawn/Needler_Projectile_Despawn4.ogg"
+
+$random Needler/Ricochet { NDLRICOCHET1 NDLRICOCHET2 NDLRICOCHET3 NDLRICOCHET4 NDLRICOCHET5 NDLRICOCHET6 }
+$random Needler/Despawn { NDLDESPAWN1 NDLDESPAWN2 NDLDESPAWN3 NDLDESPAWN4 }
+
+RICOCHET1 "Sounds/Shared/Ricochet/Ricochet_Generic1.ogg"
+RICOCHET2 "Sounds/Shared/Ricochet/Ricochet_Generic2.ogg"
+RICOCHET3 "Sounds/Shared/Ricochet/Ricochet_Generic3.ogg"
+RICOCHET4 "Sounds/Shared/Ricochet/Ricochet_Generic4.ogg"
+RICOCHETMETAL1 "Sounds/Shared/Ricochet/Ricochet_Metal1.ogg"
+RICOCHETMETAL2 "Sounds/Shared/Ricochet/Ricochet_Metal2.ogg"
+RICOCHETMETAL3 "Sounds/Shared/Ricochet/Ricochet_Metal3.ogg"
+RICOCHETMETAL4 "Sounds/Shared/Ricochet/Ricochet_Metal4.ogg"
+RICOCHETSHOTGUN1 "Sounds/Shared/Ricochet/Ricochet_Shotgun_Sweetener1.ogg"
+RICOCHETSHOTGUN2 "Sounds/Shared/Ricochet/Ricochet_Shotgun_Sweetener2.ogg"
+RICOCHETSHOTGUN3 "Sounds/Shared/Ricochet/Ricochet_Shotgun_Sweetener3.ogg"
+
+$random Ricochet/Generic { RICOCHET1 RICOCHET2 RICOCHET3 RICOCHET4 }
+$random Ricochet/Metal { RICOCHETMETAL1 RICOCHETMETAL2 RICOCHETMETAL3 RICOCHETMETAL4 }
+$random Ricochet/Shotgun { RICOCHETSHOTGUN1 RICOCHETSHOTGUN2 RICOCHETSHOTGUN3 }
+$volume Ricochet/Generic 0.5;
+$volume Ricochet/Shotgun 0.5;
+
 // $random Hit/Killed  { HMKILL1 HMKILL2 }
 // HMKILL2 HMKill2
 

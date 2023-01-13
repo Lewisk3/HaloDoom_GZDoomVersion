@@ -41,6 +41,11 @@ class HaloBulldog_Bullet : HaloBullet
 		HaloProjectile.Speed_MPS BULLDOG_BMPS;
 		HaloProjectile.HeadshotDMGFactor BULLDOG_HEDMOD;
 	}
+	
+	override void OnRicochet(Actor proj)
+	{
+		proj.A_StartSound("Ricochet/Shotgun", CHAN_AUTO, CHANF_OVERLAP);
+	}
 }
 
 class Halo_Bulldog : HaloGun

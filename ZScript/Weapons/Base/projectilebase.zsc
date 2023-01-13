@@ -20,6 +20,8 @@ class HaloProjectile : FastProjectile
 		HaloProjectile.RipperCount 0;
 		HaloProjectile.ConvergeToAim true;
 		HaloProjectile.HeadshotDMGFactor 1.0;
+		HaloProjectile.RicochetChance 10;
+		HaloProjectile.RicochetSound "Ricochet/Generic";
 	}
 	
 	override int SpecialMissileHit(Actor victim)
@@ -38,7 +40,11 @@ class HaloProjectile : FastProjectile
 		activateLines();
 		super.Tick();
 	
-		if(!bMISSILE || vel ~== (0,0,0)) SpawnSplash();
+		if(!bMISSILE || vel ~== (0,0,0)) 
+		{
+			SpawnSplash();
+			DoRicochet();
+		}
 		if(target && GetAge() < 5) SetOrigin(Vec3Offset(target.vel.x,target.vel.y,target.vel.z), true);
 		if(isHoming) Handle_Homing();
 	}
@@ -76,6 +82,8 @@ class HaloSlowProjectile : Actor
 		HaloSlowProjectile.RipperCount 0;
 		HaloSlowProjectile.ConvergeToAim true;
 		HaloSlowProjectile.HeadshotDMGFactor 1.0;
+		HaloSlowProjectile.RicochetChance 10;
+		HaloSlowProjectile.RicochetSound "Ricochet/Generic";
 	}
 			
 	override void PostBeginPlay()
@@ -89,7 +97,11 @@ class HaloSlowProjectile : Actor
 		activateLines();
 		super.Tick();
 			
-		if(!bMISSILE || vel ~== (0,0,0)) SpawnSplash();
+		if(!bMISSILE || vel ~== (0,0,0)) 
+		{
+			SpawnSplash();
+			// DoRicochet();
+		}
 		if(target && GetAge() < 5) SetOrigin(Vec3Offset(target.vel.x,target.vel.y,target.vel.z), true);
 		if(isHoming) Handle_Homing();
 	}
@@ -230,6 +242,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 		BounceType "Doom";
 		BounceCount 4;
 		RenderStyle "Add";
+		BounceSound "Needler/Ricochet";
 		+INTERPOLATEANGLES;
 		+BOUNCEONWALLS;
 		+BOUNCEONFLOORS;
@@ -294,10 +307,12 @@ class HaloNeedleProjectile : HaloSlowProjectile
 			Handle_Homing(homTurnMax);
 		}
 		
-		if(GetAge() > 35*3)
+		if(GetAge() > 35*3 && bMISSILE)
 		{
 			vel *= 0;
+			bMISSILE = false;
 			SetState(FindState("Death.Explode"));
+			A_StartSound("Needler/Despawn", CHAN_AUTO, CHANF_OVERLAP);
 		}
 	}
 		
@@ -358,6 +373,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 				if(hitactor) hitactor.DamageMobJ(self, self.target, shatterdmg, "Explosive", 0, angle);
 				if(needlecount) needlecount.RemoveNeedle(self);
 				Spawn("NeedleMiniExplosion", pos);
+				// A_StartSound("Needler/Despawn", CHAN_AUTO, CHANF_OVERLAP);
 				
 				for(int i = 0; i < 10; i++) 
 				{
@@ -369,6 +385,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 						 10,10,frandom[NeedleDeath](-8,8),0,0,-0.1,1.0,0.14,0.15);
 				}
 			}
+			TNT1 A 16; // Wait a bit
 		stop;
 	}
 }

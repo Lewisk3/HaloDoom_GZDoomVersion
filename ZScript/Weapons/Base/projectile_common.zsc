@@ -11,6 +11,8 @@ mixin class HaloProjectile_Common
 	double rip_dmgmod;
 	double rip_falloff;
 	double damageMult; // Must be greater than 1
+	double ricochetChance;
+	Sound ricochetSound;
 	bool do_converge;
 	vector3 spawnpos;
 	Actor hitactor;
@@ -39,6 +41,8 @@ mixin class HaloProjectile_Common
 	Property DoExplosiveDamage : explode_dmg, explode_radius;
 	Property SetupHoming : isHoming, homingStrength, homingFOV;
 	Property ShieldDamageFactors :  shield_DamageMod, shield_HeadshotDMG;
+	Property RicochetChance : ricochetChance;
+	Property RicochetSound : ricochetSound;
 		
 	static double ApplyShieldDamage(double dmg, Actor proj, bool isHeadshot = false)
 	{
@@ -120,6 +124,50 @@ mixin class HaloProjectile_Common
 				}
 			}
 		}
+	}
+	
+	virtual bool DoRicochet()
+	{
+		if(RicochetChance <= 0) return false;
+		
+		if(random[BulletRicochet](0,100) <= min(RicochetChance, 80))
+		{
+			FLineTraceData lt;
+			LineTrace(angle, 64, pitch, TRF_THRUACTORS, data:lt);
+			Line wall = lt.HitLine;
+			if( !wall || (lt.HitType != TRACE_HITWALL) ) return false;
+			
+			// Thanks to https://stackoverflow.com/questions/573084/how-to-calculate-bounce-angle
+			vector3 dir = HaloMath.VecFromAngles(angle, pitch);
+            vector3 normal = (-wall.delta.Y, wall.delta.X, 0).Unit();
+            if (!lt.LineSide) normal *= -1;
+           
+			vector3 u = (dir dot normal) * normal;
+			vector3 w = dir - u;
+			vector3 bounce = w - u;
+			
+			let proj = Spawn(getClass(), pos);
+			if(proj)
+			{
+				double projAngle = atan2(bounce.y, bounce.x);
+				double projPitch = -sin(bounce.z);
+			
+				proj.target = target;
+				proj.angle = projAngle;
+				proj.pitch = projPitch;
+				
+				proj.A_StartSound(ricochetSound, CHAN_AUTO, CHANF_OVERLAP);
+				OnRicochet(proj);
+			}
+			
+			return true;
+		}
+		return false;
+	}
+	
+	virtual void OnRicochet(Actor newproj)
+	{
+		// Do stuff on ricochet here.
 	}
 	
 	virtual int Handle_MissileHit(Actor victim)
