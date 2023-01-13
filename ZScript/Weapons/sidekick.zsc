@@ -93,7 +93,7 @@ class Halo_Sidekick : HaloGun
 		A_SetSFXPos(25, middle ? 0 : -9,-7);
 		A_SpawnSFX("MuzzleSmoke", 0,0);
 		A_SetSFXPos(25,-20,-5);
-		A_SpawnSFX("SmallCasing", -90,20);
+		A_SpawnSFX("PistolCasing", -90,20);
 		A_TakeAmmo();
 		A_UpdateSpread();
 	}

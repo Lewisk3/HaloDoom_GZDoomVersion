@@ -14,6 +14,7 @@ class BulletSplashSpawner : CheapActor
 
 	Default
 	{
+		Scale 1.0;
 		BulletSplashSpawner.WaterEffect "WaterSplash_Small";
 		BulletSplashSpawner.LavaEffect  "LavaSplash_Small";
 		BulletSplashSpawner.SlimeEffect "SlimeSplash_Small";
@@ -41,7 +42,11 @@ class BulletSplashSpawner : CheapActor
 		
 		// Spawn the thing
 		class<Actor> splash = splashes.At(splashType);
-		if(splash) Actor.Spawn(splash, (pos.x,pos.y,floorz));
+		if(splash) 
+		{
+			let sp = Actor.Spawn(splash, (pos.x,pos.y,floorz));
+			if(sp) sp.A_SetScale(sp.Scale.X * Scale.X); 	
+		}
 		
 		Destroy();
 	}
@@ -82,7 +87,7 @@ class PlasmaHeatedSmoke : IcecubeSmoke
 	{
 		Scale 0.4;
 		Alpha 0.2;
-		Translation "";
+		Translation "0:255=@50[128,128,128]";
 	}
 	
 	override void PostBeginPlay()
@@ -94,7 +99,6 @@ class PlasmaHeatedSmoke : IcecubeSmoke
 		HaloMath.ExplodeEx(shooter, 1, 64, thrustMod:0, infiniteHeight:false);
 	}
 }
-
 
 class HaloLiquidSplash : CheapActor
 {
@@ -117,7 +121,7 @@ class HaloLiquidSplash : CheapActor
 	{
 		super.PostBeginPlay();
 		
-		A_SetScale(default.Scale.X * frandom[Splashes](0.8,1.2));
+		A_SetScale(Scale.X * frandom[Splashes](0.8,1.2));
 		alpha = frandom[Splashes](0.8,1.0);
 		
 		double amt = max(1, frandom[LiquidParticles](10,30) * halodoom_effectintensity);
@@ -192,7 +196,7 @@ class LiquidSplashParticles : CheapActor
 		let cplr = players[consoleplayer].mo;
 		angle = cplr.angle;
 		roll = frandom[IceSnowSFX](-180,180);
-		A_SetScale(default.Scale.X * frandom[IceSnowSFX](0.75,1.25));
+		A_SetScale(Scale.X * frandom[IceSnowSFX](0.75,1.25));
 	}
 	
 	override void Tick()

@@ -39,7 +39,7 @@ class HaloRocketProj : HaloSlowProjectile
 		HaloSlowProjectile.MinRangeDamage ROCKET_MINDMG; 
 		HaloSlowProjectile.BaseDamage ROCKET_DMG;
 		HaloSlowProjectile.Speed_MPS ROCKET_BMPS * 0.25;
-		HaloSlowProjectile.SplashSpawner "LargeSplashSpawner";
+		HaloSlowProjectile.SplashSpawner "";
 		
 		DamageType "Rocket";
 		Scale 0.35;
@@ -147,6 +147,9 @@ class HaloRocketExplosion : CheapActor
 			TNT1 A 0;
 			TNT1 A 1 
 			{
+				let splash = Spawn("LargeSplashSpawner", pos);
+				if(splash) splash.A_SetScale(splash.Scale.X * 3.0);
+			
 				let shockwave = Spawn("FX_Shockwave", pos);
 				if(shockwave) 
 				{	

@@ -886,6 +886,32 @@ HMHEAD3 HMHead3
 HMHEAD4 HMHead4
 Hit/Killed HMKill1
 
+// Casings
+CASSHELL1 "Sounds/Shared/Shotgun_Shells/SG_Shell1.ogg"
+CASSHELL2 "Sounds/Shared/Shotgun_Shells/SG_Shell2.ogg"
+CASSHELL3 "Sounds/Shared/Shotgun_Shells/SG_Shell3.ogg"
+CASSHELL4 "Sounds/Shared/Shotgun_Shells/SG_Shell4.ogg"
+CASING1 "Sounds/Shared/Pistol_Casings/Pistol_Casing1.ogg"
+CASING2 "Sounds/Shared/Pistol_Casings/Pistol_Casing2.ogg"
+CASING3 "Sounds/Shared/Pistol_Casings/Pistol_Casing3.ogg"
+CASING4 "Sounds/Shared/Pistol_Casings/Pistol_Casing4.ogg"
+RIFCASING1 "Sounds/Shared/Rifle_Casings/Rifle_Casing1.ogg"
+RIFCASING2 "Sounds/Shared/Rifle_Casings/Rifle_Casing2.ogg"
+RIFCASING3 "Sounds/Shared/Rifle_Casings/Rifle_Casing3.ogg"
+RIFCASING4 "Sounds/Shared/Rifle_Casings/Rifle_Casing4.ogg"
+HCCASING1 "Sounds/Shared/High_Calibur_Casings/HC_Casing1.ogg" 
+HCCASING2 "Sounds/Shared/High_Calibur_Casings/HC_Casing2.ogg"
+HCCASING3 "Sounds/Shared/High_Calibur_Casings/HC_Casing3.ogg"
+HCCASING4 "Sounds/Shared/High_Calibur_Casings/HC_Casing4.ogg"
+HCCASING5 "Sounds/Shared/High_Calibur_Casings/HC_Casing5.ogg"
+HCCASING6 "Sounds/Shared/High_Calibur_Casings/HC_Casing6.ogg"
+HCCASING7 "Sounds/Shared/High_Calibur_Casings/HC_Casing7.ogg"
+
+$random Casings/Shell  { CASSHELL1 CASSHELL2 CASSHELL3 CASSHELL4 }
+$random Casings/Pistol { CASING1 CASING2 CASING3 CASING4 }
+$random Casings/Rifle  { RIFCASING1 RIFCASING2 RIFCASING3 RIFCASING4 }
+$random Casings/HighCalibur { HCCASING1 HCCASING2 HCCASING3 HCCASING4 HCCASING5 HCCASING6 HCCASING7 }
+
 // $random Hit/Killed  { HMKILL1 HMKILL2 }
 // HMKILL2 HMKill2
 

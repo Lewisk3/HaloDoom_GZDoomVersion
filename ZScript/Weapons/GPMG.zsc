@@ -67,7 +67,9 @@ class GPMGBulletExplosion : CheapActor
 			TNT1 A 0;
 			TNT1 A 1 
 			{
-				Spawn("LargeSplashSpawner", pos);
+				let splash = Spawn("LargeSplashSpawner", pos);
+				if(splash) splash.A_SetScale(splash.Scale.X * 2.0);
+				
 				let sparks = Spawn("ImpactSparks", pos);
 				if(sparks) sparks.A_SetScale(0.35);
 				

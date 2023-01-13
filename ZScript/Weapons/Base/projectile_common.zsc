@@ -62,6 +62,8 @@ mixin class HaloProjectile_Common
 	
 	virtual void SpawnSplash()
 	{
+		if(!splashSpawner) return;
+		
 		let splash = Actor.Spawn(splashSpawner, (pos.x, pos.y, floorz));
 		if(splash) splash.target = self;
 	}

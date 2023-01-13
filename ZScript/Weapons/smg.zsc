@@ -125,7 +125,7 @@ class Halo_SMG : HaloGun
 		A_WeapSound("Halo/Weapons/SMG/Fire/Bass", CHANF_OVERLAP, true);
 		A_ShootProjectile("HaloSMG_Bullet", A_CheckInScope() ? 0 : 12);		
 		A_SetSFXPos(20,-18,-12);
-		A_SpawnSFX("BulletCasing", -90,-20);
+		A_SpawnSFX("PistolCasing", -90,-20);
 		A_SetSFXPos(25,-10,-8);
 		A_SpawnSFX("MuzzleSmoke", 0,0);
 		A_TakeAmmo();

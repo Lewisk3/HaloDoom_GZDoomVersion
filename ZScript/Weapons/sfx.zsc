@@ -97,6 +97,7 @@ class BulletCasing : Actor
 	{
 		Speed 4;
 		BulletCasing.AnimateSpeed 2;
+		BounceSound "Casings/Pistol";
 		Projectile;
 		BounceType "Doom";
 		BounceCount 3;
@@ -153,6 +154,52 @@ class BulletCasing : Actor
 		WaitDeath:
 			"####" "#" 1 A_FadeOut(0.002);
 		wait;
+	}
+}
+
+class PistolCasing : BulletCasing
+{
+	Default
+	{
+		Speed 5;
+		BounceSound "Casings/Pistol";
+	}
+	States
+	{
+		Spawn:
+			CAS1 A 1;
+		goto Animate;
+	}
+}
+
+class ShellCasing : BulletCasing
+{
+	Default
+	{
+		Speed 2;
+		BounceSound "Casings/Shell";
+	}
+	States
+	{
+		Spawn:
+			CAS2 A 1;
+		goto Animate;
+	}
+}
+
+class HighCaliburCasing : BulletCasing
+{	
+	Default
+	{
+		Speed 2;
+		Scale 0.37; 
+		BounceSound "Casings/HighCalibur";
+	}
+	States
+	{
+		Spawn:
+			CAS3 A 1;
+		goto Animate;
 	}
 }
 
@@ -249,21 +296,6 @@ class RisingSmoke : MuzzleSmoke
 		alpha -= 0.006 * fadespd;
 		A_SetScale(scale.x * 0.98);
 		if(alpha <= 0.001) Destroy();
-	}
-}
-
-
-class ShellCasing : BulletCasing
-{
-	Default
-	{
-		Speed 2;
-	}
-	States
-	{
-		Spawn:
-			CAS2 A 1;
-		goto Animate;
 	}
 }
 
@@ -365,20 +397,6 @@ class FX_Shockwave : CheapActor
 		Spawn:
 			SWVE A -1;
 		stop;
-	}
-}
-
-class SmallCasing : BulletCasing
-{
-	Default
-	{
-		Speed 5;
-	}
-	States
-	{
-		Spawn:
-			CAS1 A 1;
-		goto Animate;
 	}
 }
 
