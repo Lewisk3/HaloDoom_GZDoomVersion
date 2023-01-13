@@ -41,6 +41,7 @@ class HaloCarbine_Bullet : HaloBullet
 		HaloProjectile.Speed_MPS CARBINE_BMPS;
 		HaloProjectile.HeadshotDMGFactor CARBINE_HEDMOD;
 		HaloProjectile.ShieldDamageFactors 0.75, 0.75;
+		HaloProjectile.RicochetChance 0;
 		
 		DamageType "Fire";
 	}

@@ -45,6 +45,7 @@ class HydraMissile : HaloProjectile
 		HaloProjectile.BaseDamage HYDRA_DMG;
 		HaloProjectile.Speed_MPS HYDRA_BMPS;
 		HaloProjectile.ShieldDamageFactors 0.6, 0.6;
+		HaloProjectile.RicochetChance 0;
 	}
 	
 	virtual void SpawnTrail(double amt = 8)

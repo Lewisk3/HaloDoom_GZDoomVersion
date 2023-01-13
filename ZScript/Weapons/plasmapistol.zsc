@@ -16,6 +16,7 @@ class HaloPlasma_Proj : HaloBullet
 		HaloProjectile.Speed_MPS  PLASMAPISTOL_BMPS;
 		HaloProjectile.HeadshotDMGFactor PLASMAPISTOL_HEDMOD;
 		HaloProjectile.SplashSpawner "PlasmaSplashSpawner";
+		HaloProjectile.RicochetChance 0;
 		
 		RenderStyle "Add";
 		Translation "0:255=@65[5,240,44]";

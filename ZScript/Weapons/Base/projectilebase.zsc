@@ -82,7 +82,7 @@ class HaloSlowProjectile : Actor
 		HaloSlowProjectile.RipperCount 0;
 		HaloSlowProjectile.ConvergeToAim true;
 		HaloSlowProjectile.HeadshotDMGFactor 1.0;
-		HaloSlowProjectile.RicochetChance 10;
+		HaloSlowProjectile.RicochetChance 0;
 		HaloSlowProjectile.RicochetSound "Ricochet/Generic";
 	}
 			
@@ -456,7 +456,12 @@ class HaloBullet : HaloProjectile
 				if(!hitactor) 
 				{
 					HaloMath.ParticlesFX(self, 0xFFfaf611,15,2,10);
-					Spawn("MuzzleSmoke", pos);
+					let smk = Spawn("MuzzleSmoke", pos);
+					
+					// Play ricochet sound on another actor, as this 
+					// one is essentially dead.
+					if(smk && random[RicochetSND](0,3) == 3) 
+						smk.A_StartSound(ricochetSound, CHAN_AUTO, CHANF_OVERLAP);
 				}
 			}
 		stop;
