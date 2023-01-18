@@ -12,7 +12,7 @@ class HaloDoom_PlayerClassMenu : HaloMenuBase
 		string btnON  = "Graphics/UI/Title/NONE.png";
 		string btnOFF = "Graphics/UI/Title/NONE.png";
 		string btnHover = "Graphics/UI/Title/btn_light.png";
-		
+				
 		// Build class buttons
 		vector2 btnpos = (520, 400);
 		for(int i = 0; i < PlayerClasses.Size(); i++)

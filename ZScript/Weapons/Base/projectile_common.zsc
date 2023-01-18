@@ -64,6 +64,15 @@ mixin class HaloProjectile_Common
 		return dmg;
 	}
 	
+	virtual void DontSplash()
+	{
+		splashSpawner = NULL;
+	}
+	virtual void DoSplash()
+	{
+		splashSpawner = default.splashSpawner;
+	}
+	
 	virtual void SpawnSplash()
 	{
 		if(!splashSpawner) return;
