@@ -23,6 +23,7 @@ user bool halodoom_spartanvoicelines = false;
 server int halodoom_gametype = 0;
 server float halodoom_effectintensity = 1.0;
 server float halodoom_magnetism = 10;
+server float halodoom_damagetakenmod = 1.0;
 server bool halodoom_classicmovement = false;
 server bool halodoom_allowbhop = true;
 server bool halodoom_doaimassist = false;

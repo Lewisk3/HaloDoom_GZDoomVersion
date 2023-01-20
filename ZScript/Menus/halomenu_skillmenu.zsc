@@ -32,14 +32,14 @@ class HaloDoom_SkillMenu : HaloMenuBase
 		string btnON  = "Graphics/UI/Title/NONE.png";
 		string btnOFF = "Graphics/UI/Title/NONE.png";
 		string btnHover = "Graphics/UI/Title/btn_light.png";
-		
+	
 		int diffs = mDesc.mItems.Size();
 		HaloSkills.push(HaloSkill.Init(
 			"Easy", 
 			"Graphics/UI/Skills/Easy.png", 
 			(
 				"Your foes cower and fall before\nyour unstoppable onslaught yet\nfinal victory will leave you\nwanting more."
-				"\n\n\c[Purple]Spawn Filter: I'm Too Young To Die\n"
+				"\n\n\c[Purple]Spawn Filter: I'm Too Young To Die"
 			)
 		));
 		HaloSkills.push(HaloSkill.Init(
@@ -139,8 +139,12 @@ class HaloDoom_SkillMenu : HaloMenuBase
 				else if(buttons[i].hovered)
 				{
 					buttons[i].btntext.font_color = Font.CR_WHITE;
+					string skillModifiers = String.Format("\n\c[Red]Damage Multiplier: %d\%\n", HaloPlayer.skillDamage[min(4, i)] * 100.);
 					HLSBS.DrawImage(skillImg, descPos, flags:drawFlags, scale:(1.75,2.0));
-					HLSBS.DrawString("HaloFont", HaloSkills[skillnum].desc, (descOffs.x + 20, descOffs.y + 70), flags:drawFlags, Font.CR_WHITE, scale:(0.12,0.12), linespacing:130);
+					HLSBS.DrawString("HaloFont", HaloSkills[skillnum].desc .. skillModifiers, (descOffs.x + 20, descOffs.y + 70), flags:drawFlags, Font.CR_WHITE, scale:(0.12,0.12), linespacing:130);
+					
+
+					// HLSBS.DrawString("HaloFont", skillModifiers, (descOffs.x + 20, descOffs.y + 400), flags:drawFlags, Font.CR_WHITE, scale:(0.12,0.12), linespacing:130);
 				}
 				else
 				{

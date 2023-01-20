@@ -70,6 +70,16 @@ class HaloPlayer : DoomPlayer
 	Property Description : class_desc, feature_desc;
 	Property ShieldRegenSound : snd_ShieldRegen;
 	
+	// Apply damage modifier based on skill	
+	static const double skillDamage[] =
+	{
+		0.5, // Easy
+		0.7, // Normal
+		1.0, // Heroic
+		1.20, // Legendary
+		1.50 // Mythic
+	};
+	
 	Default
 	{
 		Speed 1;
@@ -136,6 +146,15 @@ class HaloPlayer : DoomPlayer
 			case GENDER_FEMALE:
 				SNDGender = "F";
 			break;
+				
+			/* TODO: Sounds for these.
+			case GENDER_OBJECT
+				SNDGender = "O";
+			break;
+			case GENDER_NEUTRAL
+				SNDGender = "N";
+			break;
+			*/
 			
 			default:
 			case GENDER_MALE:
@@ -486,8 +505,8 @@ class HaloPlayer : DoomPlayer
 		if(shields > 0)
 			dmg = HaloProjectile.ApplyShieldDamage(dmg, HaloProjectile(inflictor), mod == 'Headshot');
 		
-		// Get real damage amount, taking into account modified damage.
-		double truedamage = dmg / GAMEPLAY_DAMAGEMOD;
+		// Get real damage amount, taking into account modified damage.		
+		double truedamage = dmg * max(0.01, skillDamage[min(4, skill)] * halodoom_damagetakenmod);
 		
 		if( bInvulnerable || player.cheats & (CF_GODMODE|CF_GODMODE2) ) return 0;
 		
