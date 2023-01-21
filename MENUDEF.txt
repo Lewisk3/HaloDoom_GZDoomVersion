@@ -39,14 +39,19 @@ ListMenu "Intro"
 	class "HaloDoom_IntroSeq"
 }
 
+ListMenu "HaloGameTypeMenu"
+{
+	class "HaloDoom_GameTypeMenu"
+}
+
 ListMenu "HaloPlayerClassMenu"
 {
 	class "HaloDoom_PlayerClassMenu" 
 }
 
-ListMenu "HaloGameTypeMenu"
+ListMenu "HaloSkullMenu"
 {
-	class "HaloDoom_GameTypeMenu"
+	class "HaloDoom_SkullMenu"
 }
 
 ListMenu "SkillMenu"

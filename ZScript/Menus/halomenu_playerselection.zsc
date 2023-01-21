@@ -173,9 +173,8 @@ class HaloDoom_PlayerClassMenu : HaloMenuBase
 			{
 				MenuSound("UI/PressButton");
 				buttons[i].clicked = false;
-
-				// Enter skill menu with selected player class.
-				Menu.SetMenu("episodemenu", selected_class);
+				
+				Menu.SetMenu("HaloSkullMenu");
 				break;
 			}
 		}

@@ -60,6 +60,13 @@ class SkullFX_Confetti : CheapActor
 
 class Skull_Confetti : HaloSkull
 {
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Grunt_Birthday_Party.png";
+		HaloSkull.DisplayName "Headshot Birthday Party";
+		HaloSkull.Description "Headshots lead to glorious celebrations!";
+	}
+
 	override void WorldThingDamaged(WorldEvent e)
 	{
 		let cplr = players[consoleplayer].mo;
@@ -79,6 +86,7 @@ class Skull_Confetti : HaloSkull
 				{
 					double cfAngle = frandom[ConfettiBomb](0,360);
 					double cfPitch = frandom[ConfettiBomb](-20,-80);
+					if(!i) cf.A_StartSound("Halo/Skulls/ConfettiPop", CHAN_AUTO, CHANF_OVERLAP|CHANF_NOPAUSE);
 					cf.vel = (
 						cos(cfAngle),
 						sin(cfAngle),
@@ -87,5 +95,153 @@ class Skull_Confetti : HaloSkull
 				}
 			}
 		}
+	}
+}
+
+class Skull_ZombieFuneral : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Boom.png";
+		HaloSkull.DisplayName "Zombie Funeral";
+		HaloSkull.Description "Zombie type enemies explode when they die.";
+	}
+
+	override void WorldThingDied(WorldEvent e)
+	{
+		Actor victim = e.Thing;
+		string victimName = victim.getClassName();
+		string victimTag = StringTable.Localize(victim.GetTag("NIL"));
+		victimTag = victimTag.MakeLower();
+		victimName = victimName.MakeLower();
+		
+		bool isZombie = (
+			(victim is "Zombieman") || (victim is "Shotgunguy") || (victim is "Chaingunguy") || 
+			(victimName.IndexOf("zombie") != -1) || (victimTag.IndexOf("zombie") != -1)
+		);
+		if(isZombie) 
+		{
+			vector3 explosionPos = (e.Thing.pos.xy, e.Thing.pos.z + (e.Thing.height * 0.5));
+			let exp = Actor.Spawn("FragGrenadeExplosion", explosionPos);
+			if(exp) victim.A_StartSound("Halo/Grenade/Frag/Explode", flags:CHANF_OVERLAP);
+		}
+	}
+}
+
+class Skull_Thunderstorm : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Thunderstorm.png";
+		HaloSkull.DisplayName "Thunderstorm";
+		HaloSkull.Description "Upgrades the rank of most enemies. \c[Red](TODO)";
+	}
+}
+class Skull_Streaking : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Streaking.png";
+		HaloSkull.DisplayName "Streaking";
+		HaloSkull.Description "Player shields constantly decay at a slow pace but recharge some with every enemy kill. \c[Red](TODO)";
+	}
+}
+class Skull_Recession : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Recession.png";
+		HaloSkull.DisplayName "Recession";
+		HaloSkull.Description "Every shot is worth twice the ammo. \c[Red](TODO)";
+	}
+}
+class Skull_Pinata : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Pinata.png";
+		HaloSkull.DisplayName "Pinata";
+		HaloSkull.Description "Punching enemies makes them drop grenades. Beat them \'til candy comes out! \c[Red](TODO)";
+	}
+}
+class Skull_Mythic : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Mythic.png";
+		HaloSkull.DisplayName "Mythic";
+		HaloSkull.Description "Enemies have increased health. \c[Red](TODO)";
+	}
+}
+class Skull_Ghost : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Ghost.png";
+		HaloSkull.DisplayName "Ghost";
+		HaloSkull.Description "AI no longer flinch from attacks. \c[Red](TODO)";
+	}
+}
+class Skull_Foreign : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Foreign.png";
+		HaloSkull.DisplayName "Foreign";
+		HaloSkull.Description "Players cannot pick up or use Covenant weapons. \c[Red](TODO)";
+	}
+}
+class Skull_Fog : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Fog.png";
+		HaloSkull.DisplayName "Fog";
+		HaloSkull.Description "The motion tracker is disabled. You'll miss those eyes in the back of your head. \c[Red](TODO)";
+	}
+}
+class Skull_Famine : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Famine.png";
+		HaloSkull.DisplayName "Famine";
+		HaloSkull.Description "Weapons dropped by AI have half the ammo they normally would. \c[Red](TODO)";
+	}
+}
+class Skull_Blind : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Blind.png";
+		HaloSkull.DisplayName "Blind";
+		HaloSkull.Description "HUD and weapon do not display onscreen. \c[Red](TODO)";
+	}
+}
+class Skull_Bandana : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Bandana.png";
+		HaloSkull.DisplayName "Bandana";
+		HaloSkull.Description "Infinite Ammo. \c[Red](TODO)";
+	}
+}
+class Skull_Assassins : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Assassin.png";
+		HaloSkull.DisplayName "Assassins";
+		HaloSkull.Description "All enemies in the game are permanently cloaked. \c[Red](TODO)";
+	}
+}
+class Skull_Anger : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Anger.png";
+		HaloSkull.DisplayName "Anger";
+		HaloSkull.Description "Enemies fire their weapons faster and more frequently. \c[Red](TODO)";
 	}
 }

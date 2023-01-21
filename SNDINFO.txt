@@ -1054,6 +1054,10 @@ $random Halo/Spartan/DoubleJump { Halo/Spartan/DoubleJump1 Halo/Spartan/DoubleJu
 $random Halo/Spartan/Jump { Halo/Spartan/Jump1 Halo/Spartan/Jump2 }
 $random Halo/Spartan/Death { Halo/Spartan/Death1 Halo/Spartan/Death2 Halo/Spartan/Death3 Halo/Spartan/Death4 Halo/Spartan/Death5 }
 
+// Skulls
+Halo/Skulls/ConfettiPop "Sounds/Skulls/Grunt_Birthday_Pop.ogg"
+Halo/Skulls/ALL "Sounds/Skulls/All_Skulls_On.ogg"
+
 $playersound	Spartan  male	*death 	  "Sounds/Players/death2.ogg" 
 $playersound	Spartan  male	*xdeath	  "Sounds/Players/death4.ogg" 
 $playersound	Spartan  male	*gibbed	  "Sounds/Players/death5.ogg" 

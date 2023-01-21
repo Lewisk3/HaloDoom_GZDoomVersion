@@ -35,6 +35,7 @@ version "4.10.0"
 #include "ZScript/Menus/halomenu_title.zsc"
 #include "ZScript/Menus/halomenu_splash.zsc"
 #include "ZScript/Menus/halomenu_playerselection.zsc"
+#include "ZScript/Menus/halomenu_skulls.zsc"
 #include "ZScript/Menus/halomenu_skillmenu.zsc"
 #include "ZScript/Menus/halomenu_gametype.zsc"
 

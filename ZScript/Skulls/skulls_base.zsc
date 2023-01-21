@@ -1,17 +1,20 @@
 class HaloSkull : Actor
 {
 	bool enabled;
+	double scoreModifier; // Currently unused
 	string displayName;
 	string description;
 	string graphic;
 		
 	Property DisplayName : displayName;
 	Property Description : description;
+	Property ScoreModifier : scoreModifier; 
 	Property Icon : graphic;
 		
 	Default
 	{
 		+NOINTERACTION;
+		HaloSkull.ScoreModifier 1.0;
 	}
 	
 	override void Tick() {}
