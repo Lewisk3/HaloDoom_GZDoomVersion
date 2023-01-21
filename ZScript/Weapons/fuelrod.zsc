@@ -149,9 +149,10 @@ class Halo_FuelRod : HaloGun
 		Tag "Fuel Rod";
 		Weapon.BobSpeed 1.87;
 		Weapon.BobRangeX 0.63;
-		Weapon.AmmoGive 2;
+		Weapon.AmmoGive 5;
 		Weapon.AmmoType1 "Halo_FuelClip";
 		Weapon.AmmoType2 "Halo_FuelClip";
+		HaloGun.Faction "Covenant";
 		
 		HaloGun.PowerTier P_POWER;
 		

@@ -189,6 +189,7 @@ class Halo_PlasmaPistol : HaloGun
 		Weapon.AmmoType2 "Halo_PlasmaPistol_Clip";
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 1;
+		HaloGun.Faction "Covenant";
 		
 		HaloGun.PowerTier P_NORM;
 				

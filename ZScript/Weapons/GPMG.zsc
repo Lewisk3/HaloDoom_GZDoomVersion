@@ -103,6 +103,7 @@ class Halo_GPMG : HaloGun
 		Weapon.AmmoType1 "Halo_GPMG_Reserves";
 		Weapon.AmmoType2 "Halo_GPMG_Clip";
 		Weapon.AmmoGive 50;
+		HaloGun.Faction "Human";
 				
 		// Recoil
 		HaloGun.Bloom 0.12;

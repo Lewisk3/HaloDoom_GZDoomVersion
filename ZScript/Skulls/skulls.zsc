@@ -128,6 +128,348 @@ class Skull_ZombieFuneral : HaloSkull
 	}
 }
 
+class Skull_Streaking : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Streaking.png";
+		HaloSkull.DisplayName "Streaking";
+		HaloSkull.Description "Player shields constantly decay at a slow pace but recharge some with every enemy kill.";
+	}
+	
+	override void WorldTick()
+	{
+		for(int i = 0; i < MAXPLAYERS; i++)
+		{
+			if(!PlayerInGame[i]) continue;
+			PlayerInfo plr = players[i];
+			if(!plr) continue;
+			
+			let hplr = HaloPlayer(plr.mo);
+			if(!hplr) continue;
+			
+			hplr.shields -= (0.5 / 35.);
+			if(hplr.shields < 0) hplr.shields = 0;
+			
+			hplr.regen_timer = 0; // Disable Shield Regeneration.
+			
+			// Disable shield beep
+			hplr.shield_snd_volume = 0;
+		}
+	}
+	
+	override void WorldThingDamaged(WorldEvent e)
+	{
+		Actor victim = e.Thing;
+		if(!victim) return;
+		
+		let plr = HaloPlayer(victim.target);
+		if(victim.health <= 0 && plr)
+		{
+			double maxShields = plr.maxshields;
+			double chargeTo = maxShields * (0.1);
+			plr.shields += chargeTo;	
+		}
+	}
+}
+
+class Skull_Recession : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Recession.png";
+		HaloSkull.DisplayName "Recession";
+		HaloSkull.Description "Every shot is worth twice the ammo.";
+	}
+	
+	override void WorldTick()
+	{
+		for(int i = 0; i < MAXPLAYERS; i++)
+		{
+			if(!PlayerInGame[i]) continue;
+			PlayerInfo plr = players[i];
+			if(!plr) continue;
+			
+			let hplr = HaloPlayer(plr.mo);
+			if(!hplr) continue;
+			
+			for(let item = hplr.Inv; item.Inv; item = item.Inv)
+			{
+				let hweap = HaloGun(item);
+				if(!hweap) continue;
+				hweap.modifyAmmoUsage = 2;
+			}
+		}
+	}
+}
+class Skull_Pinata : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Pinata.png";
+		HaloSkull.DisplayName "Pinata";
+		HaloSkull.Description "Punching enemies makes them drop grenades. Beat them \'til candy comes out!";
+	}
+	
+	override void WorldThingDamaged(WorldEvent e)
+	{
+		Actor victim = e.Thing;
+		if(!victim) return;
+
+		Name dmgType = e.DamageType;
+		if(dmgType == "Melee" && random[PinataRNG](0,100) <= 50)
+		{
+			Array<class<Actor> > nades;
+			foreach(cls : AllActorClasses)
+			{
+				if( !(cls is "FragGrenades") ) continue;
+				nades.Push(cls);
+			}
+			
+			let nade = nades[random[PinataNade](0,nades.Size()-1)];
+			if(!nade) return;
+			
+			vector3 spawnPos = (	
+				victim.pos.xy,
+				victim.pos.z + (victim.height*0.5)
+			);
+			
+			double spawnAngle = frandom[PinataSpawns](0,360);
+			double spawnPitch = frandom[PinataSpawns](30,60);
+			
+			let nadeItem = Actor.Spawn(nade, spawnPos);
+			if(nadeItem) 
+			{
+				nadeItem.vel = (
+					cos(spawnAngle),
+					sin(spawnAngle),
+					sin(spawnPitch)
+				) * frandom[PinataSpawns](3,16);
+			}
+		}
+	}
+}
+
+class Skull_Mythic : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Mythic.png";
+		HaloSkull.DisplayName "Mythic";
+		HaloSkull.Description "Enemies have increased health.";
+	}
+	
+	override void WorldThingSpawned(WorldEvent e)
+	{
+		Actor dood = e.Thing;
+		if(!dood || !dood.bISMONSTER || !dood.bSHOOTABLE) return;
+		
+		dood.A_SetHealth(dood.SpawnHealth() * 2.0);
+	}
+}
+
+class Skull_Ghost : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Ghost.png";
+		HaloSkull.DisplayName "Ghost";
+		HaloSkull.Description "AI no longer flinch from attacks.";
+	}
+	
+	override void WorldThingSpawned(WorldEvent e)
+	{
+		Actor dood = e.Thing;
+		if(!dood || !dood.bISMONSTER || !dood.bSHOOTABLE) return;
+		
+		dood.A_SetPainThreshold(int.max);
+	}
+}
+
+class Skull_Foreign : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Foreign.png";
+		HaloSkull.DisplayName "Foreign";
+		HaloSkull.Description "Players cannot pick up or use Non-Human weapons.";
+	}
+	
+	override void WorldTick()
+	{
+		// Replace unusable power weapons.
+		let it = ThinkerIterator.Create("WeaponPickupProxy");
+		WeaponPickupProxy weap;
+		while(weap = WeaponPickupProxy(it.Next()))
+		{
+			if(!weap) continue;
+			if(weap.trueitem is "Halo_Unmaker")
+			{
+				Actor.Spawn("Halo_Stanchion", weap.pos);
+				weap.Destroy();
+			}
+			
+			let defs = GetDefaultByType((class<HaloGun>)(weap.trueitem));
+			if(defs && defs.faction != 'human')
+				weap.use_hold = -1; // Disable picking up this weapon.
+		}
+	}
+}
+
+class Skull_Fog : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Fog.png";
+		HaloSkull.DisplayName "Fog";
+		HaloSkull.Description "The motion tracker is disabled. You'll miss those eyes in the back of your head. ";
+	}
+	
+	override void WorldTick()
+	{
+		for(int i = 0; i < MAXPLAYERS; i++)
+		{
+			if(!PlayerInGame[i]) continue;
+			PlayerInfo plr = players[i];
+			if(!plr) continue;
+			
+			let hplr = HaloPlayer(plr.mo);
+			if(!hplr) continue;
+			
+			hplr.radarRange = 0;
+		}
+	}
+}
+
+class Skull_Famine : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Famine.png";
+		HaloSkull.DisplayName "Famine";
+		HaloSkull.Description "Weapons dropped by AI have half the ammo they normally would.";
+	}
+	
+	override void WorldTick()
+	{
+		// Replace unusable power weapons.
+		let it = ThinkerIterator.Create("WeaponPickupProxy");
+		WeaponPickupProxy weap;
+		while(weap = WeaponPickupProxy(it.Next()))
+		{
+			if(!weap) continue; 
+			weap.ammogive_mod = 0.5;
+		}
+	}
+}
+
+class Skull_Blind : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Blind.png";
+		HaloSkull.DisplayName "Blind";
+		HaloSkull.Description "HUD does not display onscreen.";
+	}
+	
+	override void WorldTick()
+	{
+		for(int i = 0; i < MAXPLAYERS; i++)
+		{
+			if(!PlayerInGame[i]) continue;
+			PlayerInfo plr = players[i];
+			if(!plr) continue;
+			
+			let hplr = HaloPlayer(plr.mo);
+			if(!hplr) continue;
+			
+			let weap = HaloGun(plr.ReadyWeapon);
+			if(!weap) continue;
+			
+			weap.HUD_hide = true;
+		}
+	}
+}
+
+class Skull_Bandana : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Bandana.png";
+		HaloSkull.DisplayName "Bandana";
+		HaloSkull.Description "Infinite Ammo.";
+	}
+	
+	override void WorldTick()
+	{
+		for(int i = 0; i < MAXPLAYERS; i++)
+		{
+			if(!PlayerInGame[i]) continue;
+			PlayerInfo plr = players[i];
+			if(!plr) continue;
+			
+			let hplr = HaloPlayer(plr.mo);
+			if(!hplr) continue;
+			
+			for(let item = hplr.Inv; item.Inv; item = item.Inv)
+			{
+				let hweap = HaloGun(item);
+				if(!hweap) continue;
+				hweap.bottomless_reserves = true;
+			}
+		}
+	}
+}
+
+class Skull_Assassins : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Assassin.png";
+		HaloSkull.DisplayName "Assassins";
+		HaloSkull.Description "All enemies in the game are permanently cloaked.";
+	}
+	
+	override void WorldTick()
+	{
+		// Replace unusable power weapons.
+		let it = ThinkerIterator.Create("Actor");
+		Actor act;
+		while(act = Actor(it.Next()))
+		{
+			if(!act || !act.bISMONSTER) continue;
+			act.bSHADOW = true;
+			act.A_SetSpeed(act.default.Speed * 1.5);
+			act.A_SetRenderStyle(0.75, STYLE_OptFuzzy);
+		}
+	}
+}
+class Skull_Anger : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Anger.png";
+		HaloSkull.DisplayName "Anger";
+		HaloSkull.Description "Enemies fire their weapons faster and more frequently.";
+	}
+	
+	override void WorldTick()
+	{
+		// Replace unusable power weapons.
+		let it = ThinkerIterator.Create("Actor");
+		Actor act;
+		while(act = Actor(it.Next()))
+		{
+			if(!act || !act.bISMONSTER) continue;
+			
+			act.A_SetSpeed(act.default.Speed * 2.0);
+			act.bMISSILEMORE = true;
+			act.bALWAYSFAST = true;
+		}
+	}
+}
+
+/*
 class Skull_Thunderstorm : HaloSkull
 {
 	Default
@@ -137,111 +479,4 @@ class Skull_Thunderstorm : HaloSkull
 		HaloSkull.Description "Upgrades the rank of most enemies. \c[Red](TODO)";
 	}
 }
-class Skull_Streaking : HaloSkull
-{
-	Default
-	{
-		HaloSkull.Icon "Graphics/Skulls/Skull_Streaking.png";
-		HaloSkull.DisplayName "Streaking";
-		HaloSkull.Description "Player shields constantly decay at a slow pace but recharge some with every enemy kill. \c[Red](TODO)";
-	}
-}
-class Skull_Recession : HaloSkull
-{
-	Default
-	{
-		HaloSkull.Icon "Graphics/Skulls/Skull_Recession.png";
-		HaloSkull.DisplayName "Recession";
-		HaloSkull.Description "Every shot is worth twice the ammo. \c[Red](TODO)";
-	}
-}
-class Skull_Pinata : HaloSkull
-{
-	Default
-	{
-		HaloSkull.Icon "Graphics/Skulls/Skull_Pinata.png";
-		HaloSkull.DisplayName "Pinata";
-		HaloSkull.Description "Punching enemies makes them drop grenades. Beat them \'til candy comes out! \c[Red](TODO)";
-	}
-}
-class Skull_Mythic : HaloSkull
-{
-	Default
-	{
-		HaloSkull.Icon "Graphics/Skulls/Skull_Mythic.png";
-		HaloSkull.DisplayName "Mythic";
-		HaloSkull.Description "Enemies have increased health. \c[Red](TODO)";
-	}
-}
-class Skull_Ghost : HaloSkull
-{
-	Default
-	{
-		HaloSkull.Icon "Graphics/Skulls/Skull_Ghost.png";
-		HaloSkull.DisplayName "Ghost";
-		HaloSkull.Description "AI no longer flinch from attacks. \c[Red](TODO)";
-	}
-}
-class Skull_Foreign : HaloSkull
-{
-	Default
-	{
-		HaloSkull.Icon "Graphics/Skulls/Skull_Foreign.png";
-		HaloSkull.DisplayName "Foreign";
-		HaloSkull.Description "Players cannot pick up or use Covenant weapons. \c[Red](TODO)";
-	}
-}
-class Skull_Fog : HaloSkull
-{
-	Default
-	{
-		HaloSkull.Icon "Graphics/Skulls/Skull_Fog.png";
-		HaloSkull.DisplayName "Fog";
-		HaloSkull.Description "The motion tracker is disabled. You'll miss those eyes in the back of your head. \c[Red](TODO)";
-	}
-}
-class Skull_Famine : HaloSkull
-{
-	Default
-	{
-		HaloSkull.Icon "Graphics/Skulls/Skull_Famine.png";
-		HaloSkull.DisplayName "Famine";
-		HaloSkull.Description "Weapons dropped by AI have half the ammo they normally would. \c[Red](TODO)";
-	}
-}
-class Skull_Blind : HaloSkull
-{
-	Default
-	{
-		HaloSkull.Icon "Graphics/Skulls/Skull_Blind.png";
-		HaloSkull.DisplayName "Blind";
-		HaloSkull.Description "HUD and weapon do not display onscreen. \c[Red](TODO)";
-	}
-}
-class Skull_Bandana : HaloSkull
-{
-	Default
-	{
-		HaloSkull.Icon "Graphics/Skulls/Skull_Bandana.png";
-		HaloSkull.DisplayName "Bandana";
-		HaloSkull.Description "Infinite Ammo. \c[Red](TODO)";
-	}
-}
-class Skull_Assassins : HaloSkull
-{
-	Default
-	{
-		HaloSkull.Icon "Graphics/Skulls/Skull_Assassin.png";
-		HaloSkull.DisplayName "Assassins";
-		HaloSkull.Description "All enemies in the game are permanently cloaked. \c[Red](TODO)";
-	}
-}
-class Skull_Anger : HaloSkull
-{
-	Default
-	{
-		HaloSkull.Icon "Graphics/Skulls/Skull_Anger.png";
-		HaloSkull.DisplayName "Anger";
-		HaloSkull.Description "Enemies fire their weapons faster and more frequently. \c[Red](TODO)";
-	}
-}
+*/

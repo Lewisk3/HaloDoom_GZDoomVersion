@@ -175,6 +175,7 @@ class Halo_Unmaker : HaloGun
 		Weapon.BobRangeX 0.63;
 		Weapon.AmmoType1 "Halo_UnmakerReserves";
 		Weapon.AmmoType2 "Halo_UnmakerReserves";
+		HaloGun.Faction "Forerunner";
 		
 		HaloGun.PowerTier P_UBER;
 				

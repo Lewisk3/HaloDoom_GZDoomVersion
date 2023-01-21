@@ -108,6 +108,7 @@ class Halo_BeamRifle : HaloGun
 		Weapon.AmmoType2 "Halo_BeamRifle_Battery";
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 1;
+		HaloGun.Faction "Covenant";
 		
 		HaloGun.PowerTier P_POWER | P_ENERGY;
 				

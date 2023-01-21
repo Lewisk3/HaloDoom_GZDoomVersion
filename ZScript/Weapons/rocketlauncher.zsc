@@ -241,7 +241,8 @@ class Halo_RocketLauncher : HaloGun
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_RL_Reserves";
 		Weapon.AmmoType2 "Halo_RL_Clip";
-		Weapon.AmmoGive 3;
+		Weapon.AmmoGive 4;
+		HaloGun.Faction "Human";
 				
 		// Recoil
 		HaloGun.Bloom 0.8;

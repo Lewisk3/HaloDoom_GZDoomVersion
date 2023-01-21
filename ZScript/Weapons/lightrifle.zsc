@@ -92,6 +92,7 @@ class Halo_LightRifle : HaloGun
 		Weapon.AmmoType2 "Halo_LightRifleBattery";
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 2;
+		HaloGun.Faction "Forerunner";
 		
 		HaloGun.PowerTier P_MID;
 		HaloGun.Rarity 10;

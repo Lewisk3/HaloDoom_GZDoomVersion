@@ -24,6 +24,7 @@ class Halo_EnergySword : HaloGun
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 1;
 		HaloGun.DisableKicking true;
+		HaloGun.Faction "Covenant";
 		
 		HaloGun.PowerTier P_MELEE;
 				

@@ -89,7 +89,8 @@ class Halo_Carbine : HaloGun
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_CarbineReserves";
 		Weapon.AmmoType2 "Halo_CarbineClip";
-		Weapon.AmmoGive 27;
+		Weapon.AmmoGive 36;
+		HaloGun.Faction "Covenant";
 		
 		HaloGun.PowerTier P_ENERGY | P_STRONG;
 		HaloGun.Rarity 60;

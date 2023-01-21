@@ -285,6 +285,7 @@ class Halo_Flamethrower : HaloGun
 		Weapon.AmmoType1 "Halo_FlamerFuel";
 		Weapon.AmmoType2 "Halo_FlamerFuel";
 		Weapon.AmmoGive 50;
+		HaloGun.Faction "Human";
 				
 		// Recoil
 		HaloGun.Bloom 0;

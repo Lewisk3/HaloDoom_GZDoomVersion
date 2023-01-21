@@ -58,6 +58,7 @@ class Halo_PlasmaRifle : HaloGun
 		Weapon.AmmoType2 "Halo_PlasmaRifle_Clip";
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 1;
+		HaloGun.Faction "Covenant";
 		
 		HaloGun.PowerTier P_ENERGY | P_NORM;
 		HaloGun.Rarity 60;

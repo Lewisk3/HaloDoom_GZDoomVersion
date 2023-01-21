@@ -158,6 +158,7 @@ class Halo_DBLShotgun : HaloGun
 		Weapon.AmmoType1 "Halo_DBLShotgun_Reserves";
 		Weapon.AmmoGive 8;
 		Weapon.AmmoType2 "Halo_DBLShotgun_Shells";
+		HaloGun.Faction "Human";
 		
 		HaloGun.PowerTier P_STRONG;
 				

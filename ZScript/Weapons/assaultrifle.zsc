@@ -71,7 +71,8 @@ class Halo_AssaultRifle : HaloGun
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_AR_Reserves";
 		Weapon.AmmoType2 "Halo_AR_Clip";
-		Weapon.AmmoGive 48;
+		Weapon.AmmoGive 96;
+		HaloGun.Faction "Human";
 				
 		// Recoil
 		HaloGun.Bloom 0.32;

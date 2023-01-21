@@ -18,6 +18,12 @@ HardwareShader Texture MISSNG
 	Speed 2.0
 }
 
+HardwareShader Texture "Graphics/UI/Radar/RADARBG_Glitch.png"
+{
+	Shader "shaders/glitch.fp"
+	Speed 1.17
+}
+
 HardwareShader PostProcess Screen
 {
 	Shader "Shaders/fisheye.fp" 330

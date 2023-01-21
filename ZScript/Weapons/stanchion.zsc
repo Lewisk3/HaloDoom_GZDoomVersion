@@ -52,6 +52,7 @@ class Halo_Stanchion : HaloGun
 		Weapon.AmmoType1 "Halo_StanchionReserves";
 		Weapon.AmmoGive 100;
 		Weapon.AmmoType2 "Halo_StanchionClip";
+		HaloGun.Faction "Human";
 		
 		HaloGun.PowerTier P_UBER;
 				

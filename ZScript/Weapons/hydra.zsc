@@ -199,7 +199,8 @@ class Halo_Hydra : HaloGun
 		Weapon.BobRangeX 0.12;
 		Weapon.AmmoType1 "Halo_Hydra_Reserves";
 		Weapon.AmmoType2 "Halo_Hydra_Clip";
-		Weapon.AmmoGive 6;
+		Weapon.AmmoGive 24;
+		HaloGun.Faction "Human";
 				
 		// Recoil
 		HaloGun.Bloom 0.8;

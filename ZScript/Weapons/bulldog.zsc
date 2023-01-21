@@ -60,8 +60,9 @@ class Halo_Bulldog : HaloGun
 		Weapon.BobSpeed 1.68;
 		Weapon.BobRangeX 0.10;
 		Weapon.AmmoType1 "Halo_Bulldog_Reserves";
-		Weapon.AmmoGive 12;
+		Weapon.AmmoGive 24;
 		Weapon.AmmoType2 "Halo_Bulldog_Shells";
+		HaloGun.Faction "Human";
 		
 		HaloGun.PowerTier P_STRONG;
 				

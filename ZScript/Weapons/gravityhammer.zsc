@@ -111,6 +111,7 @@ class Halo_GravityHammer : HaloGun
 		Weapon.AmmoType2 "Halo_GravityHammer_Battery";
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 10;
+		HaloGun.Faction "Human";
 				
 		// Recoil
 		HaloGun.Bloom 0.8;

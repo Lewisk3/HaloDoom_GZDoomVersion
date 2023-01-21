@@ -90,6 +90,7 @@ class Halo_BinaryRifle : HaloGun
 		Weapon.AmmoType2 "Halo_BinaryRifleBattery";
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 5;
+		HaloGun.Faction "Forerunner";
 		
 		HaloGun.PowerTier P_POWER;
 		HaloGun.Rarity 10;

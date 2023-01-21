@@ -267,8 +267,10 @@ class HaloDoomHUD : HaloHUD
 				}
 			}
 			// Ammo Count
+			string reservesStr = String.Format("%d", haloplr.countinv(curweap.AmmoType1));
+			if(haloweap && haloweap.bottomless_reserves) reservesStr = "888";
 			HLSBS.DrawString(
-				fntHaloAmmo, haloplr.countinv(curweap.AmmoType1).."", 
+				fntHaloAmmo, reservesStr, 
 				(1584, 56), flags:HLSBS.SS_TEXT_CENTER | iconFlags, scale:(0.15,0.15)
 			);
 		}
@@ -464,7 +466,8 @@ class HaloDoomHUD : HaloHUD
 		// -- CVars / Constants --
 		double zoom = 7;
 		double radarsize = 120 * scale;
-		double minimap_renderdist = 800;
+		double minimap_renderdist = haloplr.radarrange;
+
 		double acor = HLSBS.GetAspectScale();
 		Vector2 baseoffs = ( 230, 894 ) + offs;
 		Vector2 plrpos2D = (haloplr.pos.x, haloplr.pos.y);
@@ -474,10 +477,14 @@ class HaloDoomHUD : HaloHUD
 		Vector2 map_middle = (dp.x+baseoffs.x,dp.y+baseoffs.y);
 			
 		// Draw radar bg
-		HLSBS.DrawImage("RADARBG", baseoffs, scale:(scale,scale));
+		if(minimap_renderdist > 0)
+			HLSBS.DrawImage("RADARBG", baseoffs, scale:(scale,scale));
+		else
+			HLSBS.DrawImage("Graphics/UI/Radar/RADARBG_Glitch.png", baseoffs, scale:(scale,scale));
+		
 		
 		// Draw Minimap
-		if( base.showMinimap && base.showMinimap.getBool() )
+		if( base.showMinimap && base.showMinimap.getBool() && minimap_renderdist > 0 )
 		{
 			for (int i = 0; i < Level.Lines.Size(); i++)
 			{
@@ -511,12 +518,11 @@ class HaloDoomHUD : HaloHUD
 		}
 		
 		// Draw doomguy and Radar	
-		double maxdist = 500;
-		let act_it = BlockThingsIterator.Create(haloplr, maxdist*2.0);
+		let act_it = BlockThingsIterator.Create(haloplr, minimap_renderdist);
 		while(act_it.Next())
 		{	
 			let obj = act_it.Thing;	
-			if(maxdist <= 0) break;
+			if(minimap_renderdist <= 0) break;
 			if(!obj.bSHOOTABLE) continue;
 			
 			double x = haloplr.pos.x - obj.pos.x;
@@ -698,9 +704,11 @@ class HaloCE_HUD : HaloDoomHUD
 		int reserve_ammo = curweap.AmmoType1 ? haloplr.CountInv(curweap.AmmoType1) : haloplr.CountInv(curweap.AmmoType2);
 		int cur_ammo = curweap.AmmoType2 ? haloplr.CountInv(curweap.AmmoType2) : haloplr.CountInv(curweap.AmmoType1);
 		
+		string reservesStr = String.Format("%03d", reserve_ammo);
+		if(haloweap && haloweap.bottomless_reserves) reservesStr = "888";
 		HLSBS.DrawString(
 			fntHaloAmmo,
-			String.Format("%03d", reserve_ammo), weapPos+(12,-12),
+			reservesStr, weapPos+(12,-12),
 			flags:HLSBS.SS_TEXT_RIGHT | weapDrawFlags,
 			scale:(0.18,0.15) * 0.85
 		);

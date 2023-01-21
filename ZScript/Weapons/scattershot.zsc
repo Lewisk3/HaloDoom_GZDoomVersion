@@ -127,6 +127,7 @@ class Halo_ScatterShot : HaloGun
 		Weapon.AmmoType2 "Halo_ScatterShotBattery";
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 5;
+		HaloGun.Faction "Forerunner";
 		
 		HaloGun.PowerTier P_STRONG;
 		HaloGun.Rarity 10;

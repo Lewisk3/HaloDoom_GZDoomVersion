@@ -25,6 +25,7 @@ THE SOFTWARE.
 class WeaponPickupProxy : Actor
 {
 	class<Weapon> trueitem;
+	double ammogive_mod;
 	string truepickupmsg;
 	sound truepickupsnd;
 	HaloPlayer haloplr;
@@ -36,6 +37,7 @@ class WeaponPickupProxy : Actor
 	
 	double visibledist;
 	Property PickupRange : visibledist;
+	Property AmmoGiveModifiers : ammogive_mod;
 	
 	Default
 	{
@@ -43,6 +45,7 @@ class WeaponPickupProxy : Actor
 		Height PICKUP_RANGE*0.25;
 		// +SOLID;
 		WeaponPickupProxy.PickupRange PICKUP_RANGE*2.;
+		WeaponPickupProxy.AmmoGiveModifiers 1.0;
 	}
 	
 	static bool ProcessDroppedWeapon(Weapon weap)
@@ -115,12 +118,28 @@ class WeaponPickupProxy : Actor
 				}
 			}
 			if(togive <= 0) return Null;
+			
+			if(!noammogive) 
+			{
+				// Give reserves ammo
+				to.GiveInventory(ammotype1, ammogive1 * ammogive_mod);
+			}
+			if(clipammo != -1)
+			{
+				// Give amount of ammo loaded in weapon, to reserves.
+				to.GiveInventory(ammotype1, clipammo * ammogive_mod);
+			}
 		}
 		else
 		{
 			// Resolve clip-ammunition.
 			to.GiveInventory(trueitem, 1);
-			if(noammogive && ammotype1) to.TakeInventory(ammotype1, ammogive1);
+			if(ammotype1) 
+			{
+				to.TakeInventory(ammotype1, ammogive1);	
+				if(!noammogive) to.GiveInventory(ammotype1, ammogive1 * ammogive_mod);
+			}
+	
 			if(ammotype2 && clipammo != -1)
 			{
 				let clipdefs = GetDefaultByType(ammotype2);
@@ -131,17 +150,7 @@ class WeaponPickupProxy : Actor
 			
 		Inventory.PrintPickupMessage(to.CheckLocalView(), truepickupmsg);
 		to.A_StartSound(truepickupsnd, CHAN_ITEM, CHANF_OVERLAP);
-		if(!noammogive) 
-		{
-			// Fresh weapon pick, give ammogive amounts.
-			to.GiveInventory(ammotype1, ammogive1);
-			to.GiveInventory(ammotype2, ammogive2);
-		}
-		else if(hasitem && clipammo != -1)
-		{
-			// Give amount of ammo loaded in weapon, to reserves.
-			to.GiveInventory(ammotype1, clipammo);
-		}
+
         return Weapon(to.FindInventory(trueitem));
 	}
 	
@@ -247,16 +256,24 @@ class WeaponPickupProxy : Actor
 		int oldbtns = plr.player.oldbuttons;
 		
 		bool use_down = (btns & BT_USE);
-		if(use_hold >= 0) 
+		if(!halodoom_unlimitedbackpack)
 		{
-			use_hold = use_down ? use_hold+1 : 0;
+			if(use_hold >= 0) 
+			{
+				use_hold = use_down ? use_hold+1 : 0;
+			}
+			else if(!use_down)
+			{
+				use_hold = 0;
+			}
 		}
-		else if(!use_down)
+		else
 		{
-			use_hold = 0;
+			// No need to press use with unlimited backpack.
+			use_hold++;
 		}
 		
-		if( forcepickup || use_hold > 4 || hasweap || halodoom_unlimitedbackpack || (!haloplr && plr) )
+		if( forcepickup || use_hold > 4 || hasweap || (!haloplr && plr) )
 		{
 			use_hold = 0;
 			int weaponlimit = wcontrol.curGameType ? wcontrol.curGameType.getWeaponLimit() : 2;

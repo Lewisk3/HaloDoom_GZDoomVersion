@@ -61,8 +61,9 @@ class Halo_Shotgun : HaloGun
 		Weapon.BobSpeed 2.0;
 		Weapon.BobRangeX 0.10;
 		Weapon.AmmoType1 "Halo_Shotgun_Reserves";
-		Weapon.AmmoGive 12;
+		Weapon.AmmoGive 16;
 		Weapon.AmmoType2 "Halo_Shotgun_Shells";
+		HaloGun.Faction "Human";
 		
 		HaloGun.PowerTier P_MID;
 				

@@ -119,7 +119,8 @@ class Halo_PlasmaCaster : HaloGun
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_PlasmaCaster_Reserves";
 		Weapon.AmmoType2 "Halo_PlasmaCaster_Clip";
-		Weapon.AmmoGive 5;
+		Weapon.AmmoGive 10;
+		HaloGun.Faction "Covenant";
 				
 		// Recoil (Only cosmetic in this case)
 		HaloGun.Bloom 0.8;

@@ -57,7 +57,8 @@ class Halo_SMG : HaloGun
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_SMG_Reserves";
 		Weapon.AmmoType2 "Halo_SMG_Clip";
-		Weapon.AmmoGive 45;
+		Weapon.AmmoGive 120;
+		HaloGun.Faction "Human";
 				
 		// Recoil
 		RecoilWeapon.RecoilSpeed 35;

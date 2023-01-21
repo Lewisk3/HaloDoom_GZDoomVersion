@@ -65,8 +65,9 @@ class Halo_SniperRifle : HaloGun
 		Weapon.BobSpeed 2.12;
 		Weapon.BobRangeX 0.63;
 		Weapon.AmmoType1 "Halo_Sniper_Reserves";
-		Weapon.AmmoGive 6;
+		Weapon.AmmoGive 8;
 		Weapon.AmmoType2 "Halo_SniperClip";
+		HaloGun.Faction "Human";
 		
 		HaloGun.PowerTier P_POWER;
 				

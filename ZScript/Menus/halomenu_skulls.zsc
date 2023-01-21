@@ -106,8 +106,11 @@ class HaloDoom_SkullMenu : HaloMenuBase
 		
 			if(btn.hovered)
 			{
+				// Draw skull name
+				HLSBS.DrawString("HaloFont", skulls[i].displayName, desc_pos - (0,30), flags:drawFlags, Font.CR_GREEN, scale:(0.20,0.20), linespacing:130);
+				
 				// Draw skull description
-				HLSBS.DrawString("HaloFont", skDesc, desc_pos, flags:drawFlags, Font.CR_WHITE, scale:(0.15,0.15), linespacing:130);
+				HLSBS.DrawString("HaloFont", skDesc, desc_pos + (0,50), flags:drawFlags, Font.CR_WHITE, scale:(0.15,0.15), linespacing:130);
 			}
 		}
 		

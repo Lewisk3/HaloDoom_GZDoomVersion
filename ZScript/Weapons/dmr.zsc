@@ -67,6 +67,7 @@ class Halo_DMR : HaloGun
 		Weapon.AmmoType1 "Halo_DMR_Reserves";
 		Weapon.AmmoGive 24;
 		Weapon.AmmoType2 "Halo_DMRClip";
+		HaloGun.Faction "Human";
 		
 		HaloGun.PowerTier P_MID;
 		HaloGun.Rarity 50;

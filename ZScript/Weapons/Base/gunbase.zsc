@@ -29,17 +29,20 @@ class HaloGun : RecoilWeapon
 	uint SpawnTier;
 	uint SpawnRarity;
 	int reload_ammoleft;
+	double modifyAmmoUsage; // Used whenever A_TakeAmmo is called.
 	double damage_modifier;
 	double baserecoil;
 	double spreadmod; // Spread introduced by continuous fire
 	double bloomamt, bloomspd, accmod;
 	double rotation_range;
 	double rotation_sens;
+	bool bottomless_reserves; // Reserves do not deplete.
 	bool donefirstdrawanim; 
 	bool handsbusy; // Keep track of melee stuff and other hand actions.
 	bool feetbusy; 
 	bool nokick; // Disables kick for this weapon.
 	Weapon NextWeapon;
+	Name faction; // Weapon faction, usually; Human, Covenant or Forerunner
 	
 	// UI Stuff
 	const SIGHT_OVERLAY = 0xFF;
@@ -110,6 +113,7 @@ class HaloGun : RecoilWeapon
 	Property Rarity : SpawnRarity;
 	Property _ProjDamageMod : damage_modifier;
 	Property DisableKicking : nokick;
+	Property Faction : faction;
 
 	enum ButtonStates
 	{
@@ -1013,7 +1017,7 @@ class HaloGun : RecoilWeapon
 	action void DepleteAmmo(int amt, Actor ptr = NULL)
 	{
 		if(!ptr) ptr = self;
-		if(!sv_infiniteammo) ptr.TakeInventory(invoker.AmmoType1, amt);
+		if(!sv_infiniteammo && !invoker.bottomless_reserves) ptr.TakeInventory(invoker.AmmoType1, amt);
 	}
 	
 	// For reloading clips/magazines
@@ -1036,6 +1040,8 @@ class HaloGun : RecoilWeapon
 	action void A_TakeAmmo(int amt = 1, bool playEmptySND = true, class<Inventory> type = NULL)
 	{
 		if(sv_infiniteammo) return;
+		amt *= max(1, invoker.modifyAmmoUsage);
+		
 		if(!type) type = invoker.ammotype2;
 		A_TakeInventory(type, amt);
 		if(countinv(type) <= 0 && playEmptySND) 

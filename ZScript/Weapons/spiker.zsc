@@ -183,7 +183,8 @@ class Halo_Spiker : HaloGun
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_Spiker_Reserves";
 		Weapon.AmmoType2 "Halo_Spiker_Clip";
-		Weapon.AmmoGive 40;
+		Weapon.AmmoGive 80;
+		HaloGun.Faction "Covenant";
 				
 		// Recoil
 		HaloGun.Bloom 0.8;
