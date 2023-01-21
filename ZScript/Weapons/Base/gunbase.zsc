@@ -41,6 +41,7 @@ class HaloGun : RecoilWeapon
 	bool handsbusy; // Keep track of melee stuff and other hand actions.
 	bool feetbusy; 
 	bool nokick; // Disables kick for this weapon.
+	bool skipreload; // Skips reload animations.
 	Weapon NextWeapon;
 	Name faction; // Weapon faction, usually; Human, Covenant or Forerunner
 	
@@ -1077,6 +1078,12 @@ class HaloGun : RecoilWeapon
 	// Check if we need to reload, if we do, jump to Reload.
 	action state A_GunCheckReload()
 	{
+		if(invoker.skipreload && !countinv(invoker.AmmoType2)) 
+		{
+			A_ReloadClip();
+			return ResolveState(NULL);
+		}
+	
 		if(!invoker.uses_battery)
 			return !countinv(invoker.AmmoType2) ? ResolveState("Reload") : ResolveState(NULL);
 		else
@@ -1087,6 +1094,12 @@ class HaloGun : RecoilWeapon
 	// or if no reserve ammo is found.
 	action state A_ValidateReload(StateLabel fallback="Ready")
 	{
+		if(invoker.skipreload)
+		{
+			A_ReloadClip();
+			return ResolveState(fallback);
+		}
+	
 		if(invoker.handsbusy) return ResolveState(fallback);
 		let rammo = GetDefaultByType(invoker.AmmoType2);
 		if( countinv(invoker.AmmoType2) == rammo.maxamount || 
