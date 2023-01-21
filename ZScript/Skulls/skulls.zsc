@@ -500,6 +500,53 @@ class Skull_Patriot : HaloSkull
 	}
 }
 
+class Skull_Hotline : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Hotline.png";
+		HaloSkull.DisplayName "Hotline";
+		HaloSkull.Description "Both you and enemies die in one hit.\nBoss enemies take more hits to kill.";
+	}
+	
+	override void WorldTick()
+	{
+		for(int i = 0; i < MAXPLAYERS; i++)
+		{
+			if(!PlayerInGame[i]) continue;
+			PlayerInfo plr = players[i];
+			if(!plr) continue;
+			
+			let hplr = HaloPlayer(plr.mo);
+			if(!hplr) continue;
+			
+			hplr.shields = 0;
+			hplr.regen_timer = 0; // Disable Shield Regeneration.
+			hplr.shield_snd_volume = 0; // Disable shield beep
+		}
+	}
+	
+	override void WorldThingDamaged(WorldEvent e)
+	{
+		Actor victim = e.Thing;
+		if(!victim || e.DamageType == "hotlineDMG") return;
+		
+		let haloplr = HaloPlayer(victim);
+		if(haloplr)
+		{
+			haloplr.shields = 0;
+			haloplr.DamageMobJ(e.Inflictor, e.DamageSource, haloplr.GetMaxHealth(true), "hotlineDMG", e.DamageFlags, e.DamageAngle);
+			return;
+		}
+		
+		if(victim.bBOSS)
+			victim.DamageMobJ(e.Inflictor, e.DamageSource, ceil(victim.health / 20.0), "hotlineDMG", e.DamageFlags, e.DamageAngle);
+		else
+			victim.DamageMobJ(e.Inflictor, e.DamageSource, victim.health, "hotlineDMG", e.DamageFlags, e.DamageAngle);
+	}
+}
+
+
 /*
 class Skull_Thunderstorm : HaloSkull
 {

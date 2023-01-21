@@ -54,6 +54,7 @@ version "4.10.0"
 #include "ZScript/Weapons/Base/projectile_common.zsc"
 #include "ZScript/Weapons/Base/projectilebase.zsc"
 #include "ZScript/Weapons/Base/ammobase.zsc"
+#include "ZScript/Weapons/weapondebris.zsc"
 #include "ZScript/Weapons/sfx.zsc"
 #include "ZScript/Weapons/bullet_splashes.zsc"
 

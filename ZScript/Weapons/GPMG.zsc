@@ -168,7 +168,7 @@ class Halo_GPMG : HaloGun
 		A_WeapSound("Halo/Weapons/GPMG/Fire/Bass", CHANF_OVERLAP, true);
 		A_ShootProjectile("HaloGPMG_Bullet", 11);		
 		A_SetSFXPos(20,-18,-12);
-		A_SpawnSFX("BulletCasing", -90,-20);
+		A_SpawnSFX("HighCaliburCasing", -90,-20);
 		A_SetSFXPos(25,-10,-8);
 		A_SpawnSFX("MuzzleSmoke", 0,0);
 		A_TakeAmmo();

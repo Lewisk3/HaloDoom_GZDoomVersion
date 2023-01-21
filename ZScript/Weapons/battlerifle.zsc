@@ -123,7 +123,7 @@ class Halo_BattleRifle : HaloGun
 		A_WeapSound("Halo/Weapons/BattleRifle/Fire/Bass", CHANF_OVERLAP);
 		A_ShootProjectile("HaloBattleRifle_Bullet", 10);	
 		A_SetSFXPos(20,-22,-15);
-		A_SpawnSFX("BulletCasing", -90,-20);
+		A_SpawnSFX("RifleCasing", -90,-20);
 		A_SetSFXPos(25,-10,-10);
 		A_SpawnSFX("MuzzleSmoke", 0,0);
 		A_TakeAmmo();

@@ -132,7 +132,7 @@ class Halo_Commando : HaloGun
 		A_ShootProjectile("HaloCommando_Bullet", A_CheckInScope() ? 0 : 10);	
 		
 		A_SetSFXPos(20,-15,-7);
-		A_SpawnSFX("BulletCasing", -90,-20);
+		A_SpawnSFX("RifleCasing", -90,-20);
 		A_SetSFXPos(25,-8,-6);
 		
 		for(int i = 0; i < 3; i++)

@@ -74,7 +74,7 @@ class Halo_MA5B : HaloGun
 		A_WeapSound("Halo/Weapons/MA5B/Fire/Bass", CHANF_OVERLAP, true);
 		A_ShootProjectile("HaloMAB_Bullet", 8);		
 		A_SetSFXPos(20,-24,-12);
-		A_SpawnSFX("BulletCasing", -90,-20);
+		A_SpawnSFX("RifleCasing", -90,-20);
 		A_SetSFXPos(25,-10,-8);
 		A_SpawnSFX("MuzzleSmoke", 0,0);
 		A_TakeAmmo();

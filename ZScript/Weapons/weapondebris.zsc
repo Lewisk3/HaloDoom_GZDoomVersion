@@ -1,0 +1,478 @@
+
+// Casings
+class BulletCasing : Actor
+{
+	bool dosmoke;
+	bool becomeFlat;
+	int animspd;
+	Property AnimateSpeed : animspd;
+	Property FlattenOnDeath : becomeFlat;
+	Property Smoke : dosmoke;
+	
+	Default
+	{
+		Speed 4;
+		BulletCasing.AnimateSpeed 2;
+		BulletCasing.Smoke true;
+		BulletCasing.FlattenOnDeath true;
+		BounceSound "Casings/Pistol";
+		Projectile;
+		BounceType "Doom";
+		BounceCount 3;
+		BounceFactor 0.7;
+		+USEBOUNCESTATE;
+		-SOLID;
+		-NOGRAVITY;
+		+ROLLSPRITE;
+		Gravity 0.35;
+		Radius 2;
+		Height 2;
+		Scale 0.05;
+	}
+	
+	override void PostBeginPlay()
+	{
+		super.PostBeginPlay();
+		A_SetRoll(frandom[CasingVisualRNG](0,360));
+	}
+	
+	override bool CanCollideWith(Actor other, bool passive)
+	{
+		if(other is "PlayerPawn") return false;
+		return super.CanCollideWith(other, passive);
+	}
+	
+	override void Tick()
+	{
+		if(bNOINTERACTION)
+		{
+			// Always stay on the floor.
+			SetOrigin((pos.xy, floorz), true);
+		}
+	
+		bool cl_dosmoke = true;
+		let src = HaloGun(target);
+		if(src && src.cvfx_smoke)
+			cl_dosmoke = src.cvfx_smoke.GetBool();
+			
+		if( !(level.maptime%10) && random[SpawnSmoke](0,1) && GetAge() < 3*35 && cl_dosmoke && dosmoke )
+		{
+			let smoke = Spawn("CasingSmoke", pos);
+			if(smoke) 
+			{
+				smoke.vel = vel;
+				smoke.A_SetScale(frandom[SpawnSmoke](0.04,0.15));
+				smoke.alpha = frandom[SpawnSmoke](0.05,0.5);
+			}
+		}
+		super.Tick();
+	}
+	
+	States
+	{
+		Spawn:
+			CAS3 A 1;
+		Animate:
+			"####" ABCDEFGH 2 A_SetTics(animspd);
+		loop;
+			
+		Bounce:
+			"####" "#" 1 
+			{
+				Spawn("BulletSplashSpawner", pos);
+				return ResolveState("Spawn");
+			}
+		wait;
+		
+		XDeath:
+		Death:
+		Crash:
+			"####" A 2100 // 1 minute 
+			{
+				Spawn("BulletSplashSpawner", pos);
+				bNOINTERACTION = true;
+				bFLATSPRITE = bROLLSPRITE = becomeFlat;
+				
+				pitch = 0;
+				if(bFLATSPRITE) frame = random[SpawnSmoke](1,7);
+			}
+		WaitDeath:
+			"####" "#" 1 A_FadeOut(0.002);
+		wait;
+	}
+}
+class RifleCasing : BulletCasing
+{	
+	States
+	{
+		Spawn:
+			CASR A 1;
+		goto Animate;
+	}
+}
+
+class PistolCasing : BulletCasing
+{
+	Default
+	{
+		Speed 5;
+		BounceSound "Casings/Pistol";
+	}
+	States
+	{
+		Spawn:
+			CASP A 1;
+		goto Animate;
+	}
+}
+
+class ShellCasing : BulletCasing
+{
+	Default
+	{
+		Speed 2;
+		BounceSound "Casings/Shell";
+	}
+	States
+	{
+		Spawn:
+			SHRE A 1;
+		goto Animate;
+	}
+}
+class BlackShellCasing : ShellCasing
+{
+	States
+	{
+		Spawn:
+			SHBK A 1;
+		goto Animate;
+	}
+}
+
+class HighCaliburCasing : BulletCasing
+{	
+	Default
+	{
+		Speed 2;
+		Scale 0.08; 
+		BounceSound "Casings/HighCalibur";
+	}
+	States
+	{
+		Spawn:
+			CA50 A 1;
+		goto Animate;
+	}
+}
+class FuelrodCasing : HighCaliburCasing
+{	
+	Default
+	{
+		Speed 1;
+		Scale 0.14;
+		BounceSound "Casings/Shell";
+	}
+	States
+	{
+		Spawn:
+			FULR A 1;
+		goto Animate;
+	}
+}
+
+class CasingSmoke : Actor
+{
+	Default
+	{
+		Speed 2;
+		+NOINTERACTION;
+		RenderStyle "Add";
+		Alpha 0.5;
+		Scale 0.15;
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		vel.z += 0.02;
+		vel *= 0.87;
+		A_SetScale(default.Scale.X * 1.05, default.Scale.Y * 1.05);
+	}
+	
+	States
+	{
+		Spawn:
+			SMKE ABCDEFGHIJKLMNOPQR 3;
+		Death:
+			SMKE R 1 A_FadeOut(0.07);
+		wait;
+	}
+}
+
+// Clips and Magazines
+class DiscardedMagazine : Actor
+{
+	bool underwater;
+	bool bigSplash;
+	Sound waterSound;
+	int rotframes;
+	
+	Property WaterDropSound : waterSound;
+	Property IsLargeDebris : bigSplash;
+	Property RotationFrames : rotframes;
+	
+	Default
+	{
+		Speed 2;
+		Projectile;
+		BounceType "Doom";
+		BounceCount 2;
+		BounceFactor 0.8;
+		-SOLID;
+		-NOGRAVITY;
+		+ROLLSPRITE;
+		+USEBOUNCESTATE;
+		Gravity 0.35;
+		Radius 2;
+		Height 2;
+		Scale 0.05;
+		
+		BounceSound "WeaponAmmoDebris/Clip/Bounce";
+		DiscardedMagazine.WaterDropSound "WeaponAmmoDebris/Clip/Water";
+		DiscardedMagazine.IsLargeDebris false;
+		DiscardedMagazine.RotationFrames 3;
+	}
+	
+	override void PostBeginPlay()
+	{
+		super.PostBeginPlay();
+		A_SetRoll(frandom[DebrisMagVisualRNG](0,360));
+		A_SetAngle(frandom[DebrisMagVisualRNG](0,360));
+	}
+	
+	override bool CanCollideWith(Actor other, bool passive)
+	{
+		if(other is "PlayerPawn") return false;
+		return super.CanCollideWith(other, passive);
+	}
+	
+	override void Tick()
+	{
+		if(getAge() < 2) frame = random[MagFrame](0,rotframes);
+		if(bNOINTERACTION)
+		{
+			// Always stay on the floor.
+			SetOrigin((pos.xy, floorz), true);
+		}
+		
+		if(waterlevel > 0 && !underwater)
+		{
+			underwater = true;
+			A_StartSound(waterSound, CHAN_AUTO, CHANF_OVERLAP);
+		}
+		
+		super.Tick();
+	}
+	
+	
+	States
+	{
+		Spawn:
+			CAS3 A 1;
+		Animate:
+			"####" "#" 2;
+		loop;
+		
+		Bounce:
+			"####" "#" 1 
+			{
+				frame = random[MagFrame](0,rotframes);
+				Spawn("BulletSplashSpawner", pos);
+				return ResolveState("Spawn");
+			}
+		wait;
+		
+		XDeath:
+		Death:
+		Crash:
+			"####" "#" 2100 // 1 minute 
+			{
+				bNOINTERACTION = true;
+				bROLLSPRITE = false;
+				Spawn("BulletSplashSpawner", pos);
+			}
+		WaitDeath:
+			"####" "#" 1 A_FadeOut(0.002);
+		wait;
+	}
+}
+
+class Debris_BulldogMagazine : DiscardedMagazine
+{
+	Default
+	{
+		Scale 0.15;
+	}
+
+	States
+	{
+		Spawn:
+			DMBD A 1;
+		goto Animate;
+	}
+}
+class Debris_RocketClip : Debris_BulldogMagazine
+{
+	Default
+	{
+		BounceCount 1;
+		Scale 0.40;
+		-ROLLSPRITE;
+		DiscardedMagazine.RotationFrames 7;
+	}
+	
+	States
+	{
+		Spawn:
+			DMRL A 1;
+		goto Animate;
+	}
+}
+
+class Debris_CarbineMagazine : BulletCasing
+{
+	Default
+	{
+		Speed 1;
+		BounceCount 2;
+		BounceFactor 0.9;
+		Scale 0.10;
+		
+		BulletCasing.FlattenOnDeath false;
+		BulletCasing.Smoke false;
+	}
+	States
+	{
+		Spawn:
+			DMCB A 1;
+		goto Animate;
+	}
+}
+class Debris_PlasmaCasterMag : Debris_CarbineMagazine
+{
+	Default
+	{
+		Speed 1;
+		BounceCount 2;
+		Scale 0.30;
+	}
+	
+	States
+	{
+		Spawn:
+			DMPC A 1;
+		goto Animate;
+		
+		XDeath:
+		Death:
+		Crash:
+			"####" I 2100 // 1 minute 
+			{
+				Spawn("BulletSplashSpawner", pos);
+				bROLLSPRITE = false;
+				pitch = 0;
+			}
+		WaitDeath:
+			"####" "#" 1 A_FadeOut(0.002);
+		wait;
+	}
+}
+
+class Debris_CommandoMagazine : Debris_CarbineMagazine
+{
+	Default
+	{
+		BulletCasing.FlattenOnDeath true;
+		BulletCasing.Smoke false;
+	}
+
+	States
+	{
+		Spawn:
+			DMCM A 1;
+		goto Animate;
+	}
+}
+class Debris_GPMGMagazine : Debris_CommandoMagazine
+{
+	States
+	{
+		Spawn:
+			DMMG A 1;
+		goto Animate;
+	}
+}
+class Debris_MagnumClip : Debris_CommandoMagazine
+{
+	States
+	{
+		Spawn:
+			DMHC A 1;
+		goto Animate;
+	}
+}
+class Debris_NeedlerJavelinMag : Debris_CommandoMagazine
+{
+	States
+	{
+		Spawn:
+			DMNJ A 1;
+		goto Animate;
+	}
+}
+class Debris_RifleMagazine : Debris_CommandoMagazine
+{
+	States
+	{
+		Spawn:
+			DMRF A 1;
+		goto Animate;
+	}
+}
+class Debris_SidekickClip : Debris_CommandoMagazine
+{
+	States
+	{
+		Spawn:
+			DMSK A 1;
+		goto Animate;
+	}
+}
+class Debris_SMGMagazine : Debris_CommandoMagazine
+{
+	States
+	{
+		Spawn:
+			DMSM A 1;
+		goto Animate;
+	}
+}
+class Debris_SniperMagazine : Debris_CommandoMagazine
+{
+	States
+	{
+		Spawn:
+			DMSN A 1;
+		goto Animate;
+	}
+}
+class Debris_SpikerClip : Debris_CarbineMagazine
+{
+	States
+	{
+		Spawn:
+			DMSP A 1;
+		goto Animate;
+	}
+}

@@ -209,7 +209,7 @@ class Halo_Shotgun : HaloGun
 			{
 				A_RecoilOffset(0,0,14);
 				A_SetRecoil(0.09, 0.25, 4);
-				A_SetSFXPos(25,-25,-25);
+				A_SetSFXPos(25,-25,-10);
 				A_SpawnSFX("ShellCasing", -90,20);
 			}
 			W3P1 VUTSRQPONM 1;

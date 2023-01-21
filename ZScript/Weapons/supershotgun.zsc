@@ -377,9 +377,9 @@ class Halo_DBLShotgun : HaloGun
 			{	
 				A_SetRecoil(-2.0, 0, 3);
 				A_SetSFXPos(10,-8,-8);
-				A_SpawnSFX("ShellCasing", -180,-60);
+				A_SpawnSFX("BlackShellCasing", -180,-60);
 				A_SetSFXPos(10,-16,-8);
-				A_SpawnSFX("ShellCasing", -180,-60);
+				A_SpawnSFX("BlackShellCasing", -180,-60);
 			}
 			DBR1 TUVWXYYYYYYYZ 1;
 			DBR2 ABCDEFGHI 1;
