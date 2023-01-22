@@ -283,12 +283,8 @@ class Halo_Commando : HaloGun
 			TNT1 A 0 A_ScopeDisable();
 			TNT1 A 0 A_ReloadSound();
 			TNT1 A 0 A_JumpIf(!CountReloadAmmo(), "Reload.Empty");
-			
 			WUR1 ABCDEFGHIJKLMNOPQRS 1;
-			WUR1 T 1 
-			{
-				A_SetRecoil(0.4, -0.2, 3);
-			}
+			WUR1 T 1 A_SetRecoil(0.4, -0.2, 3);
 			WUR1 UVWXYZ 1;
 			WUR2 ABCDEFGHIJK 1;
 			WUR2 L 1 
@@ -303,7 +299,12 @@ class Halo_Commando : HaloGun
 		Reload.Empty:
 			WUR3 XYZ 1;
 			WUR4 ABCDEFGHIJK 1;
-			WUR4 L 1 A_SetRecoil(0, -0.2, 8);
+			WUR4 L 1 
+			{
+				A_SetRecoil(0, -0.2, 8);
+				A_SetSFXPos(10,-5,-30);
+				A_SpawnSFX("Debris_CommandoMagazine", 0, 60);
+			}
 			WUR4 MNOPQRSTUVWXYZ 1;
 			WUR5 ABCDEFGH 1;
 			WUR5 I 1 
