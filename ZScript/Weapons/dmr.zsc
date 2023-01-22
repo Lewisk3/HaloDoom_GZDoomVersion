@@ -192,7 +192,7 @@ class Halo_DMR : HaloGun
 			{
 				A_SetRecoil(-0.7, -0.35, 3);
 				A_SetSFXPos(10,-15,-20);
-				A_SpawnSFX("Debris_RifleMagazine", 0, 60);
+				if(!CountReloadAmmo()) A_SpawnSFX("Debris_RifleMagazine", 0, 60);
 			}
 			WJR2 CDEFGHIJKLMNOPQRSTUVWXYZ 1;
 			WJR3 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1;

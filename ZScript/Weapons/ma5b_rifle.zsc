@@ -313,8 +313,6 @@ class Halo_MA5B : HaloGun
 			WHR5 E 1 
 			{
 				A_SetRecoil(-1.25, 0.3, 2); // Mag Out
-				A_SetSFXPos(10,-20,-25);
-				A_SpawnSFX("Debris_RifleMagazine", 0, 60);
 			}
 			WHR5 FGHIJKLMNOPQRST 1;
 			WHR5 U 1 

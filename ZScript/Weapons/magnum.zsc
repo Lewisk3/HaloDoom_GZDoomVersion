@@ -239,11 +239,6 @@ class Halo_Magnum : HaloGun
 			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Reload.Empty");
 			TNT1 A 0 A_StartSound("Halo/Weapons/Mag_MD6/Reload", CHAN_RELOADING, CHANF_OVERLAP);
 			W0T1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1;
-			TNT1 A 0 
-			{
-				A_SetSFXPos(10,-5,-10);
-				A_SpawnSFX("Debris_MagnumClip", 0, 60);
-			}
 			W0T2 ABCDEFGHIJKLMNOPQRS 1;
 			W0T2 T 1 A_ReloadClip();
 			W0T2 UVWXYZ 1;

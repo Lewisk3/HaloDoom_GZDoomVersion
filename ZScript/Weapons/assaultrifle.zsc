@@ -319,7 +319,7 @@ class Halo_AssaultRifle : HaloGun
 			TNT1 A 0 
 			{
 				A_SetSFXPos(10,-25,-25);
-				A_SpawnSFX("Debris_RifleMagazine", 0, 60);
+				if(!CountReloadAmmo()) A_SpawnSFX("Debris_RifleMagazine", 0, 60);
 			}
 			HRR1 FGHIJ 2;
 			HRR1 KLMNOPQRS 2;

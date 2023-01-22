@@ -288,8 +288,6 @@ class Halo_Commando : HaloGun
 			WUR1 T 1 
 			{
 				A_SetRecoil(0.4, -0.2, 3);
-				A_SetSFXPos(10,-5,-30);
-				A_SpawnSFX("Debris_CommandoMagazine", 0, 60);
 			}
 			WUR1 UVWXYZ 1;
 			WUR2 ABCDEFGHIJK 1;

@@ -242,7 +242,7 @@ class Halo_GPMG : HaloGun
 			{
 				A_SetRecoil(0, -2.5, 1);
 				A_SetSFXPos(10,-5,-20);
-				A_SpawnSFX("Debris_GPMGMagazine", 0, 60);
+				if(!CountReloadAmmo()) A_SpawnSFX("Debris_GPMGMagazine", 0, 60);
 			}
 			WVR1 HIJKL 1;
 			WVR1 M 12;
