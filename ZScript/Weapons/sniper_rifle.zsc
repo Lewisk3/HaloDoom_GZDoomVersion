@@ -199,6 +199,11 @@ class Halo_SniperRifle : HaloGun
 			HSR1 ABCDEFG 2;
 			HSR1 HIJKLM 1;
 			HSR1 NN 1 A_SetRecoil(-2.0, 0, 3);
+			TNT1 A 0
+			{
+				A_SetSFXPos(10,-15,-15);
+				A_SpawnSFX("Debris_SniperMagazine", 0, 60);
+			}
 			HSR1 OPQRS 1;
 			HSR1 T 4;
 			HSR1 UVWXYZ 1;

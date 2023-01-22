@@ -310,7 +310,12 @@ class Halo_MA5B : HaloGun
 			WHR3 TUVWXYZ 1;
 			WHR4 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1;
 			WHR5 ABCD 1;
-			WHR5 E 1 A_SetRecoil(-1.25, 0.3, 2); // Mag Out
+			WHR5 E 1 
+			{
+				A_SetRecoil(-1.25, 0.3, 2); // Mag Out
+				A_SetSFXPos(10,-20,-25);
+				A_SpawnSFX("Debris_RifleMagazine", 0, 60);
+			}
 			WHR5 FGHIJKLMNOPQRST 1;
 			WHR5 U 1 
 			{
@@ -326,7 +331,12 @@ class Halo_MA5B : HaloGun
 			
 		Reload.Tactical:
 			WHR1 ABCDEFGHIJKLMNOPQ 1;
-			WHR1 R 1 A_SetRecoil(-1.25, 0.3, 2); // Mag Out
+			WHR1 R 1 
+			{
+				A_SetRecoil(-1.25, 0.3, 2); // Mag Out
+				A_SetSFXPos(10,-20,-25);
+				A_SpawnSFX("Debris_RifleMagazine", 0, 60);
+			}
 			WHR1 STUVWXYZ 1;
 			WHR2 ABCDEFGHIJKL 1;
 			WHR2 M 1 

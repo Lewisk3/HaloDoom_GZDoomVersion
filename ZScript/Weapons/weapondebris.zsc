@@ -270,9 +270,18 @@ class DiscardedMagazine : Actor
 		{
 			underwater = true;
 			A_StartSound(waterSound, CHAN_AUTO, CHANF_OVERLAP);
+			DoSplash();
 		}
 		
 		super.Tick();
+	}
+	
+	void DoSplash()
+	{
+		if(!bigSplash)
+			Spawn("BulletSplashSpawner", pos);
+		else
+			Spawn("LargeSplashSpawner", pos);
 	}
 	
 	
@@ -288,7 +297,7 @@ class DiscardedMagazine : Actor
 			"####" "#" 1 
 			{
 				frame = random[MagFrame](0,rotframes);
-				Spawn("BulletSplashSpawner", pos);
+				DoSplash();
 				return ResolveState("Spawn");
 			}
 		wait;
@@ -300,7 +309,7 @@ class DiscardedMagazine : Actor
 			{
 				bNOINTERACTION = true;
 				bROLLSPRITE = false;
-				Spawn("BulletSplashSpawner", pos);
+				DoSplash();
 			}
 		WaitDeath:
 			"####" "#" 1 A_FadeOut(0.002);
@@ -313,6 +322,9 @@ class Debris_BulldogMagazine : DiscardedMagazine
 	Default
 	{
 		Scale 0.15;
+		
+		BounceSound "WeaponAmmoDebris/Bulldog/Bounce";
+		DiscardedMagazine.WaterDropSound "WeaponAmmoDebris/Bulldog/Water";
 	}
 
 	States
@@ -329,7 +341,11 @@ class Debris_RocketClip : Debris_BulldogMagazine
 		BounceCount 1;
 		Scale 0.40;
 		-ROLLSPRITE;
+		DiscardedMagazine.IsLargeDebris true;
 		DiscardedMagazine.RotationFrames 7;
+		
+		BounceSound "WeaponAmmoDebris/Rocket/Bounce";
+		DiscardedMagazine.WaterDropSound "WeaponAmmoDebris/Rocket/Water";
 	}
 	
 	States
@@ -351,6 +367,8 @@ class Debris_CarbineMagazine : BulletCasing
 		
 		BulletCasing.FlattenOnDeath false;
 		BulletCasing.Smoke false;
+		
+		BounceSound "WeaponAmmoDebris/Carbine/Bounce";
 	}
 	States
 	{
@@ -366,6 +384,8 @@ class Debris_PlasmaCasterMag : Debris_CarbineMagazine
 		Speed 1;
 		BounceCount 2;
 		Scale 0.30;
+				
+		BounceSound "WeaponAmmoDebris/PlasmaCaster/Bounce";
 	}
 	
 	States
@@ -395,6 +415,8 @@ class Debris_CommandoMagazine : Debris_CarbineMagazine
 	{
 		BulletCasing.FlattenOnDeath true;
 		BulletCasing.Smoke false;
+		
+		BounceSound "WeaponAmmoDebris/Commando/Bounce";
 	}
 
 	States
@@ -406,6 +428,11 @@ class Debris_CommandoMagazine : Debris_CarbineMagazine
 }
 class Debris_GPMGMagazine : Debris_CommandoMagazine
 {
+	Default
+	{
+		BounceSound "WeaponAmmoDebris/GPMG/Bounce";
+	}
+
 	States
 	{
 		Spawn:
@@ -415,6 +442,11 @@ class Debris_GPMGMagazine : Debris_CommandoMagazine
 }
 class Debris_MagnumClip : Debris_CommandoMagazine
 {
+	Default
+	{
+		BounceSound "WeaponAmmoDebris/Magnum/Bounce";
+	}
+	
 	States
 	{
 		Spawn:
@@ -424,6 +456,11 @@ class Debris_MagnumClip : Debris_CommandoMagazine
 }
 class Debris_NeedlerJavelinMag : Debris_CommandoMagazine
 {
+	Default
+	{
+		BounceSound "WeaponAmmoDebris/Javelin/Bounce";
+	}
+	
 	States
 	{
 		Spawn:
@@ -433,6 +470,11 @@ class Debris_NeedlerJavelinMag : Debris_CommandoMagazine
 }
 class Debris_RifleMagazine : Debris_CommandoMagazine
 {
+	Default
+	{
+		BounceSound "WeaponAmmoDebris/Rifle/Bounce";
+	}
+	
 	States
 	{
 		Spawn:
@@ -442,6 +484,11 @@ class Debris_RifleMagazine : Debris_CommandoMagazine
 }
 class Debris_SidekickClip : Debris_CommandoMagazine
 {
+	Default
+	{
+		BounceSound "WeaponAmmoDebris/Sidekick/Bounce";
+	}
+	
 	States
 	{
 		Spawn:
@@ -451,6 +498,11 @@ class Debris_SidekickClip : Debris_CommandoMagazine
 }
 class Debris_SMGMagazine : Debris_CommandoMagazine
 {
+	Default
+	{
+		BounceSound "WeaponAmmoDebris/SMG/Bounce";
+	}
+	
 	States
 	{
 		Spawn:
@@ -460,6 +512,11 @@ class Debris_SMGMagazine : Debris_CommandoMagazine
 }
 class Debris_SniperMagazine : Debris_CommandoMagazine
 {
+	Default
+	{
+		BounceSound "WeaponAmmoDebris/Sniper/Bounce";
+	}
+	
 	States
 	{
 		Spawn:
@@ -469,6 +526,11 @@ class Debris_SniperMagazine : Debris_CommandoMagazine
 }
 class Debris_SpikerClip : Debris_CarbineMagazine
 {
+	Default
+	{
+		BounceSound "WeaponAmmoDebris/Spiker/Bounce";
+	}
+	
 	States
 	{
 		Spawn:

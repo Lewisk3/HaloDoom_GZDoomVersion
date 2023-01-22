@@ -326,6 +326,8 @@ class Halo_Spiker : HaloGun
 			WGR1 P 1
 			{
 				A_SetRecoil(-0.75, 1.25, 4);
+				A_SetSFXPos(10,-15,-15);
+				A_SpawnSFX("Debris_SpikerClip", 0, 60);
 			}
 			WGR1 QRSTUVWXYZ 1;
 			WGR2 ABCDEFGHIJKLMNO 1; 

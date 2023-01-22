@@ -912,6 +912,41 @@ $random Casings/Pistol { CASING1 CASING2 CASING3 CASING4 }
 $random Casings/Rifle  { RIFCASING1 RIFCASING2 RIFCASING3 RIFCASING4 }
 $random Casings/HighCalibur { HCCASING1 HCCASING2 HCCASING3 HCCASING4 HCCASING5 HCCASING6 HCCASING7 }
 
+RIFLEBOUNCE1 "Sounds/Magdrop/Dirt/Rifle/Rifle_Dirt1.ogg"
+RIFLEBOUNCE2 "Sounds/Magdrop/Dirt/Rifle/Rifle_Dirt2.ogg"
+RIFLEBOUNCE3 "Sounds/Magdrop/Dirt/Rifle/Rifle_Dirt3.ogg"
+RIFLEBOUNCE4 "Sounds/Magdrop/Dirt/Rifle/Rifle_Dirt4.ogg"
+PISTOLBOUNCE1 "Sounds/Magdrop/Dirt/Pistol/Pistol_Dirt1.ogg"
+PISTOLBOUNCE2 "Sounds/Magdrop/Dirt/Pistol/Pistol_Dirt2.ogg"
+PISTOLBOUNCE3 "Sounds/Magdrop/Dirt/Pistol/Pistol_Dirt3.ogg"
+PISTOLBOUNCE4 "Sounds/Magdrop/Dirt/Pistol/Pistol_Dirt4.ogg"
+ROCKETBOUNCE1 "Sounds/Magdrop/Dirt/Rocket/SPNKR_Dirt1.ogg"
+ROCKETBOUNCE2 "Sounds/Magdrop/Dirt/Rocket/SPNKR_Dirt2.ogg"
+ROCKETBOUNCE3 "Sounds/Magdrop/Dirt/Rocket/SPNKR_Dirt3.ogg"
+ROCKETBOUNCE4 "Sounds/Magdrop/Dirt/Rocket/SPNKR_Dirt4.ogg"
+SMGBOUNCE1 "Sounds/Magdrop/Dirt/SMG/SMG_Dirt1.ogg"
+SMGBOUNCE2 "Sounds/Magdrop/Dirt/SMG/SMG_Dirt2.ogg"
+SMGBOUNCE3 "Sounds/Magdrop/Dirt/SMG/SMG_Dirt3.ogg"
+SMGBOUNCE4 "Sounds/Magdrop/Dirt/SMG/SMG_Dirt4.ogg"
+SNIPERBOUNCE1 "Sounds/Magdrop/Dirt/Sniper/Sniper_Dirt1.ogg"
+SNIPERBOUNCE2 "Sounds/Magdrop/Dirt/Sniper/Sniper_Dirt2.ogg"
+SNIPERBOUNCE3 "Sounds/Magdrop/Dirt/Sniper/Sniper_Dirt3.ogg"
+SNIPERBOUNCE4 "Sounds/Magdrop/Dirt/Sniper/Sniper_Dirt4.ogg"
+
+$random WeaponAmmoDebris/Bulldog/Bounce { RIFLEBOUNCE1 RIFLEBOUNCE2 RIFLEBOUNCE3 RIFLEBOUNCE4 }
+$random WeaponAmmoDebris/Rocket/Bounce  { ROCKETBOUNCE1 ROCKETBOUNCE2 ROCKETBOUNCE3 ROCKETBOUNCE4 }
+$random WeaponAmmoDebris/Carbine/Bounce { SNIPERBOUNCE1 SNIPERBOUNCE2 SNIPERBOUNCE3 SNIPERBOUNCE4 }
+$random WeaponAmmoDebris/PlasmaCaster/Bounce { RIFLEBOUNCE1 RIFLEBOUNCE2 RIFLEBOUNCE3 RIFLEBOUNCE4 }
+$random WeaponAmmoDebris/Commando/Bounce { RIFLEBOUNCE1 RIFLEBOUNCE2 RIFLEBOUNCE3 RIFLEBOUNCE4 }
+$random WeaponAmmoDebris/GPMG/Bounce { SNIPERBOUNCE1 SNIPERBOUNCE2 SNIPERBOUNCE3 SNIPERBOUNCE4 }
+$random WeaponAmmoDebris/Magnum/Bounce { PISTOLBOUNCE1 PISTOLBOUNCE2 PISTOLBOUNCE3 PISTOLBOUNCE4 }
+$random WeaponAmmoDebris/Javelin/Bounce { SNIPERBOUNCE1 SNIPERBOUNCE2 SNIPERBOUNCE3 SNIPERBOUNCE4 }
+$random WeaponAmmoDebris/Rifle/Bounce  { RIFLEBOUNCE1 RIFLEBOUNCE2 RIFLEBOUNCE3 RIFLEBOUNCE4 }
+$random WeaponAmmoDebris/Sidekick/Bounce { PISTOLBOUNCE1 PISTOLBOUNCE2 PISTOLBOUNCE3 PISTOLBOUNCE4 }
+$random WeaponAmmoDebris/SMG/Bounce { SMGBOUNCE1 SMGBOUNCE2 SMGBOUNCE3 SMGBOUNCE4 }
+$random WeaponAmmoDebris/Sniper/Bounce { SNIPERBOUNCE1 SNIPERBOUNCE2 SNIPERBOUNCE3 SNIPERBOUNCE4 }
+$random WeaponAmmoDebris/Spiker/Bounce { PISTOLBOUNCE1 PISTOLBOUNCE2 PISTOLBOUNCE3 PISTOLBOUNCE4 }
+
 // Bullet SFX
 NDLRICOCHET1 "Sounds/Needler/Ricochet/Needle_Ricochet1.ogg"
 NDLRICOCHET2 "Sounds/Needler/Ricochet/Needle_Ricochet2.ogg"

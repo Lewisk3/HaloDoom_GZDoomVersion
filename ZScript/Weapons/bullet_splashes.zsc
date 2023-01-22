@@ -69,6 +69,12 @@ class PlasmaSplashSpawner : CheapActor
 		Spawn:
 			TNT1 AAAAAAAAA 4
 			{
+				let splashDict = HaloDoom_Events.GetSplashData();
+				string floorpicName = TexMan.GetName(floorpic);
+				let splashType = splashDict.At(floorpicName);
+				if(!splashType || splashType == "")
+					return ResolveState("NULL");
+				
 				HaloMath.SpawnFX(
 					"PlasmaHeatedSmoke", pos, 
 					frandom[PlasmaSmoke](0,360),
@@ -77,12 +83,15 @@ class PlasmaSplashSpawner : CheapActor
 					frandom[PlasmaSmoke](-30,30),
 					frandom[PlasmaSmoke](-3,3)
 				);
+				return ResolveState(NULL);
 			}
 		stop;
 	}
 }
 class PlasmaHeatedSmoke : IcecubeSmoke
 {
+	bool damaging;
+
 	Default
 	{
 		Scale 0.4;
@@ -93,10 +102,19 @@ class PlasmaHeatedSmoke : IcecubeSmoke
 	override void PostBeginPlay()
 	{
 		super.PostBeginPlay();
+		damaging = random[PlasmaHeatDMG](0,100) <= 50;
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
 		
 		let shooter = target;
 		if(!shooter) shooter = self;
-		HaloMath.ExplodeEx(shooter, 1, 64, thrustMod:0, infiniteHeight:false);
+		
+		// This doesn't work properly any way I try it, it's just garbage from a gameplay perspective
+		// so screw it.
+		// if(!(GetAge() % 35) && damaging) HaloMath.ExplodeEx(shooter, 1, 64, thrustMod:0, infiniteHeight:false);
 	}
 }
 
@@ -123,6 +141,7 @@ class HaloLiquidSplash : CheapActor
 		
 		A_SetScale(Scale.X * frandom[Splashes](0.8,1.2));
 		alpha = frandom[Splashes](0.8,1.0);
+		bXFLIP = random[Splashs](0,100) <= 50;
 		
 		double amt = max(1, frandom[LiquidParticles](10,30) * halodoom_effectintensity);
 		if(largeSplash) amt *= 2.5;

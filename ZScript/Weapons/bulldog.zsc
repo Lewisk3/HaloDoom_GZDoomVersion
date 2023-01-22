@@ -252,7 +252,12 @@ class Halo_Bulldog : HaloGun
 			TNT1 A 0 A_ReloadSound();
 			TNT1 A 0 A_JumpIf(!CountReloadAmmo(), "Reload.Empty");
 			WAR1 ABCDEFGHI 1;
-			WAR1 J 1 A_SetRecoil(-1.0, 0, 2);
+			WAR1 J 1 
+			{
+				A_SetRecoil(-1.0, 0, 2);
+				A_SetSFXPos(10,-5,-20);
+				A_SpawnSFX("Debris_BulldogMagazine", 0, 60);
+			}
 			WAR1 KLMNOPQRSTUVWXYZ 1;
 			WAR2 ABCDEFGH 1;
 			WAR2 I 1 A_SetRecoil(1.0, 0, 2);
@@ -264,7 +269,12 @@ class Halo_Bulldog : HaloGun
 		Reload.Empty:
 			WAR3 LMNOPQRSTUVWXYZ 1;
 			WAR4 ABCDEFGH 1;
-			WAR4 I 1 A_SetRecoil(-2.0, 0, 2);
+			WAR4 I 1 
+			{
+				A_SetRecoil(-2.0, 0, 2);
+				A_SetSFXPos(10,-5,-20);
+				A_SpawnSFX("Debris_BulldogMagazine", 0, 60);
+			}
 			WAR4 JKLMNOPQRSTUVWXYZ 1;
 			WAR5 ABCDEFGHIJ 1;
 			WAR5 K 1 A_SetRecoil(2.0, 0, 2);
@@ -284,3 +294,4 @@ class Halo_Bulldog : HaloGun
 		stop;
 	}
 }
+

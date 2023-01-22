@@ -290,6 +290,8 @@ class Halo_PlasmaCaster : HaloGun
 			{
 				A_SetRecoil(0, -1.0, 2);
 				A_RecoilOffset(-10,0,2, true);
+				A_SetSFXPos(10,15,-10);
+				A_SpawnSFX("Debris_PlasmaCasterMag", 0, 60);
 			}
 			WSR1 KLMNOOOOOOOPQRST 2 A_RecoilOffset(0,0,18);
 			WSR1 U 1 

@@ -237,7 +237,12 @@ class Halo_BattleRifle : HaloGun
 			TNT1 A 0 A_ReloadSound();
 			TNT1 A 0 A_JumpIf(!CountReloadAmmo(), "Reload.Empty");
 			W2R1 ABCDEFGHIJKLM 1;
-			W2R1 N 1 A_SetRecoil(0, -0.4, 3);
+			W2R1 N 1 
+			{
+				A_SetRecoil(0, -0.4, 3);
+				A_SetSFXPos(10,-20,-25);
+				A_SpawnSFX("Debris_RifleMagazine", 0, 60);
+			}
 			W2R1 OPQRSTUVWXYZ 1;
 			W2R2 ABCDEFGHIJKLM 1;
 			W2R2 N 1 A_SetRecoil(0,  0.4, 3);
@@ -249,7 +254,12 @@ class Halo_BattleRifle : HaloGun
 		Reload.Empty: // 25
 			W2R3 PQRSTUVWXYZ 1;
 			W2R4 AB 1;
-			W2R4 C 1 A_SetRecoil(0, -0.4, 3);
+			W2R4 C 1 
+			{
+				A_SetRecoil(0, -0.4, 3);
+				A_SetSFXPos(10,-20,-25);
+				A_SpawnSFX("Debris_RifleMagazine", 0, 60);
+			}
 			W2R4 DEFGHIJKLMNOPQRSTUVWXYZ 1;
 			W2R5 AB 1;
 			W2R5 C 1 A_SetRecoil(0,  0.4, 3);

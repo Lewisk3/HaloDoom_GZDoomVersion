@@ -238,7 +238,12 @@ class Halo_GPMG : HaloGun
 			TNT1 A 0 A_ReloadSound();
 			WVR1 ABCDE 2;
 			WVR1 F 8;
-			WVR1 G 2 A_SetRecoil(0, -2.5, 1);
+			WVR1 G 2 
+			{
+				A_SetRecoil(0, -2.5, 1);
+				A_SetSFXPos(10,-5,-20);
+				A_SpawnSFX("Debris_GPMGMagazine", 0, 60);
+			}
 			WVR1 HIJKL 1;
 			WVR1 M 12;
 			WVR1 NOPQRSTUVWX 2;

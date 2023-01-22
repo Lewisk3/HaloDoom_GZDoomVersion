@@ -227,7 +227,12 @@ class Halo_Carbine : HaloGun
 			TNT1 A 0 A_DisableLCD();
 			TNT1 A 0 A_StartSound("Halo/Weapons/Carbine/Reload", CHAN_RELOADING, CHANF_OVERLAP);
 			CRR1 ABCDEFGH 1;
-			CRR1 I 1 A_SetRecoil(-2.0, 0, 2);
+			CRR1 I 1 
+			{
+				A_SetRecoil(-2.0, 0, 2);
+				A_SetSFXPos(10,-25,-10);
+				A_SpawnSFX("Debris_CarbineMagazine", -180,-60);
+			}
 			CRR1 JKLMNOPQRSTUVWXYZ 1;
 			CRR2 ABCDEFGH 1;
 			CRR2 I 2 A_SetRecoil(1.0, 0, 2);

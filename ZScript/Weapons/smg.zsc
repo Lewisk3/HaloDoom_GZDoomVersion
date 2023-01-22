@@ -204,6 +204,11 @@ class Halo_SMG : HaloGun
 			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
 			TNT1 A 0 A_ReloadSound();
 			WFR1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1;
+			TNT1 A 0 
+			{
+				A_SetSFXPos(10,-5,-15);
+				A_SpawnSFX("Debris_SMGMagazine", 0, 60);
+			}
 			WFR2 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1;
 			WFR3 ABCDEF 1;
 			WFR3 G 1 
