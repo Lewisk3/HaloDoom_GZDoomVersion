@@ -979,9 +979,16 @@ class LedgeTrigger : CheapActor
 		if(falling && hitFloor && grabCooldown <= 0)
 		{
 			// Perform visibility check to make sure we don't grab things through the floor.
-			bool validPos = plr.IsVisible(self, true);
-						
-			if( plr.CheckPosition(pos.xy) && validPos )
+			bool visiblePos = plr.IsVisible(self, true);
+			vector3 prevPos = plr.pos;
+			
+			// Set player Z to destination Z so that CheckPosition is 3D aware.
+			plr.SetXYZ((pos.xy, pos.z));
+			bool validPos = visiblePos && plr.CheckPosition(pos.xy);
+			// Reset player position.
+			plr.SetXYZ(prevPos);
+			 
+			if( validPos )
 			{
 				// We have a clear path towards the ledge.
 				// Setup grabbing sequence.
