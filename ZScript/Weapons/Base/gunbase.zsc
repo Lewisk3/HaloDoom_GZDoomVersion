@@ -464,6 +464,19 @@ class HaloGun : RecoilWeapon
 		double scopemod = (invoker.scoperecoil == 0) ? 1.0 : invoker.scoperecoil;
 		
 		let aproj = A_FireProjectile(proj,0, false, leftright, updown, 0,0);
+		
+		// Adjust projectile position so as to be perspective correct.
+		let plr = PlayerPawn(self);
+		if(aproj && plr)
+		{
+			let dir = Quat.FromAngles(angle, pitch, roll);
+			vector3 atkPos = (pos.xy, player.viewz);
+			double attackZ = -plr.AttackZOffset;
+			
+			vector3 offs = (0, -leftright, updown + attackZ);
+			aproj.SetOrigin(level.vec3offset(atkPos, dir * offs), false);
+		}
+		
 		let haloProj = HaloProjectile(aproj);
 		let haloSlowProj = HaloSlowProjectile(aproj);
 		

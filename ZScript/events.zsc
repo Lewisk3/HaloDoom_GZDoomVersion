@@ -237,6 +237,12 @@ class HaloDoom_Events : EventHandler
 			Object.ThrowAbortException("\c[Red]Playsim aborted.");
 		}
 		
+		if(e.Name ~== "togglegravity" && haloplr)
+		{
+			haloplr.SetSpaceMovement(!haloplr.spacemovement);
+			console.printf("Space move :> %d", haloplr.spacemovement);
+		}
+		
 		// Extra keys
 		if(haloplr && haloplr.health > 0)
 		{			

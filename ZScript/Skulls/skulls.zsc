@@ -352,7 +352,6 @@ class Skull_Famine : HaloSkull
 	
 	override void WorldTick()
 	{
-		// Replace unusable power weapons.
 		let it = ThinkerIterator.Create("WeaponPickupProxy");
 		WeaponPickupProxy weap;
 		while(weap = WeaponPickupProxy(it.Next()))
@@ -432,7 +431,6 @@ class Skull_Assassins : HaloSkull
 	
 	override void WorldTick()
 	{
-		// Replace unusable power weapons.
 		let it = ThinkerIterator.Create("Actor");
 		Actor act;
 		while(act = Actor(it.Next()))
@@ -456,7 +454,6 @@ class Skull_Anger : HaloSkull
 	
 	override void WorldTick()
 	{
-		// Replace unusable power weapons.
 		let it = ThinkerIterator.Create("Actor");
 		Actor act;
 		while(act = Actor(it.Next()))
@@ -543,6 +540,73 @@ class Skull_Hotline : HaloSkull
 			victim.DamageMobJ(e.Inflictor, e.DamageSource, ceil(victim.health / 20.0), "hotlineDMG", e.DamageFlags, e.DamageAngle);
 		else
 			victim.DamageMobJ(e.Inflictor, e.DamageSource, victim.health, "hotlineDMG", e.DamageFlags, e.DamageAngle);
+	}
+}
+
+class Skull_ZeroGravity : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Tilt.png";
+		HaloSkull.DisplayName "S P A C E";
+		HaloSkull.Description "There's no atmosphere and no gravity, your movement is air-jet propelled. Velocity is also wildly unpredictable.";
+	}
+	
+	override void WorldTick()
+	{
+		for(int i = 0; i < MAXPLAYERS; i++)
+		{
+			if(!PlayerInGame[i]) continue;
+			PlayerInfo plr = players[i];
+			if(!plr) continue;
+			
+			let hplr = HaloPlayer(plr.mo);
+			if(!hplr) continue;
+			
+			if(!hplr.spacemovement) 
+				hplr.SetSpaceMovement(true);
+		}
+		
+		let it = ThinkerIterator.Create("Actor");
+		Actor act;
+		while(act = Actor(it.Next()))
+		{
+			act.bNOGRAVITY = true;
+			act.Gravity = 0;
+			act.bROLLSPRITE = true;
+			
+			// Apply random thrust to items.
+			if(act.getAge() <= 2 && !act.bMISSILE)
+			{
+				act.angle += frandom[ZeroGravSkulLRNG](0,360);
+				act.pitch += frandom[ZeroGravSkulLRNG](0,360);
+				if(!act.bISMONSTER)
+					act.roll += frandom[ZeroGravSkulLRNG](-90,90);
+				else
+					act.roll += frandom[ZeroGravSkulLRNG](-20,20);
+					
+				act.vel += (
+					frandom[ZeroGravSkulLRNG](-1,1),
+					frandom[ZeroGravSkulLRNG](-1,1),
+					frandom[ZeroGravSkulLRNG](-1,1)
+				) * frandom[ZeroGravSkulLRNG](2,16);
+			}
+		}
+	}
+	
+	override void OnDestroy()
+	{
+		for(int i = 0; i < MAXPLAYERS; i++)
+		{
+			if(!PlayerInGame[i]) continue;
+			PlayerInfo plr = players[i];
+			if(!plr) continue;
+			
+			let hplr = HaloPlayer(plr.mo);
+			if(!hplr) continue;
+			
+			hplr.SetSpaceMovement(false);
+		}
 	}
 }
 

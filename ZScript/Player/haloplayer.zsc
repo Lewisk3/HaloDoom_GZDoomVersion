@@ -56,6 +56,9 @@ class HaloPlayer : DoomPlayer
 	string overlay_img;
 	bool drawWeaponInfo;
 	const FADE_RATE = 0.96;
+	
+	// Quaternions
+	Quat ViewRotation;
 		
 	// CVar(s)
 	transient CVar lowered_xhair;
@@ -270,6 +273,7 @@ class HaloPlayer : DoomPlayer
 		regen_timer = shield_regentime*35.;
 		shields = maxshields;
 		SetupInventory();
+		ViewRotation = Quat.FromAngles(angle, pitch, roll);
 		
 		super.BeginPlay();
 	}
