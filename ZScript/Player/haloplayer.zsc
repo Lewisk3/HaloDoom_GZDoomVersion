@@ -22,6 +22,7 @@ class HaloPlayer : DoomPlayer
 	bool shields_recharging;
 	string class_desc;
 	string feature_desc;
+	string floorLiquidType;
 	FragGrenades activeGrenade;
 	VehLight flashlight;
 	PowerHaloVisor visor;
@@ -97,6 +98,7 @@ class HaloPlayer : DoomPlayer
 		Player.SoundClass "Spartan";
 		-DONTTRANSLATE;
 		YScale 1.10;
+		DamageFactor "Burn", 0.5;
 
 		// UI
 		Player.DisplayName "Spartan Template";
@@ -347,6 +349,11 @@ class HaloPlayer : DoomPlayer
 		{
 			A_StopSound(CHAN_HEALTHEFFECTS);
 		}
+		
+		// Get floor liquid
+		let splashDict = HaloDoom_Events.GetSplashData();
+		string floorpicName = TexMan.GetName(floorpic);
+		floorLiquidType = splashDict.At(floorpicName);
 		
 		// Clean up stuff on death.
 		if(player.playerstate == PST_DEAD) 

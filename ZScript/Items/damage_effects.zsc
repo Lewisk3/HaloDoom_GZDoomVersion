@@ -169,7 +169,7 @@ class DamageFX_Fire : DamageFX_Item
 	}
 	
 	override void FXVisual()
-	{		
+	{				
 		// Spawn fire effects
 		double effectCount = max(2, 20 * halodoom_effectintensity);
 		
@@ -190,6 +190,7 @@ class DamageFX_Fire : DamageFX_Item
 			{
 				fire.offs = offsPos;
 				fire.target = Owner;
+				fire.master = self;
 				effectActors.Push(fire);
 			}
 		}
@@ -230,9 +231,9 @@ class DFX_FireEffect : DFX_Effect
 		DFX_FireEffect.SetupScales 1.0, 0.5;
 	}
 	
-	override void BeginPlay()
+	override void PostBeginPlay()
 	{
-		super.BeginPlay();
+		super.PostBeginPlay();
 		maxScale = frandom[DFXActor](0.25,1.25);
 		scaleSpeed = frandom[DFXActor](0.2,0.8);
 		roll = frandom[DFXActor](-30,30);
@@ -242,6 +243,7 @@ class DFX_FireEffect : DFX_Effect
 	override void Tick()
 	{
 		super.Tick();
+		let dmgItem = DamageFX_Item(master);
 		
 		if(doFade)
 		{	
@@ -259,10 +261,19 @@ class DFX_FireEffect : DFX_Effect
 			roll = frandom[DFXActor](-30,30);
 		
 		// Fadeout and die if time limit is hit.
-		if(GetAge() > 35*3) 
+		let haloplr = HaloPlayer(target);
+		bool inwater = target.waterlevel > 0;
+		if(haloplr) inwater |= haloplr.floorLiquidType != "" && haloplr.floorLiquidType != "Splash/Lava" && haloplr.floorLiquidType != "Splash/Acid";
+		
+		if(GetAge() > 35*3 || inwater) 
 			doFade = true;
+			
+		if(inwater && dmgItem) 
+			dmgItem.effectTime -= 10;
 		
 		alpha = scale;
+		if(target is "HaloPlayer") alpha = 0.15;
+		
 		A_SetScale(scale * default.Scale.X, scale * default.Scale.Y);
 	}
 	
