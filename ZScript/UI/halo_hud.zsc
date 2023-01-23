@@ -42,6 +42,7 @@ class HaloDoomHUD : HaloHUD
 	double curbattery;
 	double dashmeter;
 	double lowAmmoBlink;
+	double lowhealthBlink;
 	
 	// Timers
 	double lowshield_timer;
@@ -415,6 +416,13 @@ class HaloDoomHUD : HaloHUD
 		double hpratio = haloplr.health / maxHP; 
 		int healthbars = clamp(ceil(hpratio * 9), 1, 25);
 		string hbar = String.Format("Graphics/UI/Healthbar/ui_hbar%d.png", healthbars);
+		
+		// Low health effects
+		if(healthbars <= 3)
+		{
+			lowhealthBlink += 6.5*deltaTime;
+			Screen.Dim(0xFF0000, max(0.1, 0.3 * sin(lowhealthBlink)), 0,0,Screen.getWidth(),Screen.getHeight()); 
+		}
 		
 		HLSBS.DrawImage(hbar, healthpos, flags, 0.8, scale:(-1.0,1.15));
 		healthpos += (508,0);

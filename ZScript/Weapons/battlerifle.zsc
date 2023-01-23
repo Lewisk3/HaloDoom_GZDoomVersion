@@ -252,8 +252,8 @@ class Halo_BattleRifle : HaloGun
 			W2R4 C 1 
 			{
 				A_SetRecoil(0, -0.4, 3);
-				A_SetSFXPos(10,-20,-25);
-				A_SpawnSFX("Debris_RifleMagazine", 0, 60);
+				A_SetSFXPos(10, 20,-25);
+				A_SpawnSFX("Debris_RifleMagazine", -180, 60, spd:3);
 			}
 			W2R4 DEFGHIJKLMNOPQRSTUVWXYZ 1;
 			W2R5 AB 1;

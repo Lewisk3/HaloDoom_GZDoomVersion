@@ -30,6 +30,7 @@ class HaloPlayer : DoomPlayer
 	// Sound effects
 	Sound snd_ShieldRegen;
 	const CHAN_VOICELINES = 69;
+	const CHAN_HEALTHEFFECTS = 72;
 	
 	// Door to be activated once animation finishes.
 	transient Line pendingDoor; 
@@ -333,6 +334,18 @@ class HaloPlayer : DoomPlayer
 		{
 			super.Tick();
 			return;
+		}
+		
+		// Low health effects
+		double hpratio = max(health, player.health) / double(GetMaxHealth()); 
+		int healthbars = clamp(ceil(hpratio * 9), 1, 25);
+		if(healthbars <= 3)
+		{
+			A_StartSound("Halo/Spartan/LowHealthLoop", CHAN_HEALTHEFFECTS, CHANF_LOOPING);
+		}
+		else
+		{
+			A_StopSound(CHAN_HEALTHEFFECTS);
 		}
 		
 		// Clean up stuff on death.

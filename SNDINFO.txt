@@ -1063,6 +1063,7 @@ Halo/Spartan/ZipLine/Loop "Sounds/Players/Abilities/zip_loop.ogg"
 Halo/Spartan/ZipLine/End "Sounds/Players/Abilities/zip_end.ogg"
 Halo/Spartan/Land/Normal "Sounds/Players/land_normal.ogg"
 Halo/Spartan/Land/Hard "Sounds/Players/land_hard.ogg"
+Halo/Spartan/LowHealthLoop "Sounds/Players/Player_Low_Health_Loop.ogg"
 
 M_GOTKILL1 "Sounds/Players/M_KILL1.ogg"
 M_GOTKILL2 "Sounds/Players/M_KILL2.ogg"

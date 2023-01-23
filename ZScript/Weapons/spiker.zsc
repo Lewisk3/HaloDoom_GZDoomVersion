@@ -82,6 +82,18 @@ class HaloSpiker_Shrapnel : HaloSlowProjectile
 	override void Tick()
 	{
 		super.Tick();
+		
+		let splashDict = HaloDoom_Events.GetSplashData();
+		string floorpicName = TexMan.GetName(floorpic);
+		string splashType = splashDict.At(floorpicName);
+		
+		if(splashType != "" && splashType != "Splash/Lava" && pos.z <= floorz)
+		{
+			heat *= 0.7;
+			if( heat > 0.3 && !(GetAge()%3) ) 
+				Spawn("PlasmaSplashSpawner", pos);
+		}
+		
 		bBRIGHT = (heat > 0.1);
 		
 		frame = ceil(HaloMath.FMap(heat, 0.1, 1.0, 0, 4));

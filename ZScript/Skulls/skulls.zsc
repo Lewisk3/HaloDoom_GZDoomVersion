@@ -148,7 +148,7 @@ class Skull_Streaking : HaloSkull
 			let hplr = HaloPlayer(plr.mo);
 			if(!hplr) continue;
 			
-			hplr.shields -= (0.5 / 35.);
+			hplr.shields -= (0.7 / 35.);
 			if(hplr.shields < 0) hplr.shields = 0;
 			
 			hplr.regen_timer = 0; // Disable Shield Regeneration.
@@ -167,7 +167,7 @@ class Skull_Streaking : HaloSkull
 		if(victim.health <= 0 && plr)
 		{
 			double maxShields = plr.maxshields;
-			double chargeTo = maxShields * (0.1);
+			double chargeTo = maxShields * (0.05);
 			plr.shields += chargeTo;	
 		}
 	}
@@ -571,6 +571,7 @@ class Skull_ZeroGravity : HaloSkull
 		Actor act;
 		while(act = Actor(it.Next()))
 		{
+			if(act is "SmokeTrail") continue;
 			act.bNOGRAVITY = true;
 			act.Gravity = 0;
 			act.bROLLSPRITE = true;
@@ -583,7 +584,10 @@ class Skull_ZeroGravity : HaloSkull
 				if(!act.bISMONSTER)
 					act.roll += frandom[ZeroGravSkulLRNG](-90,90);
 				else
+				{
 					act.roll += frandom[ZeroGravSkulLRNG](-20,20);
+					// act.A_SpriteOffset(0, 16);
+				}
 					
 				act.vel += (
 					frandom[ZeroGravSkulLRNG](-1,1),

@@ -96,7 +96,7 @@ class PlasmaHeatedSmoke : IcecubeSmoke
 	{
 		Scale 0.4;
 		Alpha 0.2;
-		Translation "0:255=@50[128,128,128]";
+		Translation "0:255=@80[128,128,128]";
 	}
 	
 	override void PostBeginPlay()
