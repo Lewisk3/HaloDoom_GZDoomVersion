@@ -47,6 +47,29 @@ class HaloMath Abstract
 		return offsetPos;
 	}
 	
+		
+	// Get angle, pitch, roll from Quaternion q.
+	static vector3 GetEuler(Quat q)
+	{
+        // Roll
+        double sinRCosP = 2 * (q.w * q.x + q.y * q.z);
+        double cosRCosP = 1 - 2 * (q.x * q.x + q.y * q.y);
+        double roll = Atan2(sinRCosP, cosRCosP);
+
+        // Pitch
+        double sinP = 2 * (q.w * q.y - q.z * q.x);
+        double pitch;
+        if (Abs(sinP) >= 1) pitch = 90 * (sinP < 0 ? -1 : 1);
+        else pitch = Asin(sinP);
+
+        // Yaw
+        double sinYCosP = 2 * (q.w * q.z + q.x * q.y);
+        double cosYCosP = 1 - 2 * (q.y * q.y + q.z * q.z);
+        double yaw = Atan2(sinYCosP, cosYCosP);
+
+        return (yaw, pitch, roll);
+	}
+	
 	play static void AlignToPlane(Actor a, double pitchAdjust = 0, double rollAdjust = 0, bool ceiling = false, double adjustSpeed = 2, bool ignorepitch = false, bool ignoreroll = false)
 	{
 		//Original code by ZZYZX & Nash Muhandes
@@ -240,8 +263,14 @@ class HaloMath Abstract
 	}
 
 	// Generate forward facing vector from angle/pitch.
-	static vector3 VecFromAngles(double angle, double pitch, double mag = 1.)
+	static vector3 VecFromAngles(double angle, double pitch, double mag = 1., bool precise = true)
 	{
+		if(precise)
+		{
+			let dir = Quat.FromAngles(angle, pitch, 0);
+			return dir * (mag,0,0);
+		}
+		
 		double cosp = cos(pitch);
 		return (cos(angle)*cosp, sin(angle)*cosp, -sin(pitch)) * mag;
 	}
