@@ -1,0 +1,77 @@
+Model PistolCasing
+{ 
+   Path "Models/Casings/Pistol"
+   MODEL 0 "Pistol.obj"
+   Skin 0 "Ammo_pack_.50_AE_BaseColor.png"
+
+   Scale 1.0 1.0 1.0 
+   USEACTORROLL
+   USEACTORPITCH
+   CORRECTPIXELSTRETCH
+   FrameIndex MODL A 0 0 
+}
+
+Model RifleCasing
+{ 
+   Path "Models/Casings/Rifle"
+   MODEL 0 "Rifle.obj"
+   Skin 0 "Ammo_pack_7.62_x_51_NATO_BaseColor.png"
+
+   Scale 1.35 1.35 1.35 
+   USEACTORROLL
+   USEACTORPITCH
+   CORRECTPIXELSTRETCH
+   FrameIndex MODL A 0 0 
+}
+
+Model ShellCasing
+{ 
+   Path "Models/Casings/Shotgun"
+   MODEL 0 "Shotgun_Shell.obj"
+   Skin 0 "T_ShotgunShell12Gauge_BaseColor.png"
+
+   Scale 0.2 0.2 0.2
+   USEACTORROLL
+   USEACTORPITCH
+   CORRECTPIXELSTRETCH
+   FrameIndex MODL A 0 0 
+}
+
+Model BlackShellCasing
+{ 
+   Path "Models/Casings/Shotgun"
+   MODEL 0 "Shotgun_Shell.obj"
+   Skin 0 "T_ShotgunShell12Gauge_BaseColor_Black.png"
+
+   Scale 0.2 0.2 0.2
+   USEACTORROLL
+   USEACTORPITCH
+   CORRECTPIXELSTRETCH
+   FrameIndex MODL A 0 0 
+}
+
+Model BlueShellCasing
+{ 
+   Path "Models/Casings/Shotgun"
+   MODEL 0 "Shotgun_Shell.obj"
+   Skin 0 "T_ShotgunShell12Gauge_BaseColor_Blue.png"
+
+   Scale 0.2 0.2 0.2
+   USEACTORROLL
+   USEACTORPITCH
+   CORRECTPIXELSTRETCH
+   FrameIndex MODL A 0 0 
+}
+
+Model HighCaliburCasing
+{ 
+   Path "Models/Casings/50cal"
+   MODEL 0 "50cal.obj"
+   Skin 0 "bullet_.50_Bullet_BaseColor.png"
+
+   Scale 20.0 20.0 20.0 
+   USEACTORROLL
+   USEACTORPITCH
+   CORRECTPIXELSTRETCH
+   FrameIndex MODL A 0 0 
+}

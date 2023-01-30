@@ -159,7 +159,7 @@ mixin class HaloProjectile_Common
 			if(proj)
 			{
 				double projAngle = atan2(bounce.y, bounce.x);
-				double projPitch = -sin(bounce.z);
+				double projPitch = -asin(bounce.z);
 			
 				proj.target = target;
 				proj.angle = projAngle;

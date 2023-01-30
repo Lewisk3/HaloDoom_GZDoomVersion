@@ -3,6 +3,7 @@
 #include "Models/defs/energy.mdf"
 #include "Models/defs/lasers.mdf"
 #include "Models/defs/title.mdf"
+#include "Models/defs/weapondebris.mdf"
 
 
 Model Segment

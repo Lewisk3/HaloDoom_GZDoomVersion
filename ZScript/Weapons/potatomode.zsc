@@ -3,14 +3,18 @@
 class BulletCasing : Actor
 {
 	bool dosmoke;
+	bool becomeFlat;
+	int animspd;
+	Property AnimateSpeed : animspd;
+	Property FlattenOnDeath : becomeFlat;
 	Property Smoke : dosmoke;
-	
-	Quat facingDir;
 	
 	Default
 	{
 		Speed 4;
+		BulletCasing.AnimateSpeed 2;
 		BulletCasing.Smoke true;
+		BulletCasing.FlattenOnDeath true;
 		BounceSound "Casings/Pistol";
 		Projectile;
 		BounceType "Doom";
@@ -23,25 +27,13 @@ class BulletCasing : Actor
 		Gravity 0.35;
 		Radius 2;
 		Height 2;
-		Scale 20.0;
-	}
-	
-	virtual void RandomizeAngles(bool randomAngle = false, bool randomPitch = true, bool randomRoll = true)
-	{
-		Quat randomizedDir = Quat.FromAngles(
-			frandom[CasingVisualRNG](-180,180) * randomAngle, 
-			frandom[CasingVisualRNG](-180,180) * randomPitch, 
-			frandom[CasingVisualRNG](-180,180) * randomRoll
-		);
-		facingDir *= randomizedDir;
+		Scale 0.05;
 	}
 	
 	override void PostBeginPlay()
 	{
 		super.PostBeginPlay();
-		
-		facingDir = Quat.FromAngles(angle, pitch, roll);
-		RandomizeAngles();
+		A_SetRoll(frandom[CasingVisualRNG](0,360));
 	}
 	
 	override bool CanCollideWith(Actor other, bool passive)
@@ -55,17 +47,7 @@ class BulletCasing : Actor
 		if(bNOINTERACTION)
 		{
 			// Always stay on the floor.
-			SetOrigin((pos.xy, floorz+(height*0.5)), true);
-		}
-		else
-		{
-			Quat r = Quat.FromAngles(angle, pitch, roll);
-			r = Quat.SLerp(r, facingDir, 0.4);
-			
-			vector3 facingAngles = HaloMath.GetEuler(r);
-			A_SetAngle(facingAngles.x, SPF_INTERPOLATE);
-			A_SetPitch(facingAngles.y, SPF_INTERPOLATE);
-			A_SetRoll(facingAngles.z, SPF_INTERPOLATE);
+			SetOrigin((pos.xy, floorz), true);
 		}
 	
 		bool cl_dosmoke = true;
@@ -90,12 +72,13 @@ class BulletCasing : Actor
 	{
 		Spawn:
 			CAS3 A 1;
+		Animate:
+			"####" ABCDEFGH 2 A_SetTics(animspd);
 		loop;
 			
 		Bounce:
 			"####" "#" 1 
 			{
-				RandomizeAngles(randomAngle:true);
 				Spawn("BulletSplashSpawner", pos);
 				return ResolveState("Spawn");
 			}
@@ -104,11 +87,14 @@ class BulletCasing : Actor
 		XDeath:
 		Death:
 		Crash:
-			"####" A 700 // 20 seconds
+			"####" A 2100 // 1 minute 
 			{
 				Spawn("BulletSplashSpawner", pos);
 				bNOINTERACTION = true;
+				bFLATSPRITE = bROLLSPRITE = becomeFlat;
+				
 				pitch = 0;
+				if(bFLATSPRITE) frame = random[SpawnSmoke](1,7);
 			}
 		WaitDeath:
 			"####" "#" 1 A_FadeOut(0.002);
@@ -120,8 +106,8 @@ class RifleCasing : BulletCasing
 	States
 	{
 		Spawn:
-			MODL A 1;
-		loop;
+			CASR A 1;
+		goto Animate;
 	}
 }
 
@@ -135,8 +121,8 @@ class PistolCasing : BulletCasing
 	States
 	{
 		Spawn:
-			MODL A 1;
-		loop;
+			CASP A 1;
+		goto Animate;
 	}
 }
 
@@ -150,8 +136,8 @@ class ShellCasing : BulletCasing
 	States
 	{
 		Spawn:
-			MODL A 1;
-		loop;
+			SHRE A 1;
+		goto Animate;
 	}
 }
 class BlackShellCasing : ShellCasing
@@ -159,17 +145,8 @@ class BlackShellCasing : ShellCasing
 	States
 	{
 		Spawn:
-			MODL A 1;
-		loop;
-	}
-}
-class BlueShellCasing : ShellCasing
-{
-	States
-	{
-		Spawn:
-			MODL A 1;
-		loop;
+			SHBK A 1;
+		goto Animate;
 	}
 }
 
@@ -184,8 +161,8 @@ class HighCaliburCasing : BulletCasing
 	States
 	{
 		Spawn:
-			MODL A 1;
-		loop;
+			CA50 A 1;
+		goto Animate;
 	}
 }
 class FuelrodCasing : HighCaliburCasing
@@ -199,8 +176,8 @@ class FuelrodCasing : HighCaliburCasing
 	States
 	{
 		Spawn:
-			MODL A 1;
-		loop;
+			FULR A 1;
+		goto Animate;
 	}
 }
 
@@ -328,7 +305,7 @@ class DiscardedMagazine : Actor
 		XDeath:
 		Death:
 		Crash:
-			"####" "#" 2100 // 1 minute 
+			"####" "#" 700 // 20 seconds 
 			{
 				bNOINTERACTION = true;
 				bROLLSPRITE = false;
@@ -354,7 +331,7 @@ class Debris_BulldogMagazine : DiscardedMagazine
 	{
 		Spawn:
 			DMBD A 1;
-		loop;
+		goto Animate;
 	}
 }
 class Debris_RocketClip : Debris_BulldogMagazine
@@ -375,7 +352,7 @@ class Debris_RocketClip : Debris_BulldogMagazine
 	{
 		Spawn:
 			DMRL A 1;
-		loop;
+		goto Animate;
 	}
 }
 
@@ -388,6 +365,7 @@ class Debris_CarbineMagazine : BulletCasing
 		BounceFactor 0.9;
 		Scale 0.10;
 		
+		BulletCasing.FlattenOnDeath false;
 		BulletCasing.Smoke false;
 		
 		BounceSound "WeaponAmmoDebris/Carbine/Bounce";
@@ -396,7 +374,7 @@ class Debris_CarbineMagazine : BulletCasing
 	{
 		Spawn:
 			DMCB A 1;
-		loop;
+		goto Animate;
 	}
 }
 class Debris_PlasmaCasterMag : Debris_CarbineMagazine
@@ -414,7 +392,7 @@ class Debris_PlasmaCasterMag : Debris_CarbineMagazine
 	{
 		Spawn:
 			DMPC A 1;
-		loop;
+		goto Animate;
 		
 		XDeath:
 		Death:
@@ -435,6 +413,7 @@ class Debris_CommandoMagazine : Debris_CarbineMagazine
 {
 	Default
 	{
+		BulletCasing.FlattenOnDeath true;
 		BulletCasing.Smoke false;
 		
 		BounceSound "WeaponAmmoDebris/Commando/Bounce";
@@ -444,7 +423,7 @@ class Debris_CommandoMagazine : Debris_CarbineMagazine
 	{
 		Spawn:
 			DMCM A 1;
-		loop;
+		goto Animate;
 	}
 }
 class Debris_GPMGMagazine : Debris_CommandoMagazine
@@ -458,7 +437,7 @@ class Debris_GPMGMagazine : Debris_CommandoMagazine
 	{
 		Spawn:
 			DMMG A 1;
-		loop;
+		goto Animate;
 	}
 }
 class Debris_MagnumClip : Debris_CommandoMagazine
@@ -472,7 +451,7 @@ class Debris_MagnumClip : Debris_CommandoMagazine
 	{
 		Spawn:
 			DMHC A 1;
-		loop;
+		goto Animate;
 	}
 }
 class Debris_NeedlerJavelinMag : Debris_CommandoMagazine
@@ -486,7 +465,7 @@ class Debris_NeedlerJavelinMag : Debris_CommandoMagazine
 	{
 		Spawn:
 			DMNJ A 1;
-		loop;
+		goto Animate;
 	}
 }
 class Debris_RifleMagazine : Debris_CommandoMagazine
@@ -500,7 +479,7 @@ class Debris_RifleMagazine : Debris_CommandoMagazine
 	{
 		Spawn:
 			DMRF A 1;
-		loop;
+		goto Animate;
 	}
 }
 class Debris_SidekickClip : Debris_CommandoMagazine
@@ -514,7 +493,7 @@ class Debris_SidekickClip : Debris_CommandoMagazine
 	{
 		Spawn:
 			DMSK A 1;
-		loop;
+		goto Animate;
 	}
 }
 class Debris_SMGMagazine : Debris_CommandoMagazine
@@ -528,7 +507,7 @@ class Debris_SMGMagazine : Debris_CommandoMagazine
 	{
 		Spawn:
 			DMSM A 1;
-		loop;
+		goto Animate;
 	}
 }
 class Debris_SniperMagazine : Debris_CommandoMagazine
@@ -542,7 +521,7 @@ class Debris_SniperMagazine : Debris_CommandoMagazine
 	{
 		Spawn:
 			DMSN A 1;
-		loop;
+		goto Animate;
 	}
 }
 class Debris_SpikerClip : Debris_CarbineMagazine
@@ -556,6 +535,6 @@ class Debris_SpikerClip : Debris_CarbineMagazine
 	{
 		Spawn:
 			DMSP A 1;
-		loop;
+		goto Animate;
 	}
 }

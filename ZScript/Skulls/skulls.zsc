@@ -554,6 +554,7 @@ class Skull_ZeroGravity : HaloSkull
 	
 	override void WorldTick()
 	{
+		Array<Actor> reject;
 		for(int i = 0; i < MAXPLAYERS; i++)
 		{
 			if(!PlayerInGame[i]) continue;
@@ -565,19 +566,25 @@ class Skull_ZeroGravity : HaloSkull
 			
 			if(!hplr.spacemovement) 
 				hplr.SetSpaceMovement(true);
+				
+			if(plr.Camera != hplr)
+				reject.Push(plr.Camera);
 		}
 		
 		let it = ThinkerIterator.Create("Actor");
 		Actor act;
 		while(act = Actor(it.Next()))
 		{
+			if(level.MapName ~== "TITLEMAP") return; // Do not do any of this on the title map.
 			if(act is "SmokeTrail") continue;
+			if(reject.Find(act) != reject.Size()) continue;
+			bool dontThrustActor = act is "Segment" || act is "HaloPlayer";
 			act.bNOGRAVITY = true;
 			act.Gravity = 0;
 			act.bROLLSPRITE = true;
 			
 			// Apply random thrust to items.
-			if(act.getAge() <= 2 && !act.bMISSILE)
+			if(act.getAge() <= 2 && !act.bMISSILE && !dontThrustActor)
 			{
 				act.angle += frandom[ZeroGravSkulLRNG](0,360);
 				act.pitch += frandom[ZeroGravSkulLRNG](0,360);
