@@ -4,8 +4,11 @@ class BulletCasing : Actor
 {
 	bool dosmoke;
 	Property Smoke : dosmoke;
+	vector3 angVel;
+	bool isStatic;
 	
 	Quat facingDir;
+	Quat rotDir;
 	
 	Default
 	{
@@ -33,7 +36,23 @@ class BulletCasing : Actor
 			frandom[CasingVisualRNG](-180,180) * randomPitch, 
 			frandom[CasingVisualRNG](-180,180) * randomRoll
 		);
+		
+		angVel += (
+			frandom[CasingVisualRNG](-3,3) * randomAngle, 
+			frandom[CasingVisualRNG](-3,3) * randomPitch, 
+			frandom[CasingVisualRNG](-3,3) * randomRoll
+		);
+		
 		facingDir *= randomizedDir;
+	}
+	
+	virtual void RandomizeVelocity(double spd = 3)
+	{
+		vel += (
+			frandom[CasingVisualRNG](-1,1) * spd, 
+			frandom[CasingVisualRNG](-1,1) * spd, 
+			0
+		);
 	}
 	
 	override void PostBeginPlay()
@@ -41,7 +60,13 @@ class BulletCasing : Actor
 		super.PostBeginPlay();
 		
 		facingDir = Quat.FromAngles(angle, pitch, roll);
+		rotDir = Quat.FromAngles(0, 0, 0);
 		RandomizeAngles();
+	}
+	
+	virtual void SetFacingAngles(double a, double p, double r)
+	{
+		facingDir = Quat.FromAngles(a, p, r);
 	}
 	
 	override bool CanCollideWith(Actor other, bool passive)
@@ -50,24 +75,64 @@ class BulletCasing : Actor
 		return super.CanCollideWith(other, passive);
 	}
 	
-	override void Tick()
+	// Returns true or false based on if our current angles match our desired angles.
+	virtual bool InterpolateAngles(double spd = 0.4)
 	{
-		if(bNOINTERACTION)
+		if(isStatic) spd += spd*0.5;
+		Quat r = Quat.FromAngles(angle, pitch, roll);
+		let desiredRot = facingDir * rotDir;
+		r = Quat.SLerp(r, desiredRot, clamp(spd, 0.01, 1.0));
+		
+		vector3 desiredAngles = HaloMath.GetEuler(facingDir);
+		vector3 currentAngles = (angle, pitch, roll);
+		vector3 diff = level.vec3Diff(desiredAngles, currentAngles);
+		
+		if( !(diff ~== (0,0,0)) && diff.Length() > 1 )
 		{
-			// Always stay on the floor.
-			SetOrigin((pos.xy, floorz+(height*0.5)), true);
-		}
-		else
-		{
-			Quat r = Quat.FromAngles(angle, pitch, roll);
-			r = Quat.SLerp(r, facingDir, 0.4);
-			
 			vector3 facingAngles = HaloMath.GetEuler(r);
 			A_SetAngle(facingAngles.x, SPF_INTERPOLATE);
 			A_SetPitch(facingAngles.y, SPF_INTERPOLATE);
 			A_SetRoll(facingAngles.z, SPF_INTERPOLATE);
+			return false;
 		}
+		else
+		{
+			return true;
+		}
+	}
 	
+	override void Tick()
+	{
+		if(InterpolateAngles() && isStatic) bNOINTERACTION = true;
+		if(isStatic)
+		{
+			// Always stay on the floor.
+			vel.z *= 0;
+			SetOrigin((pos.xy, floorz+(height*0.5)), true);
+			rotDir = Quat.FromAngles(0, 0, 0);
+			angVel *= 0;
+			
+			// Forcibly set angles if we're active for a long time.
+			if(GetAge() >= (35*5) && !bNOINTERACTION)
+			{
+				vector3 desiredAngles = HaloMath.GetEuler(facingDir);
+				A_SetAngle(desiredAngles.x, SPF_INTERPOLATE);
+				A_SetPitch(desiredAngles.y, SPF_INTERPOLATE);
+				A_SetRoll(desiredAngles.z, SPF_INTERPOLATE);
+				bNOINTERACTION = true;
+			}
+		}
+		else
+		{
+			Quat addAngVel = Quat.FromAngles(angVel.x, angVel.y, angVel.z);
+			if(rotDir.Length() <= 0.01) 
+				rotDir = addAngVel;
+			else
+				rotDir *= addAngVel;
+			
+			angVel *= 0.995;
+		}
+
 		bool cl_dosmoke = true;
 		let src = HaloGun(target);
 		if(src && src.cvfx_smoke)
@@ -89,12 +154,13 @@ class BulletCasing : Actor
 	States
 	{
 		Spawn:
-			CAS3 A 1;
+			MODL A 1;
 		loop;
 			
 		Bounce:
 			"####" "#" 1 
 			{
+				RandomizeVelocity();
 				RandomizeAngles(randomAngle:true);
 				Spawn("BulletSplashSpawner", pos);
 				return ResolveState("Spawn");
@@ -107,36 +173,22 @@ class BulletCasing : Actor
 			"####" A 700 // 20 seconds
 			{
 				Spawn("BulletSplashSpawner", pos);
-				bNOINTERACTION = true;
-				pitch = 0;
+				isStatic = true;
+				SetFacingAngles(angle, 0, roll);
 			}
 		WaitDeath:
 			"####" "#" 1 A_FadeOut(0.002);
 		wait;
 	}
 }
-class RifleCasing : BulletCasing
-{	
-	States
-	{
-		Spawn:
-			MODL A 1;
-		loop;
-	}
-}
 
+class RifleCasing : BulletCasing {}
 class PistolCasing : BulletCasing
 {
 	Default
 	{
 		Speed 5;
 		BounceSound "Casings/Pistol";
-	}
-	States
-	{
-		Spawn:
-			MODL A 1;
-		loop;
 	}
 }
 
@@ -147,32 +199,9 @@ class ShellCasing : BulletCasing
 		Speed 2;
 		BounceSound "Casings/Shell";
 	}
-	States
-	{
-		Spawn:
-			MODL A 1;
-		loop;
-	}
 }
-class BlackShellCasing : ShellCasing
-{
-	States
-	{
-		Spawn:
-			MODL A 1;
-		loop;
-	}
-}
-class BlueShellCasing : ShellCasing
-{
-	States
-	{
-		Spawn:
-			MODL A 1;
-		loop;
-	}
-}
-
+class BlackShellCasing : ShellCasing {}
+class BlueShellCasing : ShellCasing {}
 class HighCaliburCasing : BulletCasing
 {	
 	Default
@@ -181,26 +210,16 @@ class HighCaliburCasing : BulletCasing
 		Scale 0.08; 
 		BounceSound "Casings/HighCalibur";
 	}
-	States
-	{
-		Spawn:
-			MODL A 1;
-		loop;
-	}
 }
 class FuelrodCasing : HighCaliburCasing
 {	
 	Default
 	{
 		Speed 1;
-		Scale 0.14;
+		Scale 3.0;
+		BounceCount 2;
+		BounceFactor 0.5;
 		BounceSound "Casings/Shell";
-	}
-	States
-	{
-		Spawn:
-			MODL A 1;
-		loop;
 	}
 }
 
@@ -234,59 +253,75 @@ class CasingSmoke : Actor
 }
 
 // Clips and Magazines
-class DiscardedMagazine : Actor
+class DiscardedMagazine : BulletCasing
 {
 	bool underwater;
 	bool bigSplash;
+	double gnd_rollvel;
+	double gnd_anglevel;
+	double gnd_pitchvel;
+	vector3 gnd_movedir;
 	Sound waterSound;
-	int rotframes;
 	
 	Property WaterDropSound : waterSound;
 	Property IsLargeDebris : bigSplash;
-	Property RotationFrames : rotframes;
 	
 	Default
 	{
 		Speed 2;
-		Projectile;
-		BounceType "Doom";
 		BounceCount 2;
-		BounceFactor 0.8;
-		-SOLID;
-		-NOGRAVITY;
-		+ROLLSPRITE;
-		+USEBOUNCESTATE;
-		Gravity 0.35;
-		Radius 2;
-		Height 2;
-		Scale 0.05;
-		
+		Scale 25.0;
+		Height 5;
+
 		BounceSound "WeaponAmmoDebris/Clip/Bounce";
 		DiscardedMagazine.WaterDropSound "WeaponAmmoDebris/Clip/Water";
 		DiscardedMagazine.IsLargeDebris false;
-		DiscardedMagazine.RotationFrames 3;
+		BulletCasing.Smoke false;
 	}
 	
 	override void PostBeginPlay()
 	{
 		super.PostBeginPlay();
-		A_SetRoll(frandom[DebrisMagVisualRNG](0,360));
-		A_SetAngle(frandom[DebrisMagVisualRNG](0,360));
+		SetupGroundRoll();
 	}
 	
-	override bool CanCollideWith(Actor other, bool passive)
+	virtual void SetupGroundRoll() {}
+	virtual void FinishGroundRoll()
 	{
-		if(other is "PlayerPawn") return false;
-		return super.CanCollideWith(other, passive);
+		vel *= 0;
+		gnd_rollvel = gnd_pitchvel = gnd_anglevel = 0;
 	}
 	
 	override void Tick()
-	{
-		if(getAge() < 2) frame = random[MagFrame](0,rotframes);
-		if(bNOINTERACTION)
+	{	
+		super.Tick();
+		
+		double stoppedvel = abs(gnd_rollvel)+abs(gnd_pitchvel)+abs(gnd_anglevel);
+		if(bNOINTERACTION && stoppedvel > 0.01)
 		{
-			// Always stay on the floor.
-			SetOrigin((pos.xy, floorz), true);
+			FLineTraceData lt;
+			LineTrace(angle, max(radius*2.0, 16), 0, data:lt);
+			if(lt.HitType != TRACE_HitNone)
+			{
+				FinishGroundRoll();
+				return;
+			}
+			
+			Quat input = Quat.FromAngles(gnd_anglevel, gnd_pitchvel, gnd_rollvel);
+			facingDir *= input;
+			
+			vector3 movedir = Quat.FromAngles(angle, 0, 0) * gnd_movedir;
+			vel += movedir * (max(gnd_rollvel, gnd_pitchvel, gnd_anglevel) * 0.001 );
+			vel *= 0.98;
+			if(stoppedvel <= 0.5) FinishGroundRoll();
+			
+			gnd_rollvel *= 0.98;
+			gnd_pitchvel *= 0.98;
+			gnd_anglevel *= 0.98;
+		}
+		else if(bNOINTERACTION)
+		{
+			vel *= 0.94;
 		}
 		
 		if(waterlevel > 0 && !underwater)
@@ -295,8 +330,6 @@ class DiscardedMagazine : Actor
 			A_StartSound(waterSound, CHAN_AUTO, CHANF_OVERLAP);
 			DoSplash();
 		}
-		
-		super.Tick();
 	}
 	
 	void DoSplash()
@@ -307,19 +340,18 @@ class DiscardedMagazine : Actor
 			Spawn("LargeSplashSpawner", pos);
 	}
 	
+	virtual void OnLand()
+	{
+		SetFacingAngles(angle, 0, 90);
+	}
 	
 	States
 	{
-		Spawn:
-			CAS3 A 1;
-		Animate:
-			"####" "#" 2;
-		loop;
-		
 		Bounce:
 			"####" "#" 1 
 			{
-				frame = random[MagFrame](0,rotframes);
+				RandomizeVelocity(spd:0.5);
+				RandomizeAngles(randomAngle: true);
 				DoSplash();
 				return ResolveState("Spawn");
 			}
@@ -328,234 +360,167 @@ class DiscardedMagazine : Actor
 		XDeath:
 		Death:
 		Crash:
-			"####" "#" 2100 // 1 minute 
+			"####" "#" 700 // 20 seconds
 			{
-				bNOINTERACTION = true;
-				bROLLSPRITE = false;
+				isStatic = true;
 				DoSplash();
+				OnLand();
 			}
 		WaitDeath:
-			"####" "#" 1 A_FadeOut(0.002);
+			"####" "#" 1 
+			{
+				double stoppedvel = abs(gnd_rollvel)+abs(gnd_pitchvel)+abs(gnd_anglevel);
+				if(stoppedvel <= 0.1)
+					A_FadeOut(0.002);
+			}
 		wait;
 	}
 }
 
-class Debris_BulldogMagazine : DiscardedMagazine
+class Debris_BulldogMagazine : Debris_PlasmaCasterMag
 {
 	Default
 	{
-		Scale 0.15;
-		
 		BounceSound "WeaponAmmoDebris/Bulldog/Bounce";
 		DiscardedMagazine.WaterDropSound "WeaponAmmoDebris/Bulldog/Water";
 	}
-
-	States
-	{
-		Spawn:
-			DMBD A 1;
-		loop;
-	}
 }
-class Debris_RocketClip : Debris_BulldogMagazine
+class Debris_RocketClip : DiscardedMagazine
 {
 	Default
 	{
-		BounceCount 1;
-		Scale 0.40;
-		-ROLLSPRITE;
+		BounceCount 2;
+		BounceFactor 0.8;
+		Radius 10;
+		Scale 50.0;
 		DiscardedMagazine.IsLargeDebris true;
-		DiscardedMagazine.RotationFrames 7;
-		
+
 		BounceSound "WeaponAmmoDebris/Rocket/Bounce";
 		DiscardedMagazine.WaterDropSound "WeaponAmmoDebris/Rocket/Water";
 	}
 	
-	States
+	override void SetupGroundRoll()
 	{
-		Spawn:
-			DMRL A 1;
-		loop;
+		gnd_rollvel = frandom[DecoMagRNG](0,10);
+		gnd_movedir = (0, -1.0, 0);
 	}
 }
 
-class Debris_CarbineMagazine : BulletCasing
+class Debris_CarbineMagazine : DiscardedMagazine
 {
 	Default
 	{
 		Speed 1;
-		BounceCount 2;
 		BounceFactor 0.9;
-		Scale 0.10;
-		
-		BulletCasing.Smoke false;
-		
+
 		BounceSound "WeaponAmmoDebris/Carbine/Bounce";
 	}
-	States
-	{
-		Spawn:
-			DMCB A 1;
-		loop;
-	}
 }
-class Debris_PlasmaCasterMag : Debris_CarbineMagazine
+class Debris_PlasmaCasterMag : DiscardedMagazine
 {
+	bool noroll;
+	
 	Default
 	{
-		Speed 1;
+		Speed 3;
 		BounceCount 2;
-		Scale 0.30;
-				
+		BounceFactor 0.5;
 		BounceSound "WeaponAmmoDebris/PlasmaCaster/Bounce";
 	}
 	
-	States
+	override void SetupGroundRoll()
 	{
-		Spawn:
-			DMPC A 1;
-		loop;
+		if(noroll) return;
 		
-		XDeath:
-		Death:
-		Crash:
-			"####" I 2100 // 1 minute 
-			{
-				Spawn("BulletSplashSpawner", pos);
-				bROLLSPRITE = false;
-				pitch = 0;
-			}
-		WaitDeath:
-			"####" "#" 1 A_FadeOut(0.002);
-		wait;
+		gnd_rollvel = frandom[DecoMagRNG](2,15);
+		gnd_pitchvel = gnd_rollvel * 0.33;
+		gnd_movedir = (0.33, -1.0, 0);
+	}
+	
+	override void OnLand()
+	{
+		int p = randompick[DecoMagRNG](-90,0,0,0,90);
+		noroll = (p != 0);
+		SetFacingAngles(angle, p, roll);
 	}
 }
 
-class Debris_CommandoMagazine : Debris_CarbineMagazine
+class Debris_CommandoMagazine : DiscardedMagazine
 {
 	Default
-	{
-		BulletCasing.Smoke false;
-		
+	{	
+		Scale 22.0;
+		Height 2;
 		BounceSound "WeaponAmmoDebris/Commando/Bounce";
 	}
-
-	States
-	{
-		Spawn:
-			DMCM A 1;
-		loop;
-	}
 }
-class Debris_GPMGMagazine : Debris_CommandoMagazine
+class Debris_GPMGMagazine : DiscardedMagazine
 {
 	Default
 	{
 		BounceSound "WeaponAmmoDebris/GPMG/Bounce";
 	}
-
-	States
+	
+	override void OnLand()
 	{
-		Spawn:
-			DMMG A 1;
-		loop;
-	}
+		SetFacingAngles(angle, 0, randompick[DecoMagRNG](-90,90));
+	}	
 }
-class Debris_MagnumClip : Debris_CommandoMagazine
+class Debris_MagnumClip : DiscardedMagazine
 {
 	Default
 	{
 		BounceSound "WeaponAmmoDebris/Magnum/Bounce";
 	}
-	
-	States
-	{
-		Spawn:
-			DMHC A 1;
-		loop;
-	}
 }
-class Debris_NeedlerJavelinMag : Debris_CommandoMagazine
+class Debris_NeedlerJavelinMag : DiscardedMagazine
 {
 	Default
 	{
 		BounceSound "WeaponAmmoDebris/Javelin/Bounce";
 	}
-	
-	States
-	{
-		Spawn:
-			DMNJ A 1;
-		loop;
-	}
 }
-class Debris_RifleMagazine : Debris_CommandoMagazine
+class Debris_RifleMagazine : DiscardedMagazine
 {
 	Default
 	{
 		BounceSound "WeaponAmmoDebris/Rifle/Bounce";
 	}
-	
-	States
+		
+	override void OnLand()
 	{
-		Spawn:
-			DMRF A 1;
-		loop;
+		bool balanced = random[DecoMagRNG](0,100) <= 5; // Lmao
+		SetFacingAngles(angle, 0, balanced ? 0 : 90);
 	}
 }
-class Debris_SidekickClip : Debris_CommandoMagazine
+class Debris_SidekickClip : DiscardedMagazine
 {
 	Default
 	{
+		Height 2;
 		BounceSound "WeaponAmmoDebris/Sidekick/Bounce";
 	}
-	
-	States
-	{
-		Spawn:
-			DMSK A 1;
-		loop;
-	}
 }
-class Debris_SMGMagazine : Debris_CommandoMagazine
+class Debris_SMGMagazine : DiscardedMagazine
 {
 	Default
 	{
 		BounceSound "WeaponAmmoDebris/SMG/Bounce";
 	}
-	
-	States
-	{
-		Spawn:
-			DMSM A 1;
-		loop;
-	}
 }
-class Debris_SniperMagazine : Debris_CommandoMagazine
+class Debris_StanchionMagazine : Debris_RifleMagazine
 {
 	Default
 	{
+		Height 2;
 		BounceSound "WeaponAmmoDebris/Sniper/Bounce";
 	}
-	
-	States
-	{
-		Spawn:
-			DMSN A 1;
-		loop;
-	}
 }
-class Debris_SpikerClip : Debris_CarbineMagazine
+class Debris_SniperMagazine : Debris_StanchionMagazine {}
+class Debris_SpikerClip : DiscardedMagazine
 {
 	Default
 	{
 		BounceSound "WeaponAmmoDebris/Spiker/Bounce";
-	}
-	
-	States
-	{
-		Spawn:
-			DMSP A 1;
-		loop;
 	}
 }

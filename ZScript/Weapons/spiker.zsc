@@ -163,7 +163,7 @@ class Halo_Spiker_Reserves : Ammo
 	{
 		Radius 8;
 		Height 6;
-		Scale 0.025;
+		Scale 0.5;
 
 		Inventory.Amount 30;
 		Inventory.MaxAmount 160;

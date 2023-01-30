@@ -49,7 +49,7 @@ material texture "Models/Casings/Pistol/Ammo_pack_.50_AE_BaseColor.png"
 	normal "Models/Casings/Pistol/Ammo_pack_.50_AE_Normal.png"
 	metallic "Models/Casings/Pistol/Ammo_pack_.50_AE_Metallic.png"
 	roughness "Models/Casings/Pistol/Ammo_pack_.50_AE_Roughness.png"
-	ao = "Models/Casings/Pistol/Ammo_pack_.50_AE_AO.png"
+	ao "Models/Casings/Pistol/Ammo_pack_.50_AE_AO.png"
 	Shader "shaders/SimSun.fp"
 }
 material texture "Models/Casings/50cal/bullet_.50_Bullet_BaseColor.png"
@@ -92,6 +92,51 @@ material texture "Models/Casings/Shotgun/T_ShotgunShell12Gauge_BaseColor_Blue.pn
 	Shader "shaders/SimSun.fp"
 }
 material texture "Models/Casings/Fuelrod/fuel_rod_diffuse.png"
+{
+	Shader "shaders/SimSun.fp"
+}
+
+material texture "Models/Mags/AR/assault_rifle_diffuse.png"
+{
+	Shader "shaders/SimSun.fp"
+}
+material texture "Models/Mags/BR_DMR/dmr_diffuse.png"
+{
+	Shader "shaders/SimSun.fp"
+}
+material texture "Models/Mags/Carbine/storm_covenant_carbine_diff.png"
+{
+	Shader "shaders/SimSun.fp"
+}
+material texture "Models/Mags/Commando/Commando_Diffuse.png"
+{
+	Shader "shaders/SimSun.fp"
+}
+material texture "Models/Mags/GPMG/GPMG_Diffuse.png"
+{
+	Shader "shaders/SimSun.fp"
+}
+material texture "Models/Mags/Mag/magnum_diffuse.png"
+{
+	Shader "shaders/SimSun.fp"
+}
+material texture "Models/Mags/NeedleJavelin/needle_rifle_diffuse.png"
+{
+	Shader "shaders/SimSun.fp"
+}
+material texture "Models/Mags/PlasmaCaster/concussion_rifle_diffuse.png"
+{
+	Shader "shaders/SimSun.fp"
+}
+material texture "Models/Mags/Sniper_Stanchion/sniper_rifle_diffuse.png"
+{
+	Shader "shaders/SimSun.fp"
+}
+material texture "Models/Mags/Spiker/spike_rifle_diffuse.png"
+{
+	Shader "shaders/SimSun.fp"
+}
+material texture "Models/Mags/Spnkr/rocket_launcher_diffuse.png"
 {
 	Shader "shaders/SimSun.fp"
 }

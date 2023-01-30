@@ -293,7 +293,7 @@ class Halo_Stanchion : HaloGun
 			{
 				A_SetRecoil(-1.45, 0, 1);
 				A_SetSFXPos(10,-20,-25);
-				A_SpawnSFX("Debris_RifleMagazine", 0, 60);
+				A_SpawnSFX("Debris_StanchionMagazine", 0, 60);
 			}
 			STCR H 15;
 			STCR IJKLMNO 2;
