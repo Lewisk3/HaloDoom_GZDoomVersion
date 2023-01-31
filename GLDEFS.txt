@@ -47,7 +47,7 @@ material texture "Models/Equipment/Ice/tex_rust.jpeg"
 material texture "Models/Casings/Pistol/Ammo_pack_.50_AE_BaseColor.png"
 {
 	normal "Models/Casings/Pistol/Ammo_pack_.50_AE_Normal.png"
-	metallic "Models/Casings/Pistol/Ammo_pack_.50_AE_Metallic.png"
+	// metallic "Models/Casings/Pistol/Ammo_pack_.50_AE_Metallic.png"
 	roughness "Models/Casings/Pistol/Ammo_pack_.50_AE_Roughness.png"
 	ao "Models/Casings/Pistol/Ammo_pack_.50_AE_AO.png"
 	Shader "shaders/SimSun.fp"

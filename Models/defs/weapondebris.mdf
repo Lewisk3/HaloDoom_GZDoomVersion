@@ -199,9 +199,9 @@ Model Debris_NeedlerJavelinMag
 }
 Model Debris_SMGMagazine
 { 
-   Path "Models/Mags/Commando"
-   MODEL 0 "Commando_Mag.obj"
-   Skin 0 "Commando_Diffuse.png"
+   Path "Models/Mags/SMG"
+   MODEL 0 "SMG_Mag.obj"
+   Skin 0 "SMG_Diffuse.png"
 
    Scale 1.0 1.0 1.0
    USEACTORROLL

@@ -506,6 +506,13 @@ class Debris_SMGMagazine : DiscardedMagazine
 	Default
 	{
 		BounceSound "WeaponAmmoDebris/SMG/Bounce";
+		Scale 1.0;
+	}
+	
+	override void OnLand()
+	{
+		double nroll = Normalize180(roll) + 180;
+		SetFacingAngles(angle, 0, ceil(nroll / 90.) * 90);
 	}
 }
 class Debris_StanchionMagazine : Debris_RifleMagazine
