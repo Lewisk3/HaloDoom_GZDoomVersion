@@ -262,7 +262,7 @@ class DFX_FireEffect : DFX_Effect
 		
 		// Fadeout and die if time limit is hit.
 		let haloplr = HaloPlayer(target);
-		bool inwater = target.waterlevel > 0;
+		bool inwater = target ? target.waterlevel > 0 : waterlevel > 0;
 		if(haloplr) inwater |= haloplr.floorLiquidType != "" && haloplr.floorLiquidType != "Splash/Lava" && haloplr.floorLiquidType != "Splash/Acid";
 		
 		if(GetAge() > 35*3 || inwater) 

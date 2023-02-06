@@ -519,8 +519,13 @@ class PowerHaloVisor : HaloPowerup
 			
 			while(act = Actor(it.Next()))
 			{	
-				if(!act.bSHOOTABLE && !act.bSOLID || act.health <= 0 || act.bCORPSE) continue;
+				if( !act.bSHOOTABLE && !act.bSOLID || act.health <= 0 || 
+					 act.bCORPSE || !Owner.IsVisible(act, false) || 
+					 Owner.Distance2DSquared(act) > (1024*1024) 
+				) continue;
+				
 				bool hasHighlight = false;
+				highlightIt.Reinit();
 				while(highlight = Actor(highlightIt.Next()))
 				{	
 					if(highlight && highlight.master == act)

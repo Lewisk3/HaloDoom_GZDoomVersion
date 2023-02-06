@@ -134,7 +134,7 @@ class HaloSpiker_Shrapnel : HaloSlowProjectile
 			"####" "#" 5 
 			{
 				if(heat > 0.1) 
-					HaloMath.ExplodeEx(self, 3, 16, damageType:"Fire", selfDamage:1.0);
+					HaloMath.ExplodeEx(self, 3, 16, thrustMod:0, damageType:"Fire", selfDamage:1.0);
 			}
 			"####" "#" 0 
 			{
@@ -339,7 +339,7 @@ class Halo_Spiker : HaloGun
 			{
 				A_SetRecoil(-0.75, 1.25, 4);
 				A_SetSFXPos(10,-15,-15);
-				A_SpawnSFX("Debris_SpikerClip", 0, 60);
+				A_SpawnSFX("Debris_SpikerClip", -90, 20, 4);
 			}
 			WGR1 QRSTUVWXYZ 1;
 			WGR2 ABCDEFGHIJKLMNO 1; 
