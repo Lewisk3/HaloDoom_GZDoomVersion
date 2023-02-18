@@ -99,6 +99,7 @@ version "4.10.0"
 #include "ZScript/Weapons/plasmacaster.zsc"
 #include "ZScript/Weapons/hydra.zsc"
 #include "ZScript/Items/freezerbeam.zsc"
+#include "ZScript/Weapons/stickydet.zsc"
 
 // Vehicles
 #include "ZScript/Vehicles/Kinematics/kine_parts.zsc" 

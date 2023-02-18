@@ -1127,6 +1127,34 @@ class HaloGun : RecoilWeapon
 		return invoker.reload_ammoleft;
 	}
 	
+	// Manually setup sights or scope
+	action void A_SetCustomScope(bool onoff, int zoomframes = 3, bool perspective = false)
+	{
+		if(onoff)
+		{
+			A_ScopeON(usePerspective:perspective);
+			A_SetZoom(invoker.scopezoom, zoomframes, true);	
+		}
+		else
+		{
+			A_ScopeOFF();
+			A_SetZoom(0, zoomframes, true);
+		}
+	}
+	
+	// Returns true if the custom scope should be activated, based on input buttons.
+	action bool A_ShouldEnableScope()
+	{
+		return (invoker.ADS_Held || invoker.ADS_Pressed);
+	}
+	
+	// Returns true if the custom scope should be deactivated.
+	// Takes a "heldStatus" input, which should be the value of "ADS_Held" at the time the scope was enabled.
+	action bool A_ShouldDisableScope(bool heldStatus)
+	{
+		return (heldStatus && invoker.ADS_Up) || (!heldStatus && invoker.ADS_Pressed);
+	}
+	
 	// Getters and Setters for readability.
 	action void A_ScopeDisable()
 	{

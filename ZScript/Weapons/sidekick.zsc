@@ -104,20 +104,6 @@ class Halo_Sidekick : HaloGun
 	}
 	
 	bool sightsHold;
-	action void A_SetSights(bool onoff)
-	{
-		if(onoff)
-		{
-			A_ScopeON(usePerspective:false);
-			A_SetZoom(invoker.scopezoom, 3, true);	
-		}
-		else
-		{
-			A_ScopeOFF();
-			A_SetZoom(0, 3, true);
-		}
-	}
-	
 	States
 	{
 		Ready:
@@ -133,7 +119,7 @@ class Halo_Sidekick : HaloGun
 			WEG1 A 1 
 			{
 				A_HaloWeaponReady(WRF_ALLOWRELOAD, usescope:false);
-				return A_JumpIf(invoker.ADS_Held || invoker.ADS_Pressed, "Sights.Enable");
+				//return A_JumpIf(A_ShouldEnableScope(), "Sights.Enable");
 			}
 		loop;
 		
@@ -141,7 +127,7 @@ class Halo_Sidekick : HaloGun
 			WEZ1 M 1 
 			{
 				A_HaloWeaponReady(WRF_ALLOWRELOAD, usescope:false);
-				return A_JumpIf( (invoker.sightsHold && invoker.ADS_Up) || (!invoker.sightsHold && invoker.ADS_Pressed), "Sights.Disable");
+				return A_JumpIf(A_ShouldDisableScope(invoker.sightsHold), "Sights.Disable");
 			}
 		loop;
 		
@@ -154,7 +140,7 @@ class Halo_Sidekick : HaloGun
 		wait;
 
 		Deselect:
-			TNT1 A 0 A_SetSights(0);
+			TNT1 A 0 A_SetCustomScope(0);
 			WES1 NMKLIHGFEDCBA 1;
 			WES1 A 1 A_GunLower();
 		wait;
@@ -279,7 +265,7 @@ class Halo_Sidekick : HaloGun
 		
 		Reload.FromSights:
 			WEZ1 MLKIHGFEDCBA 1;
-			TNT1 A 0 A_SetSights(0);
+			TNT1 A 0 A_SetCustomScope(0);
 		Reload:
 			TNT1 A 0 A_JumpIf(A_CheckInScope(), "Reload.FromSights");
 			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
@@ -309,12 +295,12 @@ class Halo_Sidekick : HaloGun
 			TNT1 A 0 
 			{
 				invoker.sightsHold = invoker.ADS_Held;
-				A_SetSights(1);	
+				A_SetCustomScope(1);	
 			}
 		goto Ready.ADS;
 		
 		Sights.Disable:
-			TNT1 A 0 A_SetSights(0);
+			TNT1 A 0 A_SetCustomScope(0);
 			WEZ1 A 1; // MLKIHGFEDCB
 		goto Ready.Active;	
 		
