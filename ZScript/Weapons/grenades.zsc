@@ -252,8 +252,8 @@ class PlasmaGrenade_Proj : HaloGrenade_Proj
 	
 	virtual void StickToActor(Actor targ)
 	{
-		vector3 followPos = HaloMath.V3Offset(hitactor.angle, hitactor.pitch, hitactor.roll, hitoffs.x * 0.25, hitoffs.y * 0.25, hitoffs.z, 1.0);
-		followPos = level.Vec3Offset(hitactor.pos, followPos);
+		vector3 followPos = HaloMath.V3Offset(targ.angle, targ.pitch, targ.roll, hitoffs.x * 0.25, hitoffs.y * 0.25, hitoffs.z, 1.0);
+		followPos = level.Vec3Offset(targ.pos, followPos);
 		SetOrigin(followPos, true);
 	}
 	

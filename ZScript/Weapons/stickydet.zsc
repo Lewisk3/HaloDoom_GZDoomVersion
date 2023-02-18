@@ -35,6 +35,7 @@ class HaloStickyDetProj : HaloSlowProjectile
 {
 	FLineTraceData hitlt;
 	PlayerPawn viewer;
+	vector3 stuckOffs;
 	bool detonate;
 	double hitangle;
 	
@@ -81,6 +82,14 @@ class HaloStickyDetProj : HaloSlowProjectile
 		pitch = clamp(pitch, -10, 20);
 	}
 	
+		
+	virtual void StickToActor(Actor targ)
+	{
+		vector3 followPos = HaloMath.V3Offset(targ.angle, targ.pitch, targ.roll, stuckOffs.x * 0.5, stuckOffs.y * 0.5, stuckOffs.z, 1.0);
+		followPos = level.Vec3Offset(targ.pos, followPos);
+		SetOrigin(followPos, true);
+	}
+	
 	States
 	{
 		Spawn:	
@@ -108,6 +117,16 @@ class HaloStickyDetProj : HaloSlowProjectile
 						
 				// Check for wall collision.
 				LineTrace(angle, 16, pitch, data:hitlt);
+				
+				if(hitlt.HitType == TRACE_HitActor && hitlt.HitActor && hitlt.HitActor.bSHOOTABLE)
+				{
+					let victim = hitlt.HitActor;
+					stuckOffs = HaloMath.DiffToLocal(pos, victim.pos, (victim.angle, victim.pitch));
+					hitangle = angle-victim.angle;
+					
+					return ResolveState("Stuck.Enemy");
+				}
+				
 				if(hitlt.HitType == TRACE_HitWall)
 					return ResolveState("Stuck.Wall");
 				
@@ -143,6 +162,19 @@ class HaloStickyDetProj : HaloSlowProjectile
 					}
 				}
 				return ResolveState(null);
+			}
+		loop;
+		
+		Stuck.Enemy:
+			TNT1 A 0 A_JumpIf(detonate, "ExplodeAndDie");
+			STIK A 1 
+			{
+				let victim = hitlt.HitActor;
+				if(victim)
+				{
+					StickToActor(victim);
+					if(victim.health <= 0) detonate = true;
+				}
 			}
 		loop;
 		
