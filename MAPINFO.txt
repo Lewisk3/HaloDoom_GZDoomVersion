@@ -96,7 +96,7 @@ DoomEdNums
 	
 	// Grenades
 	16216 = "PlasmaGrenades"
-	16216 = "FragGrenades"
+	16217 = "FragGrenades"
 	
 	// Misc
 	17069 = "FX_Blackhole"

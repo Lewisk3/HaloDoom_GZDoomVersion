@@ -52,6 +52,14 @@ class HaloStickyDetProj : HaloSlowProjectile
 		Height 4;
 	}
 	
+	override bool Used(Actor user)
+	{
+		user.GiveInventory("Halo_StickyDet_Reserves", 1);
+		SetState(ResolveState("Pickup"));
+		
+		return false;
+	}
+	
 	override void Tick()
 	{
 		super.Tick();
@@ -150,6 +158,10 @@ class HaloStickyDetProj : HaloSlowProjectile
 				A_StartSound("Halo/Grenade/Frag/Explode");
 				Spawn("FragGrenadeExplosion", pos);
 			}
+		stop;
+		
+		Pickup:
+			TNT1 A 1 A_StopSound(CHAN_BODY);
 		stop;
 	}
 }
