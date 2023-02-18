@@ -119,7 +119,7 @@ class Halo_Sidekick : HaloGun
 			WEG1 A 1 
 			{
 				A_HaloWeaponReady(WRF_ALLOWRELOAD, usescope:false);
-				//return A_JumpIf(A_ShouldEnableScope(), "Sights.Enable");
+				return A_JumpIf(A_ShouldEnableScope(), "Sights.Enable");
 			}
 		loop;
 		

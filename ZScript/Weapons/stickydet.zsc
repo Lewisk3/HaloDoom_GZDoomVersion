@@ -46,10 +46,11 @@ class HaloStickyDetProj : HaloSlowProjectile
 		HaloSlowProjectile.Speed_MPS 200;
 		
 		-NOGRAVITY;
+		Health 10;
 		Gravity 0.55;
 		Scale 0.15;
-		Radius 2;
-		Height 4;
+		Radius 3;
+		Height 6;
 	}
 	
 	override bool Used(Actor user)
@@ -62,7 +63,9 @@ class HaloStickyDetProj : HaloSlowProjectile
 	
 	override void Tick()
 	{
-		super.Tick();
+		super.Tick();	
+		if(health <= 0) detonate = true;
+		
 		if(!viewer || !viewer.player) return;
 		
 		// Get look inputs
@@ -100,6 +103,7 @@ class HaloStickyDetProj : HaloSlowProjectile
 				A_StartSound("Halo/Weapons/StickyDet/Proj/Ping", CHAN_BODY, CHANF_LOOPING);
 				bSOLID = true;
 				bMISSILE = false;
+				bSHOOTABLE = true;
 				A_ChangeLinkFlags(false);
 						
 				// Check for wall collision.
@@ -332,7 +336,7 @@ class Halo_StickyDetonator : HaloGun
 		wait;
 
 		Deselect:
-			TNT1 A 0 A_DetonateSticky();
+			// TNT1 A 0 A_DetonateSticky();
 			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Deselect.Empty");
 			WWR1 ZYXWV 2;
 			WWR1 U 1 A_GunLower(10);
