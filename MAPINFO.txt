@@ -16,11 +16,12 @@ GameInfo
 	
 	// Attempt to fix weapon graphics stutter.
 	PrecacheClasses = "Halo_AssaultRifle", "Halo_BattleRifle", "Halo_BeamRifle", "Halo_BinaryRifle", 
-					  "Halo_Bulldog", "Halo_Carbine", "Halo_DMR", "Halo_EnergySword", "Halo_FuelRod", 
-					  "Halo_GravityHammer", "Halo_MA5B", "Halo_Magnum", "Halo_Needler", "Halo_PlasmaPistol",
-					  "Halo_PlasmaRifle", "Halo_PulseCarbine", "Halo_RocketLauncher", "Halo_ScatterShot",
-					  "Halo_Shotgun", "Halo_Sidekick", "Halo_SMG", "Halo_SniperRifle", "Halo_Spiker",
-					  "Halo_Stanchion", "Halo_SuperShotgun", "Halo_Unmaker"					  
+					  "Halo_Bulldog", "Halo_Carbine", "Halo_Commando", "Halo_DMR", "Halo_EnergySword", 
+					  "Halo_Flamethrower", "Halo_FuelRod", "Halo_GPMG", "Halo_GravityHammer", "Halo_Hydra", 
+					  "Halo_LightRifle", "Halo_MA5B", "Halo_Magnum", "Halo_Needler", "Halo_PlasmaCaster", 
+					  "Halo_PlasmaPistol", "Halo_PlasmaRifle", "Halo_PulseCarbine", "Halo_RocketLauncher",
+					  "Halo_ScatterShot", "Halo_Shotgun", "Halo_Sidekick", "Halo_SMG", "Halo_SniperRifle",
+					  "Halo_Spiker", "Halo_Stanchion", "Halo_SuperShotgun", "Halo_Unmaker", "Halo_StickyDetonator"
 }
 
 Automap
@@ -70,6 +71,35 @@ DoomEdNums
 	16057 = "Halo_Unmaker"
 	16058 = "Halo_PlasmaCaster"
 	16059 = "Halo_Hydra"
+	16060 = "Halo_Commando"
+	16061 = "Halo_GPMG"
+	16062 = "Halo_Hydra"
+	16063 = "Halo_StickyDetonator"
+	
+	// Powerups
+	16090 = "Overshield_LV1"
+	16091 = "Overshield_LV2"
+	16092 = "HaloPower_Haste"
+	16093 = "HaloPower_Strength"
+	16094 = "HaloPower_ActiveCamo"
+	16095 = "HaloPower_Fullmap"
+	16096 = "HaloPower_Jetpack"
+	16097 = "HaloPower_Visor"
+	16098 = "HaloPower_Icebeam"
+	16099 = "HaloPower_Repulsor"
+	
+	// Barrels
+	16151 = "Coil_FuelRod"
+	16152 = "Coil_Plasma"
+	16153 = "Coil_Hardlight"
+	16154 = "Coil_Needler"
+	
+	// Grenades
+	16216 = "PlasmaGrenades"
+	16216 = "FragGrenades"
+	
+	// Misc
+	17069 = "FX_Blackhole"
 }
 
 map Titlemap "Titlemap"

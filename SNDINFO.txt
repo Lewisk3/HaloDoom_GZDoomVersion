@@ -875,6 +875,22 @@ $random Halo/Weapons/Hydra/ReloadLoad { HYDRA_RELOAD1 HYDRA_RELOAD2 HYDRA_RELOAD
 $random Halo/Weapons/Hydra/Fire { HYDRA_FIRE1 HYDRA_FIRE2 HYDRA_FIRE3 }
 $limit Halo/Weapons/Hydra/Fire 0
 
+// Sticky Detonator
+DET_FIRE1 "Sounds/Stickydet/Stickydet_Fire1.ogg"
+DET_FIRE2 "Sounds/Stickydet/Stickydet_Fire2.ogg"
+DET_FIRE3 "Sounds/Stickydet/Stickydet_Fire3.ogg"
+DET_FIRE4 "Sounds/Stickydet/Stickydet_Fire4.ogg"
+
+Halo/Weapons/StickyDet/Draw "Sounds/Stickydet/Stickydet_Draw.ogg"
+Halo/Weapons/StickyDet/Reload "Sounds/Stickydet/Stickydet_Reload.ogg"
+Halo/Weapons/StickyDet/Ping "Sounds/Stickydet/Launcher_Ping_loop.ogg"
+Halo/Weapons/StickyDet/Cam/Open "Sounds/Stickydet/Monitor_Open.ogg"
+Halo/Weapons/StickyDet/Cam/Close "Sounds/Stickydet/Monitor_Close.ogg"
+Halo/Weapons/StickyDet/Proj/Ping "Sounds/Stickydet/Bomb_Ping_loop.ogg"
+Halo/Weapons/StickyDet/Proj/Impact "Sounds/Stickydet/Bomb_Impact.ogg"
+
+$random Halo/Weapons/StickyDet/Fire { DET_FIRE1 DET_FIRE2 DET_FIRE3 DET_FIRE4 }
+
 // Hit feedback
 HMHIT1 HMHit1
 HMHIT2 HMHit2

@@ -66,7 +66,7 @@ GameType HL4
 					 halo_rocketlauncher, halo_dmr, halo_unmaker, halo_beamrifle, 
 					 halo_pulsecarbine, halo_energysword, halo_binaryrifle, 
 					 halo_lightrifle, halo_scattershot, halo_flamethrower, 
-					 halo_plasmacaster, halo_hydra"
+					 halo_plasmacaster, halo_hydra, halo_stickydetonator"
 					 
 	StartWeapons "halo_assaultrifle, halo_sidekick"
 	StartAmmo "halo_ar_reserves, 3; halo_sidekick_reserves, 2"
@@ -108,7 +108,8 @@ GameType SpartanOverkill
 					 halo_fuelrod, halo_rocketlauncher, halo_unmaker, 
 					 halo_beamrifle, halo_energysword, halo_binaryrifle, 
 					 halo_lightrifle, halo_scattershot, halo_flamethrower, 
-					 halo_plasmacaster, halo_hydra, halo_gpmg"
+					 halo_plasmacaster, halo_hydra, halo_gpmg, 
+					 halo_stickydetonator"
 					 
 	StartWeapons "halo_magnum, halo_bulldog"
 	StartAmmo "plasmagrenades, 4; fraggrenades, 4; halo_magnum_reserves, 4; halo_bulldog_reserves, 4"
