@@ -134,7 +134,7 @@ class Warthog_TurretBase : VehPart
 			double rmax = 1.5;
 			double arecoil = frandom(-rmax, rmax);
 			double precoil = frandom(-rmax, rmax);
-			let proj = HaloMath.FireProjectile("HaloMagnum_Bullet", gun.pos, gun.angle + arecoil, gun.pitch + precoil, 0, 40, 0, 1, 200);
+			let proj = HaloMath.FireProjectile("HaloBattleRifle_Bullet", gun.pos, gun.angle + arecoil, gun.pitch + precoil, 0, 40, 0, 1, 200);
 			
 			// We need to set the target of this projectile if we want hitmarkers to show up
 			// for the person who shoots it.
