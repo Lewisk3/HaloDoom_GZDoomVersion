@@ -167,6 +167,11 @@ class HaloGun : RecoilWeapon
 		// Used for custom overlay elements for specific weapons.
 	}
 	
+	ui virtual void UnderlayUIFX(RenderEvent ev, double deltaTime)
+	{
+		// Used for custom underlay elements for specific weapons.
+	}
+	
 	ui virtual void DrawCrosshairUI(double deltaTime)
 	{
 		// Used to draw UI effects on the HUD, usually near the crosshair.

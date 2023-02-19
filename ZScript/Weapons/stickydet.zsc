@@ -54,6 +54,14 @@ class HaloStickyDetProj : HaloSlowProjectile
 		Height 6;
 	}
 	
+	override bool CanCollideWith(Actor other, bool passive)
+	{
+		if(hitlt.HitActor && other == hitlt.HitActor)
+			return false;
+		
+		return super.CanCollideWith(other, passive);
+	}
+	
 	override bool Used(Actor user)
 	{
 		user.GiveInventory("Halo_StickyDet_Reserves", 1);
@@ -76,12 +84,11 @@ class HaloStickyDetProj : HaloSlowProjectile
 		double cmdPitch = -cmd.pitch * scalar;
 
 		A_SetAngle(angle + cmdYaw, SPF_Interpolate);
-		angle = clamp(angle, hitangle-25, hitangle+25);
+		angle = clamp(angle, hitangle-75, hitangle+75);
 
 		A_SetPitch(pitch + cmdPitch, SPF_Interpolate);
 		pitch = clamp(pitch, -10, 20);
 	}
-	
 		
 	virtual void StickToActor(Actor targ)
 	{
@@ -154,7 +161,7 @@ class HaloStickyDetProj : HaloSlowProjectile
 					SetOrigin(stuckPos, true);
 					
 					FLineTraceData wallchecklt;
-					LineTrace(angle + 180, 16, pitch, data:wallchecklt);
+					LineTrace(hitangle + 180, 16, 0, data:wallchecklt);
 					if(wallchecklt.HitType != TRACE_HitWall)
 					{
 						bNOGRAVITY = false;
@@ -273,9 +280,10 @@ class Halo_StickyDetonator : HaloGun
 	
 	override void OverlayUIFX(RenderEvent ev, double deltaTime)
 	{
-		if( !zoomed || !activeDet ) return;
-		if(activeDet && activeDet.bMISSILE) return; // Only allow camera view for stuck sticky dets.
-
+		// Only allow camera view for stuck sticky dets.
+		if( (!zoomed || !activeDet) || (activeDet && activeDet.bMISSILE) ) 
+			return;
+		
 		// Adjust scale for fullscreen.
 		vector2 texsize;
 		let camGraphic = TexMan.CheckForTexture("Graphics/StickyDet/StickyDetCam.png");
@@ -322,6 +330,7 @@ class Halo_StickyDetonator : HaloGun
 			Owner.A_StopSound(CHAN_PING);
 	}
 	
+	ui bool visorMode;
 	bool sightsHold;
 	bool monitorActive;
 	const CHAN_PING = 33;
@@ -367,7 +376,7 @@ class Halo_StickyDetonator : HaloGun
 			{
 				if(invoker.activeDet)
 					invoker.activeDet.viewer = PlayerPawn(self);
-			
+
 				A_SetupIdleFrame();
 				A_HaloWeaponReady(WRF_ALLOWRELOAD, usescope:false);
 				return A_JumpIf(A_ShouldDisableScope(invoker.sightsHold), "Sights.Disable");

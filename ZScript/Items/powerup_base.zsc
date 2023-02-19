@@ -482,11 +482,16 @@ class PowerHaloVisor : HaloPowerup
 	override void HUDDraw(HaloHUD hudbase, double dt)
 	{
 		curLight = HaloMath.Lerp(curLight, Owner.CurSector.lightlevel, 0.06 * dt);
-		if(enabled)
+		SetVisorShader(enabled, curLight);
+	}
+	
+	ui static void SetVisorShader(bool onoff, double curLightLevel = 1.0)
+	{
+		if(onoff)
 		{
 			PPShader.SetEnabled("visorShader", true);
 			PPShader.SetUniform1f("visorShader", "timer", gametic);
-			PPShader.SetUniform1f("visorShader", "curSectorLight", curLight);
+			PPShader.SetUniform1f("visorShader", "curSectorLight", curLightLevel);
 		}
 		else
 		{
@@ -494,46 +499,48 @@ class PowerHaloVisor : HaloPowerup
 		}
 	}
 	
-	void HighlightActor(Actor act)
+	static void HighlightActor(Inventory visorSource, Actor act, class<HaloVisorHighlight> highlightCls = "HaloVisorHighlight")
 	{
-		let highlight = HaloVisorHighlight(Spawn("HaloVisorHighlight", act.pos));
+		let highlight = HaloVisorHighlight(Spawn(highlightCls, act.pos));
 		if(highlight) 
 		{
 			highlight.ChangeStatNum(MAX_STATNUM); 
 			highlight.master = act;
-			highlight.visorSource = self;
+			highlight.visorSource = visorSource;
+		}
+	}
+	
+	static void HighlightActors(Inventory visorSource, Actor viewer, class<HaloVisorHighlight> highlightCls = "HaloVisorHighlight")
+	{
+		let highlightIt = ThinkerIterator.Create(highlightCls);
+		Actor highlight;
+		
+		let it = ThinkerIterator.Create();
+		Actor act;
+		
+		while(act = Actor(it.Next()))
+		{	
+			if( !act.bSHOOTABLE && !act.bSOLID || act.health <= 0 || 
+				 act.bCORPSE || !viewer.IsVisible(act, false) || 
+				 viewer.Distance2DSquared(act) > (1024*1024)  || 
+				 act is "HaloSlowProjectile" || act is "HaloProjectile"
+			) continue;
+			
+			bool hasHighlight = false;
+			highlightIt.Reinit();
+			while(highlight = Actor(highlightIt.Next()))
+			{	
+				if(highlight && highlight.master == act)
+					hasHighlight = true;
+			}
+			if(!hasHighlight) HighlightActor(visorSource, act, highlightCls);
 		}
 	}
 	
 	override void DoEffect()
 	{
 		super.DoEffect();
-		
-		if(enabled)
-		{
-			let highlightIt = ThinkerIterator.Create("HaloVisorHighlight");
-			Actor highlight;
-			
-			let it = ThinkerIterator.Create();
-			Actor act;
-			
-			while(act = Actor(it.Next()))
-			{	
-				if( !act.bSHOOTABLE && !act.bSOLID || act.health <= 0 || 
-					 act.bCORPSE || !Owner.IsVisible(act, false) || 
-					 Owner.Distance2DSquared(act) > (1024*1024) 
-				) continue;
-				
-				bool hasHighlight = false;
-				highlightIt.Reinit();
-				while(highlight = Actor(highlightIt.Next()))
-				{	
-					if(highlight && highlight.master == act)
-						hasHighlight = true;
-				}
-				if(!hasHighlight) HighlightActor(act);
-			}
-		}
+		if(enabled) HighlightActors(self, Owner);
 	}
 
 	void SetEnabled(bool onoff)
@@ -577,7 +584,7 @@ class HaloVisorFullbright : PowerLightAmp
 
 class HaloVisorHighlight : CheapActor
 {
-	PowerHaloVisor visorSource;
+	Inventory visorSource;
 
 	Default
 	{
@@ -586,9 +593,15 @@ class HaloVisorHighlight : CheapActor
 		+ISMONSTER;
 	}
 	
+	virtual bool CheckVisorEnabled()
+	{
+		let hvs = PowerHaloVisor(visorSource);
+		return hvs && hvs.enabled;
+	}
+	
 	override void Tick()
 	{
-		if( !visorSource || !visorSource.enabled || !visorSource.owner ||
+		if( !visorSource || !CheckVisorEnabled() || !visorSource.owner ||
 			!master || master.health <= 0 || master.bCORPSE	)  
 		{
 			Destroy();

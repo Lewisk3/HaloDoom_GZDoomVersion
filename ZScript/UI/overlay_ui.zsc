@@ -217,6 +217,21 @@ class Halo_OverlayUI : EventHandler
 		deltatime = (ftime/dtime);
 	}
 	
+	override void RenderUnderlay(RenderEvent e)
+	{	
+		// Get player
+		HaloPlayer haloplr = HaloPlayer(e.Camera);
+		if(!haloplr)
+		{
+			let halocam = HaloVehCamera(e.Camera);
+			if(halocam) haloplr = HaloPlayer(halocam.source);
+			if(!haloplr) return;
+		}
+	
+		let curweap = HaloGun(haloplr.player.ReadyWeapon);
+		if(curweap) curweap.UnderlayUIFX(e, deltaTime);	
+	}
+	
 	ui void DrawKeys(RenderEvent e)
 	{
 		Actor rendersrc = e.Camera;
