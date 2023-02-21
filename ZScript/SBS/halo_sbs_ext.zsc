@@ -8,7 +8,7 @@ extend class HLSBS
 		vector2 circlePos = pos;
 		double circleAlpha = alpha;
 		double angfrac = 360/points;
-		double pointPerc = points*perc;
+		double pointPerc = ceil(points*perc);
 		
 		// Initialize Circle 
 		Shape2D circle = new("Shape2D");
@@ -24,9 +24,9 @@ extend class HLSBS
 		vector2 adjustedPos = (circlePos.x * circleRes.x, circlePos.y * circleRes.y);
 		circle.Clear(Shape2D.C_Verts);
 		circle.PushVertex((adjustedPos.x,adjustedPos.y)); // Middle
-		for(double i = 0; i <= pointPerc; i++) 
+		for(double i = 0; i <= floor(pointPerc); i++) 
 			circle.PushVertex((adjustedPos.x+cos(angfrac*i)*radius*circleRes.x,adjustedPos.y+sin(angfrac*i)*radius*circleRes.y));
-				
+		
 		HLSBS.DrawShape(pxl, circle, alpha:circleAlpha, tint:circleColor);
 	}
 }

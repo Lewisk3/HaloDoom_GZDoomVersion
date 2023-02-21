@@ -96,8 +96,8 @@ class Scorpion_TurretCannon : VehPart
 			// for the person who shoots it.
 			proj.target = base.driver;
 			
-			A_StartSound("Halo/Weapons/Rifle/Fire", CHAN_WEAPON, CHANF_OVERLAP);
-			cooldown_chaingun = 8;
+			A_StartSound("Halo/Weapons/GPMG/Fire", CHAN_WEAPON, CHANF_OVERLAP);
+			cooldown_chaingun = 12;
 		}
 	}
 	
