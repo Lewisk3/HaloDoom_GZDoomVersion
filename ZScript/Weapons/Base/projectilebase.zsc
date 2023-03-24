@@ -407,7 +407,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 						 10,10,frandom[NeedleDeath](-8,8),0,0,-0.1,1.0,0.14,0.15);
 				}
 			}
-			TNT1 A 35; // Wait a bit
+			TNT1 A 35 DontSplash(); // Wait a bit
 		stop;
 	}
 }

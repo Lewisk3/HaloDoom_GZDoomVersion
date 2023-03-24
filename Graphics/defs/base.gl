@@ -33,7 +33,7 @@ pointlight BigOrangePointLight
 pointlight BlueBrightLight
 {
     color 0.0 0.0 1.0
-    size 64
+    size 32
 }
 pulselight GreenPulseLight
 {

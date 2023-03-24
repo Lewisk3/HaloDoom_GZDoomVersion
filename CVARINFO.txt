@@ -20,6 +20,7 @@ user int halodoom_cortanamode = 0;
 user bool halodoom_spartanvoicelines = false;
 
 // Server settings
+server bool halodoom_overhealthdecay = true;
 server int halodoom_gametype = 0;
 server float halodoom_effectintensity = 1.0;
 server float halodoom_magnetism = 10;

@@ -27,6 +27,7 @@ class HaloPlayer : DoomPlayer
 	VehLight flashlight;
 	PowerHaloVisor visor;
 	int invulnTics;
+	double healthDecay;
 	
 	// Sound effects
 	Sound snd_ShieldRegen;
@@ -330,6 +331,22 @@ class HaloPlayer : DoomPlayer
 			super.Tick();
 			return;
 		}
+		
+		if( (health > default.health) && halodoom_overhealthdecay ) 
+		{
+			healthDecay += 0.08;
+			if(healthDecay >= 1.0)
+			{
+				health--;
+				player.health = health;
+				healthDecay = 0;
+			}
+		}
+		else
+		{
+			healthDecay = 0;
+		}
+			
 		
 		bool predicting = (player.cheats & CF_PREDICTING); 
 		if(predicting)
