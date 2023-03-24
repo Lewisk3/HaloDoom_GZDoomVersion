@@ -182,7 +182,11 @@ class Halo_NeedlerJavelin : HaloGun
 		loop;
 		
 		Ready.Dryfire:
-			WXI1 B 4 A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
+			WXI1 "#" 4 
+			{
+				A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
+				A_SetFrame( !!(CountLoadedAmmo() == 0) ); 
+			}
 		goto Ready.Active;
 
 		Select:

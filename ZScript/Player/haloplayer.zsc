@@ -334,7 +334,7 @@ class HaloPlayer : DoomPlayer
 		
 		if( (health > default.health) && halodoom_overhealthdecay ) 
 		{
-			healthDecay += 0.08;
+			healthDecay += 0.065;
 			if(healthDecay >= 1.0)
 			{
 				health--;
