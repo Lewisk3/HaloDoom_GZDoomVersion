@@ -21,6 +21,7 @@ mixin class HaloProjectile_Common
 	double homingStrength;
 	double homingFOV;
 	class<Actor> splashSpawner;
+	Array<Actor> excludeCollisions; // Actors NOT to collide with.
 	
 	// Shield stuff
 	double shield_HeadshotDMG;
@@ -92,12 +93,17 @@ mixin class HaloProjectile_Common
 		if(BlockingLine) BlockingLine.Activate(target, 0, SPAC_Impact);
 	}
 	
-	virtual void Handle_Homing(double turnMax = 0)
+	virtual bool CheckExcludeCollision(Actor other)
+	{
+		return excludeCollisions.Find(other) != excludeCollisions.Size();
+	}
+	
+	virtual void Handle_Homing(double turnMax = 0, bool ignoreCorpses = false)
 	{
 		// Find nearest viable target, track target.
 		if(tracer)
 		{
-			if(!tracer.CanCollideWith(self, false)) 
+			if( !tracer.CanCollideWith(self, false) || (tracer.health <= 0 && ignoreCorpses) ) 
 			{
 				tracer = NULL;
 				return;

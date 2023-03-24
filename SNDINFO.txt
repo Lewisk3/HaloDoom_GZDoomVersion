@@ -891,6 +891,16 @@ Halo/Weapons/StickyDet/Proj/Impact "Sounds/Stickydet/Bomb_Impact.ogg"
 
 $random Halo/Weapons/StickyDet/Fire { DET_FIRE1 DET_FIRE2 DET_FIRE3 DET_FIRE4 }
 
+// Needler Javelin
+NJAV_FIR1 "Sounds/NeedleJavelin/NeedleJav_Fire1.ogg"
+NJAV_FIR2 "Sounds/NeedleJavelin/NeedleJav_Fire2.ogg" 
+NJAV_FIR3 "Sounds/NeedleJavelin/NeedleJav_Fire3.ogg"
+
+$random Halo/Weapons/NeedlerJavelin/Fire { NJAV_FIR1 NJAV_FIR2 NJAV_FIR3 }
+Halo/Weapons/NeedlerJavelin/Draw "Sounds/NeedleJavelin/NeedleJav_Draw.ogg"
+Halo/Weapons/NeedlerJavelin/Reload "Sounds/NeedleJavelin/NeedleJav_Reload.ogg"
+Halo/Weapons/NeedlerJavelin/SuperCombine "Sounds/NeedleJavelin/Jav_Supercombine.ogg"
+  
 // Hit feedback
 HMHIT1 HMHit1
 HMHIT2 HMHit2

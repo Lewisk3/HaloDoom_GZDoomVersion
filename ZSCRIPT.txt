@@ -100,6 +100,7 @@ version "4.10.0"
 #include "ZScript/Weapons/hydra.zsc"
 #include "ZScript/Items/freezerbeam.zsc"
 #include "ZScript/Weapons/stickydet.zsc"
+#include "ZScript/Weapons/needlejavelin.zsc"
 
 // Vehicles
 #include "ZScript/Vehicles/Kinematics/kine_parts.zsc" 
@@ -127,7 +128,6 @@ version "4.10.0"
 
 // [>> Gameplay Constants <<]
 const UNIT_METER = 8.f;
-
 
 // Stuff that may be used later 
 class CoverTest : Actor

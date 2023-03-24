@@ -24,6 +24,12 @@ class HaloProjectile : FastProjectile
 		HaloProjectile.RicochetSound "Ricochet/Generic";
 	}
 	
+	override bool CanCollideWith(Actor other, bool passive)
+	{
+		if(CheckExcludeCollision(other)) return false;
+		return super.CanCollideWith(other, passive);
+	}
+	
 	override int SpecialMissileHit(Actor victim)
 	{	
 		return Handle_MissileHit(victim);
@@ -85,7 +91,13 @@ class HaloSlowProjectile : Actor
 		HaloSlowProjectile.RicochetChance 0;
 		HaloSlowProjectile.RicochetSound "Ricochet/Generic";
 	}
-			
+	
+	override bool CanCollideWith(Actor other, bool passive)
+	{
+		if(CheckExcludeCollision(other)) return false;
+		return super.CanCollideWith(other, passive);
+	}
+	
 	override void PostBeginPlay()
 	{
 		Init();
@@ -219,6 +231,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 {
 	double shatterdmg;
 	bool doexplode;
+	bool force_explosion; // Force supercombine explosion on death.
 	vector3 hitoffs;
 	vector3 hitrelpos;
 	double hitangle;
@@ -304,7 +317,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 		}
 		else if(getTravelDistance() < maxhomdist) // Do homing
 		{
-			Handle_Homing(homTurnMax);
+			Handle_Homing(homTurnMax, ignoreCorpses:true);
 		}
 		
 		if(GetAge() > 35*3 && bMISSILE)
@@ -314,6 +327,10 @@ class HaloNeedleProjectile : HaloSlowProjectile
 			SetState(FindState("Death.Explode"));
 			A_StartSound("Needler/Despawn", CHAN_AUTO, CHANF_OVERLAP);
 		}
+	}
+	
+	virtual void OnSuperCombine(Actor victim)
+	{
 	}
 		
 	States
@@ -341,9 +358,11 @@ class HaloNeedleProjectile : HaloSlowProjectile
 		Death.Explode:
 			TRAC A 1 
 			{
-				if((needlecount && needlecount.CountNeedles() >= explodecount) && !doexplode && hitactor) 
+				if( force_explosion || ((needlecount && needlecount.CountNeedles() >= explodecount) && !doexplode && hitactor) ) 
 				{
-					vector3 explodePos = hitactor.pos + (0,0,hitactor.height*0.5);
+					vector3 explodePos = hitactor ? hitactor.pos + (0,0,hitactor.height*0.5) : pos;
+					double hitHeight = hitactor ? hitactor.height * 0.5 : height * 0.5;
+					
 					Spawn("NeedleExplosion_Flare", explodePos);
 					Spawn("NeedleExplosion", explodePos);
 					A_StartSound("Halo/Weapons/Needler/SuperCombine", flags:CHANF_OVERLAP);
@@ -360,14 +379,17 @@ class HaloNeedleProjectile : HaloSlowProjectile
 						
 						A_SpawnParticle(
 							"Purple", SPF_FULLBRIGHT, 20, 10.0, ang,
-							0,0, hitactor.height*0.5, rdir.x,rdir.y,rdir.z,0,0,0,
+							0,0, hitHeight, rdir.x,rdir.y,rdir.z,0,0,0,
 							frandom[NeedleDeath](0.5,1.0), 0.0125
 						);
 					}
 					
-					needlecount.ExplodeNeedles();
-					hitactor.DamageMobJ(self, self.target, shatterdmg * explodecount, "Explosive", 0, angle);
+					if(needlecount) needlecount.ExplodeNeedles();
+					if(hitactor) hitactor.DamageMobJ(self, self.target, shatterdmg * explodecount, "Explosive", 0, angle);
 					A_Explode(128,200,0);
+					
+					// For extended supercombine behavior.
+					OnSuperCombine(hitactor);
 				}
 				
 				if(hitactor) hitactor.DamageMobJ(self, self.target, shatterdmg, "Explosive", 0, angle);
@@ -385,7 +407,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 						 10,10,frandom[NeedleDeath](-8,8),0,0,-0.1,1.0,0.14,0.15);
 				}
 			}
-			TNT1 A 16; // Wait a bit
+			TNT1 A 35; // Wait a bit
 		stop;
 	}
 }
