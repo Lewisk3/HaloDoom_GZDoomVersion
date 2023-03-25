@@ -111,6 +111,7 @@ class HaloStickyDetProj : HaloSlowProjectile
 				A_StopSound(CHAN_BODY);
 				A_StartSound("Halo/Weapons/StickyDet/Proj/Impact", CHAN_AUTO, CHANF_OVERLAP);
 			}
+			TNT1 A 0 DontSplash();
 		goto Stuck;
 		
 		Stuck:

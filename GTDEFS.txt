@@ -31,7 +31,7 @@ GameType HL2
 					 halo_sniperrifle, halo_stanchion, halo_carbine, 
 					 halo_plasmapistol, halo_plasmarifle, halo_needler, 
 					 halo_fuelrod, halo_sidekick, halo_smg, halo_rocketlauncher, 
-					 halo_unmaker, halo_beamrifle, halo_energysword"
+					 halo_unmaker, halo_beamrifle, halo_energysword, halo_gpmg"
 					 
 	StartWeapons "halo_battlerifle, halo_sidekick"
 	StartAmmo "halo_bar_reserves, 3; halo_sidekick_reserves, 2"
