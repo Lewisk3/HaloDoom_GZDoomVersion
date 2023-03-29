@@ -83,6 +83,18 @@ class Halo_Stanchion : HaloGun
 		if(justFiredCharged) heat = 0;
 	}
 	
+	override void DoEffect()
+	{
+		super.DoEffect();
+		
+		// Stop charge sounds if this weapon isn't currently selected.
+		if(Owner.player && Owner.player.ReadyWeapon != self)
+		{
+			Owner.A_StopSound(CHAN_CHARGED);
+			Owner.A_StopSound(CHAN_CHARGING);
+		}
+	}
+	
 	action void MuzzleLightning()
 	{
 		vector3 muzzlepos = HaloMath.RelativeV3Offset(self, 0,0,0, 25,10,-8, 1.);
@@ -361,6 +373,7 @@ class Halo_Stanchion : HaloGun
 		Reload.ChargeEnd:
 			STCI A 6 
 			{
+				invoker.handsbusy = false; // Ensure handsbusy is properly cleared.
 				A_WeapSound("Halo/Weapons/Stanchion/ChargeEnd", CHANF_OVERLAP);
 				A_RecoilOffset(0,0,6);
 				A_StopSound(CHAN_CHARGING);

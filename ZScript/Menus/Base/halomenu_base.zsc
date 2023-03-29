@@ -118,6 +118,7 @@ class HaloMenuBase : ListMenu
 				buttons[btn_selected].clicked = true;
 			return true;
 		case MKEY_Back:
+			MenuSound("UI/Prev");
 			Close();
 			return true;
 		}

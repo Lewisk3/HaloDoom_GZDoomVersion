@@ -416,7 +416,7 @@ class HaloGun : RecoilWeapon
 	// For some reason weapons start with an odd offset.
 	action void A_DoSelectAnim(double yoffs = 0., bool first_time_draw = false)
 	{
-		 A_RecoilOffset(0, 20 + yoffs, 2);
+		 A_RecoilOffset(0, 20 + yoffs, 2, forced:true);
 		 if(first_time_draw) invoker.donefirstdrawanim = true;
 	}
 

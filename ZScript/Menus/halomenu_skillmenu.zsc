@@ -1,13 +1,15 @@
 class HaloSkill : Object
 {
 	string displayName, graphic, desc;
+	Sound selectSound;
 	
-	static HaloSkill Init(string displayName, string graphic, string desc)
+	static HaloSkill Init(string displayName, string graphic, string desc, Sound selectionSound = "UI/Next")
 	{
 		let hskill = new("HaloSkill");
 		hskill.displayName = displayName;
 		hskill.graphic = graphic;
 		hskill.desc = desc;
+		hskill.selectSound = selectionSound;
 		
 		return hskill;
 	}
@@ -16,6 +18,8 @@ class HaloSkill : Object
 class HaloDoom_SkillMenu : HaloMenuBase
 {	
 	Array<HaloSkill> HaloSkills;
+	int waitStartGame; // Tics to wait to start the game.
+	int selectedSkill;
 
 	override void Init(Menu parent, ListMenuDescriptor desc)
 	{
@@ -28,6 +32,7 @@ class HaloDoom_SkillMenu : HaloMenuBase
 		double btnW = 0.7;
 		double btnH = 0.2;
 		double itemSpacing = 80;
+		waitStartGame = -1;
 		
 		string btnON  = "Graphics/UI/Title/NONE.png";
 		string btnOFF = "Graphics/UI/Title/NONE.png";
@@ -40,7 +45,8 @@ class HaloDoom_SkillMenu : HaloMenuBase
 			(
 				"Your foes cower and fall before\nyour unstoppable onslaught yet\nfinal victory will leave you\nwanting more."
 				"\n\n\c[Purple]Spawn Filter: I'm Too Young To Die"
-			)
+			),
+			"UI/SkillBtns/Easy"
 		));
 		HaloSkills.push(HaloSkill.Init(
 			"Normal", 
@@ -48,7 +54,8 @@ class HaloDoom_SkillMenu : HaloMenuBase
 			(
 				"Hordes of aliens vie to destroy\nyou, but nerves of steel and a\nquick trigger finger give you a \nsolid chance to prevail."
 				"\n\n\c[Purple]Spawn Filter: Hey Not Too Rough"
-			)
+			),
+			"UI/SkillBtns/Normal"
 		));
 		HaloSkills.push(HaloSkill.Init(
 			"Heroic", 
@@ -56,7 +63,8 @@ class HaloDoom_SkillMenu : HaloMenuBase
 			(
 				"Your enemies are as numerous \nas they are ferocious; their \nattacks are devastating. \n\nSurvival is not guaranteed."
 				"\n\n\c[Purple]Spawn Filter: Hurt Me Plenty"
-			)
+			),
+			"UI/SkillBtns/Heroic"
 		));
 		HaloSkills.push(HaloSkill.Init(
 			"Legendary", 
@@ -64,7 +72,8 @@ class HaloDoom_SkillMenu : HaloMenuBase
 			(
 				"You face opponents who have \nnever known defeat, who laugh\nin alien tongues at your efforts \nto survive. \n\nThis is suicide."
 				"\n\n\c[Purple]Spawn Filter: Ultra Violence"
-			)
+			),
+			"UI/SkillBtns/Legendary"
 		));
 		HaloSkills.push(HaloSkill.Init(
 			"Mythic", 
@@ -73,7 +82,8 @@ class HaloDoom_SkillMenu : HaloMenuBase
 				"You stand in oppositions of \nan unstoppable force. \n\nYour enemies are ruthless and \nnever ending. \n\nYour death is all but certain."
 				"\n\n\c[Purple]Spawn Filter: Ultra Violence\n"
 				"\c[Purple]Enemy Modifiers: Fast, Respawn"
-			)
+			),
+			"UI/SkillBtns/Mythic"
 		));
 		/*HaloSkills.push(HaloSkill.Init(
 			"American Healthcare", 
@@ -138,15 +148,21 @@ class HaloDoom_SkillMenu : HaloMenuBase
 				}
 				else if(buttons[i].hovered)
 				{
-					buttons[i].btntext.font_color = Font.CR_WHITE;
+					if(waitStartGame == -1)
+					{
+						if(buttons[i].btntext.font_color != Font.CR_WHITE)
+							MenuSound("UI/Selected");
+		
+						buttons[i].btntext.font_color = Font.CR_WHITE;
+					}
+					
 					string skillModifiers = String.Format("\n\c[Red]Damage Multiplier: %d\%\n", HaloPlayer.skillDamage[min(4, i)] * 100.);
 					HLSBS.DrawImage(skillImg, descPos, flags:drawFlags, scale:(1.75,2.0));
 					HLSBS.DrawString("HaloFont", HaloSkills[skillnum].desc .. skillModifiers, (descOffs.x + 20, descOffs.y + 70), flags:drawFlags, Font.CR_WHITE, scale:(0.12,0.12), linespacing:130);
-					
-
+				
 					// HLSBS.DrawString("HaloFont", skillModifiers, (descOffs.x + 20, descOffs.y + 400), flags:drawFlags, Font.CR_WHITE, scale:(0.12,0.12), linespacing:130);
 				}
-				else
+				else if(waitStartGame == -1)
 				{
 					buttons[i].btntext.font_color = Font.CR_RED;
 				}
@@ -164,14 +180,24 @@ class HaloDoom_SkillMenu : HaloMenuBase
 
 	override void Ticker()
 	{		
+		if(waitStartGame != -1 && --waitStartGame <= 0)
+			mDesc.mItems[min(selectedSkill+1, mDesc.mItems.Size()-1)].Activate();
+	
 		for(int i = 0; i < buttons.Size(); i++)
 		{
-			buttons[i].Update(mMouse, btn_selected == -1);
+			if(waitStartGame == -1)
+				buttons[i].Update(mMouse, btn_selected == -1);
 				
 			if(buttons[i].clicked)
 			{
-				MenuSound("UI/PressButton");
-				mDesc.mItems[min(i+1, mDesc.mItems.Size()-1)].Activate();
+				int skillnum = min(i,HaloSkills.Size()-1);
+				string skillSnd = HaloSkills[skillnum].selectSound;
+				MenuSound(skillSnd);
+			
+				// MenuSound("UI/Next");
+				waitStartGame = S_GetLength(skillSnd) * 20.0;
+				selectedSkill = i;
+				
 				buttons[i].clicked = false;
 			}
 		}

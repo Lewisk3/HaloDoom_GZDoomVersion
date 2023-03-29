@@ -62,7 +62,12 @@ class HaloDoom_GameTypeMenu : HaloMenuBase
 				if(buttons[i].pressed)
 					buttons[i].btntext.font_color = Font.CR_BLUE;
 				else if(buttons[i].hovered)
+				{
+					if(buttons[i].btntext.font_color != Font.CR_WHITE)
+						MenuSound("UI/Selected");
+						
 					buttons[i].btntext.font_color = Font.CR_WHITE;
+				}
 				else
 					buttons[i].btntext.font_color = Font.CR_GOLD;
 			}
@@ -155,7 +160,7 @@ class HaloDoom_GameTypeMenu : HaloMenuBase
 
 			if(buttons[i].clicked)
 			{
-				MenuSound("UI/PressButton");
+				MenuSound("UI/Next");
 				buttons[i].clicked = false;
 				
 				// Setup gametype

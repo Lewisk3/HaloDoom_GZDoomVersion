@@ -148,16 +148,16 @@ class HaloDoom_SkullMenu : HaloMenuBase
 				
 			if(btn.clicked)
 			{
-				MenuSound("UI/PressButton");
 				if(btn.type == 'AcceptSkulls')
 				{
 					// Exit to episode selection, with player class index.
+					MenuSound("UI/Next");
 					Menu.SetMenu("episodemenu", selected_player);
 					btn.clicked = false;
 				}
-				
-				if(btn.type == 'AllSkullsON')
+				else if(btn.type == 'AllSkullsON')
 				{
+					MenuSound("UI/PressedButton");
 					S_StartSound("Halo/Skulls/ALL", CHAN_VOICE, CHANF_OVERLAP);
 					for(int i = 0; i < buttons.Size(); i++)
 					{
@@ -165,13 +165,18 @@ class HaloDoom_SkullMenu : HaloMenuBase
 						buttons[i].toggled = true;
 					}
 				}
-				if(btn.type == 'AllSkullsOFF')
+				else if(btn.type == 'AllSkullsOFF')
 				{
+					MenuSound("UI/PressedButton");
 					for(int i = 0; i < buttons.Size(); i++)
 					{
 						if(i >= skulls.Size()) continue;
 						buttons[i].toggled = false;
 					}
+				}
+				else
+				{
+					MenuSound("UI/Selected");
 				}
 				
 				// Handle skull selection

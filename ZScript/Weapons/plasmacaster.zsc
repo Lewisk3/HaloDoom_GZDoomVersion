@@ -12,7 +12,7 @@ class Halo_PlasmaCaster_Reserves : Ammo
 	{
 		Radius 8;
 		Height 6;
-		Scale 0.04;
+		Scale 0.25;
 
 		Inventory.Amount 2;
 		Inventory.MaxAmount 25;

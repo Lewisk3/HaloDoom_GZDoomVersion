@@ -17,6 +17,21 @@ CLAMBER3 "Sounds/Clamber/Clamber3.ogg"
 $random Halo/LedgeGrab { CLAMBER1 CLAMBER2 CLAMBER3 }
 
 UI/PressButton BTNPRESS
+UI/Next "Sounds/UI/Menus/UI_Forward.ogg"
+UI/Prev "Sounds/UI/Menus/UI_Back.ogg"
+UI/Selected "Sounds/UI/Menus/UI_Mouseover.ogg"
+
+UI/SkillBtns/Easy 	   "Sounds/UI/Difficulty_Selection/Select_Easy.ogg"
+UI/SkillBtns/Normal    "Sounds/UI/Difficulty_Selection/Select_Normal.ogg"
+UI/SkillBtns/Heroic    "Sounds/UI/Difficulty_Selection/Select_Heroic.ogg"
+UI/SkillBtns/Legendary "Sounds/UI/Difficulty_Selection/Select_Legendary.ogg"
+UI/SkillBtns/Mythic    "Sounds/UI/Difficulty_Selection/Select_Mythic.ogg"
+
+menu/activate	"Sounds/UI/Menus/UI_Forward.ogg"
+menu/backup		"Sounds/UI/Menus/UI_Back.ogg"
+menu/change		"Sounds/UI/Menus/UI_Mouseover.ogg"
+menu/choose		"Sounds/UI/Menus/UI_Mouseover.ogg"
+menu/clear		"Sounds/UI/Menus/UI_Back.ogg"
 
 Fire/Ignite "Sounds/FlameThrower/FLM_STRT.ogg"
 Fire/BurnLoop "Sounds/FlameThrower/FLM_BRN_Loop.ogg"
