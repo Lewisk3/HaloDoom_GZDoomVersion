@@ -76,6 +76,20 @@ extend class HaloPlayer
 	// Special movement
 	LedgeTrigger ledgeGrabber;
 	
+	vector2 getMovementInputs(double rotation = 0)
+	{
+		let cmd = player.cmd;
+		if( !(player.cmd.forwardmove || player.cmd.sidemove) )
+			return (0,0);
+	
+		vector2 norminput = (
+			  cmd.forwardmove / (gameinfo.normforwardmove[0]*256.),
+			-(cmd.sidemove / (gameinfo.normsidemove[0]*256.))
+		);
+	
+		return (rotation == 0) ? norminput : RotateVector(norminput, rotation);
+	}
+	
 	void ThrustDir(double fw = 0, double lr = 0, double ud = 0)
 	{
 		let dir = Quat.FromAngles(angle, pitch, roll);
@@ -115,11 +129,7 @@ extend class HaloPlayer
 		
 		// Wishdir doesn't work as desired in this case, so we'll need to convert
 		// to relative coords.
-		vector2 fwlr = (player.cmd.forwardmove, -player.cmd.sidemove);
-		if(fwlr.x || fwlr.y)
-			fwlr = fwlr.Unit();
-		else
-			fwlr *= 0;
+		vector2 fwlr = getMovementInputs(); 
 		
 		vector3 reldir = (fwlr, wishdir.z);
 		vector3 accelDir = ViewRotation * reldir;
@@ -223,7 +233,7 @@ extend class HaloPlayer
 	{
 		if(doJetpackMovement) 
 		{
-			vector2 moveDir = (player.cmd.forwardmove, -player.cmd.sidemove).Unit();
+			vector2 moveDir = getMovementInputs();
 			viewAnglesVel.y += moveDir.x * 0.1;
 			viewAnglesVel.z += moveDir.y * 0.17;
 		
@@ -383,7 +393,7 @@ extend class HaloPlayer
 			// Calculate wishdir
 			UserCmd cmd = player.cmd;
 			vector3 wishdir;
-			wishdir.xy = RotateVector((cmd.forwardmove, -cmd.sidemove), angle);
+			wishdir.xy = getMovementInputs(angle);
 			if(block_moveinput) wishdir.xy = (0,0);
 			wishdir.z = 0;
 			
@@ -391,7 +401,6 @@ extend class HaloPlayer
 			
 			if(wishdir.Length())
 			{
-				wishdir = wishdir.Unit();
 				if(spacemovement)
 				{
 					DoSpaceMovement(wishdir);

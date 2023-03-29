@@ -136,7 +136,7 @@ class Halo_NeedlerJavelin : HaloGun
 		
 		HaloGun.PowerTier P_POWER;
 		
-		RecoilWeapon.YOffsetRange -10, 40;
+		RecoilWeapon.YOffsetRange -3, 40;
 	}
 	
 	override int GetPowerTier()
