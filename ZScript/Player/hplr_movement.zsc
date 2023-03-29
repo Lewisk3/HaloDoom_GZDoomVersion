@@ -82,10 +82,15 @@ extend class HaloPlayer
 		if( !(player.cmd.forwardmove || player.cmd.sidemove) )
 			return (0,0);
 	
+		double moveNormRatio = gameinfo.normforwardmove[0] / gameinfo.normsidemove[0];
 		vector2 norminput = (
 			  cmd.forwardmove / (gameinfo.normforwardmove[0]*256.),
 			-(cmd.sidemove / (gameinfo.normsidemove[0]*256.))
 		);
+		
+		norminput.x = clamp(norminput.x, -1.0, 1.0);
+		norminput.y = clamp(norminput.y, -1.0, 1.0);
+		norminput.y *= moveNormRatio; // Mimic SR40 acceleration.
 	
 		return (rotation == 0) ? norminput : RotateVector(norminput, rotation);
 	}
@@ -399,7 +404,7 @@ extend class HaloPlayer
 			
 		    lastmovedir = atan2(wishdir.y, wishdir.x);
 			
-			if(wishdir.Length())
+			if( (cmd.forwardmove || cmd.sidemove) )
 			{
 				if(spacemovement)
 				{
