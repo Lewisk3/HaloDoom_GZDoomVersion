@@ -6,7 +6,7 @@ class Halo_PulseCarbine_Battery : Ammo
 	}
 }
 
-class HaloPulseCarbine_Proj : HaloPlasma_Proj
+class HaloPulseCarbine_Proj : HaloPlasmaRifle_Proj
 {
 	double thrust;
 
@@ -20,10 +20,11 @@ class HaloPulseCarbine_Proj : HaloPlasma_Proj
 		HaloProjectile.SetupHoming true, PULSECARBINE_HOM * 0.25, 10;
 		HaloProjectile.SplashSpawner "PlasmaSplashSpawner";
 		
-		RenderStyle "Add";
-		Translation "0:255=@65[10,8,240]";
+		//RenderStyle "Add";
+		//Translation "0:255=@65[10,8,240]";
 		Alpha 0.90;
-		Scale 0.12;
+		Scale 0.80;
+		
 		DamageType "Plasma";
 	}
 	
@@ -31,7 +32,7 @@ class HaloPulseCarbine_Proj : HaloPlasma_Proj
 	{
 		super.Tick();	
 		
-		if(!thrust) thrust = 0.25;
+		if(!thrust) thrust = 0.40;
 		homingStrength = min(homingStrength + 0.02, PULSECARBINE_HOM);
 		thrust = min(thrust + 0.05, 1.5);
 		

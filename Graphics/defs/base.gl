@@ -123,6 +123,7 @@ object HaloPlasmaRifle_Proj
 }
 object HaloPulseCarbine_Proj
 {
+	Frame MODL { light BlueBrightLight }
 	Frame HPLB { light BlueBrightLight }
 }
 object HaloPlasma_Proj

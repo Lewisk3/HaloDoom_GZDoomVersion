@@ -187,7 +187,7 @@ class PlasmaSmoke : IcecubeSmoke
 {
 	Default
 	{
-		Scale 0.4;
+		Scale 0.30;
 		Alpha 0.15;
 	}
 }
