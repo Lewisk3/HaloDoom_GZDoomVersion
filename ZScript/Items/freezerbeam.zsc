@@ -842,6 +842,7 @@ class IcecubeSmoke : CheapActor
 		
 		A_SetScale(default.Scale.X * 1.1);
 		roll += 0.5 * rollDir;
+		SetOrigin(level.vec3offset(pos, vel), true);
 	}
 	
 	States

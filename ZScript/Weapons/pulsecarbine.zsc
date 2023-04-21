@@ -48,7 +48,7 @@ class HaloPulseCarbine_Proj : HaloPlasma_Proj
 			TNT1 A 1 
 			{	
 				HaloMath.ParticlesFX(self, "Blue", 30, 3, 10);
-				A_DoLightning(4);
+				A_DoLightning(lightningType, 4);
 			}
 		stop;
 	}

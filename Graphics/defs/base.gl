@@ -33,7 +33,7 @@ pointlight BigOrangePointLight
 pointlight BlueBrightLight
 {
     color 0.0 0.0 1.0
-    size 32
+    size 64
 }
 pulselight GreenPulseLight
 {
@@ -119,6 +119,7 @@ object UnmakerLaserPuff
 object HaloPlasmaRifle_Proj
 {
 	Frame HPLB { light BlueBrightLight }
+	Frame MODL { light BlueBrightLight }
 }
 object HaloPulseCarbine_Proj
 {
@@ -127,10 +128,12 @@ object HaloPulseCarbine_Proj
 object HaloPlasma_Proj
 {
 	Frame HPLB { light GreenPointLight }
+	Frame MODL { light GreenPointLight }
 }
 object HaloChargedPlasma_Proj
 {
 	Frame HPLB { light GreenPointLight }
+	Frame MODL { light GreenPointLight }
 }
 object HaloNeedleProjectile
 {

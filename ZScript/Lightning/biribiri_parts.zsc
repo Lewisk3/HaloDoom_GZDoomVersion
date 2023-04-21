@@ -103,7 +103,7 @@ class LightningBiri : LightningActor
 	States
 	{
 		Spawn:
-			BEAM A 1 Bright A_FadeOut(0.04); // 0.14
+			BEAM A 1 Bright A_FadeOut(0.08); // 0.14
 		wait;
 	}
 }

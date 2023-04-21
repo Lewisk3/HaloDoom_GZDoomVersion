@@ -29,6 +29,7 @@ UI/SkillBtns/Mythic    "Sounds/UI/Difficulty_Selection/Select_Mythic.ogg"
 
 menu/activate	"Sounds/UI/Menus/UI_Forward.ogg"
 menu/backup		"Sounds/UI/Menus/UI_Back.ogg"
+menu/cursor		"Sounds/UI/Menus/UI_Mouseover.ogg"
 menu/change		"Sounds/UI/Menus/UI_Mouseover.ogg"
 menu/choose		"Sounds/UI/Menus/UI_Mouseover.ogg"
 menu/clear		"Sounds/UI/Menus/UI_Back.ogg"
