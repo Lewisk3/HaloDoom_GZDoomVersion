@@ -124,13 +124,14 @@ class Halo_SMG : HaloGun
 		A_Light(2);
 		A_WeapSound("Halo/Weapons/SMG/Fire", CHANF_OVERLAP, true);
 		A_WeapSound("Halo/Weapons/SMG/Fire/Bass", CHANF_OVERLAP, true);
-		A_ShootProjectile("HaloSMG_Bullet", A_CheckInScope() ? 0 : 12);		
-		A_SetSFXPos(20,-18,-12);
+		A_ShootProjectile("HaloSMG_Bullet", A_CheckInScope() ? 0 : 8);		
+		A_SetSFXPos(20,-15,-12);
 		A_SpawnSFX("PistolCasing", -90,-20);
-		A_SetSFXPos(25,-10,-8);
+		A_SetSFXPos(25,-7,-8);
 		A_SpawnSFX("MuzzleSmoke", 0,0);
 		A_TakeAmmo();
 		A_UpdateSpread();
+		A_RecoilOffset(frandom[WeapFX](-4,4),frandom[WeapFX](-4,4),2);
 	}
 	
 	action void A_ReloadSound()
@@ -140,12 +141,18 @@ class Halo_SMG : HaloGun
 		A_StartSound(reload_snd, CHAN_RELOADING, CHANF_OVERLAP);
 	}
 	
+	action state A_CheckBurstFire(Statelabel st = "Fire")
+	{
+		if(A_ButtonStatus(BT_ATTACK, BTS_DOWN))
+			return ResolveState(st);
+		return ResolveState(null);
+	}
+	
 	override void DoEffect()
 	{
 		super.DoEffect();
 		A_UpdateCrosshair(zoomed ? "SMGZRet" : "", self);
 	}
-		
 	
 	States
 	{	
@@ -153,13 +160,17 @@ class Halo_SMG : HaloGun
 			TNT1 A 0 A_JumpIf(!A_DoFullSelectAnimation(), "Ready.Chambered");
 			TNT1 A 4 A_WeapSound("Halo/Weapons/SMG/Draw");
 			WFD1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoSelectAnim(-5, true);
-			WFD2 ABCD 2;
+			WFD2 ABCDEFGHIJKLMNOPQRSTUVW 1 A_DoSelectAnim(-5);
 		goto Ready.Active;
 		Ready.Chambered:
 			TNT1 A 0 A_WeapSound("Halo/Weapons/SMG/Draw");
 			WFG1 A 1 A_DoSelectAnim(-5);
 		Ready.Active:
-			WFG1 A 1 A_HaloWeaponReady(WRF_ALLOWRELOAD, true);
+			WFG1 A 1 
+			{	
+				A_HaloWeaponReady(WRF_ALLOWRELOAD, true);
+				A_ClearRefire();
+			}
 		loop;
 			
 		Ready.Dryfire:
@@ -174,6 +185,153 @@ class Halo_SMG : HaloGun
 			WFG1 A 1 A_GunLower();
 		wait;
 		
+		// Lots of different fire animations here
+		Fire:
+			TNT1 A 0 A_GunCheckReload();
+			TNT1 A 0 
+			{	
+				bool firstFire = player.refire < 2;
+				if(!firstFire) return ResolveState("Fire.Continuous");
+				return A_Jump(127, "Fire.Two");
+			}
+		Fire.One:
+			TNT1 A 0 A_SetFrame(randompick(0,1));
+			WFS1 "#" 1 Bright
+			{
+				A_FireSMG();
+				A_SetRecoil(1.8, 0, 1);
+				A_RollQuake(1,10,1);
+			//	console.printf("Burst1");
+			}
+			WFS1 C 1
+			{
+				A_Light(0);
+				A_MechanismSound("Halo/Weapons/SMG/Mech");
+			}
+			TNT1 A 0 A_RefireState("Fire");
+			WFS1 DEFGHIJKLMNOPQRST 1 A_CheckBurstFire();
+		goto Ready.Active;
+		Fire.Two:
+			TNT1 A 0 A_SetFrame(randompick(20,21));
+			WFS1 "#" 1 Bright
+			{
+				A_FireSMG();
+				A_SetRecoil(2.0, 0, 1);
+				A_RollQuake(1,8,1);
+			//	console.printf("Burst2");
+			}
+			WFS1 W 1
+			{
+				A_Light(0);
+				A_MechanismSound("Halo/Weapons/SMG/Mech");
+			}
+			TNT1 A 0 A_RefireState("Fire");
+			WFS1 XYZ 1 A_CheckBurstFire();
+			WFS2 ABCDEFGHIJKLMN 1 A_CheckBurstFire();
+		goto Ready.Active;
+		
+		Fire.Continuous:	
+			TNT1 A 0 A_Jump(255, "Fire.Continuous.Two", "Fire.Continuous.Three");
+			TNT1 A 0 A_SetFrame(randompick(0,1));
+			WFF1 "#" 1 Bright
+			{
+				A_FireSMG();
+				A_SetRecoil(1.37, 0, 1);
+				A_RollQuake(1,10,1);
+			//	console.printf("Cont1");
+			}
+			WFF1 C 2
+			{
+				A_Light(0);
+				A_MechanismSound("Halo/Weapons/SMG/Mech");
+			}
+			TNT1 A 0 A_RefireState("Fire");
+			WFF1 DEFGHIJKLMNOPQRST 1 A_CheckBurstFire();
+		goto Ready.Active;
+		Fire.Continuous.Two:
+			TNT1 A 0 A_SetFrame(randompick(20,21));
+			WFF1 "#" 1 Bright
+			{
+				A_FireSMG();
+				A_SetRecoil(1.15, 0, 1);
+				A_RollQuake(1,8,1);
+			//	console.printf("Cont2");
+			}
+			WFF1 W 2
+			{
+				A_Light(0);
+				A_MechanismSound("Halo/Weapons/SMG/Mech");
+			}
+			TNT1 A 0 A_RefireState("Fire");
+			WFF1 XYZ 1;
+			WFF2 ABCDEFGHIJKLMN 1 A_CheckBurstFire(); 
+		goto Ready.Active;
+		
+		Fire.Continuous.Three:
+			TNT1 A 0 A_SetFrame(randompick(14,15));
+			WFF2 "#" 1 Bright
+			{
+				A_FireSMG();
+				A_SetRecoil(1.5, 0, 1);
+				A_RollQuake(1,12,1);
+			//	console.printf("Cont3");
+			}
+			WFF2 Q 2
+			{
+				A_Light(0);
+				A_MechanismSound("Halo/Weapons/SMG/Mech");
+			}
+			TNT1 A 0 A_RefireState("Fire");
+			WFF2 RST 1;
+			WFF2 UVWXYZ 1 A_CheckBurstFire();
+			WFF3 ABCDEFGH 1 A_CheckBurstFire();
+		goto Ready.Active;
+		
+		Reload:
+			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
+			TNT1 A 0 A_ReloadSound();
+			TNT1 A 0 A_JumpIf(CountLoadedAmmo(), "Reload.Tactical");
+			WFR1 ABCDEFGHIJKLMNOPQRSTUVW 1;
+			TNT1 A 0 
+			{
+				A_SetSFXPos(10,-20,-15);
+				A_SpawnSFX("Debris_SMGMagazine", 90, 20, 3);
+			}
+			WFR1 XYZ 1;
+			WFR2 ABCDEFGHIJKLMNOPQRSTU 1;
+			WFR2 V 1 A_SetRecoil(-0.6, 0, 1);
+			WFR2 W 1 A_ReloadClip();
+			WFR2 X 1 A_SetRecoil(0, 0.6, 1);
+			WFR2 YZ 1;
+			WFR3 ABCDEFGHIJKLMNOPQ 1;
+			WFR3 RS 1 A_SetRecoil(0.6, 0, 1);
+			WFR3 TUVWXYZ 1;
+			WFR4 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1;
+			WFR5 ABCDEF 1;
+			TNT1 A 0 A_GotoState("Ready.Active"); // Retain these two reload sequences as a single state-sequence.
+		Reload.Tactical:
+			WFT1 ABCDEFGHIJKLMNOPQR 1;
+			WFT1 S 1 A_SetRecoil(-0.6, 0, 1);
+			WFT1 TUVW 1;
+			WFT1 XYZ 1 A_AddRecoil(-0.3, 0, 1);
+			WFT2 ABCDEFGHIJKLMNOPQ 1;
+			WFT2 R 1 A_SetRecoil(-0.2, 0.6, 1);
+			TNT1 A 0 A_ReloadClip();
+			WFT2 ST 1;
+			WFT2 UV 1 A_AddRecoil(0, 0.6, 1);
+			WFT2 W 1 A_AddRecoil(0, 1.0, 1);
+			WFT2 XYZ 1;
+			WFT3 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1;
+			WFT4 A 1;
+		goto Ready.Active;
+		
+		Spawn:
+			WFP1 A -1;
+		stop;
+	}
+}
+
+/* Old
 		Fire:
 			TNT1 A 0 
 			{				
@@ -199,6 +357,7 @@ class Halo_SMG : HaloGun
 			WFF1 E 1;
 			WFG1 A 1;
 		goto Ready.Active;
+		
 		
 		Reload:
 			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
@@ -227,8 +386,4 @@ class Halo_SMG : HaloGun
 			WFR5 ABCDEFGHIJ 1;
 		goto Ready.Active;
 		
-		Spawn:
-			WFP1 A -1;
-		stop;
-	}
-}
+*/

@@ -1245,6 +1245,16 @@ class HaloGun : RecoilWeapon
 		A_RRaise(speed);
 	}
 	
+	action state A_RefireState(Statelabel st)
+	{
+		if(A_ButtonStatus(BT_ATTACK, BTS_DOWN))
+		{
+			player.refire++;
+			return ResolveState(st);
+		}
+		return ResolveState(null);
+	}
+	
 	action state A_GotoState(StateLabel stat)
 	{
 		// This may seem odd but, it's needed for InStateSequence to register properly
