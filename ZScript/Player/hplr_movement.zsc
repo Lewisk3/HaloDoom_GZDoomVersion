@@ -859,13 +859,14 @@ class SlideAnimator : Inventory
 	
 	static SlideAnimator DoSlide(Actor src, double dur = 35)
 	{
-		if(src.FindInventory("SlideAnimator")) return null;
+		if(src.FindInventory("SlideAnimator") || !src.player) return null;
 		let slide = SlideAnimator(Actor.Spawn("SlideAnimator"));
 		if(slide)
 		{
 			slide.timeout = dur;
 			src.AddInventory(slide);
 			src.vel.xy *= 3.0;
+			src.A_SetSize(src.default.radius, src.default.height * 0.5);
 		}
 		return slide;
 	}
@@ -909,6 +910,7 @@ class SlideAnimator : Inventory
 			plr.viewoffs = 0;
 			plr.block_moveinput = false;
 			plr.player.DesiredFOV = def_fov;
+			plr.A_SetSize(plr.default.radius, plr.default.height);
 			GoAwayAndDie();
 		}
 	}

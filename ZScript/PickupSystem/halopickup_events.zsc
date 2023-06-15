@@ -38,21 +38,30 @@ class HaloPickup_EVH : EventHandler
 			bool infront;
 			HLViewProjection viewproj = HLSBS.GetEventViewerProj(e);
 			
-			vector2 apos, bpos;
+			vector2 apos, bpos, cpos;
 			[infront, apos] = HLSBS.GetActorHUDPos (
 				viewproj,
-				aim_weap, 16, 0, (aim_weap.height/3)+5
+				aim_weap, 16, 0, (aim_weap.height/3)+15
 			);
 			[infront, bpos] = HLSBS.GetActorHUDPos (
 				viewproj,
 				aim_weap, 16, 0, (aim_weap.height/3)+10
 			);	
+			[infront, cpos] = HLSBS.GetActorHUDPos (
+				viewproj,
+				aim_weap, 16, 0, (aim_weap.height/3)+5
+			);	
 
 			if(infront && aim_weap.trueitem) 
 			{
 				string weapname = GetDefaultByType(aim_weap.trueitem).GetTag();
+				let clipAmmoType = GetDefaultByType(aim_weap.trueitem).ammotype2;
+				double defClipAmmo = clipAmmoType ? GetDefaultByType(clipAmmoType).maxAmount : 0;
+				
 				string pickup1 = PICKUP_STR1;
 				string pickup2 = PICKUP_STR2;
+				string pickupClip = PICKUP_STR3;
+				pickupClip.Replace("$LOADEDAMMO", String.Format("%d", aim_weap.clipammo < 0 ? defClipAmmo : aim_weap.clipammo));
 				pickup1.Replace("$WEAPNAME",""..weapname);
 				
 				HLSBS.DrawString3D("smallfont", 
@@ -69,6 +78,16 @@ class HaloPickup_EVH : EventHandler
 					scale:(0.5,0.5),
 					distance: e.Camera.Distance3D(aim_weap)
 				);
+				if(defClipAmmo > 0)
+				{
+					HLSBS.DrawString3D("smallfont", 
+						pickupClip, 
+						cpos, 0, 
+						0, 
+						scale:(0.5,0.5),
+						distance: e.Camera.Distance3D(aim_weap)
+					);
+				}
 			}
 		}
 	}

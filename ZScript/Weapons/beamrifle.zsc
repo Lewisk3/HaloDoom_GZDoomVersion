@@ -149,6 +149,7 @@ class Halo_BeamRifle : HaloGun
 			invoker.lsrbeam.setEnabled(true);
 			invoker.lsrbeamCore.setEnabled(true);
 		}
+		SetupPlasmaLightning(16, -6, 8, scale:2.0, density:3.0, shading:"#d20afa");
 	}
 	
 	action void A_EndLaser(bool dosound = true)
@@ -161,6 +162,7 @@ class Halo_BeamRifle : HaloGun
 			invoker.lsrbeam.turnOff = true;
 			if(invoker.lsrbeamCore) invoker.lsrbeamCore.turnOff = true;
 		}
+		A_StopPlasmaLightning();
 	}
 	
 	override void DoEffect()
@@ -182,6 +184,12 @@ class Halo_BeamRifle : HaloGun
 				
 				for(int i = 0; i < floor(amt); i++)
 					A_SpawnSFX("MuzzleSmoke", 0,0);
+				
+				if( invoker.heat >= 0.9 && !(level.maptime%4) ) 	
+				{
+					let pl = SetupPlasmaLightning(8, -6+random[BRifleRNG](-4,4), 9+random[BRifleRNG](-2,4), scale:0.6, density:2.0, shading:"#0adefa", onlySpawn:true);
+					if(pl) pl.lifetime = 70;
+				}
 			}
 		stop;
 	

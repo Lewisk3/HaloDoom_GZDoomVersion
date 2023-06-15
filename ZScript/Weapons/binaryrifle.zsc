@@ -132,7 +132,10 @@ class Halo_BinaryRifle : HaloGun
 		
 		beam.setEnabled(true);
 		beamCore.setEnabled(true);
-					
+		
+		let pl = SetupPlasmaLightning(16, A_CheckInScope() ? 0 : -4, 9, scale:1.0, density:3.0, shading:"#fae60a", replace:true);
+		if(pl) pl.lifetime = 16;
+		
 		A_TakeAmmo(5);
 		A_UpdateSpread();
 	}
@@ -148,6 +151,7 @@ class Halo_BinaryRifle : HaloGun
 			{
 				A_HaloWeaponReady(usescope:true);
 				if(A_CheckInScope()) A_ResetSightGraphic();
+				A_StopPlasmaLightning();
 			}
 		loop;
 		

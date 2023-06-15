@@ -192,7 +192,10 @@ class Halo_ScatterShot : HaloGun
 		
 		A_FireSpreadShots( (xoffs, 0),   45, spread);
 		A_FireSpreadShots( (xoffs, 0),  -45, spread);
-					
+		
+		let pl = SetupPlasmaLightning(16, A_CheckInScope() ? 0 : -6, 8, scale:0.87, density:2.0, shading:"#fae60a");
+		if(pl) pl.lifetime = 16;
+		
 		A_TakeAmmo(5);
 		A_UpdateSpread();
 	}
@@ -208,6 +211,7 @@ class Halo_ScatterShot : HaloGun
 			{
 				A_HaloWeaponReady(usescope:true);
 				if(A_CheckInScope()) A_ResetSightGraphic();
+				A_StopPlasmaLightning();
 			}
 		loop;
 		

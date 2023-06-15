@@ -161,7 +161,8 @@ class Halo_LightRifle : HaloGun
 		
 		beam.setEnabled(true);
 		beamCore.setEnabled(true);
-					
+		
+		SetupPlasmaLightning(16, -6, 8, scale:1.0, density:3.0, shading:"#fae60a");
 		A_TakeAmmo(ammouse);
 		A_UpdateSpread();
 	}
@@ -178,6 +179,7 @@ class Halo_LightRifle : HaloGun
 		beam.setEnabled(true);
 		beamCore.setEnabled(true);
 					
+		SetupPlasmaLightning(16, 0, 12, scale:0.2, density:3.0, shading:"#fae60a", replace:true);
 		A_TakeAmmo(5);
 		A_UpdateSpread();
 	}
@@ -194,6 +196,7 @@ class Halo_LightRifle : HaloGun
 				A_HaloWeaponReady(usescope:true);
 				if(A_CheckInScope() && invoker.UI_Sight ~== "LITRADS3") 
 					A_setSightGraphic("LITRADS2");
+				A_StopPlasmaLightning();
 			}
 		loop;
 		

@@ -188,31 +188,38 @@ class HaloMath Abstract
 		}
 	}
 
-	play static void ParticlesFX(Actor ptr, Color col = 0xFFF0E11A, double amt = 30, double size = 2, double spd = 5, vector3 pos_spread = (30,30,30), vector2 ang_spread = (90,30))
-	{
+	play static void ParticlesFX(Actor ptr, Color col = 0xFFF0E11A, double amt = 30, double size = 2, double spd = 5, vector3 pos_spread = (10,10,10), vector2 ang_spread = (90,30), int renderStyle = STYLE_Add, string texture = "")
+	{			
+		FSpawnParticleParams pset;
+		
 		int adjustedAmt = max(amt * halodoom_effectintensity, 0);
 		for(int i = 0; i < adjustedAmt; i++)
 		{
-			double part_angle = (ptr.angle+180)+frandom[PrtSpawn](-ang_spread.x,ang_spread.x);
+			double part_angle = ptr.angle+frandom[PrtSpawn](-ang_spread.x,ang_spread.x);
 			double part_pitch = ptr.pitch+frandom[PrtSpawn](-ang_spread.y,ang_spread.y);
 
-			vector3 partpos = (
-				cos(part_angle)*frandom[PrtSpawn](-pos_spread.x,pos_spread.x),
-				sin(part_angle)*frandom[PrtSpawn](-pos_spread.y,pos_spread.y),
-				sin(part_pitch)*frandom[PrtSpawn](-pos_spread.z,pos_spread.z)
+			Quat dir = Quat.FromAngles(part_angle + 180, part_pitch, ptr.roll);
+			vector3 partpos = dir * (
+				frandom[PrtSpawn](-pos_spread.x,pos_spread.x),
+				frandom[PrtSpawn](-pos_spread.y,pos_spread.y),
+				frandom[PrtSpawn](-pos_spread.z,pos_spread.z)
 			);
+			vector3 partvel = dir * (spd,0,0);
 			
-			vector3 partvel = (
-				sin(part_angle)  * cos(part_pitch+90),
-				sin(part_angle)  * cos(part_pitch+90),
-				sin(part_pitch)) * spd;
-		
-			ptr.A_SpawnParticle(
-				col,SPF_FULLBRIGHT | SPF_RELATIVE,16,size,
-				part_angle,
-				partpos.x,partpos.y,partpos.z,
-				partvel.x,partvel.y,partvel.z
-			);
+			pset.color1 = col;
+			pset.style = renderStyle;
+			pset.pos = level.vec3offset(ptr.pos, partpos);
+			pset.lifetime = 16;
+			pset.startalpha = 3.0;
+			pset.vel = partvel * 0.5;
+			pset.size = size * 0.5;
+			if(texture && texture != "") 
+			{
+				pset.texture = TexMan.CheckForTexture(texture);
+				pset.startroll = frandom(-180,180);
+			}
+			
+			level.SpawnParticle(pset);
 		}
 	}
 	

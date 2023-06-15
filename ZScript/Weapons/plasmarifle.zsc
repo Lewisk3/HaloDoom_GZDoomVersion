@@ -22,6 +22,7 @@ class HaloPlasmaRifle_Proj : HaloPlasma_Proj
 		// Scale 0.12;
 		
 		HaloPlasma_Proj.PlasmaColor "#13afed";
+		HaloPlasma_Proj.SmokeType "PlasmaSmoke_Blue";
 		HaloPlasma_Proj.CoreColor1 "#1358ed";
 		HaloPlasma_Proj.CoreColor2 "#FFFFFF";
 		HaloPlasma_Proj.LightningEffect "PlasmaProjBiri_Blue";
@@ -39,7 +40,7 @@ class HaloPlasmaRifle_Proj : HaloPlasma_Proj
 		Crash:
 			TNT1 A 1 
 			{	
-				HaloMath.ParticlesFX(self, "Blue", 30, 3, 10);
+				HaloMath.ParticlesFX(self, "#13afed", 30, 3, 10);
 				A_DoLightning(lightningType, 4);
 			}
 		stop;
@@ -59,6 +60,13 @@ class PlasmaProjBiri_Blue : LightningBiri
 		Spawn:
 			BEAM A 1 Bright A_FadeOut(0.3);
 		wait;
+	}
+}
+class PlasmaSmoke_Blue : PlasmaSmoke
+{
+	Default
+	{
+		Translation "0:255=#[81, 77, 250]";
 	}
 }
 
@@ -107,6 +115,10 @@ class Halo_PlasmaRifle : HaloGun
 		invoker.heat += 0.03;
 		invoker.firespeed += 0.10;
 		if(useammo) A_TakeAmmo(1, false);
+		
+		let pl = SetupPlasmaLightning(16, -6, 8, scale:0.7, density:3.0, shading:"#13afed");
+		if(pl) pl.particleOffs.z = (bottom ? 4 : 8) - 12;
+		
 		A_UpdateSpread();
 	}
 	
@@ -164,6 +176,7 @@ class Halo_PlasmaRifle : HaloGun
 				uint flags = PSPF_FORCEALPHA|PSPF_ALPHA|PSPF_ADDWEAPON|PSPF_ADDBOB;
 				A_OverlayFlags(LCD,  flags, true);
 				A_OverlayFlags(LCD+1, flags, true);
+				A_StopPlasmaLightning();
 			}
 		loop;
 		
@@ -231,6 +244,7 @@ class Halo_PlasmaRifle : HaloGun
 			TNT1 A 0 
 			{
 				A_DisableLCD();
+				A_StopPlasmaLightning();
 				invoker.handsbusy = true; // Disable hand actions while overheating.
 				A_WeapSound("Halo/Weapons/PlasmaRifle/Overheat", CHANF_OVERLAP);
 			}

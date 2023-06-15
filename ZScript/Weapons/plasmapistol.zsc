@@ -11,8 +11,10 @@ class HaloPlasma_Proj : HaloBullet
 	Color col;
 	Color coreColorOne, coreColorTwo;
 	class<LightningBiri> lightningType;
+	class<Actor> smokeType;
 	
 	Property PlasmaColor : col;
+	Property SmokeType : smokeType;
 	Property CoreColor1 : coreColorOne;
 	Property CoreColor2 : coreColorTwo;
 	Property LightningEffect : lightningType;
@@ -22,7 +24,7 @@ class HaloPlasma_Proj : HaloBullet
 		HaloProjectile.SetRanges PLASMAPISTOL_RANGE1, PLASMAPISTOL_RANGE2; 
 		HaloProjectile.MinRangeDamage PLASMAPISTOL_MINDMG; 
 		HaloProjectile.BaseDamage PLASMAPISTOL_DMG; 
-		HaloProjectile.Speed_MPS  PLASMAPISTOL_BMPS;
+		HaloProjectile.Speed_MPS PLASMAPISTOL_BMPS;
 		HaloProjectile.HeadshotDMGFactor PLASMAPISTOL_HEDMOD;
 		HaloProjectile.SplashSpawner "PlasmaSplashSpawner";
 		HaloProjectile.RicochetChance 0;
@@ -34,6 +36,7 @@ class HaloPlasma_Proj : HaloBullet
 		HaloPlasma_Proj.PlasmaColor "#13ed63";
 		HaloPlasma_Proj.CoreColor1 "#13eda8";
 		HaloPlasma_Proj.CoreColor2 "#FFFFFF";
+		HaloPlasma_Proj.SmokeType "PlasmaSmoke_Green"; 
 		HaloPlasma_Proj.LightningEffect "PlasmaProjBiri_Green";
 	
 		Alpha 0.60;
@@ -47,6 +50,7 @@ class HaloPlasma_Proj : HaloBullet
 		super.PostBeginPlay();
 		HaloPlasma_ProjCore.SpawnCore(self, coreColorOne, scaleMod:1.0);
 		HaloPlasma_ProjCore.SpawnCore(self, coreColorTwo, scaleMod:0.70);
+		TESLightningEffect.AttachToActor(self, 8, 0, 0, scale:1.5, density:0.7, shading:col, spawnFreq:2);
 		SetShade(col);
 	}
 	
@@ -89,8 +93,8 @@ class HaloPlasma_Proj : HaloBullet
 	override void Tick()
 	{
 		super.tick();
-		
-		let smk = Spawn("PlasmaSmoke", level.vec3offset(pos, vel));
+	
+ 		let smk = Spawn(smokeType, level.vec3offset(pos, vel));
 		if(smk) smk.vel = vel*0.1;
 	}
 	
@@ -99,7 +103,15 @@ class HaloPlasma_Proj : HaloBullet
 		Spawn:
 			MODL A 1 NoDelay Bright
 			{
-				HaloMath.ParticlesFX(self, col, 3, 2, 12);
+				string partTextures[4] = {
+					"Sprites/Effects/Lightning/LTNGA0.png", 
+					"Sprites/Effects/Lightning/LTNGB0.png", 
+					"Sprites/Effects/Lightning/LTNGC0.png", 
+					"Sprites/Effects/Lightning/LTNGD0.png"
+				};
+			
+				string tex = partTextures[random[PlasmaParticles](0,3)];
+				HaloMath.ParticlesFX(self, col, 3, 2, 12, texture:tex);
 				if( !(level.maptime%4) ) 
 					A_DoLightning(lightningType);
 				
@@ -189,6 +201,14 @@ class PlasmaSmoke : IcecubeSmoke
 	{
 		Scale 0.30;
 		Alpha 0.15;
+		+BRIGHT;
+	}
+}
+class PlasmaSmoke_Green : PlasmaSmoke
+{
+	Default
+	{
+		Translation "0:255=#[81, 250, 77]";
 	}
 }
 class HaloChargedPlasma_Proj : HaloPlasma_Proj 
@@ -375,6 +395,8 @@ class Halo_PlasmaPistol : HaloGun
 			invoker.heat = 1.0;
 			A_TakeAmmo(15, false);
 		}
+		
+		SetupPlasmaLightning(16, -6, 8, scale:0.7, density:3.0, shading:"#13ed63");
 		A_UpdateSpread();
 	}
 	action state A_CheckRapidFire()
@@ -429,6 +451,7 @@ class Halo_PlasmaPistol : HaloGun
 				uint flags = PSPF_FORCEALPHA|PSPF_ALPHA|PSPF_ADDWEAPON|PSPF_ADDBOB;
 				A_OverlayFlags(LCD,  flags, true);
 				A_OverlayFlags(LCD+1, flags, true);
+				A_StopPlasmaLightning();
 			}
 		loop;
 		
@@ -523,6 +546,7 @@ class Halo_PlasmaPistol : HaloGun
 			{
 				invoker.heat += 0.04;
 				invoker.charge += 0.04;
+				SetupPlasmaLightning(16, -4, 7, scale:1.0, density:5.0, shading:"#13ed63", replace:true);
 				
 				// Miss-fire if held too long.
 				if(invoker.heat >= 1.5)
@@ -545,7 +569,11 @@ class Halo_PlasmaPistol : HaloGun
 		goto Fire.Normal;
 		
 		Overheat:
-			TNT1 A 0 A_DisableLCD();
+			TNT1 A 0 
+			{	
+				A_DisableLCD();			
+				A_StopPlasmaLightning();
+			}
 			TNT1 A 0 A_WeapSound("Halo/Weapons/PlasmaPistol/Overheat", CHANF_OVERLAP);
 			PLCF D 1;
 			PLCF EFGHIHGHIJ 2

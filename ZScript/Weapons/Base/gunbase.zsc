@@ -44,6 +44,7 @@ class HaloGun : RecoilWeapon
 	bool skipreload; // Skips reload animations.
 	Weapon NextWeapon;
 	Name faction; // Weapon faction, usually; Human, Covenant or Forerunner
+	TESLightningEffect plasmaLightning; // Gun plasma lightning;
 	
 	// UI Stuff
 	const SIGHT_OVERLAY = 0xFF;
@@ -1253,6 +1254,37 @@ class HaloGun : RecoilWeapon
 			return ResolveState(st);
 		}
 		return ResolveState(null);
+	}
+	
+	action TESLightningEffect SetupPlasmaLightning(double fw, double lr, double ud, double scale = 0.7, double density = 3.0, Color shading = Color(0,0,0,0), bool onlySpawn = false, bool replace = false)
+	{
+		ud -= 12.4;
+		if(onlySpawn)
+		{
+			let tesl = TESLightningEffect.AttachToActor(
+				self, fw, lr, ud, scale:scale, density:density,
+				shading:shading, followingGun:true, interpolateGunView:true
+			);
+			tesl.restrictedToWeapon = Weapon(invoker);
+			return tesl;
+		}
+		
+		if(replace) A_StopPlasmaLightning();
+		if(!invoker.plasmaLightning)
+		{
+			invoker.plasmaLightning = TESLightningEffect.AttachToActor(
+				self, fw, lr, ud, scale:scale, density:density,
+				shading:shading, followingGun:true, interpolateGunView:true
+			);
+			invoker.plasmaLightning.restrictedToWeapon = Weapon(invoker);
+		}
+		return invoker.plasmaLightning;
+	}
+	
+	action void A_StopPlasmaLightning()
+	{
+		if(invoker.plasmaLightning) 
+			invoker.plasmaLightning.Destroy();
 	}
 	
 	action state A_GotoState(StateLabel stat)

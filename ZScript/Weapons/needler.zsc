@@ -195,6 +195,7 @@ class Halo_Needler : HaloGun
 				A_FollowRotation(OverlayID(), PSP_WEAPON);
 				A_OverlayPivotAlign(OverlayID(), PSPA_CENTER, PSPA_CENTER);
 				A_OverlayOffset(OverlayID(), invoker.needles_offs.x, invoker.needles_offs.y, WOF_ADD);
+				A_OverlayRenderstyle(OverlayID(), STYLE_Add);
 			}
 		loop;
 		
