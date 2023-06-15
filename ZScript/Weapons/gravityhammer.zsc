@@ -35,6 +35,15 @@ class GravityHammerExplosion : CheapActor
 					flare.A_SetScale(0.75);
 				}
 				
+				for(int i = 0; i < max(1, 20 * halodoom_effectintensity); i++)
+				{
+					let pl = TESLightningEffect.AttachToActor(
+						self, 
+						frandom[HammerExplRNG](-60,60),frandom[HammerExplRNG](-60,60),0, 
+						2.0, 3, shading:"#1d5ef5", 2, 50, lifetime:TICRATE*2
+					);
+				}
+				
 				A_QuakeEx(2,2,2,10,0,1024);
 			}
 			SX04 ABCD 1 Bright;
@@ -147,7 +156,7 @@ class Halo_GravityHammer : HaloGun
 		);
 	}
 		
-	action bool A_FireHammer(double range = 128)
+	action bool A_FireHammer(double range = 150)
 	{	
 		let haloplr = HaloPlayer(self);
 		vector3 aimpos = (0,0,0);
@@ -165,13 +174,20 @@ class Halo_GravityHammer : HaloGun
 		
 		if(HaloMath.Distance3D((pos.xy, player.viewz), aimpos) > range )
 			return false;
+	
+		if(CountLoadedAmmo())
+		{
+			A_WeapSound("Halo/Weapons/GravityHammer/Fire", 0, true);
+			A_WeapSound("Halo/Weapons/GravityHammer/Fire/Bass", CHANF_OVERLAP, true);
+			A_TakeAmmo(10, false);
 		
-		A_WeapSound("Halo/Weapons/GravityHammer/Fire", 0, true);
-		A_WeapSound("Halo/Weapons/GravityHammer/Fire/Bass", CHANF_OVERLAP, true);
-		A_TakeAmmo(10, false);
-				
-		let field = Spawn("GravityHammerField", aimpos);
-		if(field) field.target = self;
+			let field = Spawn("GravityHammerField", aimpos);
+			if(field) field.target = self;
+		}
+		else if(aimActor)
+		{
+			aimActor.DamageMobJ(self, self, 200, "Melee");
+		}
 		if(aimActor) A_Pushback(-10, ptr:aimActor);
 		
 		return true;
@@ -200,7 +216,6 @@ class Halo_GravityHammer : HaloGun
 		wait;
 		
 		Fire:
-			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Ready.Dryfire");
 			TNT1 A 0 A_SetRecoil(1.0, 0.76, 15);
 			GHMF ABCDEEE 2;
 			GHMF FGH 2;
@@ -233,11 +248,17 @@ class Halo_GravityHammer : HaloGun
 			{
 				vel.z += 5;
 				A_Pushback(8);				
-				
-				A_SetFlashColor("White", 0.78);
-				A_Overlay(60, "MuzzleBiris");
-				A_SetZoom(0.80, 2);
-				A_RollQuake(4, 45, 2);
+				if(CountLoadedAmmo())
+				{
+					A_SetFlashColor("White", 0.78);
+					A_Overlay(60, "MuzzleBiris");
+					A_SetZoom(0.80, 2);
+					A_RollQuake(4, 45, 2);
+				}
+				else
+				{
+					A_StartSound("Halo/Melee/Punch", CHAN_AUTO, CHANF_OVERLAP);
+				}
 				A_RQuakeEx(4,3,2,15,0,20,"",QF_RELATIVE|QF_WAVE);
 			}
 		stop;

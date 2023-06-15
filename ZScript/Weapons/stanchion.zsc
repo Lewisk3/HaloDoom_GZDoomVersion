@@ -127,6 +127,15 @@ class Halo_Stanchion : HaloGun
 		// MarkSound("Halo/Weapons/Stanchion/Ready");
 	}
 	
+	action void A_MuzzlePlasma(double amt, Color col, double density = 3.0, int lifetime = 8)
+	{
+		for(int i = 0; i < max(1, amt * halodoom_effectintensity); i++)
+		{
+			let pl = SetupPlasmaLightning(16, -4, 9, scale:1.6, density:density, shading:col, onlySpawn:true);			
+			if(pl) pl.lifeTime = lifetime;
+		}
+	}
+	
 	action void A_FireStanchion(bool charged = false)
 	{
 		// Lowered crosshair shenanigans.
@@ -145,6 +154,9 @@ class Halo_Stanchion : HaloGun
 			A_SetSFXPos(25,-5,-7);
 			for(int i = 0; i < 15; i++)
 				A_SpawnSFX("MuzzleSmoke", 0,0);
+				
+			A_MuzzlePlasma(5, "#ffffff",lifetime:16);
+			A_MuzzlePlasma(3, "#0fd4f2",lifetime:16);
 		}
 		else
 		{
@@ -162,6 +174,7 @@ class Halo_Stanchion : HaloGun
 			for(int i = 0; i < 5; i++)
 				A_SpawnSFX("MuzzleSmoke", 0,0);
 				
+			A_MuzzlePlasma(2, "#74b8fc", 8, 4);
 			A_TakeAmmo(5);
 		}
 		A_UpdateSpread();

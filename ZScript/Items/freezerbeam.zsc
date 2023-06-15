@@ -811,6 +811,7 @@ class IcecubeSnow : CheapActor
 
 class IcecubeSmoke : CheapActor
 {
+	double scaleMod;
 	double rollDir;
 	Default
 	{
@@ -824,11 +825,12 @@ class IcecubeSmoke : CheapActor
 	override void PostBeginPlay()
 	{
 		super.PostBeginPlay();
+		if(!scaleMod) scaleMod = 1.0;
 		frame = random[IcesmokeSFX](3,11);
 		roll = frandom[IcesmokeSFX](-180,180);
 		rollDir = frandom[IcesmokeSFX](-1,1);
 		alpha = 0.01;
-		A_SetScale(default.Scale.X * frandom[IcesmokeSFX](0.75,1.50));
+		A_SetScale(scaleMod * default.Scale.X * frandom[IcesmokeSFX](0.75,1.50));
 	}
 	
 	override void Tick()
@@ -840,7 +842,7 @@ class IcecubeSmoke : CheapActor
 		let cplr = players[consoleplayer].mo;
 		angle = cplr.angle;
 		
-		A_SetScale(default.Scale.X * 1.1);
+		A_SetScale(scaleMod * default.Scale.X * 1.1);
 		roll += 0.5 * rollDir;
 		SetOrigin(level.vec3offset(pos, vel), true);
 	}

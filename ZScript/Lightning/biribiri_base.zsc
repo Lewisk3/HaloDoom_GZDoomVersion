@@ -193,7 +193,7 @@ class TESLightningEffect : CheapActor
 	override void Tick()
 	{
 		super.Tick();
-		if(!master) 
+		if(!master && lifetime < 0) 
 		{
 			alpha *= 0.85;
 			if(alpha <= 0.02) Destroy();

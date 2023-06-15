@@ -166,6 +166,24 @@ class Halo_Carbine : HaloGun
 	
 	States
 	{
+		DoSmoke:	
+			TNT1 AAAA 3 
+			{
+				let psp = player.GetPSprite(OverlayID());
+				if(psp) psp.frame = random[WeapFX](3,8);
+				A_SetSFXPos(25,-5,-7);
+				for(int i = 0; i < random[WeapFX](1,5); i++)
+				{
+					let smk = PlasmaSmoke_Green(A_SpawnSFX("PlasmaSmoke_Green", 0,0));
+					if(smk) 
+					{
+						smk.vel = (frandom[WeapFX](-1,1),frandom[WeapFX](-1,1),frandom[WeapFX](-1,1)) * 0.2;
+						smk.scaleMod = 0.5;
+					}
+				}
+			}
+ 		stop;
+	
 		Ready:
 			TNT1 A 0 A_WeapSound("Halo/Weapons/Carbine/Select");
 			CRBS ABCD 1 A_DoSelectAnim(0, true);
@@ -207,6 +225,7 @@ class Halo_Carbine : HaloGun
 				A_FireCarbine();
 				A_SetRecoil(1.0, 0, 2);
 				A_RQuakeEx(4,2,0,4,0,20,"",QF_RELATIVE|QF_WAVE);
+				A_Overlay(10, "DoSmoke");
 			}
 			CRBF B 1 bright A_RecoilOffset(8,-10,4);
 			CRBF C 1 
@@ -231,7 +250,7 @@ class Halo_Carbine : HaloGun
 			{
 				A_SetRecoil(-2.0, 0, 2);
 				A_SetSFXPos(10,-25,-10);
-				A_SpawnSFX("Debris_CarbineMagazine", -180,-60);
+				A_SpawnSFX("Debris_CarbineMagazine", -110, -30, 4);
 			}
 			CRR1 JKLMNOPQRSTUVWXYZ 1;
 			CRR2 ABCDEFGH 1;

@@ -441,6 +441,15 @@ class PlasmaGrenadeExplosion : CheapActor
 				HaloMath.SpawnFX("PlasmaGrenade_Smoke", fxpos, angle, 20, 20, 20, frandom[SFX](0,360), frandom[SFX](-30,30), frandom[SFX](-3, 3));
 				HaloMath.SpawnFX("WraithPlasma_FlyingPlasma", fxpos, angle, random[SFX](5,12), 10, 20, 180,45, 12);
 				
+				for(int i = 0; i < max(1, 5 * halodoom_effectintensity); i++)
+				{
+					let pl = TESLightningEffect.AttachToActor(
+						self, 
+						frandom[PlasmaExplRNG](-30,30),frandom[PlasmaExplRNG](-30,30),frandom[PlasmaExplRNG](-30,30), 
+						2.0, 3, shading:"#1d5ef5", 2, 50, lifetime:TICRATE*2
+					);
+				}
+				
 				let shockwave = Spawn("FX_Shockwave", pos);
 				if(shockwave) 
 				{

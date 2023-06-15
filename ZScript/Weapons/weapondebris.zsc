@@ -415,6 +415,28 @@ class Debris_CarbineMagazine : DiscardedMagazine
 
 		BounceSound "WeaponAmmoDebris/Carbine/Bounce";
 	}
+	
+	int smokeTics;
+	override void Tick()
+	{
+		super.Tick();
+		double smokeAmt = HaloMath.fmap(max(0, 35-smokeTics), 0, 35, 0, 10);
+		if(smokeAmt <= 0) return;
+		
+		if( !(level.maptime%4) )
+		{
+			for(int i = 0; i < max(1, smokeAmt * halodoom_effectintensity); i++)
+			{
+				let smk = PlasmaSmoke_Green(Spawn("PlasmaSmoke_Green", pos));
+				if(smk) 
+				{
+					smk.scaleMod = 0.3;
+					smk.vel = (frandom[WeapFX](-1,1),frandom[WeapFX](-1,1),frandom[WeapFX](-1,1)) * 0.2;
+				}
+			}
+			smokeTics++;
+		}
+	}
 }
 class Debris_PlasmaCasterMag : DiscardedMagazine
 {
