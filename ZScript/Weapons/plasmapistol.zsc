@@ -350,6 +350,7 @@ class PlasmaChargedParticles : CheapActor
 		{
 			Line wall = lt.HitLine;
             hitNormal = (-wall.delta.Y, wall.delta.X, 0).Unit();
+			if (lt.LineSide) hitNormal *= -1;
 		}
 		else if(lt.HitType == TRACE_HitActor && lt.HitActor && lt.HitActor.health > 0)
 		{

@@ -256,6 +256,7 @@ class Halo_GravityHammer : HaloGun
 			GHMF "#" 1;
 			TNT1 "#" 0
 			{
+				A_SetZoom(1.0, 6);
 				A_RecoilOffset(0,0,10);
 				int curFrame = A_GetFrame();					
 				if(curFrame > 0)
