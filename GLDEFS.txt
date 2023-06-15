@@ -24,8 +24,9 @@ HardwareShader Texture "Graphics/UI/Radar/RADARBG_Glitch.png"
 	Speed 1.17
 }
 
-HardwareShader PostProcess Screen
+HardwareShader PostProcess Scene
 {
+	Name "fisheyeShader"
 	Shader "Shaders/fisheye.fp" 330
 	// Enabled
 }

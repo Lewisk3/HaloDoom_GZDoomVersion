@@ -261,7 +261,6 @@ class Halo_Carbine : HaloGun
 			CRR3 ABCDEFGHIJK 1;
 		goto Ready.Active;
 		
-		
 		// Weapon Status 
 		LCD_Ammo:
 			CRBL "#" 1 Bright

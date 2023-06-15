@@ -240,10 +240,24 @@ class HaloChargedPlasma_Proj : HaloPlasma_Proj
 		return res;
 	}
 	
+	bool justHit;
 	override void Tick()
 	{
 		super.Tick();
 		if( !(GetAge() % 2) ) HaloMath.ParticlesFX(self, col, 7, 3, 5);
+		
+		if(!bMISSILE && !justHit)
+		{
+			let particles = Spawn("PlasmaChargedParticles", pos);
+			if(particles)
+			{
+				particles.SetShade(col);
+				particles.angle = angle;
+				particles.pitch = pitch;
+				particles.roll = roll;
+			}
+			justHit = true;
+		}
 	}	
 }
 class EMP_DeBuff : Inventory
@@ -306,6 +320,113 @@ class HaloPlasma_Trail : Actor
 		wait;
 	}
 }
+
+class PlasmaChargedParticles : CheapActor
+{
+	Actor onActor;
+	bool stuckonActor;
+	bool onfloor;
+	vector3 onActorLocalPos;
+	vector2 onActorAngles;
+	vector3 hitNormal;
+	TESLightningEffect lvfx;
+
+	override void postBeginPlay()
+	{
+		super.postBeginPlay();
+		FLineTraceData lt;
+		LineTrace(angle, 64, pitch, data:lt);
+
+		if (pos.z <= floorz)
+		{
+			hitNormal = (CurSector.FloorPlane.Normal).Unit();
+			onfloor = true;
+		}
+		else if(lt.HitType == TRACE_HitCeiling)
+		{
+			hitNormal = (CurSector.CeilingPlane.Normal).Unit();
+		}
+		else if(lt.HitType == TRACE_HitWall && lt.HitLine)
+		{
+			Line wall = lt.HitLine;
+            hitNormal = (-wall.delta.Y, wall.delta.X, 0).Unit();
+		}
+		else if(lt.HitType == TRACE_HitActor && lt.HitActor && lt.HitActor.health > 0)
+		{
+			onActor = lt.HitActor;
+			onActorLocalPos = HaloMath.DiffToLocal(pos, onActor.pos, (onActor.angle, onActor.pitch));
+			onActorAngles = (angle-onActor.Angle, pitch-onActor.pitch);
+			hitNormal = HaloMath.VecFromAngles(angle, pitch).Unit();
+			stuckonActor = true;
+		}
+		
+		lvfx = TESLightningEffect.AttachToActor(self, -2,0,-10, 1.4, 3.0, shading:fillcolor, spawnFreq:2); 
+		
+		if(lt.HitType == TRACE_HitNone && !onfloor)
+		{
+			lvfx.Destroy();
+			Destroy();
+		}
+	}
+
+	override void Tick()
+	{
+		super.Tick();
+		bool die = false;
+		if(onActor)
+		{
+			vector3 followPos = HaloMath.V3Offset(onActor.angle, onActor.pitch, onActor.roll, onActorLocalPos.x * 0.25, onActorLocalPos.y * 0.75, onActorLocalPos.z, 1.0);
+			followPos = level.Vec3Offset(onActor.pos, followPos);
+			
+			angle = onActor.angle+onActorAngles.x;
+			pitch = onActor.pitch+onActorAngles.y;
+			SetOrigin(followPos, true);
+			
+			hitNormal = HaloMath.VecFromAngles(angle, pitch).Unit();
+			
+			if(onActor.health <= 0) die = true;
+		}
+		else if(stuckonActor)
+			die = true;
+		
+		if(GetAge() > 35*3 || die)
+		{
+			if(lvfx) lvfx.Destroy();
+			Destroy();
+		}
+		
+		// Particles
+		if( !(level.maptime%2) )
+		{	
+			Vector2 normalp2 = ((hitNormal.x, hitNormal.y).Length(), hitNormal.z);
+			vector3 particleAngles = (
+				 atan2(hitNormal.y, hitNormal.x),
+				 asin(hitNormal.z),
+				 -atan2(normalp2.y, normalp2.x) * sin(atan2(hitNormal.y, hitNormal.x))
+			);
+			
+			for(int i = 0; i < max(0, 3 * halodoom_effectintensity); i++)
+			{
+				FSpawnParticleParams pset;
+				double pspd = -frandom[PlasmaParticleRNG](1,4);
+				double lrspd = frandom[PlasmaParticleRNG](-0.5,0.5);
+				Quat dir = Quat.FromAngles(particleAngles.x, particleAngles.y, particleAngles.z);
+		
+				pset.color1 = fillcolor;
+				pset.style = STYLE_Add;
+				pset.pos = pos;
+				pset.lifetime = 25;
+				pset.startalpha = 3.0;
+				pset.fadestep = (1 / double(pset.lifetime)) * pset.startalpha;
+				pset.vel = dir * ( pspd, lrspd, GetGravity() * (onfloor ? 1 : -1) );
+				pset.size = frandom[PlasmaParticleRNG](1,3);
+				
+				level.SpawnParticle(pset);
+			}
+		}
+	}
+}
+
 
 class Halo_PlasmaPistol : HaloGun
 {

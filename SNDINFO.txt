@@ -462,8 +462,13 @@ GRAVFIRE3 "Sounds/GravityHammer/GravHammer_Hit3.ogg"
 GRAVLOW1 "Sounds/GravityHammer/GravHammer_Low1.ogg"
 GRAVLOW2 "Sounds/GravityHammer/GravHammer_Low2.ogg"
 GRAVLOW3 "Sounds/GravityHammer/GravHammer_Low3.ogg"
+GRAVHITNORMAL1 "Sounds/GravityHammer/GravHammer_HitNormal1.wav"
+GRAVHITNORMAL2 "Sounds/GravityHammer/GravHammer_HitNormal2.wav"
+GRAVHITNORMAL3 "Sounds/GravityHammer/GravHammer_HitNormal3.wav"
+Halo/Weapons/GravityHammer/Miss "Sounds/GravityHammer/GravHammer_Miss.wav"
 Halo/Weapons/GravityHammer/Select "Sounds/GravityHammer/GravHammer_Select.ogg"
 
+$random Halo/Weapons/GravityHammer/UnchargedImpact { GRAVHITNORMAL1 GRAVHITNORMAL2 GRAVHITNORMAL3 }
 $random Halo/Weapons/GravityHammer/Fire      { GRAVFIRE1 GRAVFIRE2 GRAVFIRE3 }
 $random Halo/Weapons/GravityHammer/Fire/Bass { GRAVLOW1 GRAVLOW2 GRAVLOW3 }
 

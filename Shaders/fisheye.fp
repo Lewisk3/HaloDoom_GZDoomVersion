@@ -1,22 +1,24 @@
-vec2 getFishEye(vec2 uv, float level) {
-    float len = length(uv);
-    float a = len * level;
-    return vec2(uv / len * sin(a));
-}
+// Modified from https://www.shadertoy.com/view/4sSSzz by Nash Muhandes
 
-vec4 getColor(vec2 ray) {
-    return texture(InputTexture,ray);
-}
+void main()
+{
+    vec2 texSize = textureSize(InputTexture, 0);
+    //vec2 uv = TexCoord.xy / texSize.xy;
+    vec2 uv = TexCoord.xy;
+    float aspectRatio = texSize.x / texSize.y;
+    float strength = 0.03;
 
-void main() {   
-	vec2 fragCoord = TexCoord;
-	vec2 res = textureSize(InputTexture,0);
+    vec2 intensity = vec2(strength * aspectRatio,
+                          strength * aspectRatio);
 
-	vec2 uv = fragCoord.xy;
-    uv.x *= (res.x / res.y);
-    vec2 dir = getFishEye(uv,1.0);
-    
-    // color
-    float fish_eye = smoothstep(2.0,1.6,length(uv)) * 0.25 + 0.75;
-	FragColor = vec4(getColor(dir) * fish_eye);
+    vec2 coords = uv;
+    coords = (coords - 0.5) * 2.0;
+
+    vec2 realCoordOffs;
+    realCoordOffs.x = (1.0 - coords.y * coords.y) * intensity.y * (coords.x);
+    realCoordOffs.y = (1.0 - coords.x * coords.x) * intensity.x * (coords.y);
+
+    vec4 color = texture(InputTexture, uv - realCoordOffs);
+
+    FragColor = vec4(color);
 }

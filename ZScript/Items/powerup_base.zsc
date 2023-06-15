@@ -471,7 +471,10 @@ class PowerHaloVisor : HaloPowerup
 		
 		let cplr = players[consoleplayer];
 		if(Owner && Owner.player == cplr)
+		{
 			PPShader.SetEnabled("visorShader", false);
+			PPShader.SetEnabled("fisheyeShader", false);
+		}
 	}
 	
 	override string SelectUIGraphic()
@@ -490,12 +493,14 @@ class PowerHaloVisor : HaloPowerup
 		if(onoff)
 		{
 			PPShader.SetEnabled("visorShader", true);
+			PPShader.SetEnabled("fisheyeShader", true);
 			PPShader.SetUniform1f("visorShader", "timer", gametic);
 			PPShader.SetUniform1f("visorShader", "curSectorLight", curLightLevel);
 		}
 		else
 		{
 			PPShader.SetEnabled("visorShader", false);
+			PPShader.SetEnabled("fisheyeShader", false);
 		}
 	}
 	

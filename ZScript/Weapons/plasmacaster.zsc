@@ -288,8 +288,8 @@ class Halo_PlasmaCaster : HaloGun
 		Reload: // 44
 			TNT1 A 0 
 			{
-				A_ValidateReload("Ready.Dryfire");
 				A_StopPlasmaLightning();
+				return A_ValidateReload("Ready.Dryfire");
 			}
 			TNT1 A 0 A_WeapSound("Halo/Weapons/PlasmaCaster/Reload");
 			WSR1 ABCDEFFFFFGHI 2;
