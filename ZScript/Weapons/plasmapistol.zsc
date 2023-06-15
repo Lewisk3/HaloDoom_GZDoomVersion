@@ -545,11 +545,13 @@ class Halo_PlasmaPistol : HaloGun
 			PLCL ABC 1 
 			{
 				invoker.heat += 0.04;
+				invoker.heat = clamp(invoker.heat, 0, 1.5);
+				
 				invoker.charge += 0.04;
 				SetupPlasmaLightning(16, -4, 7, scale:1.0, density:5.0, shading:"#13ed63", replace:true);
 				
 				// Miss-fire if held too long.
-				if(invoker.heat >= 1.5)
+				if(invoker.charge >= 0.4 * (TICRATE * 10))
 				{
 					A_TakeAmmo(10);
 					invoker.charge = 0;

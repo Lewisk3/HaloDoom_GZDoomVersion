@@ -237,6 +237,10 @@ class Halo_Unmaker : HaloGun
 			beam.StartTracking( (victim.pos.xy, victim.pos.z + (victim.height*0.5)) );
 			beamCore.StartTracking( (victim.pos.xy, victim.pos.z + (victim.height*0.5)) );
 		}
+		
+		let pl = SetupPlasmaLightning(16, localOffs.y * 0.7, 9, scale:0.6, density:5.0, shading:"#fae60a", onlySpawn: true);
+		if(pl) pl.lifetime = 6;
+		
 		A_WeapSound("Halo/Weapons/Unmaker/Fire", CHANF_OVERLAP, true);
 	}
 	
@@ -377,7 +381,13 @@ class Halo_Unmaker : HaloGun
 	action void A_FireUnmakerBFG()
 	{
 		A_Light(4);
-
+		
+		for(int i = 0; i < max(1, 10 * halodoom_effectintensity); i++)
+		{
+			let pl = SetupPlasmaLightning(16, 0, 9, scale:1.2, density:3.0, shading:"#fae60a", onlySpawn:true);			
+			if(pl) pl.lifeTime = 16;
+		}
+		
 		A_ShootProjectile("UnmakerBall", 0, 2);	
 		A_TakeAmmo(20);
 		for(int i = 0; i < 40; i++) A_UpdateSpread();
@@ -417,6 +427,7 @@ class Halo_Unmaker : HaloGun
 				A_HaloWeaponReady(usescope:false);
 				invoker.wcrosshair = invoker.default.wcrosshair;
 				invoker.wcrosshairScale = invoker.default.wcrosshairScale;
+				A_StopPlasmaLightning();
 			}
 		loop;
 		
@@ -470,11 +481,16 @@ class Halo_Unmaker : HaloGun
 				invoker.wcrosshairScale = 0.5;
 				A_StartSound("Halo/Weapons/Unmaker/Charge/Start", CHAN_WEAPON, CHANF_OVERLAP);
 			}
-			WKC1 ABCDEFGH 2 A_RecoilOffset(frandom[WeapFX](-5,5),frandom[WeapFX](-5,5),2);
+			WKC1 ABCDEFGH 2 
+			{
+				A_RecoilOffset(frandom[WeapFX](-5,5),frandom[WeapFX](-5,5),2);
+				let pl = SetupPlasmaLightning(16, 0, 9, scale:1.2, density:3.0, shading:"#fae60a");			
+				if(pl) pl.spawnFreq = 2;
+			}
 			TNT1 A 0 
 			{
 				A_StartSound("Halo/Weapons/Unmaker/Charge", CHAN_BODY, flags:CHANF_LOOPING);
-				A_RollQuake(1, 10, 1); // Reset rollquake.
+				A_RollQuake(1, 10, 1); // Reset rollquake.	
 			}
 		AltHold:
 			WKC1 IIJJKKJJII 1

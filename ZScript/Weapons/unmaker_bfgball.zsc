@@ -149,6 +149,12 @@ class UnmakerBall : HaloSlowProjectile
 			{
 				frame = random[unmakerBallSprite](0,2);
 				tics = random[unmakerBallSprite](1,2);
+						
+				for(int i = 0; i < max(1, 10 * halodoom_effectintensity); i++)
+				{
+					let pl = TESLightningEffect.AttachToActor(self, 0,0,0, 4.0, 2.5, shading:"#fae60a", 2, 50, lifetime:16);
+					if(pl) pl.alpha = 0.5;
+				}
 			}
 		loop;
 		
