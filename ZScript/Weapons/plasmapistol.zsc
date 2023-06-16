@@ -376,7 +376,7 @@ class PlasmaChargedParticles : CheapActor
 		bool die = false;
 		if(onActor)
 		{
-			vector3 followPos = HaloMath.V3Offset(onActor.angle, onActor.pitch, onActor.roll, onActorLocalPos.x * 0.25, onActorLocalPos.y * 0.75, onActorLocalPos.z, 1.0);
+			vector3 followPos = HaloMath.V3Offset(onActor.angle, onActor.pitch, onActor.roll, onActorLocalPos.x * 0.25, -onActorLocalPos.y, onActorLocalPos.z, 1.0);
 			followPos = level.Vec3Offset(onActor.pos, followPos);
 			
 			angle = onActor.angle+onActorAngles.x;
