@@ -51,6 +51,7 @@ class HaloPlasma_Proj : HaloBullet
 		HaloPlasma_ProjCore.SpawnCore(self, coreColorOne, scaleMod:1.0);
 		HaloPlasma_ProjCore.SpawnCore(self, coreColorTwo, scaleMod:0.70);
 		TESLightningEffect.AttachToActor(self, 8, 0, 0, scale:1.5, density:0.7, shading:col, spawnFreq:2);
+		A_SetRoll(frandom[PlasmaRollRNG](-180,180));
 		SetShade(col);
 	}
 	
@@ -493,7 +494,7 @@ class Halo_PlasmaPistol : HaloGun
 			"that gives the weapon its smooth and aerodynamic, claw like appearance. "
 			"The Type-25 DEP's functionality is straightforward, the rear section "
 			"of the pistol has a holographic display which indicates temperature "
-			"as the weapon is"
+			"as the weapon is fired or charged."
 		);
 	}
 	
