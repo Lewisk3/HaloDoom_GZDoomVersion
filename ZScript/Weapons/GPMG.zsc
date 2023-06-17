@@ -138,28 +138,24 @@ class Halo_GPMG : HaloGun
 	/*
 	override void GetStatsLore(out Array<String> stats, out string lore)
 	{
-		stats.Push("M10 Personal Defense SubMachine Gun Carbine");
-		stats.Push("Ammo Type: .45 AMP M452 FMJ");
-		stats.Push("Frame: Side Loading Pistol Caliber Carbine");
-		stats.Push("Feed System: 45 Round Side Loading Magazine");	
-		stats.Push(String.Format("Base Damage: %d", SMG_DMG));
+		stats.Push("M247 HE Heavy Machine Gun");
+		stats.Push("Ammo Type: 20mm HE Rounds");
+		stats.Push("Frame: Side Loading Heavy Machine Gun");
+		stats.Push("Feed System: 50 Round Side Loading Box Magazine");	
+		stats.Push(String.Format("Base Damage: %d", GMPG_DMG));
 		
 		lore = (
-			"The M10 Personal Defense SubMachine Gun is a natural evolution "
-			"of the M7 SMG which was a reliable weapon to the UNSC for years. "
-			"It never reached proper service due to development being halted "
-			"after the fall of reach. It sports a .45 AMP full metal jacket "
-			"armor piercing round, which while not as compact as the "
-			"5×23mm M443 Caseless FMJ rounds, provided plenty of stopping "
-			"power, and reliability. The cartridge is cased due to caseless "
-			"ammunition having a less than ideal shelf life, on top of being "
-			"expensive to store, and overall very fragile. \n\n"
-	
-			"Due to this ammo change, it is also not ideal to akimbo due to the "
-			"casings being ejected from the gun. But use of akimbo is not "
-			"necessary with this gun, as its performance and damage output "
-			"consistency is sufficient enough. No need to cripple ourselves "
-			"for the sake of looking cool. "
+			"The M247 HE Heavy Machine Gun is an Anti-Vehicle Variant "
+			"of the M247 GPMG which was a reliable weapon to the UNSC for years. "
+			"It entered service in 2555 when the UNSC was in need of a portable "
+			"anti-armor Machine Gun. It fires 20mm High Explosive Rounds "
+			"designed for eliminating light armored vehicles, and heavy infantry. "
+			"The explosive core contained in the 20mm rounds is more than enough "
+			"fire power to put any ghost or hunter in their rightful place in this world. "
+			"Due to it's ammunition type, the M247's fire rate and capacity is "
+			"greatly reduced, both to reduce weight, and minimize explosive "
+			"yeild in the event of a catastrophic ammunition cook off. "
+			"The M247 is often seen as either a stationary gun, or weilded by Spartans. "
 		);
 	}
 	*/

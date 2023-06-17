@@ -87,15 +87,15 @@ class Halo_Commando : HaloGun
 	override void GetStatsLore(out Array<String> stats, out string lore)
 	{
 		stats.Push("VK78 Commando");
-		stats.Push("Ammo Type: 6.5mm");
-		// stats.Push("Frame: Bullpup"); Not sure atm.
+		stats.Push("Ammo Type: 7.62mm");
+		// stats.Push("Frame: Front Loader");.
 		stats.Push("Feed System: 20 Round Detachable Box Magazine");	
 		stats.Push(String.Format("Base Damage: %d", COMMANDO_DMG));
 	
 		lore = (
 			"Manufactured by Vakara GesmbH, the VK78 Commando is an automatic rifle "
 			"that has been in service since at least the late 25th century. It fires "
-			"6.5mm rounds and is fed by a detachable box magazine that typically holds "
+			"7.62mm rounds and is fed by a detachable box magazine that typically holds "
 			"20 rounds. Along its top, it features a mounting rail for optics, with "
 			"one common configuration including a sight akin to a recon sight. The "
 			"model employed by forces attached to the UNSC Infinity in the aftermath "

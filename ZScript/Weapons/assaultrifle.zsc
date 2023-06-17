@@ -97,9 +97,9 @@ class Halo_AssaultRifle : HaloGun
 		stats.Push(String.Format("Base Damage: %d", ARIFLE_DMG));
 		
 		lore = (
-			"The MA4B is a variant of the MA40 proper. "
+			"The MA37 is The predicessor of the MA40. "
 			"Gas Operated and Air Cooled, with a 32 round magazine on a bullpup "
-			"frame based on the MA37. It’s the workhorse of the UNSC, and is "
+			"frame based on the MA5 Family. It’s the workhorse of the UNSC, and is "
 			"held in high regard by the Army Branch. Due to it being Air Cooled, "
 			"it is not usable in space due to the lack of atmosphere for the heat "
 			"to radiate, and thus is prone to overheating. "
