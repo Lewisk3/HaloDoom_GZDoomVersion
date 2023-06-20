@@ -75,9 +75,9 @@ class HaloShieldCharge : Inventory
 		let hplr = HaloPlayer(toucher);
 		if(!hplr) return false;
 		
-		shieldperc *= skillMod[min(4, skill)];
+		double adjustedShieldPerc = shieldperc * skillMod[min(4, skill)];
 		double maxShields = hplr.maxshields;
-		double chargeTo = maxShields * (0.01*shieldperc);
+		double chargeTo = maxShields * (0.01*adjustedShieldPerc);
 		if( hplr.shields < hplr.maxshields || overshield )
 		{
 			if( (hplr.shields + chargeTo) < maxShields*3.0 )

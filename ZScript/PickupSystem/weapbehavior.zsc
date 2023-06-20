@@ -65,7 +65,7 @@ class WeaponPickupProxy : Actor
 		return super.CanCollideWith(other, passive);
 	}
 	
-	static WeaponPickupProxy BecomeWeaponProxy(Weapon source, bool noammogive = false)
+	static WeaponPickupProxy BecomeWeaponProxy(Weapon source, bool noammogive = false, double ammogiveModifier = 1.0)
 	{
 		let wp = WeaponPickupProxy(Actor.Spawn("WeaponPickupProxy", source.pos));
 		if(wp)
@@ -77,6 +77,7 @@ class WeaponPickupProxy : Actor
 			wp.noammogive = noammogive;
 			wp.trueitem = source.GetClass();
 			wp.clipammo = -1;
+			wp.ammogive_mod = ammogiveModifier;
 			wp.A_SetSize(source.radius, source.height);
 			source.Destroy();
 		}
@@ -132,19 +133,24 @@ class WeaponPickupProxy : Actor
 		}
 		else
 		{
-			// Resolve clip-ammunition.
-			to.GiveInventory(trueitem, 1);
-			if(ammotype1) 
-			{
-				to.TakeInventory(ammotype1, ammogive1);	
-				if(!noammogive) to.GiveInventory(ammotype1, ammogive1 * ammogive_mod);
-			}
-	
+			// Manually give weapon and setup ammunition.
+			let itm = Inventory(Spawn(trueitem));
+			to.AddInventory(itm);
+			
+			// Reserves
+			if(ammotype1 && !noammogive) 
+				to.GiveInventory(ammotype1, ammogive1 * ammogive_mod);	
+			
+			// Clip
+			let clipdefs = GetDefaultByType(ammotype2);
 			if(ammotype2 && clipammo != -1)
 			{
-				let clipdefs = GetDefaultByType(ammotype2);
 				to.TakeInventory(ammotype2, clipdefs.maxamount);
 				to.GiveInventory(ammotype2, clipammo);
+			}
+			else
+			{
+				to.GiveInventory(ammotype2, clipdefs.maxamount);
 			}
 		}
 			
