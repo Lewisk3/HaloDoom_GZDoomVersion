@@ -469,11 +469,15 @@ class Coil_Needler_Explosion : CheapActor
 				A_StartSound("Halo/Weapons/Needler/SuperCombine", flags:CHANF_OVERLAP);
 				A_StartSound("Halo/Grenade/Frag/Explode", flags:CHANF_OVERLAP);
 				
-				for(int i = 0; i < 12; i++)
+				for(int i = 0; i < 24; i++)
 				{
 					vector3 randPos = (frandom[CoilNeedleRNG](-1,1),frandom[CoilNeedleRNG](-1,1),frandom[CoilNeedleRNG](-1,1)) * 20;  
 					let needle = HaloNeedleProjectile(HaloMath.FireProjectile("HaloNeedleProjectile", pos+randPos, frandom[CoilNeedleRNG](0,360), frandom[CoilNeedleRNG](-30,30)));
-					if(needle) needle.target = master ? master.target : NULL;
+					if(needle) 
+					{
+						needle.maxhomdist = 0; // Disable homing
+						needle.target = master ? master.target : NULL;
+					}
 				}
 				
 				A_Explode(200, 160, damagetype:"Explosive");

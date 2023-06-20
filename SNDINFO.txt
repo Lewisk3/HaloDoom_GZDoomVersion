@@ -1096,6 +1096,9 @@ Halo/Spartan/Jump1 "Sounds/Players/jump1.ogg"
 Halo/Spartan/Jump2 "Sounds/Players/jump2.ogg"
 Halo/Spartan/DoubleJump1 "Sounds/Players/Abilities/dbljump1.ogg"
 Halo/Spartan/DoubleJump2 "Sounds/Players/Abilities/dbljump2.ogg"
+Halo/Spartan/DoubleJump3 "Sounds/Players/Abilities/dbljump2.ogg"
+Halo/Spartan/DodgeJump1 "Sounds/Players/Abilities/JMPDG1.ogg"
+Halo/Spartan/DodgeJump2 "Sounds/Players/Abilities/JMPDG2.ogg"
 Halo/Spartan/Dash1 "Sounds/Players/Abilities/dash1.ogg"
 Halo/Spartan/Dash2 "Sounds/Players/Abilities/dash2.ogg"
 Halo/Spartan/Dash3 "Sounds/Players/Abilities/dash3.ogg"
@@ -1133,7 +1136,8 @@ $random Halo/Spartan/F/GotKill { F_GOTKILL1 F_GOTKILL2 F_GOTKILL3 F_GOTKILL4 }
 
 $random Halo/Spartan/Dash { Halo/Spartan/Dash1 Halo/Spartan/Dash2 Halo/Spartan/Dash3 Halo/Spartan/Dash4 }
 $random Halo/Spartan/Slide { Halo/Spartan/Slide1 Halo/Spartan/Slide2 Halo/Spartan/Slide3 }
-$random Halo/Spartan/DoubleJump { Halo/Spartan/DoubleJump1 Halo/Spartan/DoubleJump2 }
+$random Halo/Spartan/DoubleJump { Halo/Spartan/DoubleJump1 Halo/Spartan/DoubleJump2 Halo/Spartan/DoubleJump3 }
+$random Halo/Spartan/DodgeJump { Halo/Spartan/DodgeJump1 Halo/Spartan/DodgeJump2 }
 $random Halo/Spartan/Jump { Halo/Spartan/Jump1 Halo/Spartan/Jump2 }
 $random Halo/Spartan/Death { Halo/Spartan/Death1 Halo/Spartan/Death2 Halo/Spartan/Death3 Halo/Spartan/Death4 Halo/Spartan/Death5 }
 
