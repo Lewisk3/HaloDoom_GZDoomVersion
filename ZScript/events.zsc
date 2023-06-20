@@ -253,6 +253,8 @@ class HaloDoom_Events : EventHandler
 				let frzbeam = PowerFreezerBeam(haloplr.FindInventory("PowerFreezerBeam"));
 				if(frzbeam) frzbeam.tryfire = true;
 			}
+			if(e.Name ~== "+jumpdodge") haloplr.jumpdodging = true;
+			if(e.Name ~== "-jumpdodge") haloplr.jumpdodging = false;
 		
 			if(e.Name ~== "haveashield")
 			{

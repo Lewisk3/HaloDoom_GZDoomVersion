@@ -12,10 +12,14 @@ addmenukey "Toggle Flashlight" "ToggleFlashlight"
 
 AddMenuKey "Display Weapon Info" +weaponInfo
 AddMenuKey "Fire Cryo Cannon" +icebeam
+AddMenuKey "Dodge" +jumpdodge
+
 Alias +weaponInfo "netevent +weaponInfo"
 Alias -weaponInfo "netevent -weaponInfo"
 Alias +icebeam "netevent +icebeam"
 Alias -icebeam "netevent -icebeam"
+Alias +jumpdodge "netevent +jumpdodge"
+Alias -jumpdodge "netevent -jumpdodge"
 
 alias "ToggleFlashlight" "netevent toggleflashlight"
 alias "NextGrenade" "netevent nextgrenade"

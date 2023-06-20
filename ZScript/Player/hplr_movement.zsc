@@ -4,6 +4,7 @@ extend class HaloPlayer
 	const GNDMAX   = 14;
 	const GNDACCEL = 85;
 	const GNDFRIC  = 7.0;
+	const DODGECOOLDOWN = 18;
 	const DOOMGNDACCEL = 1.25;
 	const DOOMGNDFRIC = 0.95;
 	const CHAN_SPACEJETS = 17;
@@ -20,6 +21,7 @@ extend class HaloPlayer
 	bool doomermovement;
 	bool spacemovement; // No gravity movement
 	bool doJetpackMovement; // Different air movement code.
+	bool jumpdodging; // On if jumpdodge key is being pressed.
 	
 	// Switches
 	bool enable_grapple;
@@ -39,6 +41,7 @@ extend class HaloPlayer
 	int prevjump;
 	int fricwait;
 	int maxjumps;
+	int jumpdodgecooldown;
 	
 	// Footsteps
 	int stepTimer;
@@ -379,7 +382,10 @@ extend class HaloPlayer
 		if(curvehicle) return;
 		
 		// Process friction every couple of tics.
-		double fric = 6.0 * (1.0-fricmod);
+		double frictionScale = (1.0-fricmod);
+		if(jumpdodgecooldown >= (DODGECOOLDOWN * 0.5) ) frictionScale *= 0.5;
+		
+		double fric = 6.0 * frictionScale;
 		if( player.onground && (fricwait > 4 || !halodoom_allowbhop || !enable_bhop) && fric > 0) 
 			DoQuakeFriction(fric);
 			
@@ -467,6 +473,8 @@ extend class HaloPlayer
 		
 		if(slidecooldown) slidecooldown--;
 		if(dashcooldown) dashcooldown--;
+		if(jumpdodgecooldown) jumpdodgecooldown--;
+	
 		if(dashcooldown <= 0 && player.onground) dashcounter = 0;
 		
 		// Grappling hook
@@ -678,36 +686,52 @@ extend class HaloPlayer
 		if (waterlevel >= 2) Vel.Z = 4 * Speed;
 		if (bNoGravity) Vel.Z = 3.;
 		
-		if (level.IsJumpingAllowed())
-		{
-			if(abs(level.time - prevjump) <= 4) return false;
-			prevjump = level.time;
-			
-			double jumpvelz = JumpZ * 35 / TICRATE;
-			double jumpfac = 0;
-			prevjump = level.time;
-
-			for (let p = Inv; p != null; p = p.Inv)
-			{
-				let pp = PowerHighJump(p);
-				if (pp) jumpfac = pp.Strength > jumpfac ? pp.Strength : jumpfac;
-			}
-			if (jumpfac > 0) jumpvelz *= jumpfac;
-			
-			bool canJumpHere = (pos.z+height < ceilingz);
+		// Dodge jumping
+		vector2 moveinp = getMovementInputs();
+	
+		if(abs(level.time - prevjump) <= 4) return false;
+		prevjump = level.time;
 		
-			if(canJumpHere)
+		double jumpvelz = JumpZ * 35 / TICRATE;
+		double jumpfac = 0;
+		prevjump = level.time;
+
+		for (let p = Inv; p != null; p = p.Inv)
+		{
+			let pp = PowerHighJump(p);
+			if (pp) jumpfac = pp.Strength > jumpfac ? pp.Strength : jumpfac;
+		}
+		if (jumpfac > 0) jumpvelz *= jumpfac;
+		
+		bool canJumpHere = (pos.z+height < ceilingz);
+	
+		if(canJumpHere)
+		{
+			// Do jump dodge
+			if( abs(moveinp.x)+abs(moveinp.y) >= 0.3 && jumpdodging && !jumpdodgecooldown && player.onground )
+			{
+				double dodgevel = jumpvelz*2.0;
+				vel += Quat.FromAngles(angle, pitch, roll) * (moveinp.x * dodgevel, moveinp.y * dodgevel, 0);	
+			
+				A_SetViewPitch(viewpitch + (moveinp.x * 5), SPF_INTERPOLATE);
+				A_SetViewRoll(viewroll - (moveinp.y * 5), SPF_INTERPOLATE);
+				
+				jumpvelz *= 0.35;
+				jumpdodgecooldown = enable_bhop ? DODGECOOLDOWN*2.0 : DODGECOOLDOWN;
+				A_StartSound("Halo/Powerup/Jetpack/Burst", CHAN_AUTO, CHANF_OVERLAP, volume:0.5);
+			}
+			
+			if(level.IsJumpingAllowed())
 			{
 				Vel.Z += jumpvelz * forcemod;
 				bOnMobj = false;
 				player.jumpTics = -1;
-				
+			
 				// Play jump sound(s)
 				PlaySurfaceSound("Jumped");
 			}
-			return canJumpHere;
 		}
-		return false;
+		return !level.IsJumpingAllowed() ? false : canJumpHere;
 	}
 	
 	// Credits: Ivory Duke (ZMovement)
