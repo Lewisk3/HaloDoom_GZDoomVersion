@@ -55,7 +55,10 @@ class HaloGPMG_Bullet : HaloBullet
 			MODL A 2 
 			{
 				if(explosiveAmmo)
-					Spawn("GPMGBulletExplosion", pos);
+				{
+					let expl = Spawn("GPMGBulletExplosion", pos);
+					if(expl) expl.target = target;
+				}
 			}
 		stop;
 	}
@@ -84,7 +87,7 @@ class GPMGBulletExplosion : CheapActor
 				
 				let flare = Spawn("TankRocket_Flare", (pos.xy, pos.z+20));
 				if(flare) flare.A_SetScale(0.35);
-				HaloMath.ExplodeEx(self, 32, 128, damageBosses:false, infiniteHeight:false);
+				HaloMath.ExplodeEx(self, 32, 128, selfDamage:0.33, damageBosses:false, infiniteHeight:false);
 			}
 			SX04 ABCD 1 Bright;
 			TNT1 A 0 

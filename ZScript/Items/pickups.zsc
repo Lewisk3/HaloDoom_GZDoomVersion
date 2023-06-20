@@ -26,11 +26,13 @@ class HaloMedicalItem : Inventory
 		
 		if(hplr)
 		{
-			healperc *= skillMod[min(4, skill)];
+			double adjustedHealPerc = healperc * skillMod[min(4, skill)];
 			double maxHP = hplr.GetMaxHealth();
-			double healTo = maxHP * (0.01*healperc);
+			double healTo = maxHP * (0.01*adjustedHealPerc);
 			if(hplr.health >= maxHP && !overHeal) 
 				return false;
+			
+			// console.printf("Healing: %.2f health. (Toucher HP: Max %.2f, Cur %.2f, Heal Percent %.2f)", healTo, maxHP, hplr.health, adjustedHealPerc);
 			
 			hplr.GiveBody(ceil(healTo), overHeal ? 200 : 0);
 			bool localview = toucher.CheckLocalView();

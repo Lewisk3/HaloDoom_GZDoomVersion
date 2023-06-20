@@ -143,7 +143,7 @@ class HaloLiquidSplash : CheapActor
 		alpha = frandom[Splashes](0.8,1.0);
 		bXFLIP = random[Splashs](0,100) <= 50;
 		
-		double amt = max(1, frandom[LiquidParticles](10,30) * halodoom_effectintensity);
+		double amt = max(1, frandom[LiquidParticles](5,10) * halodoom_effectintensity);
 		if(largeSplash) amt *= 2.5;
 		
 		vector3 spPos = level.vec3offset(pos, (0,0,12));

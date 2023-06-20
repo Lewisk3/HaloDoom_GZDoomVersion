@@ -297,7 +297,11 @@ class Halo_GravityHammer : HaloGun
 				
 				if(CountLoadedAmmo())
 				{
-					vel.z += 12;
+					if(player.onground) 
+						vel.z += 12;
+					else
+						vel.z = 4;
+					
 					A_Pushback(8);	
 					A_SetFlashColor("White", 0.78);
 					A_Overlay(60, "MuzzleBiris");
