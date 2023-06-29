@@ -225,7 +225,7 @@ class Halo_StickyDetonator : HaloGun
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_StickyDet_Reserves";
 		Weapon.AmmoType2 "Halo_StickyDet_Clip";
-		Weapon.AmmoGive 3;
+		Weapon.AmmoGive 6;
 		HaloGun.Faction "Human";
 				
 		// Recoil

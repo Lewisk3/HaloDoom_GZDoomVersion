@@ -669,3 +669,41 @@ class HaloPower_Repulsor : HaloPower_Haste
 		stop;
 	}
 }
+
+class HaloPower_SpartanCharge : HaloPower_Repulsor 
+{
+	Default
+	{
+		Powerup.Duration 0x7FFFFFFD;
+		Powerup.Type "PowerSpartanCharge";
+		
+		Tag "Spartan Charge";
+		Inventory.PickupMessage "Picked up the Spartan Charge dodge upgrade";
+		Inventory.PickupSound "Halo/Powerup/SpartanCharge";
+		
+		-HaloPowerGiver.FXHOVER;
+		+HaloPowerGiver.USETOPICKUP;
+		+HaloPowerGiver.BACKPACKSPAWN;
+		+HaloPowerGiver.UPGRADEPOWER;
+	}
+		
+	override void OnPickup(Actor other) 
+	{
+		A_StopSound(CHAN_BODY);
+	}
+	
+	override void VisualFX()
+	{
+		double blink = (0.5 * sin(level.maptime*15)) + 0.5;
+		if(blink >= 1.0) bBRIGHT = !bBRIGHT;
+		
+		PlayAlertSound("Halo/Powerup/SpartanCharge/Alert", 0.3);
+	}
+	
+	States
+	{
+		Spawn:
+			PWSC A -1; 
+		stop;
+	}
+}

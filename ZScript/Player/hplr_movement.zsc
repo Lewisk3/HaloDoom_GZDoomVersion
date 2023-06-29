@@ -4,7 +4,7 @@ extend class HaloPlayer
 	const GNDMAX   = 14;
 	const GNDACCEL = 85;
 	const GNDFRIC  = 7.0;
-	const DODGECOOLDOWN = 18;
+	const DODGECOOLDOWN = 30;
 	const DOOMGNDACCEL = 1.25;
 	const DOOMGNDFRIC = 0.95;
 	const CHAN_SPACEJETS = 17;
@@ -21,7 +21,9 @@ extend class HaloPlayer
 	bool doomermovement;
 	bool spacemovement; // No gravity movement
 	bool doJetpackMovement; // Different air movement code.
+	bool disableJumpDodge; // If on, disables jump dodging.
 	bool jumpdodging; // On if jumpdodge key is being pressed.
+	bool upgraded_dodging; // If enabled dodge frequency and power will be enhanced.
 	
 	// Switches
 	bool enable_grapple;
@@ -475,7 +477,7 @@ extend class HaloPlayer
 		if(dashcooldown) dashcooldown--;
 		if(jumpdodgecooldown) jumpdodgecooldown--;
 	
-		if(dashcooldown <= 0 && player.onground) dashcounter = 0;
+		if(dashcooldown <= 0 && (player.onground || spacemovement) ) dashcounter = 0;
 		
 		// Grappling hook
 		let weap = HaloGun(player.ReadyWeapon);
@@ -537,7 +539,13 @@ extend class HaloPlayer
 		
 		if(jumpHeld >= JETHOLD && jumpdown)
 		{
-			jetPower.fuel -= 1.0 / (35*jetPower.thrustTime);
+			vector2 moveinp = getMovementInputs();
+			double fuelUse = 1.0 / (35*jetPower.thrustTime);
+			
+			// Use less fuel if hovering.
+			if( (abs(moveinp.x) + abs(moveinp.y)) <= 0.2 ) fuelUse *= 0.5;
+			
+			jetPower.fuel -= fuelUse;
 			if(jumpHeld == JETHOLD && !spacemovement) doJump();
 				
 			jetThrustPerc = HaloMath.Lerp(jetThrustPerc, 1.0, 0.08);
@@ -554,6 +562,8 @@ extend class HaloPlayer
 				jetBob = sin(GetAge() * 10) * 1.75;
 				
 			doJetpackMovement = true;
+			
+			// Idk why but this works pretty well, lmao.
 			double thrust = jetThrustPerc * (GetGravity()*1.000000000000000000001);
 			
 			double maxZ = min(ceilingz-50, (floorz+200));
@@ -571,7 +581,7 @@ extend class HaloPlayer
 			}
 			jumpHeld = JETHOLD * 2;
 			
-			// Math is odd to apply this on vel.z, so just change the position.
+			// Math is complicated to properly apply this to vel.z, so just change the position.
 			SetOrigin((pos.xy, pos.z + jetBob), true);
 			
 			if(++jetQuake >= 8)
@@ -629,6 +639,17 @@ extend class HaloPlayer
 		super.CheckCrouch(totallyfrozen);
 	}
 	
+	virtual void CallOnDodge()
+	{
+		for(let item = Inv; item.Inv; item = item.Inv)
+		{
+			let hpwr = HaloPowerup(item);
+			if(!hpwr) continue;
+			
+			hpwr.OnSpartanDodge(self);
+		}
+	}
+	
 	enum JUMPTYPE
 	{
 		JMP_FAILED = 0,
@@ -664,18 +685,35 @@ extend class HaloPlayer
 		vector2 moveinp = getMovementInputs();
 		bool dodgingInput = abs(moveinp.x)+abs(moveinp.y) >= 0.3;
 		
-		if( player.onground && jumpdodging && dodgingInput && !jumpdodgecooldown )
+		if( !disableJumpDodge && player.onground && jumpdodging && dodgingInput && !jumpdodgecooldown )
 		{
 			// Do jump dodge
 			double dodgevel = ((JumpZ*2.0) * 35) / TICRATE;
-			vel += Quat.FromAngles(angle, pitch, roll) * (moveinp.x * dodgevel, moveinp.y * dodgevel, 0);	
-		
+			
+			vector3 addvel = (0,0,0);
+			if(upgraded_dodging) 
+			{
+				addvel = Quat.FromAngles(angle, pitch, roll) * ((moveinp.x, moveinp.y, 0) * dodgevel);
+				jumpdodgecooldown = DODGECOOLDOWN*0.7;
+			}
+			else
+			{
+				addvel = Quat.FromAngles(angle, clamp(pitch, -20,20), roll) * ((moveinp.x, moveinp.y, 0) * dodgevel);
+				addvel *= 0.8;
+				addvel.z *= 0.5;
+				jumpdodgecooldown = DODGECOOLDOWN;
+			}
+			
+			vel += addvel;
+
 			A_SetViewPitch(viewpitch + (moveinp.x * 5), SPF_INTERPOLATE);
 			A_SetViewRoll(viewroll - (moveinp.y * 5), SPF_INTERPOLATE);
 			
-			jumpdodgecooldown = enable_bhop ? DODGECOOLDOWN*2.0 : DODGECOOLDOWN;
 			jumpStatus = JMP_DODGE;
+			jumpcounter++;
+			
 			doJump(0.35);
+			CallOnDodge();
 		}
 		else if( !player.onground && jumpHeld <= 2 && jumping && !(obtns & BT_JUMP) && jumpcounter < maxjumps )
 		{

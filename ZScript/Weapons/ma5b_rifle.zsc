@@ -173,7 +173,7 @@ class Halo_MA5B : HaloGun
 				A_FireRifle();
 				A_RecoilOffset(frandom[WeapFX](-4,4),frandom[WeapFX](4,4),2);
 				A_SetRecoil(0.6, frandom[WeapFX](-0.4,0.4), 1);
-				A_RQuakeEx(2,2,2,4,0,20,"",QF_RELATIVE);
+				A_RQuakeEx(2,2,2,3,0,20,"",QF_RELATIVE|QF_SCALEUP|QF_SCALEDOWN);
 				A_RollQuake(1,10,2);
 			}
 			WHG1 A 1 Bright

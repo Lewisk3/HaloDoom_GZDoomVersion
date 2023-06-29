@@ -9,6 +9,7 @@ Model HaloGhost
    Offset -2 0 0.80
    USEACTORPITCH
    USEACTORROLL
+   CORRECTPIXELSTRETCH
    
    FrameIndex MODL A 0 0 
 }
@@ -98,6 +99,7 @@ Model HaloScorpion
    Scale 1.5 1.5 1.5
    USEACTORPITCH
    USEACTORROLL
+   CORRECTPIXELSTRETCH
    
    FrameIndex MODL A 0 0 
 }
@@ -111,6 +113,7 @@ Model Scorpion_TreadFL
    Scale 15.0 15.0 15.0
    USEACTORPITCH
    USEACTORROLL
+   CORRECTPIXELSTRETCH
    
    FrameIndex MODL A 0 0 
 }
@@ -137,6 +140,7 @@ Model Scorpion_TreadBL
    Scale 15.0 15.0 15.0
    USEACTORPITCH
    USEACTORROLL
+   CORRECTPIXELSTRETCH
    
    FrameIndex MODL A 0 0 
 }
@@ -150,6 +154,7 @@ Model Scorpion_TreadBR
    Scale 15.0 15.0 15.0
    USEACTORPITCH
    USEACTORROLL
+   CORRECTPIXELSTRETCH
    
    FrameIndex MODL A 0 0 
 }
@@ -161,6 +166,7 @@ Model Scorpion_TurretBase
    Scale 15.0 15.0 15.0
    USEACTORPITCH
    USEACTORROLL
+   CORRECTPIXELSTRETCH
    
    FrameIndex MODL A 0 0 
 }
@@ -172,6 +178,7 @@ Model Scorpion_TurretCannon
    Scale 15.0 15.0 15.0
    USEACTORPITCH
    USEACTORROLL
+   CORRECTPIXELSTRETCH
    
    FrameIndex MODL A 0 0 
 }
@@ -185,6 +192,7 @@ Model HaloWraith
    Scale 5.0 5.0 5.0
    USEACTORPITCH
    USEACTORROLL
+   CORRECTPIXELSTRETCH
    ZOffset 0.15;
    
    FrameIndex MODL A 0 0 
@@ -197,6 +205,7 @@ Model Wraith_FinFL
    Scale 50.0 50.0 50.0
    USEACTORPITCH
    USEACTORROLL
+   CORRECTPIXELSTRETCH
    
    FrameIndex MODL A 0 0 
 }
@@ -219,6 +228,7 @@ Model Wraith_FinBL
    Scale 50.0 50.0 50.0
    USEACTORPITCH
    USEACTORROLL
+   CORRECTPIXELSTRETCH
    
    FrameIndex MODL A 0 0 
 }
@@ -230,6 +240,7 @@ Model Wraith_FinBR
    Scale 50.0 50.0 50.0
    USEACTORPITCH
    USEACTORROLL
+   CORRECTPIXELSTRETCH
    
    FrameIndex MODL A 0 0 
 }
@@ -241,6 +252,7 @@ Model Wraith_Cannon
    Scale 50.0 50.0 50.0
    USEACTORPITCH
    USEACTORROLL
+   CORRECTPIXELSTRETCH
    
    FrameIndex MODL A 0 0 
 }

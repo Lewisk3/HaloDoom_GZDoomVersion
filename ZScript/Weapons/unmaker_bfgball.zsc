@@ -150,9 +150,9 @@ class UnmakerBall : HaloSlowProjectile
 				frame = random[unmakerBallSprite](0,2);
 				tics = random[unmakerBallSprite](1,2);
 						
-				for(int i = 0; i < max(1, 10 * halodoom_effectintensity); i++)
+				for(int i = 0; i < max(1, 8 * halodoom_effectintensity); i++)
 				{
-					let pl = TESLightningEffect.AttachToActor(self, 0,0,0, 4.0, 2.5, shading:"#fae60a", 2, 50, lifetime:16);
+					let pl = TESLightningEffect.AttachToActor(self, 0,0,0, 6.0, 2.0, shading:"#fae60a", 2, 50, lifetime:4);
 					if(pl) pl.alpha = 0.5;
 				}
 			}
@@ -168,7 +168,7 @@ class UnmakerBall : HaloSlowProjectile
 				A_StopSound(CHAN_BODY);
 				A_StartSound("Halo/Weapons/Unmaker/BFG/Explode", attenuation:ATTN_NONE);
 				
-				int adjustedAmt = max(20 * halodoom_effectintensity, 0);
+				int adjustedAmt = max(15 * halodoom_effectintensity, 0);
 				vector2 view = (0,0);
 				for(int i = 0; i < adjustedAmt; i++)
 				{
@@ -177,7 +177,7 @@ class UnmakerBall : HaloSlowProjectile
 					
 					view.x = frandom[UnmakerRNG](0,360);
 					view.y = (-pitch) + frandom[UnmakerRNG](-30,30);
-					BiriBiri.DoLightning(lightningPos, view, type:"BigUnmakerLightning", dist:200, 1.0, 12.0, 10.0, 30, 0);
+					BiriBiri.DoLightning(lightningPos, view, type:"BigUnmakerLightning", dist:150, 1.0, 12.0, 10.0, 30, 0);
 				}
 				vector3 randPos = (frandom[UnmakerRNG](-1,1),frandom[UnmakerRNG](-1,1),frandom[UnmakerRNG](-1,1)) * 30;  
 				HaloMath.SpawnFX("UnmakerBallSmoke", pos + randPos, angle + frandom[UnmakerRNG](-10,10), random[UnmakerRNG](5,10), 64, 10, angle+180, -pitch, 8);

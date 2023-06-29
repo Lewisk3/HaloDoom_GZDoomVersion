@@ -174,13 +174,15 @@ class HaloHUD : Object ui
 		vector2 iconScale = ((80*scale) / iconSize.x, (80*scale) / iconSize.y);
 		
 		double spacing = 105;
-		double middle = floor(powerupPosX.Size() / 2) * spacing;
+		double width = powerupPosX.Size() * 80;
+		
+		double middle = width * 0.5;
 		for(int i = 0; i < powerupPosX.Size(); i++)
 		{
 			powerupPosX[i] = ((1920. / 2.) - (middle * scale)) + offs.x; 
 			powerupPosY[i] = 1030 + offs.y;
 			powerupPosX[i] += i*(spacing*scale);
-					
+			
 			HLSBS.DrawImage(
 				powerBG, 
 				(powerupPosX[i], powerupPosY[i]), 

@@ -136,6 +136,8 @@ class WeaponPickupProxy : Actor
 			// Manually give weapon and setup ammunition.
 			let itm = Inventory(Spawn(trueitem));
 			to.AddInventory(itm);
+			itm.bINVISIBLE = true;
+			itm.bSPECIAL = false;
 			
 			// Reserves
 			if(ammotype1 && !noammogive) 

@@ -105,3 +105,16 @@ Model BigUnmakerLightning
 	
    FrameIndex BEAM A 0 0
 } 
+
+Model SpartanChargeShield
+{
+	Path "Models/Equipment/Deployable_Cover"
+	Model 0 "Dep_Cover_Shield.obj"
+	Skin 0 "Textures/cov_portable_shield_diff.png"
+	Scale 25.0 25.0 25.0 
+	DONTCULLBACKFACES
+	CORRECTPIXELSTRETCH
+	AngleOffset 90
+	
+	FrameIndex MODL A 0 0
+}

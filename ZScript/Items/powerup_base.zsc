@@ -30,6 +30,11 @@ class HaloPowerup : Powerup
 		// Called from DoHaloMelee (HaloGun) on all HaloPowerups.
 	}
 	
+	virtual void OnSpartanDodge(HaloPlayer src)
+	{
+		// Called when a dodge is preformed.
+	}
+	
 	void SetOverlayIMG(string toImg)
 	{
 		let hplr = HaloPlayer(Owner);
@@ -709,6 +714,9 @@ class PowerRepulsor : HaloPowerup
 					expl.target = Owner;
 					expl.SetDamage(32);
 				}
+				
+				let haloplr = HaloPlayer(Owner);
+				if(haloplr) haloplr.OnMeleeHit(victim);
 			}
 		}
 		
@@ -943,6 +951,310 @@ class ParriedExplosion : CheapActor
 				if(!(frame%6))
 					HaloMath.SpawnFX("FragGrenade_Smoke", fxpos, angle, 1, 20, 20, rstyle:STYLE_Subtract);
 			}
+		stop;
+	}
+}
+
+// Spartan Charge
+class PowerSpartanCharge : HaloPowerup
+{
+	const CHAN_CHARGELOOP = 21;
+	const CHAN_CHARGING = 22;
+
+	bool spartancharging;
+	SpartanChargeShield chargeshield;
+	ui double uiCharge, uiCooldown;
+	double charge;
+	int cooldown, maxCooldown;
+	int holdtics;
+
+	Property ChargeCooldown : maxCooldown;
+
+	Default
+	{
+		Powerup.Duration 0x7FFFFFFD; 
+		Inventory.maxamount 1;
+		+INVENTORY.UNDROPPABLE;
+		+INVENTORY.PERSISTENTPOWER;
+		
+		PowerSpartanCharge.ChargeCooldown 35*3;
+	}
+	
+	override string SelectUIGraphic()
+	{
+		return "";
+	}
+	
+	override void HUDDraw(HaloHUD hudbase, double dt)
+	{
+		uiCharge = HaloMath.Lerp(uiCharge, charge, 0.1 * dt);
+		
+		if(cooldown > uiCooldown) uiCooldown = cooldown;
+		uiCooldown = HaloMath.Lerp(uiCooldown, cooldown, 0.5 * dt);
+	
+		double baseScale = 0.30;
+		vector2 drawPos = hudbase.getPowerupPos(4);
+		vector2 drawScale = baseScale * (hudbase.powerupScale, hudbase.powerupScale);
+		
+		string graphic = "Graphics/UI/Abilities/SpartanChargeIcon.png";
+		string ring = "Graphics/UI/Abilities/SpartanChargeIcon_Ring.png";
+		
+		let icon = TexMan.CheckForTexture(graphic);
+		vector2 iconSize;
+		[iconSize.x, iconSize.y] = TexMan.getSize(icon);
+		
+		HLSBS.DrawImage(graphic, drawPos, alpha:1.0, scale:drawScale, texoffs:(1,1));
+		HLSBS.DrawImage(ring, drawPos, alpha:1.0, scale:drawScale, texoffs:(1,1));
+		
+		// Draw charge icon;
+		double chargeScale = 3.33;
+		string chargeIcon = "Graphics/UI/Abilities/Spartancharge_TopGauge.png";
+		string chargeLevelIcon = "Graphics/UI/Abilities/Spartancharge_ChargeGauge.png";
+		vector2 chargePos = drawPos + ((58,0) * hudbase.powerupScale);
+		
+		// Charge
+		let clIcon = TexMan.CheckForTexture(chargeLevelIcon);
+		vector2 clHalfSize;
+		[clHalfSize.x, clHalfSize.y] = TexMan.getSize(clIcon);
+		clHalfSize *= (0.5 * (baseScale*hudbase.powerupScale*chargeScale));
+		
+		HLSBS.DrawImage(chargeIcon, chargePos, alpha:1.0, scale:drawScale*chargeScale, texoffs:(1,1));
+		
+		double chargeY = (clHalfSize.y*2.0) * clamp(1.0-uiCharge, 0, 1.0);
+		HLSBS.SetClipRect(
+			chargePos.x - clHalfSize.x, 
+			(chargePos.y - clHalfSize.y) + chargeY, 
+			clHalfSize.x*2, (clHalfSize.y*2) - chargeY, 
+			visual:false
+		);
+		HLSBS.DrawImage(chargeLevelIcon, chargePos, alpha:1.0, scale:drawScale*chargeScale, texoffs:(1,1));
+		HLSBS.ClearClipRect();
+		
+		// Cooldown 
+		if(cooldown > 0)
+			HLSBS.DrawPartialCircle(drawPos, 40*hudbase.powerupScale, 0xFFd62f2f, min(1.0, double(uiCooldown / maxCooldown)), 0.6);
+	}
+
+	override void OnSpartanDodge(HaloPlayer src)
+	{
+		if(src.upgraded_dodging)
+		{
+			src.A_StartSound("Halo/Powerup/Jetpack/Burst", CHAN_AUTO, CHANF_OVERLAP); 
+			charge = holdtics = 0;
+			cooldown = maxCooldown * 0.25;
+		}
+	}
+
+	override void DetachFromOwner()
+	{
+		let haloplr = HaloPlayer(Owner);
+		if(!haloplr) return;
+		haloplr.upgraded_dodging = false;
+		haloplr.block_moveinput = false;
+		haloplr.disableJumpDodge = false;
+		haloplr.A_StopSound(CHAN_CHARGING);
+		haloplr.A_StopSound(CHAN_CHARGELOOP);
+	}
+	
+	virtual void SetupShield()
+	{
+		if(chargeshield) return;
+		
+		let cs = SpartanChargeShield(Spawn("SpartanChargeShield", pos));
+		if(cs) cs.master = Owner;
+		chargeshield = cs;
+	}
+	virtual void RemoveShield()
+	{
+		if(chargeshield) 
+			chargeshield.Destroy();
+	}
+	
+	virtual void BeginSpartanCharge(HaloPlayer haloplr)
+	{
+		spartancharging = true;
+		haloplr.A_StartSound("Halo/Powerup/Jetpack/Burst", CHAN_AUTO, CHANF_OVERLAP); 
+	}
+	
+	virtual void DoSpartanCharge(HaloPlayer haloplr)
+	{
+		haloplr.block_moveinput = true;
+		
+		vector3 dir = HaloMath.V3Offset(haloplr.angle, haloplr.pitch, haloplr.roll, 1.0,0,0, 1.0);
+		haloplr.vel = dir * 40;
+		haloplr.A_StartSound("Halo/Powerup/Jetpack/Loop", CHAN_CHARGELOOP, CHANF_LOOPING);
+		
+		FLineTraceData lt;
+		haloplr.LineTrace(haloplr.angle, 64, haloplr.pitch, offsetz:(haloplr.player.viewz-haloplr.pos.z), offsetforward:64, data:lt);
+		Actor hitActor = NULL;
+		if(lt.HitType == TRACE_HitActor) hitActor = lt.HitActor;
+		
+		if(lt.HitType != TRACE_HitNone && hitActor != chargeshield)
+		{
+			let expl = Spawn("FragGrenadeExplosion", lt.HitLocation);
+			if(expl) 
+			{
+				expl.A_StartSound("Halo/Grenade/Frag/Explode", CHAN_AUTO, CHANF_OVERLAP);
+				expl.SetDamage(0); // Cosmetic
+				expl.target = haloplr;
+				HaloMath.ExplodeEX(expl, 128,128);
+			}
+			
+			haloplr.vel = -dir * 10;
+			haloplr.vel.z += 10;
+			charge = 0;
+		}
+		
+		// On Actor collide
+		if(hitActor && hitActor.bSHOOTABLE && hitActor != chargeshield)
+		{
+			hitActor.DamageMobj(haloplr, haloplr, 250, "Melee.SpartanCharge", angle:haloplr.angle);
+		}
+		
+		// Cooldown and charge
+		cooldown = maxCooldown;
+		charge -= 0.06;
+		if(charge <= 0)
+		{
+			haloplr.A_StopSound(CHAN_CHARGELOOP);
+			spartancharging = false;
+			haloplr.block_moveinput = false;
+		}
+	}
+
+	override void DoEffect()
+	{
+		super.DoEffect();
+		let haloplr = HaloPlayer(Owner);
+		if(!haloplr) return;
+		haloplr.upgraded_dodging = (cooldown <= 0);
+		
+		// While executing spartan charge
+		if(spartancharging) DoSpartanCharge(haloplr);
+		
+		// Cooldown and holdtics
+		if(cooldown) cooldown--;
+		if(haloplr.jumpdodging && !cooldown && owner.player.onground)
+			holdtics++;
+		else
+			holdtics = 0;
+		
+		// Charging and decharging
+		if(holdtics >= 8)
+		{
+			haloplr.A_StartSound("Halo/Powerup/SpartanCharge/Charing", CHAN_CHARGING, CHANF_LOOPING);
+			double qf = 1 + (2 * min(1.0,charge));
+			haloplr.A_QuakeEx(0,qf,qf,2, 0,64, "", QF_SCALEUP|QF_SCALEDOWN);
+			charge += 0.02; 
+			haloplr.disableJumpDodge = true;
+			if(charge >= 0.3) SetupShield();
+			haloplr.block_moveinput = true;
+			
+			// Charge held too long.
+			if(holdtics >= 35*5 && !spartancharging)
+			{
+				haloplr.A_StartSound("Shield/Explode",flags:CHANF_NOSTOP|CHANF_OVERLAP);
+				haloplr.shields = 0;
+				haloplr.regen_timer = 35;
+				charge = 0;
+			}
+		}
+		else
+		{
+			haloplr.A_StopSound(CHAN_CHARGING);
+			if(charge >= 0.3 && !spartancharging) BeginSpartanCharge(haloplr);
+			if(!spartancharging)
+			{
+				haloplr.disableJumpDodge = false;
+				haloplr.block_moveinput = false;
+				charge *= 0.95; 
+			}
+		}
+		
+		// Shield animation
+		if(chargeshield && !spartancharging)	
+		{
+			chargeshield.alpha = chargeshield.default.alpha * charge;
+			if(charge <= 0.2 && !holdtics) chargeshield.Destroy();
+		}
+	}	
+}
+
+class SpartanChargeShield : Actor
+{
+	Default
+	{
+		+SHOOTABLE;
+		+SOLID;
+		+DONTTHRUST;
+		
+		RenderStyle "Add";
+		Alpha 0.8;
+		Health int.max;
+		Radius 16;
+		Height 64;
+	}
+	
+	override bool CanCollideWith(Actor other, bool passive)
+	{
+		if( other == master || (other.target && other.target == master) ) 
+			return false;
+			
+		return super.CanCollideWith(other, passive);
+	}
+	
+	override void PostBeginPlay()
+	{
+		super.postBeginPlay();
+		for(int i = 0; i < max(1, 10 * halodoom_effectintensity); i++)
+		{	
+			TESLightningEffect.AttachToActor(self, 
+				8, 
+				frandom[PowerupFXRNG](-30,30),
+				frandom[PowerupFXRNG](-30,30),
+				2.0 * frandom[PowerupFXRNG](0.7, 1.2),
+				density:0.5, shading: 0xFF3042e3
+			);
+		}
+	}
+	
+	override void Tick()
+	{
+		// Negate damageFX debuffs
+		super.Tick();
+		
+		// Follow master
+		if(!master) 
+		{
+			Destroy();
+			return;
+		}
+		
+		for(let item = Inv; item; item = item.Inv)
+		{
+			if(item is "DamageFX_Item")
+			{
+				DamageFX_Item(item).DisableItem();
+				RemoveInventory(item);
+				item.Destroy();
+			}
+		}
+		
+		angle = master.angle;
+		pitch = master.pitch;
+		roll = master.roll;
+		
+		vector3 masterPos = master.pos;
+		if(master.player) masterPos.z = master.player.viewz;
+		vector3 dir = HaloMath.V3Offset(master.angle, master.pitch, master.roll, 24,0,0, 1.0);
+		vector3 followPos = level.vec3offset(masterPos, dir);
+		SetOrigin((followPos.xy, followPos.z - 32), true);
+	}
+	
+	States
+	{
+		Spawn:
+			MODL A -1 BRIGHT;
 		stop;
 	}
 }
