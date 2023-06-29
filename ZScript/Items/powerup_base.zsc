@@ -977,7 +977,7 @@ class PowerSpartanCharge : HaloPowerup
 		+INVENTORY.UNDROPPABLE;
 		+INVENTORY.PERSISTENTPOWER;
 		
-		PowerSpartanCharge.ChargeCooldown 35*3;
+		PowerSpartanCharge.ChargeCooldown 35*4;
 	}
 	
 	override string SelectUIGraphic()
@@ -1041,7 +1041,7 @@ class PowerSpartanCharge : HaloPowerup
 		{
 			src.A_StartSound("Halo/Powerup/Jetpack/Burst", CHAN_AUTO, CHANF_OVERLAP); 
 			charge = holdtics = 0;
-			cooldown = maxCooldown * 0.25;
+			cooldown = maxCooldown * 0.5;
 		}
 	}
 
@@ -1080,8 +1080,8 @@ class PowerSpartanCharge : HaloPowerup
 	{
 		haloplr.block_moveinput = true;
 		
-		vector3 dir = HaloMath.V3Offset(haloplr.angle, haloplr.pitch, haloplr.roll, 1.0,0,0, 1.0);
-		haloplr.vel = dir * 40;
+		vector3 dir = HaloMath.V3Offset(haloplr.angle, clamp(haloplr.pitch, -45,45), haloplr.roll, 1.0,0,0, 1.0);
+		haloplr.vel = dir * 30;
 		haloplr.A_StartSound("Halo/Powerup/Jetpack/Loop", CHAN_CHARGELOOP, CHANF_LOOPING);
 		
 		FLineTraceData lt;
@@ -1153,10 +1153,14 @@ class PowerSpartanCharge : HaloPowerup
 			// Charge held too long.
 			if(holdtics >= 35*5 && !spartancharging)
 			{
+				
 				haloplr.A_StartSound("Shield/Explode",flags:CHANF_NOSTOP|CHANF_OVERLAP);
-				haloplr.shields = 0;
-				haloplr.regen_timer = 35;
+				/*
+					haloplr.shields = 0;
+					haloplr.regen_timer = 35;
+				*/
 				charge = 0;
+				cooldown = maxCooldown;
 			}
 		}
 		else

@@ -1004,9 +1004,9 @@ class LedgeTrigger : CheapActor
 	Actor plr;
 	vector3 offs;
 	vector3 grabPos;
-	uint grabTics;
-	uint grabDelay;
-	uint grabCooldown;
+	int grabTics;
+	int grabDelay;
+	int grabCooldown;
 	
 	static LedgeTrigger Init(Actor src, double fw, double lr, double ud)
 	{
@@ -1054,7 +1054,7 @@ class LedgeTrigger : CheapActor
 			{	
 				// Finish grab
 				plr.player.cheats &= ~CF_FROZEN;
-			}
+			}	
 			return;
 		}
 		if(grabCooldown) grabCooldown--;
@@ -1091,9 +1091,9 @@ class LedgeTrigger : CheapActor
 				// We have a clear path towards the ledge.
 				// Setup grabbing sequence.
 				grabPos = (pos.xy, pos.z);
-				grabTics = 20;
+				grabTics = 10;
 				grabDelay = 8;
-				grabCooldown = grabTics + grabDelay + 20;
+				grabCooldown = grabTics + grabDelay + 10;
 			}
 		}
 	}	
