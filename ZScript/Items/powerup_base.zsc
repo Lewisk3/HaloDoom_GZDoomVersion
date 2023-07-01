@@ -1261,7 +1261,7 @@ class SpartanChargeShield : Actor
 		// Follow master
 		if(!master) 
 		{
-			//Destroy();
+			Destroy();
 			return;
 		}
 		
