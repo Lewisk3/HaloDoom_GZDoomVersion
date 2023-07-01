@@ -1,5 +1,5 @@
 [enu default]
-MOD_VERSION = "2.0rc";
+MOD_VERSION = "3.0 \c[Teal]dev-rc\c[White]";
 
 GAMETYPE_HDE = "HaloDoom Evolved";
 GAMETYPE_HDE_DESC = "Default gametype. \n\n Contains all the weapons in HaloDoom Evolved.";
