@@ -316,15 +316,20 @@ class HaloDoomHUD : HaloHUD
 		double ablscale = 0.85 * scale;
 		if(haloplr.enable_dash)
 		{
-			double dashperc = (haloplr.dashcounter / double(haloplr.dashmax));
-			double fullpos = 52 * (1.0 - dashperc);
+			double dashTimerPerc = 1.0 - (haloplr.dashcooldown / (haloplr.dashcooldown_time * 35));
+			double dashes = (haloplr.dashmax - haloplr.dashcounter);
+			double dashperc = (dashes / double(haloplr.dashmax));
+			
+			double fullpos = 52 * dashperc;
+			if(dashTimerPerc < 1) fullpos += 13 * dashTimerPerc;
+			
 			dashmeter = HaloMath.Lerp(dashmeter, fullpos, 0.10 * deltatime);
 			
 			HLSBS.DrawImage("DASHBG", ablpos, scale:(ablscale,ablscale));
 			HLSBS.SetClipRect(ablpos.x - (24*scale), ablpos.y - (32*scale), dashmeter*scale, 64*scale);
 			HLSBS.DrawImage("DASHCRGE", ablpos, scale:(ablscale,ablscale));
 			HLSBS.ClearClipRect();
-			if(dashperc <= 0)
+			if(dashes > 0)
 				HLSBS.DrawImage("DASHFULL", ablpos, scale:(ablscale,ablscale));
 			ablpos.x += 128;
 		}

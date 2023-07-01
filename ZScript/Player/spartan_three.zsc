@@ -25,7 +25,7 @@ class HaloSpartan_III : HaloPlayer
 		HaloPlayer.CanBunnyHop false;
 		HaloPlayer.MaxJumps 2;
 		HaloPlayer.AirControl 2.0;
-		HaloPlayer.SetupDashes true, 2, 5, 2;
+		HaloPlayer.SetupDashes true, 2, 3, 0.75;
 	}
 	
 	const MELEE_INVULN = 35;

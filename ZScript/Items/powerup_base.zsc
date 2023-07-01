@@ -1257,10 +1257,11 @@ class SpartanChargeShield : Actor
 		// Negate damageFX debuffs
 		super.Tick();
 		
+		worldoffset.z = 32;
 		// Follow master
 		if(!master) 
 		{
-			Destroy();
+			//Destroy();
 			return;
 		}
 		
@@ -1279,7 +1280,7 @@ class SpartanChargeShield : Actor
 		roll = master.roll;
 		
 		vector3 masterPos = master.pos;
-		if(master.player) masterPos.z = master.player.viewz;
+		if(master.player) masterPos.z = master.player.viewz - 32;
 		vector3 dir = HaloMath.V3Offset(master.angle, master.pitch, master.roll, 26,0,0, 1.0);
 		vector3 followPos = level.vec3offset(masterPos, dir);
 		SetOrigin(followPos, true);

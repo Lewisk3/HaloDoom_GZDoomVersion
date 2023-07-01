@@ -117,6 +117,7 @@ Model SpartanChargeShield
 	USEACTORPITCH
 	USEACTORROLL
 	AngleOffset 90
+	//ZOffset -32
 	
 	FrameIndex MODL A 0 0
 }

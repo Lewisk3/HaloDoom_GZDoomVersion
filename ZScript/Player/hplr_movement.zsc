@@ -56,7 +56,7 @@ extend class HaloPlayer
 	bool enable_dash;
 	double dashcooldown;
 	double dashpower;
-	int dashcooldown_time;
+	double dashcooldown_time;
 	int dashmax;
 	int dashcounter;
 	
@@ -469,15 +469,20 @@ extend class HaloPlayer
 		{
 			DashAnimator.DoDash(self, lastmovedir, dashpower);
 			A_StartSound("Halo/Spartan/Dash", CHAN_BODY, CHANF_OVERLAP);
+			dashcooldown = (dashcooldown_time * 35.0);
 			dashcounter++;
-			dashcooldown = dashcooldown_time * 35.0;
 		}
 		
 		if(slidecooldown) slidecooldown--;
 		if(dashcooldown) dashcooldown--;
 		if(jumpdodgecooldown) jumpdodgecooldown--;
 	
-		if(dashcooldown <= 0 && (player.onground || spacemovement) ) dashcounter = 0;
+		if(dashcooldown <= 0 && dashcounter > 0) 
+		{
+			dashcounter--;
+			if(dashcounter > 0) 
+				dashcooldown = (dashcooldown_time * 35.0);
+		}
 		
 		// Grappling hook
 		let weap = HaloGun(player.ReadyWeapon);
@@ -869,6 +874,7 @@ class DashAnimator : Inventory
 	double dashdir;
 	double dashstr;
 	double timeout;
+	int timecount;
 	
 	Default
 	{
@@ -876,14 +882,15 @@ class DashAnimator : Inventory
 		inventory.maxamount 1;
 	}
 	
-	static DashAnimator DoDash(Actor src, double dir, double spd, double dur = 5)
+	static DashAnimator DoDash(Actor src, double dir, double spd, double dur = 10)
 	{
 		let prevDash = DashAnimator(src.FindInventory("DashAnimator"));
 		if(prevDash)
 		{
 			prevDash.dashdir = dir;
-			prevDash.dashstr = spd*1.5;
+			prevDash.dashstr = spd*1.2;
 			prevDash.timeout = dur;
+			prevDash.timecount = 0;
 			return prevDash;
 		}
 		
@@ -904,11 +911,12 @@ class DashAnimator : Inventory
 		super.DoEffect();
 		let plr = HaloPlayer(Owner);
 		if(!plr) return;
+		timecount++;
 		
-		if(GetAge() > timeout) 
+		if(timecount > timeout) 
 		{
 			plr.bNOGRAVITY = Owner.default.bNOGRAVITY;
-			if(GetAge() > timeout*2.0)
+			if(timecount > timeout*2.0)
 			{
 				plr.RemoveInventory(self);
 				plr.fricmod = 0;
