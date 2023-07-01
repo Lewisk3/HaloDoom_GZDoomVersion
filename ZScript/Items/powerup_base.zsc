@@ -1049,6 +1049,7 @@ class PowerSpartanCharge : HaloPowerup
 	{
 		let haloplr = HaloPlayer(Owner);
 		if(!haloplr) return;
+		SetWeaponBusy(haloplr, false);
 		haloplr.upgraded_dodging = false;
 		haloplr.block_moveinput = false;
 		haloplr.disableJumpDodge = false;
@@ -1130,6 +1131,20 @@ class PowerSpartanCharge : HaloPowerup
 			haloplr.A_StopSound(CHAN_CHARGELOOP);
 			spartancharging = false;
 			haloplr.block_moveinput = false;
+			SetWeaponBusy(haloplr, false);
+		}
+	}
+	
+	virtual void SetWeaponBusy(HaloPlayer haloplr, bool onoff)
+	{
+		let gun = HaloGun(haloplr.player.ReadyWeapon);
+		if(gun) 
+		{
+			gun.handsbusy = onoff;
+			if(onoff) 
+				gun.staticoffs.y = gun.meleelower;
+			else
+				gun.staticoffs.y = 0;
 		}
 	}
 
@@ -1158,7 +1173,11 @@ class PowerSpartanCharge : HaloPowerup
 			haloplr.A_QuakeEx(0,qf,qf,2, 0,64, "", QF_SCALEUP|QF_SCALEDOWN);
 			charge += 0.02; 
 			haloplr.disableJumpDodge = true;
-			if(charge >= 0.3) SetupShield();
+			if(charge >= 0.3) 
+			{
+				SetWeaponBusy(haloplr, true);
+				SetupShield();
+			}
 			haloplr.block_moveinput = true;
 			
 			// Charge held too long.
