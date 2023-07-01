@@ -1183,7 +1183,7 @@ class PowerSpartanCharge : HaloPowerup
 			// Charge held too long.
 			if(holdtics >= 35*5 && !spartancharging)
 			{
-				
+				SetWeaponBusy(haloplr, false);
 				haloplr.A_StartSound("Shield/Explode",flags:CHANF_NOSTOP|CHANF_OVERLAP);
 				/*
 					haloplr.shields = 0;
@@ -1280,9 +1280,9 @@ class SpartanChargeShield : Actor
 		
 		vector3 masterPos = master.pos;
 		if(master.player) masterPos.z = master.player.viewz;
-		vector3 dir = HaloMath.V3Offset(master.angle, master.pitch, master.roll, 24,0,0, 1.0);
+		vector3 dir = HaloMath.V3Offset(master.angle, master.pitch, master.roll, 26,0,0, 1.0);
 		vector3 followPos = level.vec3offset(masterPos, dir);
-		SetOrigin((followPos.xy, followPos.z - 32), true);
+		SetOrigin(followPos, true);
 	}
 	
 	States

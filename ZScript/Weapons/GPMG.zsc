@@ -176,8 +176,11 @@ class Halo_GPMG : HaloGun
 	
 	action void A_FireGPMG()
 	{
+		bool isHL2 = HaloPlayer.IsGameType("HL2");
+		Sound fireSound = isHL2 ? "Halo/Warthog/Chaingun/Fire" : "Halo/Weapons/GPMG/Fire";
+	
 		A_Light(2);
-		A_WeapSound("Halo/Weapons/GPMG/Fire", CHANF_OVERLAP, true);
+		A_WeapSound(fireSound, CHANF_OVERLAP, true);
 		A_WeapSound("Halo/Weapons/GPMG/Fire/Bass", CHANF_OVERLAP, true);
 		
 		vector3 hitPos;
@@ -189,7 +192,7 @@ class Halo_GPMG : HaloGun
 			// This is honestly annoying, I'll be very happy once 4.11 
 			// adds let [v1, v2] = func(); syntax.
 			let bullet = HaloGPMG_Bullet(proj);
-			bullet.explosiveAmmo = !HaloPlayer.IsGameType("HL2");
+			bullet.explosiveAmmo = !isHL2;
 		}
 		
 		A_SetSFXPos(20,-18,-12);

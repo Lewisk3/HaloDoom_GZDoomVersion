@@ -108,9 +108,9 @@ Model BigUnmakerLightning
 
 Model SpartanChargeShield
 {
-	Path "Models/Equipment/Deployable_Cover"
-	Model 0 "Dep_Cover_Shield.obj"
-	Skin 0 "Textures/cov_portable_shield_diff.png"
+	Path "Models/Equipment/SpartanCharge"
+	Model 0 "Charge_Shield.obj"
+	Skin 0 "shieldtex.png"
 	Scale 25.0 25.0 25.0 
 	DONTCULLBACKFACES
 	CORRECTPIXELSTRETCH

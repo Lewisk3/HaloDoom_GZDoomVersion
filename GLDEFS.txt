@@ -96,13 +96,14 @@ material texture "Models/Casings/Fuelrod/fuel_rod_diffuse.png"
 {
 	Shader "shaders/SimSun.fp"
 }
-material texture "Models/Equipment/Deployable_Cover/Textures/cov_portable_shield_diff.png"
+material texture "Models/Equipment/SpartanCharge/shieldtex.png"
 {
 	normal "Models/Equipment/Deployable_Cover/Textures/cov_portable_shield_normal.png"
 	specular "Models/Equipment/Deployable_Cover/Textures/instantcover_mainglow_mask.png"
 	Shader "shaders/glitch.fp"
-	Speed 2.0
+	Speed 1.0
 }
+
 
 material texture "Models/Mags/AR/assault_rifle_diffuse.png"
 {
