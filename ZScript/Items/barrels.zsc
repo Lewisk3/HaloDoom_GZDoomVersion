@@ -97,7 +97,7 @@ class ExplosiveCoil : Actor
 	
 	virtual void FilterExplosions()
 	{
-		if(multiplayer) return;
+		// if(multiplayer) return;
 		let coilIt = BlockThingsIterator.Create(self, 256);
 		double count = 0;
 		int curDelay = 0;
@@ -107,7 +107,7 @@ class ExplosiveCoil : Actor
 			if( !(coil is "ExplosiveCoil") || coil == self ) continue;
 			
 			curDelay += 2;
-			// ExplosiveCoil(coil).lowEffects = true;
+			ExplosiveCoil(coil).lowEffects = true;
 			ExplosiveCoil(coil).delay = curDelay;
 			
 			count++;
