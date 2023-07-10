@@ -76,8 +76,8 @@ class HaloNeedlerJavelin_Proj : HaloNeedleProjectile
 		{			
 			let needle = HaloNeedleProjectile(
 				HaloMath.FireProjectile("HaloNeedler_Proj", pos, 
-					frandom(0,360),
-					frandom(-90,90)
+					frandom[NeedlerRNG](0,360),
+					frandom[NeedlerRNG](-90,90)
 				)
 			);
 			

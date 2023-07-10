@@ -216,7 +216,7 @@ class HaloMath Abstract
 			if(texture && texture != "") 
 			{
 				pset.texture = TexMan.CheckForTexture(texture);
-				pset.startroll = frandom(-180,180);
+				pset.startroll = frandom[PrtSpawn](-180,180);
 			}
 			
 			level.SpawnParticle(pset);

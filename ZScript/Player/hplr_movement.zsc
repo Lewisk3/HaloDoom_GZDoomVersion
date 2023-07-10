@@ -234,8 +234,9 @@ extend class HaloPlayer
 		}
 		
 		if(speedboost) spd *= speedboost;
+		double adjustedGNDMAX = speedboost ? GNDMAX * speedboost : GNDMAX;
 		double curspd = wishdir dot vel;
-		double addspd = clamp(GNDMAX - curspd, 0, (GNDACCEL*spd) / TICRATE);
+		double addspd = clamp(adjustedGNDMAX - curspd, 0, (GNDACCEL*spd) / TICRATE);
 		
 		vel += addspd * wishdir;
 	}

@@ -18,6 +18,7 @@ user float halodoom_footstep_volume = 0.5;
 user int halodoom_hudtype_index = 0;
 user int halodoom_cortanamode = 0;
 user bool halodoom_spartanvoicelines = false;
+user bool halodoom_showspeed = false;
 
 // Server settings
 server bool halodoom_overhealthdecay = true;

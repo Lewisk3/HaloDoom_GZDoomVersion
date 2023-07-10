@@ -74,6 +74,7 @@ class Halo_OverlayUI : EventHandler
 	Array<HitMarkers> ui_hitmarkers;
 	LevelTransitionAnimator levelTransition;
 	ui transient CVar cvDrawKeys;
+	ui transient CVar cvShowSpeed;
 
 	void AddNewKey(Key k)
 	{
@@ -182,7 +183,9 @@ class Halo_OverlayUI : EventHandler
 		
 		// Draw HUD projections
 		if(!cvDrawKeys) cvDrawKeys = CVar.GetCVar("halodoom_keyoverlays", e.Camera.player);
+		if(!cvShowSpeed) cvShowSpeed = CVar.GetCVar("halodoom_showspeed", e.Camera.player); 
 		if(cvDrawKeys && cvDrawKeys.getBool() && !automapactive) DrawKeys(e);
+		
 		
 		// Hitmarker(s)
 		uint plrnum = haloplr.PlayerNumber();
@@ -203,6 +206,13 @@ class Halo_OverlayUI : EventHandler
 		while(hpower = HaloPowerGiver(it.Next()))
 		{
 			hpower.UIOverlayDraw(e, haloplr, deltatime);
+		}
+		
+		// Speedometer
+		if(cvShowSpeed && cvShowSpeed.getBool())
+		{
+			string spd = String.Format("Speed: %d ups", e.Camera.vel.Length() * double(TICRATE));
+			HLSBS.DrawString("BigFont", spd, (0,20), HLSBS.SS_SCREEN_TOP_CENTER | HLSBS.SS_TEXT_CENTER, Font.CR_YELLOW, scale:(0.5,0.5));
 		}
 		
 		// Keep track of time, always.
