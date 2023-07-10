@@ -205,7 +205,7 @@ class TESLightningEffect : CheapActor
 		if(restrictedToWeapon && master && master.player && master.player.ReadyWeapon != restrictedToWeapon)
 			Destroy();
 		
-		if(random(0,100) <= spawnChance || !(level.maptime%spawnFreq))
+		if(random[LightningFX](0,100) <= spawnChance || !(level.maptime%spawnFreq))
 		{	
 			if(master) lastSpawnPos = master.pos;
 			let p = LightningParticle(Spawn("LightningParticle", lastSpawnPos));
@@ -217,9 +217,9 @@ class TESLightningEffect : CheapActor
 				p.interpolateGunView = interpolateGunView;
 				p.followingGun = followingGun;
 				p.followOffs = (
-					particleOffs.x+(frandom(-5,5)/particleDensity),
-					particleOffs.y+(frandom(-5,5)/particleDensity),
-					particleOffs.z+(frandom(-5,5)/particleDensity)
+					particleOffs.x+(frandom[LightningFX](-5,5)/particleDensity),
+					particleOffs.y+(frandom[LightningFX](-5,5)/particleDensity),
+					particleOffs.z+(frandom[LightningFX](-5,5)/particleDensity)
 				);
 			}
 		}
@@ -328,20 +328,20 @@ class LightningParticle : Actor
 			TexMan.CheckForTexture("Sprites/Effects/Lightning/LTNGD0.png")
 		};
 		
-		if( random(0,100) <= 5 )
+		if( random[LightningFX](0,100) <= 5 )
 		{
 			pset.color1 = fillcolor;
 			pset.style = STYLE_Add;
-			pset.pos = pos + (dir * (0, frandom(-3,3), frandom(-5,5)));
+			pset.pos = pos + (dir * (0, frandom[LightningFX](-3,3), frandom[LightningFX](-5,5)));
 			pset.lifetime = 8;
 			
 			for(int i = 0; i < 5; i++)
 			{
-				pset.texture = partTextures[random(0,3)];
-				pset.vel = dir * (frandom(0,3), frandom(-3,3), frandom(-3,3));
-				pset.size = frandom(1.0,2.5) * (min(Scale.X, Scale.Y)*100.0);
+				pset.texture = partTextures[random[LightningFX](0,3)];
+				pset.vel = dir * (frandom[LightningFX](0,3), frandom[LightningFX](-3,3), frandom[LightningFX](-3,3));
+				pset.size = frandom[LightningFX](1.0,2.5) * (min(Scale.X, Scale.Y)*100.0);
 				pset.startalpha = 3.0;
-				pset.startroll = frandom(-180,180);
+				pset.startroll = frandom[LightningFX](-180,180);
 				if(follow) pset.vel += follow.vel;
 				
 				level.SpawnParticle(pset);

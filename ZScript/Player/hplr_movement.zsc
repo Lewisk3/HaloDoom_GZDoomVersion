@@ -23,6 +23,7 @@ extend class HaloPlayer
 	bool doJetpackMovement; // Different air movement code.
 	bool disableJumpDodge; // If on, disables jump dodging.
 	bool jumpdodging; // On if jumpdodge key is being pressed.
+	bool jumpDodgePressed; // On if jumpdodge key was pressed and released.
 	bool upgraded_dodging; // If enabled dodge frequency and power will be enhanced.
 	
 	// Switches
@@ -690,7 +691,7 @@ extend class HaloPlayer
 		vector2 moveinp = getMovementInputs();
 		bool dodgingInput = abs(moveinp.x)+abs(moveinp.y) >= 0.3;
 		
-		if( !disableJumpDodge && player.onground && jumpdodging && dodgingInput && !jumpdodgecooldown )
+		if( !disableJumpDodge && player.onground && jumpDodgePressed && dodgingInput && !jumpdodgecooldown )
 		{
 			// Do jump dodge
 			double dodgevel = ((JumpZ*2.0) * 35) / TICRATE;
@@ -756,6 +757,9 @@ extend class HaloPlayer
 				break;
 			}
 		}
+		
+		// Reset jumpdodge press.
+		jumpDodgePressed = false;
 	}
 	
 	int doJump(double forcemod = 1.0)
