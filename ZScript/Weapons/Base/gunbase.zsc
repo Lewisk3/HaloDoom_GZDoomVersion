@@ -761,7 +761,8 @@ class HaloGun : RecoilWeapon
 	override void DoEffect()
 	{
 		super.DoEffect();
-				
+		if(!Owner || !Owner.player) return;
+		
 		if(!cvfx_smoke)
 			cvfx_smoke = CVar.GetCVar("halodoom_fx_smoke", Owner.player);
 		if(!cvfx_casings) 
@@ -769,7 +770,6 @@ class HaloGun : RecoilWeapon
 		
 		if(debug_sfxpos) Spawn("FXFollower", sfx_pos);
 
-		if(!Owner.player) return;
 		let vehman = Veh_Manager(Owner.FindInventory("Veh_Manager"));
 		if(vehman && vehman.disableweaps) return;
 						
