@@ -1259,7 +1259,7 @@ class SpartanChargeShield : Actor
 		
 		worldoffset.z = 32;
 		// Follow master
-		if(!master) 
+		if(!master || master.health <= 0 || master.bCORPSE) 
 		{
 			Destroy();
 			return;

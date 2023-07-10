@@ -358,7 +358,7 @@ class HaloPlayer : DoomPlayer
 		// Low health effects
 		double hpratio = max(health, player.health) / double(GetMaxHealth()); 
 		int healthbars = clamp(ceil(hpratio * 9), 1, 25);
-		if(healthbars <= 3)
+		if(healthbars <= 3 && min(health, player.health) > 0)
 		{
 			A_StartSound("Halo/Spartan/LowHealthLoop", CHAN_HEALTHEFFECTS, CHANF_LOOPING);
 		}
