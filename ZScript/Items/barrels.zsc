@@ -107,7 +107,7 @@ class ExplosiveCoil : Actor
 			if( !(coil is "ExplosiveCoil") || coil == self ) continue;
 			
 			curDelay += 2;
-			ExplosiveCoil(coil).lowEffects = true;
+			// ExplosiveCoil(coil).lowEffects = true;
 			ExplosiveCoil(coil).delay = curDelay;
 			
 			count++;
