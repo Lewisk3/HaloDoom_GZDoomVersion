@@ -99,17 +99,23 @@ class PowerFreezerBeam : HaloPowerup
 		A_OverlayOffset(OverlayID(), invoker.pspOffs.x, invoker.pspOffs.y);
 	}
 	
+	action Actor A_GetFreezeTarget()
+	{
+		let haloplr = HaloPlayer(self);
+		if(!haloplr) return NULL;
+		
+		return haloplr.aimActor ? haloplr.aimActor : haloplr.aimActor_nearest;
+	}
+	
 	action state A_BeamReady()
 	{
 		/*
 		if(player.cmd.buttons & BT_ATTACK)
 			return ResolveState("FreezerBeam.Fire");
 		*/
-		let haloplr = HaloPlayer(self);
-		if(haloplr && haloplr.aimActor) 
-		{
+		
+		if(A_GetFreezeTarget()) 
 			return ResolveState("FreezeBeam.Fire");
-		}
 		
 		return ResolveState(null);
 	}
@@ -248,18 +254,19 @@ class PowerFreezerBeam : HaloPowerup
 					if(invoker.tryfire && !invoker.cooldown && invoker.heat <= 20)
 					{
 						invoker.tryfire = false;
-						if(!haloplr.aimActor) 
+						Actor freezeTarget = A_GetFreezeTarget();
+						if(!freezeTarget) 
 						{
 							return ResolveState(null);
 						}
 						else
 						{
-							let frz = I_Frozen(haloplr.aimActor.FindInventory("I_Frozen"));
-							if( (frz && frz.frozen && !frz.thawing) || !haloplr.aimActor.bSHOOTABLE || (haloplr.aimActor is "I_Frozen") )
+							let frz = I_Frozen(freezeTarget.FindInventory("I_Frozen"));
+							if( (frz && frz.frozen && !frz.thawing) || !freezeTarget.bSHOOTABLE || (freezeTarget is "I_Frozen") )
 								return ResolveState(null);
 						}
 						
-						invoker.laserTarget = haloplr.aimActor;
+						invoker.laserTarget = freezeTarget;
 						return ResolveState("FreezeBeam.Raise");
 					}
 				}
