@@ -51,6 +51,7 @@ class Halo_Needler : HaloGun
 {
 	const Layer_Needles = 20;
 	vector2 needles_offs;
+	Actor meleeHit; // reference hit actor on melee.
 	
 	Default
 	{
@@ -231,6 +232,78 @@ class Halo_Needler : HaloGun
 			NDR2 LMNO 1;
 			NDR2 P 1 A_SetRecoil(-2.5, 0, 2);
 			NDR2 QRSTUVWX 1;
+		goto Ready.Active;
+		
+		DoMelee:
+			TNT1 A 1 
+			{
+				let meleeBash = ResolveState("DoMelee.Needles");
+				let psp = player.GetPSprite(PSP_WEAPON);
+				if(psp) psp.SetState(meleeBash);
+			}
+		stop;
+		
+		DoMelee.Needles:
+			TNT1 A 0 A_JumpIf(CountLoadedAmmo() < 12, "DoMelee.Normal");
+			"####" "#" 1; // This is needed to ensure this state is actually completely set.
+			TNT1 A 0 
+			{
+				A_HideNeedles();
+				invoker.handsbusy = true;
+				A_StartSound("Halo/Weapons/Needler/Melee", CHAN_AUTO, CHANF_OVERLAP);
+			}
+			TNT1 A 0 A_SetRecoil(0.5, 0, 8);
+			NDRM ABCDEFGGGGG 1;
+			NDRM HIJKL 1
+			{
+				A_AddRecoil(-0.2, 0, 2);
+				//HaloGun.CallTryMelee(self); // Makes Parrying attacks more responsive.
+				
+				if(!invoker.meleeHit)
+					invoker.meleeHit = A_HaloMelee(50, 32, hitsnd:"Halo/Melee/Punch", "");
+				else
+				{
+					invoker.meleeHit.TriggerPainChance("Needles", true);
+					invoker.meleeHit.freezetics = 12;
+				}
+			}
+			NDRM L 1 A_JumpIf(!invoker.meleeHit || invoker.meleeHit.health <= 0, "DoMelee.Finish");
+			NDRM N 2 A_SetViewRoll(viewroll - 2.0, SPF_INTERPOLATE);
+			NDRM M 2 A_SetViewRoll(viewroll + 2.0, SPF_INTERPOLATE);
+			NDRM O 2 A_SetViewRoll(viewroll + 2.0, SPF_INTERPOLATE);
+			TNT1 A 0 
+			{
+				A_SetViewRoll(viewroll - 2.0, SPF_INTERPOLATE);
+				if(invoker.meleeHit.health > 0)
+				{
+					invoker.CallKickState("DoKick", force:true);
+					A_TakeAmmo(12);
+					
+					for(int i = 0; i < CountLoadedAmmo(); i++)
+					{
+						Actor whyGZDoom; vector3 _spawnPos;
+						[_spawnPos, whyGZDoom] = A_ShootProjectile("HaloNeedler_Proj", 6);
+						let proj = HaloNeedler_Proj(whyGZDoom);
+			
+						if(proj) proj.explodedelay = 8;
+					}
+				}
+			}
+			NDRM P 4; 
+		DoMelee.Finish:
+			NDRM QQQRST 1;
+			NDRM U 1
+			{
+				if(invoker.meleeHit) invoker.meleeHit.freezetics = 0;
+				invoker.meleeHit = NULL;
+				invoker.handsbusy = false;
+			}
+		goto Ready.Active;
+		
+		DoMelee.Normal:
+			NDLI A 1 {
+				invoker.CallMeleeState("super::DoMelee", force:true);
+			}
 		goto Ready.Active;
 		
 		Spawn:
