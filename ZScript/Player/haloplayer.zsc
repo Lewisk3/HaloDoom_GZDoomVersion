@@ -15,6 +15,8 @@ class HaloPlayer : DoomPlayer
 	Actor aimActor_nearest; // Actor closest to aim;
 	vector3 aimActor_anglesTo; // Angles to closest aimed at actor.
 	vector3 aimActor_pos;
+	vector3 lookAtCoord;
+	bool lookingAtCoord; // If true, freeze the player and look towards `lookAtCoord`
 	Actor aimActor;
 	vector3 aimpos;
 	double soundwait;
@@ -346,7 +348,33 @@ class HaloPlayer : DoomPlayer
 		{
 			healthDecay = 0;
 		}
+		
+		if(lookingAtCoord)
+		{
+			player.cheats |= CF_TOTALLYFROZEN;
+			player.cheats |= CF_INTERPVIEW;
+		
+			vector3 camPos = (pos.xy, player.viewz);
+			vector3 dir = level.vec3diff(camPos, lookAtCoord);
+			if(dir.Length() > 0)
+			{
+				dir = dir.Unit();
+				vector2 lookCoords = (
+					atan2(dir.y, dir.x),
+					-asin(dir.z)
+				);
+
+				let curView = Quat.FromAngles(angle, pitch, roll);
+				let desiredView = Quat.FromAngles(lookCoords.x, lookCoords.y, 0);
+				let toView = Quat.SLerp(curView, desiredView, 0.2);
 			
+				// Set angles to new look direction
+				vector3 eulerAngles = HaloMath.GetEuler(desiredView);
+				A_SetAngle(eulerAngles.x, SPF_Interpolate);
+				A_SetPitch(eulerAngles.y, SPF_Interpolate);
+				// A_SetRoll(eulerAngles.z, SPF_Interpolate);
+			}
+		}
 		
 		bool predicting = (player.cheats & CF_PREDICTING); 
 		if(predicting)
@@ -612,6 +640,17 @@ class HaloPlayer : DoomPlayer
 	void SetViewHeight(double val)
 	{
 		viewheight = player.viewheight = (val + viewoffs);
+	}
+	
+	void LookAtPoint(vector3 point)
+	{
+		lookingAtCoord = true;
+		lookAtCoord = point;
+	}
+	void StopLookingAtPoint()
+	{
+		player.cheats &= ~CF_TOTALLYFROZEN;
+		lookingAtCoord = false;
 	}
 	
 	override void CalcHeight()
