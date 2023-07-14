@@ -238,8 +238,10 @@ class HaloNeedleProjectile : HaloSlowProjectile
 	double hitpitch;
 	double maxhomdist;
 	double homTurnMax;
+	int maxLifetime;
 	int explodetimer, explodedelay, explodecount;
 	NeedleCounter needlecount;
+	Property FlightLifetime : maxLifetime;
 	Property ExplodeDelay : explodedelay;
 	Property ExplodeCount : explodecount;
 	Property NeedleDamages : truedamage, shatterdmg;
@@ -266,6 +268,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 		+BLOODSPLATTER;
 		Scale 0.25;
 		HaloSlowProjectile.Speed_MPS 33;
+		HaloNeedleProjectile.FlightLifetime 35*3; // 3 seconds.
 		HaloNeedleProjectile.NeedleDamages 2, 10;
 		HaloNeedleProjectile.ExplodeDelay 35; // 1 second.
 		HaloNeedleProjectile.ExplodeCount 7; 
@@ -321,7 +324,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 		}
 		if(!bMISSILE) DontSplash();
 		
-		if(GetAge() > 35*3 && bMISSILE)
+		if(GetAge() > maxLifetime && bMISSILE)
 		{
 			vel *= 0;
 			bMISSILE = false;

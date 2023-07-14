@@ -280,7 +280,7 @@ class Halo_Needler : HaloGun
 					{
 						A_RQuakeEx(4,4,4,8,0,50,"", QF_SCALEDOWN);
 						invoker.meleeHit.TriggerPainChance("Needles", true);
-						invoker.meleeHit.freezetics = 20;
+						invoker.meleeHit.freezetics = 30;
 					}
 				}
 			}
@@ -317,14 +317,15 @@ class Halo_Needler : HaloGun
 					if(proj) 
 					{
 						proj.force_explosion = true;
-						proj.explodedelay = 6;
+						proj.explodedelay = 35;
+						proj.maxLifetime = 8;
 					}
 				}
 			}
 			NDRM P 2;
 			TNT1 A 0 
 			{
-				invoker.meleeHit.vel += HaloMath.VecFromAngles(angle, pitch, 4, precise:true);
+				invoker.meleeHit.vel += HaloMath.VecFromAngles(angle, pitch, 8, precise:true);
 				invoker.CallKickState("DoKick", force:true);
 			}
 		DoMelee.Finish:
