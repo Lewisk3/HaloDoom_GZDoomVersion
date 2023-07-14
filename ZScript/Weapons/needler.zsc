@@ -119,6 +119,20 @@ class Halo_Needler : HaloGun
 		invoker.needles_offs = (x,y);
 	}
 	
+	bool CanNeedleMelee()
+	{
+		int loadedAmmo = Owner.countinv(AmmoType2);
+		return loadedAmmo >= 12;
+	}
+	
+	override bool CheckDoKick(bool reloading)
+	{
+		if(handsbusy || reloading || !CanNeedleMelee()) return true;
+		
+		CallMeleeState("DoMelee", true);
+		return false;
+	}
+	
 	States
 	{
 		Ready:
@@ -244,30 +258,45 @@ class Halo_Needler : HaloGun
 		stop;
 		
 		DoMelee.Needles:
-			TNT1 A 0 A_JumpIf(CountLoadedAmmo() < 12, "DoMelee.Normal");
+			TNT1 A 0 A_JumpIf(!invoker.CanNeedleMelee(), "DoMelee.Normal");
 			"####" "#" 1; // This is needed to ensure this state is actually completely set.
 			TNT1 A 0 
 			{
 				A_HideNeedles();
 				invoker.handsbusy = true;
-				A_StartSound("Halo/Weapons/Needler/Melee", CHAN_AUTO, CHANF_OVERLAP);
+				A_StartSound("Halo/Weapons/Spiker/Melee", CHAN_AUTO, CHANF_OVERLAP);
 			}
 			TNT1 A 0 A_SetRecoil(0.5, 0, 8);
 			NDRM ABCDEFGGGGG 1;
 			NDRM HIJKL 1
 			{
-				A_AddRecoil(-0.2, 0, 2);
+				A_AddRecoil(-1.25, 0, 1);
 				//HaloGun.CallTryMelee(self); // Makes Parrying attacks more responsive.
 				
 				if(!invoker.meleeHit)
-					invoker.meleeHit = A_HaloMelee(50, 32, hitsnd:"Halo/Melee/Punch", "");
-				else
 				{
-					invoker.meleeHit.TriggerPainChance("Needles", true);
-					invoker.meleeHit.freezetics = 12;
+					invoker.meleeHit = A_HaloMelee(40, 50, hitsnd:"Halo/Melee/NeedlerHit", "", allowParry:false);
+					if(invoker.meleeHit)
+					{
+						A_RQuakeEx(4,4,4,8,0,50,"", QF_SCALEDOWN);
+						invoker.meleeHit.TriggerPainChance("Needles", true);
+						invoker.meleeHit.freezetics = 12;
+					}
 				}
 			}
 			NDRM L 1 A_JumpIf(!invoker.meleeHit || invoker.meleeHit.health <= 0, "DoMelee.Finish");
+			TNT1 A 0 
+			{
+				let haloplr = HaloPlayer(self);
+				if(invoker.meleeHit && haloplr)
+				{
+					vector3 meleePos = (
+						invoker.meleeHit.pos.xy, 
+						invoker.meleeHit.z + (invoker.meleeHit.height )
+					);
+					haloplr.LookAtPoint(meleePos);
+				}
+			}
 			NDRM N 2 A_SetViewRoll(viewroll - 2.0, SPF_INTERPOLATE);
 			NDRM M 2 A_SetViewRoll(viewroll + 2.0, SPF_INTERPOLATE);
 			NDRM O 2 A_SetViewRoll(viewroll + 2.0, SPF_INTERPOLATE);
@@ -278,6 +307,9 @@ class Halo_Needler : HaloGun
 				{
 					invoker.CallKickState("DoKick", force:true);
 					A_TakeAmmo(12);
+					
+					let haloplr = HaloPlayer(self);
+					if(haloplr) haloplr.StopLookingAtPoint();
 					
 					for(int i = 0; i < CountLoadedAmmo(); i++)
 					{
@@ -294,6 +326,9 @@ class Halo_Needler : HaloGun
 			NDRM QQQRST 1;
 			NDRM U 1
 			{
+				let haloplr = HaloPlayer(self);
+				if(haloplr) haloplr.StopLookingAtPoint();
+				
 				if(invoker.meleeHit) invoker.meleeHit.freezetics = 0;
 				invoker.meleeHit = NULL;
 				invoker.handsbusy = false;

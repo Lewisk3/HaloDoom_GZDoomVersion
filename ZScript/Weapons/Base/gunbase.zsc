@@ -324,9 +324,9 @@ class HaloGun : RecoilWeapon
 		}
 	}
 	
-	action Actor A_HaloMelee(int damage, double range = 48, vector2 fpthrust = (12,5), Sound hitsnd = "", Sound wallsnd = "", Name damageType = "Melee", bool doHitThrust = true, bool forceThrust = false)
+	action Actor A_HaloMelee(int damage, double range = 48, vector2 fpthrust = (12,5), Sound hitsnd = "", Sound wallsnd = "", Name damageType = "Melee", bool doHitThrust = true, bool forceThrust = false, bool allowParry = true)
 	{
-		return DoHaloMelee(self, damage,range,fpthrust,hitsnd,wallsnd,damageType,doHitThrust,forceThrust);
+		return DoHaloMelee(self, damage,range,fpthrust,hitsnd,wallsnd,damageType,doHitThrust,forceThrust,allowParry);
 	}
 	
 	action Actor A_GetMeleeVictim(double range = 48)
@@ -364,11 +364,11 @@ class HaloGun : RecoilWeapon
 		}
 	}
 	
-	static Actor DoHaloMelee(Actor source, int damage, double range = 48, vector2 fpthrust = (12,5), Sound hitsnd = "", Sound wallsnd = "", Name damageType = "Melee", bool doHitThrust = true, bool forceThrust = false)
+	static Actor DoHaloMelee(Actor source, int damage, double range = 48, vector2 fpthrust = (12,5), Sound hitsnd = "", Sound wallsnd = "", Name damageType = "Melee", bool doHitThrust = true, bool forceThrust = false, bool allowParry = true)
 	{	
 		FLineTraceData lt;
 		let victim = GetMeleeVictim(source, lt, range);
-		CallTryMelee(source);
+		if(allowParry) CallTryMelee(source);
 		
 		if(victim && victim.bSHOOTABLE) 
 		{
@@ -908,6 +908,11 @@ class HaloGun : RecoilWeapon
 	// Called when quickswap is initiated.
 	virtual void OnQuickswap() {}
 	
+	virtual bool CheckDoKick(bool reloading)
+	{
+		return true;
+	}
+	
 	virtual void DoActionButtons()
 	{
 		let psp  = Owner.player.FindPSprite(PSP_WEAPON);
@@ -946,7 +951,7 @@ class HaloGun : RecoilWeapon
 			// Otherwise, kick.
 			if(meleeReady && !barrelKick)
 				CallMeleeState("DoMelee", true); // DoMelee
-			else if(!feetbusy && !inmelee && !nokick)
+			else if(!feetbusy && !inmelee && !nokick && CheckDoKick(inreload))
 				CallKickState("DoKick", true);
 		}
 		

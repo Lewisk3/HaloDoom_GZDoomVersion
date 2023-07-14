@@ -181,6 +181,7 @@ Halo/Melee/Swing1 "Sounds/Melee/MeleeSwing1.ogg"
 Halo/Melee/Swing2 "Sounds/Melee/MeleeSwing2.ogg"
 Halo/Melee/Swing3 "Sounds/Melee/MeleeSwing3.ogg"
 Halo/Melee/Ouch   "Sounds/Melee/MeleeMiss.ogg"
+Halo/Melee/NeedlerHit "Sounds/Needler/Needler_Hit.ogg"
 
 $random Halo/Melee/Punch { Halo/Melee/Punch1 Halo/Melee/Punch2 Halo/Melee/Punch3 }
 $random Halo/Melee/Swing { Halo/Melee/Swing1 Halo/Melee/Swing2 Halo/Melee/Swing3 }
