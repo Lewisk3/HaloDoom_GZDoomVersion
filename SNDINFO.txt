@@ -436,6 +436,7 @@ NDLOW3 "Sounds/Needler/Needler_Low3.ogg"
 $random Halo/Weapons/Needler/Fire      { NDFIRE1 NDFIRE2 NDFIRE3 }
 $random Halo/Weapons/Needler/Fire/Bass { NDLOW1 NDLOW2 NDLOW3 }
 
+Halo/Weapons/Needler/Melee "Sounds/Needler/Needler_Melee.ogg"
 Halo/Weapons/Needler/Reload/Full  "Sounds/Needler/Needler_Reload.ogg"
 Halo/Weapons/Needler/Reload/Empty "Sounds/Needler/Needler_ReloadEmpty.ogg"
 Halo/Weapons/Needler/Select       "Sounds/Needler/Needler_Select.ogg"

@@ -264,7 +264,7 @@ class Halo_Needler : HaloGun
 			{
 				A_HideNeedles();
 				invoker.handsbusy = true;
-				A_StartSound("Halo/Weapons/Spiker/Melee", CHAN_AUTO, CHANF_OVERLAP);
+				A_StartSound("Halo/Weapons/Needler/Melee", CHAN_AUTO, CHANF_OVERLAP);
 			}
 			TNT1 A 0 A_SetRecoil(0.5, 0, 8);
 			NDRM ABCDEFGGGGG 1;
@@ -280,7 +280,7 @@ class Halo_Needler : HaloGun
 					{
 						A_RQuakeEx(4,4,4,8,0,50,"", QF_SCALEDOWN);
 						invoker.meleeHit.TriggerPainChance("Needles", true);
-						invoker.meleeHit.freezetics = 12;
+						invoker.meleeHit.freezetics = 20;
 					}
 				}
 			}
@@ -305,23 +305,28 @@ class Halo_Needler : HaloGun
 				A_SetViewRoll(viewroll - 2.0, SPF_INTERPOLATE);
 				if(invoker.meleeHit.health > 0)
 				{
-					invoker.CallKickState("DoKick", force:true);
 					A_TakeAmmo(12);
 					
 					let haloplr = HaloPlayer(self);
 					if(haloplr) haloplr.StopLookingAtPoint();
 					
-					for(int i = 0; i < CountLoadedAmmo(); i++)
+					Actor whyGZDoom; vector3 _spawnPos;
+					[_spawnPos, whyGZDoom] = A_ShootProjectile("HaloNeedler_Proj", 6);
+					let proj = HaloNeedler_Proj(whyGZDoom);
+		
+					if(proj) 
 					{
-						Actor whyGZDoom; vector3 _spawnPos;
-						[_spawnPos, whyGZDoom] = A_ShootProjectile("HaloNeedler_Proj", 6);
-						let proj = HaloNeedler_Proj(whyGZDoom);
-			
-						if(proj) proj.explodedelay = 8;
+						proj.force_explosion = true;
+						proj.explodedelay = 6;
 					}
 				}
 			}
-			NDRM P 4; 
+			NDRM P 2;
+			TNT1 A 0 
+			{
+				invoker.meleeHit.vel += HaloMath.VecFromAngles(angle, pitch, 4, precise:true);
+				invoker.CallKickState("DoKick", force:true);
+			}
 		DoMelee.Finish:
 			NDRM QQQRST 1;
 			NDRM U 1
