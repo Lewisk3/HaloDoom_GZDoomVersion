@@ -267,7 +267,7 @@ class Halo_Needler : HaloGun
 				A_StartSound("Halo/Weapons/Needler/Melee", CHAN_AUTO, CHANF_OVERLAP);
 			}
 			TNT1 A 0 A_SetRecoil(0.5, 0, 8);
-			NDRM ABCDEFGGGGG 1;
+			NDRM ABCDEFGG 1;
 			NDRM HIJKL 1
 			{
 				A_AddRecoil(-1.25, 0, 1);
