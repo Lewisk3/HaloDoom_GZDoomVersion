@@ -355,6 +355,12 @@ class HaloPlayer : DoomPlayer
 			player.cheats |= CF_INTERPVIEW;
 		
 			vector3 camPos = (pos.xy, player.viewz);
+			vector3 coords = level.SphericalCoords(camPos, lookAtCoord, (angle, pitch));
+			coords.xy *= 0.2;
+			A_SetAngle(angle - coords.x, SPF_Interpolate);
+			A_SetPitch(pitch - coords.y, SPF_Interpolate);
+			
+			/* In any reasonable world this should work, but it doesn't... great. FML
 			vector3 dir = level.vec3diff(camPos, lookAtCoord);
 			if(dir.Length() > 0)
 			{
@@ -374,6 +380,7 @@ class HaloPlayer : DoomPlayer
 				A_SetPitch(eulerAngles.y, SPF_Interpolate);
 				// A_SetRoll(eulerAngles.z, SPF_Interpolate);
 			}
+			*/
 		}
 		
 		bool predicting = (player.cheats & CF_PREDICTING); 
