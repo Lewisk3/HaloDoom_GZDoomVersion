@@ -7,6 +7,41 @@ Model LSR_CarbineTrail
 	FrameIndex MODL A 0 0
 } 
 
+Model FreezerLaserBeam
+{
+	Model 0 "Models/Lasers/lazer.md3"
+	Skin 0 "Models/Lasers/lazer.png"
+	USEACTORPITCH
+	
+	FrameIndex MODL A 0 0
+} 
+Model FreezerLaserBeam_Core
+{
+	Model 0 "Models/Lasers/lazer.md3"
+	Skin 0 "Models/Lasers/lazer.png"
+	USEACTORPITCH
+	
+	FrameIndex MODL A 0 0
+} 
+
+Model LSR_WeldingBeam
+{
+	Model 0 "Models/Lasers/lazer.md3"
+	Skin 0 "Models/Lasers/lazer.png"
+	USEACTORPITCH
+	
+	FrameIndex MODL A 0 0
+} 
+
+Model LSR_WeldingBeamCore
+{
+	Model 0 "Models/Lasers/lazer.md3"
+	Skin 0 "Models/Lasers/lazer.png"
+	USEACTORPITCH
+	
+	FrameIndex MODL A 0 0
+} 
+
 Model LSR_UnmakerBeam
 {
 	Model 0 "Models/Lasers/lazer.md3"
@@ -115,19 +150,6 @@ Model GrappleRopeTight
 	
 	FrameIndex MODL A 0 0
 }
-
-Model LSR_Railgun
-{
-	Path "models/lasers"
-	Model 0 "beam_complex.md3"
-	Scale 1.0 1.0 1.0
-	USEACTORPITCH
-	SurfaceSkin 0 0 "BEAM.png" // Full mesh
-	AngleOffset 0
-	PitchOffset 0
-	
-   FrameIndex BEAM A 0 0
-} 
 
 Model SmokeTrail 
 {

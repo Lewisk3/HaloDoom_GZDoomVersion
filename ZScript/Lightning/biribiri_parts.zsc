@@ -18,7 +18,7 @@ class LightSpark : Actor
 	{
 		super.BeginPlay();
 		A_SetScale(0.005);
-		fscale = frandom(0.005,0.02);
+		fscale = frandom[BiriRNG](0.005,0.02);
 	}
 	
 	States
@@ -26,7 +26,7 @@ class LightSpark : Actor
 		Spawn:
 			LSPR "#" 0 NoDelay
 			{
-				frame = random(1,12);
+				frame = random[BiriRNG](1,12);
 			}
 		Spawn_Animate:
 			LSPR "###" 1 Bright
@@ -63,10 +63,10 @@ class LightSmoke : LightningActor
 	{
 		super.BeginPlay();
 		rolldir = randompick(-1,1);
-		fadespd = frandom(0.8,2.0);
-		vel.x += frandom(-1,1);
-		vel.y += frandom(-1,1);
-		A_SetScale(frandom(0.50,1.75));
+		fadespd = frandom[BiriRNG](0.8,2.0);
+		vel.x += frandom[BiriRNG](-1,1);
+		vel.y += frandom[BiriRNG](-1,1);
+		A_SetScale(frandom[BiriRNG](0.50,1.75));
 	}
 	
 	override void Tick()
@@ -103,7 +103,7 @@ class LightningBiri : LightningActor
 	States
 	{
 		Spawn:
-			BEAM A 1 Bright A_FadeOut(0.04); // 0.14
+			BEAM A 1 Bright A_FadeOut(0.08); // 0.14
 		wait;
 	}
 }

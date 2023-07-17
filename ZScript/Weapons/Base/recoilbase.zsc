@@ -141,8 +141,9 @@ class RecoilWeapon : Weapon
 		invoker.recoilmod = mod;
 	}
 	
-	action void A_RecoilOffset(double x, double y, double spd, bool add = false)
+	action void A_RecoilOffset(double x, double y, double spd, bool add = false, bool forced = false)
 	{
+		if(invoker.swapping && !forced) return;
 		if(add) 
 		{
 			x += invoker.woffsx;
@@ -207,7 +208,7 @@ class RecoilWeapon : Weapon
 				invoker.weapsway.x+invoker.curstaticoffs.x,
 				32 + invoker.weapsway.y+invoker.curstaticoffs.y
 			);
-			if(!invoker.swapping)ptr.A_WeaponOffset(finaloffs.x, finaloffs.y);
+			if(!invoker.swapping) ptr.A_WeaponOffset(finaloffs.x, finaloffs.y);
 			return;
 		}
 		
@@ -220,8 +221,8 @@ class RecoilWeapon : Weapon
 			invoker.realoffsx+invoker.weapsway.x+invoker.curstaticoffs.x,
 			32 + invoker.realoffsy+invoker.weapsway.y+invoker.curstaticoffs.y
 		);
-		ptr.A_WeaponOffset(finaloffs.x, finaloffs.y);
 		
+		ptr.A_WeaponOffset(finaloffs.x, finaloffs.y);
 		invoker.realoffsx = RecoilWeapon.FrameInterpolate(invoker.realoffsx, invoker.woffsx, invoker.wofftimer);
 		invoker.realoffsy = RecoilWeapon.FrameInterpolate(invoker.realoffsy, invoker.woffsy, invoker.wofftimer);
 	}
@@ -285,41 +286,52 @@ class RecoilWeapon : Weapon
 		PlayerInfo plr = PlayerPawn(Owner).player;
 		if(!plr) return;
 		
+		let haloplr = HaloPlayer(Owner);
+		bool inZeroGravity = haloplr && haloplr.spacemovement;
+		
 		if(!cv_recoil)
 			cv_recoil = CVar.GetCVar("halodoom_recoil_intensity", plr);
 		
 		// Roll shake.
-		if(rollshake_time > 0)
+		if(!inZeroGravity)
 		{
-			
-			/*
-			double shakeCount = rollshake_maxtime / rollshake_freq; 
-			double shakeAngles = (360 / shakeCount);
-			double rshake = cos( level.maptime * shakeAngles ) * strmod * cv_recoil.GetFloat() * (rollshake_str * 1.5);
-			*/
-			
-			double strmod = HaloMath.fmap(rollshake_time, 0, rollshake_maxtime, 0.1, 1.0);
-			if(rollshake_dirfreq >= rollshake_freq) 
+			if( rollshake_time > 0 )
 			{
-				rollshake_str *= -1;
-				rollshake_dirfreq = -1;
-			}
-			rollshake_dirfreq++;
-			double rshake = rollshake_str * strmod * cv_recoil.GetFloat();
-	
-			Owner.A_SetRoll(Owner.roll + rshake, SPF_INTERPOLATE);
-			rollshake_time--;
-		}
-		else if(rollshake_str != 0)
-		{
-			Owner.A_SetRoll(HaloMath.Lerp(Owner.roll, 0, 0.25), SPF_INTERPOLATE);
-			if(abs(Owner.roll) <= 0.01) 
-			{
-				Owner.roll = 0;
-				rollshake_str = 0;
-			}
-		}
+				
+				/*
+				double shakeCount = rollshake_maxtime / rollshake_freq; 
+				double shakeAngles = (360 / shakeCount);
+				double rshake = cos( level.maptime * shakeAngles ) * strmod * cv_recoil.GetFloat() * (rollshake_str * 1.5);
+				*/
+				
+				double strmod = HaloMath.fmap(rollshake_time, 0, rollshake_maxtime, 0.1, 1.0);
+				if(rollshake_dirfreq >= rollshake_freq) 
+				{
+					rollshake_str *= -1;
+					rollshake_dirfreq = -1;
+				}
+				rollshake_dirfreq++;
+				double rshake = rollshake_str * strmod * cv_recoil.GetFloat();
 		
+				Owner.A_SetRoll(Owner.roll + rshake, SPF_INTERPOLATE);
+				rollshake_time--;
+			}
+			else if(rollshake_str != 0)
+			{
+				Owner.A_SetRoll(HaloMath.Lerp(Owner.roll, 0, 0.25), SPF_INTERPOLATE);
+				if(abs(Owner.roll) <= 0.01) 
+				{
+					Owner.roll = 0;
+					rollshake_str = 0;
+				}
+			}
+		}
+		else
+		{
+			rollshake_str = 0;
+			rollshake_time = 0;
+		}
+			
 		// Stop here if weapon isn't selected.
 		if(plr.ReadyWeapon != self) 
 		{
@@ -348,8 +360,15 @@ class RecoilWeapon : Weapon
 		
 		if(recoil_timer)
 		{
-			Owner.A_setPitch( Owner.pitch - recoil_pitch );
-			Owner.A_setAngle( Owner.angle - recoil_angle );	
+			if(!inZeroGravity)
+			{
+				Owner.A_setPitch( Owner.pitch - recoil_pitch );
+				Owner.A_setAngle( Owner.angle - recoil_angle );	
+			}
+			else if(haloplr)
+			{
+				haloplr.ThrustDir(-(recoil_pitch*0.25), recoil_angle*0.25);
+			}
 		}
 		
 		double zoom_offs = basezoom != 0 ? basezoom - 1 : 0;
@@ -361,13 +380,13 @@ class RecoilWeapon : Weapon
 		}
 		else
 		{
-			zoomfactor = FrameInterpolate(zoomfactor, defzoom + zoom_offs, zoomtimer / zoom_intensity);
+			zoomfactor = FrameInterpolate(zoomfactor, defzoom + zoom_offs, zoomtimer);
 			if(zoomfactor > 0)O_ZoomFactor(zoomfactor + basezoom, ZOOM_INSTANT);
 		}
 		
 		if(recoil_timer > 0) recoil_timer--;
 		
-		if(recoil_timer <= 0)
+		if(recoil_timer <= 0 && !inZeroGravity)
 		{
 			double ipitch = FrameInterpolate(Owner.pitch,defpitch,deftimer);
 			double iangle = FrameInterpolate(Owner.angle,defangle,deftimer);

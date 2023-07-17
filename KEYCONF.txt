@@ -11,12 +11,17 @@ addmenukey "Cycle Grenade" "NextGrenade"
 addmenukey "Toggle Flashlight" "ToggleFlashlight"
 
 AddMenuKey "Display Weapon Info" +weaponInfo
+AddMenuKey "Fire Cryo Cannon" +icebeam
 Alias +weaponInfo "netevent +weaponInfo"
 Alias -weaponInfo "netevent -weaponInfo"
+Alias +icebeam "netevent +icebeam"
+Alias -icebeam "netevent -icebeam"
 
 alias "ToggleFlashlight" "netevent toggleflashlight"
 alias "NextGrenade" "netevent nextgrenade"
 alias "ThrowGrenade" "netevent throwgrenade"
+alias "HDEpower" "netevent HaloDoom_SpawnHaloPowerups"
+alias "upgrademdaddy" "netevent HaloDoom_SpawnHaloPowerups"
 alias "HDEall" "netevent HaloDoom_GiveAll"
 alias "HDEamo" "netevent HaloDoom_GiveAllAmmo"
 alias "twosticksandarock" "netevent HaloDoom_GiveAllAmmo"

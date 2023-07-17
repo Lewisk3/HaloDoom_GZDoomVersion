@@ -39,6 +39,7 @@ class HaloRocketProj : HaloSlowProjectile
 		HaloSlowProjectile.MinRangeDamage ROCKET_MINDMG; 
 		HaloSlowProjectile.BaseDamage ROCKET_DMG;
 		HaloSlowProjectile.Speed_MPS ROCKET_BMPS * 0.25;
+		HaloSlowProjectile.SplashSpawner "";
 		
 		DamageType "Rocket";
 		Scale 0.35;
@@ -146,6 +147,9 @@ class HaloRocketExplosion : CheapActor
 			TNT1 A 0;
 			TNT1 A 1 
 			{
+				let splash = Spawn("LargeSplashSpawner", pos);
+				if(splash) splash.A_SetScale(splash.Scale.X * 3.0);
+			
 				let shockwave = Spawn("FX_Shockwave", pos);
 				if(shockwave) 
 				{	
@@ -175,7 +179,7 @@ class HaloRocketExplosion : CheapActor
 			TNT1 A 0 
 			{
 				vector3 fxpos = (pos.xy, pos.z+40);
-				HaloMath.SpawnFX("FragGrenade_FlyingExplosion", fxpos, angle, random(10,20), 10, 20, 180,45, 15);
+				HaloMath.SpawnFX("FragGrenade_FlyingExplosion", fxpos, angle, random[RocketRNG](10,20), 10, 20, 180,45, 15);
 				HaloMath.ExplodeEx(self, damage, 300, selfDamage:0.35);
 			}
 			SX04 EFGHIJKLMNOPQ 1 Bright
@@ -228,6 +232,7 @@ class Halo_RocketLauncher : HaloGun
 {	
 	Default
 	{
+		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 6;
 		Obituary "%o got the Alex Mercer treatment from %k's Rocket Launcher.";
 		Inventory.PickupMessage	"Picked up the M41 SSR MAV/AW Rocket Launcher.";
@@ -236,7 +241,8 @@ class Halo_RocketLauncher : HaloGun
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_RL_Reserves";
 		Weapon.AmmoType2 "Halo_RL_Clip";
-		Weapon.AmmoGive 3;
+		Weapon.AmmoGive 4;
+		HaloGun.Faction "Human";
 				
 		// Recoil
 		HaloGun.Bloom 0.8;
@@ -245,11 +251,18 @@ class Halo_RocketLauncher : HaloGun
 		HaloGun.Inaccuracy ROCKETL_ACCMOD;
 		HaloGun.Crosshair "RktRet", 0.75;
 		HaloGun.UIGraphic "WI_RKT", 1.0, 1.0;
+		HaloGun.SetupUIAmmo "WI_AMM3", 57, 16, 0, 2;
+		HaloGun.UIAmmo_Scale_Offset 2.0, -24,0;
 		
-		HaloGun.Availability "HL1, HL2, HL3, HL4, MSX";
 		HaloGun.PowerTier P_POWER;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
+	}
+	
+	override int GetPowerTier()
+	{	
+		if(HaloPlayer.IsGameType("SpartanOverkill")) return P_STRONG | P_POWER;
+		return super.GetPowerTier();
 	}
 	
 	override void MarkPrecacheSounds()
@@ -321,7 +334,7 @@ class Halo_RocketLauncher : HaloGun
 			WIF1 C 1 Bright
 			{
 				A_SetZoom(0.80,1);
-				A_RecoilOffset(random(6,12),24,4);
+				A_RecoilOffset(random[WeapFX](6,12),24,4);
 				A_SetRecoil(5.0, 3.0, 3);
 				A_FireRocket();
 				A_Recoil(5);
@@ -351,6 +364,11 @@ class Halo_RocketLauncher : HaloGun
 			WIR1 OPQRSTUVWXY 1;
 			WIR1 Z 1 A_SetRecoil(2.0, 2.0, 2);
 			WIR2 ABCDEFG 1;
+			TNT1 A 0 
+			{
+				A_SetSFXPos(10,-40,-10);
+				A_SpawnSFX("Debris_RocketClip", 0, 60);
+			}
 			WIR2 HIJKLMNOPQ 1 A_SetRecoil(-0.5, -0.15, 2);
 			WIR2 RSTUVWXYZ 1;
 			WIR3 ABCDEFGHIJKLMNOPQR 1;

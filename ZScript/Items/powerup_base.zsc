@@ -3,13 +3,37 @@ class HaloPowerup : Powerup
 	string powerupGraphic;
 	Property UIEffect : powerupGraphic;
 	
+	ui virtual void HUDDraw(HaloHUD hudbase, double dt)
+	{
+		// Used to draw stuff to the HUD
+	}
+	
 	override void DoEffect()
 	{
 		super.DoEffect();
+		string finalGraphic = SelectUIGraphic();
+		if(finalGraphic != "") SetOverlayIMG(finalGraphic);
+	}
+	
+	virtual string SelectUIGraphic()
+	{
+		return !isBlinking() ? powerupGraphic : "NONE";
+	}
+	
+	virtual void OnMeleeHit(Actor victim)
+	{
+		// Called from HaloPlayer on all HaloPowerups.
+	}
+	
+	virtual void OnTryMelee(FLineTraceData lt)
+	{
+		// Called from DoHaloMelee (HaloGun) on all HaloPowerups.
+	}
+	
+	void SetOverlayIMG(string toImg)
+	{
 		let hplr = HaloPlayer(Owner);
-		if(hplr && powerupGraphic) 
-			hplr.overlay_img = !isBlinking() ? powerupGraphic : "";
-			
+		if(hplr) hplr.overlay_img = toImg;
 	}
 	
 	static void DoParticles(Actor source, Color pcol = 0xFF21c24c, double amt = 60, double dist = 16, double zoffset = 12)
@@ -41,23 +65,23 @@ class HaloPowerup : Powerup
 			source.A_SpawnParticle(
 				pcol, SPF_FULLBRIGHT, 1, 3.0, 0,
 				spos.x, spos.y, spos.z + zoffs, 0,0,0,0,0,0,
-				frandom(0.15,1.0), 0.025
+				frandom[PrtSpawn](0.15,1.0), 0.025
 			);
 			
-			if(random(0,5)==5)
+			if(random[PrtSpawn](0,5)==5)
 			{
-				ang = frandom(0,360);
-				pit = frandom(-45,45);
+				ang = frandom[PrtSpawn](0,360);
+				pit = frandom[PrtSpawn](-45,45);
 				vector3 rdir = (
 					cos(ang),
 					sin(ang),
 					-sin(pit)
-				) * frandom(2,8);
+				) * frandom[PrtSpawn](2,8);
 				
 				source.A_SpawnParticle(
 					pcol, SPF_FULLBRIGHT, 10, 3.0, ang,
 					0,0, zoffs, rdir.x,rdir.y,rdir.z,0,0,0,
-					frandom(0.15,1.0), 0.025
+					frandom[PrtSpawn](0.15,1.0), 0.025
 				);
 			}
 		}
@@ -213,7 +237,7 @@ class HaloOvershield : Inventory
 			bool localview = toucher.CheckLocalView();
 			PrintPickupMessage(localview, PickupMessage());
 			PlayPickupSound(toucher);
-			toucher.A_StopSound(CHAN_6); // Stop shield warning audio.
+			toucher.A_StopSound(ShieldProcessor.CHAN_SHIELDWARN); // Stop shield warning audio.
 			bSPECIAL = false;
 
 			SetState(FindState("FlashAndDie"));
@@ -232,7 +256,7 @@ class HaloOvershield : Inventory
 		if( (GetAge() % randompick(10,25,50)) != 0 ) return;
 		for(int i = 0; i < amt; i++)
 		{
-			vector2 angles = (frandom(0,360), frandom(-40,40));
+			vector2 angles = (frandom[BiriRNG](0,360), frandom[BiriRNG](-40,40));
 			BiriBiri.DoLightning(pos + (0,0, GetBobOffset() + 12), angles, dist:50, 1.0, 14.0, 10.0, 50, 0);
 		}
 	}
@@ -259,6 +283,654 @@ class HaloOvershield : Inventory
 				if(hplr && flashGraphic) 
 					hplr.overlay_img = ""; 
 				GoAwayAndDie();
+			}
+		stop;
+	}
+}
+
+// Jetpack
+class PowerJetpack : HaloPowerup
+{
+	bool coolingdown;
+	double thrustTime, rechargeTime;
+	double fuel;
+	ui double graphicFuel;
+	Property ThrustDuration : thrustTime;
+	Property RechargeTimer : rechargeTime;
+	
+	Default
+	{
+		Powerup.Duration 0x7FFFFFFD; 
+		Inventory.maxamount 1;
+		+INVENTORY.UNDROPPABLE;
+		+INVENTORY.PERSISTENTPOWER;
+		PowerJetpack.ThrustDuration 5; // 5 seconds of thrust when tanks are full.
+		PowerJetpack.RechargeTimer 5; // 5 seconds to fully recharge.
+	}
+	
+	override string SelectUIGraphic()
+	{
+		return "";
+	}
+	
+	override void HUDDraw(HaloHUD hudbase, double dt)
+	{
+		graphicFuel = HaloMath.Lerp(graphicFuel, fuel, 0.1 * dt);
+		if(graphicFuel >= 0.8 || graphicFuel <= 0.1) graphicFuel = fuel;
+		
+		vector2 circlePos = hudbase.getPowerupPos(1);
+		double perc = graphicFuel;
+		double radius = 40 * hudbase.powerupScale; 
+		Color circleColor = 0xFF63E3DF;
+		if(coolingdown) circleColor = 0xFFE03B3B;
+		
+		let pxl = TexMan.CheckForTexture("BLANK", TexMan.Type_Any);
+		
+		HLSBS.DrawPartialCircle(
+			circlePos, radius, circleColor ,
+			fillpercent:perc, alpha:0.35
+		);
+		
+		String graphic = "Graphics/UI/Abilities/JetpackIcon2.png";
+		string ring = "Graphics/UI/Abilities/JetpackRing.png";
+		let icon = TexMan.CheckForTexture(graphic);
+		vector2 iconSize;
+		[iconSize.x, iconSize.y] = TexMan.getSize(icon);
+		vector2 iconScale = ((radius*2) / iconSize.x, (radius*2) / iconSize.y);
+		
+		HLSBS.DrawImage(graphic, circlePos, alpha:1.0, scale:iconScale, texoffs:(1,1));
+		HLSBS.DrawImage(ring, circlePos, alpha:1.0, scale:iconScale*1.05, texoffs:(1,1));
+	}
+	
+	JetpackExhaust jetLeftExhaust;
+	JetpackExhaust jetRightExhaust;
+	JetpackIcon jetpack;
+	
+	override void DetachFromOwner()
+	{
+		if(jetLeftExhaust ) jetLeftExhaust.Destroy();
+		if(jetRightExhaust) jetRightExhaust.Destroy();
+		if(jetpack) jetpack.Destroy();
+	}
+	
+	override void DoEffect()
+	{
+		// TODO: Maybe figure out a nice way of moving Jetpack movement code here?
+		super.DoEffect();
+		let haloplr = HaloPlayer(Owner);
+		if(!haloplr) return;
+		
+		vector3 plrPos = level.vec3offset((haloplr.pos.xy, haloplr.player.viewz), haloplr.vel);
+		Quat dir = Quat.FromAngles(haloplr.angle, haloplr.pitch, haloplr.roll);
+		
+		if(haloplr.health > 0)
+		{
+			if(!jetpack) jetpack = JetpackIcon(Spawn("JetpackIcon", pos));
+			jetpack.SetOrigin(level.vec3offset(plrPos, dir * (-10, 0, -17)), true);
+			jetpack.angle = haloplr.angle;
+			jetpack.pitch = haloplr.pitch - 90;
+			jetpack.roll = haloplr.roll;
+			jetpack.bONLYVISIBLEINMIRRORS = ( 
+				players[consoleplayer].mo == haloplr  && 
+				haloplr.player.camera == haloplr      && 
+			  !(haloplr.player.cheats & CF_CHASECAM) 
+			); 
+		}
+		else
+		{	
+			if(jetpack) jetpack.Destroy();
+		}
+		
+		if(fuel <= 0 && haloplr.doJetpackMovement) 
+			coolingdown = true;
+			
+		if(haloplr.jumpHeld > 10 && haloplr.health > 0)
+		{
+			vector3 leftPos  = (-10, -10,-10);
+			vector3 rightPos = (-10,  10,-10);
+
+			if(!jetLeftExhaust)
+				jetLeftExhaust = JetpackExhaust(Spawn("JetpackExhaust",pos));
+			else
+			{
+				jetLeftExhaust.target = haloplr;
+				jetLeftExhaust.SetOrigin(level.vec3offset(plrPos, dir * leftPos), true);
+			}
+		
+			if(!jetRightExhaust)
+				jetRightExhaust = JetpackExhaust(Spawn("JetpackExhaust",pos));
+			else
+			{
+				jetRightExhaust.target = haloplr;
+				jetRightExhaust.SetOrigin(level.vec3offset(plrPos, dir * rightPos), true);
+			}	
+		}
+		else
+		{
+			if(jetLeftExhaust ) jetLeftExhaust.Destroy();
+			if(jetRightExhaust) jetRightExhaust.Destroy();
+		}
+		
+		if(fuel < 1.0 && !haloplr.doJetpackMovement && haloplr.jumpHeld < 8) 
+		{
+			fuel += 1.0 / (35 * rechargeTime);
+			if(fuel >= 0.5) coolingdown = false;
+		}
+		fuel = clamp(fuel, 0, 1.0);
+	}	
+}
+
+class JetpackIcon : CheapActor
+{
+	Default
+	{
+		+FLATSPRITE;
+		+ROLLSPRITE;
+		Scale 0.35;
+	}
+	
+	override void PostBeginPlay()
+	{
+		super.PostBeginPlay();
+		pitch = -90;
+	}
+	
+	States
+	{
+		Spawn:
+			PWJP A -1;
+		loop;
+	}
+}
+
+// Visor
+class PowerHaloVisor : HaloPowerup
+{
+	bool enabled;
+	ui double curLight;
+
+	Default
+	{
+		Powerup.Duration 0x7FFFFFFD; 
+		Inventory.maxamount 1;
+		+INVENTORY.UNDROPPABLE;
+		+INVENTORY.PERSISTENTPOWER;
+		
+		HaloPowerup.UIEffect "Graphics/Powerups/VisorOverlay.png"; 
+	}
+
+	override void AttachToOwner(Actor other)
+	{
+		super.AttachToOwner(other);
+		SetEnabled(false);
+	}
+	
+	override void DetachFromOwner ()
+	{
+		SetEnabled(false);
+		
+		let cplr = players[consoleplayer];
+		if(Owner && Owner.player == cplr)
+			PPShader.SetEnabled("visorShader", false);
+	}
+	
+	override string SelectUIGraphic()
+	{
+		return enabled ? powerupGraphic : "";
+	}
+
+	override void HUDDraw(HaloHUD hudbase, double dt)
+	{
+		curLight = HaloMath.Lerp(curLight, Owner.CurSector.lightlevel, 0.06 * dt);
+		SetVisorShader(enabled, curLight);
+	}
+	
+	ui static void SetVisorShader(bool onoff, double curLightLevel = 1.0)
+	{
+		if(onoff)
+		{
+			PPShader.SetEnabled("visorShader", true);
+			PPShader.SetUniform1f("visorShader", "timer", gametic);
+			PPShader.SetUniform1f("visorShader", "curSectorLight", curLightLevel);
+		}
+		else
+		{
+			PPShader.SetEnabled("visorShader", false);
+		}
+	}
+	
+	static void HighlightActor(Inventory visorSource, Actor act, class<HaloVisorHighlight> highlightCls = "HaloVisorHighlight")
+	{
+		let highlight = HaloVisorHighlight(Spawn(highlightCls, act.pos));
+		if(highlight) 
+		{
+			highlight.ChangeStatNum(MAX_STATNUM); 
+			highlight.master = act;
+			highlight.visorSource = visorSource;
+		}
+	}
+	
+	static void HighlightActors(Inventory visorSource, Actor viewer, class<HaloVisorHighlight> highlightCls = "HaloVisorHighlight")
+	{
+		let highlightIt = ThinkerIterator.Create(highlightCls);
+		Actor highlight;
+		
+		let it = ThinkerIterator.Create();
+		Actor act;
+		
+		while(act = Actor(it.Next()))
+		{	
+			if( !act.bSHOOTABLE && !act.bSOLID || act.health <= 0 || 
+				 act.bCORPSE || !viewer.IsVisible(act, false) || 
+				 viewer.Distance2DSquared(act) > (1024*1024)  || 
+				 act is "HaloSlowProjectile" || act is "HaloProjectile"
+			) continue;
+			
+			bool hasHighlight = false;
+			highlightIt.Reinit();
+			while(highlight = Actor(highlightIt.Next()))
+			{	
+				if(highlight && highlight.master == act)
+					hasHighlight = true;
+			}
+			if(!hasHighlight) HighlightActor(visorSource, act, highlightCls);
+		}
+	}
+	
+	override void DoEffect()
+	{
+		super.DoEffect();
+		if(enabled) HighlightActors(self, Owner);
+	}
+
+	void SetEnabled(bool onoff)
+	{
+		enabled = onoff;
+		
+		if(enabled)
+		{
+			powerupGraphic = default.powerupGraphic;
+			if(!Owner.FindInventory("HaloVisorFullbright"))
+				Owner.GiveInventory("HaloVisorFullbright",1);
+		}
+		else
+		{
+			Owner.TakeInventory("HaloVisorFullbright", 1);
+			
+			// Unset overlay image.
+			powerupGraphic = "NONE";
+			SetOverlayIMG(powerupGraphic);
+		}
+	}
+}
+class HaloVisorFullbright : PowerLightAmp
+{
+	Default
+	{
+		Powerup.Duration 0x7FFFFFFD; 
+		Inventory.maxamount 1;
+		+INVENTORY.UNDROPPABLE;
+		+INVENTORY.PERSISTENTPOWER;
+	}
+
+	override void DoEffect()
+	{
+		super.DoEffect();
+		
+		if(Owner.player.fixedcolormap < PlayerInfo.NUMCOLORMAPS) 
+			Owner.player.fixedlightlevel = 1;
+	}
+}
+
+class HaloVisorHighlight : CheapActor
+{
+	Inventory visorSource;
+
+	Default
+	{
+		RenderStyle "Translucent";
+		Alpha 0.5;	
+		+ISMONSTER;
+	}
+	
+	virtual bool CheckVisorEnabled()
+	{
+		let hvs = PowerHaloVisor(visorSource);
+		return hvs && hvs.enabled;
+	}
+	
+	override void Tick()
+	{
+		if( !visorSource || !CheckVisorEnabled() || !visorSource.owner ||
+			!master || master.health <= 0 || master.bCORPSE	)  
+		{
+			Destroy();
+			return;
+		}
+		
+		bInvisible = (players[consoleplayer] != visorSource.owner.player) || players[consoleplayer].mo == master;
+		bBRIGHT = true;
+		angle = master.angle;
+		pitch = master.pitch;
+		roll  = master.roll;
+		Sprite = master.Sprite;
+		Frame = master.Frame;
+		bFloorClip = master.bFloorClip;
+		floorclip = master.floorclip;
+		spriteoffset = master.spriteoffset;
+		
+		vector3 posOffs = (0,0,0);
+		//if(master.vel.z <= 0) posOffs.z = 4; // WTAF is going on here?!?!
+
+		A_SetScale(master.Scale.X, master.Scale.Y);
+		if(master.bISMONSTER && !master.bFriendly)
+			A_SetTranslation("VISOR_ENEMY");
+		else
+			A_SetTranslation("VISOR_FRIENDLY");
+		
+		Actor owner = visorSource.owner;
+		vector3 fwd = (
+			cos(owner.angle) * cos(owner.pitch),
+			sin(owner.angle) * cos(owner.pitch),
+			-sin(owner.pitch)
+		) * -2;
+		
+		SetOrigin(level.vec3offset(master.pos, posOffs + fwd), false);
+		prev = master.pos;
+	}
+	
+	States
+	{
+		Spawn:
+			"####" "#" -1;
+		stop;
+	}
+}
+
+// Repulsor
+class PowerRepulsor : HaloPowerup
+{
+	int parryWait;
+	int parryTics;
+	bool parrying;
+	double cooldown;
+	double cooldownTime;
+	ui double graphicCooldown;
+	
+	Property FreezeTime : parryTics;
+	Property Cooldown : cooldownTime;
+
+	Default
+	{
+		Powerup.Duration 0x7FFFFFFD; 
+		Inventory.maxamount 1;
+		+INVENTORY.UNDROPPABLE;
+		+INVENTORY.PERSISTENTPOWER;
+		PowerRepulsor.FreezeTime 8;
+		PowerRepulsor.Cooldown 35*3;
+		
+		HaloPowerup.UIEffect ""; 
+	}
+	
+	override void OnTryMelee(FLineTraceData lt)
+	{
+		if(cooldown > 0 || !Owner || !Owner.player) return;
+		
+		let haloweap = HaloGun(Owner.player.ReadyWeapon);
+		if(!haloweap) return;
+	
+		let victim = lt.HitActor;
+		if(victim)
+		{
+			bool inMissile = victim.InStateSequence(victim.CurState, victim.FindState("Missile"));
+			bool inMelee = victim.InStateSequence(victim.CurState, victim.FindState("Melee"));
+			if( inMissile || inMelee || victim.bINCOMBAT )
+			{
+				victim.TriggerPainChance("Parry", true);
+				double inertia = HaloMath.GetInertia(victim.mass);
+				
+				vector3 thrust = HaloMath.VecFromAngles(Owner.angle, Owner.pitch, 10) * inertia;; 
+				victim.vel += thrust;
+				victim.vel.z += 10 * inertia;
+				
+				Owner.vel -= thrust;
+				Owner.vel.z += 5 * inertia;
+				BeginParry();
+				
+				let expl = Spawn("ParriedExplosion", lt.HitLocation);
+				if(expl)
+				{
+					expl.master = Owner;
+					expl.target = Owner;
+					expl.SetDamage(32);
+				}
+			}
+		}
+		
+		// Check for missiles		
+		let it = ThinkerIterator.Create();
+		Actor act;
+		LookExParams look;
+		look.FOV = 30;
+		double reflectDist = 100*100;
+		
+		vector3 dir = HaloMath.VecFromAngles(Owner.angle, Owner.pitch);
+		while(act = Actor(it.Next()))
+		{
+			let haloproj = HaloProjectile(act);
+			let haloslowproj = HaloSlowProjectile(act);
+			let nade = HaloGrenade_Proj(act);
+
+			if(!act.bMISSILE) continue;
+			if(act is "LaserBeam") continue; // LOL
+			if(!Owner.IsVisible(act, false, look)) continue;
+			if(!haloproj && act.Distance3DSquared(Owner) > reflectDist) continue;
+			if( haloproj && act.Distance3DSquared(Owner) > (reflectDist*2.0)) continue;
+			if(act.damage <= 0 && !haloproj && !haloslowproj && !nade) continue;
+
+			act.target = Owner;
+			act.vel = dir * (act.vel.Length()*4.0);
+			act.vel += Owner.vel;
+			act.GiveInventory("MissileExplooder", 1);
+			act.SetDamage(act.damage * 20.0);
+
+			if(haloproj) 
+			{
+				haloproj.damageMult = 3;
+				haloproj.explode_dmg *= 2;
+			}
+			if(haloslowproj) 
+			{
+				haloslowproj.damageMult = 3;
+				haloslowproj.explode_dmg *= 2;
+			}
+			
+			SmokeTrail.Start(0xFFFFAAAA, act.pos, level.vec3offset(act.pos, act.vel), (act.angle, act.pitch), 0.45); 
+						
+			BeginParry();
+		}
+	}
+	
+	void BeginParry()
+	{
+		if(cooldown > 0 || !Owner.player) return;
+		
+		let shockwave = Spawn("FX_Shockwave", (Owner.pos.xy, Owner.player.viewz));
+		if(shockwave) shockwave.alpha = 0.5;
+		
+		parrying = true;
+		Owner.A_StartSound("Halo/Powerup/Repulsor", CHAN_AUTO, CHANF_OVERLAP|CHANF_NOPAUSE);
+		Owner.A_QuakeEx(3,3,3,12,0,256, "", flags:QF_SCALEDOWN);
+		cooldown = cooldownTime;
+		parryWait = 2;
+		
+		let haloplr = HaloPlayer(Owner);
+		if(haloplr) haloplr.InvulnTics = 16;
+	}
+
+	override void AttachToOwner(Actor other)
+	{
+		super.AttachToOwner(other);
+
+	}
+	override void DetachFromOwner ()
+	{
+	}
+	
+	override string SelectUIGraphic()
+	{
+		return powerupGraphic;
+	}
+
+	override void HUDDraw(HaloHUD hudbase, double dt)
+	{
+		graphicCooldown = HaloMath.Lerp(graphicCooldown, cooldown / double(cooldownTime), 0.1 * dt);
+		if(graphicCooldown >= 0.8 || graphicCooldown <= 0.1) 
+		{
+			graphicCooldown = cooldown / double(cooldownTime);
+		}
+		
+		double perc = graphicCooldown;
+		double radius = 40 * hudbase.powerupScale; 
+		vector2 circlePos = hudbase.getPowerupPos(3);
+		Color circleColor = 0xFFE03B3B;
+		
+		let pxl = TexMan.CheckForTexture("BLANK", TexMan.Type_Any);
+		String graphic = "Graphics/UI/Abilities/RepulsorIcon.png";
+		string ring = "Graphics/UI/Abilities/JetpackRing.png";
+		let icon = TexMan.CheckForTexture(graphic);
+		vector2 iconSize;
+		[iconSize.x, iconSize.y] = TexMan.getSize(icon);
+		vector2 iconScale = ((radius*2) / iconSize.x, (radius*2) / iconSize.y);
+		
+		
+		HLSBS.DrawImage(graphic, circlePos, alpha:1.0, scale:iconScale, texoffs:(1,1));
+		HLSBS.DrawPartialCircle(
+			circlePos, radius, circleColor ,
+			fillpercent:perc, alpha:0.35
+		);
+		
+		HLSBS.DrawImage(ring, circlePos, alpha:1.0, scale:iconScale*1.05, texoffs:(1,1));
+	}
+
+	override void DoEffect()
+	{
+		super.DoEffect();
+			
+		// [From GZDoom pk3]
+		// 	[RH] Do not change LEVEL_FROZEN on odd tics, or the Revenant's tracer
+		// 	will get thrown off.
+		// 	[ED850] Don't change it if the player is predicted either.
+		if( (Level.maptime & 1) || (Owner != null && Owner.player != null && (Owner.player.cheats & CF_PREDICTING)) )
+		{
+			return;
+		}
+				
+		// No cooldown when QuadDamage is active.
+		if(Owner.FindInventory("HaloPower_Strength")) cooldown = 0;
+		
+		cooldown = max(0,cooldown-1);
+		if(parrying && parryTics > 0)
+		{
+			if(--parryWait <= 0)
+			{
+				parryTics--;
+				Owner.player.cheats |= CF_INTERPVIEW;
+				if(!multiplayer) Level.SetFrozen(true);
+				
+				// Freeze PSprites
+				let pspr = Owner.player.psprites;
+				while (pspr)
+				{
+					pspr.Tics = -1;
+					pspr = pspr.Next;
+				}
+			}
+		}
+		else
+		{
+			if(parrying)
+			{
+				// Resume PSprites
+				let pspr = Owner.player.psprites;
+				while (pspr)
+				{
+					pspr.Tics = 1;
+					pspr = pspr.Next;
+				}
+			}
+		
+			parryTics = default.parryTics;
+			parrying = false;
+			if(!multiplayer) Level.SetFrozen(false);
+		}
+	}
+}
+
+class MissileExplooder : Inventory
+{
+	Default
+	{
+		Inventory.maxamount 1;
+	}
+	
+	override void DoEffect()
+	{
+		super.DoEffect();
+		if(!Owner) 
+		{
+			GoAwayAndDie();
+			return;
+		}
+		
+		if( !Owner.bMISSILE || Owner.vel ~== (0,0,0) )
+		{
+			// Explood
+			let expl = Spawn("ParriedExplosion", Owner.pos);
+			if(expl)
+			{
+				expl.master = Owner;
+				expl.target = Owner.target;
+				expl.SetDamage(Owner.damage);
+			}
+			Owner.A_StartSound("Halo/Weapons/RocketLauncher/Explode", CHAN_AUTO, CHANF_OVERLAP, volume:0.5);
+			Owner.RemoveInventory(self);
+			GoAwayAndDie();
+			return;
+		}
+	}
+}
+
+class ParriedExplosion : CheapActor
+{
+	Default
+	{
+		Scale 0.3;
+		Alpha 0.8;
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0;
+			TNT1 A 1 
+			{
+				let flare = Spawn("TankRocket_Flare", (pos.xy, pos.z+20));
+				if(flare) flare.A_SetScale(0.75);
+				A_QuakeEx(2,2,2,10,0,1024, "", QF_SCALEDOWN);
+			}
+			SX04 ABCD 1 Bright;
+			TNT1 A 0 
+			{
+				vector3 fxpos = (pos.xy, pos.z+40);
+				HaloMath.SpawnFX("FragGrenade_FlyingExplosion", fxpos, angle, random[ParryRNG](2,5), 10, 20, 180,45, 25);
+				A_Explode(damage, 128, flags: 0);
+			}
+			SX04 EFGHIJKLMNOPQ 1 Bright
+			{
+				vector3 fxpos = (pos.xy, pos.z+20);
+				if(!(frame%6))
+					HaloMath.SpawnFX("FragGrenade_Smoke", fxpos, angle, 1, 20, 20, rstyle:STYLE_Subtract);
 			}
 		stop;
 	}

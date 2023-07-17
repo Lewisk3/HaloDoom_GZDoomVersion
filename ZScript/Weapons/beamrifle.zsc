@@ -19,6 +19,7 @@ class LSR_BeamRifle : LaserBeam
 	bool turnOff;
 	double laserDmg;
 	Property LaserDamage : laserDmg;
+	Actor prevVictim;
 
 	Default
 	{
@@ -37,8 +38,8 @@ class LSR_BeamRifle : LaserBeam
 	{
 		aimAtCrosshair();
 		
-		if(hitData.hitType != TRACE_HitNone) 
-			OnImpact(hitData.HitLocation, hitData.hitActor);
+		if(hitData.results.hitType != TRACE_HitNone) 
+			OnImpact(hitData.results.HitPos, hitData.results.hitActor);
 	
 		if(turnOff)
 		{
@@ -52,10 +53,17 @@ class LSR_BeamRifle : LaserBeam
 	override void OnImpact(vector3 hitPos, Actor hitActor)
 	{
 		super.OnImpact(hitPos, hitActor);
-				
-		if(hitActor) 
+		if(!hitActor) prevVictim = NULL;
+		
+		if(hitActor && hitActor != source) 
 		{	
+			if(prevVictim == hitActor) 
+				laserDmg = HaloMath.Lerp(laserDmg, default.laserDmg * 5.0, 1.0 / ceil(TICRATE * 0.5));
+			else
+				laserDmg = default.laserDmg;
+				
 			hitActor.DamageMobj(self, source, laserDmg, DamageType);
+			prevVictim = hitActor;
 			
 			// Spawn Blood
 			if( hitActor.bISMONSTER && !hitActor.bNOBLOOD ) 
@@ -64,7 +72,7 @@ class LSR_BeamRifle : LaserBeam
 
 		for(int i = 0; i < floor(3 * halodoom_effectintensity); i++)
 		{
-			let smoke = Spawn("RisingSmoke", hitData.hitLocation);
+			let smoke = Spawn("RisingSmoke", hitData.results.hitPos);
 			if(smoke) smoke.A_SetScale(0.25);
 		}
 	}
@@ -89,6 +97,7 @@ class Halo_BeamRifle : HaloGun
 	
 	Default
 	{
+		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 6;
 		Obituary "%o was melted by %k's Beam Rifle.";
 		Inventory.PickupMessage	"Picked up the Type-50 Particle Beam Rifle.";
@@ -99,8 +108,8 @@ class Halo_BeamRifle : HaloGun
 		Weapon.AmmoType2 "Halo_BeamRifle_Battery";
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 1;
+		HaloGun.Faction "Covenant";
 		
-		HaloGun.Availability "HL2, HL3, HL4, StarWars";
 		HaloGun.PowerTier P_POWER | P_ENERGY;
 				
 		// Recoil
@@ -115,6 +124,12 @@ class Halo_BeamRifle : HaloGun
 		HaloGun.SetupScope 2.0, 1.0;
 		
 		RecoilWeapon.YOffsetRange 0, 40;
+	}
+	
+	override int GetPowerTier()
+	{	
+		if(HaloPlayer.IsGameType("SpartanOverkill")) return P_STRONG | P_ENERGY;
+		return super.GetPowerTier();
 	}
 		
 	action void A_BeginLaser()
@@ -160,8 +175,8 @@ class Halo_BeamRifle : HaloGun
 		DoSmoke:	
 			TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 3 
 			{
-				let psp = player.GetPSprite(OverlayID());
-				if(psp) psp.frame = random(3,8);
+				let psp = player.FindPSprite(OverlayID());
+				if(psp) psp.frame = random[WeapFX](3,8);
 				A_SetSFXPos(25,-8,-10);
 				double amt = (invoker.heat * 5) * halodoom_effectintensity;
 				
@@ -223,7 +238,7 @@ class Halo_BeamRifle : HaloGun
 				}
 				
 				A_AddRecoil(0.012, 0, 2);
-				A_RecoilOffset(frandom(-4,4), frandom(-8,8), 2);
+				A_RecoilOffset(frandom[WeapFX](-4,4), frandom[WeapFX](-8,8), 2);
 				A_RollQuake(1,10,1);
 				A_Light( (!(GetAge()%4)) * 2 );
 				invoker.heat += 0.017;
@@ -269,7 +284,7 @@ class Halo_BeamRifle : HaloGun
 			{
 				for(int i = 0; i < floor(4 * halodoom_effectintensity); i++) 
 				{
-					A_SetSFXPos(25, -20 + frandom(-8,8), -10 + frandom(-10,10));
+					A_SetSFXPos(25, -20 + frandom[WeapFX](-8,8), -10 + frandom[WeapFX](-10,10));
 					A_SpawnSFX("MuzzleSmoke", 0,0);
 				}
 				invoker.heat -= 0.1;

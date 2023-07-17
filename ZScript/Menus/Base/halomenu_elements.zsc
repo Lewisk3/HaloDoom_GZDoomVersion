@@ -64,17 +64,18 @@ class ANImageQueue ui
 		double dtime = 1000.0 / 60.0;
 		deltatime = (ftime/dtime);
 		
-		uint top = images.Size()-1;
+		int top = images.Size()-1;
 		if(top < 0) return;
 		
 		let cur = images[top];
 		if(!cur) return;
+		cur.Animate(deltatime);
+		
 		if(!cur.active) 
 		{
 			Pop();
 			cur.Destroy();
 		}
-		cur.Animate(deltatime);
 	}
 }
 
@@ -115,6 +116,7 @@ class Button ui
 	bool pressed;
 	bool clicked;
 	bool hovered;
+	bool toggled;
 	TextureID off_tex;
 	TextureID on_tex;
 	TextureID hover_tex;
@@ -182,6 +184,7 @@ class Button ui
 		 HLSBS.DrawString("SmallFont","Hovered: " .. int(hovered), (50,50));
 		 HLSBS.DrawString("SmallFont","Pressed: " .. int(pressed), (50,100));
 		 HLSBS.DrawString("SmallFont","Clicked: " .. int(clicked), (50,150));
+		 HLSBS.DrawString("SmallFont","Toggled: " .. int(toggled), (50,150));
 	}
 	
 	void Draw(double alpha=1.0, Color tint=Color(0,0,0,0))
@@ -225,6 +228,7 @@ class Button ui
 			if(hovered && usemouse) clicked = true;
 		}
 		cur_tex = hovered ? hover_tex : (pressed ? on_tex : off_tex);
+		if(toggled) cur_tex = on_tex;
 	}
 }
 

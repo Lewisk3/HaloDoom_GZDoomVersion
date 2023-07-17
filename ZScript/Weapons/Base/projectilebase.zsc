@@ -12,6 +12,7 @@ class HaloProjectile : FastProjectile
 		+BLOODSPLATTER;
 		DamageType "Bullet";
 		
+		HaloProjectile.SplashSpawner "BulletSplashSpawner";
 		HaloProjectile.SetRanges 61, 123;
 		HaloProjectile.MinRangeDamage 40; 
 		HaloProjectile.BaseDamage 145;
@@ -19,6 +20,14 @@ class HaloProjectile : FastProjectile
 		HaloProjectile.RipperCount 0;
 		HaloProjectile.ConvergeToAim true;
 		HaloProjectile.HeadshotDMGFactor 1.0;
+		HaloProjectile.RicochetChance 10;
+		HaloProjectile.RicochetSound "Ricochet/Generic";
+	}
+	
+	override bool CanCollideWith(Actor other, bool passive)
+	{
+		if(CheckExcludeCollision(other)) return false;
+		return super.CanCollideWith(other, passive);
 	}
 	
 	override int SpecialMissileHit(Actor victim)
@@ -37,6 +46,11 @@ class HaloProjectile : FastProjectile
 		activateLines();
 		super.Tick();
 	
+		if(!bMISSILE || vel ~== (0,0,0)) 
+		{
+			SpawnSplash();
+			DoRicochet();
+		}
 		if(target && GetAge() < 5) SetOrigin(Vec3Offset(target.vel.x,target.vel.y,target.vel.z), true);
 		if(isHoming) Handle_Homing();
 	}
@@ -53,7 +67,7 @@ class HaloSlowProjectile : Actor
 	Actor pinnedActor;
 	double pinDist;
 	int pinTime;
-
+	
 	Property SetupWallpinning : pinDist, pinTime; 
 
 	Default
@@ -66,6 +80,7 @@ class HaloSlowProjectile : Actor
 		+BLOODSPLATTER;
 		DamageType "Bullet";
 		
+		HaloSlowProjectile.SplashSpawner "BulletSplashSpawner";
 		HaloSlowProjectile.SetRanges 0, 0;
 		HaloSlowProjectile.MinRangeDamage 100; 
 		HaloSlowProjectile.BaseDamage 10;
@@ -73,8 +88,16 @@ class HaloSlowProjectile : Actor
 		HaloSlowProjectile.RipperCount 0;
 		HaloSlowProjectile.ConvergeToAim true;
 		HaloSlowProjectile.HeadshotDMGFactor 1.0;
+		HaloSlowProjectile.RicochetChance 0;
+		HaloSlowProjectile.RicochetSound "Ricochet/Generic";
 	}
-			
+	
+	override bool CanCollideWith(Actor other, bool passive)
+	{
+		if(CheckExcludeCollision(other)) return false;
+		return super.CanCollideWith(other, passive);
+	}
+	
 	override void PostBeginPlay()
 	{
 		Init();
@@ -86,6 +109,11 @@ class HaloSlowProjectile : Actor
 		activateLines();
 		super.Tick();
 			
+		if(!bMISSILE || vel ~== (0,0,0)) 
+		{
+			SpawnSplash();
+			// DoRicochet();
+		}
 		if(target && GetAge() < 5) SetOrigin(Vec3Offset(target.vel.x,target.vel.y,target.vel.z), true);
 		if(isHoming) Handle_Homing();
 	}
@@ -203,6 +231,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 {
 	double shatterdmg;
 	bool doexplode;
+	bool force_explosion; // Force supercombine explosion on death.
 	vector3 hitoffs;
 	vector3 hitrelpos;
 	double hitangle;
@@ -226,6 +255,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 		BounceType "Doom";
 		BounceCount 4;
 		RenderStyle "Add";
+		BounceSound "Needler/Ricochet";
 		+INTERPOLATEANGLES;
 		+BOUNCEONWALLS;
 		+BOUNCEONFLOORS;
@@ -247,7 +277,7 @@ class HaloNeedleProjectile : HaloSlowProjectile
 	override int SpecialMissileHit(Actor victim)
 	{
 		int defaultHit = Handle_MissileHit(victim);
-		if(defaultHit == 1) return 1; // Ignore invalid actors.
+		if(defaultHit == 1 || !victim || victim.health <= 0) return 1; // Ignore invalid actors.
 		
 		hitactor = victim;
 		bSOLID = false;
@@ -287,8 +317,21 @@ class HaloNeedleProjectile : HaloSlowProjectile
 		}
 		else if(getTravelDistance() < maxhomdist) // Do homing
 		{
-			Handle_Homing(homTurnMax);
+			Handle_Homing(homTurnMax, ignoreCorpses:true);
 		}
+		if(!bMISSILE) DontSplash();
+		
+		if(GetAge() > 35*3 && bMISSILE)
+		{
+			vel *= 0;
+			bMISSILE = false;
+			SetState(FindState("Death.Explode"));
+			A_StartSound("Needler/Despawn", CHAN_AUTO, CHANF_OVERLAP);
+		}
+	}
+	
+	virtual void OnSuperCombine(Actor victim)
+	{
 	}
 		
 	States
@@ -316,49 +359,56 @@ class HaloNeedleProjectile : HaloSlowProjectile
 		Death.Explode:
 			TRAC A 1 
 			{
-				if((needlecount && needlecount.CountNeedles() >= explodecount) && !doexplode && hitactor) 
+				if( force_explosion || ((needlecount && needlecount.CountNeedles() >= explodecount) && !doexplode && hitactor) ) 
 				{
-					vector3 explodePos = hitactor.pos + (0,0,hitactor.height*0.5);
+					vector3 explodePos = hitactor ? hitactor.pos + (0,0,hitactor.height*0.5) : pos;
+					double hitHeight = hitactor ? hitactor.height * 0.5 : height * 0.5;
+					
 					Spawn("NeedleExplosion_Flare", explodePos);
 					Spawn("NeedleExplosion", explodePos);
 					A_StartSound("Halo/Weapons/Needler/SuperCombine", flags:CHANF_OVERLAP);
 					
 					for(int i = 0; i < 100; i++) 
 					{
-						double ang = frandom(0,360);
-						double pit = frandom(-45,45);
+						double ang = frandom[NeedleDeath](0,360);
+						double pit = frandom[NeedleDeath](-45,45);
 						vector3 rdir = (
 							cos(ang),
 							sin(ang),
 							-sin(pit)
-						) * frandom(20,35);
+						) * frandom[NeedleDeath](20,35);
 						
 						A_SpawnParticle(
 							"Purple", SPF_FULLBRIGHT, 20, 10.0, ang,
-							0,0, hitactor.height*0.5, rdir.x,rdir.y,rdir.z,0,0,0,
-							frandom(0.5,1.0), 0.0125
+							0,0, hitHeight, rdir.x,rdir.y,rdir.z,0,0,0,
+							frandom[NeedleDeath](0.5,1.0), 0.0125
 						);
 					}
 					
-					needlecount.ExplodeNeedles();
-					hitactor.DamageMobJ(self, self.target, shatterdmg * explodecount, "Explosive", 0, angle);
+					if(needlecount) needlecount.ExplodeNeedles();
+					if(hitactor) hitactor.DamageMobJ(self, self.target, shatterdmg * explodecount, "Explosive", 0, angle);
 					A_Explode(128,200,0);
+					
+					// For extended supercombine behavior.
+					OnSuperCombine(hitactor);
 				}
 				
 				if(hitactor) hitactor.DamageMobJ(self, self.target, shatterdmg, "Explosive", 0, angle);
 				if(needlecount) needlecount.RemoveNeedle(self);
 				Spawn("NeedleMiniExplosion", pos);
+				// A_StartSound("Needler/Despawn", CHAN_AUTO, CHANF_OVERLAP);
 				
 				for(int i = 0; i < 10; i++) 
 				{
 					A_SpawnParticle(
 						"Purple", SPF_FULLBRIGHT|SPF_RELVEL,
 						 35,5,
-						 angle+frandom(-90,90), 
-						 frandom(-20,20),frandom(-20,20),frandom(-10,10),
-						 10,10,frandom(-8,8),0,0,-0.1,1.0,0.14,0.15);
+						 angle+frandom[NeedleDeath](-90,90), 
+						 frandom[NeedleDeath](-20,20),frandom[NeedleDeath](-20,20),frandom[NeedleDeath](-10,10),
+						 10,10,frandom[NeedleDeath](-8,8),0,0,-0.1,1.0,0.14,0.15);
 				}
 			}
+			TNT1 A 35; // Wait a bit
 		stop;
 	}
 }
@@ -429,7 +479,12 @@ class HaloBullet : HaloProjectile
 				if(!hitactor) 
 				{
 					HaloMath.ParticlesFX(self, 0xFFfaf611,15,2,10);
-					Spawn("MuzzleSmoke", pos);
+					let smk = Spawn("MuzzleSmoke", pos);
+					
+					// Play ricochet sound on another actor, as this 
+					// one is essentially dead.
+					if(smk && random[RicochetSND](0,3) == 3) 
+						smk.A_StartSound(ricochetSound, CHAN_AUTO, CHANF_OVERLAP);
 				}
 			}
 		stop;
@@ -447,6 +502,7 @@ class RailgunProjectile : FastProjectile
 	vector3 endpos;
 	vector3 posoffs;
 	vector3 dir;
+	double railScale;
 	
 	// Keep track of ripped-through targets so damage isn't done multiple times.
 	int ripamount;
@@ -485,6 +541,7 @@ class RailgunProjectile : FastProjectile
 		victim.vel.z += 10*inertia;
 		
 		// Rip through actors
+		if(victim.health > 0) return 0; // Do not rip through bosses.
 		if(ripamount > 0) 
 		{
 			ripamount--;
@@ -499,7 +556,7 @@ class RailgunProjectile : FastProjectile
 		return super.CanCollideWith(other, passive);
 	}
 	
-	static RailgunProjectile FireRailgun(Actor source, double dmg, double expdmg, vector3 offs, vector2 viewoffs = (0,0))
+	static RailgunProjectile FireRailgun(Actor source, double dmg, double expdmg, vector3 offs, double size = 1.0, vector2 viewoffs = (0,0), bool doShockwave = true, vector3 colors = (0xFFFF0000, 0xFFfc9d03, 0xFFFFFFFF))
 	{
 		vector3 spawnpos = HaloMath.RelativeV3Offset(source, 0,0,0, offs.x, offs.y, offs.z, 1.);
 		let proj = RailgunProjectile(Actor.Spawn("RailgunProjectile", spawnpos));
@@ -519,43 +576,47 @@ class RailgunProjectile : FastProjectile
 				-sin(proj.pitch)
 			) * ((proj.default.speed / 35) * UNIT_METER);
 			proj.dir = proj.vel.Unit();
-	
-			FLineTraceData lt;
-			proj.LineTrace(proj.angle, int.max, proj.pitch, TRF_THRUACTORS, offsetforward:source.radius+16, data:lt);
-			vector3 hitpos = lt.HitLocation;
-			proj.endpos = hitpos;
-			proj.aimdist = lt.Distance;
-			
+
 			double trueDamage = source.GetModifiedDamage("Railgun", dmg, false, proj, source);
+			let lt = RailTracer.RailTrace(source, proj.angle, proj.pitch, 4096*4096, proj.default.ripamount, trueDamage + expdmg, traceFlags:0);
+
+			//FLineTraceData lt;
+			//proj.LineTrace(proj.angle, int.max, proj.pitch, TRF_THRUACTORS, offsetforward:source.radius+16, data:lt);
+			vector3 hitpos = lt.results.HitPos;
+			proj.endpos = hitpos;
+			proj.aimdist = lt.results.Distance;			
+		
 			proj.SetDamage(trueDamage);
 			proj.expdmg = expdmg;
+			proj.railScale = size;
 			
-			Spawn("Railgun_MuzzleExplosion", proj.pos);
+			let muzexp = Spawn("Railgun_MuzzleExplosion", proj.pos);
+			if(muzexp) muzexp.A_SetScale(min(muzexp.default.Scale.X * 2., size));
 			
 			// Outer-most trail
-			let smok = SmokeTrail.Start(0xFFFF0000, spawnpos, hitpos, (proj.angle, proj.pitch), 0.5, type:"RailgunTrail");
+			let smok = SmokeTrail.Start(int(colors.x), spawnpos, hitpos, (proj.angle, proj.pitch), 0.5, type:"RailgunTrail");
 			if(smok)
 			{
-				smok.A_SetScale(15.0 * 0.7);
+				smok.A_SetScale(15.0 * 0.7 * size);
 			}
 			
 			// Outer trail
-			smok = SmokeTrail.Start(0xFFfc9d03, spawnpos, hitpos, (proj.angle, proj.pitch), 1.0, type:"RailgunTrail");
+			smok = SmokeTrail.Start(int(colors.y), spawnpos, hitpos, (proj.angle, proj.pitch), 1.0, type:"RailgunTrail");
 			if(smok)
 			{
-				smok.A_SetScale(10.0 * 0.7);
+				smok.A_SetScale(10.0 * 0.7 * size);
 			}
 			
 			// Inner trail
-			smok = SmokeTrail.Start(0xFFFFFFFF, spawnpos, hitpos, (proj.angle, proj.pitch), 3.0);
+			smok = SmokeTrail.Start(int(colors.z), spawnpos, hitpos, (proj.angle, proj.pitch), 3.0);
 			if(smok)
 			{
-				smok.A_SetScale(5.0 * 0.7);
+				smok.A_SetScale(5.0 * 0.7 * size);
 			}
 			
 			// Shockwave
-			proj.Shockwave(0.2, 0, 0xFF313de8); 
-			proj.Biri(10, 200, 0);
+			if(doShockwave) proj.Shockwave(0.2 * size, 0, 0xFF313de8); 
+			proj.Biri(min(12, 10 * size), min(200, 200 * size), 0);
 			
 			//proj.Shockwave(0.1, 0.1);
 			//proj.Biri(5, 100, 0.1);
@@ -583,13 +644,13 @@ class RailgunProjectile : FastProjectile
 	void Biri(double amt = 5, double dist = 50, double fixed_dist = -1)
 	{
 		double ang = angle+180;
-		biridist = fixed_dist >= 0 ? fixed_dist : frandom(0, 1.0);
+		biridist = fixed_dist >= 0 ? fixed_dist : frandom[BiriRNG](0, 1.0);
 		int adjustedAmt = max(5 * halodoom_effectintensity, 0);
 		for(int i = 0; i < amt; i++)
 		{
 			vector3 biripos = level.vec3offset(startpos, dir * (aimdist * biridist));
-			BiriBiri.DoLightning(biripos, (ang + frandom(-60,60), 0), dist:dist, 1.0, 10.0, 5, 200);
-			if(fixed_dist < 0) biridist += frandom(-0.05, 0.05);
+			BiriBiri.DoLightning(biripos, (ang + frandom[BiriRNG](-60,60), 0), dist:dist, 1.0, 10.0, 5, 200);
+			if(fixed_dist < 0) biridist += frandom[BiriRNG](-0.05, 0.05);
 			biripos.z -= 10;
 			Spawn("LightningLight", biripos);
 			if(i == 0) Spawn("LightSmoke", biripos);
@@ -600,7 +661,7 @@ class RailgunProjectile : FastProjectile
 	{
 		super.Tick();
 		if (isFrozen()) return;
-		Biri(3);
+		Biri(min(3, floor(3 * railScale)));
 	}
 	
 	States
@@ -618,13 +679,14 @@ class RailgunProjectile : FastProjectile
 		Death:
 			TNT1 A 0 
 			{
-				Spawn("Railgun_Explosion", pos);
+				let expl = Spawn("Railgun_Explosion", pos);
+				if(expl) expl.A_SetScale(railScale * expl.default.Scale.X);
 				A_Explode(expdmg, expdmg, 0);
 			}
 		Death.FadeOut:
 			"####" A 1 
 			{
-				bool blink = random(0,1);
+				bool blink = random[BiriRNG](0,1);
 				if(blink) 
 					sprite = GetSpriteIndex("LITA");
 				else
@@ -634,31 +696,11 @@ class RailgunProjectile : FastProjectile
 				if(GetAge()%5 == 0)
 				{
 					for(int i = 0; i < 2; i++)
-						BiriBiri.DoLightning(pos, (angle+frandom(-45, 45)+180, frandom(-90,90)), dist:80, 1.0, 6.0, 5, 100);
+						BiriBiri.DoLightning(pos, (angle+frandom[BiriRNG](-45, 45)+180, frandom[BiriRNG](-90,90)), dist:80*railScale, 1.0, 6.0, 5, 100);
 				}
 			}
 		wait;
 	}
-}
-
-class LSR_Railgun : Laser
-{
-	Default
-	{
-		Radius 2;
-		Scale 1.25;
-		RenderStyle "Add";
-		Alpha 0.75;
-		Laser.Interpolation 1.0;
-		Translation "0:255=@80[255,255,255]"; // 255 200 5
-	}
-	
-	States
-	{
-		Spawn:
-			BEAM A 1 Bright;
-		loop;
-	}	
 }
 
 class RailgunTrail : SmokeTrail
@@ -715,9 +757,13 @@ class Railgun_Explosion : FastActor
 		Spawn:
 			TNT1 A 0;
 			TNT1 A 1
-			{
+			{	
+				let splash = Spawn("LargeSplashSpawner", pos);
+				if(splash) splash.A_SetScale(splash.Scale.X * 3.0);
+			
 				A_StartSound("Halo/Scorpion/MissileExplosion", flags:CHANF_OVERLAP, attenuation: 0.1);
-				Spawn("ImpactSparks", pos);
+				let sprks = Spawn("ImpactSparks", pos);
+				sprks.A_SetScale(scale.x / 1.75);
 			}
 			SX04 A 1 Bright
 			{	
@@ -726,31 +772,31 @@ class Railgun_Explosion : FastActor
 				{
 					// flare.A_SetRenderStyle(1.0, STYLE_AddShaded);
 					// flare.SetShade(0xFF313de8);
-					flare.A_SetScale(0.5);
+					flare.A_SetScale(0.5 * (scale.x / 1.75));
 				}
 				
 				// Flying explosions
-				double adjustedAmt = max(random[railExplode](15,30) * halodoom_effectintensity, 0);
+				double adjustedAmt = max(random[RailgunEXP](15,30) * halodoom_effectintensity, 0);
 				for(int i = 0; i < adjustedAmt; i++)
 				{
-					double spawnang = frandom(0,180);
-					double spawndist = frandom(-10, 10);
+					double spawnang = frandom[RailgunEXP](0,180);
+					double spawndist = frandom[RailgunEXP](-10, 10);
 					vector3 spawndir = (
 						cos(angle + spawnang),
 						sin(angle + spawnang),
 						0
 					) * spawndist;
 					
-					spawndir.z = frandom(-30,30);
+					spawndir.z = frandom[RailgunEXP](-30,30);
 					let expl = Spawn("TankRocket_FlyingExplosion", level.vec3offset(pos, spawndir));
 					if(expl)
 					{
-						expl.A_SetScale(0.25);
-						double velang = frandom(-180,180);
+						expl.A_SetScale(0.2 * (scale.x / 1.75));
+						double velang = frandom[RailgunEXP](-180,180);
 						vector3 veldir = (
 							cos(velang),
 							sin(velang),
-							sin(frandom(-45,45)) * 1.5
+							sin(frandom[RailgunEXP](-45,45)) * 1.5
 						);
 						expl.vel = veldir * 10;
 					}
@@ -767,6 +813,7 @@ class Railgun_MuzzleExplosion : FastActor
 	{
 		+ROLLSPRITE;
 		Scale 0.5;
+		Alpha 0.5;
 	}
 	
 	States
@@ -785,5 +832,51 @@ class Railgun_MuzzleExplosion : FastActor
 			}
 			FX58 Q 1 Bright A_FadeOut(0.05);
 		stop;
+	}
+}
+
+class RailTracer : LineActivatorTracer
+{
+	int ripamt;
+	double raildmg;
+		
+	static RailTracer RailTrace(Actor src, double tangle, double tpitch, double dist, int ripamount, double dmg, uint traceflags = 0)
+	{
+		let tracer = new("RailTracer");
+		if(tracer) 
+		{
+			tracer.src = src;
+			tracer.ripamt = ripamount;
+			tracer.raildmg = dmg;
+			
+			let angles = Quat.FromAngles(tangle, tpitch, src.roll);
+			vector3 dir = angles * (1.0,0,0);
+			vector3 tracePos = level.vec3offset(src.pos, angles * (src.radius+16,0,0));
+			if(src.player) tracePos.z = src.player.viewz;
+			tracer.Trace(tracePos, src.CurSector, dir, dist, traceflags);
+		}
+		return tracer;
+	}
+		
+	override ETraceStatus TraceCallback()
+	{
+		if(results.HitType == Trace_HitWall)
+			return HandleWall();
+		
+		if(results.HitType == Trace_HitFloor || results.HitType == Trace_HitCeiling)
+			return Trace_Stop;
+		
+		if(results.HitType == Trace_HitActor)
+		{
+			let hitAct = results.HitActor;
+			if(hitAct == src || !hitAct.bSOLID && !hitAct.bSHOOTABLE) 
+				return Trace_Skip;
+
+			if( ripamt-- > 0 && hitAct && (hitAct.health - raildmg) <= 0 )
+				return Trace_Skip;
+			else 
+				return Trace_Stop;
+		}
+		return Trace_Stop;
 	}
 }

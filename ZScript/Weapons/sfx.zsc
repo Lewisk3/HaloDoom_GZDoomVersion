@@ -80,103 +80,12 @@ class SmokeTrail : CheapActor
 		Spawn:
 			BEAM A 4;
 		Spawn.Loop:
-			BEAM A 1 A_FadeOut(fadespd);
-		loop;
-	}
-}
-
-class BulletCasing : Actor
-{
-	int animspd;
-	Property AnimateSpeed : animspd;
-	Default
-	{
-		Speed 4;
-		BulletCasing.AnimateSpeed 2;
-		Projectile;
-		BounceType "Doom";
-		BounceCount 3;
-		BounceFactor 0.7;
-		-SOLID;
-		-NOGRAVITY;
-		Gravity 0.35;
-		Radius 2;
-		Height 2;
-		Scale 0.15;
-	}
-	
-	override bool CanCollideWith(Actor other, bool passive)
-	{
-		if(other is "PlayerPawn") return false;
-		return super.CanCollideWith(other, passive);
-	}
-	
-	override void Tick()
-	{
-		bool dosmoke = true;
-		let src = HaloGun(target);
-		if(src && src.cvfx_smoke)
-			dosmoke = src.cvfx_smoke.GetBool();
-			
-		if( !(level.maptime%10) && random[SpawnSmoke](0,1) && GetAge() < 3*35 && dosmoke )
-		{
-			let smoke = Spawn("CasingSmoke", pos);
-			if(smoke) 
+			BEAM A 1 
 			{
-				smoke.vel = vel;
-				smoke.A_SetScale(frandom(0.04,0.15));
-				smoke.alpha = frandom(0.05,0.5);
+				A_FadeOut(fadespd);
+				A_SetScale(scale.x * 1.03, scale.y * 1.03);
 			}
-		}
-		super.Tick();
-	}
-	
-	States
-	{
-		Spawn:
-			CAS3 A 1;
-		Animate:
-			"####" ABCDEFGHI 2 A_SetTics(animspd);
 		loop;
-		XDeath:
-		Death:
-		Crash:
-			"####" A 2100 // 1 minute 
-			{
-				bNOINTERACTION = true;
-				frame = random(10,13);
-			}
-		WaitDeath:
-			"####" "#" 1 A_FadeOut(0.002);
-		wait;
-	}
-}
-
-class CasingSmoke : Actor
-{
-	Default
-	{
-		Speed 2;
-		+NOINTERACTION;
-		RenderStyle "Add";
-		Alpha 0.5;
-		Scale 0.15;
-	}
-	
-	override void Tick()
-	{
-		super.Tick();
-		vel.z += 0.05;
-		vel *= 0.87;
-	}
-	
-	States
-	{
-		Spawn:
-			SMKE ABCDEFGHIJKLMNOPQR 3;
-		Death:
-			SMKE R 1 A_FadeOut(0.07);
-		wait;
 	}
 }
 
@@ -198,11 +107,11 @@ class MuzzleSmoke : CasingSmoke
 	override void BeginPlay()
 	{
 		super.BeginPlay();
-		rolldir = randompick(-1,1);
-		fadespd = frandom(0.8,2.0);
-		vel.x += frandom(-1,1);
-		vel.y += frandom(-1,1);
-		A_SetScale(frandom(0.02,0.1));
+		rolldir = randompick[MuzzleSM](-1,1);
+		fadespd = frandom[MuzzleSM](0.8,2.0);
+		vel.x += frandom[MuzzleSM](-1,1);
+		vel.y += frandom[MuzzleSM](-1,1);
+		A_SetScale(frandom[MuzzleSM](0.02,0.1));
 	}
 	
 	override void Tick()
@@ -247,21 +156,6 @@ class RisingSmoke : MuzzleSmoke
 	}
 }
 
-
-class ShellCasing : BulletCasing
-{
-	Default
-	{
-		Speed 2;
-	}
-	States
-	{
-		Spawn:
-			CAS2 A 1;
-		goto Animate;
-	}
-}
-
 class MuzzleSparks : Actor
 {	
 	double grav;
@@ -269,8 +163,11 @@ class MuzzleSparks : Actor
 	
 	Default
 	{
+		+BRIGHT;
 		+NOINTERACTION;
 		RenderStyle "Add";
+		Radius 1;
+		Height 1;
 		Scale 0.04;
 		MuzzleSparks.FXGravity 1.2;
 	}
@@ -278,7 +175,7 @@ class MuzzleSparks : Actor
 	override void BeginPlay()
 	{
 		super.BeginPlay();
-		grav += frandom(-grav*0.1, grav*0.1);
+		grav += frandom[MuzzleSP](-grav*0.1, grav*0.1);
 	}
 	
 	override void Tick()
@@ -297,8 +194,8 @@ class MuzzleSparks : Actor
 		if(smoke) 
 		{
 		//	smoke.vel = vel;
-			smoke.A_SetScale(frandom(0.10,0.15));
-			smoke.alpha = frandom(0.07,0.14);
+			smoke.A_SetScale(frandom[MuzzleSP](0.10,0.15));
+			smoke.alpha = frandom[MuzzleSP](0.07,0.14);
 		}
 	}
 	
@@ -307,7 +204,7 @@ class MuzzleSparks : Actor
 		Spawn:
 			TNT1 A 0 NoDelay 
 			{
-				vel *= frandom(0.8, 1.2);
+				vel *= frandom[MuzzleSP](0.8, 1.2);
 			}
 		SpawnLoop:
 			IPF2 "#" 1 Bright 
@@ -315,7 +212,7 @@ class MuzzleSparks : Actor
 				if(++frame > 3) frame = 0;
 				A_FadeOut(1. / 25.);
 			}
-			TNT1 A 0 A_JumpIf(GetAge() > 25, "Null");
+			TNT1 A 0 A_JumpIf(GetAge() > 35, "Null");
 		loop;
 	}
 }
@@ -357,20 +254,6 @@ class FX_Shockwave : CheapActor
 		Spawn:
 			SWVE A -1;
 		stop;
-	}
-}
-
-class SmallCasing : BulletCasing
-{
-	Default
-	{
-		Speed 5;
-	}
-	States
-	{
-		Spawn:
-			CAS1 A 1;
-		goto Animate;
 	}
 }
 
@@ -467,7 +350,7 @@ class RepulsorField : Actor
 		}
 	}
 	
-	void A_DoRepulse(double limit = 6)
+	void A_DoRepulse(Actor src, double limit = 6)
 	{
 		double ZDoomToReal = 1.0;
 			
@@ -477,7 +360,7 @@ class RepulsorField : Actor
 		while(act = Actor(physIt.Next()))
 		{
 			if(!act.bSOLID && !act.bMISSILE) continue;
-			if(!act.IsVisible(self, true)) continue;
+			if(!act.IsVisible(self, true) || !act.CanCollideWith(self, false) ) continue;
 			
 			vector3 affectorPos = (act.pos.xy, act.pos.z + (act.height*0.5));
 			vector3 forceDir = HaloMath.SphereBetween(pos, affectorPos);
@@ -497,8 +380,15 @@ class RepulsorField : Actor
 			vector3 pushForce = HaloMath.VecFromAngles(forceDir.x, forceDir.y, force); 
 			pushForce.xy *= 0.8;
 			pushForce.z *= -1;
-			act.vel += pushForce;
 			
+			if(forceDir.z <= 96 && src)
+			{
+				act.vel += HaloMath.VecFromAngles(src.angle, src.pitch, force); 
+			}
+			else
+			{
+				act.vel += pushForce;
+			}
 			if(act.bMISSILE) act.vel = HaloMath.VecFromAngles(forceDir.x, -forceDir.y, act.vel.Length());
 		}
 	}
@@ -508,7 +398,7 @@ class RepulsorField : Actor
 		Spawn:
 			TNT1 A 2 NoDelay DrawField();
 		Repulse:
-			TNT1 A 1 A_DoRepulse();
+			TNT1 A 1 A_DoRepulse(target);
 		loop;
 	}
 }

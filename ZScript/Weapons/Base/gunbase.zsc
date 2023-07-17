@@ -10,7 +10,8 @@ class HaloGun : RecoilWeapon
 		P_POWER  = 1 << 5,
 		P_ENERGY = 1 << 6,
 		P_UBER   = 1 << 7,
-		P_MELEE  = 1 << 8
+		P_MELEE  = 1 << 8,
+		P_ANY    = 1 << 9
 	}
 				
 	transient CVar cvfx_smoke;
@@ -28,15 +29,21 @@ class HaloGun : RecoilWeapon
 	uint SpawnTier;
 	uint SpawnRarity;
 	int reload_ammoleft;
+	double modifyAmmoUsage; // Used whenever A_TakeAmmo is called.
 	double damage_modifier;
 	double baserecoil;
 	double spreadmod; // Spread introduced by continuous fire
 	double bloomamt, bloomspd, accmod;
 	double rotation_range;
 	double rotation_sens;
+	bool bottomless_reserves; // Reserves do not deplete.
 	bool donefirstdrawanim; 
 	bool handsbusy; // Keep track of melee stuff and other hand actions.
+	bool feetbusy; 
+	bool nokick; // Disables kick for this weapon.
+	bool skipreload; // Skips reload animations.
 	Weapon NextWeapon;
+	Name faction; // Weapon faction, usually; Human, Covenant or Forerunner
 	
 	// UI Stuff
 	const SIGHT_OVERLAY = 0xFF;
@@ -56,7 +63,6 @@ class HaloGun : RecoilWeapon
 	double scopezoom;
 	bool zoomed;
 	int zoom_btnstate;
-	string gametypes_str; // Spawn filters based on selected gametype.
 	
 	bool uses_battery;
 	bool GunLightningFlash;
@@ -69,6 +75,10 @@ class HaloGun : RecoilWeapon
 	flagdef SI_Rotate : sightFlags, 1;
 	flagdef SI_AlwaysHide : sightFlags, 2;
 	
+	// Sight buttons
+	bool ADS_Pressed, ADS_Held, ADS_Up, ADS_Down;
+	uint ADS_DownTics;
+	
 	// Disable HUD while selected.
 	bool HUD_Hide;
 	
@@ -76,6 +86,13 @@ class HaloGun : RecoilWeapon
 	const CHAN_RELOADING = CHAN_7;
 	Sound snd_zoomin;
 	Sound snd_zoomout;
+	
+	// HUD Ammo Setup
+	string hudAmmo_graphic;
+	double hudAmmo_scale;
+	double hudAmmo_xSpacing, hudAmmo_ySpacing;
+	double hudAmmo_xOffs, hudAmmo_yOffs;
+	uint hudAmmo_XMax, hudAmmo_YMax;
 	
 	Property Bloom : bloomamt;
 	Property BloomSpeed : bloomspd;
@@ -87,14 +104,17 @@ class HaloGun : RecoilWeapon
 	Property BackpackReloadTime : backpack_reloadmaxtime;
 	property UIGraphic : UI_Icon, iconScaleX, iconScaleY;
 	Property UISight : UI_Sight, sightscale, sightalpha;
+	Property SetupUIAmmo : hudAmmo_graphic, hudAmmo_xSpacing, hudAmmo_ySpacing, hudAmmo_XMax, hudAmmo_YMax;
+	Property UIAmmo_Scale_Offset : hudAmmo_scale, hudAmmo_xOffs, hudAmmo_yOffs;
 	Property SetupScope : scopezoom, scoperecoil;
 	Property ZoomSounds : snd_zoomin, snd_zoomout;
 	Property LowerOnMelee : meleelower;
 	Property HasBattery : uses_battery, battery_drain;
-	Property Availability : gametypes_str;
 	Property PowerTier : SpawnTier;
 	Property Rarity : SpawnRarity;
 	Property _ProjDamageMod : damage_modifier;
+	Property DisableKicking : nokick;
+	Property Faction : faction;
 
 	enum ButtonStates
 	{
@@ -121,8 +141,9 @@ class HaloGun : RecoilWeapon
 		HaloGun._ProjDamageMod 1.0;
 		HaloGun.LowerOnMelee 50;
 		HaloGun.PowerTier P_NULL;
-		HaloGun.Availability "ALL";
 		HaloGun.Rarity 100;
+		HaloGun.SetupUIAmmo "WI_AMMO", 12.5, 12.5, 0, 14;
+		HaloGun.UIAmmo_Scale_Offset 1.0, 0,0;
 		Weapon.BobRangeX 1.5;
 		Weapon.BobRangeY 0.6;
 		Weapon.BobSpeed 0.5;
@@ -133,13 +154,36 @@ class HaloGun : RecoilWeapon
 	// Called when a new level is loaded.
 	virtual void LevelLoaded()
 	{
-		if(handsbusy) 
-		{
-			let haloplr = HaloPlayer(Owner);
-			if(haloplr) haloplr.ResetMovementMods();
-			
-			A_FinishMelee();
-		}
+		let haloplr = HaloPlayer(Owner);
+		if(haloplr) haloplr.ResetMovementMods();
+		
+		if(handsbusy) A_FinishMelee();
+		if(feetbusy) A_FinishKick();
+	}
+	
+	// UI Stuff
+	ui virtual void OverlayUIFX(RenderEvent ev, double deltaTime)
+	{
+		// Used for custom overlay elements for specific weapons.
+	}
+	
+	ui virtual void UnderlayUIFX(RenderEvent ev, double deltaTime)
+	{
+		// Used for custom underlay elements for specific weapons.
+	}
+	
+	ui virtual void DrawCrosshairUI(double deltaTime)
+	{
+		// Used to draw UI effects on the HUD, usually near the crosshair.
+	}
+	
+	ui virtual bool DrawAmmoUI(vector2 ammoPos, double deltaTime)
+	{
+		// Used for customizing ammunition display.
+		// returning true blocks the default ammo drawing code.
+		// returns false by default.
+		
+		return false;
 	}
 	
 	clearscope virtual void GetStatsLore(out Array<String> stats, out string lore)
@@ -149,27 +193,52 @@ class HaloGun : RecoilWeapon
 		lore = "Error 404: Description not found.";
 	}
 
-	// Game Type functions.
-	clearscope static uint getGameTypeFlags(class<HaloGun> weap)
+	// Game Type function(s).		
+	clearscope static void getGameTypeWeapons(string gametypeName, out Array<String> weapslist)
 	{
-		let weapDefs = GetDefaultByType(weap);
-		return HaloMath.gameTypesToFlags(weapDefs.gametypes_str);
-	}
+		Array<GameTypeInfo> gametypes;
+		HaloMath.getGameTypes(gametypes);
 		
-	clearscope static void getGameTypeWeapons(uint gametype, out Array<String> weapslist)
-	{
-		for(int i = 0; i < AllActorClasses.Size(); i++)
+		for(int i = 0; i < gametypes.Size(); i++)
 		{
-			let actType = HaloGun(GetDefaultByType(AllActorClasses[i]));
-			if( !actType || actType.getClass() == "HaloGun") continue;
-			
-			// Skip weapons outside spawning parameters.
-			uint weapon_gametype = Halogun.getGameTypeFlags(actType.getClass());
-			if( gametype != 0 && !(weapon_gametype & gametype) ) 
-				continue;
+			let gt = gametypes[i];
+			if(gt.defName ~== gametypeName)
+			{
+				if( !(gt.flags & gt.DONTFILTERWEAPONS) )
+				{
+					for(int w = 0; w < gt.weaponClasses.Size(); w++)
+					{
+						let weapClass = (class<Weapon>)(gt.weaponClasses[w]);
+						if(weapClass) 
+						{
+							let defs = GetDefaultByType(weapClass);
+							weapsList.Push(defs.getTag());
+						}
+						else
+						{
+							console.printf("\c[DarkRed]GameType \"%s\" Error :> Unknown weapon class %s.", StringTable.Localize(gt.displayName), gt.weaponClasses[w]);
+						}
+					}
+				}
+				else
+				{
+					for(int i = 0; i < AllActorClasses.Size(); i++)
+					{
+						let actType = HaloGun(GetDefaultByType(AllActorClasses[i]));
+						if( !actType || actType.getClass() == "HaloGun") continue;
 						
-			weapslist.Push(actType.getTag());
+						weapslist.Push(actType.getTag());
+					}
+				}
+			}
 		}
+	}
+	
+	action void A_HUDMessage(string msg, Actor plr = NULL)
+	{
+		if(!plr) plr = self;
+		let hplr = HaloPlayer(plr);
+		if(hplr) hplr.SendHUDMessage(msg);
 	}
 
 	// Weapon functions
@@ -179,16 +248,28 @@ class HaloGun : RecoilWeapon
 		if(wp) wp.clipammo = dropper.countinv(ammotype2);
 	}
 	
-	action double A_CheckMeleeRange(double maxrange = 512)
+	// Called when a weapon is dropped then switched out for another.
+	virtual void OnDropSwap()
+	{
+		if(Owner) Owner.A_StopSound(CHAN_VOICE);
+	}
+	
+	// Used for dynamically changing the spawn tier of certain weapons. 
+	virtual int GetPowerTier()
+	{
+		return SpawnTier;
+	}
+	
+	action double A_CheckMeleeRange(double maxrange = 512, bool skipWalls = false)
 	{
 		FLineTraceData lt;
 		LineTrace(angle, maxrange, pitch, 0, player.viewheight, data:lt);
-		return lt.Distance;
+		return (skipWalls && !lt.hitActor) ? maxrange : lt.Distance;
 	}
 		
-	action void DoSpriteLightning(double amt, double boltAngle, vector2 startPos, vector2 xy_spread = (20,20), double boltlen = 100, double stepsize = 1.0, double size = 1.0, double roughness = 10, uint layerStart = -200)
+	action void DoSpriteLightning(double amt, double boltAngle, vector2 startPos, vector2 xy_spread = (20,20), double boltlen = 100, double stepsize = 1.0, double size = 1.0, double roughness = 10, int layerStart = -600)
 	{
-		uint curLayer = layerStart;
+		int curLayer = layerStart;
 		double boltSize = 0.5;
 		double curAngle = boltAngle;
 		vector2 curPos = startPos;
@@ -199,21 +280,22 @@ class HaloGun : RecoilWeapon
 		{
 			curAngle = boltAngle;
 			curPos = startPos + (
-				frandom(-xy_spread.x,xy_spread.x), 
-				frandom(-xy_spread.y,xy_spread.y)
+				frandom[BiriRNG](-xy_spread.x,xy_spread.x), 
+				frandom[BiriRNG](-xy_spread.y,xy_spread.y)
 			);
 			prevBiri = NULL;
 			
 			for(int i = 0; i < boltlen; i++)
 			{
-				curAngle += frandom(-roughness, roughness);
+				curAngle += frandom[BiriRNG](-roughness, roughness);
 				vector2 dir = ( cos(curAngle), sin(curAngle) ) * (boltSize * stepsize);
 				curPos += dir;
 				
 				player.setPSprite(curLayer, ResolveState("SetupGunLightning"));
-				PSprite curBiri = player.GetPSprite(curLayer);
+				PSprite curBiri = player.FindPSprite(curLayer);
 				if(curBiri)
 				{
+					curBiri.caller = invoker;
 					curBiri.x = curPos.x;
 					curBiri.y = curPos.y;
 					curBiri.bPivotPercent = true;
@@ -241,14 +323,18 @@ class HaloGun : RecoilWeapon
 		}
 	}
 	
-	action Actor A_HaloMelee(int damage, double range = 48, vector2 fpthrust = (12,5), Sound hitsnd = "", Sound wallsnd = "", Name damageType = "Melee", bool doHitThrust = true)
+	action Actor A_HaloMelee(int damage, double range = 48, vector2 fpthrust = (12,5), Sound hitsnd = "", Sound wallsnd = "", Name damageType = "Melee", bool doHitThrust = true, bool forceThrust = false)
 	{
-		return DoHaloMelee(self, damage,range,fpthrust,hitsnd,wallsnd,damageType,doHitThrust);
+		return DoHaloMelee(self, damage,range,fpthrust,hitsnd,wallsnd,damageType,doHitThrust,forceThrust);
 	}
 	
-	static Actor DoHaloMelee(Actor source, int damage, double range = 48, vector2 fpthrust = (12,5), Sound hitsnd = "", Sound wallsnd = "", Name damageType = "Melee", bool doHitThrust = true)
-	{	
+	action Actor A_GetMeleeVictim(double range = 48)
+	{
 		FLineTraceData lt;
+		return invoker.GetMeleeVictim(self, lt, range);
+	}
+	static Actor GetMeleeVictim(Actor source, out FLineTraceData lt, double range = 48)
+	{
 		double aimz = source.player ? source.player.viewheight : (source.height * 0.5);
 		source.LineTrace(source.angle, range, source.pitch, 0, aimz, data:lt);
 		Actor victim = lt.HitActor;
@@ -259,16 +345,47 @@ class HaloGun : RecoilWeapon
 			victim = lt.hitActor;
 		}
 		
+		return victim;
+	}
+	
+	static void CallTryMelee(Actor source, double range = 100)
+	{
+		FLineTraceData lt;
+		let victim = GetMeleeVictim(source, lt, range);
+	
+		// Call on try melee for powerups
+		for(let item = source.Inv; item.Inv; item = item.Inv)
+		{
+			let hpwr = HaloPowerup(item);
+			if(!hpwr) continue;
+			
+			hpwr.OnTryMelee(lt);
+		}
+	}
+	
+	static Actor DoHaloMelee(Actor source, int damage, double range = 48, vector2 fpthrust = (12,5), Sound hitsnd = "", Sound wallsnd = "", Name damageType = "Melee", bool doHitThrust = true, bool forceThrust = false)
+	{	
+		FLineTraceData lt;
+		let victim = GetMeleeVictim(source, lt, range);
+		CallTryMelee(source);
+		
 		if(victim && victim.bSHOOTABLE) 
 		{
 			vector3 victimAngles = level.sphericalCoords(victim.pos, source.pos, (victim.angle, victim.pitch));
 			if(abs(victimAngles.x) >= 120) damage *= 3.45; // Backstab!
 		
 			double inertia = HaloMath.GetInertia(victim.mass);
-			victim.DamageMobJ(source, source, damage, damageType, 0, source.angle);
-			if(!victim.bNOBLOOD) victim.BloodSplatter(lt.HitLocation, source.angle, true);
-			victim.Thrust(fpthrust.x*inertia, source.angle);
-			victim.vel.z += (fpthrust.y*inertia);
+			if(damage > 0) 
+			{	
+				victim.DamageMobJ(source, source, damage, damageType, 0, source.angle);
+				if(!victim.bNOBLOOD) victim.BloodSplatter(lt.HitLocation, source.angle, true);
+			}
+			
+			if(!victim.bDONTTHRUST || forceThrust) 
+			{
+				victim.vel.z += (fpthrust.y*inertia);
+				victim.Thrust(fpthrust.x*inertia, source.angle);
+			}
 			source.A_Quake(2,3,0,20,"");
 			source.A_StartSound(hitsnd, CHAN_WEAPON, flags:CHANF_OVERLAP);
 			
@@ -299,7 +416,7 @@ class HaloGun : RecoilWeapon
 	// For some reason weapons start with an odd offset.
 	action void A_DoSelectAnim(double yoffs = 0., bool first_time_draw = false)
 	{
-		 A_RecoilOffset(0, 20 + yoffs, 2);
+		 A_RecoilOffset(0, 20 + yoffs, 2, forced:true);
 		 if(first_time_draw) invoker.donefirstdrawanim = true;
 	}
 
@@ -312,6 +429,7 @@ class HaloGun : RecoilWeapon
 	{
 		double scopemod = (invoker.scoperecoil == 0) ? 1.0 : invoker.scoperecoil;
 		double finalspread = frandom[GunRecoil](-invoker.baserecoil, invoker.baserecoil)*(1.0+(invoker.spreadmod*invoker.accmod)) * scopemod;
+		if(invoker.handsbusy) finalspread *= 2.5;
 		return finalspread;
 	}
 	
@@ -351,6 +469,19 @@ class HaloGun : RecoilWeapon
 		double scopemod = (invoker.scoperecoil == 0) ? 1.0 : invoker.scoperecoil;
 		
 		let aproj = A_FireProjectile(proj,0, false, leftright, updown, 0,0);
+		
+		// Adjust projectile position so as to be perspective correct.
+		let plr = PlayerPawn(self);
+		if(aproj && plr)
+		{
+			let dir = Quat.FromAngles(angle, pitch, roll);
+			vector3 atkPos = (pos.xy, player.viewz);
+			double attackZ = -plr.AttackZOffset;
+			
+			vector3 offs = (0, -leftright, updown + attackZ);
+			aproj.SetOrigin(level.vec3offset(atkPos, dir * offs), false);
+		}
+		
 		let haloProj = HaloProjectile(aproj);
 		let haloSlowProj = HaloSlowProjectile(aproj);
 		
@@ -360,6 +491,7 @@ class HaloGun : RecoilWeapon
 			
 			// Follow player's velocity on spawn.
 			aproj.vel += vel;
+			aproj.target = self;
 			
 			vector2 recoil = (
 				(A_RecoilSpread()*spreadmod*scopemod),
@@ -367,7 +499,7 @@ class HaloGun : RecoilWeapon
 			);
 			
 			aproj.angle = angle;
-			aproj.pitch = pitch;
+			aproj.pitch = pitch + viewpitch;
 			
 			vector3 aimpos = aproj.pos;
 			if(plr)
@@ -375,10 +507,11 @@ class HaloGun : RecoilWeapon
 				aimpos = plr.aimpos;
 				bool inRange = (
 					abs(plr.aimActor_anglesTo.x) <= halodoom_magnetism && 
-					abs(plr.aimActor_anglesTo.y) <= halodoom_magnetism
+					abs(plr.aimActor_anglesTo.y) <= halodoom_magnetism && 
+					abs(plr.aimActor_anglesTo.z) <= 1024
 				);
 				
-				if( plr.aimActor_nearest && inRange && !plr.aimActor )  
+				if( plr.aimActor_nearest && inRange && plr.aimActor != plr.aimActor_nearest )  
 					aimpos = (plr.aimActor_nearest.pos.xy, plr.aimActor_pos.z);
 				
 			}
@@ -483,13 +616,17 @@ class HaloGun : RecoilWeapon
 		
 	action void A_FollowRotation(int DEST_LAYER, int SRC_LAYER, double mul = 1.0)
 	{
-		let src_psp = player.GetPSprite(SRC_LAYER);
+		let src_psp = player.FindPSprite(SRC_LAYER);
+		if(!src_psp) return;
+	
 		A_OverlayPivotAlign(DEST_LAYER, PSPA_CENTER, PSPA_CENTER);
 		A_OverlayRotate(DEST_LAYER, src_psp.rotation*mul);
 	}
 	action void A_FollowRotatedPos(int DEST_LAYER, int SRC_LAYER, vector2 max, double mul = 1.0, vector2 offs = (0,0))
 	{
-		let src_psp = player.GetPSprite(SRC_LAYER);
+		let src_psp = player.FindPSprite(SRC_LAYER);
+		if(!src_psp) return;
+		
 		vector2 rvec = (cos(src_psp.rotation+90)*max.x, sin(src_psp.rotation)*max.y) * mul;
 		if(!invoker.handsbusy) rvec.y -= invoker.staticoffs.y;
 		bool hidezoom = invoker.scopezoom >= 2.0 && invoker.zoomed;
@@ -497,7 +634,7 @@ class HaloGun : RecoilWeapon
 		A_OverlayOffset(DEST_LAYER, rvec.x + offs.x, rvec.y + offs.y + (hidezoom ? 0x7FFFFF : 0));
 		
 		// Scale
-		let dst_psp = player.GetPSprite(DEST_LAYER);
+		let dst_psp = player.FindPSprite(DEST_LAYER);
 		if(dst_psp && src_psp) dst_psp.scale = src_psp.scale; 
 	}
 	
@@ -520,26 +657,26 @@ class HaloGun : RecoilWeapon
 	{
 		let spr = GetSpriteIndex(spr);
 		if(!player) return;
-		let psp = player.GetPSprite(layer);
+		let psp = player.FindPSprite(layer);
 		if(psp) psp.Sprite = spr;
 	}
 	
 	action void A_SetFrameTics(int tics, uint layer = PSP_WEAPON)
 	{
 		if(!player) return;
-		let psp = player.GetPSprite(layer);
+		let psp = player.FindPSprite(layer);
 		if(psp) psp.Tics = tics;
 	}
 	action int A_GetFrame(uint layer = PSP_WEAPON)
 	{
 		if(!player) return 0;
-		let psp = player.GetPSprite(layer);
+		let psp = player.FindPSprite(layer);
 		return psp ? psp.Frame : 0;
 	}
 	action void A_SetFrame(int frm, uint layer = PSP_WEAPON)
 	{
 		if(!player) return;
-		let psp = player.GetPSprite(layer);
+		let psp = player.FindPSprite(layer);
 		if(psp) psp.Frame = frm;
 	}
 	
@@ -575,15 +712,28 @@ class HaloGun : RecoilWeapon
 	
 	bool CallMeleeState(StateLabel stateName, bool force = false)
 	{
-		let psp  = Owner.player.GetPSprite(PSP_WEAPON);
-		let meleepsp = Owner.player.GetPSprite(MELEE_OVERLAY);
+		let psp  = Owner.player.FindPSprite(PSP_WEAPON);
+		let meleepsp = Owner.player.FindPSprite(MELEE_OVERLAY);
 		bool inreload = psp && InStateSequence(psp.CurState,FindState("Reload"));
 		
-		if(meleepsp.CurState == NULL || force)
+		if(!meleepsp || meleepsp.CurState == NULL || force)
 		{
 			Owner.A_StopSound(CHAN_RELOADING);
 			Owner.player.SetPSprite(MELEE_OVERLAY, FindState(stateName));
-			if(inreload) psp.SetState(FindState("Ready.Active"));
+			if(inreload) psp.SetState(ResolveState("Ready.Active"));
+			return true;
+		}
+		return false;
+	}
+	
+	bool CallKickState(StateLabel stateName, bool force = false)
+	{
+		let psp  = Owner.player.FindPSprite(PSP_WEAPON);
+		let footpsp = Owner.player.FindPSprite(FEET_OVERLAY);
+
+		if(!footpsp || footpsp.CurState == NULL || force)
+		{
+			Owner.player.SetPSprite(FEET_OVERLAY, ResolveState(stateName));
 			return true;
 		}
 		return false;
@@ -591,8 +741,14 @@ class HaloGun : RecoilWeapon
 	
 	bool CheckMeleeState(StateLabel stateName)
 	{
-		let meleepsp = Owner.player.GetPSprite(MELEE_OVERLAY);
-		return meleepsp && InStateSequence(meleepsp.CurState, FindState(stateName));
+		let meleepsp = Owner.player.FindPSprite(MELEE_OVERLAY);
+		return meleepsp && InStateSequence(meleepsp.CurState, ResolveState(stateName));
+	}
+	
+	bool CheckKickState(StateLabel stateName)
+	{
+		let footpsp = Owner.player.FindPSprite(FEET_OVERLAY);
+		return footpsp && InStateSequence(footpsp.CurState, ResolveState(stateName));
 	}
 	
 	action void A_RWeaponReady(uint flags=0)
@@ -611,6 +767,41 @@ class HaloGun : RecoilWeapon
 			cvfx_casings = CVar.GetCVar("halodoom_fx_casings", Owner.player);
 		
 		if(debug_sfxpos) Spawn("FXFollower", sfx_pos);
+
+		if(!Owner.player) return;
+		let vehman = Veh_Manager(Owner.FindInventory("Veh_Manager"));
+		if(vehman && vehman.disableweaps) return;
+						
+		// Get useful data
+		uint btns = Owner.player.cmd.buttons;
+		uint oldbtns = Owner.player.oldbuttons;
+		let psp = Owner.player.FindPSprite(PSP_WEAPON);
+		bool inreload = psp && InStateSequence(psp.CurState,ResolveState("Reload"));
+		if(!psp) return;
+		
+		// WeapSound features
+		bool infire = psp && InStateSequence(psp.CurState,ResolveState("Fire"));
+		if( !infire || !((btns & BT_ATTACK) && (oldbtns & BT_ATTACK)) ) 
+			first_shot = true;
+		
+		// Weapon roll
+		vector2 su = (cos(Owner.angle+90), sin(Owner.angle+90));
+		vector2 vu = Owner.vel.xy;
+		vu.x *= su.x;
+		vu.y *= su.y;
+		psp.halign = PSPA_CENTER;
+		psp.valign = PSPA_CENTER;
+		double weaprotation = (vu.x+vu.y);
+		if(inreload) weaprotation = 0;
+		if(Owner.player.cmd.sidemove && abs(weaprotation) > 0.02)
+			psp.rotation = HaloMath.Lerp(psp.rotation, weaprotation * rotation_sens, 0.1);
+		else
+			psp.rotation = HaloMath.Lerp(psp.rotation, 0, 0.1);
+			
+		psp.rotation = clamp(psp.rotation, -rotation_range, rotation_range);
+		
+		// Do not run this stuff while predicting.
+		if(Owner.player.cheats & CF_PREDICTING) return; 
 		
 		// Update next weapon.
 		if(Owner.player)
@@ -632,48 +823,17 @@ class HaloGun : RecoilWeapon
 				if(backpack_reloadtimer <= 0)
 				{
 					let rammo = GetDefaultByType(AmmoType2);
-					int reserves = countinv(AmmoType1);
-					int takeammo = rammo.maxamount - countinv(AmmoType2); 
+					int reserves = Owner.countinv(AmmoType1);
+					int takeammo = rammo.maxamount - Owner.countinv(AmmoType2); 
 					if(takeammo > reserves) takeammo = reserves;
-					GiveInventory(AmmoType2,takeammo);
-					DepleteAmmo(takeammo);
+					Owner.GiveInventory(AmmoType2,takeammo);
+					DepleteAmmo(takeammo, Owner);
 					backpack_reloading = false;
 					backpack_reloadtimer = 0;
-					// console.printf("Finished backpack reload");
 				}
 			}
 			return;
 		}
-		if(!Owner.player) return;
-		let vehman = Veh_Manager(Owner.FindInventory("Veh_Manager"));
-		if(vehman && vehman.disableweaps) return;
-						
-		// Get useful data
-		uint btns = Owner.player.cmd.buttons;
-		uint oldbtns = Owner.player.oldbuttons;
-		let psp  = Owner.player.GetPSprite(PSP_WEAPON);
-		bool inreload = psp && InStateSequence(psp.CurState,FindState("Reload"));
-		
-		// WeapSound features
-		bool infire = psp && InStateSequence(psp.CurState,FindState("Fire"));
-		if( !infire || !((btns & BT_ATTACK) && (oldbtns & BT_ATTACK)) ) 
-			first_shot = true;
-		
-		// Weapon roll
-		vector2 su = (cos(Owner.angle+90), sin(Owner.angle+90));
-		vector2 vu = Owner.vel.xy;
-		vu.x *= su.x;
-		vu.y *= su.y;
-		psp.halign = PSPA_CENTER;
-		psp.valign = PSPA_CENTER;
-		double weaprotation = (vu.x+vu.y);
-		if(inreload) weaprotation = 0;
-		if(Owner.player.cmd.sidemove && abs(weaprotation) > 0.02)
-			psp.rotation = HaloMath.Lerp(psp.rotation, weaprotation * rotation_sens, 0.1);
-		else
-			psp.rotation = HaloMath.Lerp(psp.rotation, 0, 0.1);
-			
-		psp.rotation = clamp(psp.rotation, -rotation_range, rotation_range);
 		
 		if(Owner.health > 0)
 			DoActionButtons();
@@ -744,9 +904,12 @@ class HaloGun : RecoilWeapon
 		}
 	}
 	
-	void DoActionButtons()
+	// Called when quickswap is initiated.
+	virtual void OnQuickswap() {}
+	
+	virtual void DoActionButtons()
 	{
-		let psp  = Owner.player.GetPSprite(PSP_WEAPON);
+		let psp  = Owner.player.FindPSprite(PSP_WEAPON);
 		bool inreload = psp && InStateSequence(psp.CurState,FindState("Reload"));
 	
 		// Process weapon switch
@@ -758,6 +921,7 @@ class HaloGun : RecoilWeapon
 			{
 				Owner.player.WeaponState |= WF_WEAPONSWITCHOK | WF_REFIRESWITCHOK;
 				State tostate = !inreload ? FindState("Deselect") : FindState("Deselect.Quick");
+				OnQuickswap();
 				psp.SetState(tostate);
 				nextweap.Use(false);
 			}
@@ -769,25 +933,51 @@ class HaloGun : RecoilWeapon
 		if(!plr) return;
 		
 		// Melee attack
-		if( A_ButtonStatus(BT_USER2, BTS_PRESSED, Owner) && (!handsbusy || CheckMeleeState("GrappleWait")) && plr.CheckCanMelee() )
+		FLineTraceData meleeLT;
+		let meleepsp = Owner.player.FindPSprite(MELEE_OVERLAY);
+		bool meleeReady = Owner.player.onground && !inreload && (!handsbusy || CheckMeleeState("GrappleWait"));
+		bool barrelKick = GetMeleeVictim(Owner, meleeLT, 70) is "ExplosiveCoil" || !!I_HoldingCoil.GetHoldingCoil(Owner);
+		bool inmelee = meleepsp && meleepsp.CurState != NULL;
+
+		if( A_ButtonStatus(BT_USER2, BTS_PRESSED, Owner) && plr.CheckCanMelee() )
 		{
 			// Only melee if hands are not already being used for something else.
-			CallMeleeState("DoMelee", true);
+			// Otherwise, kick.
+			if(meleeReady && !barrelKick)
+				CallMeleeState("DoMelee", true); // DoMelee
+			else if(!feetbusy && !inmelee && !nokick)
+				CallKickState("DoKick", true);
+		}
+		
+		// Check for LedgeGrab
+		let ledgeStatus = plr.ledgeGrabber;
+		if(ledgeStatus && ledgeStatus.grabTics > 0 && !handsbusy)
+		{
+			CallMeleeState("LedgeGrab", true);
 		}
 				
 		// Slide
-		let feetpsp = Owner.player.GetPSprite(FEET_OVERLAY);
-		if( !!Owner.FindInventory("SlideAnimator") && !InStateSequence(feetpsp.CurState, FindState("SlideStart")) )
-		{
-			Owner.player.SetPSprite(FEET_OVERLAY, FindState("SlideStart"));
-		}
-		
+		if( !!Owner.FindInventory("SlideAnimator") )
+			CallKickState("SlideStart");
+			
 		// Grapple
 		if(plr.grapple && !handsbusy)
 		{
 			Owner.player.SetPSprite(MELEE_OVERLAY, FindState("GrappleStart"));
 			if(inreload) psp.SetState(FindState("Ready.Active"));
 		}
+		
+		// ADS buttons
+		ADS_Pressed  = ADS_Down && A_ButtonStatus(BT_ALTATTACK, BTS_UP, Owner);
+		ADS_Down	 = A_ButtonStatus(BT_ALTATTACK, BTS_DOWN, Owner);
+		ADS_Up       = A_ButtonStatus(BT_ALTATTACK, BTS_UP, Owner);
+
+		if(ADS_Down) 
+			ADS_DownTics++;
+		else 
+			ADS_DownTics = 0;
+			
+		ADS_Held     = ADS_DownTics > 2;
 	}
 	
 	// [Lewisk3] Checks if a button was recently pressed.
@@ -843,9 +1033,10 @@ class HaloGun : RecoilWeapon
 		);
 	}
 	
-	action void DepleteAmmo(int amt)
+	action void DepleteAmmo(int amt, Actor ptr = NULL)
 	{
-		if(!sv_infiniteammo) TakeInventory(invoker.AmmoType1, amt);
+		if(!ptr) ptr = self;
+		if(!sv_infiniteammo && !invoker.bottomless_reserves) ptr.TakeInventory(invoker.AmmoType1, amt);
 	}
 	
 	// For reloading clips/magazines
@@ -868,6 +1059,8 @@ class HaloGun : RecoilWeapon
 	action void A_TakeAmmo(int amt = 1, bool playEmptySND = true, class<Inventory> type = NULL)
 	{
 		if(sv_infiniteammo) return;
+		amt *= max(1, invoker.modifyAmmoUsage);
+		
 		if(!type) type = invoker.ammotype2;
 		A_TakeInventory(type, amt);
 		if(countinv(type) <= 0 && playEmptySND) 
@@ -894,10 +1087,21 @@ class HaloGun : RecoilWeapon
 	{
 		return countinv(invoker.AmmoType1);
 	}
+	action bool CheckFullyLoaded()
+	{
+		let rammo = GetDefaultByType(invoker.AmmoType2);
+		return countinv(invoker.AmmoType2) >= rammo.maxamount;
+	}
 	
 	// Check if we need to reload, if we do, jump to Reload.
 	action state A_GunCheckReload()
 	{
+		if(invoker.skipreload && !countinv(invoker.AmmoType2)) 
+		{
+			A_ReloadClip();
+			return ResolveState(NULL);
+		}
+	
 		if(!invoker.uses_battery)
 			return !countinv(invoker.AmmoType2) ? ResolveState("Reload") : ResolveState(NULL);
 		else
@@ -908,6 +1112,12 @@ class HaloGun : RecoilWeapon
 	// or if no reserve ammo is found.
 	action state A_ValidateReload(StateLabel fallback="Ready")
 	{
+		if(invoker.skipreload)
+		{
+			A_ReloadClip();
+			return ResolveState(fallback);
+		}
+	
 		if(invoker.handsbusy) return ResolveState(fallback);
 		let rammo = GetDefaultByType(invoker.AmmoType2);
 		if( countinv(invoker.AmmoType2) == rammo.maxamount || 
@@ -922,6 +1132,34 @@ class HaloGun : RecoilWeapon
 		return invoker.reload_ammoleft;
 	}
 	
+	// Manually setup sights or scope
+	action void A_SetCustomScope(bool onoff, int zoomframes = 3, bool perspective = false)
+	{
+		if(onoff)
+		{
+			A_ScopeON(usePerspective:perspective);
+			A_SetZoom(invoker.scopezoom, zoomframes, true);	
+		}
+		else
+		{
+			A_ScopeOFF();
+			A_SetZoom(0, zoomframes, true);
+		}
+	}
+	
+	// Returns true if the custom scope should be activated, based on input buttons.
+	action bool A_ShouldEnableScope()
+	{
+		return (invoker.ADS_Held || invoker.ADS_Pressed);
+	}
+	
+	// Returns true if the custom scope should be deactivated.
+	// Takes a "heldStatus" input, which should be the value of "ADS_Held" at the time the scope was enabled.
+	action bool A_ShouldDisableScope(bool heldStatus)
+	{
+		return (heldStatus && invoker.ADS_Up) || (!heldStatus && invoker.ADS_Pressed);
+	}
+	
 	// Getters and Setters for readability.
 	action void A_ScopeDisable()
 	{
@@ -933,7 +1171,7 @@ class HaloGun : RecoilWeapon
 	}
 	action void A_ScopeON(bool usePerspective = true)
 	{
-		let psp = player.GetPSprite(PSP_WEAPON);
+		let psp = player.FindPSprite(PSP_WEAPON);
 		if(psp && usePerspective) 
 		{
 			// Min scale, should be around 3x
@@ -950,7 +1188,7 @@ class HaloGun : RecoilWeapon
 	}
 	action void A_ScopeOFF()
 	{
-		let psp = player.GetPSprite(PSP_WEAPON);
+		let psp = player.FindPSprite(PSP_WEAPON);
 		if(psp) psp.scale = (1.,1.);
 		invoker.staticoffs = (0,0);
 		invoker.zoomed = false;
@@ -984,6 +1222,14 @@ class HaloGun : RecoilWeapon
 		if(raise) invoker.staticoffs.y = 0;
 		invoker.handsbusy = false;
 	}
+	action void A_BeginKick()
+	{
+		invoker.feetbusy = true;
+	}
+	action void A_FinishKick()
+	{
+		invoker.feetbusy = false;
+	}
 	
 	// Custom lower and raise.
 	action void A_GunLower(int speed = 32)
@@ -997,6 +1243,13 @@ class HaloGun : RecoilWeapon
 	action void A_GunRaise(int speed = 32)
 	{
 		A_RRaise(speed);
+	}
+	
+	action state A_GotoState(StateLabel stat)
+	{
+		// This may seem odd but, it's needed for InStateSequence to register properly
+		// for reload sequences which use multiple statelabels.
+		return ResolveState(stat);
 	}
 
 	States
@@ -1013,6 +1266,35 @@ class HaloGun : RecoilWeapon
 			"####" "#" 1;
 		loop;
 		
+		LedgeGrab:
+			TNT1 A 0 
+			{
+				A_BeginMelee();
+				A_StartSound("Halo/LedgeGrab", flags:CHANF_OVERLAP);
+				A_OverlayFlags(OverlayID(), PSPF_ADDBOB|PSPF_ADDWEAPON, 0);
+				A_OverlayOffset(OverlayID(), 0, 280);
+			}
+			
+			// Hand up
+			CLMB AAAA 1 A_OverlayOffset(OverlayID(), 0, -60, WOF_ADD | WOF_INTERPOLATE);
+			
+			// Wait
+			CLMB AAAA 1 A_SetRoll(roll + 1.25);
+			
+			// Hand down
+			CLMB AAAAAAAAAA 1
+			{
+				A_OverlayOffset(OverlayID(), 0, 30, WOF_ADD | WOF_INTERPOLATE);
+				A_SetRoll(roll - 0.5);
+			}
+			TNT1 A 20;
+			TNT1 A 0
+			{
+				A_FinishMelee();
+				A_OverlayOffset(OverlayID(), 0, 0, WOF_ADD | WOF_INTERPOLATE);
+			}
+		stop;	
+			
 		ThrowFrag: 
 			TNT1 A 0 
 			{
@@ -1034,11 +1316,13 @@ class HaloGun : RecoilWeapon
 			"####" E 2 
 			{
 				A_SetSFXPos(20,17,-15);
-				let nadeItem = HaloPlayer(self).activeGrenade;
+				let plr = HaloPlayer(self);
+				let nadeItem = plr.activeGrenade;
 				let nade = Spawn(nadeItem.nadeType, invoker.sfx_pos);
 				if(nade) 
 				{
-					nade.vel = HaloMath.V3Offset(angle, pitch, roll, 1,0,0, 40);
+					vector3 throwAngles = level.SphericalCoords(invoker.sfx_pos, plr.aimPos, (angle, pitch)); 
+					nade.vel = HaloMath.V3Offset(angle-throwAngles.x, pitch-throwAngles.y, roll, 1,0,0, 40);
 					nade.target = self;
 				}
 				
@@ -1050,18 +1334,19 @@ class HaloGun : RecoilWeapon
 		stop;
 		
 		DoMelee:
-			TNT1 A 0 
+			TNT1 A 2 
 			{
 				A_BeginMelee();
-				A_StartSound("Halo/Melee/Swing", flags:CHANF_OVERLAP);
 				A_OverlayFlags(OverlayID(), PSPF_ADDBOB|PSPF_ADDWEAPON, 0);
 				A_OverlayOffset(OverlayID(), -30, 25);
 			}
+			TNT1 A 0 A_StartSound("Halo/Melee/Swing", flags:CHANF_OVERLAP);
 			PNCH ABC 1 
 			{
 				// Remove this check for melee boost, lets you gain stupid speeds.
-				if(A_CheckMeleeRange() < 128) A_Recoil3D(-10); 
+				if(A_CheckMeleeRange(skipWalls:true) < 128) A_Recoil3D(-10); 
 				A_SetRecoil(0.4, -0.8, 3);
+				HaloGun.CallTryMelee(self); // Makes Parrying attacks more responsive.
 			}
 			PNCH C 1 
 			{
@@ -1079,10 +1364,94 @@ class HaloGun : RecoilWeapon
 			TNT1 A 0 A_FinishMelee();
 		stop;
 		
-		// I would use an inventory item to animate this but, GZDoom's
-		// PSprite system is a broken mess due to the devs implementing pointless 
-		// "restrictions" in the name of "Security" in a games engine already
-		// restricted enough by nature. 
+		DoKick:
+			TNT1 A 1 
+			{
+				A_BeginKick();
+				A_OverlayFlags(OverlayID(), PSPF_ADDBOB|PSPF_ADDWEAPON, 0);
+				A_OverlayOffset(OverlayID(), -30, 25);
+				return A_JumpIf(!player.onground, "DoKick.Air");
+			}	
+			TNT1 A 0 
+			{
+				A_StartSound("Halo/Melee/Swing", flags:CHANF_OVERLAP);
+				if(A_CheckMeleeRange(skipWalls:true) < 128) A_Recoil3D(-10); 
+			}
+			HSKI BCD 1 
+			{
+				A_SetRecoil(0.3, 0, 3);
+				HaloGun.CallTryMelee(self); // Makes Parrying attacks more responsive.
+			}
+			HSKI E 1 
+			{
+				A_SetRecoil(1.20, 0, 3);
+				let holdingCoil = I_HoldingCoil.GetHoldingCoil(self);
+				let victim = A_GetMeleeVictim(70);
+				if(victim == holdingCoil)
+					I_HoldingCoil.DropCoil(self);
+				
+				if( (victim is "ExplosiveCoil") )
+				{
+					if(holdingCoil) holdingCoil.explodeOnImpact = true;
+					A_HaloMelee(0, 70, fpthrust:(16,16), hitsnd:"Halo/Melee/Punch", "Halo/Melee/Ouch", forceThrust:true);
+				}
+				else
+				{
+					A_HaloMelee(50, 70, fpthrust:(12,12), hitsnd:"Halo/Melee/Punch", "Halo/Melee/Ouch");
+				}
+			}
+			HSKI FGHI 1;
+			HSKI I 4;
+			HSKI IIDCBA 1 A_SetRecoil(-0.3, 0, 5);
+			TNT1 A 0 A_FinishKick();
+		stop;
+		
+		DoKick.Air:
+			TNT1 A 1 
+			{
+				A_BeginKick();
+				A_OverlayFlags(OverlayID(), PSPF_ADDBOB|PSPF_ADDWEAPON, 0);
+				A_OverlayOffset(OverlayID(), -30, 25);
+			}	
+			TNT1 A 0 
+			{
+				A_StartSound("Halo/Melee/Swing", flags:CHANF_OVERLAP);
+				if(A_CheckMeleeRange(skipWalls:true) < 256) A_Recoil3D(-15); 
+			}
+			HSKI JKLM 1 
+			{
+				A_SetViewRoll(viewroll + 1, SPF_INTERPOLATE);
+				A_SetRecoil(0.4, 0.8, 3);
+				HaloGun.CallTryMelee(self); // Makes Parrying attacks more responsive.
+			}
+			HSKI N 1 
+			{
+				A_SetRecoil(0.80, 1.20, 3);
+				let holdingCoil = I_HoldingCoil.GetHoldingCoil(self);
+				let victim = A_GetMeleeVictim(70);
+				if(victim == holdingCoil)
+					I_HoldingCoil.DropCoil(self);
+				
+				if( (victim is "ExplosiveCoil") )
+				{
+					if(holdingCoil) holdingCoil.explodeOnImpact = true;
+					A_HaloMelee(0, 70, fpthrust:(20,0), hitsnd:"Halo/Melee/Punch", "Halo/Melee/Ouch", forceThrust:true);
+				}
+				else
+				{
+					if(victim) victim.TriggerPainChance("FaceKick", true);
+					A_HaloMelee(75, 70, fpthrust:(12,12), hitsnd:"Halo/Melee/Punch", "Halo/Melee/Ouch");
+				}
+			}
+			HSKI N 8;
+			HSKI MLKJ 1 
+			{
+				A_SetViewRoll(viewroll - 1, SPF_INTERPOLATE);
+				A_SetRecoil(-0.1, 0.2, 5); //OPQRST
+			}
+			TNT1 A 0 A_FinishKick();
+		stop;
+		
 		GrappleStart:
 			TNT1 A 0 A_BeginMelee();
 			GRPL A 1 
@@ -1111,6 +1480,7 @@ class HaloGun : RecoilWeapon
 		SlideStart:
 			SLID A 1 
 			{
+				A_BeginKick();
 				A_OverlayFlags(OverlayID(), PSPF_ADDBOB|PSPF_ADDWEAPON, 0);
 				A_OverlayOffset(OverlayID(), 0, 80);
 			}
@@ -1128,6 +1498,7 @@ class HaloGun : RecoilWeapon
 		
 		SlideFinish:
 			SLID AAA 1 A_OverlayOffset(OverlayID(), 0, 30, WOF_ADD|WOF_INTERPOLATE); 
+			TNT1 A 0 A_FinishKick(); 
 		stop;
 				
 				
@@ -1226,7 +1597,7 @@ class HaloGun : RecoilWeapon
 		DoGunLightning:
 			"####" "#" 1
 			{
-				let curPSprite = player.GetPSprite(OverlayID());
+				let curPSprite = player.FindPSprite(OverlayID());
 				curPSprite.alpha *= 0.25;
 				
 				if(curPSprite.alpha <= 0.01) 

@@ -12,6 +12,31 @@ Model LightningBiri
 	
    FrameIndex BEAM A 0 0
 } 
+Model PlasmaProjBiri_Green
+{
+	Path "models/lasers"
+	Model 0 "beam_simple.md3"
+	Scale 1.0 1.0 1.2
+	USEACTORPITCH
+	SurfaceSkin 0 0 "BEAM.png" // Full mesh
+	AngleOffset 0
+	PitchOffset 0
+	
+   FrameIndex BEAM A 0 0
+} 
+Model PlasmaProjBiri_Blue
+{
+	Path "models/lasers"
+	Model 0 "beam_simple.md3"
+	Scale 1.0 1.0 1.2
+	USEACTORPITCH
+	SurfaceSkin 0 0 "BEAM.png" // Full mesh
+	AngleOffset 0
+	PitchOffset 0
+	
+   FrameIndex BEAM A 0 0
+} 
+
 
 Model BlackholeLightning
 {

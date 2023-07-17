@@ -9,6 +9,54 @@ Model HaloBullet
    FrameIndex TRAC A 0 0 
 }
 
+Model HaloGPMG_Bullet
+{
+   Path "Models/Weapons"
+   SKIN 0 "tracer1.tga" 
+   MODEL 0 "Tracer.md3" 
+   Scale 3.0 3.0 1.5 
+   PITCHFROMMOMENTUM 
+   
+   FrameIndex TRAC A 0 0 
+}
+
+Model HaloCommando_Bullet
+{
+   Path "Models/Weapons"
+   SKIN 0 "tracer1.tga" 
+   MODEL 0 "Tracer.md3" 
+   Scale 3.0 3.0 1.5 
+   PITCHFROMMOMENTUM 
+   
+   FrameIndex TRAC A 0 0 
+}
+
+Model HydraMissile
+{ 
+   Path "Models/Weapons"
+   MODEL 0 "hydra_missile.md3"
+   SurfaceSkin 0 0 "glow02.png" // Thruster
+   SurfaceSkin 0 1 "steel1.png" // Body
+   SurfaceSkin 0 2 "missile_head.png" // Head
+   
+   Scale 1.0 1.0 1.0 
+   PITCHFROMMOMENTUM 
+   USEACTORROLL
+   
+   FrameIndex TRAC A 0 0 
+}
+
+Model SSG_SparkTracer
+{ 
+   Path "Models/Weapons"
+   SKIN 0 "tracer1.tga" 
+   MODEL 0 "Tracer.md3" 
+   Scale 0.5 1.5 1.5
+   PITCHFROMMOMENTUM 
+   
+   FrameIndex TRAC A 0 0 
+}
+
 Model HaloRocketProj
 {
    Path "Models/Weapons"
@@ -85,6 +133,19 @@ Model HaloNeedleProjectile
    Scale 4.0 4.0 2.5 
    PITCHFROMMOMENTUM 
    AngleOffset 90
+   
+   FrameIndex TRAC A 0 0 
+}
+
+Model HaloNeedlerJavelin_Proj
+{ 
+   Path "Models/Weapons"
+   SKIN 0 "needle_crystal.png" 
+   MODEL 0 "needle_crystal.md3" 
+   Scale 4.0 4.0 2.5 
+   // PITCHFROMMOMENTUM 
+   AngleOffset 90
+   USEACTORPITCH
    
    FrameIndex TRAC A 0 0 
 }
@@ -179,6 +240,45 @@ Model HaloSniper_Bullet
    FrameIndex TRAC A 0 0 
 }
 
+Model HaloPlasma_Proj
+{ 
+   Path "Models"
+   Model 0 "Weapons/plasma.md3" 
+   Skin 0 "Weapons/laser.png" 
+   Scale 5.0 10.0 10.0
+   USEACTORPITCH
+   USEACTORROLL
+   CORRECTPIXELSTRETCH
+   
+   FrameIndex MODL A 0 0 
+}
+Model HaloPlasma_ProjCore
+{ 
+   Path "Models"
+   Model 0 "Weapons/plasma_core.md3" 
+   Scale 5.0 10.0 10.0
+   SurfaceSkin 0 0 "Weapons/laser.png"
+   SurfaceSkin 0 1 "Weapons/laser.png"
+   USEACTORPITCH
+   USEACTORROLL
+   CORRECTPIXELSTRETCH
+   
+   FrameIndex MODL A 0 0 
+}
+Model HaloPlasmaRifle_Proj
+{ 
+   Path "Models"
+   Model 0 "Weapons/plasma.md3" 
+   Skin 0 "Weapons/laser.png" 
+   Scale 5.0 10.0 10.0
+   USEACTORPITCH
+   USEACTORROLL
+   CORRECTPIXELSTRETCH
+   
+   FrameIndex MODL A 0 0 
+}
+
+
 Model SmokeTrail 
 {
 	Path "models/lasers"
@@ -212,3 +312,13 @@ Model FX_InverseShockWave
 	FrameIndex SWVE A 0 0
 }
 
+Model I_Frozen
+{
+	Model 0 "Models/Equipment/Ice/Ice.obj"
+	Skin 0 "Models/Equipment/Ice/tex_rust.jpeg"
+	Scale 30.0 30.0 30.0
+	ZOffset 20;
+	// DONTCULLBACKFACES
+	
+	FrameIndex MODL A 0 0
+}

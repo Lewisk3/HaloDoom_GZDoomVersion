@@ -13,8 +13,8 @@ GAMETYPE_HL2_DESC = "Contains only weapons featured in Halo 2.";
 GAMETYPE_HL3 = "Halo 3";
 GAMETYPE_HL3_DESC = "Contains only weapons featured in Halo 3 and Halo Reach.";
 
-GAMETYPE_HL4 = "Halo 4";
-GAMETYPE_HL4_DESC = "Contains only weapons featured in Halo 4.";
+GAMETYPE_HL4 = "Halo 4/5";
+GAMETYPE_HL4_DESC = "Contains only weapons featured in Halo 4 and 5.";
 
 GAMETYPE_MSX = "Project MSX";
 GAMETYPE_MSX_DESC = "Contains only weapons which function similarly to weapons featured in Project MSX.";
@@ -22,11 +22,14 @@ GAMETYPE_MSX_DESC = "Contains only weapons which function similarly to weapons f
 GAMETYPE_ENERGY = "Star Wars";
 GAMETYPE_ENERGY_DESC = "Contains only Energy Weapons, NO weapons which feature reloading! Kind of a Joke gametype, and probably not very well balanced...";
 
+GAMETYPE_OVERKILL = "Spartan Overkill";
+GAMETYPE_OVERKILL_DESC = "Power Fantasy gametype, best used on Slaughter mapsets.";
+
 MENUBTN_CAMPAIGN = "CAMPAIGN";
 MENUBTN_SAVEGAME = "SAVE GAME";
 MENUBTN_LOADGAME = "LOAD GAME";
 MENUBTN_OPTIONS = "OPTIONS";
-MENUBTN_CONFIGURE = "CONFIGURE";
+MENUBTN_CONFIGURE = "HDE SETTINGS";
 MENUBTN_QUIT = "QUIT";
 
 /* 

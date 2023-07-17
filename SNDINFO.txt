@@ -2,7 +2,7 @@
 Halo/Weapons/Zoom/In  Zoom_IN
 Halo/Weapons/Zoom/Out Zoom_OUT
 Halo/Weapons/DryFire  HW_DRYF
-Halo/Weapons/MagEmpty "Sounds/SFX/WeaponEmpty.wav";
+Halo/Weapons/MagEmpty "Sounds/SFX/WeaponEmpty.wav"
 Halo/Weapons/SuitZoom/IN  "Sounds/SFX/Suit_Zoom_IN.ogg"
 Halo/Weapons/SuitZoom/OUT "Sounds/SFX/Suit_Zoom_OUT.ogg"
 Halo/Flashlight/ON "Sounds/SFX/Flashlight_On.ogg"
@@ -10,8 +10,33 @@ Halo/Flashlight/OFF "Sounds/SFX/Flashlight_Off.ogg"
 Halo/Pickup/Weapon "Sounds/SFX/GunPickup.ogg"
 Halo/Pickup/Ammo "Sounds/Ammo/AmmoPickup.ogg"
 Halo/SecretFound "Sounds/SFX/secretreveal.ogg"
-UI/PressButton BTNPRESS
 
+CLAMBER1 "Sounds/Clamber/Clamber1.ogg"
+CLAMBER2 "Sounds/Clamber/Clamber2.ogg"
+CLAMBER3 "Sounds/Clamber/Clamber3.ogg"
+$random Halo/LedgeGrab { CLAMBER1 CLAMBER2 CLAMBER3 }
+
+UI/PressButton BTNPRESS
+UI/Next "Sounds/UI/Menus/UI_Forward.ogg"
+UI/Prev "Sounds/UI/Menus/UI_Back.ogg"
+UI/Selected "Sounds/UI/Menus/UI_Mouseover.ogg"
+
+UI/SkillBtns/Easy 	   "Sounds/UI/Difficulty_Selection/Select_Easy.ogg"
+UI/SkillBtns/Normal    "Sounds/UI/Difficulty_Selection/Select_Normal.ogg"
+UI/SkillBtns/Heroic    "Sounds/UI/Difficulty_Selection/Select_Heroic.ogg"
+UI/SkillBtns/Legendary "Sounds/UI/Difficulty_Selection/Select_Legendary.ogg"
+UI/SkillBtns/Mythic    "Sounds/UI/Difficulty_Selection/Select_Mythic.ogg"
+
+menu/activate	"Sounds/UI/Menus/UI_Forward.ogg"
+menu/backup		"Sounds/UI/Menus/UI_Back.ogg"
+menu/cursor		"Sounds/UI/Menus/UI_Mouseover.ogg"
+menu/change		"Sounds/UI/Menus/UI_Mouseover.ogg"
+menu/choose		"Sounds/UI/Menus/UI_Mouseover.ogg"
+menu/clear		"Sounds/UI/Menus/UI_Back.ogg"
+
+Fire/Ignite "Sounds/FlameThrower/FLM_STRT.ogg"
+Fire/BurnLoop "Sounds/FlameThrower/FLM_BRN_Loop.ogg"
+$limit Fire/BurnLoop 0
 
 // Ammo Crate
 Halo/AmmoCrate/Open "Sounds/Ammo/AmmoCrate_Open.ogg"
@@ -107,6 +132,39 @@ Halo/Powerup/Speed   "Sounds/Items/power_time.ogg"
 Halo/Powerup/Allmap  "Sounds/Items/power_allmap.ogg"
 Halo/Powerup/Shield1 "Sounds/Items/power_shield1.ogg"
 Halo/Powerup/Shield2 "Sounds/Items/power_shield2.ogg"
+Halo/Powerup/Visor   "Sounds/SFX/GunPickup.ogg"
+Halo/Powerup/Visor/Alert "Sounds/Items/Visr/Visr_Alert.ogg"
+Halo/Powerup/Repulsor/Alert "Sounds/Items/Alert_Repulsor.ogg"
+ 
+Halo/Visor/ON "Sounds/Items/Visr/Visr_On.ogg"
+Halo/Visor/OFF "Sounds/Items/Visr/Visr_Off.ogg"
+
+JETBURST1 "Sounds/Items/Jetpack/Jetpack_Burst1.ogg"
+JETBURST2 "Sounds/Items/Jetpack/Jetpack_Burst2.ogg"
+JETBURST3 "Sounds/Items/Jetpack/Jetpack_Burst3.ogg"
+Halo/Powerup/Jetpack/Loop "Sounds/Items/Jetpack/Jetpack_loop.ogg"
+Halo/Powerup/Jetpack/Off  "Sounds/Items/Jetpack/Jetpack_off.ogg"
+Halo/Powerup/Repulsor "Sounds/Items/power_repulsor.ogg"
+$random Halo/Powerup/Jetpack/Burst { JETBURST1 JETBURST2 JETBURST3 }
+
+CRYOFIRE1 "Sounds/Items/Icebeam/Icebeam_Fire_Start1.ogg"
+CRYOFIRE2 "Sounds/Items/Icebeam/Icebeam_Fire_Start2.ogg"
+CRYOFIRE3 "Sounds/Items/Icebeam/Icebeam_Fire_Start3.ogg" 
+CRYOFREEZE1 "Sounds/Items/Icebeam/NME_Frozen1.ogg" 
+CRYOFREEZE2 "Sounds/Items/Icebeam/NME_Frozen2.ogg" 
+CRYOFREEZE3 "Sounds/Items/Icebeam/NME_Frozen3.ogg" 
+
+Halo/Powerup/CryoCannon/Alert "Sounds/Items/Icebeam/Icebeam_Alert.ogg" 
+Halo/Powerup/CryoCannon/FireLoop "Sounds/Items/Icebeam/Icebeam_Fire_Loop.ogg"
+Halo/Powerup/CryoCannon/FireTail "Sounds/Items/Icebeam/Icebeam_Fire_Tail.ogg"
+Halo/Powerup/CryoCannon/Overheat "Sounds/Items/Icebeam/Icebeam_Overheat.ogg"
+$random Halo/Powerup/CryoCannon/Fire { CRYOFIRE1 CRYOFIRE2 CRYOFIRE3 }
+$random Halo/Powerup/CryoCannon/Freeze { CRYOFREEZE1 CRYOFREEZE2 CRYOFREEZE3 }
+
+ICEEXPLODE1 "Sounds/Items/Icebeam/Icecube/Ice_XPL1.ogg"
+ICEEXPLODE2 "Sounds/Items/Icebeam/Icecube/Ice_XPL2.ogg"
+ICEEXPLODE3 "Sounds/Items/Icebeam/Icecube/Ice_XPL3.ogg"
+$random Halo/Icecube/Explode { ICEEXPLODE1 ICEEXPLODE2 ICEEXPLODE3 }
 
 // Melee
 Halo/Melee/Punch1 "Sounds/Melee/PunchHit1.ogg"
@@ -150,8 +208,8 @@ Halo/Weapons/Mag_MD6/Reload 	  HW_MAGR
 Halo/Weapons/Mag_MD6/Reload/Empty HW_MAGRE
 
 $volume Halo/Weapons/Mag_MD6/Fire 1.0
-$volume Halo/Weapons/Mag_MD6/Fire/Bass 0.65
-$volume Halo/Weapons/Mag_MD6/Mech 0.9
+$volume Halo/Weapons/Mag_MD6/Fire/Bass 0.67
+$volume Halo/Weapons/Mag_MD6/Mech 1.0
 
 // AssaultRifle
 ARFIRE1 "Sounds/AssaultRifle/ARFire1.ogg"
@@ -178,8 +236,8 @@ Halo/Weapons/Rifle/Reload/Empty AReloadE
 Halo/Weapons/Rifle/Select       ARReady
 
 $volume Halo/Weapons/Rifle/Fire 1.0
-$volume Halo/Weapons/Rifle/Fire/Bass 0.8
-$volume Halo/Weapons/Rifle/Mech 0.3
+$volume Halo/Weapons/Rifle/Fire/Bass 1.0
+$volume Halo/Weapons/Rifle/Mech 0.4
 
 // Battle Rifle
 BARFIRE1 BARFIRE1
@@ -217,10 +275,11 @@ DBSFIRE4 DBSFIRE4
 DBBASS1 DBBASS1 
 DBBASS2 DBBASS2 
 DBBASS3 DBBASS3 
+DBBASS4 DBBASS4
 
 $random Halo/Weapons/SuperShotgun/Fire        { DBFIRE1 DBFIRE2 DBFIRE3 DBFIRE4 }
 $random Halo/Weapons/SuperShotgun/Fire/Single { DBSFIRE1 DBSFIRE2 DBSFIRE3 DBSFIRE4 }
-$random Halo/Weapons/SuperShotgun/Fire/Bass   { DBBASS1 DBBASS2 DBBASS3 }
+$random Halo/Weapons/SuperShotgun/Fire/Bass   { DBBASS1 DBBASS2 DBBASS3 DBBASS4}
 
 Halo/Weapons/SuperShotgun/Reload DBRELOAD
 Halo/Weapons/SuperShotgun/Select DBDRAW
@@ -248,7 +307,7 @@ $random Halo/Weapons/Shotgun/Pump      { SGPUMP1 SGPUMP2 SGPUMP3 }
 $random Halo/Weapons/Shotgun/Fire/Bass { SGBASS1 SGBASS2 SGBASS3 }
 $random Halo/Weapons/Shotgun/Reload    { SGRELOAD1 SGRELOAD2 SGRELOAD3 SGRELOAD4 }
 
-$volume Halo/Weapons/Shotgun/Fire/Bass 0.8
+$volume Halo/Weapons/Shotgun/Fire/Bass 1.0
 $volume Halo/Weapons/Shotgun/Fire 0.8
 
 // Sniper
@@ -273,7 +332,7 @@ $random Halo/Weapons/Sniper/Fire      { SNIPER_FIRE1 SNIPER_FIRE2 SNIPER_FIRE3 }
 $random Halo/Weapons/Sniper/Fire/Bass { SNIPER_LOW1 SNIPER_LOW2 SNIPER_LOW3 }
 
 $volume Halo/Weapons/Sniper/Fire/Bass 1.0
-$volume Halo/Weapons/Sniper/Fire 0.6
+$volume Halo/Weapons/Sniper/Fire 1.0
 
 // Stanchion
 Stanchion_Fire1 "Sounds/Stanchion/StanchionFire1.ogg"
@@ -282,9 +341,23 @@ Stanchion_Fire3 "Sounds/Stanchion/StanchionFire3.ogg"
 Stanchion_Fire4 "Sounds/Stanchion/StanchionFire4.ogg"
 Halo/Weapons/Stanchion/Reload "Sounds/Stanchion/StanchionReload.ogg"
 
-Halo/Weapons/Stanchion/Fire/Bass  "Sounds/Stanchion/StanchionBass.ogg"
-$random Halo/Weapons/Stanchion/Fire      { Stanchion_Fire1 Stanchion_Fire2 Stanchion_Fire3 Stanchion_Fire4 }
+StanchionUC_Fire1 "Sounds/Stanchion/Stanch_SFire_1.ogg"
+StanchionUC_Fire2 "Sounds/Stanchion/Stanch_SFire_2.ogg"
+StanchionUC_Fire3 "Sounds/Stanchion/Stanch_SFire_3.ogg"
+StanchionUC_Fire4 "Sounds/Stanchion/Stanch_SFire_4.ogg"
 
+Halo/Weapons/Stanchion/Charge/Start "Sounds/Stanchion/Stanch_ChargeBegin.ogg"
+Halo/Weapons/Stanchion/Charge/Loop "Sounds/Stanchion/Stanch_Charge_Loop.ogg"
+Halo/Weapons/Stanchion/Charge/Complete "Sounds/Stanchion/Stanch_Charge_Complete.ogg"
+Halo/Weapons/Stanchion/Charged/Loop "Sounds/Stanchion/Stanch_Charge_Complete_Loop.ogg"
+
+Halo/Weapons/Stanchion/Fire/Bass  "Sounds/Stanchion/StanchionBass.ogg"
+Halo/Weapons/Stanchion/Uncharged/Fire/Bass  "Sounds/Stanchion/StanchionBass.ogg"
+
+$random Halo/Weapons/Stanchion/Fire      { Stanchion_Fire1 Stanchion_Fire2 Stanchion_Fire3 Stanchion_Fire4 }
+$random Halo/Weapons/Stanchion/Uncharged/Fire	{ StanchionUC_Fire1 StanchionUC_Fire2 StanchionUC_Fire3 StanchionUC_Fire4 }
+$volume Halo/Weapons/Stanchion/Uncharged/Fire 0.5;
+$volume Halo/Weapons/Stanchion/Uncharged/Fire/Bass 0.65;
 
 // Carbine
 CARBINE_FIRE1 "Sounds/Carbine/CarbineFire1.ogg"
@@ -377,8 +450,10 @@ Halo/Weapons/Bulldog/Ready      "Sounds/Bulldog/bulldog_draw.ogg"
 $random Halo/Weapons/Bulldog/Fire      { BLDFIRE1 BLDFIRE2 BLDFIRE3 }
 $random Halo/Weapons/Bulldog/Fire/Bass { BLDBASS1 BLDBASS2 BLDBASS3 }
 
-$volume Halo/Weapons/Bulldog/Fire 0.8
+$volume Halo/Weapons/Bulldog/Fire 1.0
 $volume Halo/Weapons/Bulldog/Fire/Bass 1.0
+$limit Halo/Weapons/Bulldog/Fire 0
+$limit Halo/Weapons/Bulldog/Fire/Bass 0
 
 // Gravity Hammer
 GRAVFIRE1 "Sounds/GravityHammer/GravHammer_Hit1.ogg"
@@ -426,17 +501,17 @@ SIDEKICK_LOW4 "Sounds/Sidekick/Sidekick_Low4.ogg"
 SIDEKICK_MECH1 "Sounds/Sidekick/Sidekick_Mech1.ogg"
 SIDEKICK_MECH2 "Sounds/Sidekick/Sidekick_Mech2.ogg"
 SIDEKICK_MECH3 "Sounds/Sidekick/Sidekick_Mech3.ogg"
-Halo/Weapons/Sidekick/Reload "Sounds/Sidekick/Sidekick_Reload.ogg";
-Halo/Weapons/Sidekick/Reload/Empty "Sounds/Sidekick/Sidekick_ReloadEmpty.ogg";
-Halo/Weapons/Sidekick/Draw "Sounds/Sidekick/Sidekick_Draw.ogg";
+Halo/Weapons/Sidekick/Reload "Sounds/Sidekick/Sidekick_Reload.ogg"
+Halo/Weapons/Sidekick/Reload/Empty "Sounds/Sidekick/Sidekick_ReloadEmpty.ogg"
+Halo/Weapons/Sidekick/Draw "Sounds/Sidekick/Sidekick_Draw.ogg"
 
 $random Halo/Weapons/Sidekick/Fire      { SIDEKICK_FIRE1 SIDEKICK_FIRE2 SIDEKICK_FIRE3 SIDEKICK_FIRE4 }
 $random Halo/Weapons/Sidekick/Fire/Bass { SIDEKICK_LOW1 SIDEKICK_LOW2 SIDEKICK_LOW3 }
 $random Halo/Weapons/Sidekick/Mech { SIDEKICK_MECH1 SIDEKICK_MECH2 SIDEKICK_MECH3 }
 
-$volume Halo/Weapons/Sidekick/Fire 0.7;
-$volume Halo/Weapons/Sidekick/Fire/Bass 1.0;
-$volume Halo/Weapons/Sidekick/Mech 0.7;
+$volume Halo/Weapons/Sidekick/Fire 0.7
+$volume Halo/Weapons/Sidekick/Fire/Bass 1.0
+$volume Halo/Weapons/Sidekick/Mech 0.7
 
 // SMG
 SMG_FIRE1 "Sounds/SMG/SMG_Fire1.ogg"
@@ -448,17 +523,61 @@ SMG_LOW3 "Sounds/SMG/SMG_Low3.ogg"
 SMG_MECH1 "Sounds/SMG/SMG_Mech1.ogg"
 SMG_MECH2 "Sounds/SMG/SMG_Mech2.ogg"
 SMG_MECH3 "Sounds/SMG/SMG_Mech3.ogg"
-Halo/Weapons/SMG/Reload "Sounds/SMG/SMG_Reload_Tactical.ogg";
-Halo/Weapons/SMG/Reload/Empty "Sounds/SMG/SMG_Reload_Empty.ogg";
-Halo/Weapons/SMG/Draw "Sounds/SMG/SMG_Draw.ogg";
+Halo/Weapons/SMG/Reload "Sounds/SMG/SMG_Reload_Tactical.ogg"
+Halo/Weapons/SMG/Reload/Empty "Sounds/SMG/SMG_Reload_Empty.ogg"
+Halo/Weapons/SMG/Draw "Sounds/SMG/SMG_Draw.ogg"
 
 $random Halo/Weapons/SMG/Fire      { SMG_FIRE1 SMG_FIRE2 SMG_FIRE3 }
 $random Halo/Weapons/SMG/Fire/Bass { SMG_LOW1 SMG_LOW2 SMG_LOW3 }
 $random Halo/Weapons/SMG/Mech { SMG_MECH1 SMG_MECH2 SMG_MECH3 }
 
-$volume Halo/Weapons/SMG/Fire 1.0;
-$volume Halo/Weapons/SMG/Fire/Bass 1.0;
-$volume Halo/Weapons/SMG/Mech 0.2;
+$volume Halo/Weapons/SMG/Fire 1.0
+$volume Halo/Weapons/SMG/Fire/Bass 1.0
+$volume Halo/Weapons/SMG/Mech 1.0
+
+// Commando
+
+CMDO_FIR1 "Sounds/Commando/Commando_Fire1.ogg"
+CMDO_FIR2 "Sounds/Commando/Commando_Fire2.ogg"
+CMDO_FIR3 "Sounds/Commando/Commando_Fire3.ogg"
+CMDO_FAR1 "Sounds/Commando/Commando_Far1.ogg"
+CMDO_FAR2 "Sounds/Commando/Commando_Far2.ogg"
+CMDO_FAR3 "Sounds/Commando/Commando_Far3.ogg"
+CMDO_LOW1 "Sounds/Commando/Commando_Low1.ogg"
+CMDO_LOW2 "Sounds/Commando/Commando_Low2.ogg"
+CMDO_LOW3 "Sounds/Commando/Commando_Low3.ogg"
+CMDO_MECH1 "Sounds/Commando/Commando_Mech1.ogg"
+CMDO_MECH2 "Sounds/Commando/Commando_Mech2.ogg"
+CMDO_MECH3 "Sounds/Commando/Commando_Mech3.ogg"
+Halo/Weapons/Commando/Reload "Sounds/Commando/Commando_Reload.ogg"
+Halo/Weapons/Commando/Reload/Empty "Sounds/Commando/Commando_ReloadEmpty.ogg"
+Halo/Weapons/Commando/Select "Sounds/Commando/Commando_Draw.ogg"
+
+$random Halo/Weapons/Commando/Fire { CMDO_FIR1 CMDO_FIR2 CMDO_FIR3 }
+$random Halo/Weapons/Commando/Fire/Bass { CMDO_LOW1 CMDO_LOW2 CMDO_LOW3 }
+$random Halo/Weapons/Commando/Mech { CMDO_MECH1 CMDO_MECH2 CMDO_MECH3 }
+
+// GPMG
+Halo/Weapons/GPMG/Reload "Sounds/GPMG/GPMG_Reload.ogg"
+Halo/Weapons/GPMG/Reload/Empty "Sounds/GPMG/GPMG_ReloadEmpty.ogg"
+Halo/Weapons/GPMG/Draw "Sounds/GPMG/GPMG_Draw.ogg"
+
+GPMG_FIRE1 "Sounds/GPMG/GPMG_Fire1.ogg"
+GPMG_FIRE2 "Sounds/GPMG/GPMG_Fire2.ogg"
+GPMG_FIRE3 "Sounds/GPMG/GPMG_Fire3.ogg"
+GPMG_FIRE4 "Sounds/GPMG/GPMG_Fire4.ogg"
+GPMG_LOW1 "Sounds/GPMG/GPMG_Low1.ogg"
+GPMG_LOW2 "Sounds/GPMG/GPMG_Low2.ogg"
+GPMG_LOW3 "Sounds/GPMG/GPMG_Low3.ogg"
+GPMG_LOW4 "Sounds/GPMG/GPMG_Low4.ogg"
+GPMG_MECH1 "Sounds/GPMG/GPMG_Mech1.ogg"
+GPMG_MECH2 "Sounds/GPMG/GPMG_Mech2.ogg"
+GPMG_MECH3 "Sounds/GPMG/GPMG_Mech3.ogg"
+GPMG_MECH4 "Sounds/GPMG/GPMG_Mech4.ogg"
+
+$random Halo/Weapons/GPMG/Fire { GPMG_FIRE1 GPMG_FIRE2 GPMG_FIRE3 GPMG_FIRE4 }
+$random Halo/Weapons/GPMG/Fire/Bass  { GPMG_LOW1 GPMG_LOW2 GPMG_LOW3 GPMG_LOW4 }
+$random Halo/Weapons/GPMG/Mech { GPMG_MECH1 GPMG_MECH2 GPMG_MECH3 GPMG_MECH4 }
 
 // MA5B
 MA5B_FIRE1 "Sounds/MA5B/MA5B_Fire1.ogg"
@@ -481,9 +600,9 @@ $random Halo/Weapons/MA5B/Fire { MA5B_FIRE1 MA5B_FIRE2 MA5B_FIRE3 MA5B_FIRE4 }
 $random Halo/Weapons/MA5B/Fire/Bass { MA5B_LOW1 MA5B_LOW2 MA5B_LOW3 }
 $random Halo/Weapons/MA5B/Mech { MA5B_MECH1 MA5B_MECH2 MA5B_MECH3 MA5B_MECH4 }
 
-$volume Halo/Weapons/MA5B/Fire 1.0;
-$volume Halo/Weapons/MA5B/Fire/Bass 1.0;
-$volume Halo/Weapons/MA5B/Mech 0.7;
+$volume Halo/Weapons/MA5B/Fire 1.0
+$volume Halo/Weapons/MA5B/Fire/Bass 1.0
+$volume Halo/Weapons/MA5B/Mech 0.7
 
 // RocketLauncher
 RL_FIRE1 "Sounds/RocketLauncher/RL_Fire1.ogg"
@@ -503,6 +622,8 @@ Halo/Weapons/RocketLauncher/Loop "Sounds/RocketLauncher/Rocket_Loop.ogg"
 $random Halo/Weapons/RocketLauncher/Explode { RL_EXPLODE1 RL_EXPLODE2 RL_EXPLODE3 }
 $random Halo/Weapons/RocketLauncher/Fire { RL_FIRE1 RL_FIRE2 RL_FIRE3 }
 $random Halo/Weapons/RocketLauncher/Mech { RL_MECH1 RL_MECH2 RL_MECH3 }
+
+$limit Halo/Weapons/RocketLauncher/Explode 0
 
 // Spiker
 SPIKER_FIRE1 "Sounds/Spiker/Spiker_Fire1.ogg"
@@ -544,9 +665,9 @@ $random Halo/Weapons/Spiker/Fire/Bass { SPIKER_LOW1 SPIKER_LOW2 SPIKER_LOW3 }
 $random Halo/Weapons/Spiker/Impact { SPIKER_IMPACT1 SPIKER_IMPACT2 SPIKER_IMPACT3 }
 $random Halo/Weapon/Spiker/Shrapnel/Impact { SPIKER_SHRAPNEL1 SPIKER_SHRAPNEL2 SPIKER_SHRAPNEL3 SPIKER_SHRAPNEL4 }
 
-$volume Halo/Weapons/Spiker/Fire 1.0;
-$volume Halo/Weapons/Spiker/Mech 1.0;
-$volume Halo/Weapons/Spiker/Fire/Bass 1.0;		
+$volume Halo/Weapons/Spiker/Fire 1.0
+$volume Halo/Weapons/Spiker/Mech 1.0
+$volume Halo/Weapons/Spiker/Fire/Bass 1.0		
 
 // DMR
 DMR_FIRE1 "Sounds/DMR/DMR_Fire1.ogg"
@@ -609,8 +730,8 @@ Unmaker_BFGExplode1 "Sounds/Unmaker/BFG_XPL1.ogg"
 Unmaker_BFGExplode2 "Sounds/Unmaker/BFG_XPL2.ogg"
 Unmaker_BFGExplode3 "Sounds/Unmaker/BFG_XPL3.ogg"
 
-Halo/Weapons/Unmaker/Charge/Start "Sounds/Unmaker/BFG_Charge_Start.ogg";
-Halo/Weapons/Unmaker/Charge "Sounds/Unmaker/Unmaker_Charge.ogg";
+Halo/Weapons/Unmaker/Charge/Start "Sounds/Unmaker/BFG_Charge_Start.ogg"
+Halo/Weapons/Unmaker/Charge "Sounds/Unmaker/Unmaker_Charge.ogg"
 Halo/Weapons/Unmaker/Draw "Sounds/Unmaker/Unmaker_Draw.ogg"
 Halo/Weapons/Unmaker/BFG/Travel "Sounds/Unmaker/BFG_TRVL_Loop.ogg"
 
@@ -690,10 +811,10 @@ $random Halo/Weapons/LightRifle/Fire/Bass { LightRifle_BurstLOW1 LightRifle_Burs
 $random Halo/Weapons/LightRifle/Fire/DMR      { LightRifle_StrongFIRE1 LightRifle_StrongFIRE2 LightRifle_StrongFIRE3 }
 $random Halo/Weapons/LightRifle/Fire/DMR/Bass { LightRifle_StrongLOW1 LightRifle_StrongLOW2 LightRifle_StrongLOW3  }
 
-$volume Halo/Weapons/LightRifle/Fire 1.0; 
-$volume Halo/Weapons/LightRifle/Fire/Bass 0.8;
-$volume Halo/Weapons/LightRifle/Fire/DMR 1.0;  
-$volume Halo/Weapons/LightRifle/Fire/DMR/Bass 0.8;
+$volume Halo/Weapons/LightRifle/Fire 1.0 
+$volume Halo/Weapons/LightRifle/Fire/Bass 0.8
+$volume Halo/Weapons/LightRifle/Fire/DMR 1.0  
+$volume Halo/Weapons/LightRifle/Fire/DMR/Bass 0.8
 
 // Scatter Shot
 ScatterShot_FIRE1 "Sounds/ScatterShot/Scatter_Fire1.ogg"
@@ -710,6 +831,92 @@ Halo/Weapons/ScatterShot/Zoom/OUT "Sounds/ScatterShot/Scatter_Zoomout.ogg"
 $random Halo/Weapons/ScatterShot/Fire      { ScatterShot_FIRE1 ScatterShot_FIRE2 ScatterShot_FIRE3 }
 $random Halo/Weapons/ScatterShot/Fire/Bass { ScatterShot_LOW1 ScatterShot_LOW2 ScatterShot_LOW3  }
 
+// Flamer
+Halo/Weapons/Flamer/Draw "Sounds/Flamethrower/FT_Draw.ogg"
+Halo/Weapons/Flamer/IdleLoop "Sounds/Flamethrower/FT_IdleLoop.ogg"
+Halo/Weapons/Flamer/Weld/Start "Sounds/Flamethrower/FT_WelderStart.ogg"
+Halo/Weapons/Flamer/Weld/Loop "Sounds/Flamethrower/FT_WelderLoop.ogg"
+Halo/Weapons/Flamer/Weld/End "Sounds/Flamethrower/FT_WelderEnd.ogg"
+Halo/Weapons/Flamer/Weld/RepairLoop "Sounds/Flamethrower/FT_HealingLoop.ogg"
+Halo/Weapons/Flamer/Weld/RepairEnd "Sounds/Flamethrower/FT_HealingLoop_End.ogg"
+
+FT_Start1 "Sounds/Flamethrower/FT_FireStart1.ogg"
+FT_Start2 "Sounds/Flamethrower/FT_FireStart2.ogg"
+FT_Start3 "Sounds/Flamethrower/FT_FireStart3.ogg"
+FT_Start4 "Sounds/Flamethrower/FT_FireStart4.ogg"
+FT_End1 "Sounds/Flamethrower/FT_LoopEnd1.ogg"
+FT_End2 "Sounds/Flamethrower/FT_LoopEnd2.ogg"
+FT_End3 "Sounds/Flamethrower/FT_LoopEnd3.ogg"
+FT_End4 "Sounds/Flamethrower/FT_LoopEnd4.ogg"
+
+Halo/Weapons/Flamer/Fire/Loop "Sounds/Flamethrower/FT_LoopMain.ogg"
+
+$random Halo/Weapons/Flamer/Fire/Start { FT_Start1 FT_Start2 FT_Start3 FT_Start4 }
+$random Halo/Weapons/Flamer/Fire/End { FT_End1 FT_End2 FT_End3 FT_End4 }
+
+// Plasma Caster
+PlasmaCaster_FIRE1 "Sounds/PlasmaCaster/PCaster_Fire1.ogg"
+PlasmaCaster_FIRE2 "Sounds/PlasmaCaster/PCaster_Fire2.ogg"
+PlasmaCaster_FIRE3 "Sounds/PlasmaCaster/PCaster_Fire3.ogg"
+PlasmaCaster_CFIRE1 "Sounds/PlasmaCaster/PCaster_ChargeFire1.ogg"
+PlasmaCaster_CFIRE2 "Sounds/PlasmaCaster/PCaster_ChargeFire2.ogg"
+PlasmaCaster_CFIRE3 "Sounds/PlasmaCaster/PCaster_ChargeFire3.ogg"
+
+Halo/Weapons/PlasmaCaster/Draw "Sounds/PlasmaCaster/PCaster_Draw.ogg"
+Halo/Weapons/PlasmaCaster/Reload "Sounds/PlasmaCaster/PCaster_Reload.ogg"
+Halo/Weapons/PlasmaCaster/ChargeBegin "Sounds/PlasmaCaster/PCaster_ChargeLoop1.ogg"
+Halo/Weapons/PlasmaCaster/ChargeLoop "Sounds/PlasmaCaster/PCaster_ChargeLoop2.ogg"
+
+$random Halo/Weapons/PlasmaCaster/Fire { PlasmaCaster_FIRE1 PlasmaCaster_FIRE2 PlasmaCaster_FIRE3 }
+$random Halo/Weapons/PlasmaCaster/ChargedFire { PlasmaCaster_CFIRE1 PlasmaCaster_CFIRE2 PlasmaCaster_CFIRE3 }
+
+// Hydra
+HYDRA_FIRE1 "Sounds/Hydra/Hydra_Fire1.ogg"
+HYDRA_FIRE2 "Sounds/Hydra/Hydra_Fire2.ogg"
+HYDRA_FIRE3 "Sounds/Hydra/Hydra_Fire3.ogg"
+HYDRA_RELOAD1 "Sounds/Hydra/Hydra_Reload1.ogg"
+HYDRA_RELOAD2 "Sounds/Hydra/Hydra_Reload2.ogg"
+HYDRA_RELOAD3 "Sounds/Hydra/Hydra_Reload3.ogg"
+HYDRA_RELOAD4 "Sounds/Hydra/Hydra_Reload4.ogg"
+
+Halo/Weapons/Hydra/Draw "Sounds/Hydra/Hydra_Draw.ogg"
+Halo/Weapons/Hydra/ReloadReady "Sounds/Hydra/Hydra_ReloadPreopen.ogg"
+Halo/Weapons/Hydra/ReloadOpen "Sounds/Hydra/Hydra_ReloadOpen.ogg"
+Halo/Weapons/Hydra/ReloadClose "Sounds/Hydra/Hydra_ReloadClose.ogg"
+
+Halo/Weapons/Hydra/Locking "Sounds/Hydra/Locking.ogg"
+Halo/Weapons/Hydra/Locked "Sounds/Hydra/Locked.ogg"
+
+$random Halo/Weapons/Hydra/ReloadLoad { HYDRA_RELOAD1 HYDRA_RELOAD2 HYDRA_RELOAD3 HYDRA_RELOAD4 }
+$random Halo/Weapons/Hydra/Fire { HYDRA_FIRE1 HYDRA_FIRE2 HYDRA_FIRE3 }
+$limit Halo/Weapons/Hydra/Fire 0
+
+// Sticky Detonator
+DET_FIRE1 "Sounds/Stickydet/Stickydet_Fire1.ogg"
+DET_FIRE2 "Sounds/Stickydet/Stickydet_Fire2.ogg"
+DET_FIRE3 "Sounds/Stickydet/Stickydet_Fire3.ogg"
+DET_FIRE4 "Sounds/Stickydet/Stickydet_Fire4.ogg"
+
+Halo/Weapons/StickyDet/Draw "Sounds/Stickydet/Stickydet_Draw.ogg"
+Halo/Weapons/StickyDet/Reload "Sounds/Stickydet/Stickydet_Reload.ogg"
+Halo/Weapons/StickyDet/Ping "Sounds/Stickydet/Launcher_Ping_loop.ogg"
+Halo/Weapons/StickyDet/Cam/Open "Sounds/Stickydet/Monitor_Open.ogg"
+Halo/Weapons/StickyDet/Cam/Close "Sounds/Stickydet/Monitor_Close.ogg"
+Halo/Weapons/StickyDet/Proj/Ping "Sounds/Stickydet/Bomb_Ping_loop.ogg"
+Halo/Weapons/StickyDet/Proj/Impact "Sounds/Stickydet/Bomb_Impact.ogg"
+
+$random Halo/Weapons/StickyDet/Fire { DET_FIRE1 DET_FIRE2 DET_FIRE3 DET_FIRE4 }
+
+// Needler Javelin
+NJAV_FIR1 "Sounds/NeedleJavelin/NeedleJav_Fire1.ogg"
+NJAV_FIR2 "Sounds/NeedleJavelin/NeedleJav_Fire2.ogg" 
+NJAV_FIR3 "Sounds/NeedleJavelin/NeedleJav_Fire3.ogg"
+
+$random Halo/Weapons/NeedlerJavelin/Fire { NJAV_FIR1 NJAV_FIR2 NJAV_FIR3 }
+Halo/Weapons/NeedlerJavelin/Draw "Sounds/NeedleJavelin/NeedleJav_Draw.ogg"
+Halo/Weapons/NeedlerJavelin/Reload "Sounds/NeedleJavelin/NeedleJav_Reload.ogg"
+Halo/Weapons/NeedlerJavelin/SuperCombine "Sounds/NeedleJavelin/Jav_Supercombine.ogg"
+  
 // Hit feedback
 HMHIT1 HMHit1
 HMHIT2 HMHit2
@@ -720,6 +927,100 @@ HMHEAD2 HMHead2
 HMHEAD3 HMHead3
 HMHEAD4 HMHead4
 Hit/Killed HMKill1
+
+// Casings
+CASSHELL1 "Sounds/Shared/Shotgun_Shells/SG_Shell1.ogg"
+CASSHELL2 "Sounds/Shared/Shotgun_Shells/SG_Shell2.ogg"
+CASSHELL3 "Sounds/Shared/Shotgun_Shells/SG_Shell3.ogg"
+CASSHELL4 "Sounds/Shared/Shotgun_Shells/SG_Shell4.ogg"
+CASING1 "Sounds/Shared/Pistol_Casings/Pistol_Casing1.ogg"
+CASING2 "Sounds/Shared/Pistol_Casings/Pistol_Casing2.ogg"
+CASING3 "Sounds/Shared/Pistol_Casings/Pistol_Casing3.ogg"
+CASING4 "Sounds/Shared/Pistol_Casings/Pistol_Casing4.ogg"
+RIFCASING1 "Sounds/Shared/Rifle_Casings/Rifle_Casing1.ogg"
+RIFCASING2 "Sounds/Shared/Rifle_Casings/Rifle_Casing2.ogg"
+RIFCASING3 "Sounds/Shared/Rifle_Casings/Rifle_Casing3.ogg"
+RIFCASING4 "Sounds/Shared/Rifle_Casings/Rifle_Casing4.ogg"
+HCCASING1 "Sounds/Shared/High_Calibur_Casings/HC_Casing1.ogg" 
+HCCASING2 "Sounds/Shared/High_Calibur_Casings/HC_Casing2.ogg"
+HCCASING3 "Sounds/Shared/High_Calibur_Casings/HC_Casing3.ogg"
+HCCASING4 "Sounds/Shared/High_Calibur_Casings/HC_Casing4.ogg"
+HCCASING5 "Sounds/Shared/High_Calibur_Casings/HC_Casing5.ogg"
+HCCASING6 "Sounds/Shared/High_Calibur_Casings/HC_Casing6.ogg"
+HCCASING7 "Sounds/Shared/High_Calibur_Casings/HC_Casing7.ogg"
+
+$random Casings/Shell  { CASSHELL1 CASSHELL2 CASSHELL3 CASSHELL4 }
+$random Casings/Pistol { CASING1 CASING2 CASING3 CASING4 }
+$random Casings/Rifle  { RIFCASING1 RIFCASING2 RIFCASING3 RIFCASING4 }
+$random Casings/HighCalibur { HCCASING1 HCCASING2 HCCASING3 HCCASING4 HCCASING5 HCCASING6 HCCASING7 }
+
+RIFLEBOUNCE1 "Sounds/Magdrop/Dirt/Rifle/Rifle_Dirt1.ogg"
+RIFLEBOUNCE2 "Sounds/Magdrop/Dirt/Rifle/Rifle_Dirt2.ogg"
+RIFLEBOUNCE3 "Sounds/Magdrop/Dirt/Rifle/Rifle_Dirt3.ogg"
+RIFLEBOUNCE4 "Sounds/Magdrop/Dirt/Rifle/Rifle_Dirt4.ogg"
+PISTOLBOUNCE1 "Sounds/Magdrop/Dirt/Pistol/Pistol_Dirt1.ogg"
+PISTOLBOUNCE2 "Sounds/Magdrop/Dirt/Pistol/Pistol_Dirt2.ogg"
+PISTOLBOUNCE3 "Sounds/Magdrop/Dirt/Pistol/Pistol_Dirt3.ogg"
+PISTOLBOUNCE4 "Sounds/Magdrop/Dirt/Pistol/Pistol_Dirt4.ogg"
+ROCKETBOUNCE1 "Sounds/Magdrop/Dirt/Rocket/SPNKR_Dirt1.ogg"
+ROCKETBOUNCE2 "Sounds/Magdrop/Dirt/Rocket/SPNKR_Dirt2.ogg"
+ROCKETBOUNCE3 "Sounds/Magdrop/Dirt/Rocket/SPNKR_Dirt3.ogg"
+ROCKETBOUNCE4 "Sounds/Magdrop/Dirt/Rocket/SPNKR_Dirt4.ogg"
+SMGBOUNCE1 "Sounds/Magdrop/Dirt/SMG/SMG_Dirt1.ogg"
+SMGBOUNCE2 "Sounds/Magdrop/Dirt/SMG/SMG_Dirt2.ogg"
+SMGBOUNCE3 "Sounds/Magdrop/Dirt/SMG/SMG_Dirt3.ogg"
+SMGBOUNCE4 "Sounds/Magdrop/Dirt/SMG/SMG_Dirt4.ogg"
+SNIPERBOUNCE1 "Sounds/Magdrop/Dirt/Sniper/Sniper_Dirt1.ogg"
+SNIPERBOUNCE2 "Sounds/Magdrop/Dirt/Sniper/Sniper_Dirt2.ogg"
+SNIPERBOUNCE3 "Sounds/Magdrop/Dirt/Sniper/Sniper_Dirt3.ogg"
+SNIPERBOUNCE4 "Sounds/Magdrop/Dirt/Sniper/Sniper_Dirt4.ogg"
+
+$random WeaponAmmoDebris/Bulldog/Bounce { RIFLEBOUNCE1 RIFLEBOUNCE2 RIFLEBOUNCE3 RIFLEBOUNCE4 }
+$random WeaponAmmoDebris/Rocket/Bounce  { ROCKETBOUNCE1 ROCKETBOUNCE2 ROCKETBOUNCE3 ROCKETBOUNCE4 }
+$random WeaponAmmoDebris/Carbine/Bounce { SNIPERBOUNCE1 SNIPERBOUNCE2 SNIPERBOUNCE3 SNIPERBOUNCE4 }
+$random WeaponAmmoDebris/PlasmaCaster/Bounce { RIFLEBOUNCE1 RIFLEBOUNCE2 RIFLEBOUNCE3 RIFLEBOUNCE4 }
+$random WeaponAmmoDebris/Commando/Bounce { RIFLEBOUNCE1 RIFLEBOUNCE2 RIFLEBOUNCE3 RIFLEBOUNCE4 }
+$random WeaponAmmoDebris/GPMG/Bounce { SNIPERBOUNCE1 SNIPERBOUNCE2 SNIPERBOUNCE3 SNIPERBOUNCE4 }
+$random WeaponAmmoDebris/Magnum/Bounce { PISTOLBOUNCE1 PISTOLBOUNCE2 PISTOLBOUNCE3 PISTOLBOUNCE4 }
+$random WeaponAmmoDebris/Javelin/Bounce { SNIPERBOUNCE1 SNIPERBOUNCE2 SNIPERBOUNCE3 SNIPERBOUNCE4 }
+$random WeaponAmmoDebris/Rifle/Bounce  { RIFLEBOUNCE1 RIFLEBOUNCE2 RIFLEBOUNCE3 RIFLEBOUNCE4 }
+$random WeaponAmmoDebris/Sidekick/Bounce { PISTOLBOUNCE1 PISTOLBOUNCE2 PISTOLBOUNCE3 PISTOLBOUNCE4 }
+$random WeaponAmmoDebris/SMG/Bounce { SMGBOUNCE1 SMGBOUNCE2 SMGBOUNCE3 SMGBOUNCE4 }
+$random WeaponAmmoDebris/Sniper/Bounce { SNIPERBOUNCE1 SNIPERBOUNCE2 SNIPERBOUNCE3 SNIPERBOUNCE4 }
+$random WeaponAmmoDebris/Spiker/Bounce { PISTOLBOUNCE1 PISTOLBOUNCE2 PISTOLBOUNCE3 PISTOLBOUNCE4 }
+
+// Bullet SFX
+NDLRICOCHET1 "Sounds/Needler/Ricochet/Needle_Ricochet1.ogg"
+NDLRICOCHET2 "Sounds/Needler/Ricochet/Needle_Ricochet2.ogg"
+NDLRICOCHET3 "Sounds/Needler/Ricochet/Needle_Ricochet3.ogg"
+NDLRICOCHET4 "Sounds/Needler/Ricochet/Needle_Ricochet4.ogg"
+NDLRICOCHET5 "Sounds/Needler/Ricochet/Needle_Ricochet5.ogg"
+NDLRICOCHET6 "Sounds/Needler/Ricochet/Needle_Ricochet6.ogg"
+NDLDESPAWN1 "Sounds/Needler/Projectile_Despawn/Needler_Projectile_Despawn1.ogg"
+NDLDESPAWN2 "Sounds/Needler/Projectile_Despawn/Needler_Projectile_Despawn2.ogg"
+NDLDESPAWN3 "Sounds/Needler/Projectile_Despawn/Needler_Projectile_Despawn3.ogg"
+NDLDESPAWN4 "Sounds/Needler/Projectile_Despawn/Needler_Projectile_Despawn4.ogg"
+
+$random Needler/Ricochet { NDLRICOCHET1 NDLRICOCHET2 NDLRICOCHET3 NDLRICOCHET4 NDLRICOCHET5 NDLRICOCHET6 }
+$random Needler/Despawn { NDLDESPAWN1 NDLDESPAWN2 NDLDESPAWN3 NDLDESPAWN4 }
+
+RICOCHET1 "Sounds/Shared/Ricochet/Ricochet_Generic1.ogg"
+RICOCHET2 "Sounds/Shared/Ricochet/Ricochet_Generic2.ogg"
+RICOCHET3 "Sounds/Shared/Ricochet/Ricochet_Generic3.ogg"
+RICOCHET4 "Sounds/Shared/Ricochet/Ricochet_Generic4.ogg"
+RICOCHETMETAL1 "Sounds/Shared/Ricochet/Ricochet_Metal1.ogg"
+RICOCHETMETAL2 "Sounds/Shared/Ricochet/Ricochet_Metal2.ogg"
+RICOCHETMETAL3 "Sounds/Shared/Ricochet/Ricochet_Metal3.ogg"
+RICOCHETMETAL4 "Sounds/Shared/Ricochet/Ricochet_Metal4.ogg"
+RICOCHETSHOTGUN1 "Sounds/Shared/Ricochet/Ricochet_Shotgun_Sweetener1.ogg"
+RICOCHETSHOTGUN2 "Sounds/Shared/Ricochet/Ricochet_Shotgun_Sweetener2.ogg"
+RICOCHETSHOTGUN3 "Sounds/Shared/Ricochet/Ricochet_Shotgun_Sweetener3.ogg"
+
+$random Ricochet/Generic { RICOCHET1 RICOCHET2 RICOCHET3 RICOCHET4 }
+$random Ricochet/Metal { RICOCHETMETAL1 RICOCHETMETAL2 RICOCHETMETAL3 RICOCHETMETAL4 }
+$random Ricochet/Shotgun { RICOCHETSHOTGUN1 RICOCHETSHOTGUN2 RICOCHETSHOTGUN3 }
+$volume Ricochet/Generic 0.5;
+$volume Ricochet/Shotgun 0.5;
 
 // $random Hit/Killed  { HMKILL1 HMKILL2 }
 // HMKILL2 HMKill2
@@ -751,6 +1052,9 @@ Halo/Grenade/Plasma/Explode "Sounds/Grenades/Sticky_Explode.ogg"
 Halo/Grenade/Plasma/ExplodeWater "Sounds/Grenades/Sticky_ExplodeWater.ogg"
 Halo/Grenade/Plasma/Armed "Sounds/Grenades/Sticky_Armed.ogg"
 Halo/Grenade/Plasma/FuseLoop "Sounds/Grenades/Sticky_Fuse.ogg"
+
+$limit Halo/Grenade/Plasma/Explode 0
+$limit Grenade/Frag/Explode 0
 
 // Surface Sounds
 WALKWATER1 "Sounds/SurfaceSound/Walk Water 1.ogg"
@@ -801,12 +1105,36 @@ Halo/Spartan/ZipLine/Loop "Sounds/Players/Abilities/zip_loop.ogg"
 Halo/Spartan/ZipLine/End "Sounds/Players/Abilities/zip_end.ogg"
 Halo/Spartan/Land/Normal "Sounds/Players/land_normal.ogg"
 Halo/Spartan/Land/Hard "Sounds/Players/land_hard.ogg"
+Halo/Spartan/LowHealthLoop "Sounds/Players/Player_Low_Health_Loop.ogg"
+
+M_GOTKILL1 "Sounds/Players/M_KILL1.ogg"
+M_GOTKILL2 "Sounds/Players/M_KILL2.ogg"
+M_GOTKILL3 "Sounds/Players/M_KILL3.ogg"
+M_GOTKILL4 "Sounds/Players/M_KILL4.ogg"
+M_GOTKILLREV1 "Sounds/Players/M_Kill_Rev1.ogg"
+M_GOTKILLREV2 "Sounds/Players/M_Kill_Rev2.ogg"
+M_GOTKILLSPECTRE1 "Sounds/Players/M_Kill_Spectre1.ogg"
+M_GOTKILLSPECTRE2 "Sounds/Players/M_Kill_Spectre2.ogg"
+
+$random Halo/Spartan/M/GotKill_Spectre { M_GOTKILLSPECTRE1 M_GOTKILLSPECTRE2 }
+$random Halo/Spartan/M/GotKill_Revenant { M_GOTKILLREV1 M_GOTKILLREV2 }
+$random Halo/Spartan/M/GotKill { M_GOTKILL1 M_GOTKILL2 M_GOTKILL3 M_GOTKILL4 }
+
+F_GOTKILL1 "Sounds/Players/Female/F_KILL1.ogg"
+F_GOTKILL2 "Sounds/Players/Female/F_KILL2.ogg"
+F_GOTKILL3 "Sounds/Players/Female/F_KILL3.ogg"
+F_GOTKILL4 "Sounds/Players/Female/F_KILL4.ogg"
+$random Halo/Spartan/F/GotKill { F_GOTKILL1 F_GOTKILL2 F_GOTKILL3 F_GOTKILL4 }
 
 $random Halo/Spartan/Dash { Halo/Spartan/Dash1 Halo/Spartan/Dash2 Halo/Spartan/Dash3 Halo/Spartan/Dash4 }
 $random Halo/Spartan/Slide { Halo/Spartan/Slide1 Halo/Spartan/Slide2 Halo/Spartan/Slide3 }
 $random Halo/Spartan/DoubleJump { Halo/Spartan/DoubleJump1 Halo/Spartan/DoubleJump2 }
 $random Halo/Spartan/Jump { Halo/Spartan/Jump1 Halo/Spartan/Jump2 }
 $random Halo/Spartan/Death { Halo/Spartan/Death1 Halo/Spartan/Death2 Halo/Spartan/Death3 Halo/Spartan/Death4 Halo/Spartan/Death5 }
+
+// Skulls
+Halo/Skulls/ConfettiPop "Sounds/Skulls/Grunt_Birthday_Pop.ogg"
+Halo/Skulls/ALL "Sounds/Skulls/All_Skulls_On.ogg"
 
 $playersound	Spartan  male	*death 	  "Sounds/Players/death2.ogg" 
 $playersound	Spartan  male	*xdeath	  "Sounds/Players/death4.ogg" 
@@ -820,3 +1148,16 @@ $playersound	Spartan  male	*land	  "Sounds/Players/land_normal.ogg"
 $playersound	Spartan  male	*jump	  "Sounds/Players/jump1.ogg"
 $playersound	Spartan  male	*fist	  dspunch
 $playersound	Spartan  male	*usefail  "Sounds/Melee/MeleeMiss.ogg"
+
+$playersound	Spartan  female	*death 	  "Sounds/Players/Female/F_Death1.ogg" 
+$playersound	Spartan  female	*xdeath	  "Sounds/Players/Female/F_Death4.ogg" 
+$playersound	Spartan  female	*gibbed	  "Sounds/Players/Female/F_Death2.ogg" 
+$playersound	Spartan  female	*pain100  "Sounds/Players/Female/F_Death3.ogg" 
+$playersound	Spartan  female	*pain75	  "Sounds/Players/Female/F_Pain_High.ogg" 
+$playersound	Spartan  female	*pain50	  "Sounds/Players/Female/F_Pain_Med.ogg" 
+$playersound	Spartan  female	*pain25	  "Sounds/Players/Female/F_Pain_Low.ogg" 
+$playersound	Spartan  female	grunt	  "Sounds/Players/Female/F_Jump.ogg"
+$playersound	Spartan  female	*land	  "Sounds/Players/land_normal.ogg"
+$playersound	Spartan  female	*jump	  "Sounds/Players/Female/F_Jump.ogg"
+$playersound	Spartan  female	*fist	  dspunch
+$playersound	Spartan  female	*usefail  "Sounds/Melee/MeleeMiss.ogg"

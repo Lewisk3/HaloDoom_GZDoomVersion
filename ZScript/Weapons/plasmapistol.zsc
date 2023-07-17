@@ -8,6 +8,15 @@ class Halo_PlasmaPistol_Clip : Ammo
 
 class HaloPlasma_Proj : HaloBullet 
 {
+	Color col;
+	Color coreColorOne, coreColorTwo;
+	class<LightningBiri> lightningType;
+	
+	Property PlasmaColor : col;
+	Property CoreColor1 : coreColorOne;
+	Property CoreColor2 : coreColorTwo;
+	Property LightningEffect : lightningType;
+
 	Default
 	{
 		HaloProjectile.SetRanges PLASMAPISTOL_RANGE1, PLASMAPISTOL_RANGE2; 
@@ -15,60 +24,171 @@ class HaloPlasma_Proj : HaloBullet
 		HaloProjectile.BaseDamage PLASMAPISTOL_DMG; 
 		HaloProjectile.Speed_MPS  PLASMAPISTOL_BMPS;
 		HaloProjectile.HeadshotDMGFactor PLASMAPISTOL_HEDMOD;
+		HaloProjectile.SplashSpawner "PlasmaSplashSpawner";
+		HaloProjectile.RicochetChance 0;
 		
-		RenderStyle "Add";
-		DamageType "Fire";
-		Translation "0:255=@65[5,240,44]";
-		Alpha 0.90;
-		Scale 0.12;
+		//Translation "0:255=@65[5,240,44]";
+		// Scale 0.12;
+		
+		RenderStyle "Shaded";
+		HaloPlasma_Proj.PlasmaColor "#13ed63";
+		HaloPlasma_Proj.CoreColor1 "#13eda8";
+		HaloPlasma_Proj.CoreColor2 "#FFFFFF";
+		HaloPlasma_Proj.LightningEffect "PlasmaProjBiri_Green";
+	
+		Alpha 0.60;
+		Scale 0.5;
+		
 		DamageType "Plasma";
 	}
-		
-	virtual void A_DoLightning(double amt = 4)
+	
+	override void PostBeginPlay()
+	{
+		super.PostBeginPlay();
+		HaloPlasma_ProjCore.SpawnCore(self, coreColorOne, scaleMod:1.0);
+		HaloPlasma_ProjCore.SpawnCore(self, coreColorTwo, scaleMod:0.70);
+		SetShade(col);
+	}
+	
+	virtual void A_PlasmaTrail()
+	{
+		double curScale = 0.06;
+		double backOffs = -8 - abs(vel.Length());
+		for(double i = 0; i < 4; i++)
+		{
+			vector3 worldOffs = HaloMath.V3Offset(angle, pitch, roll, backOffs,0,0, 1.0);
+			let trail = Spawn("HaloPlasma_Trail", level.vec3offset(pos, worldOffs));
+			if(trail) 
+			{
+				trail.A_SetScale(curScale);
+				trail.vel = vel;
+				trail.translation = translation;
+				curScale *= 0.80;
+				backOffs -= 4;
+			}
+		}
+	}
+	
+	virtual void A_DoLightning(class<LightningBiri> type, double amt = 4)
 	{
 		vector2 view;
 		for(int i = 0; i < amt; i++)
 		{
-			view.x = angle + frandom(-60,60) + 180;
-			view.y = pitch + frandom(-35,35);
-			BiriBiri.DoLightning(pos, view, dist:25, 0.5, 20.0, 10.0, 30, 0);
+			view.x = angle + frandom[PlasmaProjRNG](-60,60) + 180;
+			view.y = pitch + frandom[PlasmaProjRNG](-35,35);
+			vector3 rndpos = (
+				frandom[PlasmaProjRNG](-1,1),
+				frandom[PlasmaProjRNG](-1,1),
+				frandom[PlasmaProjRNG](-1,1)
+			) * frandom[PlasmaProjRNG](-5,5);
+			
+			BiriBiri.DoLightning(level.vec3offset(pos, rndpos), view, type:type, dist:frandom[PlasmaProjRNG](10,35), 0.5, 20.0, 10.0, 30, 0);
 		}
 	}
 	
-	States
+	override void Tick()
+	{
+		super.tick();
+		
+		let smk = Spawn("PlasmaSmoke", level.vec3offset(pos, vel));
+		if(smk) smk.vel = vel*0.1;
+	}
+	
+	States // Old - HPLB
 	{
 		Spawn:
-			HPLB A 4 Bright;
-		SpawnLoop:
-			HPLB A 1 Bright
+			MODL A 1 NoDelay Bright
 			{
-				double curScale = 0.06;
-				double backOffs = -8 - abs(vel.Length());
-				for(double i = 0; i < 4; i++)
-				{
-					vector3 worldOffs = HaloMath.V3Offset(angle, pitch, roll, backOffs,0,0, 1.0);
-					let trail = Spawn("HaloPlasma_Trail", level.vec3offset(pos, worldOffs));
-					if(trail) 
-					{
-						trail.A_SetScale(curScale);
-						trail.vel = vel;
-						trail.translation = translation;
-						curScale *= 0.80;
-						backOffs -= 4;
-					}
-				}
+				HaloMath.ParticlesFX(self, col, 3, 2, 12);
+				if( !(level.maptime%4) ) 
+					A_DoLightning(lightningType);
+				
+				// A_PlasmaTrail();
 			}
 		loop;
 		
 		Death:
 		XDeath:
 		Crash:
-			TNT1 A 1 
+			TNT1 A 1
 			{	
-				HaloMath.ParticlesFX(self, "Green", 30, 3, 10);
-				A_DoLightning();
+				HaloMath.ParticlesFX(self, col, 30, 3, 10);
+				A_DoLightning(lightningType);
 			}
 		stop;
+	}
+}
+class PlasmaProjBiri_Green : LightningBiri
+{
+	Default
+	{
+		-LightningActor.DOFLASH;
+		Scale 0.02;
+		Translation "0:255=@80[8,76,4]";
+	}
+	
+	States
+	{
+		Spawn:
+			BEAM A 1 Bright A_FadeOut(0.3);
+		wait;
+	}
+}
+class HaloPlasma_ProjCore : Actor
+{
+	// Purely aesthetic
+	Default
+	{
+		Radius 5;
+		Height 5;
+		Damage 0;
+		RenderStyle "Shaded";
+		+NOINTERACTION;
+	}
+	
+	override void Tick()
+	{
+		super.tick();
+		if(!master) 
+		{
+			Destroy();
+			return;
+		}
+		
+		bInvisible = master.bInvisible;
+		SetOrigin(master.pos, true);
+	}
+	
+	
+	static HaloPlasma_ProjCore SpawnCore(Actor src, Color col, double scaleMod = 1.0, class<Actor> type = "HaloPlasma_ProjCore")
+	{
+		let core = HaloPlasma_ProjCore(Spawn(type, src.pos));
+		if(core)
+		{
+			core.vel = src.vel;
+			core.angle = src.angle;
+			core.pitch = src.pitch;
+			core.roll = src.roll;
+			core.master = src;
+			core.A_SetScale(src.Scale.X * scaleMod, src.Scale.Y * scaleMod);
+			core.SetShade(col);
+		}
+		return core;
+	}
+	
+	States
+	{
+		Spawn:
+			MODL A 1 Bright;
+		loop;
+	}
+}
+class PlasmaSmoke : IcecubeSmoke
+{
+	Default
+	{
+		Scale 0.30;
+		Alpha 0.15;
 	}
 }
 class HaloChargedPlasma_Proj : HaloPlasma_Proj 
@@ -83,8 +203,8 @@ class HaloChargedPlasma_Proj : HaloPlasma_Proj
 		HaloProjectile.DoExplosiveDamage 32, 128;
 		HaloProjectile.SetupHoming true, 0.125, 30;
 		
-		Alpha 0.80;
-		Scale 0.22;
+		Alpha 1.0;
+		Scale 1.0;
 		Decal "Scorch";
 	}
 	
@@ -93,7 +213,7 @@ class HaloChargedPlasma_Proj : HaloPlasma_Proj
 		int res = super.SpecialMissileHit(victim);
 		if(res == -1 && victim && victim.health > 0) 
 		{
-			A_DoLightning(10);
+			A_DoLightning(lightningType, 10);
 			victim.GiveInventory("EMP_DeBuff", 1);
 		}
 		
@@ -103,7 +223,7 @@ class HaloChargedPlasma_Proj : HaloPlasma_Proj
 	override void Tick()
 	{
 		super.Tick();
-		if( !(GetAge() % 2) ) HaloMath.ParticlesFX(self, "Green", 7, 3, 5);
+		if( !(GetAge() % 2) ) HaloMath.ParticlesFX(self, col, 7, 3, 5);
 	}	
 }
 class EMP_DeBuff : Inventory
@@ -146,7 +266,7 @@ class HaloPlasma_Trail : Actor
 	
 		RenderStyle "Add";
 		Translation "0:255=@50[5,240,44]";
-		Alpha 0.65;
+		Alpha 0.80;
 		Scale 0.06;
 	}
 	
@@ -177,6 +297,7 @@ class Halo_PlasmaPistol : HaloGun
 	
 	Default
 	{
+		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 4;
 		Obituary "%o was fried to a crisp by %k's Plasma Pistol.";
 		Inventory.PickupMessage	"Picked up the Type-25 Plasma Pistol.";
@@ -187,8 +308,8 @@ class Halo_PlasmaPistol : HaloGun
 		Weapon.AmmoType2 "Halo_PlasmaPistol_Clip";
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 1;
+		HaloGun.Faction "Covenant";
 		
-		HaloGun.Availability "HL1, HL2, HL3, HL4, StarWars";
 		HaloGun.PowerTier P_NORM;
 				
 		// Recoil
@@ -240,16 +361,16 @@ class Halo_PlasmaPistol : HaloGun
 
 		if(!charged)
 		{
-			A_WeapSound("Halo/Weapons/PlasmaPistol/Fire", 0, true);
-			A_WeapSound("Halo/Weapons/PlasmaPistol/Fire/Bass", CHANF_OVERLAP, true);
+			A_WeapSound("Halo/Weapons/PlasmaPistol/Fire", 0);
+			A_WeapSound("Halo/Weapons/PlasmaPistol/Fire/Bass", CHANF_OVERLAP);
 			A_ShootProjectile("HaloPlasma_Proj", 12);
 			invoker.heat += 0.14;
 			A_TakeAmmo(1, false);
 		}
 		else
 		{
-			A_WeapSound("Halo/Weapons/PlasmaPistol/Fire/Charged", 0, true);
-			A_WeapSound("Halo/Weapons/PlasmaPistol/Fire/Charged/Bass", CHANF_OVERLAP, true);
+			A_WeapSound("Halo/Weapons/PlasmaPistol/Fire/Charged", 0);
+			A_WeapSound("Halo/Weapons/PlasmaPistol/Fire/Charged/Bass", CHANF_OVERLAP);
 			A_ShootProjectile("HaloChargedPlasma_Proj", 12);
 			invoker.heat = 1.0;
 			A_TakeAmmo(15, false);
@@ -339,8 +460,8 @@ class Halo_PlasmaPistol : HaloGun
 			{
 				A_FireHaloPlasma();
 				A_SetRecoil(0.75, 0, 2);
-				A_RQuakeEx(3,2,1,2,0,20,"",QF_RELATIVE|QF_WAVE);
-				A_RollQuake(2,8,1);
+				A_RQuakeEx(3,2,1,2,0,20,"",QF_RELATIVE|QF_WAVE|QF_SCALEDOWN);
+				//A_RollQuake(2,8,1);
 			}
 			PLPF B 1 bright A_RecoilOffset(16,-20,4);
 			PLPF C 1 
@@ -368,8 +489,8 @@ class Halo_PlasmaPistol : HaloGun
 				A_SetZoom(0.92, 1);
 				A_FireHaloPlasma(charged:true);
 				A_SetRecoil(7.0, 0, 2);
-				A_RQuakeEx(2,2,4,6,0,20,"",QF_RELATIVE|QF_WAVE);
-				A_RollQuake(2,10,3);
+				A_RQuakeEx(4,4,4,6,0,20,"",QF_SCALEDOWN);
+				//A_RollQuake(2,10,3);
 			}
 			PLCF B 1 Bright;
 			PLCF C 1 

@@ -48,6 +48,7 @@ class Halo_Sidekick : HaloGun
 {
 	Default
 	{
+		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 2;
 		Obituary "%o was flicked by %k's Sidekick.";
 		Inventory.PickupMessage	"Picked up the MK50 Sidekick.";
@@ -56,7 +57,8 @@ class Halo_Sidekick : HaloGun
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_Sidekick_Reserves";
 		Weapon.AmmoType2 "Halo_Sidekick_Clip";
-		Weapon.AmmoGive 12;
+		Weapon.AmmoGive 36;
+		HaloGun.Faction "Human";
 				
 		// Recoil
 		HaloGun.Bloom 0.8;
@@ -65,8 +67,8 @@ class Halo_Sidekick : HaloGun
 		HaloGun.Inaccuracy SIDEKICK_ACCMOD;
 		HaloGun.Crosshair "SdkRet", 1.0;
 		HaloGun.UIGraphic "WI_SDK", 0.35, 0.35;
+		HaloGun.SetupUIAmmo "WI_AMM7", 12, 14, 0, 6;
 		
-		HaloGun.Availability "HL2, HL4, MSX";
 		HaloGun.PowerTier P_NORM;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
@@ -86,13 +88,13 @@ class Halo_Sidekick : HaloGun
 	action void A_FireSidekick(bool middle = false)
 	{
 		A_Light(2);
-		A_WeapSound("Halo/Weapons/Sidekick/Fire", 0, true);
-		A_WeapSound("Halo/Weapons/Sidekick/Fire/Bass", CHANF_OVERLAP, true);
+		A_WeapSound("Halo/Weapons/Sidekick/Fire", 0);
+		A_WeapSound("Halo/Weapons/Sidekick/Fire/Bass", CHANF_OVERLAP);
 		A_ShootProjectile("HaloSidekick_Bullet", middle ? 0 : 12);
 		A_SetSFXPos(25, middle ? 0 : -9,-7);
 		A_SpawnSFX("MuzzleSmoke", 0,0);
 		A_SetSFXPos(25,-20,-5);
-		A_SpawnSFX("SmallCasing", -90,20);
+		A_SpawnSFX("PistolCasing", -90,20);
 		A_TakeAmmo();
 		A_UpdateSpread();
 	}
@@ -101,20 +103,7 @@ class Halo_Sidekick : HaloGun
 		return A_JumpIf(A_FirePressed(), "Fire");
 	}
 	
-	action void A_SetSights(bool onoff)
-	{
-		if(onoff)
-		{
-			A_ScopeON(usePerspective:false);
-			A_SetZoom(invoker.scopezoom, 3, true);	
-		}
-		else
-		{
-			A_ScopeOFF();
-			A_SetZoom(0, 3, true);
-		}
-	}
-
+	bool sightsHold;
 	States
 	{
 		Ready:
@@ -130,7 +119,7 @@ class Halo_Sidekick : HaloGun
 			WEG1 A 1 
 			{
 				A_HaloWeaponReady(WRF_ALLOWRELOAD, usescope:false);
-				return A_JumpIf(A_ButtonStatus(BT_ALTATTACK, BTS_DOWN), "Sights.Enable");
+				return A_JumpIf(A_ShouldEnableScope(), "Sights.Enable");
 			}
 		loop;
 		
@@ -138,7 +127,7 @@ class Halo_Sidekick : HaloGun
 			WEZ1 M 1 
 			{
 				A_HaloWeaponReady(WRF_ALLOWRELOAD, usescope:false);
-				return A_JumpIf(A_ButtonStatus(BT_ALTATTACK, BTS_UP), "Sights.Disable");
+				return A_JumpIf(A_ShouldDisableScope(invoker.sightsHold), "Sights.Disable");
 			}
 		loop;
 		
@@ -151,7 +140,7 @@ class Halo_Sidekick : HaloGun
 		wait;
 
 		Deselect:
-			TNT1 A 0 A_SetSights(0);
+			TNT1 A 0 A_SetCustomScope(0);
 			WES1 NMKLIHGFEDCBA 1;
 			WES1 A 1 A_GunLower();
 		wait;
@@ -276,7 +265,7 @@ class Halo_Sidekick : HaloGun
 		
 		Reload.FromSights:
 			WEZ1 MLKIHGFEDCBA 1;
-			TNT1 A 0 A_SetSights(0);
+			TNT1 A 0 A_SetCustomScope(0);
 		Reload:
 			TNT1 A 0 A_JumpIf(A_CheckInScope(), "Reload.FromSights");
 			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
@@ -286,24 +275,33 @@ class Halo_Sidekick : HaloGun
 			WER2 ABCDEFGHIJ 1;
 			WER2 K 1 A_ReloadClip();
 			WER2 LMNOPQRSTUVWXYZ 1;
-		goto Ready.Active;
+			TNT1 A 0 A_GotoState("Ready.Active"); 
 		
 		Reload.Empty:
 			TNT1 A 0 A_WeapSound("Halo/Weapons/Sidekick/Reload/Empty", CHANF_OVERLAP);
 			WER3 FGHIJKLMNOPQRSTUVWXYZ 1;
+			TNT1 A 0 
+			{
+				A_SetSFXPos(10,-5,-15);
+				A_SpawnSFX("Debris_SidekickClip", 0, 60);
+			}
 			WER4 ABCDEFGHIJKLMNOP 1;
 			WER4 Q 1 A_ReloadClip();
 			WER5 ABCDEFGHIJKLMNOPQRST 1;
 		goto Ready.Active;
 		
 		Sights.Enable:
-			TNT1 A 0 A_SetSights(1);	
-			WEZ1 ABCDEFGHIJKLM 1;
+			WEZ1 M 2; // ABCDEFGHIJKL
+			TNT1 A 0 
+			{
+				invoker.sightsHold = invoker.ADS_Held;
+				A_SetCustomScope(1);	
+			}
 		goto Ready.ADS;
 		
 		Sights.Disable:
-			TNT1 A 0 A_SetSights(0);
-			WEZ1 MLKIHGFEDCBA 1;
+			TNT1 A 0 A_SetCustomScope(0);
+			WEZ1 A 1; // MLKIHGFEDCB
 		goto Ready.Active;	
 		
 		Spawn:

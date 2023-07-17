@@ -1,39 +1,8 @@
-class HaloMessage ui
+class HaloHUD_Message : HaloMessage
 {
-	Font fnt;
-	uint stage;
-	string msg;
-	double alpha;
-	Color tint;
-	vector2 scale, pos;   // Initalize here.
-	double desired_alpha;
-	vector2 desired_scale, desired_pos;
-	
-	static HaloMessage CreateMessage(Font fnt, string msg, vector2 pos, vector2 scale, double alpha = 1.0, Color tint = 0)
+	// Used for custom HUD message behavior	
+	override void Animate(double dt, double spd)
 	{
-		let hudmsg = HaloMessage(new("HaloMessage"));
-		if(hudmsg)
-		{
-			hudmsg.fnt = fnt;
-			hudmsg.msg = msg;
-			hudmsg.pos = hudmsg.desired_pos = pos;
-			hudmsg.desired_scale = scale * 1.5;
-			hudmsg.desired_alpha = alpha;
-			hudmsg.tint = tint;
-		}
-		return hudmsg;
-	}
-	
-	void Draw(double dt)
-	{
-		double ispd = 0.25 * dt;
-		scale.x = HaloMath.Lerp(scale.x, desired_scale.x, ispd);
-		scale.y = HaloMath.Lerp(scale.y, desired_scale.y, ispd);
-		pos.x = HaloMath.Lerp(pos.x, desired_pos.x, ispd);
-		pos.y = HaloMath.Lerp(pos.y, desired_pos.y, ispd);
-		HLSBS.DrawString(fnt, msg, pos, alpha:alpha, scale:scale, tint:tint);		
-		
-		
 		switch(stage)
 		{
 			// Scale up then back down.
@@ -43,7 +12,7 @@ class HaloMessage ui
 					desired_scale *= 0.75;
 					stage++;
 				}
-				alpha = HaloMath.Lerp(alpha, desired_alpha, ispd);
+				alpha = HaloMath.Lerp(alpha, desired_alpha, spd);
 			break;
 			
 			// Begin fadeout.
@@ -61,382 +30,71 @@ class HaloMessage ui
 	}
 }
 
-class FadingImage : Object
+class BarebonesHUD : HaloHUD
 {
-	string img;
-	double fade;
-	double fadeSpeed;
-	bool fadingOut;
-	
-	static FadingImage Create(string img, double fadeSpd)
-	{
-		let fImg = new("FadingImage");
-		if(fImg)
-		{
-			fImg.img = img;
-			fImg.fade = 0;
-			fImg.fadeSpeed = fadeSpd;
-			fImg.fadingOut = false;
-		}
-		
-		return fImg;
-	}
-	
-	double Process(double dT, bool doFadeout)
-	{
-		if(!doFadeout && fadingOut) return fade;
-
-		fade += (fadingOut ? -fadeSpeed : fadeSpeed) * dT;
-		if(fade >= 1.0 && !fadingOut) fadingOut = true;
-		if(fade <= 0 && fadingOut) 
-		{
-			Destroy();
-			return 0;
-		}
-		
-		return fade;
-	}
+	// Just here for testing stuff.
 } 
 
-class HaloStatusBar : BaseStatusBar
+class HaloDoomHUD : HaloHUD
 {
-	const ANIM_FPS = 60;
-	
-	HaloPlayer haloplr;
-	FadingImage curFXOverlay;
-	FadingImage weaponInfoBox;
-
-	// Delta-time logic.
-	double prevMS; 
-	double deltatime;
-	
-	// Crosshair vars
-	double curbloom;
-	
 	// Interpolated vars
 	double curshields;
-	double dimalpha;
 	double curbattery;
 	double dashmeter;
 	double lowAmmoBlink;
+	double lowhealthBlink;
 	
 	// Timers
 	double lowshield_timer;
 	bool shieldwarn;
-	
-	// Font(s)
-	HUDFont mHUDFont;
-	Font fnt;
-	Font fntHaloAmmo;
-	
-	// UI 
-	Color screen_color;
-	double screen_fade;
-	const FADE_RATE = 0.96;
-	
-	// Opt Features
-	bool draw_distance;
-	
-	// Message handling
-	const MSGMAX = 4;
-	double msgfade;
-	Array<HaloMessage> messages;
-	Array<class<FragGrenades> > grenadeTypes;
-	
-	vector2 msgpos;
-	
-	// Helmet
-	double helmbobPhase;
-	
-	// CVars
-	transient CVar showMinimap;
-	transient CVar showAmmoWarnings;
-	transient CVar hideCrosshair;
-	transient CVar showHelmet;
-	
-	// Basic Functions
-	mixin BasicHUDFeatures;
 
-	override void Init()
+	override void Init(HaloStatusBar base)
 	{
-		Super.Init();
-		SetSize(0, 320, 200);
-		if(CPlayer) haloplr = HaloPlayer(CPlayer.mo);
+		super.Init(base);
 		
-		// Create the font used for the fullscreen HUD
-		fnt = "BigFont";
-		fntHaloAmmo = "HaloAmmoFont";
-		mHUDFont = HUDFont.Create(fnt);
-		
-		// Populate grenadeTypes
-		int curSlot = 0;
-		
-		while(true)
-		{
-			for(int i = 0; i < AllActorClasses.Size(); i++)
-			{
-				let defs = FragGrenades(GetDefaultByType(AllActorClasses[i]));
-				if(!defs) continue;
-				
-				if(defs.nadeSlot == curSlot) 
-				{
-					grenadeTypes.push(defs.getClass());
-					break;
-				}
-			}
-			curSlot++;
-			if(curSlot > 9) break;
-		}
-				
 		// Messages setup
-		msgpos = (80, 600);
-	}
-	
-	// Override message behavior
-	override bool ProcessNotify(EPrintLevel printlevel, String outline)
-	{
-		bool logprint = (printlevel & PRINT_LOG);
-		bool chatmsg  = (printlevel & (PRINT_CHAT|PRINT_TEAMCHAT));
-		bool validprint = (logprint && chatmsg) || (printlevel < PRINT_HIGH);
-		if(!validprint) return false;
-		
-		PushMessage(outline);
-		return true;
+		msgpos = (80, 400);
 	}
 		
-	void PushMessage(String msg)
+	override HaloMessage CreateMessage(String msg)
 	{
 		Color msgcol = 0x4002a7de;
 		vector2 msgscale = (1.0, 0.8);
-		double msg_spacing = 30;
-		uint count = messages.Size()-1;
-		// Generate
-		let msg = HaloMessage.CreateMessage("Fonts/HaloSmallerFont.fon2", msg, msgpos, msgscale, tint:msgcol);
-		if(count >= MSGMAX) 
+		
+		let hmsg = HaloMessage.CreateMessage("Fonts/HaloSmallerFont.fon2", msg, msgpos, msgscale, tint:msgcol, msgClass:"HaloHUD_Message");
+		return hmsg;
+	}
+	
+	override void Draw (int state, double deltaTime)	
+	{
+		super.Draw(state, deltaTime);
+
+		DrawElements();
+	}
+	
+	virtual void DrawElements()
+	{
+		// Vitals
+		DrawBars(); 
+		
+		// Weapons
+		if(!automapactive)
 		{
-			messages.Delete(0);
-			count--;
+			DrawCompass();
+			DrawAbilities();
+			DrawWeaponsAmmo();
+			DrawRadar();
 		}
 		
-		// Push other messages down
-		for(int i = 0; i <= count; i++)
-			messages[i].desired_pos.y += msg_spacing;
-			
-		messages.Push(msg);
+		// Keys and Objectives
+		DrawKeys(base.CPlayer, 50, 10, 30,30);			
+		DrawObjectives();
 	}
-	
-	
-	void DrawMessages()
-	{
-		uint count = messages.Size()-1;
-		for(int i = count; i >= 0; i--)
-		{
-			let msg = messages[i];
-			if(msg.msg == "") 
-			{
-				messages.Delete(i);
-				continue;
-			}
-			msg.Draw(deltatime);
-		}
-	}
-	
-	override void Draw (int state, double TicFrac)
-	{
-		if(automapactive) Super.Draw(state, TicFrac);
-		
-		// Fetch CVars
-		if(!showMinimap) showMinimap = CVar.GetCVar("halodoom_showminimap", CPlayer);
-		if(!showAmmoWarnings ) showAmmoWarnings = CVar.GetCVar("halodoom_doammowarnings", CPlayer);
-		if(!hideCrosshair ) hideCrosshair = CVar.GetCVar("halodoom_hidecrosshair", CPlayer); 
-		if(!showHelmet) showHelmet = CVar.GetCVar("halodoom_showhelmet", CPlayer);
-		
-		// Always draw HUD
-		BeginHUD();
-		DrawMainBar (TicFrac);
-		
-	}
-	
-	void DrawMainBar (double TicFrac)
-	{
-		if(CPlayer && CPlayer.mo)
-		{	
-			if(!haloplr) 
-			{
-				haloplr = HaloPlayer(CPlayer.mo);
-				return;	
-			}
-			
-			// Hide HUD if we're transitioning to a level.
-			let evh = Halo_OverlayUI(EventHandler.Find("Halo_OverlayUI"));
-			if( evh && evh.levelTransition && !evh.levelTransition.softFinish ) return;
-			
-			// Hide HUD if weapon says so.
-			let curweap = HaloGun(haloplr.player.ReadyWeapon);
-			if(curweap && curweap.HUD_Hide) return;
-			
-			// Hide HUD if viewing from a different camera.
-			if(!haloplr.FindInventory("Veh_Manager") && haloplr.player.camera != haloplr)
-				return;
-				
-			// Screen colors
-			if(haloplr.screen_fade > 0)
-				Screen.Dim(haloplr.screen_color, haloplr.screen_fade, 0,0, Screen.GetWidth(), Screen.GetHeight());
-				
-			// Draw helmet
-			if(showHelmet && showHelmet.getBool()) 
-				DrawHelmet();
-						
-			// Vitals
-			DrawBars(); 
-			
-			// Weapons
-			if(!automapactive)
-			{
-				DrawCompass();
-				DrawAbilities();
-				
-				if(!hideCrosshair.getBool())
-					DrawCrosshairs();
-					
-				DrawWeaponsAmmo();
-				DrawRadar();
-				DrawSight();
-			}
-			
-			// Information
-			DrawMessages();
-			
-			// Weapon Description
-			let haloweap = HaloGun(haloplr.player.ReadyWeapon);
-			if(haloplr.drawWeaponInfo && !weaponInfoBox)
-			{
-				weaponInfoBox = FadingImage.Create("Graphics/UI/LoreTab/LoreTab.png", 0.1);
-			}
-			if(weaponInfoBox && haloweap) 
-			{
-				string img = weaponInfoBox.img;
-				double curAlpha = weaponInfoBox.Process(deltaTime, !haloplr.drawWeaponInfo);
-				
-				// Draw Weapon stats and lore.
-				Font infoFont = "HaloFont.fon2";
-				Array<String> stats;
-				string lore;
-				haloweap.GetStatsLore(stats, lore);
-				
-				uint flags = HLSBS.SS_SCREEN_CENTER | HLSBS.SS_COORDS_TEXGRID | HLSBS.SS_NOASPECTCORRECTION;
-				uint txtFlags = HLSBS.SS_NOASPECTCORRECTION;
-				HLSBS.DrawImage(img, (0.5,0.5), flags, curAlpha - 0.15, scale:(0.5,0.5));
-				
-				State wspawn = haloweap.FindState("Spawn");
-				TextureID tex;
-				tex = wspawn.GetSpriteTexture(0);
-				string icon = TexMan.GetName(tex);
-				vector2 scaleTo = HaloMath.GetImageScaleToRes(icon, (300,128), false);
-				
-				HLSBS.DrawImage(icon, (1300,440), flags:txtFlags, alpha:curAlpha, scale:scaleTo);
-				
-				HLSBS.DrawString(
-					infoFont, haloweap.GetTag(), (760,240), 
-					flags:HLSBS.SS_TEXT_CENTER | txtFlags, 
-					alpha:curAlpha, scale:(0.15,0.15)
-				);
-				double strY = 0;
-				for(int i = 0; i < stats.Size(); i++)
-				{
-					HLSBS.DrawString(
-						infoFont, stats[i], (600,280+strY),
-						flags:txtFlags,
-						alpha:curAlpha, scale:(0.10,0.10)
-					);
-					strY += 20;
-				}
-				
-				lore = StringHelper.formatLnBreaks(lore, 100);
-				// Drop-Shadow
-				HLSBS.DrawString(
-					infoFont, lore, (600,400)+(2,2),  
-					flags:txtFlags,
-					alpha:curAlpha, scale:(0.10,0.10),
-					tint:Color(0xFF,0,0,0),
-					linespacing:80
-				);
-				
-				HLSBS.DrawString(
-					infoFont, lore, (600,400),  
-					flags:txtFlags,
-					alpha:curAlpha, scale:(0.10,0.10),
-					linespacing:80
-				);
-			} 
-			else if(weaponInfoBox)
-			{
-				weaponInfoBox.Destroy();
-			}
-			
-			// Keys and Objectives
-			DrawKeys(CPlayer, 50, 10, 30,30);			
-			DrawObjectives();
-			
-			string overlay = haloplr.overlay_img;
-			if(overlay && !curFXOverlay) 
-				curFXOverlay = FadingImage.Create(overlay, 0.1);
-			else if(overlay != "" && overlay != curFXOverlay.img)
-				curFXOverlay.img = overlay;
-			
-			if(curFXOverlay)
-			{
-				string img = curFXOverlay.img;
-				double curAlpha = curFXOverlay.Process(deltaTime, overlay != img);
-				
-				// Adjust scale for fullscreen.
-				vector2 toRes = (1920., 1080.);
-				let tex = TexMan.CheckForTexture(img);
-				let texsize = TexMan.GetScaledSize(tex);
-				
-				vector2 scaleMod = (
-					toRes.x / texsize.x,
-				    toRes.y / texsize.y
-				);
-		
-				uint flags = HLSBS.SS_SCREEN_CENTER | HLSBS.SS_COORDS_TEXGRID | HLSBS.SS_NOASPECTCORRECTION;
-				HLSBS.DrawImage(img, (0.5,0.5), flags, curAlpha, scale:(scaleMod.x,scaleMod.y));
-			}
-			
-			// Keep track of time, always.
-			if(!prevMS)
-			{
-				prevMS = MSTime();
-				return;
-			}
-			double ftime = MSTime()-prevMS;
-			prevMS = MSTime();
-			double dtime = 1000.0 / ANIM_FPS;
-			deltatime = (ftime/dtime);
-			
-		}
-	}
-	
-	void DrawHelmet()
-	{
-		string helmetImg = "Graphics/UI/HelmetBG.png";
-		let weapPSP = haloplr.player.GetPSprite(PSP_WEAPON);
-		if(!weapPSP) return;
-		
-		double plrSpeed = haloplr.vel.xy.Length();
-		double rotation = weapPSP.rotation * 0.25;
-		double yoffs = clamp(haloplr.vel.z * 3, -50, 50);
-		
-		double ybob = 0.65 * (sin(helmbobPhase * 15) * plrSpeed);
-		if(plrSpeed > 1) helmbobPhase += 1 * deltaTime; 
-		
-		HLSBS.DrawImage(helmetImg, (0,yoffs + ybob), 1.0, scale:(4.25,4.25), rotation:rotation, texoffs:(0,0));
-	}
-	
+
 	// 24 ammo per line.
 	const AMMO_MAX = 14.;
 	const AMMOG_SIZE = 10. * 1.25;
-	void DrawWeaponsAmmo()
+	virtual void DrawWeaponsAmmo()
 	{
 		Weapon curweap = haloplr.player.ReadyWeapon;
 		if(!curweap) return; // Just in case somehow the player has no weapon
@@ -453,8 +111,8 @@ class HaloStatusBar : BaseStatusBar
 		String weap2_icon = "";
 		vector2 weap1_scale, weap2_scale;
 		vector2 weap1_offs, weap2_offs;
-		[weap1_icon, weap1_scale] = GetWeaponUIDetails(curweap,  (1.5,1.5), (128,45));
-		[weap2_icon, weap2_scale] = GetWeaponUIDetails(otherweap, (1.0,1.0), (80,80), forceResScale:true);
+		[weap1_icon, weap1_scale] = base.GetWeaponUIDetails(curweap,  (1.5,1.5), (128,45));
+		[weap2_icon, weap2_scale] = base.GetWeaponUIDetails(otherweap, (1.0,1.0), (80,80), forceResScale:true);
 		
 		if(!halo_curweap) weap1_offs = (50,100);
 		if(!halo_otherweap && otherweap) weap2_offs = (80,30);
@@ -469,7 +127,6 @@ class HaloStatusBar : BaseStatusBar
 		
 		if(halodoom_unlimitedbackpack)
 		{
-			// TODO: Draw all weapons.
 			Weapon weap = NULL;
 			Array<int> slots;
 			slots.Resize(10);
@@ -494,7 +151,7 @@ class HaloStatusBar : BaseStatusBar
 				
 				vector2 scale;
 				string icon;
-				[icon, scale] = GetWeaponUIDetails(weap, (1.0,1.0));
+				[icon, scale] = base.GetWeaponUIDetails(weap, (1.0,1.0));
 				HLSBS.DrawImage(icon, (1850,200)+offs, iconFlags, 0.8, scale*0.5);
 				slots[num]++;
 			}	
@@ -504,91 +161,129 @@ class HaloStatusBar : BaseStatusBar
 			}
 		}
 		
-		// Ammo display
 		vector2 ampos = (1640, 160);
-		if(halo_curweap && halo_curweap.uses_battery)
+		bool skipAmmoDraw = halo_curweap && halo_curweap.DrawAmmoUI(ampos, deltaTime);
+		
+		// Ammo display
+		if(!skipAmmoDraw)
 		{
-			double cur_charge = haloplr.countinv(curweap.AmmoType2);
-			curbattery = HaloMath.Lerp(curbattery, cur_charge, 0.15 * deltatime);
-			
-			let ammoDefs = GetDefaultByType(curweap.AmmoType2);
-			double max_charge = ammoDefs.MaxAmount;
-			if(haloplr.countinv("Backpack")) 
-				max_charge = max(max_charge, ammoDefs.BackpackMaxAmount);
-			
-			double charge_perc = curbattery/max_charge;
-
-			if(charge_perc > 0)
+			if(halo_curweap && halo_curweap.uses_battery)
 			{
-				Color tint = 0;
-				if(charge_perc < 0.4) tint = Color(128, 255,8,8);
-				HLSBS.DrawImage("WI_BTRY", ampos+(-170,-30), iconFlags, 0.35, (-1.75,1.5), tint:Color(180,0,0,0));
-			
-				double xClip = max(0, 1.0-charge_perc) * 195;
-				HLSBS.SetClipRect(1571 + xClip, 120, 195 - xClip, 20, flags:iconFlags);
-				HLSBS.DrawImage("WI_BTRY", ampos+(-170,-30), iconFlags, 0.8, (-1.75,1.5), tint:tint);
-				HLSBS.ClearClipRect();
-			}
-			
-			// Heat gauge
-			if(halo_curweap.heat > 0.05)
-			{
-				int curHeat = min(9, (halo_curweap.heat*1.10) * 9);
-				string heatbars = String.Format("Graphics/UI/Heatbar/HB%d.png", curHeat);
-				HLSBS.DrawImage(heatbars, ampos + (-60,-10), flags:iconFlags, scale:(-1.5,1.5));
-			}
-		}
-		else if(curweap.AmmoType2 && curweap.AmmoType2 != curweap.AmmoType1)
-		{
-			// Draw projectile ammunition 
-			
-			double cur_ammo  = haloplr.countinv(curweap.AmmoType2);
-			double clip_ammo = GetDefaultByType(curweap.AmmoType2).MaxAmount;
-			int ymax = ceil(clip_ammo/AMMO_MAX);
-			vector2 amoffs;
-	
-			Color tint = 0;
-			if( (cur_ammo / clip_ammo) <= 0.4 ) 
-			{
-				double tintAlpha = sin(lowAmmoBlink * 5) * 160;
-				tint = Color(int(tintAlpha), 255,8,8);
-				lowAmmoBlink += deltaTime;
-			}
-			else
-				lowAmmoBlink = 0;
-			
-			for(int i = 0; i < clip_ammo; i++)
-			{
-				double iconAlpha = (cur_ammo--) > 0 ? 0.8 : 0.15;
-								
-				HLSBS.DrawImage(
-					"WI_AMMO", 
-					ampos + ( amoffs * (AMMOG_SIZE*1.25) ) + (115,-25), 
-					flags:iconFlags, iconAlpha, (1.25,1.25), tint:tint
-				);
+				double cur_charge = haloplr.countinv(curweap.AmmoType2);
+				curbattery = HaloMath.Lerp(curbattery, cur_charge, 0.15 * deltatime);
 				
-				amoffs.y++;
-				if(amoffs.y >= ymax) 
+				let ammoDefs = GetDefaultByType(curweap.AmmoType2);
+				double max_charge = ammoDefs.MaxAmount;
+				if(haloplr.countinv("Backpack")) 
+					max_charge = max(max_charge, ammoDefs.BackpackMaxAmount);
+				
+				double charge_perc = curbattery/max_charge;
+
+				if(charge_perc > 0)
 				{
-					amoffs.y = 0;
-					amoffs.x--;
+					Color tint = 0;
+					if(charge_perc < 0.4) tint = Color(128, 255,8,8);
+					HLSBS.DrawImage("WI_BTRY", ampos+(-170,-30), iconFlags, 0.35, (-1.75,1.5), tint:Color(180,0,0,0));
+				
+					double xClip = max(0, 1.0-charge_perc) * 195;
+					HLSBS.SetClipRect(1571 + xClip, 120, 195 - xClip, 20, flags:iconFlags);
+					HLSBS.DrawImage("WI_BTRY", ampos+(-170,-30), iconFlags, 0.8, (-1.75,1.5), tint:tint);
+					HLSBS.ClearClipRect();
+				}
+				
+				// Heat gauge
+				if(halo_curweap.heat > 0.05)
+				{
+					int curHeat = min(9, (halo_curweap.heat*1.10) * 9);
+					string heatbars = String.Format("Graphics/UI/Heatbar/HB%d.png", curHeat);
+					HLSBS.DrawImage(heatbars, ampos + (-60,-10), flags:iconFlags, scale:(-1.5,1.5));
 				}
 			}
+			else if(curweap.AmmoType2 && curweap.AmmoType2 != curweap.AmmoType1 && halo_curweap)
+			{
+				// Draw projectile ammunition 
+				
+				// curweap.hudAmmo_graphic, hudAmmo_spacing, hudAmmo_XMax, hudAmmo_YMax
+				
+				double cur_ammo  = haloplr.countinv(curweap.AmmoType2);
+				double clip_ammo = GetDefaultByType(curweap.AmmoType2).MaxAmount;
+				vector2 amoffs;
+		
+				Color tint = 0;
+				if( (cur_ammo / clip_ammo) <= 0.4 ) 
+				{
+					double tintAlpha = sin(lowAmmoBlink * 5) * 160;
+					tint = Color(int(tintAlpha), 255,8,8);
+					lowAmmoBlink += deltaTime;
+				}
+				else
+					lowAmmoBlink = 0;
+				
+				if(halo_curweap.hudAmmo_YMax > 0)
+				{
+					int ymax = ceil(clip_ammo/halo_curweap.hudAmmo_YMax);
+					for(int i = 0; i < clip_ammo; i++)
+					{
+						double iconAlpha = (cur_ammo--) > 0 ? 0.8 : 0.15;
+						vector2 ammoOffs = (115 + halo_curweap.hudAmmo_xOffs, -25 + halo_curweap.hudAmmo_yOffs);
+						vector2 amdrawOffs = (amoffs.x * halo_curweap.hudAmmo_xSpacing, amoffs.y * halo_curweap.hudAmmo_ySpacing) * 1.25;
+										
+						HLSBS.DrawImage(
+							halo_curweap.hudAmmo_graphic, 
+							ampos + amdrawOffs + ammoOffs, 
+							flags:iconFlags, iconAlpha, (1.25,1.25) * halo_curweap.hudAmmo_scale, tint:tint
+						);
+						
+						amoffs.y++;
+						if(amoffs.y >= ymax) 
+						{
+							amoffs.y = 0;
+							amoffs.x--;
+						}
+					}
+				}
+				
+				if(halo_curweap.hudAmmo_XMax > 0)
+				{
+					int xmax = halo_curweap.hudAmmo_XMax;
+					for(int i = 0; i < clip_ammo; i++)
+					{
+						double iconAlpha = (cur_ammo--) > 0 ? 0.8 : 0.15;
+						vector2 ammoOffs = (-75 + halo_curweap.hudAmmo_xOffs, -25 + halo_curweap.hudAmmo_yOffs);
+						vector2 amdrawOffs = (amoffs.x * halo_curweap.hudAmmo_xSpacing, amoffs.y * halo_curweap.hudAmmo_ySpacing) * 1.25;
+										
+						HLSBS.DrawImage(
+							halo_curweap.hudAmmo_graphic, 
+							ampos + amdrawOffs + ammoOffs, 
+							flags:iconFlags, iconAlpha, (1.25,1.25) * halo_curweap.hudAmmo_scale, tint:tint
+						);
+											
+						amoffs.x++;
+						if(amoffs.x >= xmax) 
+						{
+							amoffs.x = 0;
+							amoffs.y++;
+						}
+					}
+				}
+			}
+			// Ammo Count
+			string reservesStr = String.Format("%d", haloplr.countinv(curweap.AmmoType1));
+			if(haloweap && haloweap.bottomless_reserves) reservesStr = "888";
+			HLSBS.DrawString(
+				fntHaloAmmo, reservesStr, 
+				(1584, 56), flags:HLSBS.SS_TEXT_CENTER | iconFlags, scale:(0.15,0.15)
+			);
 		}
-		// Ammo Count
-		HLSBS.DrawString(
-			fntHaloAmmo, haloplr.countinv(curweap.AmmoType1).."", 
-			(1584, 56), flags:HLSBS.SS_TEXT_CENTER | iconFlags, scale:(0.15,0.15)
-		);
 		
 		// Draw grenades
 		vector2 nadepos   = (215, 80);
 		vector2 nadescale = (1.0, 1.0);
 		
 		let curNade = haloplr.activeGrenade;
-		for(int i = 0; i < grenadeTypes.Size(); i++)
+		for(int i = 0; i < base.grenadeTypes.Size(); i++)
 		{
-			let nade = FragGrenades(GetDefaultByType(grenadeTypes[i]));
+			let nade = FragGrenades(GetDefaultByType(base.grenadeTypes[i]));
 			String graphic = String.Format("Graphics/UI/%s", nade.hudIcon);
 			String borderGraphic = "border_inactive.png";
 			int nadeAmt = haloplr.countinv(nade.GetClass());
@@ -614,280 +309,11 @@ class HaloStatusBar : BaseStatusBar
 		}
 	}
 	
-	string, vector2 GetWeaponUIDetails(Weapon weap, vector2 uiscale = (1,1), vector2 desired_scale = (128,64), bool forceResScale = false)
+	virtual void DrawAbilities(vector2 offs = (0,0), double scale = 1.0)
 	{	
-		if(!weap) return "", (0,0);
-		
-		vector2 size = (1.0,1.0);
-		double def_aspect = desired_scale.x / desired_scale.y;
-		double aspect = 1.0;
-	
-		let haloweap = HaloGun(weap);
-		if(haloweap) 
-		{			
-			if(forceResScale)
-			{
-				let tex = TexMan.CheckForTexture(haloweap.UI_Icon);
-				[size.x, size.y] = TexMan.GetSize(tex);
-				size.x *= haloweap.iconScaleX;			
-				size.y *= haloweap.iconScaleY;
-				
-				vector2 scaleto = (
-					desired_scale.x / size.x,
-					desired_scale.y / size.y
-				);
-				
-				aspect = (size.x / size.y) / (def_aspect);
-				size.x = scaleto.x;
-				size.y = scaleto.y / aspect;
-			}
-		
-			uiscale.x *= size.x * haloweap.iconScaleX;
-			uiscale.y *= size.y * haloweap.iconScaleY;
-			return haloweap.UI_Icon, uiscale;
-		}
-	
-		State wspawn = weap.FindState("Spawn");
-		TextureID tex;
-		tex = wspawn.GetSpriteTexture(0);
-		string icon = TexMan.GetName(tex);
-		
-		[size.x, size.y] = TexMan.GetSize(tex);
-		aspect = (size.x / size.y) / (def_aspect);
-		
-		vector2 scaleto = (
-			desired_scale.x / size.x,
-			desired_scale.y / size.y
-		);
-		
-		size.x = scaleto.x * aspect;
-		size.y = scaleto.y;
-		
-		return icon, size;
-	}
-
-	void DrawCrosshairs()
-	{		
-		let curvehicle = Veh_Manager(haloplr.FindInventory("Veh_Manager"));
-		if(curvehicle && curvehicle.disableweaps)
-		{
-			bool lowerxhair = haloplr.CheckCrosshairLowered();
-			string crosshair = curvehicle.crosshair;
-			vector2 retsize = curvehicle.crosshair_scale;
-			
-			Color crossTint = 0;
-			if(HaloVehicle(curvehicle.veh))
-			{
-				Actor aimAct = HaloVehicle(curvehicle.veh).aimActor;
-				bool hostileAim = aimAct && aimAct.isHostile(haloplr) && aimAct.bISMONSTER && !(aimAct is "HaloVehicle");
-				if(hostileAim) crossTint = Color(0xC4, 0xD0,0,0);
-			}
-
-			vector2 midpos = (0,0);
-			if(lowerxhair) midpos.y = haloplr.xhair_lowpos;
-			HLSBS.DrawImage(crosshair, midpos, HLSBS.SS_SCREEN_CENTER, 0.65, scale:retsize, tint:crossTint);
-			return;
-		}
-		
-		HaloGun weap = HaloGun(haloplr.player.ReadyWeapon);
-		if(!weap || weap.HUD_Hide) return;
-		
-		Actor aimAct = haloplr.aimActor; 
-		bool hostileAim = aimAct && aimAct.isHostile(haloplr) && aimAct.bISMONSTER && !(aimAct is "HaloVehicle");
-		Color crossTint = 0;
-		if(hostileAim) crossTint = Color(0xC4, 0xD0,0,0);
-		
-		bool lowerxhair = haloplr.CheckCrosshairLowered();
-		string crosshair = weap.wcrosshair;
-		double bloom = clamp(weap.spreadmod, 0, 1.25);
-		vector2 retsize = (0.65,0.65) * weap.wcrosshairscale;
-		vector2 midpos = (0,0);
-		if(lowerxhair) midpos.y = haloplr.xhair_lowpos;
-		retsize *= 1.0+curbloom;
-		HLSBS.DrawImage(crosshair, midpos, HLSBS.SS_SCREEN_CENTER, 0.65, scale:retsize, tint:crossTint);
-		double ispd = 0.12;
-		if(bloom > curbloom) ispd = 0.5; 
-		curbloom = HaloMath.Lerp(curbloom, bloom, ispd*deltatime);
-		
-		if(draw_distance)
-		{
-			string dist = String.Format("%.0f", haloplr.aimdist);
-			HLSBS.DrawString("BigFont", dist, midpos+(0,32), HLSBS.SS_SCREEN_CENTER); 
-		}
-		
-		if(!showAmmoWarnings.getBool()) return;
-				
-		// Crosshair Warnings				
-		String warnGraphic = "";
-		double curAmmo = haloplr.countinv(weap.AmmoType2);			
-		double maxAmmo = GetDefaultByType(weap.AmmoType2).MaxAmount;
-		double curReserveAmmo = haloplr.countinv(weap.AmmoType1);			
-		double maxReserveAmmo = GetDefaultByType(weap.AmmoType1).MaxAmount;
-		
-		// Reserve ammo
-		bool lowammo = (curReserveAmmo / maxReserveAmmo) <= 0.2; // 20% or less.
-		if(weap.uses_battery) 
-			warnGraphic = (curReserveAmmo <= 0 ? "NoBattery" : (lowammo ? "LowBattery" : ""));
-		else
-			warnGraphic = (curReserveAmmo <= 0 ? "NoAmmo" : (lowammo ? "LowAmmo" : ""));
-				
-		// Reload warning
-		if( (curAmmo / maxAmmo) <= 0.5 )
-		{
-			HLSBS.DrawImage(
-				"Graphics/UI/ReticleWarnings/DoReload.png", 
-				(midpos.x,midpos.y+80), 
-				HLSBS.SS_SCREEN_CENTER,
-				scale:(0.65,0.65)
-			);
-			midpos.x += 32;
-		}
-		
-		// Reserve ammo warning
-		if(warnGraphic != "")
-		{
-			HLSBS.DrawImage(
-				"Graphics/UI/ReticleWarnings/" .. warnGraphic .. ".png", 
-				(midpos.x,midpos.y+80), 
-				HLSBS.SS_SCREEN_CENTER,
-				scale:(0.65,0.65)
-			);
-		}
-	}
-
-	vector2 ScaleRel(double xs, double ys)
-	{
-		float sc_xres = Screen.getWidth()/1920.;
-		float sc_yres = Screen.getHeight()/1080.;		
-		return (xs * sc_xres, ys * sc_yres);
-	}
-
-	void DrawSight()
-	{
-		HaloGun weap = HaloGun(haloplr.player.ReadyWeapon);
-		if(!weap) return;
-		if(weap.zoomed)
-		{
-			vector2 midpos = ( 1920 / 2. , 1080 / 2. );
-			vector2 midoffs = (0,0);
-			bool lowerxhair = haloplr.CheckCrosshairLowered();
-			if(lowerxhair) midoffs.y += haloplr.xhair_lowpos;
-			
-			string sight = weap.UI_Sight;
-			double scale = weap.sightscale * 2.;
-			double sightalpha = weap.sightalpha > 0 ? weap.sightalpha : 0.9;
-			double rotation = 0;
-			Color dark = 0xFF000000;
-			
-			let tex = TexMan.CheckForTexture(sight);
-			let texsize = TexMan.GetScaledSize(tex);
-			let rawTexSize = texsize;
-			texsize *= scale;
-			texsize.x *= HLSBS.GetAspectScale();
-
-			if(weap.bSI_Rotate)
-			{
-				let weapPSP = haloplr.player.GetPSprite(PSP_WEAPON);
-				if(!weapPSP) return;
-				rotation = weapPSP.rotation * 0.5;
-			}
-
-			if(!weap.bSI_Fullscreen)
-			{
-				// There's no way to implement a "negative" cliprect or fill,
-				// because GZDoom's UI library is aids, so we've gotta do it
-				// manually... PAIN peko.
-				
-				Shape2D fillspace = new("Shape2D");
-				double s = 1/3.;
-			
-				// Left
-				fillspace.PushCoord((0,0)); // 0 tl
-				fillspace.PushCoord((s,0)); // 1 tr (Top -> TL)
-				fillspace.PushCoord((0,1)); // 2 bl
-				fillspace.PushCoord((s,1)); // 3 br (Bottom -> BL)
-				// Right
-				fillspace.PushCoord((1,0));   // 4 tr
-				fillspace.PushCoord((1-s,0)); // 5 tl (Top -> TR)
-				fillspace.PushCoord((1,1));   // 6 br
-				fillspace.PushCoord((1-s,1)); // 7 bl (Bottom -> BR)
-				
-				// Top
-				fillspace.PushCoord((s,s));   // 8 bl
-				fillspace.PushCoord((1-s,s)); // 9 br
-				// Bottom
-				fillspace.PushCoord((s,1-s));   // 10 tl
-				fillspace.PushCoord((1-s,1-s)); // 11 tr
-				
-				// two triangles make up the square
-				// the points have to be in counter-clockwise order
-				// Left Triangles
-				fillspace.PushTriangle(0,3,1); 
-				fillspace.PushTriangle(0,2,3);
-				// Right Triangles
-				fillspace.PushTriangle(5,6,4); 
-				fillspace.PushTriangle(5,7,6);
-				// Top
-				fillspace.PushTriangle(1,9,5); 
-				fillspace.PushTriangle(1,8,9);
-				// Bottom
-				fillspace.PushTriangle(10,7,11); 
-				fillspace.PushTriangle(10,3,7);
-				
-				// Setup coords
-				vector2 size = (1920,1080);
-				double horzSize = (size.x*1.5) - floor(texsize.x*1.495);
-				double vertSize = (size.y*1.5) - floor(texsize.y*1.5);
-				vector2 fillpos = (0,0);
-				
-				double borderLeft   = s*horzSize;
-				double borderRight  = size.x - (s*horzSize);
-				double borderTop    = (s*vertSize) + midoffs.y;
-				double borderBottom = (size.y - (s*vertSize)) + midoffs.y;
-				
-				fillspace.PushVertex(fillpos);
-				fillspace.PushVertex(fillpos + ScaleRel(borderLeft,0*size.y));
-				fillspace.PushVertex(fillpos + ScaleRel(0*size.x,1*size.y));
-				fillspace.PushVertex(fillpos + ScaleRel(borderLeft,1*size.y));
-				
-				fillspace.PushVertex(fillpos + ScaleRel(1*size.x,0*size.y));
-				fillspace.PushVertex(fillpos + ScaleRel(borderRight,0*size.y));
-				fillspace.PushVertex(fillpos + ScaleRel(1*size.x,1*size.y));
-				fillspace.PushVertex(fillpos + ScaleRel(borderRight,1*size.y));
-				
-				fillspace.PushVertex(fillpos + ScaleRel(borderLeft,borderTop));
-				fillspace.PushVertex(fillpos + ScaleRel(borderRight,borderTop));
-				
-				fillspace.PushVertex(fillpos + ScaleRel(borderLeft,borderBottom));
-				fillspace.PushVertex(fillpos + ScaleRel(borderRight,borderBottom));
-				
-				TextureID filltex = TexMan.CheckForTexture("Graphics/UI/Title/HDESKY_W.png");
-				HLSBS.DrawShape(filltex, fillspace, alpha:sightalpha, tint:(Color(0xFF,0,0,0)));
-				HLSBS.DrawImage(sight, midpos + midoffs, 0, 1.0, scale:(scale,scale), rotation:rotation);
-				fillspace.Destroy(); 
-			}
-			else // Draw Fullscreen sight.
-			{
-				// Adjust scale for fullscreen.
-				vector2 toRes = (1920., 1080.);
-				toRes *= weap.sightscale;
-				
-				vector2 scaleMod = (
-					toRes.x / rawTexSize.x,
-				    toRes.y / rawTexSize.y
-				);
-		
-				uint flags = HLSBS.SS_SCREEN_CENTER | HLSBS.SS_COORDS_TEXGRID;
-				
-				HLSBS.DrawImage(sight, (0.5,0.5), flags, 1.0, scale:(scaleMod.x,scaleMod.y), rotation:rotation);
-			}
-		}
-	}
-	
-	void DrawAbilities()
-	{
-		vector2 ablpos = (160,740);
-		double ablscale = 0.85;
+		powerupScale = scale;
+		vector2 ablpos = (160,740) + offs;
+		double ablscale = 0.85 * scale;
 		if(haloplr.enable_dash)
 		{
 			double dashperc = (haloplr.dashcounter / double(haloplr.dashmax));
@@ -895,7 +321,7 @@ class HaloStatusBar : BaseStatusBar
 			dashmeter = HaloMath.Lerp(dashmeter, fullpos, 0.10 * deltatime);
 			
 			HLSBS.DrawImage("DASHBG", ablpos, scale:(ablscale,ablscale));
-			HLSBS.SetClipRect(ablpos.x - 24, ablpos.y - 32, dashmeter, 64);
+			HLSBS.SetClipRect(ablpos.x - (24*scale), ablpos.y - (32*scale), dashmeter*scale, 64*scale);
 			HLSBS.DrawImage("DASHCRGE", ablpos, scale:(ablscale,ablscale));
 			HLSBS.ClearClipRect();
 			if(dashperc <= 0)
@@ -916,11 +342,13 @@ class HaloStatusBar : BaseStatusBar
 			}
 			ablpos.x += 128;
 		}
+		
+		DrawPowerups((0,0), scale);
 	}
 
-	const BLINKRATE = ANIM_FPS/6.;
-	void DrawBars()
+	virtual void DrawBars()
 	{
+		double BLINKRATE = base.ANIM_FPS/6.;
 		if(haloplr.shields <= 0)
 		{
 			lowshield_timer -= 1*deltatime;	
@@ -935,16 +363,8 @@ class HaloStatusBar : BaseStatusBar
 			lowshield_timer = BLINKRATE;
 			shieldwarn = false;
 		}
+		base.DrawShieldRegen();
 		
-		if( haloplr.regen_timer >= (haloplr.shield_regentime*35.) && dimalpha > 0 &&
-			haloplr.shields < haloplr.maxshields )
-		{
-			dimalpha = HaloMath.Lerp(dimalpha, 0, 0.025*deltatime);
-			Screen.Dim("42ADF5",dimalpha,0,0,Screen.GetWidth(),Screen.getHeight());
-		}
-		else
-			dimalpha = 0.4;
-
 		// Constants
 		string shbg  = shieldwarn ? "sh_rbg"  : "sh_nbg";
 		string shou  = shieldwarn ? "sh_rout" : "sh_nout";
@@ -997,12 +417,19 @@ class HaloStatusBar : BaseStatusBar
 		int healthbars = clamp(ceil(hpratio * 9), 1, 25);
 		string hbar = String.Format("Graphics/UI/Healthbar/ui_hbar%d.png", healthbars);
 		
+		// Low health effects
+		if(healthbars <= 3)
+		{
+			lowhealthBlink += 6.5*deltaTime;
+			Screen.Dim(0xFF0000, max(0.1, 0.3 * sin(lowhealthBlink)), 0,0,Screen.getWidth(),Screen.getHeight()); 
+		}
+		
 		HLSBS.DrawImage(hbar, healthpos, flags, 0.8, scale:(-1.0,1.15));
 		healthpos += (508,0);
 		HLSBS.DrawImage(hbar, healthpos, flags, 0.8, scale:(1.0,1.15));
 	}
 
-	void drawRadarLine( double x0, double y0, double x1, double y1, Color col, vector2 origin = (0,0), double maxdist = 128)
+	virtual void drawRadarLine( double x0, double y0, double x1, double y1, Color col, vector2 origin = (0,0), double maxdist = 128)
 	{	
 		double scrw = Screen.getWidth();
 		double scrh = Screen.getHeight();
@@ -1031,7 +458,7 @@ class HaloStatusBar : BaseStatusBar
 			return;
 		}
 
-		Screen.DrawThickLine(x0*xres,y0*yres,x1*xres,y1*yres,2,col,alpha*255);
+		Screen.DrawThickLine(x0*xres,y0*yres,x1*xres,y1*yres,2,col,base.alpha*255);
 	}	
 	
 	
@@ -1042,14 +469,15 @@ class HaloStatusBar : BaseStatusBar
 		vec.y = oldx;
 		return vec;
 	}
-	void DrawRadar()
+	virtual void DrawRadar(vector2 offs = (0,0), double scale = 1.0)
 	{
 		// -- CVars / Constants --
 		double zoom = 7;
-		double radarsize = 120;
-		double minimap_renderdist = 800;
+		double radarsize = 120 * scale;
+		double minimap_renderdist = haloplr.radarrange;
+
 		double acor = HLSBS.GetAspectScale();
-		Vector2 baseoffs = ( 230, 894 );
+		Vector2 baseoffs = ( 230, 894 ) + offs;
 		Vector2 plrpos2D = (haloplr.pos.x, haloplr.pos.y);
 		Color linecol = Color( 0xFF, 0x79, 0xC1, 0xC9);
 		Color radrcol = Color( 0xFF, 0x2D, 0x3E, 0x5B);
@@ -1057,10 +485,14 @@ class HaloStatusBar : BaseStatusBar
 		Vector2 map_middle = (dp.x+baseoffs.x,dp.y+baseoffs.y);
 			
 		// Draw radar bg
-		HLSBS.DrawImage("RADARBG", baseoffs);
+		if(minimap_renderdist > 0)
+			HLSBS.DrawImage("RADARBG", baseoffs, scale:(scale,scale));
+		else
+			HLSBS.DrawImage("Graphics/UI/Radar/RADARBG_Glitch.png", baseoffs, scale:(scale,scale));
+		
 		
 		// Draw Minimap
-		if( showMinimap && showMinimap.getBool() )
+		if( base.showMinimap && base.showMinimap.getBool() && minimap_renderdist > 0 )
 		{
 			for (int i = 0; i < Level.Lines.Size(); i++)
 			{
@@ -1094,12 +526,11 @@ class HaloStatusBar : BaseStatusBar
 		}
 		
 		// Draw doomguy and Radar	
-		double maxdist = 500;
-		let act_it = BlockThingsIterator.Create(haloplr, maxdist*2.0);
+		let act_it = BlockThingsIterator.Create(haloplr, minimap_renderdist);
 		while(act_it.Next())
 		{	
 			let obj = act_it.Thing;	
-			if(maxdist <= 0) break;
+			if(minimap_renderdist <= 0) break;
 			if(!obj.bSHOOTABLE) continue;
 			
 			double x = haloplr.pos.x - obj.pos.x;
@@ -1139,158 +570,292 @@ class HaloStatusBar : BaseStatusBar
 	// Planned to implement, currently unimplemented.
 	void DrawObjectives() {}
 	void DrawCompass() {}
-
-	void DrawFullScreenStuff (double TicFrac) {}
 }
 
-// Standard HUD Functions.
-mixin class BasicHUDFeatures 
+// Halo CE
+class HaloCE_Message : HaloMessage
 {
-	void DrawImageToBox(TextureID tex, int x, int y, int w, int h, double trans = 0.75, bool animate = false)
+	// Used for custom HUD message behavior	
+	override void Animate(double dt, double spd)
 	{
-		double scale1, scale2;
-
-		if (tex)
+		switch(stage)
 		{
-			let texsize = TexMan.GetScaledSize(tex);
-
-			scale1 = w / texsize.X;
-			scale2 = h / texsize.Y;
-			scale1 = min(scale1, scale2);
-			if (scale2 < scale1) scale1=scale2;
-
-			x += w >> 1;
-			y += h;
-
-			w = (int)(texsize.X * scale1);
-			h = (int)(texsize.Y * scale1);
-
-			screen.DrawTexture(tex, animate, x, y,
-				DTA_KeepRatio, true,
-				DTA_VirtualWidth, 1920, DTA_VirtualHeight, 1080, DTA_Alpha, trans, 
-				DTA_DestWidth, w, DTA_DestHeight, h, DTA_CenterBottomOffset, 1);
-		}
-	}
-	// Key Stuff
-	virtual bool DrawOneKey(int xo, int x, int y, int w, int h, Key inv, in out int c)
-	{
-		TextureID icon, nosprite;
-		nosprite = TexMan.CheckForTexture("TNT1A0", TexMan.Type_Sprite);
-		
-		if (!inv) return false;
-		
-		TextureID AltIcon = inv.AltHUDIcon;
-		if (!AltIcon.Exists()) return false;	// Setting a non-existent AltIcon hides this key.
-
-		if (AltIcon.isValid()) 
-		{
-			icon = AltIcon;
-		}
-		else if (inv.SpawnState && inv.SpawnState.sprite!=0)
-		{
-			let state = inv.SpawnState;
-			if (state != null) icon = state.GetSpriteTexture(0);
-			else icon.SetNull();
-		}
-		// missing sprites map to TNT1A0. So if that gets encountered, use the default icon instead.
-		if (icon.isNull() || icon == nosprite) icon = inv.Icon; 
-
-		if (icon.isValid())
-		{
-			DrawImageToBox(icon, x, y, w, h);
-			return true;
-		}
-		return false;
-	}
-	virtual int DrawKeys(PlayerInfo CPlayer, int x, int y, int w, int h)
-	{
-		int yo = y;
-		int xo = x;
-		int i;
-		int c = 0;
-		Key inv;
-
-		if (!deathmatch)
-		{
-			int count = Key.GetKeyTypeCount();
+			case 0:
+				alpha = desired_alpha * 3.0;
+				stage++;
+			break;
 			
-			// Go through the key in reverse order of definition, because we start at the right.
-			for(int i = count-1; i >= 0; i--)
+			// Begin fadeout.
+			case 1:
+				alpha -= 0.01 * dt;
+				if(alpha <= 0) msg = "";
+			break;
+		}	
+	}
+}
+
+class HaloCE_HUD : HaloDoomHUD
+{	
+	override void Init(HaloStatusBar base)
+	{
+		super.Init(base);
+		
+		// Messages setup
+		msgpos = (40, 200);
+	}
+		
+	override HaloMessage CreateMessage(String msg)
+	{
+		Color msgcol = 0x4002a7de;
+		vector2 msgscale = (1.0, 0.8) * 0.75;
+		
+		let hmsg = HaloMessage.CreateMessage("Fonts/HaloSmallerFont.fon2", msg, msgpos, msgscale, tint:msgcol, msgClass:"HaloCE_Message");
+		return hmsg;
+	}
+	
+	override void DrawElements()
+	{
+		// Vitals
+		DrawBars(); 
+		
+		// Weapons
+		if(!automapactive)
+		{
+			DrawCompass();
+			DrawAbilities((-25,75),0.7);
+			DrawWeaponsAmmo();
+			DrawRadar((-50,50), 0.8);
+		}
+		
+		// Keys and Objectives
+		DrawKeys(base.CPlayer, 50, 10, 30,30);			
+		DrawObjectives();
+	}
+	
+	// 24 ammo per line.
+	override void DrawWeaponsAmmo()
+	{
+		if(!haloplr) return;
+		Weapon curweap = haloplr.player.ReadyWeapon;
+		if(!curweap) return; // Just in case somehow the player has no weapon
+		
+		// Find other weapon manually.
+		let haloweap = HaloGun(curweap);
+		Weapon otherweap = haloweap ? haloweap.FindNextWeapon() : curweap;
+		
+		uint weapDrawFlags = HLSBS.SS_NOASPECTCORRECTION;
+		string weapHousing  = "Graphics/UI/CE_HUD/Combat/CEWepHousing.png";
+		string grenHousing  = "Graphics/UI/CE_HUD/Combat/CEGrenadeHousing.png";
+		string weapBullet   = "Graphics/UI/CE_HUD/Combat/CEWeapIcon_Bullet.png";
+		string weapBattery  = "Graphics/UI/CE_HUD/Combat/CEWeapIcon_Battery.png";
+		string weapChargeBG = "Graphics/UI/CE_HUD/Combat/CEWeapHeatMeter.png";
+		string weapChargeFG = "Graphics/UI/CE_HUD/Combat/CEWeapHeatMeter_FG.png";
+		string weapBatteryFill = "Graphics/UI/CE_HUD/Combat/CEWeapIcon_BatteryFill.png";
+		vector2 weapPos = (160,70);
+		double weapScale = 1.5;
+		
+		if(halodoom_unlimitedbackpack)
+		{
+			Weapon weap = NULL;
+			Array<int> slots;
+			slots.Resize(10);
+			
+			for(let i = haloplr.Inv; i; i = i.Inv)
 			{
-				if ((inv = Key(CPlayer.mo.FindInventory(Key.GetKeyType(i)))))
+				weap = Weapon(i);
+				if(!weap) continue;
+				
+				double num = weap.slotnumber;
+				if(num < 0) num = 0;
+				
+				double cnt = slots[num];
+				vector2 offs = (
+					0, (num*100) + cnt*20
+				);
+				if(!HaloGun(weap)) 
 				{
-					if (DrawOneKey(xo, x - (w+1), y, w, h, inv, c))
+					offs.x += 25;
+					offs.y += 20;
+				}
+				
+				vector2 scale;
+				string icon;
+				[icon, scale] = base.GetWeaponUIDetails(weap, (1.0,1.0));
+				HLSBS.DrawImage(icon, (1850,200)+offs, weapDrawFlags, 0.8, scale*0.5);
+				slots[num]++;
+			}	
+			for(int i = 1; i <= slots.Size(); i++)
+			{
+				HLSBS.DrawString(fntHaloAmmo, i.."", (1800, 280+((i-1)*100)), flags:weapDrawFlags, scale:(0.05,0.05));
+			}
+		}
+		
+		HLSBS.DrawImage(weapHousing, weapPos, flags:weapDrawFlags, scale:(weapScale,weapScale)); 
+		if(haloweap && haloweap.uses_battery)
+		{
+			HLSBS.DrawImage(weapBattery, weapPos + (55,0), flags:weapDrawFlags, scale:(weapScale,weapScale)); 
+			if(haloweap.ammotype2 != haloweap.ammotype1)
+			{
+				let ammodefs = GetDefaultByType(haloweap.ammotype2);
+				double perc = haloplr.countinv(haloweap.ammotype2) / double(ammodefs.maxamount);
+				HLSBS.SetClipRect(weapPos.x + 24, weapPos.y - 16, 60 * perc, 32); 
+			}
+			HLSBS.DrawImage(weapBatteryFill, weapPos + (55,0), flags:weapDrawFlags, scale:(weapScale,weapScale)); 
+			HLSBS.ClearClipRect();
+		}
+		else
+		{
+			HLSBS.DrawImage(weapBullet, weapPos + (55,0), flags:weapDrawFlags, scale:(weapScale,weapScale)); 
+		}
+		
+		// Draw reserve ammunition
+		int reserve_ammo = curweap.AmmoType1 ? haloplr.CountInv(curweap.AmmoType1) : haloplr.CountInv(curweap.AmmoType2);
+		int cur_ammo = curweap.AmmoType2 ? haloplr.CountInv(curweap.AmmoType2) : haloplr.CountInv(curweap.AmmoType1);
+		
+		string reservesStr = String.Format("%03d", reserve_ammo);
+		if(haloweap && haloweap.bottomless_reserves) reservesStr = "888";
+		HLSBS.DrawString(
+			fntHaloAmmo,
+			reservesStr, weapPos+(12,-12),
+			flags:HLSBS.SS_TEXT_RIGHT | weapDrawFlags,
+			scale:(0.18,0.15) * 0.85
+		);
+		
+		// Draw active ammunition
+		vector2 ampos = weapPos + (-15,60);
+		bool skipAmmoDraw = haloweap && haloweap.DrawAmmoUI(ampos, deltaTime);
+		
+		if(!skipAmmoDraw && haloweap && curweap.AmmoType2)
+		{
+			double clip_ammo = GetDefaultByType(curweap.AmmoType2).MaxAmount;
+			vector2 amoffs = (0,0);
+
+			Color tint = 0;
+			if( (cur_ammo / clip_ammo) <= 0.4 ) 
+			{
+				double tintAlpha = sin(lowAmmoBlink * 5) * 160;
+				tint = Color(int(tintAlpha), 255,8,8);
+				lowAmmoBlink += deltaTime;
+			}
+			else
+				lowAmmoBlink = 0;
+			
+			if( !haloweap.uses_battery && (curweap.AmmoType1 != curweap.AmmoType2) )
+			{
+				// Halo CE HUD only supports drawing ammo along the X axis.
+				int xmax = clip_ammo < 20 ? max(haloweap.hudAmmo_xMax, haloweap.hudAmmo_yMax) : 20;
+				double xshift = 0;
+				
+				for(int i = 0; i < clip_ammo; i++)
+				{
+					double iconAlpha = (cur_ammo--) > 0 ? 0.8 : 0.15;
+					vector2 ammoOffs = (-80 + abs(haloweap.hudAmmo_xOffs*0.25), -20 + max(0,haloweap.hudAmmo_yOffs) );
+					vector2 amdrawOffs = (amoffs.x * haloweap.hudAmmo_xSpacing, amoffs.y * haloweap.hudAmmo_ySpacing) * 1.25;
+					amdrawoffs.x += xshift;
+									
+					HLSBS.DrawImage(
+						haloweap.hudAmmo_graphic, 
+						ampos + amdrawOffs + ammoOffs, 
+						flags:weapDrawFlags, iconAlpha, (1.25,1.25) * haloweap.hudAmmo_scale, tint:tint
+					);
+										
+					amoffs.x++;
+					if(amoffs.x >= xmax) 
 					{
-						x += (w+1);
-						if (++c >= 6)
-						{
-							x = xo;
-							y += (h+1);
-							c = 0;
-						}
+						amoffs.x = 0;
+						amoffs.y++;
+						xshift += -0.25 * haloweap.hudAmmo_xSpacing;
 					}
 				}
 			}
+			else if(!skipAmmoDraw)
+			{
+				// Draw heat guage
+				HLSBS.DrawImage(weapChargeBG, ampos + (38,-12), flags:weapDrawFlags, scale:(weapScale * 1.05,weapScale * 0.6));
+				
+				double heatWidth = haloweap.heat * 200;
+				HLSBS.SetClipRect( (ampos.x - 120), (ampos.y - 32), heatWidth*weapScale*1.05, 64*weapScale*0.6, visual:false);
+				HLSBS.DrawImage(weapChargeFG, ampos + (38,-12), flags:weapDrawFlags, scale:(weapScale * 1.05,weapScale * 0.6)); 
+				HLSBS.ClearClipRect();
+				
+			}
 		}
-		if (x == xo && y != yo) y += 11;	// undo the last wrap if the current line is empty.
-		return y - 11;
+		
+		// Draw grenades
+		vector2 nadepos   = weapPos + (150,0);
+		vector2 nadescale = (0.75, 0.75);
+		
+		let curNade = haloplr.activeGrenade;
+		if(curNade && curNade.Amount > 0)
+		{
+			String nadeGraphic = String.Format("Graphics/UI/%s", curNade.hudIcon);
+			HLSBS.DrawImage(nadeGraphic, nadepos + (-20,0), scale:nadescale);
+			HLSBS.DrawString(fntHaloAmmo, String.Format("%d", curNade.Amount), nadepos+(5,-10), scale:(0.18,0.15) * 0.75);
+			HLSBS.DrawImage(grenHousing, nadepos, flags:weapDrawFlags, scale:(weapScale,weapScale)); 
+		}		
+		
 	}
+	
+	override void DrawBars()
+	{
+		base.DrawShieldRegen();
+		
+		vector2 shPos = (1700, 70);
+		double shScale = 1.5;
+		uint shDrawFlags = HLSBS.SS_NOASPECTCORRECTION;
+		
+		// Shields		
+		string shOutline_Warn = "Graphics/UI/CE_HUD/Shields/CE Shield Outline Red.png";
+		string shOutline_Norm = "Graphics/UI/CE_HUD/Shields/CE Shield Outline Blue.png";
+		string shBlue  = "Graphics/UI/CE_HUD/Shields/CE Shield inside base.png";
+		string shRed   = "Graphics/UI/CE_HUD/Shields/CE Shield inside OS1.png";
+		string shGreen = "Graphics/UI/CE_HUD/Shields/CE Shield inside OS2.png";
+		
+		string shBackground = shBlue;
+		string shForeground = shOutline_Norm;
+		
+		// Interpolate Shields
+		if(curshields != haloplr.shields) 
+		{
+			double ispd = (haloplr.shields > curshields) ? 0.05 : 0.2;
+			curshields = HaloMath.Lerp(curshields, haloplr.shields, ispd*deltatime);
+		}
+		if(curshields == 0) curshields = haloplr.shields;
+		double shieldperc = curshields / haloplr.maxshields;
+		
+		// Setup shield parameters
+		double shWarnAlpha = 0;
+		if(shieldperc <= 0.1) shWarnAlpha = 0.5 + (sin(level.maptime * 15) * 0.5);
+		
+		if(shieldperc > 2.0) 
+		{
+			HLSBS.DrawImage(shRed, shPos, flags:shDrawFlags, scale:(shScale,shScale));
+			shBackground = shGreen;
+			shieldperc -= 2.0;
+		}
+		else if(shieldperc > 1.0) 
+		{
+			HLSBS.DrawImage(shBlue, shPos, flags:shDrawFlags, scale:(shScale,shScale));
+			shBackground = shRed;
+			shieldperc -= 1.0;
+		}
+
+		double shClipOffs = 292 * (1.0-shieldperc);
+		HLSBS.DrawImage(shForeground, shPos, flags:shDrawFlags, scale:(shScale,shScale));
+		HLSBS.DrawImage(shOutline_Warn, shPos, flags:shDrawFlags, alpha:shWarnAlpha, scale:(shScale,shScale));
+		HLSBS.SetClipRect( (shPos.x - 125) + shClipOffs, shPos.y - 50, 292 - shClipOffs, 100);
+		HLSBS.DrawImage(shBackground, shPos, flags:shDrawFlags, scale:(shScale,shScale));
+		HLSBS.ClearClipRect();
+		
+		// Health
+		double maxHP = haloplr.GetMaxHealth();
+		double hpratio = haloplr.health / maxHP; 
+		double hpScale = 1.35;
+		int healthbars = clamp(ceil(hpratio * 9), 1, 25);
+		
+		string hbGFXBase = "Graphics/UI/CE_HUD/Health/CE_HB%d.png";
+		string hbCurrent = String.Format(hbGFXBase, healthbars);
+		
+		HLSBS.DrawImage(hbCurrent, shPos + (-30,23), flags:shDrawFlags, scale:(hpScale, hpScale));
+	}	
 }
-
-// Dirty message hack
-class DoHudMessage : Inventory
-{
-	string msg;
-	
-	override string PickupMessage()
-	{
-		if(!msg) msg = "Hax";
-		return msg;
-	}
-
-	static void Send(Actor to, string msg)
-	{
-		let hudmsg = DoHudMessage(Actor.Spawn("DoHudMessage", to.pos));
-		hudmsg.msg = msg;
-		to.AddInventory(hudmsg);
-	}
-	
-	override void DoEffect()
-	{
-		PrintPickupMessage(Owner.CheckLocalView(), msg);
-		Owner.RemoveInventory(self);
-		GoAwayAndDie();
-	}
-}
-
-/* Old Shield code, when it used to use halves.
-vector2 shieldpos = (957,50); //(1550, 50);
-vector2 healthpos = (577, 77); //(1740, 77);
-uint leftflags = BaseStatusBar.SHADER_REVERSE;
-HLSBS.DrawBar("sh_barL",shbg.."L",curshields,haloplr.maxshields,shieldpos-(253,0), 0,leftflags, 0.8,1.0, (1.0,1.35));
-HLSBS.DrawBar("sh_barR",shbg.."R",curshields,haloplr.maxshields,shieldpos, 0,0, 0.8,1.0, (1.0,1.35));
-
-shieldpos += (126, 42);
-HLSBS.DrawImage(shou.."R",shieldpos,scale:(1.0,1.3));
-HLSBS.DrawImage(shou.."L",shieldpos-(251,0),scale:(1.0,1.3));
-*/
-
-
-/* Old ammo drawing
-for(int i = 0; i < clip_ammo; i++)
-{
-	double ammo_diff = clip_ammo-cur_ammo;
-	
-	Color tint = 0;
-	if( (cur_ammo / clip_ammo) <= 0.4) 
-		tint = Color(128, 255,8,8);
-	
-	if(ammo_diff <= i) HLSBS.DrawImage("WI_AMMO", ampos+amoffs + (-65,-25), 0, 0.8, (1.25,1.25), tint:tint);
-	amoffs.x += AMMOG_SIZE;
-	if(amoffs.x >= AMMOG_SIZE*AMMO_MAX) 
-	{
-		amoffs.y += AMMOG_SIZE*1.25;
-		amoffs.x = 0;
-	}
-}
-*/

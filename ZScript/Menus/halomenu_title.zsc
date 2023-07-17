@@ -107,7 +107,12 @@ class HaloDoom_TitleMenu : HaloMenuBase
 				if(buttons[i].pressed)
 					buttons[i].btntext.font_color = Font.CR_BLUE;
 				else if(buttons[i].hovered)
+				{
+					if(buttons[i].btntext.font_color != Font.CR_WHITE)
+						MenuSound("UI/Selected");	
+						
 					buttons[i].btntext.font_color = Font.CR_WHITE;
+				}
 				else
 					buttons[i].btntext.font_color = Font.CR_BLACK;
 			}
@@ -149,9 +154,9 @@ class HaloDoom_TitleMenu : HaloMenuBase
 				
 			if(buttons[i].clicked)
 			{
-				MenuSound("UI/PressButton");
+				MenuSound("UI/Next");
 				buttons[i].clicked = false;
-				Close();
+				// Close();
 				
 				Switch(buttons[i].type)
 				{
@@ -186,6 +191,8 @@ class Halo_Ring : Actor
 {
 	Default
 	{
+		//$Category "HaloDoom/Title"
+		Tag "Halo Ring";
 		+NOINTERACTION;
 		+INTERPOLATEANGLES;
 	}
@@ -205,6 +212,8 @@ class Halo_RingPlanet : Actor
 {
 	Default
 	{
+		//$Category "HaloDoom/Title"
+		Tag "Planet";
 		+NOINTERACTION;
 		+WALLSPRITE;
 		Scale 0.75;
@@ -222,6 +231,8 @@ class Halo_Sky : Actor
 {
 	Default
 	{
+		//$Category "HaloDoom/Title"
+		Tag "Space Skybox";
 		+NOINTERACTION;
 	}
 	

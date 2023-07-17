@@ -6,6 +6,8 @@ extend class HaloPlayer
 	const GNDFRIC  = 7.0;
 	const DOOMGNDACCEL = 1.25;
 	const DOOMGNDFRIC = 0.95;
+	const CHAN_SPACEJETS = 17;
+	const CHAN_SPACEJETLOOP = 18;
 	
 	const BT_DASH = BT_USER3;
 	const BT_GRAPPLE = BT_USER4;
@@ -16,6 +18,8 @@ extend class HaloPlayer
 	const AIRACCEL   = 40;
 	
 	bool doomermovement;
+	bool spacemovement; // No gravity movement
+	bool doJetpackMovement; // Different air movement code.
 	
 	// Switches
 	bool enable_grapple;
@@ -62,9 +66,109 @@ extend class HaloPlayer
 	
 	// Velocities
 	vector3 oldvel;
+	vector3 viewAnglesVel;
+	vector3 spaceAccel;
 	
 	// CVars
 	transient CVar cv_snd_jump;
+	transient CVar cv_vol_footstep;
+		
+	// Special movement
+	LedgeTrigger ledgeGrabber;
+	
+	vector2 getMovementInputs(double rotation = 0)
+	{
+		let cmd = player.cmd;
+		if( !(player.cmd.forwardmove || player.cmd.sidemove) )
+			return (0,0);
+	
+		double moveNormRatio = gameinfo.normforwardmove[0] / gameinfo.normsidemove[0];
+		vector2 norminput = (
+			  cmd.forwardmove / (gameinfo.normforwardmove[0]*256.),
+			-(cmd.sidemove / (gameinfo.normsidemove[0]*256.))
+		);
+		
+		norminput.x = clamp(norminput.x, -1.0, 1.0);
+		norminput.y = clamp(norminput.y, -1.0, 1.0);
+		norminput.y *= moveNormRatio; // Mimic SR40 acceleration.
+	
+		return (rotation == 0) ? norminput : RotateVector(norminput, rotation);
+	}
+	
+	void ThrustDir(double fw = 0, double lr = 0, double ud = 0)
+	{
+		let dir = Quat.FromAngles(angle, pitch, roll);
+		vel += dir * (fw,lr,ud);
+	}
+
+	void DoSpaceLook()
+	{
+		// Get look inputs
+		UserCmd cmd = player.cmd;
+		double scalar = (360 / 65536.0);
+		double cmdYaw = cmd.yaw * scalar;
+		double cmdPitch = -cmd.pitch * scalar;
+		double cmdRoll = cmd.roll * scalar;
+		
+		// Create quaternion based on look delta
+		Quat input = Quat.FromAngles(cmdYaw, cmdPitch, cmdRoll);
+		
+		// Offset our current rotation quaternion with look delta.
+		ViewRotation *= input;
+		
+		// Create quaternion based off our current facing direction
+		// interpolate it to our new rotation based off our input delta.
+		Quat r = Quat.FromAngles(angle, pitch, roll);
+		r = Quat.SLerp(r, ViewRotation, 0.4);
+
+		// Set angles to new look direction
+		vector3 eulerAngles = HaloMath.GetEuler(r);
+		A_SetAngle(eulerAngles.x, SPF_Interpolate);
+		A_SetPitch(eulerAngles.y, SPF_Interpolate);
+		A_SetRoll(eulerAngles.z, SPF_Interpolate);
+		
+	}
+	void DoSpaceMovement(vector3 wishdir, double spd = 0.35)
+	{
+		if(gravity != 0) gravity = 0;
+		
+		// Wishdir doesn't work as desired in this case, so we'll need to convert
+		// to relative coords.
+		vector2 fwlr = getMovementInputs(); 
+		
+		vector3 reldir = (fwlr, wishdir.z);
+		vector3 accelDir = ViewRotation * reldir;
+		spaceAccel += accelDir * spd;
+		
+		if( !(vel ~== (0,0,0)) && !(accelDir ~== (0,0,0)) )
+		{
+			double dirDiff = (vel.Unit() dot accelDir.Unit());
+			if(dirDiff < 0) A_StartSound("Halo/Powerup/Jetpack/Burst", CHAN_SPACEJETS, CHANF_NOSTOP, volume:0.5); 
+		}
+	}
+	void DoSpaceFriction()
+	{
+		vel += spaceAccel;
+	
+		if( !(spaceAccel ~== (0,0,0)) && spaceAccel.Length() > 0 )
+			A_StartSound("Halo/Powerup/Jetpack/Loop", CHAN_SPACEJETLOOP, CHANF_LOOPING, volume:0.5);
+		else
+			A_StopSound(CHAN_SPACEJETLOOP);
+	
+		spaceAccel *= 0.55;
+		vel *= 0.96;
+	}
+	void SetSpaceMovement(bool onoff)
+	{
+		// Reset view rotation.
+		ViewRotation = Quat.FromAngles(angle, pitch, roll);
+		spacemovement = onoff;
+				
+		if(onoff) 
+			Gravity = 0;
+		else
+			A_Gravity();
+	}
 
 	void DoDoomGroundAccel(double spd)
 	{
@@ -116,7 +220,7 @@ extend class HaloPlayer
 	}
 
 	void DoQuakeGroundAccel(vector3 wishdir, double spd)
-	{
+	{	
 		if(doomermovement) 
 		{
 			DoDoomGroundAccel(DOOMGNDACCEL*spd);
@@ -132,6 +236,16 @@ extend class HaloPlayer
 	
 	void DoQuakeAirAccel(vector3 wishdir, double spd, bool dobhop)
 	{
+		if(doJetpackMovement) 
+		{
+			vector2 moveDir = getMovementInputs();
+			viewAnglesVel.y += moveDir.x * 0.1;
+			viewAnglesVel.z += moveDir.y * 0.17;
+		
+			vel += wishdir * (spd * 1.1);
+			return;
+		}
+	
 		if(speedboost) spd *= speedboost;
 		if(dobhop)
 		{
@@ -192,8 +306,11 @@ extend class HaloPlayer
 	
 	void PlaySurfaceSound(string type)
 	{
+		double vol = 1.0;
 		string surfaceType = GetFloorSurface();
-		A_StartSound(String.Format("%s/%s", surfaceType, type), CHAN_AUTO);
+		if(cv_vol_footstep) vol *= cv_vol_footstep.getFloat();
+		
+		A_StartSound(String.Format("%s/%s", surfaceType, type), CHAN_AUTO, volume:vol);
 	}
 	
 	void ResetMovementMods()
@@ -204,9 +321,12 @@ extend class HaloPlayer
 	}
 	
 	void PlayFootsteps()
-	{
+	{	
 		double curSpeed = vel.xy.Length();
-		double vol = curSpeed / (15 * speed * forwardMove1);
+		double vol = curSpeed / max(0.01, 15 * speed * forwardMove1);
+		
+		if(!cv_vol_footstep) cv_vol_footstep = CVar.GetCVar("halodoom_footstep_volume", player);
+		if(cv_vol_footstep) vol *= cv_vol_footstep.getFloat();
 
 		// Don't play if moving too slowly or sliding.
 		if(curSpeed <= 1 || FindInventory("SlideAnimator")) 
@@ -228,24 +348,34 @@ extend class HaloPlayer
 		let player = self.player;
 		UserCmd cmd = player.cmd;
 		bool moving = (cmd.forwardmove || cmd.sidemove);
-		
+		bool predicting = (player.cheats & CF_PREDICTING);		
 		doomermovement = halodoom_classicmovement;
+		
+		// Add a ledge grabber if we don't have one.
+		if(!ledgeGrabber && !predicting) ledgeGrabber = LedgeTrigger.Init( self, 24,0,16 );
 		
 		// Play sound if landed from a fall.
 		double zdiff = vel.z-oldvel.z;
 		if(zdiff >= 10 && pos.z <= floorz) A_StartSound("Halo/Spartan/Land/Hard", CHAN_AUTO);
 		
 		// [RH] 180-degree turn overrides all other yaws
-		if (player.turnticks)
+		if(!spacemovement)
 		{
-			player.turnticks--;
-			Angle += (180. / TURN180_TICKS);
+			if (player.turnticks)
+			{
+				player.turnticks--;
+				Angle += (180. / TURN180_TICKS);
+			}
+			else
+			{
+				Angle += cmd.yaw * (360./65536.);
+			}
 		}
 		else
 		{
-			Angle += cmd.yaw * (360./65536.);
+			DoSpaceLook();
 		}
-		
+
 		if(curvehicle) return;
 		
 		// Process friction every couple of tics.
@@ -253,7 +383,10 @@ extend class HaloPlayer
 		if( player.onground && (fricwait > 4 || !halodoom_allowbhop || !enable_bhop) && fric > 0) 
 			DoQuakeFriction(fric);
 			
-		player.onground = (pos.z <= floorz) || bOnMobj || bMBFBouncer || (player.cheats & CF_NOCLIP2);
+		// Air friction
+		if(!player.onground) DoAirFriction();
+			
+		player.onground = !spacemovement && (pos.z <= floorz) || bOnMobj || bMBFBouncer || (player.cheats & CF_NOCLIP2);
 		if(player.onground) 
 			fricwait ++;
 		else 
@@ -265,19 +398,25 @@ extend class HaloPlayer
 			// Calculate wishdir
 			UserCmd cmd = player.cmd;
 			vector3 wishdir;
-			wishdir.xy = RotateVector((cmd.forwardmove, -cmd.sidemove), angle);
+			wishdir.xy = getMovementInputs(angle);
 			if(block_moveinput) wishdir.xy = (0,0);
 			wishdir.z = 0;
 			
 		    lastmovedir = atan2(wishdir.y, wishdir.x);
 			
-			if(wishdir.Length())
+			if( (cmd.forwardmove || cmd.sidemove) )
 			{
-				wishdir = wishdir.Unit();
-				if(player.onground || bFly) 
-					DoQuakeGroundAccel(wishdir, Speed);
+				if(spacemovement)
+				{
+					DoSpaceMovement(wishdir);
+				}
 				else
-					DoQuakeAirAccel(wishdir, Speed, halodoom_allowbhop && enable_bhop);
+				{
+					if( (player.onground || bFly) && !doJetpackMovement ) 
+						DoQuakeGroundAccel(wishdir, Speed);
+					else
+						DoQuakeAirAccel(wishdir, Speed, halodoom_allowbhop && enable_bhop);
+				}
 			}
 			
 			if (!(player.cheats & CF_PREDICTING)) PlayRunning ();
@@ -291,11 +430,26 @@ extend class HaloPlayer
 		uint btns = player.cmd.buttons;
 		uint obtns = player.oldbuttons;
 		
+		// View angles
+		A_SetViewAngle(viewangle + viewAnglesVel.x, SPF_INTERPOLATE);
+		A_SetViewPitch(viewpitch + viewAnglesVel.y, SPF_INTERPOLATE);
+		A_SetViewRoll (viewroll  - viewAnglesVel.z, SPF_INTERPOLATE);
+		viewAnglesVel *= 0.92;
+		viewroll  *= 0.87;
+		viewangle *= 0.92; 
+		viewpitch *= 0.92;
+		
+		player.vel = vel.xy;
+		if(block_moveinput) player.vel *= 0;
+		oldvel = vel;
+		
 		// Slide
+		if(predicting) return; // Don't run movement abilities while predicting.
 		if( (btns & BT_CROUCH) && !(obtns & BT_CROUCH) && vel.length() > 5 && player.onground && canslide && slidecooldown <= 0)
 		{
 			// If slide success and not predicting movement, play slide sound.
-			if( SlideAnimator.DoSlide(self, SLIDE_TICS) && !(player.cheats & CF_PREDICTING) )
+			let haloweap = HaloGun(player.ReadyWeapon);
+			if( SlideAnimator.DoSlide(self, SLIDE_TICS) && (haloweap && !haloweap.feetbusy) )
 			{
 				slidecooldown = SLIDE_COOL;
 				A_StartSound("Halo/Spartan/Slide", CHAN_BODY, CHANF_OVERLAP);
@@ -306,7 +460,7 @@ extend class HaloPlayer
 		if( (btns & BT_DASH) && !(obtns & BT_DASH) && dashcounter < dashmax )
 		{
 			DashAnimator.DoDash(self, lastmovedir, dashpower);
-			if (!(player.cheats & CF_PREDICTING)) A_StartSound("Halo/Spartan/Dash", CHAN_BODY, CHANF_OVERLAP);
+			A_StartSound("Halo/Spartan/Dash", CHAN_BODY, CHANF_OVERLAP);
 			dashcounter++;
 			dashcooldown = dashcooldown_time * 35.0;
 		}
@@ -321,26 +475,116 @@ extend class HaloPlayer
 		if( (btns & BT_GRAPPLE) && !(obtns & BT_GRAPPLE) && enable_grapple && (weap && !weap.handsbusy) )
 		{
 			if(grapple)
-			{
 				grapple.Retract();
-				return;
-			}
 			else
-			{
 				grapple = GrapplingHook.Deploy(self, (-10,-8,-10));
-			}
 		}
 		
 		// Determine if grapple is deployable.
 		if(enable_grapple && !grapple)
 			gpl_validsurface = GrapplingHook.CanDeploy(self, (-5,-2,-2));
-		
-		player.vel = vel.xy;
-		if(block_moveinput) player.vel *= 0;
-		
-		oldvel = vel;
-		PlayFootsteps();
+			
+		PlayFootsteps();		
+		JetpackMove();
 	}		
+	
+	int jumpHeld;
+	double jetThrustPerc;
+	int jetQuake;
+	const SND_JETLOOP = 20;
+	const JETHOLD = 15;
+	void JetpackMove()
+	{
+		let jetPower = PowerJetpack(FindInventory("PowerJetpack"));		
+		if(bFly || !jetPower) // Do not jetpack while flying, or if we don't have the powerup.
+		{
+			jumpHeld = jetThrustPerc = doJetpackMovement = 0;
+			return;
+		}
+			
+		uint btns = player.cmd.buttons;
+		uint obtns = player.oldbuttons;
+		bool jumpdown = ((btns & BT_JUMP) && (obtns & BT_JUMP)) && (jetPower.fuel > 0) && !jetPower.coolingdown;
+		
+		if(jumpdown)
+		{
+			jumpHeld++;
+			if(jumpHeld == int(JETHOLD*0.8))
+				A_StartSound("Halo/Powerup/Jetpack/Burst", CHAN_AUTO, CHANF_OVERLAP);
+		}
+		else if(jumpHeld > 0)
+		{
+			A_StopSound(SND_JETLOOP);
+			jetQuake = 0;
+			jumpHeld--;
+			if(jumpHeld >= 8) 
+			{
+				if(!spacemovement)
+					vel.z += GetGravity() * 0.8;
+				else
+					ThrustDir(1);
+			}
+			if(player.onground) jumpHeld = 0;
+		}
+		
+		if(jumpHeld >= JETHOLD && jumpdown)
+		{
+			jetPower.fuel -= 1.0 / (35*jetPower.thrustTime);
+			if(jumpHeld == JETHOLD && !spacemovement) doJump();
+				
+			jetThrustPerc = HaloMath.Lerp(jetThrustPerc, 1.0, 0.08);
+			if(jetThrustPerc > 0.65) jetThrustPerc = 1.0;
+			
+			if(jetThrustPerc >= 1.0) 
+				A_StartSound("Halo/Powerup/Jetpack/Loop", SND_JETLOOP, CHANF_LOOPING);
+			else
+				A_StopSound(SND_JETLOOP);
+
+			
+			double jetBob = 0;
+			if(jetThrustPerc >= 1.0)
+				jetBob = sin(GetAge() * 10) * 1.75;
+				
+			doJetpackMovement = true;
+			double thrust = jetThrustPerc * (GetGravity()*1.000000000000000000001);
+			
+			double maxZ = min(ceilingz-50, (floorz+200));
+			if(!spacemovement)
+			{
+				if( (player.viewz + thrust) >= maxZ ) 
+					vel.z = 0;
+				else
+					vel.z += thrust;
+			}
+			else
+			{
+				jetBob = 0; // Disable bobbing
+				ThrustDir(jetThrustPerc * 2);
+			}
+			jumpHeld = JETHOLD * 2;
+			
+			// Math is odd to apply this on vel.z, so just change the position.
+			SetOrigin((pos.xy, pos.z + jetBob), true);
+			
+			if(++jetQuake >= 8)
+			{
+				if(jetThrustPerc >= 1.0)
+					A_QuakeEx(2,0,4,12, 0, 64, "", QF_RELATIVE | QF_WAVE | QF_SCALEUP, 0.7,0.7,0.7);
+				else
+					A_QuakeEx(2,2,2,12, 0, 64, "", QF_WAVE | QF_SCALEUP | QF_SCALEDOWN);
+					
+				jetQuake = 0;
+			}
+		}
+		else
+		{
+			if(doJetpackMovement) A_StartSound("Halo/Powerup/Jetpack/Off", CHAN_AUTO, CHANF_OVERLAP);
+			A_StopSound(SND_JETLOOP);
+			if(player.onground) jetThrustPerc = 0;
+			jetThrustPerc = HaloMath.Lerp(jetThrustPerc, 0, 0.04);
+			doJetpackMovement = false;
+		}
+	}
 	
 	void DetectController()
 	{
@@ -359,8 +603,16 @@ extend class HaloPlayer
 		let player = self.player;
 		uint btns = player.cmd.buttons;
 		uint obtns = player.oldbuttons;
+		bool crouching = (btns & BT_CROUCH);
 		
-		if(CheckBuoyant() && (btns & BT_CROUCH))
+		if(spacemovement && crouching)
+		{
+			// Do thrusters
+			DoSpaceMovement((0,0,-1));
+			return;
+		}
+		
+		if(CheckBuoyant() && crouching)
 		{
 			vel.z -= bFly ? 1 : 0.25;
 			return;
@@ -374,10 +626,17 @@ extend class HaloPlayer
 		let player = self.player;
 		uint btns = player.cmd.buttons;
 		uint obtns = player.oldbuttons;
-		
+		bool jumping = (btns & BT_JUMP);
+				
 		if(!cv_snd_jump) cv_snd_jump = CVar.GetCVar("halodoom_snd_jumpgrunt", player);
 		
-		if(CheckBuoyant() && (btns & BT_JUMP))
+		if(spacemovement && jumping)
+		{
+			DoSpaceMovement((0,0,1));
+			return;
+		}
+		
+		if(CheckBuoyant() && jumping)
 		{
 			vel.z += 1;
 			return;
@@ -386,9 +645,10 @@ extend class HaloPlayer
 		bool doholdjump = enable_bhop && halodoom_allowbhop;
 		if(player.onground) jumpcounter = 0;
 		
-		if(!player.onground && (btns & BT_JUMP) && !(obtns & BT_JUMP) && jumpcounter < maxjumps)
+		if(!player.onground && jumpHeld <= 2 && jumping && !(obtns & BT_JUMP) && jumpcounter < maxjumps)
 		{
 			// Double jump
+			jumpHeld = 0;
 			vel.z = 0;	
 			if(doJump())
 			{
@@ -398,9 +658,10 @@ extend class HaloPlayer
 				jumpcounter++;
 			}
 		} 
-		else if ( player.onground && (btns & BT_JUMP) && (!(obtns & BT_JUMP) || doholdjump) )
+		else if ( player.onground && jumping && (!(obtns & BT_JUMP) || doholdjump) )
 		{
 			// Normal jump
+			jumpHeld = 0;
 			if(doJump())
 			{
 				if ( !(player.cheats & CF_PREDICTING) && cv_snd_jump.getBool() ) 
@@ -473,6 +734,12 @@ extend class HaloPlayer
 			vel.xy *= DOOMGNDFRIC;
 	}
 	
+	void DoAirFriction()
+	{
+		if(doJetpackMovement) vel.xy *= 0.92;
+		if(spacemovement) DoSpaceFriction();
+	}
+	
 	void DoQuakeFriction(double friction)
 	{
 		if(doomermovement)
@@ -502,7 +769,7 @@ extend class HaloPlayer
 		
 		// Apply friction
 		double curspeed = vel.Length();
-		if(curspeed)
+		if( !(curspeed ~== 0) )
 		{
 			double control = (swimming ? curspeed : (curspeed < maxspd ? GNDFRIC : curspeed));
 			double drop = control * unitfric;
@@ -613,7 +880,11 @@ class SlideAnimator : Inventory
 		
 		vector2 addvel = AngleToVector(atan2(plr.vel.y, plr.vel.x), 1.5);
 		
-		if(plr.player.onground) plr.vel.xy += addvel;
+		if(plr.player.onground) 
+			plr.vel.xy += addvel;
+		else
+			timeout = 0;
+			
 		plr.fricmod = 1.0;
 		plr.block_moveinput = true;
 		
@@ -640,5 +911,113 @@ class SlideAnimator : Inventory
 			plr.player.DesiredFOV = def_fov;
 			GoAwayAndDie();
 		}
+	}
+}
+
+// Ledge grabbing
+class LedgeTrigger : CheapActor
+{
+	Actor plr;
+	vector3 offs;
+	vector3 grabPos;
+	uint grabTics;
+	uint grabDelay;
+	uint grabCooldown;
+	
+	static LedgeTrigger Init(Actor src, double fw, double lr, double ud)
+	{
+		let grab = LedgeTrigger(Spawn("LedgeTrigger", src.pos));
+		if(grab)
+		{
+			grab.plr = src;
+			grab.offs = (fw, lr, ud);
+		}
+		return grab;
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		if(!plr || !plr.player) return;
+
+		while(grabTics > 0)
+		{
+			plr.vel *= 0; // Stop moving.
+			plr.player.cheats |= CF_FROZEN;
+			
+			if(plr.player.cmd.buttons & BT_CROUCH)
+			{
+				// Cancel grab.
+				grabTics = 0;
+			}
+			
+			if(grabDelay) 
+			{
+				// Wait for grab animation.
+				grabDelay--;
+			}
+			if(grabDelay <= 0)
+			{
+				grabTics--;
+				vector3 toPos = HaloMath.Lerp3D(plr.pos, grabPos, 0.1);
+				plr.SetOrigin(toPos, true);
+				
+				// Set position to grab pos.
+				if(grabTics <= 0) plr.SetOrigin(grabPos, true);
+			}
+			
+			if(grabTics <= 0)
+			{	
+				// Finish grab
+				plr.player.cheats &= ~CF_FROZEN;
+			}
+			return;
+		}
+		if(grabCooldown) grabCooldown--;
+			
+		double lookHeight = plr.player.viewz-plr.pos.z;
+		vector3 fromPos = (plr.pos.xy, plr.player.viewz);
+		
+		// Update pos
+		vector3 followPos = HaloMath.V3Offset(plr.angle, 0, plr.roll, offs.x,offs.y,offs.z, 1.0);
+		SetOrigin(level.vec3offset(fromPos, followPos), true);
+		
+		bool falling = !plr.player.onground && plr.vel.z < 0;		
+		bool hitFloor = pos.z <= floorz;
+	
+		// Check for physical floor.
+		FLineTraceData lt;
+		LineTrace(angle, 16, 90, flags:TRF_THRUACTORS, data:lt);
+		if(lt.HitType == TRACE_HitFloor) hitFloor = true;
+		
+		if(falling && hitFloor && grabCooldown <= 0)
+		{
+			// Perform visibility check to make sure we don't grab things through the floor.
+			bool visiblePos = plr.IsVisible(self, true);
+			vector3 prevPos = plr.pos;
+			
+			// Set player Z to destination Z so that CheckPosition is 3D aware.
+			plr.SetXYZ((pos.xy, pos.z));
+			bool validPos = visiblePos && plr.CheckPosition(pos.xy);
+			// Reset player position.
+			plr.SetXYZ(prevPos);
+			 
+			if( validPos )
+			{
+				// We have a clear path towards the ledge.
+				// Setup grabbing sequence.
+				grabPos = (pos.xy, pos.z);
+				grabTics = 20;
+				grabDelay = 8;
+				grabCooldown = grabTics + grabDelay + 20;
+			}
+		}
+	}	
+
+	States
+	{
+		Spawn:
+			TNT1 A -1; // PLSS for Debug
+		stop;
 	}
 }

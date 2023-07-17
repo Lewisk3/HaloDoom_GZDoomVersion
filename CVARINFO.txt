@@ -1,3 +1,4 @@
+// Client settings
 user bool halodoom_showminimap = false;
 user bool halodoom_fx_smoke = true;
 user bool halodoom_fx_casings = true;
@@ -13,12 +14,22 @@ user bool halodoom_leveltransitions = true;
 user bool halodoom_keyoverlays = true;
 user float halodoom_grapplecomplexity = 1.0;
 user float halodoom_recoil_intensity = 1.0;
+user float halodoom_footstep_volume = 0.5;
+user int halodoom_hudtype_index = 0;
 user int halodoom_cortanamode = 0;
+user bool halodoom_spartanvoicelines = false;
+
+// Server settings
+server bool halodoom_overhealthdecay = true;
 server int halodoom_gametype = 0;
 server float halodoom_effectintensity = 1.0;
 server float halodoom_magnetism = 10;
+server float halodoom_damagetakenmod = 1.0;
 server bool halodoom_classicmovement = false;
 server bool halodoom_allowbhop = true;
 server bool halodoom_doaimassist = false;
 server bool halodoom_unlimitedbackpack = false;
 server bool halodoom_meetyourunmaker = false;
+server int halodoom_holdmoarweapons = 0;
+server bool halodoom_allpoweredup = false;
+server string halodoom_activeskulls = "";

@@ -4,6 +4,7 @@ class ExplosiveCoil : Actor
 	int coilFrame;
 	int noDmgTics;
 	int delay;
+	bool explodeOnImpact;
 
 	Property CoilFrame : coilFrame;
 
@@ -19,13 +20,47 @@ class ExplosiveCoil : Actor
 		+DONTTHRUST;
 		+PUSHABLE;
 		+SLIDESONWALLS;
+		+NOBLOCKMONST;
+		+CANPASS;
 		
-		Health 75;
+		Health 40;
+	}
+	
+	override bool Used(Actor user)
+	{	
+		if(I_HoldingCoil.IsHoldingCoil(user))
+			I_HoldingCoil.DropCoil(user);
+		else
+			I_HoldingCoil.GrabCoil(user, self);
+			
+		return false;
+	}
+	
+	override bool CanCollideWith(Actor other, bool passive)
+	{
+		if(I_HoldingCoil.GetHoldingCoil(other) == self) return false;
+		return super.CanCollideWith(other, passive);
 	}
 	
 	override int DamageMobJ(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle)
 	{
 		if(damage > 0) noDmgTics = 0;
+		if( (health - damage) <= 0 ) 
+		{
+			// Find Damager.
+			let damager = inflictor;
+			if(!damager && source)
+			{
+				damager = source;
+				if(source.bMISSILE) 
+					damager = source.target;
+			}
+			target = damager;
+			
+			if( target && (target.master is "ExplosiveCoil") )
+				target = target.master.target;
+		}
+		
 		return super.DamageMobJ(inflictor, source, damage, mod, flags, angle);
 	}
 	
@@ -36,6 +71,13 @@ class ExplosiveCoil : Actor
 			dmgOverlay = EnergyCoilOverlay.Setup(self);
 		
 		noDmgTics++;
+		
+		if( explodeOnImpact && (vel.xy.Length() <= 0.01 || abs(vel.z) == 0) ) 
+		{
+			A_Die();
+			SetState(FindState("Death"));
+			explodeOnImpact = false;
+		}
 		
 		if(noDmgTics > 35 && health > 0) 
 			health += ceil(SpawnHealth() * 0.01);
@@ -55,6 +97,7 @@ class ExplosiveCoil : Actor
 	
 	virtual void FilterExplosions()
 	{
+		if(multiplayer) return;
 		let coilIt = BlockThingsIterator.Create(self, 256);
 		double count = 0;
 		int curDelay = 0;
@@ -69,6 +112,22 @@ class ExplosiveCoil : Actor
 			
 			count++;
 		}
+	}
+	
+	bool CanBeSeen()
+	{
+		if(target || multiplayer) return true; // We were hit by another actor.
+		for(int i = 0; i < MAXPLAYERS; i++)
+		{
+			if(!playerInGame[i]) continue;
+			
+			PlayerInfo plr = players[i];
+			if(!plr || !plr.mo) continue;
+			
+			if(IsVisible(plr.mo, true))
+				return true;
+		}
+		return false;
 	}
 	
 	States
@@ -91,10 +150,79 @@ class ExplosiveCoil : Actor
 		TrueDeath:
 			TNT1 A 35 
 			{
-				OnExplode();
+				if(CanBeSeen()) 
+					OnExplode();		
+				else
+					A_Explode(); // Fallback explosion.
+
 				FilterExplosions();
 			}
 		stop;
+	}
+}
+
+class I_HoldingCoil : Inventory
+{
+	ExplosiveCoil coil;
+	Default
+	{
+		Inventory.MaxAmount 1;
+	}
+	
+	static ExplosiveCoil GetHoldingCoil(Actor parent)
+	{
+		let holdc = I_HoldingCoil(parent.FindInventory("I_HoldingCoil"));
+		if(!holdc || !holdc.coil) return NULL;
+		
+		return holdc.coil;
+	}
+	
+	static void DropCoil(Actor parent)
+	{
+		let holdc = I_HoldingCoil(parent.FindInventory("I_HoldingCoil"));
+		if(!holdc || !holdc.coil) return;
+		
+		holdc.coil.bNOGRAVITY = false;
+		holdc.coil = NULL;
+	}
+	
+	static I_HoldingCoil GrabCoil(Actor parent, ExplosiveCoil coil)
+	{
+		if(IsHoldingCoil(parent)) return NULL; // Do not attempt to grab 2 coils at once.
+		parent.GiveInventory("I_HoldingCoil", 1);
+		
+		let holdc = I_HoldingCoil(parent.FindInventory("I_HoldingCoil"));
+		if(holdc) holdc.coil = coil;
+		
+		return holdc;
+	}
+	
+	static bool IsHoldingCoil(Actor parent)
+	{
+		return !!parent.FindInventory("I_HoldingCoil");
+	}
+	
+	override void DoEffect()
+	{
+		super.DoEffect();
+		
+		if(!coil) 
+		{
+			Owner.RemoveInventory(self);
+			GoAwayAndDie();
+			return;
+		}
+		else
+		{
+			let followPos = HaloMath.V3Offset(Owner.angle, Owner.pitch, Owner.roll, 42, 0, 10, 1.0);
+			followPos = level.vec3offset(Owner.vel, followPos);
+			
+			coil.SetOrigin(level.vec3offset(Owner.pos, followPos), true);
+			coil.bNOGRAVITY = true;
+			coil.vel = Owner.vel;
+			
+			Owner.vel.xy *= 0.8;
+		}
 	}
 }
 
@@ -195,8 +323,8 @@ class Coil_Plasma : ExplosiveCoil
 		vector2 view;
 		for(int i = 0; i < amt; i++)
 		{
-			view.x = frandom(0,360);
-			view.y = frandom(-20,20);
+			view.x = frandom[CoilPlasmaRNG](0,360);
+			view.y = frandom[CoilPlasmaRNG](-20,20);
 			BiriBiri.DoLightning((pos.xy,pos.z+30), view, dist:100, 0.5, 20.0, 10.0, 30, 0);
 		}
 	}
@@ -235,18 +363,18 @@ class Coil_Hardlight_Explosion : CheapActor
 				A_StartSound("Halo/Weapons/Unmaker/BFG/Explode", CHAN_VOICE, flags:CHANF_OVERLAP);
 				A_StartSound("Halo/Weapons/BeamRifle/Laser/Fire", CHAN_VOICE, flags:CHANF_OVERLAP);
 				
-				vector3 randPos = (frandom(-1,1),frandom(-1,1),frandom(-1,1)) * 30;  
+				vector3 randPos = (frandom[CoilLightRNG](-1,1),frandom[CoilLightRNG](-1,1),frandom[CoilLightRNG](-1,1)) * 30;  
 				if(!lowEffects)
 				{
-					HaloMath.SpawnFX("UnmakerLaserPuff", pos+randPos, frandom(0,360), 5, 45, 20);
+					HaloMath.SpawnFX("UnmakerLaserPuff", pos+randPos, frandom[CoilLightRNG](0,360), 5, 45, 20);
 					
 					for(int i = 0; i < 5 * halodoom_effectintensity; i++)
 					{
-						randPos = (frandom(-1,1),frandom(-1,1),frandom(-1,1)) * 20;  
+						randPos = (frandom[CoilLightRNG](-1,1),frandom[CoilLightRNG](-1,1),frandom[CoilLightRNG](-1,1)) * 20;  
 						let puff = UnmakerLaserPuff(Spawn("UnmakerLaserPuff", pos+randPos));
 						if(puff) 
 						{
-							puff.angle = frandom(0,360);
+							puff.angle = frandom[CoilLightRNG](0,360);
 							puff.pitch = -90;
 							puff.laserAmt = 0.25;
 							puff.laserDist = 25;
@@ -258,18 +386,22 @@ class Coil_Hardlight_Explosion : CheapActor
 				for(int i = 0; i < (10 + projBoost) * halodoom_effectintensity; i++)
 				{
 					vector2 view = (
-						frandom(0,360), 
-						frandom(-30,30)
+						frandom[CoilLightRNG](0,360), 
+						frandom[CoilLightRNG](-30,30)
 					);
 					
 					let beam = LaserBeam.Create(self, 10, 0, 0, view.x,view.y, type:"LSR_LightRifle");
 					beam.setEnabled(true);
 					let beamCore = LaserBeam.Create(self, 10, 0, 0, view.x,view.y, type:"LSR_LightRifleCore");
 					beamCore.setEnabled(true);
-					if( !(i%4) ) HaloMath.FireProjectile("HaloScatterShot_Proj", pos, view.x, view.y);
+					if( !(i%4) ) 
+					{
+						let plasball = HaloMath.FireProjectile("HaloScatterShot_Proj", pos, view.x, view.y);
+						if(plasball) plasball.target = master ? master.target : NULL;
+					}
 				}
 				
-				HaloMath.SpawnFX("UnmakerBallSmoke", pos+randPos, frandom(0,360), random(5,10), 64, 10, 0, 0, 8);
+				HaloMath.SpawnFX("UnmakerBallSmoke", pos+randPos, frandom[CoilLightRNG](0,360), random[CoilLightRNG](5,10), 64, 10, 0, 0, 8);
 				
 				A_Explode(200, 160, damagetype:"Plasma");
 				A_Quake(3, 10, 0, 1024, "");
@@ -292,8 +424,8 @@ class Coil_Hardlight : ExplosiveCoil
 		vector2 view;
 		for(int i = 0; i < amt; i++)
 		{
-			view.x = frandom(0,360);
-			view.y = frandom(-20,20);
+			view.x = frandom[CoilRNG](0,360);
+			view.y = frandom[CoilRNG](-20,20);
 			BiriBiri.DoLightning((pos.xy,pos.z+30), view, type:"UnmakerLightning", dist:100, 0.5, 20.0, 10.0, 30, 0);
 		}
 	}
@@ -304,6 +436,7 @@ class Coil_Hardlight : ExplosiveCoil
 		if(expl) 
 		{
 			expl.lowEffects = lowEffects;
+			expl.master = self;
 		}
 		A_DoLightning(10);
 	}
@@ -338,8 +471,9 @@ class Coil_Needler_Explosion : CheapActor
 				
 				for(int i = 0; i < 12; i++)
 				{
-					vector3 randPos = (frandom(-1,1),frandom(-1,1),frandom(-1,1)) * 20;  
-					HaloMath.FireProjectile("HaloNeedleProjectile", pos+randPos, frandom(0,360), frandom(-30,30));
+					vector3 randPos = (frandom[CoilNeedleRNG](-1,1),frandom[CoilNeedleRNG](-1,1),frandom[CoilNeedleRNG](-1,1)) * 20;  
+					let needle = HaloNeedleProjectile(HaloMath.FireProjectile("HaloNeedleProjectile", pos+randPos, frandom[CoilNeedleRNG](0,360), frandom[CoilNeedleRNG](-30,30)));
+					if(needle) needle.target = master ? master.target : NULL;
 				}
 				
 				A_Explode(200, 160, damagetype:"Explosive");
@@ -357,7 +491,8 @@ class Coil_Needler : ExplosiveCoil
 	
 	override void OnExplode()
 	{
-		Spawn("Coil_Needler_Explosion", (pos.xy, pos.z + 30));
+		let expl = Spawn("Coil_Needler_Explosion", (pos.xy, pos.z + 30));
+		if(expl) expl.master = self;
 	}
 }
 
@@ -389,9 +524,9 @@ class FX_Blackhole : RepulsorField
 		vector2 view;
 		for(int i = 0; i < amt; i++)
 		{
-			view.x = frandom(0,360);
-			view.y = frandom(-20,20);
-			vector3 randPos = (frandom(-1,1),frandom(-1,1),frandom(-1,1)) * 64;  
+			view.x = frandom[BlackholeRNG](0,360);
+			view.y = frandom[BlackholeRNG](-20,20);
+			vector3 randPos = (frandom[BlackholeRNG](-1,1),frandom[BlackholeRNG](-1,1),frandom[BlackholeRNG](-1,1)) * 64;  
 			BiriBiri.DoLightning(level.vec3offset(pos, randPos), view, type:"BlackholeLightning", dist:100, 2.5, 20.0, 10.0, 30, 0);
 		}
 	}
@@ -399,13 +534,13 @@ class FX_Blackhole : RepulsorField
 	override void Tick()
 	{
 		super.tick();
-		frame = random(3,5);
+		frame = random[BlackholeRNG](3,5);
 		roll+=2;
-		if( !(GetAge() % random(4,6)) )
+		if( !(GetAge() % random[BlackholeRNG](4,6)) )
 			A_DoLightning();
 			
 		if(!level.isFrozen()) 
-			A_DoRepulse();
+			A_DoRepulse(target);
 			
 		
 		let it = ThinkerIterator.Create();
@@ -434,8 +569,8 @@ class FX_Blackhole : RepulsorField
 			ELEX "#" 6
 			{
 				
-				HaloMath.SpawnFX("FragGrenade_Smoke", pos, angle, random(1,4), 20, 20, rstyle:STYLE_Subtract);
-				tics = random(3,12);
+				HaloMath.SpawnFX("FragGrenade_Smoke", pos, angle, random[BlackholeRNG](1,4), 20, 20, rstyle:STYLE_Subtract);
+				tics = random[BlackholeRNG](3,12);
 				Spawn("FX_InverseShockWave", pos);
 			}
 		loop;

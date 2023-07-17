@@ -44,6 +44,8 @@ class HaloSpartan_III : HaloPlayer
 	
 	override void OnMeleeHit(Actor victim)
 	{
+		super.OnMeleeHit(victim);
+		
 		// Instantly recharge shields
 		regen_timer = shield_regentime*35.;
 		shields_recharging = false; // Force recharge sound.

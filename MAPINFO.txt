@@ -1,6 +1,6 @@
 GameInfo
 {
-	AddEventHandlers = "HaloPickup_EVH", "Halo_OverlayUI", "HaloDoom_Events", "HaloDoom_EngineEvents"
+	AddEventHandlers = "HaloPickup_EVH", "Halo_OverlayUI", "HaloDoom_Events", "HaloDoom_EngineEvents", "HaloSkulls_Events"
 	StatusBarClass = "HaloStatusBar"
 	PlayerClasses = "HaloSpartan_II", "HaloSpartan_III", "HaloSpartan_IV", "DoomPlayer"
 	
@@ -11,6 +11,17 @@ GameInfo
 	MenuFontColor_Header = "Blue"
 	MenuFontColor_Highlight = "Purple"
 	MenuFontColor_Selection = "Purple"
+	
+	// statscreen_single = "SeamlessIntermission"
+	
+	// Attempt to fix weapon graphics stutter.
+	PrecacheClasses = "Halo_AssaultRifle", "Halo_BattleRifle", "Halo_BeamRifle", "Halo_BinaryRifle", 
+					  "Halo_Bulldog", "Halo_Carbine", "Halo_Commando", "Halo_DMR", "Halo_EnergySword", 
+					  "Halo_Flamethrower", "Halo_FuelRod", "Halo_GPMG", "Halo_GravityHammer", "Halo_Hydra", 
+					  "Halo_LightRifle", "Halo_MA5B", "Halo_Magnum", "Halo_Needler", "Halo_PlasmaCaster", 
+					  "Halo_PlasmaPistol", "Halo_PlasmaRifle", "Halo_PulseCarbine", "Halo_RocketLauncher",
+					  "Halo_ScatterShot", "Halo_Shotgun", "Halo_Sidekick", "Halo_SMG", "Halo_SniperRifle",
+					  "Halo_Spiker", "Halo_Stanchion", "Halo_SuperShotgun", "Halo_Unmaker", "Halo_StickyDetonator"
 }
 
 Automap
@@ -28,6 +39,67 @@ DoomEdNums
 	16000 = "Halo_Ring" 
 	16001 = "Halo_RingPlanet"
 	16002 = "Halo_Sky"
+	
+	// Weapons
+	16030 = "Halo_AssaultRifle"
+	16031 = "Halo_BattleRifle"
+	16032 = "Halo_BeamRifle"
+	16033 = "Halo_BinaryRifle"
+	16034 = "Halo_Bulldog"
+	16035 = "Halo_Carbine"
+	16036 = "Halo_DMR"
+	16037 = "Halo_EnergySword"
+	16038 = "Halo_Flamethrower"
+	16039 = "Halo_FuelRod"
+	16040 = "Halo_GravityHammer"
+	16041 = "Halo_LightRifle"
+	16042 = "Halo_MA5B"
+	16043 = "Halo_Magnum"
+	16044 = "Halo_Needler"
+	16045 = "Halo_PlasmaPistol"
+	16046 = "Halo_PlasmaRifle"
+	16047 = "Halo_PulseCarbine"
+	16048 = "Halo_RocketLauncher"
+	16049 = "Halo_ScatterShot"
+	16050 = "Halo_Shotgun"
+	16051 = "Halo_Sidekick"
+	16052 = "Halo_SMG"
+	16053 = "Halo_SniperRifle"
+	16054 = "Halo_Spiker"
+	16055 = "Halo_Stanchion"
+	16056 = "Halo_DBLShotgun"
+	16057 = "Halo_Unmaker"
+	16058 = "Halo_PlasmaCaster"
+	16059 = "Halo_Hydra"
+	16060 = "Halo_Commando"
+	16061 = "Halo_GPMG"
+	16062 = "Halo_Hydra"
+	16063 = "Halo_StickyDetonator"
+	
+	// Powerups
+	16090 = "Overshield_LV1"
+	16091 = "Overshield_LV2"
+	16092 = "HaloPower_Haste"
+	16093 = "HaloPower_Strength"
+	16094 = "HaloPower_ActiveCamo"
+	16095 = "HaloPower_Fullmap"
+	16096 = "HaloPower_Jetpack"
+	16097 = "HaloPower_Visor"
+	16098 = "HaloPower_Icebeam"
+	16099 = "HaloPower_Repulsor"
+	
+	// Barrels
+	16151 = "Coil_FuelRod"
+	16152 = "Coil_Plasma"
+	16153 = "Coil_Hardlight"
+	16154 = "Coil_Needler"
+	
+	// Grenades
+	16216 = "PlasmaGrenades"
+	16217 = "FragGrenades"
+	
+	// Misc
+	17069 = "FX_Blackhole"
 }
 
 map Titlemap "Titlemap"

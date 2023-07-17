@@ -1,0 +1,635 @@
+class SkullFX_Confetti : CheapActor
+{
+	double fallRate;
+	Default
+	{
+		Scale 0.1;
+		RenderStyle "Shaded";
+		+ROLLSPRITE;
+		+BRIGHT;
+	}
+	
+	override void BeginPlay()
+	{
+		super.BeginPlay();
+		let cplr = players[consoleplayer].mo;
+		let col = HLStatusColor.HSLtoRGB(frandom[Confetti](0,1.0), 1.0, 0.5);
+		SetShade(col);
+		fallRate = frandom[Confetti](0.2, 0.3);
+		Scale.X *= frandom[Confetti](0.9,1.1);
+		Scale.Y *= frandom[Confetti](0.5,2.0);
+		roll = frandom[Confetti](0,360);
+		angle = cplr.angle;
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		if(isFrozen()) return;
+			
+		if(pos.z <= floorz)
+		{
+			vel *= 0;
+			bFLATSPRITE = true;
+			bBRIGHT = false;
+			SetOrigin((pos.xy,floorz), true);
+			alpha -= 0.007;
+			
+			return;
+		}
+		else if(vel.z < 0)
+		{
+			vector2 windir = (cos(angle+90), sin(angle+90));
+			vel.xy += windir * (sin(GetAge() * 10) * 0.2);
+			roll += frandom[Confetti](-0.3,0.3);
+		}
+		vel *= 0.9; 
+		vel.z -= GetGravity() * fallRate;
+		
+		// Handle velocity
+		SetOrigin(level.vec3offset(pos, vel), true);
+	}
+	
+	States
+	{
+		Spawn:
+			CNFT A 1;
+		loop;
+	}
+}
+
+class Skull_Confetti : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Grunt_Birthday_Party.png";
+		HaloSkull.DisplayName "Headshot Birthday Party";
+		HaloSkull.Description "Headshots lead to glorious celebrations!";
+	}
+
+	override void WorldThingDamaged(WorldEvent e)
+	{
+		let cplr = players[consoleplayer].mo;
+		Actor victim = e.Thing;
+		Actor damager = e.Inflictor;
+		if(!damager) damager = e.DamageSource;
+		
+		Name dmgType = e.DamageType;
+		if(victim.health <= 0 && dmgType == "Headshot")
+		{
+			// Confetti!
+			vector3 spawnPos = (victim.pos.xy, victim.pos.z+(victim.height+10));
+			for(int i = 0; i < frandom[ConfettiBomb](20,40); i++)
+			{
+				let cf = Spawn("SkullFX_Confetti", spawnPos);
+				if(cf)
+				{
+					double cfAngle = frandom[ConfettiBomb](0,360);
+					double cfPitch = frandom[ConfettiBomb](-20,-80);
+					if(!i) cf.A_StartSound("Halo/Skulls/ConfettiPop", CHAN_AUTO, CHANF_OVERLAP|CHANF_NOPAUSE);
+					cf.vel = (
+						cos(cfAngle),
+						sin(cfAngle),
+						-sin(cfPitch) * 1.5
+					) * frandom[ConfettiBomb](6,12);
+				}
+			}
+		}
+	}
+}
+
+class Skull_ZombieFuneral : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Boom.png";
+		HaloSkull.DisplayName "Zombie Funeral";
+		HaloSkull.Description "Zombie type enemies explode when they die.";
+	}
+
+	override void WorldThingDied(WorldEvent e)
+	{
+		Actor victim = e.Thing;
+		string victimName = victim.getClassName();
+		string victimTag = StringTable.Localize(victim.GetTag("NIL"));
+		victimTag = victimTag.MakeLower();
+		victimName = victimName.MakeLower();
+		
+		bool isZombie = (
+			(victim is "Zombieman") || (victim is "Shotgunguy") || (victim is "Chaingunguy") || 
+			(victimName.IndexOf("zombie") != -1) || (victimTag.IndexOf("zombie") != -1)
+		);
+		if(isZombie) 
+		{
+			vector3 explosionPos = (e.Thing.pos.xy, e.Thing.pos.z + (e.Thing.height * 0.5));
+			let exp = Actor.Spawn("FragGrenadeExplosion", explosionPos);
+			if(exp) victim.A_StartSound("Halo/Grenade/Frag/Explode", flags:CHANF_OVERLAP);
+		}
+	}
+}
+
+class Skull_Streaking : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Streaking.png";
+		HaloSkull.DisplayName "Streaking";
+		HaloSkull.Description "Player shields constantly decay at a slow pace but recharge some with every enemy kill.";
+	}
+	
+	override void WorldTick()
+	{
+		for(int i = 0; i < MAXPLAYERS; i++)
+		{
+			if(!PlayerInGame[i]) continue;
+			PlayerInfo plr = players[i];
+			if(!plr) continue;
+			
+			let hplr = HaloPlayer(plr.mo);
+			if(!hplr) continue;
+			
+			hplr.shields -= (0.7 / 35.);
+			if(hplr.shields < 0) hplr.shields = 0;
+			
+			hplr.regen_timer = 0; // Disable Shield Regeneration.
+			
+			// Disable shield beep
+			hplr.shield_snd_volume = 0;
+		}
+	}
+	
+	override void WorldThingDamaged(WorldEvent e)
+	{
+		Actor victim = e.Thing;
+		if(!victim) return;
+		
+		let plr = HaloPlayer(victim.target);
+		if(victim.health <= 0 && plr)
+		{
+			double maxShields = plr.maxshields;
+			double chargeTo = maxShields * (0.05);
+			plr.shields += chargeTo;	
+		}
+	}
+}
+
+class Skull_Recession : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Recession.png";
+		HaloSkull.DisplayName "Recession";
+		HaloSkull.Description "Every shot is worth twice the ammo.";
+	}
+	
+	override void WorldTick()
+	{
+		for(int i = 0; i < MAXPLAYERS; i++)
+		{
+			if(!PlayerInGame[i]) continue;
+			PlayerInfo plr = players[i];
+			if(!plr) continue;
+			
+			let hplr = HaloPlayer(plr.mo);
+			if(!hplr) continue;
+			
+			for(let item = hplr.Inv; item.Inv; item = item.Inv)
+			{
+				let hweap = HaloGun(item);
+				if(!hweap) continue;
+				hweap.modifyAmmoUsage = 2;
+			}
+		}
+	}
+}
+class Skull_Pinata : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Pinata.png";
+		HaloSkull.DisplayName "Pinata";
+		HaloSkull.Description "Punching enemies makes them drop grenades. Beat them \'til candy comes out!";
+	}
+	
+	override void WorldThingDamaged(WorldEvent e)
+	{
+		Actor victim = e.Thing;
+		if(!victim) return;
+
+		Name dmgType = e.DamageType;
+		if(dmgType == "Melee" && random[PinataRNG](0,100) <= 50)
+		{
+			Array<class<Actor> > nades;
+			foreach(cls : AllActorClasses)
+			{
+				if( !(cls is "FragGrenades") ) continue;
+				nades.Push(cls);
+			}
+			
+			let nade = nades[random[PinataNade](0,nades.Size()-1)];
+			if(!nade) return;
+			
+			vector3 spawnPos = (	
+				victim.pos.xy,
+				victim.pos.z + (victim.height*0.5)
+			);
+			
+			double spawnAngle = frandom[PinataSpawns](0,360);
+			double spawnPitch = frandom[PinataSpawns](30,60);
+			
+			let nadeItem = Actor.Spawn(nade, spawnPos);
+			if(nadeItem) 
+			{
+				nadeItem.vel = (
+					cos(spawnAngle),
+					sin(spawnAngle),
+					sin(spawnPitch)
+				) * frandom[PinataSpawns](3,16);
+			}
+		}
+	}
+}
+
+class Skull_Mythic : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Mythic.png";
+		HaloSkull.DisplayName "Mythic";
+		HaloSkull.Description "Enemies have increased health.";
+	}
+	
+	override void WorldThingSpawned(WorldEvent e)
+	{
+		Actor dood = e.Thing;
+		if(!dood || !dood.bISMONSTER || !dood.bSHOOTABLE) return;
+		
+		dood.A_SetHealth(dood.SpawnHealth() * 2.0);
+	}
+}
+
+class Skull_Ghost : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Ghost.png";
+		HaloSkull.DisplayName "Ghost";
+		HaloSkull.Description "AI no longer flinch from attacks.";
+	}
+	
+	override void WorldThingSpawned(WorldEvent e)
+	{
+		Actor dood = e.Thing;
+		if(!dood || !dood.bISMONSTER || !dood.bSHOOTABLE) return;
+		
+		dood.A_SetPainThreshold(int.max);
+	}
+}
+
+class Skull_Foreign : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Foreign.png";
+		HaloSkull.DisplayName "Foreign";
+		HaloSkull.Description "Players cannot pick up or use Non-Human weapons.";
+	}
+	
+	override void WorldTick()
+	{
+		// Replace unusable power weapons.
+		let it = ThinkerIterator.Create("WeaponPickupProxy");
+		WeaponPickupProxy weap;
+		while(weap = WeaponPickupProxy(it.Next()))
+		{
+			if(!weap) continue;
+			if(weap.trueitem is "Halo_Unmaker")
+			{
+				Actor.Spawn("Halo_Stanchion", weap.pos);
+				weap.Destroy();
+			}
+			
+			let defs = GetDefaultByType((class<HaloGun>)(weap.trueitem));
+			if(defs && defs.faction != 'human')
+				weap.use_hold = -1; // Disable picking up this weapon.
+		}
+	}
+}
+
+class Skull_Fog : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Fog.png";
+		HaloSkull.DisplayName "Fog";
+		HaloSkull.Description "The motion tracker is disabled. You'll miss those eyes in the back of your head. ";
+	}
+	
+	override void WorldTick()
+	{
+		for(int i = 0; i < MAXPLAYERS; i++)
+		{
+			if(!PlayerInGame[i]) continue;
+			PlayerInfo plr = players[i];
+			if(!plr) continue;
+			
+			let hplr = HaloPlayer(plr.mo);
+			if(!hplr) continue;
+			
+			hplr.radarRange = 0;
+		}
+	}
+}
+
+class Skull_Famine : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Famine.png";
+		HaloSkull.DisplayName "Famine";
+		HaloSkull.Description "Weapons dropped by AI have half the ammo they normally would.";
+	}
+	
+	override void WorldTick()
+	{
+		let it = ThinkerIterator.Create("WeaponPickupProxy");
+		WeaponPickupProxy weap;
+		while(weap = WeaponPickupProxy(it.Next()))
+		{
+			if(!weap) continue; 
+			weap.ammogive_mod = 0.5;
+		}
+	}
+}
+
+class Skull_Blind : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Blind.png";
+		HaloSkull.DisplayName "Blind";
+		HaloSkull.Description "HUD does not display onscreen.";
+	}
+	
+	override void WorldTick()
+	{
+		for(int i = 0; i < MAXPLAYERS; i++)
+		{
+			if(!PlayerInGame[i]) continue;
+			PlayerInfo plr = players[i];
+			if(!plr) continue;
+			
+			let hplr = HaloPlayer(plr.mo);
+			if(!hplr) continue;
+			
+			let weap = HaloGun(plr.ReadyWeapon);
+			if(!weap) continue;
+			
+			weap.HUD_hide = true;
+		}
+	}
+}
+
+class Skull_Bandana : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Bandana.png";
+		HaloSkull.DisplayName "Bandana";
+		HaloSkull.Description "Infinite Ammo.";
+	}
+	
+	override void WorldTick()
+	{
+		for(int i = 0; i < MAXPLAYERS; i++)
+		{
+			if(!PlayerInGame[i]) continue;
+			PlayerInfo plr = players[i];
+			if(!plr) continue;
+			
+			let hplr = HaloPlayer(plr.mo);
+			if(!hplr) continue;
+			
+			for(let item = hplr.Inv; item.Inv; item = item.Inv)
+			{
+				let hweap = HaloGun(item);
+				if(!hweap) continue;
+				hweap.bottomless_reserves = true;
+			}
+		}
+	}
+}
+
+class Skull_Assassins : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Assassin.png";
+		HaloSkull.DisplayName "Assassins";
+		HaloSkull.Description "All enemies in the game are permanently cloaked.";
+	}
+	
+	override void WorldTick()
+	{
+		let it = ThinkerIterator.Create("Actor");
+		Actor act;
+		while(act = Actor(it.Next()))
+		{
+			if(!act || !act.bISMONSTER) continue;
+			act.bSHADOW = true;
+			act.A_SetSpeed(act.default.Speed * 1.5);
+			act.A_SetRenderStyle(0.75, STYLE_OptFuzzy);
+		}
+	}
+}
+
+class Skull_Anger : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Anger.png";
+		HaloSkull.DisplayName "Anger";
+		HaloSkull.Description "Enemies fire their weapons faster and more frequently.";
+	}
+	
+	override void WorldTick()
+	{
+		let it = ThinkerIterator.Create("Actor");
+		Actor act;
+		while(act = Actor(it.Next()))
+		{
+			if(!act || !act.bISMONSTER) continue;
+			
+			act.A_SetSpeed(act.default.Speed * 2.0);
+			act.bMISSILEMORE = true;
+			act.bALWAYSFAST = true;
+		}
+	}
+}
+
+class Skull_Patriot : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Patriot.png";
+		HaloSkull.DisplayName "Patriot";
+		HaloSkull.Description "Weapons reload instantly.";
+	}
+	
+	override void WorldTick()
+	{
+		for(int i = 0; i < MAXPLAYERS; i++)
+		{
+			if(!PlayerInGame[i]) continue;
+			PlayerInfo plr = players[i];
+			if(!plr) continue;
+			
+			let hplr = HaloPlayer(plr.mo);
+			if(!hplr) continue;
+			
+			for(let item = hplr.Inv; item.Inv; item = item.Inv)
+			{
+				let hweap = HaloGun(item);
+				if(!hweap) continue;
+				hweap.skipreload = true;
+			}
+		}
+	}
+}
+
+class Skull_Hotline : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Hotline.png";
+		HaloSkull.DisplayName "Hotline";
+		HaloSkull.Description "Both you and enemies die in one hit.\nBoss enemies take more hits to kill.";
+	}
+	
+	override void WorldTick()
+	{
+		for(int i = 0; i < MAXPLAYERS; i++)
+		{
+			if(!PlayerInGame[i]) continue;
+			PlayerInfo plr = players[i];
+			if(!plr) continue;
+			
+			let hplr = HaloPlayer(plr.mo);
+			if(!hplr) continue;
+			
+			hplr.shields = 0;
+			hplr.regen_timer = 0; // Disable Shield Regeneration.
+			hplr.shield_snd_volume = 0; // Disable shield beep
+		}
+	}
+	
+	override void WorldThingDamaged(WorldEvent e)
+	{
+		Actor victim = e.Thing;
+		if(!victim || e.DamageType == "hotlineDMG") return;
+		
+		let haloplr = HaloPlayer(victim);
+		if(haloplr)
+		{
+			haloplr.shields = 0;
+			haloplr.DamageMobJ(e.Inflictor, e.DamageSource, haloplr.GetMaxHealth(true), "hotlineDMG", e.DamageFlags, e.DamageAngle);
+			return;
+		}
+		
+		if(victim.bBOSS)
+			victim.DamageMobJ(e.Inflictor, e.DamageSource, ceil(victim.health / 20.0), "hotlineDMG", e.DamageFlags, e.DamageAngle);
+		else
+			victim.DamageMobJ(e.Inflictor, e.DamageSource, victim.health, "hotlineDMG", e.DamageFlags, e.DamageAngle);
+	}
+}
+
+class Skull_ZeroGravity : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Tilt.png";
+		HaloSkull.DisplayName "S P A C E";
+		HaloSkull.Description "There's no atmosphere and no gravity, your movement is air-jet propelled. Velocity is also wildly unpredictable.";
+	}
+	
+	override void WorldTick()
+	{
+		Array<Actor> reject;
+		for(int i = 0; i < MAXPLAYERS; i++)
+		{
+			if(!PlayerInGame[i]) continue;
+			PlayerInfo plr = players[i];
+			if(!plr) continue;
+			
+			let hplr = HaloPlayer(plr.mo);
+			if(!hplr) continue;
+			
+			if(!hplr.spacemovement) 
+				hplr.SetSpaceMovement(true);
+				
+			if(plr.Camera != hplr)
+				reject.Push(plr.Camera);
+		}
+		
+		let it = ThinkerIterator.Create("Actor");
+		Actor act;
+		while(act = Actor(it.Next()))
+		{
+			if(level.MapName ~== "TITLEMAP") return; // Do not do any of this on the title map.
+			if(act is "SmokeTrail") continue;
+			if(reject.Find(act) != reject.Size()) continue;
+			bool dontThrustActor = act is "Segment" || act is "HaloPlayer";
+			act.bNOGRAVITY = true;
+			act.Gravity = 0;
+			act.bROLLSPRITE = true;
+			
+			// Apply random thrust to items.
+			if(act.getAge() <= 2 && !act.bMISSILE && !dontThrustActor)
+			{
+				act.angle += frandom[ZeroGravSkulLRNG](0,360);
+				act.pitch += frandom[ZeroGravSkulLRNG](0,360);
+				if(!act.bISMONSTER)
+					act.roll += frandom[ZeroGravSkulLRNG](-90,90);
+				else
+				{
+					act.roll += frandom[ZeroGravSkulLRNG](-20,20);
+					// act.A_SpriteOffset(0, 16);
+				}
+					
+				act.vel += (
+					frandom[ZeroGravSkulLRNG](-1,1),
+					frandom[ZeroGravSkulLRNG](-1,1),
+					frandom[ZeroGravSkulLRNG](-1,1)
+				) * frandom[ZeroGravSkulLRNG](2,16);
+			}
+		}
+	}
+	
+	override void OnDestroy()
+	{
+		for(int i = 0; i < MAXPLAYERS; i++)
+		{
+			if(!PlayerInGame[i]) continue;
+			PlayerInfo plr = players[i];
+			if(!plr) continue;
+			
+			let hplr = HaloPlayer(plr.mo);
+			if(!hplr) continue;
+			
+			hplr.SetSpaceMovement(false);
+		}
+	}
+}
+
+
+/*
+class Skull_Thunderstorm : HaloSkull
+{
+	Default
+	{
+		HaloSkull.Icon "Graphics/Skulls/Skull_Thunderstorm.png";
+		HaloSkull.DisplayName "Thunderstorm";
+		HaloSkull.Description "Upgrades the rank of most enemies. \c[Red](TODO)";
+	}
+}
+*/

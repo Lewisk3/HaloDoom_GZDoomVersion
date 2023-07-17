@@ -1,0 +1,265 @@
+class Halo_Javelin_Clip : Ammo 
+{
+	Default 
+	{
+		Inventory.MaxAmount 1;
+	}
+}
+class Halo_Javelin_Reserves : Ammo
+{
+	mixin WorldAmmoBehavior;
+	Default 
+	{
+		Radius 8;
+		Height 6;
+		Scale 0.25;
+
+		Inventory.Amount 4;
+		Inventory.MaxAmount 10;
+		Inventory.Icon "HLAMW0";
+		Inventory.PickupSound "Halo/Pickup/Ammo";
+		Inventory.PickupMessage "Picked up 4 Rounds for the Needler Javelin";
+		
+		Ammo.BackpackMaxAmount 14;
+	}
+	
+	States
+	{
+		Spawn:
+			HLAM W -1 Bright;
+		stop;
+	}
+}
+
+class I_NeedleCollisionFixer : Inventory
+{
+	override void DoEffect()
+	{
+		super.DoEffect();
+		
+		let needle = HaloNeedleProjectile(Owner);
+		if(!needle) return;
+		
+		if(needle.GetAge() > 16)
+			needle.excludeCollisions.Clear();
+	}
+}
+
+class HaloNeedlerJavelin_Proj : HaloNeedleProjectile 
+{
+	int needleExplodeCount;
+	Property NeedleExplosionCount : needleExplodeCount;
+
+	Default
+	{
+		Radius 9;
+		Height 6;
+		Scale 1.25;
+		BounceType "None";
+		HaloSlowProjectile.Speed_MPS NEEDLER_BMPS * 2.0;
+		HaloSlowProjectile.ConvergeToAim true;
+		
+		HaloNeedleProjectile.NeedleDamages NEEDLER_DMG * 5.0, NEEDLER_EXPDMG * 5.0; // Hit, Explode
+		HaloNeedleProjectile.ExplodeDelay 8;	 // In tics
+		HaloNeedleProjectile.ExplodeCount 1; 
+		HaloNeedleProjectile.NeedleHomRange 0;
+		Translation "0:255=@70[128, 17, 247]";
+		
+		HaloNeedlerJavelin_Proj.NeedleExplosionCount 45;
+	}
+	
+	override void OnSuperCombine(Actor victim)
+	{
+		A_StartSound("Halo/Weapons/NeedlerJavelin/SuperCombine", flags:CHAN_AUTO);
+		A_QuakeEx(4,6,4, 35, 0, 1028, "", QF_SCALEUP|QF_SCALEDOWN);
+		for(int i = 0; i < needleExplodeCount; i++)
+		{			
+			let needle = HaloNeedleProjectile(
+				HaloMath.FireProjectile("HaloNeedler_Proj", pos, 
+					frandom(0,360),
+					frandom(-90,90)
+				)
+			);
+			
+			if(needle) 
+			{
+				needle.target = target;
+				needle.excludeCollisions.Push(victim);
+				needle.GiveInventory("I_NeedleCollisionFixer", 1);
+				// needle.DontSplash(); 
+			}
+		}
+	}	
+	
+	States
+	{
+		Death:
+		XDeath:
+			TRAC A 1;
+			TRAC A 35
+			{
+				DontSplash();
+				force_explosion = true;
+			}
+		goto Death.Explode;
+	}
+}
+
+class Halo_NeedlerJavelin : HaloGun
+{	
+	Default
+	{
+		//$Category "HaloDoom/Weapons"
+		Weapon.SlotNumber 7;
+		Obituary "%o was impaled %k's Needler Javelin.";
+		Inventory.PickupMessage	"Picked up the Needler Javelin.";
+		Tag "Needler Javelin";
+		Weapon.BobSpeed 1.86;
+		Weapon.BobRangeX 0.30;
+		Weapon.AmmoType1 "Halo_Javelin_Reserves";
+		Weapon.AmmoType2 "Halo_Javelin_Clip";
+		Weapon.AmmoGive 2;
+		HaloGun.Faction "Covenant";
+				
+		// Recoil
+		HaloGun.Bloom 0.8;
+		HaloGun.BloomSpeed 0.30;
+		HaloGun.BaseRecoil 1;
+		HaloGun.Inaccuracy 1;
+		HaloGun.Crosshair "BiRet", 0.75;
+		HaloGun.UIGraphic "WI_CARB", 0.4, 0.4;
+		HaloGun.SetupUIAmmo "WI_AMM4", 12, 14, 0, 10;
+		// HaloGun.UIAmmo_Scale_Offset 2.0, -24,0;
+		
+		HaloGun.UISight "SI_PBX4", 0.85, 0.5;
+		HaloGun.SetupScope 2.0, 1.0;
+		
+		HaloGun.PowerTier P_POWER;
+		
+		RecoilWeapon.YOffsetRange -3, 40;
+	}
+	
+	override int GetPowerTier()
+	{	
+		if(HaloPlayer.IsGameType("SpartanOverkill")) return P_STRONG | P_POWER;
+		return super.GetPowerTier();
+	}
+	
+	action void A_FireJavelin()
+	{
+		A_Light(2);
+		A_WeapSound("Halo/Weapons/NeedlerJavelin/Fire", 0, true);
+		A_WeapSound("Halo/Weapons/NeedlerJavelin/Fire/Bass", CHANF_OVERLAP, true);
+		A_ShootProjectile("HaloNeedlerJavelin_Proj", 12, 2);	
+		A_SetSFXPos(25,-10,-10);
+		A_SpawnSFX("MuzzleSmoke", 0,0);
+
+		A_TakeAmmo();
+	}
+	
+	action void A_ReloadSound()
+	{
+		A_StartSound("Halo/Weapons/NeedlerJavelin/Reload", CHAN_RELOADING, CHANF_OVERLAP);
+	}
+	
+	States
+	{	
+		Ready:
+			TNT1 A 0 A_StartSound("Halo/Weapons/NeedlerJavelin/Draw", CHAN_AUTO, CHANF_OVERLAP);
+			WXP1 ABCDEF 2 A_DoSelectAnim();
+			TNT1 A 0 A_JumpIf(CountLoadedAmmo(), "Ready.LoadNeedles");
+		goto Ready.Active;
+		Ready.LoadNeedles:
+			WXP1 GHI 2;
+		Ready.Active:
+			WXI1 "#" 1 
+			{
+				A_HaloWeaponReady(WRF_ALLOWRELOAD, true);
+				
+				// !! converts to Bool
+				A_SetFrame( !!(CountLoadedAmmo() == 0) ); 
+			}
+		loop;
+		
+		Ready.Dryfire:
+			WXI1 "#" 4 
+			{
+				A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
+				A_SetFrame( !!(CountLoadedAmmo() == 0) ); 
+			}
+		goto Ready.Active;
+
+		Select:
+			TNT1 A 1 A_GunRaise();
+		wait;
+
+		Deselect:
+			WXP1 FEDCB 2;
+			WXP1 A 1 A_GunLower();
+		wait;
+				
+		Fire:
+			TNT1 A 0 A_GunCheckReload();
+			WXF1 A 1;
+			WXF1 B 1 Bright
+			{
+				A_RecoilOffset(random[WeapFX](12,24),32,2);
+				A_SetRecoil(5.0, 0, 3);
+				A_FireJavelin();
+				A_SetZoom(0.80, 1);
+				A_RQuakeEx(4,2,4,8,0,20,"",QF_RELATIVE|QF_WAVE|QF_SCALEDOWN);
+				A_RollQuake(2,10,3);
+			}
+			WXF1 D 1 Bright;
+			WXF1 E 1 Bright
+			{
+				A_RQuakeEx(3,2,3,10,0,60,"",QF_RELATIVE|QF_SCALEDOWN);
+				A_Light(0);
+			}
+			WXF1 E 8 
+			{
+				A_SetZoom(1.0, 12);
+				A_RecoilOffset(0,0,8);
+			}
+			WXF1 EEEEFF 4 
+			{
+				A_SetSFXPos(25,-9,-8);
+				for(int i = 0; i < max(1, 4 * halodoom_effectintensity); i++)
+					A_SpawnSFX("MuzzleSmoke", 0,0);
+			}
+			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
+			WXI1 A 16;
+		goto Reload;
+		
+		Reload: // 44
+			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
+			TNT1 A 0 A_ReloadSound();
+			WXR1 ABCDEF 2;
+			WXR1 G 2 
+			{
+				A_RQuakeEx(3,3,3,10,0,60,"",QF_RELATIVE|QF_SCALEDOWN);
+				
+				A_SetSFXPos(10,-25,-10);
+				A_SpawnSFX("Debris_CarbineMagazine", -180,-60);
+			}
+			WXR1 HIJ 2;
+			WXR1 K 2;
+			WXR1 LMN 3;			
+			WXR1 O 2 
+			{
+				A_SetRecoil(3.0, 0, 2);
+				A_ReloadClip();
+			}
+			WXR1 QR 2;
+			WXR1 S 3;
+			WXR1 TUV 2;
+			WXR1 W 3 A_SetRecoil(1.5, 0, 2);
+			WXR1 XYZ 2;
+			WXR2 ABCDE 2;
+		goto Ready.Active;
+		
+		Spawn:
+			WXG1 A -1;
+		stop;
+	}
+}

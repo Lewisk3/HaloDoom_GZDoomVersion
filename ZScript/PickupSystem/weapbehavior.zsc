@@ -25,6 +25,7 @@ THE SOFTWARE.
 class WeaponPickupProxy : Actor
 {
 	class<Weapon> trueitem;
+	double ammogive_mod;
 	string truepickupmsg;
 	sound truepickupsnd;
 	HaloPlayer haloplr;
@@ -36,6 +37,7 @@ class WeaponPickupProxy : Actor
 	
 	double visibledist;
 	Property PickupRange : visibledist;
+	Property AmmoGiveModifiers : ammogive_mod;
 	
 	Default
 	{
@@ -43,6 +45,7 @@ class WeaponPickupProxy : Actor
 		Height PICKUP_RANGE*0.25;
 		// +SOLID;
 		WeaponPickupProxy.PickupRange PICKUP_RANGE*2.;
+		WeaponPickupProxy.AmmoGiveModifiers 1.0;
 	}
 	
 	static bool ProcessDroppedWeapon(Weapon weap)
@@ -115,12 +118,28 @@ class WeaponPickupProxy : Actor
 				}
 			}
 			if(togive <= 0) return Null;
+			
+			if(!noammogive) 
+			{
+				// Give reserves ammo
+				to.GiveInventory(ammotype1, ammogive1 * ammogive_mod);
+			}
+			if(clipammo != -1)
+			{
+				// Give amount of ammo loaded in weapon, to reserves.
+				to.GiveInventory(ammotype1, clipammo * ammogive_mod);
+			}
 		}
 		else
 		{
 			// Resolve clip-ammunition.
 			to.GiveInventory(trueitem, 1);
-			if(noammogive && ammotype1) to.TakeInventory(ammotype1, ammogive1);
+			if(ammotype1) 
+			{
+				to.TakeInventory(ammotype1, ammogive1);	
+				if(!noammogive) to.GiveInventory(ammotype1, ammogive1 * ammogive_mod);
+			}
+	
 			if(ammotype2 && clipammo != -1)
 			{
 				let clipdefs = GetDefaultByType(ammotype2);
@@ -131,17 +150,7 @@ class WeaponPickupProxy : Actor
 			
 		Inventory.PrintPickupMessage(to.CheckLocalView(), truepickupmsg);
 		to.A_StartSound(truepickupsnd, CHAN_ITEM, CHANF_OVERLAP);
-		if(!noammogive) 
-		{
-			// Fresh weapon pick, give ammogive amounts.
-			to.GiveInventory(ammotype1, ammogive1);
-			to.GiveInventory(ammotype2, ammogive2);
-		}
-		else if(hasitem && clipammo != -1)
-		{
-			// Give amount of ammo loaded in weapon, to reserves.
-			to.GiveInventory(ammotype1, clipammo);
-		}
+
         return Weapon(to.FindInventory(trueitem));
 	}
 	
@@ -186,7 +195,7 @@ class WeaponPickupProxy : Actor
 			if(curpickup == self) continue;
 			double curdist = Distance2DSquared(curpickup);
 			if(curdist > maxdist) continue;
-			double angto = frandom(0,360);
+			double angto = frandom[WeapControl](0,360);
 			vector2 outpos = (
 				cos(angto) * -4,
 				sin(angto) * -4
@@ -247,19 +256,28 @@ class WeaponPickupProxy : Actor
 		int oldbtns = plr.player.oldbuttons;
 		
 		bool use_down = (btns & BT_USE);
-		if(use_hold >= 0) 
+		if(!halodoom_unlimitedbackpack)
 		{
-			use_hold = use_down ? use_hold+1 : 0;
+			if(use_hold >= 0) 
+			{
+				use_hold = use_down ? use_hold+1 : 0;
+			}
+			else if(!use_down)
+			{
+				use_hold = 0;
+			}
 		}
-		else if(!use_down)
+		else
 		{
-			use_hold = 0;
+			// No need to press use with unlimited backpack.
+			use_hold++;
 		}
 		
-		if( forcepickup || use_hold > 4 || hasweap || halodoom_unlimitedbackpack || (!haloplr && plr) )
+		if( forcepickup || use_hold > 4 || hasweap || (!haloplr && plr) )
 		{
 			use_hold = 0;
-			if(wcount >= MAXWEAPS && !halodoom_unlimitedbackpack)
+			int weaponlimit = wcontrol.curGameType ? wcontrol.curGameType.getWeaponLimit() : 2;
+			if(wcount >= (weaponlimit + halodoom_holdmoarweapons) && !halodoom_unlimitedbackpack)
 			{
 				if(!hasweap && wcontrol)
 				{
@@ -281,8 +299,9 @@ class WeaponPickupProxy : Actor
 			}
 			else
 			{
+				bool switchOnPickup = plr.player.GetNeverSwitch() && halodoom_unlimitedbackpack;
 				let nweap = GiveWeaponItem(plr);
-				if(!hasweap && nweap) nweap.Use(true);
+				if(!hasweap && nweap && !switchOnPickup) nweap.Use(true);
 				if(nweap) 
 				{
 					Destroy();
@@ -304,6 +323,9 @@ class WeaponPickupProxy : Actor
 class WeaponLimitProxy : Inventory
 {
 	PlayerPawn plr;
+	int cl_gametype;
+	GameTypeInfo curGameType;
+	
 	Default
 	{
 		inventory.maxamount 1;
@@ -321,6 +343,7 @@ class WeaponLimitProxy : Inventory
 			let wp = WeaponPickupProxy.BecomeWeaponProxy(Weapon(temp), true);
 			if(wp) wp.clipammo = plr.countinv(selweap.ammotype2);
 		}
+		if(HaloGun(selweap)) HaloGun(selweap).OnDropSwap();
 		plr.player.ReadyWeapon = NULL;
 		
 		// Interestingly, inventory items stay on the map at ALL times.
@@ -349,10 +372,17 @@ class WeaponLimitProxy : Inventory
 		super.DoEffect();
 		plr = PlayerPawn(Owner);
 		if(!plr || !plr.player) return;
-		
-		if(CountWeapons() > MAXWEAPS && !halodoom_unlimitedbackpack) 
+		if(!curGameType || cl_gametype != halodoom_gametype) 
 		{
-			double rang = ceil(frandom(0,90)*4.);
+			curGameType = HaloMath.getCurrentGameType();
+			cl_gametype = halodoom_gametype;
+			return;
+		}
+		
+		int weaponlimit = curGameType.getWeaponLimit() + halodoom_holdmoarweapons;
+		if(CountWeapons() > weaponlimit && !halodoom_unlimitedbackpack) 
+		{
+			double rang = ceil(frandom[WeapControl](0,90)*4.);
 			vector3 fw = ( cos(plr.angle+rang)*32, sin(plr.angle+rang)*32, 0 );
 			DropSelectedWeapon(plr.Vec3Offset(fw.x,fw.y,0));
 			let nextweap = plr.PickNextWeapon();

@@ -15,7 +15,7 @@ class FragGrenades : Inventory
 
 	Default
 	{
-		Inventory.MaxAmount 4;
+		Inventory.MaxAmount 3;
 		Inventory.PickupMessage "Picked up a Frag Grenade";
 		Inventory.PickupSound "Halo/Grenade/Frag/Pickup";
 		+Inventory.KEEPDEPLETED;
@@ -79,7 +79,12 @@ class PlasmaGrenades : FragGrenades
 }
 
 // Nade projectiles
-class FragGrenade_Proj : Actor
+class HaloGrenade_Proj : Actor
+{
+	// TODO: Unique nade behavior
+}
+
+class FragGrenade_Proj : HaloGrenade_Proj
 {
 	Default
 	{	
@@ -164,8 +169,6 @@ class FragGrenade_Proj : Actor
 		stop;
 	}
 }
-
-
 class FragGrenade_Smoke : TankRocket_Smoke
 {
 	Default
@@ -173,7 +176,6 @@ class FragGrenade_Smoke : TankRocket_Smoke
 		Scale 1.0;
 	}
 }
-
 class FragGrenade_FlyingExplosion : TankRocket_FlyingExplosion
 {
 	Default
@@ -196,6 +198,7 @@ class FragGrenadeExplosion : CheapActor
 			TNT1 A 0;
 			TNT1 A 1 
 			{
+				Spawn("LargeSplashSpawner", pos);
 				let shockwave = Spawn("FX_Shockwave", pos);
 				if(shockwave) shockwave.alpha = 0.5;
 				
@@ -211,7 +214,7 @@ class FragGrenadeExplosion : CheapActor
 			TNT1 A 0 
 			{
 				vector3 fxpos = (pos.xy, pos.z+40);
-				HaloMath.SpawnFX("FragGrenade_FlyingExplosion", fxpos, angle, random(5,12), 10, 20, 180,45, 25);
+				HaloMath.SpawnFX("FragGrenade_FlyingExplosion", fxpos, angle, random[FragRNG](5,12), 10, 20, 180,45, 25);
 				A_Explode(damage, 256);
 			}
 			SX04 EFGHIJKLMNOPQ 1 Bright
@@ -226,7 +229,7 @@ class FragGrenadeExplosion : CheapActor
 
 
 // Plasma Grenade
-class PlasmaGrenade_Proj : Actor
+class PlasmaGrenade_Proj : HaloGrenade_Proj
 {
 	Actor hitactor;
 	bool onfloor;
@@ -246,7 +249,19 @@ class PlasmaGrenade_Proj : Actor
 		Height 5;
 		Scale 0.08;
 	}	
-		
+	
+	virtual void StickToActor(Actor targ)
+	{
+		vector3 followPos = HaloMath.V3Offset(targ.angle, targ.pitch, targ.roll, hitoffs.x * 0.25, hitoffs.y * 0.25, hitoffs.z, 1.0);
+		followPos = level.Vec3Offset(targ.pos, followPos);
+		SetOrigin(followPos, true);
+	}
+	
+	virtual bool ShouldStick()
+	{
+		return true;
+	}
+	
 	override void Tick()
 	{
 		super.Tick();
@@ -255,9 +270,12 @@ class PlasmaGrenade_Proj : Actor
 		{
 			onfloor = (pos.z <= floorz);
 			onceiling = (pos.z >= ceilingz);
-			bNOGRAVITY = true;
-			
-			vel *= 0;
+			if(ShouldStick()) 
+			{
+				bNOGRAVITY = true;
+				vel *= 0;
+				SetState(FindState("Death"));
+			}			
 		}		
 		
 		let smoke = Spawn("PlasmaGrenade_Trail", pos);
@@ -279,28 +297,25 @@ class PlasmaGrenade_Proj : Actor
 			if(!InStateSequence(CurState, FindState("Death"))) 
 				SetState(FindState("Death"));
 		}
-		
-		if(hitactor)
-		{
-			vector3 followPos = HaloMath.V3Offset(hitactor.angle, hitactor.pitch, hitactor.roll, hitoffs.x * 0.25, hitoffs.y * 0.25, hitoffs.z, 1.0);
-			followPos = level.Vec3Offset(hitactor.pos, followPos);
-			SetOrigin(followPos, true);
-		}
-		
+
 		if(onfloor || onceiling) 
 		{
 			double toz = onfloor ? floorz : onceiling ? ceilingz : pos.z;
 			SetOrigin((pos.xy, toz), true);
 		}
+				
+		if(hitactor) 
+			StickToActor(hitactor);
 	}
 	
 	override int SpecialMissileHit(Actor victim)
 	{
 		if(!victim.bSHOOTABLE) return -1;
 		if(hitactor) return -1;
-		if(victim == target) return -1;
+		if(victim == target) return 1;
+		if(!victim.CanCollideWith(self, false)) return 1;
 		
-		if(!hitactor)
+		if( !hitactor && ShouldStick() )
 		{
 			vel *= 0;
 			hitactor = victim;
@@ -308,6 +323,12 @@ class PlasmaGrenade_Proj : Actor
 		}
 		
 		return -1;
+	}
+	
+	virtual void DoExplode()
+	{
+		let expl = Spawn("PlasmaGrenadeExplosion", pos);
+		if(expl) expl.target = target;
 	}
 	
 	States
@@ -335,12 +356,11 @@ class PlasmaGrenade_Proj : Actor
 				else
 					A_StartSound("Halo/Grenade/Plasma/Explode");
 					
-				Spawn("PlasmaGrenadeExplosion", pos);
+				DoExplode();
 			}
 		stop;
 	}
 }
-
 class PlasmaGrenade_Smoke : Actor
 {
 	Default
@@ -356,8 +376,8 @@ class PlasmaGrenade_Smoke : Actor
 	{
 		super.BeginPlay();
 		
-		roll = frandom(-60,90);
-		A_SetScale(default.scale.x * frandom(0.25, 0.75));
+		roll = frandom[FragRNG](-60,90);
+		A_SetScale(default.scale.x * frandom[FragRNG](0.25, 0.75));
 	}
 	
 	States
@@ -372,7 +392,6 @@ class PlasmaGrenade_Smoke : Actor
 		wait;
 	}
 }
-
 class PlasmaGrenade_Trail : Actor
 {
 	Default
@@ -395,15 +414,19 @@ class PlasmaGrenade_Trail : Actor
 		wait;
 	}
 }
-
 class PlasmaGrenadeExplosion : CheapActor
 {	
+	double explosionRadius, explosionDmg;
+	Property SetupExplosion : explosionDmg, explosionRadius;
+	
 	Default
 	{
 		Scale 1.0;
 		Alpha 0.8;
 		DamageType "PlasmaExplosion";
 		Translation "0:255=@60[24, 180, 237]";
+		
+		PlasmaGrenadeExplosion.SetupExplosion 255, 256;
 	}
 	
 	States
@@ -412,24 +435,33 @@ class PlasmaGrenadeExplosion : CheapActor
 			TNT1 A 0;
 			TNT1 A 1 
 			{
+				Spawn("PlasmaSplashSpawner", pos);
+				Spawn("LargeSplashSpawner", pos);
 				vector3 fxpos = (pos.xy, pos.z+20);
 				HaloMath.SpawnFX("PlasmaGrenade_Smoke", fxpos, angle, 20, 20, 20, frandom[SFX](0,360), frandom[SFX](-30,30), frandom[SFX](-3, 3));
 				HaloMath.SpawnFX("WraithPlasma_FlyingPlasma", fxpos, angle, random[SFX](5,12), 10, 20, 180,45, 12);
 				
 				let shockwave = Spawn("FX_Shockwave", pos);
-				if(shockwave) shockwave.alpha = 0.5;
+				if(shockwave) 
+				{
+					shockwave.alpha = 0.5;
+					shockwave.A_SetScale(shockwave.Scale.X * Scale.X);
+				}
 				
 				let flare = Spawn("TankRocket_Flare", (pos.xy, pos.z+30));
 				if(flare)
 				{
 					flare.A_SetRenderStyle(1.0, STYLE_AddShaded);
 					flare.SetShade(0xFF18B4ED);
-					flare.A_SetScale(0.75);
+					flare.A_SetScale(0.75 * Scale.X);
 				}
 				
 				A_QuakeEx(2,2,2,20,0,1024);
 			}
-			TNT1 A 0 A_Explode(200, 256, damagetype:damagetype);
+			TNT1 A 0 
+			{
+				HaloMath.ExplodeEx(self, explosionDmg, explosionRadius, thrustMod:0.25, damagetype:damagetype, selfDamage:0.1);
+			}
 			SX04 ABCDEFGHIJKLMNOPQ 1 Bright;
 		stop;
 	}

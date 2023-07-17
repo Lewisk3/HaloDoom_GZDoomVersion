@@ -39,14 +39,19 @@ ListMenu "Intro"
 	class "HaloDoom_IntroSeq"
 }
 
+ListMenu "HaloGameTypeMenu"
+{
+	class "HaloDoom_GameTypeMenu"
+}
+
 ListMenu "HaloPlayerClassMenu"
 {
 	class "HaloDoom_PlayerClassMenu" 
 }
 
-ListMenu "HaloGameTypeMenu"
+ListMenu "HaloSkullMenu"
 {
-	class "HaloDoom_GameTypeMenu"
+	class "HaloDoom_SkullMenu"
 }
 
 ListMenu "SkillMenu"
@@ -83,6 +88,7 @@ OptionMenu "HaloDoomControlsMenu"
 	Control    "Throw Grenade"			, "ThrowGrenade"
 	Control    "Cycle Grenades"			, "NextGrenade"
 	Control    "Display Weapon Info"	, "+weaponInfo"
+	Control    "Fire Cryo Cannon"	    , "+icebeam"
 	StaticText " "
 	StaticText "Spartan III", "Black"
 	Control    "Dash (Shift)"      	    , "+user3"
@@ -102,17 +108,22 @@ OptionMenu "HaloDoomGameplayOptions"
 	StaticText "Combat Feedback", "Black"
 	Slider "Weapon recoil intensity", "halodoom_recoil_intensity", 0, 2.0, 0.1, 1
 	Slider "Screenshake Intensity", "r_quakeintensity", 0.0, 1.0, 0.1, 1
-	Slider "Effects intensity", "halodoom_effectintensity", 0, 3.0, 0.1, 1 
+	Option "Spartan One-liners", "halodoom_spartanvoicelines", "EnabledDisabled"
 	StaticText " "
 	StaticText "Effects", "Black"
+	Slider "Effects intensity", "halodoom_effectintensity", 0, 3.0, 0.1, 1 
+	StaticText "If you're experiencing any lag, try turning this down.", "Black"
 	Option "Smoke", "halodoom_fx_smoke", "EnabledDisabled"
 	Option "Bullet Casings", "halodoom_fx_casings", "EnabledDisabled"
 	Option "Play Helmet intro animation", "halodoom_dohelmetintro", "EnabledDisabled"
 	Option "Use longer select animations", "halodoom_dofullselectanim", "EnabledDisabled"
 	Option "Spartan jump sound effect", "halodoom_snd_jumpgrunt", "EnabledDisabled"
 	Slider "Grappling Hook complexity", "halodoom_grapplecomplexity", 0.2, 2.0, 0.01, 2
+	Slider "Footstep Volume", "halodoom_footstep_volume", 0, 1.0, 0.1, 1
 	StaticText " "
 	StaticText "HUD", "Black"
+	HaloHUDSelector "HUD Type", "halodoom_hudtype_index"
+	StaticText " "
 	Option "Minimap", "halodoom_showminimap", "EnabledDisabled"
 	Option "Helmet Overlay", "halodoom_showhelmet", "EnabledDisabled"
 	Option "Ammo warnings", "halodoom_doammowarnings", "EnabledDisabled"
@@ -120,12 +131,19 @@ OptionMenu "HaloDoomGameplayOptions"
 	Option "Hitmarkers", "halodoom_fx_hitmarkers", "EnabledDisabled"
 	Option "A-R Key Tracking", "halodoom_keyoverlays", "EnabledDisabled"
 	Option "Level Transitions", "halodoom_leveltransitions", "EnabledDisabled"
-	StaticText " "
+	StaticText " " 
 	StaticText "General Gameplay", "Black"
 	Option "Lowered crosshair", "halodoom_loweredcrosshair", "EnabledDisabled"
 	Slider "Bullet Magnetism strength", "halodoom_magnetism", 0, 90, 1, 0  
 	Option "Controller Aim Assist", "halodoom_doaimassist", "EnabledDisabled"	
 	Option "Cortana Mode", "halodoom_cortanamode", "CortanaTypes"
+	StaticText " "
+	Option "Overhealth Decay", "halodoom_overhealthdecay", "EnabledDisabled"	
+	StaticText "Health slowly decays when over a Spartan class'", "Black"
+	StaticText "default maximum amount.", "Black"
+	StaticText " "
+	Slider "Damage Taken", "halodoom_damagetakenmod", 0.1, 5.0, 0.1, 1
+	StaticText "Applied on top of the Difficulty Damage Modifier.", "Black"
 	StaticText " "
 	Option "Weapon Spawning", "halodoom_gametype", "GameTypes"
 	Command "Update Spawnlists", "syncgametype"
@@ -164,8 +182,10 @@ OptionValue "GameTypes"
 	0, "HaloDoom: Evolved"
 	1, "Halo CE"
 	2, "Halo 2"
-	4, "Halo 3 (& Reach)"
-	8, "Halo 4"
-	16, "Project MSX"
+	3, "Halo 3 (& Reach)"
+	4, "Halo 4"
+	5, "Project MSX"
+	6, "StarWars"
+	7, "Spartan Overkill"
 }
 

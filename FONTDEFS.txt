@@ -1,14 +1,14 @@
 HaloAmmoFont
 {
-	0 AMCNUM0
-	1 AMCNUM1
-	2 AMCNUM2
-	3 AMCNUM3
-	4 AMCNUM4
-	5 AMCNUM5
-	6 AMCNUM6
-	7 AMCNUM7
-	8 AMCNUM8
-	9 AMCNUM9
+	0 "Graphics/UI/Fonts/Ammo/AMCNUM0.png"
+	1 "Graphics/UI/Fonts/Ammo/AMCNUM1.png"
+	2 "Graphics/UI/Fonts/Ammo/AMCNUM2.png"
+	3 "Graphics/UI/Fonts/Ammo/AMCNUM3.png"
+	4 "Graphics/UI/Fonts/Ammo/AMCNUM4.png"
+	5 "Graphics/UI/Fonts/Ammo/AMCNUM5.png"
+	6 "Graphics/UI/Fonts/Ammo/AMCNUM6.png"
+	7 "Graphics/UI/Fonts/Ammo/AMCNUM7.png"
+	8 "Graphics/UI/Fonts/Ammo/AMCNUM8.png"
+	9 "Graphics/UI/Fonts/Ammo/AMCNUM9.png"
 	DONTTRANSLATE
 }

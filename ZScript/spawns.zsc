@@ -9,12 +9,12 @@ extend class HaloDoom_Events
 	Array<String> weaps_energy;
 	Array<String> weaps_uber;
 	Array<String> weaps_melee;
+	bool gotSpawns;
 	
-	static bool shouldFilterWeapon(class<Weapon> weap)
+	static bool shouldFilterWeapon(string weap)
 	{
-		uint gametype = HaloGun.GetGameTypeFlags( (class<HaloGun>)(weap) );
-		
-		return (halodoom_gametype != 0 && !(gametype & halodoom_gametype));
+		let gt = HaloMath.getCurrentGameType();
+		return !gt.HasWeapon(weap);
 	}
 	
 	void filterWeaponRarity(out Array<String> weaps)
@@ -91,32 +91,42 @@ extend class HaloDoom_Events
 		weaps_uber.Clear();
 		weaps_melee.Clear();
 	
+		let curGameType = HaloMath.getCurrentGameType();
 		for(int i = 0; i < AllActorClasses.Size(); i++)
 		{
-			let actType = HaloGun(GetDefaultByType(AllActorClasses[i]));
-			if( !actType || actType.getClass() == "HaloGun") continue;
+			let classType = AllActorClasses[i].getClassName();
+			class<HaloGun> gunType = classType;
+			if( !gunType || classType == "HaloGun" ) continue;
+		
+			let actType = HaloGun(Actor.Spawn(classType));
 			
 			// Skip weapons outside spawning parameters.
-			uint gametype = HaloGun.GetGameTypeFlags( actType.getClass() );
-			if( halodoom_gametype != 0 && !(gametype & halodoom_gametype) ) 
+			if( !curGameType.HasWeapon(actType.getClassName()) )
+			{
+				actType.Destroy();
 				continue;
+			}
 			
 			String gunName = actType.GetClassName();
-			uint tier = actType.SpawnTier;
-			if( tier & HaloGun.P_WEAK   ) weaps_weak.Push(gunName);
-			if( tier & HaloGun.P_NORM   ) weaps_basic.Push(gunName);
-			if( tier & HaloGun.P_MID    ) weaps_mid.Push(gunName);
-			if( tier & HaloGun.P_STRONG ) weaps_strong.Push(gunName);
-			if( tier & HaloGun.P_POWER  ) weaps_power.Push(gunName);
-			if( tier & HaloGun.P_ENERGY ) weaps_energy.Push(gunName);
-			if( tier & HaloGun.P_UBER   ) weaps_uber.Push(gunName);
-			if( tier & HaloGun.P_MELEE  ) weaps_melee.Push(gunName);
+			uint tier = actType.GetPowerTier();
+			bool anyTier = tier & HaloGun.P_ANY;
+			
+			if( tier & HaloGun.P_WEAK   || anyTier ) weaps_weak.Push(gunName);
+			if( tier & HaloGun.P_NORM   || anyTier ) weaps_basic.Push(gunName);
+			if( tier & HaloGun.P_MID    || anyTier ) weaps_mid.Push(gunName);
+			if( tier & HaloGun.P_STRONG || anyTier ) weaps_strong.Push(gunName);
+			if( tier & HaloGun.P_POWER  || anyTier ) weaps_power.Push(gunName);
+			if( tier & HaloGun.P_ENERGY || anyTier ) weaps_energy.Push(gunName);
+			if( tier & HaloGun.P_UBER   || anyTier ) weaps_uber.Push(gunName);
+			if( tier & HaloGun.P_MELEE  || anyTier ) weaps_melee.Push(gunName);
 			
 			weaps_all.Push(gunName);
+			actType.Destroy();
 		}
+		gotSpawns = true;
 	}
 	
-	bool checkItemType(class<Actor> item, string type)
+	static bool checkItemType(class<Actor> item, string type)
 	{
 		string itemName = item.getClassname();
 		type = type.MakeLower();
@@ -126,14 +136,51 @@ extend class HaloDoom_Events
 		return success;
 	}
 	
+	class<Actor> GetSkullsReplacement(class<Actor> item)
+	{
+		// I would use "out" for this, but apparently it doesn't work
+		// correctly with class<Type> variables.
+		if(!item) return "";
+		
+		string skReplace = "";
+		let skullSpawnEvents = HaloSkulls_Events(EventHandler.Find("HaloSkulls_Events"));
+		if(skullSpawnEvents)
+		{
+			foreach(sk : skullSpawnEvents.skulls)
+			{
+				if(sk.enabled) 
+				{
+					skReplace = sk.FilterSpawns(item);
+				}
+			}
+		}
+		
+		if(skReplace != "")
+		{
+			let cls = (class<Actor>)(skReplace);
+			if(cls) return cls;
+		}
+		return "";
+	}
+	
 	override void CheckReplacement(ReplaceEvent e)
 	{
 		Array<String> weapSpawns;
 		Array<String> ammoSpawns;
 		let item = e.Replacee;
+
+		if(!gotSpawns) populateSpawnArrays(); 
 		
-		// Do not touch HaloGuns for replacement.
-		if(item is "HaloGun") return;
+		let skr = GetSkullsReplacement(item);
+		if(skr != "") 
+		{
+			e.Replacement = skr;
+			e.IsFinal = true;
+			return;
+		}
+		
+		// Do not touch HaloGuns for replacement.		
+		if(item is "HaloGun" || e.IsFinal) return;
 				
 		// Weapon Spawning
 		if(item is "Weapon") // If this check isn't performed then projectiles can be turned into guns?!?! 
@@ -170,10 +217,10 @@ extend class HaloDoom_Events
 		}
 		
 		// Nade spawning
-		if( item is "HealthBonus" && random[NadeSpawner](0,6) == 6 )
-			e.Replacement = "PlasmaGrenades";	
+		if( item is "HealthBonus" && random[NadeSpawner](0,4) == 4 )
+			e.Replacement = "PlasmaGrenades";	 
 		
-		if( item is "ArmorBonus" && random[NadeSpawner](0,6) == 6 )
+		if( item is "ArmorBonus" && random[NadeSpawner](0,4) == 4 )
 			e.Replacement = "FragGrenades";
 		else if(item is "ArmorBonus" && random[NadeSpawner](0,2) == 2)
 			e.Replacement = "HealthBonus";
@@ -210,6 +257,5 @@ extend class HaloDoom_Events
 			else
 				e.Replacement = ammoType;
 		}
-		
 	}
 }

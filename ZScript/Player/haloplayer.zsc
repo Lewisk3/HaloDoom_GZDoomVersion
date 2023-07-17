@@ -22,12 +22,17 @@ class HaloPlayer : DoomPlayer
 	bool shields_recharging;
 	string class_desc;
 	string feature_desc;
+	string floorLiquidType;
 	FragGrenades activeGrenade;
 	VehLight flashlight;
+	PowerHaloVisor visor;
 	int invulnTics;
+	double healthDecay;
 	
 	// Sound effects
 	Sound snd_ShieldRegen;
+	const CHAN_VOICELINES = 69;
+	const CHAN_HEALTHEFFECTS = 72;
 	
 	// Door to be activated once animation finishes.
 	transient Line pendingDoor; 
@@ -41,6 +46,8 @@ class HaloPlayer : DoomPlayer
 	double regen_timer;
 	double movebob;
 	double viewoffs;
+	double shield_snd_volume;
+	double radarRange;
 	
 	// Weapon values
 	double weap_yoffs;
@@ -52,6 +59,9 @@ class HaloPlayer : DoomPlayer
 	string overlay_img;
 	bool drawWeaponInfo;
 	const FADE_RATE = 0.96;
+	
+	// Quaternions
+	Quat ViewRotation;
 		
 	// CVar(s)
 	transient CVar lowered_xhair;
@@ -67,6 +77,18 @@ class HaloPlayer : DoomPlayer
 	Property EnableGrapple : enable_grapple;
 	Property Description : class_desc, feature_desc;
 	Property ShieldRegenSound : snd_ShieldRegen;
+	Property _ShieldSNDVolume : shield_snd_volume;
+	Property RadarRange : radarRange;
+	
+	// Apply damage modifier based on skill	
+	static const double skillDamage[] =
+	{
+		0.5, // Easy
+		0.7, // Normal
+		1.0, // Heroic
+		1.20, // Legendary
+		1.50 // Mythic
+	};
 	
 	Default
 	{
@@ -77,10 +99,13 @@ class HaloPlayer : DoomPlayer
 		Player.SoundClass "Spartan";
 		-DONTTRANSLATE;
 		YScale 1.10;
+		DamageFactor "Burn", 0.5;
 
 		// UI
 		Player.DisplayName "Spartan Template";
 		HaloPlayer.Description "Template Spartan class.", "";
+		HaloPlayer._ShieldSNDVolume 1.0;
+		HaloPlayer.RadarRange 800;
 		
 		// Vitals
 		Health 45; 
@@ -117,15 +142,64 @@ class HaloPlayer : DoomPlayer
 	
 	static bool IsGameType(string types)
 	{
-		uint flags = HaloMath.gameTypesToFlags(types);
-		return !!(halodoom_gametype & flags);
+		let gt = HaloMath.getCurrentGameType();
+		return gt.defName ~== types;
+	}
+	
+	virtual void OnEnemyKilled(Actor victim)
+	{
+		if(!player) return;
+		
+		let cv_voicelines = CVar.GetCVar("halodoom_spartanvoicelines", player);
+		if(!cv_voicelines || !cv_voicelines.getBool()) return;
+		
+		String SNDGender = "";
+		switch(player.GetGender())
+		{
+			case GENDER_FEMALE:
+				SNDGender = "F";
+			break;
+				
+			/* TODO: Sounds for these.
+			case GENDER_OBJECT
+				SNDGender = "O";
+			break;
+			case GENDER_NEUTRAL
+				SNDGender = "N";
+			break;
+			*/
+			
+			default:
+			case GENDER_MALE:
+				SNDGender = "M";
+			break;
+		}
+		
+		int res = random[OnelinersRNG](0,100);
+		if( res >= 70 && !IsActorPlayingSound(CHAN_VOICELINES) )
+		{
+			string SNDBase = String.Format("Halo/Spartan/%s/GotKill", SNDGender);
+			string SNDType = "";
+			
+			if(victim is "Revenant")
+				SNDType = "Revenant";
+			else if(victim.bSHADOW || victim.GetRenderStyle() == STYLE_OPTFUZZY)
+				SNDType = "Spectre";
+		
+			string SNDFinal = (SNDType != "") ? String.Format("%s_%s", SNDBase, SNDType) : SNDBase;
+			// console.printf("Final %s", SNDFinal); 
+			A_StartSound(SNDFinal, CHAN_VOICELINES, CHANF_NOPAUSE|CHANF_NOSTOP);
+		}
 	}
 	
 	// Called when the player initially spawns, sets up spawn items.
 	virtual void SetupInventory()
 	{
 		GiveInventory("DoHelmetAnimation", 1);
-		
+		let gt = HaloMath.getCurrentGameType();
+		gt.GiveLoadout(self);
+				
+		/*
 		if(IsGameType("HL1"))
 		{
 			GiveInventory("Halo_MA5B", 1);
@@ -152,6 +226,15 @@ class HaloPlayer : DoomPlayer
 			GiveInventory("Halo_PlasmaRifle", 1);
 			GiveInventory("Halo_PlasmaPistol", 1);
 		}
+		else if(IsGameType("SpartanOverkill"))
+		{
+			GiveInventory("Halo_Magnum", 1);
+			GiveInventory("Halo_Magnum_Reserves", 36);
+			GiveInventory("Halo_Bulldog", 1);
+			GiveInventory("Halo_Bulldog_Reserves", 20);
+			GiveInventory("plasmagrenades", 4);
+			GiveInventory("fraggrenades", 4);
+		}
 		else
 		{
 			GiveInventory("Halo_AssaultRifle", 1);
@@ -159,13 +242,23 @@ class HaloPlayer : DoomPlayer
 			GiveInventory("Halo_AR_Reserves", 120);
 			GiveInventory("Halo_Sidekick_Reserves", 48);
 		}
+		*/
 	}
 	
 	virtual bool CheckCanMelee()
 	{
 		return true;
 	}
-	virtual void OnMeleeHit(Actor victim) {}
+	virtual void OnMeleeHit(Actor victim) 
+	{
+		for(let item = Inv; item.Inv; item = item.Inv)
+		{
+			let hpwr = HaloPowerup(item);
+			if(!hpwr) continue;
+			
+			hpwr.OnMeleeHit(victim);
+		}
+	}
 	
 	clearscope static string GetStatInfo(class<HaloPlayer> plrType)
 	{
@@ -184,6 +277,7 @@ class HaloPlayer : DoomPlayer
 		regen_timer = shield_regentime*35.;
 		shields = maxshields;
 		SetupInventory();
+		ViewRotation = Quat.FromAngles(angle, pitch, roll);
 		
 		super.BeginPlay();
 	}
@@ -232,11 +326,69 @@ class HaloPlayer : DoomPlayer
 	
 	override void Tick()
 	{	
+		if(!player) 
+		{
+			super.Tick();
+			return;
+		}
+		
+		if( (health > default.health) && halodoom_overhealthdecay ) 
+		{
+			healthDecay += 0.065;
+			if(healthDecay >= 1.0)
+			{
+				health--;
+				player.health = health;
+				healthDecay = 0;
+			}
+		}
+		else
+		{
+			healthDecay = 0;
+		}
+			
+		
+		bool predicting = (player.cheats & CF_PREDICTING); 
+		if(predicting)
+		{
+			super.Tick();
+			return;
+		}
+		
+		// Low health effects
+		double hpratio = max(health, player.health) / double(GetMaxHealth()); 
+		int healthbars = clamp(ceil(hpratio * 9), 1, 25);
+		if(healthbars <= 3)
+		{
+			A_StartSound("Halo/Spartan/LowHealthLoop", CHAN_HEALTHEFFECTS, CHANF_LOOPING);
+		}
+		else
+		{
+			A_StopSound(CHAN_HEALTHEFFECTS);
+		}
+		
+		// Get floor liquid
+		let splashDict = HaloDoom_Events.GetSplashData();
+		string floorpicName = TexMan.GetName(floorpic);
+		floorLiquidType = splashDict.At(floorpicName);
+		
+		// Clean up stuff on death.
+		if(player.playerstate == PST_DEAD) 
+		{
+			if(flashlight) flashlight.Destroy();
+		}
+		
 		// Flashlight stuff
 		if(!flashlight) 
 		{
 			flashlight = VehLight.Attach( self, intense_in_out:(350,16,40), offset:(10,0,0) );
 			flashlight.active = false;
+		}
+		
+		// Find visor
+		if(!visor)
+		{
+			visor = PowerHaloVisor(FindInventory("PowerHaloVisor"));
 		}
 		
 		// Fix for SetupInventory not selecting a Weapon by default.
@@ -258,9 +410,9 @@ class HaloPlayer : DoomPlayer
 		// Don't do stuff when dead or a voodoo.
 		if( health <= 0 || (!player || !player.mo || player.mo != self) ) 
 		{
-			A_StopSound(CHAN_7);
-			A_StopSound(CHAN_5);
-			A_StopSound(CHAN_6);
+			A_StopSound(CHAN_7); // Various Weapon loop sound effects.
+			A_StopSound(ShieldProcessor.CHAN_SHIELDLOOP);
+			A_StopSound(ShieldProcessor.CHAN_SHIELDWARN);
 			super.Tick();
 			return;
 		}
@@ -298,11 +450,13 @@ class HaloPlayer : DoomPlayer
 		if(regen_timer < shregentime)
 		{
 			if(shields <= 0) 
-				A_StartSound("Shield/Warning", CHAN_6, flags:sndflags);
+				A_StartSound("Shield/Warning", ShieldProcessor.CHAN_SHIELDLOOP, flags:sndflags, volume:shield_snd_volume);
 			else if(shields <= maxshields*0.25) 
-				A_StartSound("Shield/Low", CHAN_6, flags:sndflags);
+				A_StartSound("Shield/Low", ShieldProcessor.CHAN_SHIELDLOOP, flags:sndflags, volume:shield_snd_volume);
+			else
+				A_StopSound(ShieldProcessor.CHAN_SHIELDLOOP);
 		} else if(shields > (maxshields*0.25))
-			A_StopSound(CHAN_6);
+			A_StopSound(ShieldProcessor.CHAN_SHIELDLOOP);
 			
 		if(regen_timer < shregentime) 
 		{	
@@ -316,18 +470,18 @@ class HaloPlayer : DoomPlayer
 			double recharge_perc = (shields / maxshields);
 			if(!shields_recharging)
 			{
-				A_StartSound(snd_ShieldRegen, CHAN_5, flags:CHANF_MAYBE_LOCAL, startTime:recharge_perc);
+				A_StartSound(snd_ShieldRegen, ShieldProcessor.CHAN_SHIELDWARN, flags:CHANF_MAYBE_LOCAL, startTime:recharge_perc);
 				shields_recharging = true;
 			}
-			A_SoundVolume(CHAN_5, (1.0 - recharge_perc) + 0.1);
+			A_SoundVolume(ShieldProcessor.CHAN_SHIELDWARN, (1.0 - recharge_perc) + 0.1);
 			shields += maxshields/(shield_regenrate*35.);
 			shields = clamp(shields, 0, maxshields);
-			A_StopSound(CHAN_6);
+			A_StopSound(ShieldProcessor.CHAN_SHIELDLOOP);
 		}
 		if(shields >= maxshields)
 		{
 			shields_recharging = false;
-			A_StopSound(CHAN_5);
+			A_StopSound(ShieldProcessor.CHAN_SHIELDWARN);
 		}
 		
 		// Aim Assist
@@ -341,7 +495,7 @@ class HaloPlayer : DoomPlayer
 		
 		// Get Distance under crosshair.
 		FLineTraceData lt;
-		LineTrace(angle, 1024*1024, pitch+aimheight, 0, player.viewz-pos.z, 0, data:lt);
+		LineTrace(angle, 1024*1024, pitch+aimheight, flags:TRF_THRUACTORS, player.viewz-pos.z, 0, data:lt);
 		
 		aimdist = lt.Distance / UNIT_METER; 
 		aimpos = lt.HitLocation;
@@ -366,16 +520,16 @@ class HaloPlayer : DoomPlayer
 		aimActor_nearest = null;
 		LookExParams look;
 		look.FOV = 90;
-		
+
 		let it = BlockThingsIterator.Create(self, 2048);
 		while(it.Next())
 		{	
-			let act = it.Thing;
-			if(!act.bSHOOTABLE || act == self || !isVisible(act, false, look)) continue;
+			let act = it.Thing; 
+			if( !act.bSHOOTABLE || act == self || !isVisible(act, false, look) || !act.bISMONSTER ) continue;
 			vector3 toPos = (act.pos.xy, act.pos.z + (act.height*0.5));
 			vector3 toAngles = level.SphericalCoords((pos.xy, player.viewz), toPos, (angle,pitch));
-			if(toAngles.z > 1024) continue;
-			
+			if(toAngles.z > 10000) continue;
+
 			double angTo = toAngles.x;
 			double pitTo = toAngles.y;
 			double aimDist = abs(angTo) + abs(pitTo) + (toAngles.z*0.25);
@@ -394,14 +548,14 @@ class HaloPlayer : DoomPlayer
 	override int DamageMobJ(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle)
 	{
 		// Don't take damage if invuln tics are active.
-		if(invulnTics > 0) return 0;
+		if(invulnTics > 0 || !player) return 0;
 		
 		double dmg = GetModifiedDamage(mod, damage, true);
 		if(shields > 0)
 			dmg = HaloProjectile.ApplyShieldDamage(dmg, HaloProjectile(inflictor), mod == 'Headshot');
 		
-		// Get real damage amount, taking into account modified damage.
-		double truedamage = dmg / GAMEPLAY_DAMAGEMOD;
+		// Get real damage amount, taking into account modified damage.		
+		double truedamage = dmg * max(0.01, skillDamage[min(4, skill)] * halodoom_damagetakenmod);
 		
 		if( bInvulnerable || player.cheats & (CF_GODMODE|CF_GODMODE2) ) return 0;
 		
@@ -410,7 +564,8 @@ class HaloPlayer : DoomPlayer
 			if(mod == 'hitscan') truedamage *= 0.5;
 			regen_timer = 0;
 			shields -= truedamage;
-			A_StopSound(CHAN_5);
+			shields_recharging = false;
+			A_StopSound(ShieldProcessor.CHAN_SHIELDWARN);
 			A_StartSound("Shield/TakeDamage",flags:CHANF_NOSTOP);
 			if(shields <= 0) 
 			{	
@@ -489,6 +644,12 @@ class HaloPlayer : DoomPlayer
 		if (player.viewz < floorz + 4) player.viewz = floorz + 4;
 	}
 	
+	override vector2 BobWeapon(double ticfrac)
+	{
+		if(player.onground) return super.BobWeapon(ticfrac);
+		return (0,0);
+	}
+	
 	States
 	{
 		Spawn:
@@ -518,8 +679,8 @@ class HaloPlayer : DoomPlayer
 			HALO O 5;
 			HALO P 5 A_XScream;
 			HALO Q 5 A_NoBlocking;
-			HALO RSTUV 5;
-			HALO W -1;
+			HALO RSTU 5;
+			HALO V -1;
 			Stop;
 			
 		GunLightning:
@@ -631,8 +792,8 @@ class ShieldLightningAnimator : CustomInventory
 		vector2 view;
 		for(int i = 0; i < amt; i++)
 		{
-			view.x = angle + frandom(-180,180);
-			view.y = pitch + frandom(-60,60);
+			view.x = angle + frandom[ShieldLightning](-180,180);
+			view.y = pitch + frandom[ShieldLightning](-60,60);
 			BiriBiri.DoLightning(atpos, view, dist:25, 0.5, 20.0, 10.0, 30, 0);
 		}
 	}
@@ -641,18 +802,18 @@ class ShieldLightningAnimator : CustomInventory
 	{
 		for(int i = 0; i < amt; i++)
 		{
-			double ang = frandom(0,360);
-			double pit = frandom(-45,45);
+			double ang = frandom[ShieldParticles](0,360);
+			double pit = frandom[ShieldParticles](-45,45);
 			vector3 rdir = (
 				cos(ang),
 				sin(ang),
 				-sin(pit)
-			) * frandom(4,16);
+			) * frandom[ShieldParticles](4,16);
 			
 			src.A_SpawnParticle(
 				pcol, SPF_FULLBRIGHT, 35, 3.0, ang,
 				0,0, zoffs, rdir.x,rdir.y,rdir.z,0,0,0,
-				frandom(0.8,1.0), 0.025
+				frandom[ShieldParticles](0.8,1.0), 0.025
 			);
 		}
 	}

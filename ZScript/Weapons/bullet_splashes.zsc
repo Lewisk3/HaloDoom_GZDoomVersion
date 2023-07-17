@@ -1,0 +1,343 @@
+class BulletSplashSpawner : CheapActor
+{
+	string splashType;
+	string terrainType;
+	
+	Dictionary splashes;
+	string splash_Water, splash_Lava, splash_Slime, splash_Acid, splash_Blood;
+	
+	Property WaterEffect : splash_Water;
+	Property LavaEffect  : splash_Lava;
+	Property SlimeEffect : splash_Slime;
+	Property AcidEffect  : splash_Acid;
+	Property BloodEffect : splash_Blood;
+
+	Default
+	{
+		Scale 1.0;
+		BulletSplashSpawner.WaterEffect "WaterSplash_Small";
+		BulletSplashSpawner.LavaEffect  "LavaSplash_Small";
+		BulletSplashSpawner.SlimeEffect "SlimeSplash_Small";
+		BulletSplashSpawner.AcidEffect  "AcidSplash_Small";
+		BulletSplashSpawner.BloodEffect "BloodSplash_Small";
+	}
+
+	override void PostBeginPlay()
+	{
+		super.PostBeginPlay();
+		
+		splashes = Dictionary.Create();
+		let splashDict = HaloDoom_Events.GetSplashData();
+		string floorpicName = TexMan.GetName(floorpic);
+		splashType = splashDict.At(floorpicName);
+		
+		splashes.Insert("Splash/Water", splash_Water);
+		splashes.Insert("Splash/Lava",  splash_Lava);
+		splashes.Insert("Splash/Acid",  splash_Acid);
+		splashes.Insert("Splash/Blood", splash_Blood);
+		splashes.Insert("Splash/Slime", splash_Slime);
+				
+		let terrain = CurSector.GetFloorTerrain(Sector.floor);
+		if(terrain) terrainType = terrain.TerrainName;
+		
+		// Spawn the thing
+		class<Actor> splash = splashes.At(splashType);
+		if(splash) 
+		{
+			let sp = Actor.Spawn(splash, (pos.x,pos.y,floorz));
+			if(sp) sp.A_SetScale(sp.Scale.X * Scale.X); 	
+		}
+		
+		Destroy();
+	}
+}
+class LargeSplashSpawner : BulletSplashSpawner
+{
+	Default
+	{
+		BulletSplashSpawner.WaterEffect "WaterSplash_Large";
+		BulletSplashSpawner.LavaEffect  "LavaSplash_Large";
+		BulletSplashSpawner.SlimeEffect "SlimeSplash_Large";
+		BulletSplashSpawner.AcidEffect  "AcidSplash_Large";
+		BulletSplashSpawner.BloodEffect "BloodSplash_Large";
+	}
+}
+class PlasmaSplashSpawner : CheapActor
+{
+	States
+	{
+		Spawn:
+			TNT1 AAAAAAAAA 4
+			{
+				let splashDict = HaloDoom_Events.GetSplashData();
+				string floorpicName = TexMan.GetName(floorpic);
+				let splashType = splashDict.At(floorpicName);
+				if(!splashType || splashType == "")
+					return ResolveState("NULL");
+				
+				HaloMath.SpawnFX(
+					"PlasmaHeatedSmoke", pos, 
+					frandom[PlasmaSmoke](0,360),
+					frandom[PlasmaSmoke](5,10), 16,16, 
+					frandom[PlasmaSmoke](-180,180),
+					frandom[PlasmaSmoke](-30,30),
+					frandom[PlasmaSmoke](-3,3)
+				);
+				return ResolveState(NULL);
+			}
+		stop;
+	}
+}
+class PlasmaHeatedSmoke : IcecubeSmoke
+{
+	bool damaging;
+
+	Default
+	{
+		Scale 0.4;
+		Alpha 0.2;
+		Translation "0:255=@80[128,128,128]";
+	}
+	
+	override void PostBeginPlay()
+	{
+		super.PostBeginPlay();
+		damaging = random[PlasmaHeatDMG](0,100) <= 50;
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		
+		let shooter = target;
+		if(!shooter) shooter = self;
+		
+		// This doesn't work properly any way I try it, it's just garbage from a gameplay perspective
+		// so screw it.
+		// if(!(GetAge() % 35) && damaging) HaloMath.ExplodeEx(shooter, 1, 64, thrustMod:0, infiniteHeight:false);
+	}
+}
+
+class HaloLiquidSplash : CheapActor
+{
+	string spriteBase;
+	bool largeSplash;
+	Color partColor;
+	Property SplashSprites : spriteBase;
+	Property BigSplash : largeSplash;
+	Property SplashColor : partColor;
+
+	Default
+	{
+		Scale 0.55;
+		HaloLiquidSplash.SplashSprites "SPHW";
+		HaloLiquidSplash.SplashColor "Blue";
+		RenderStyle "Translucent";
+	}
+
+	override void PostBeginPlay()
+	{
+		super.PostBeginPlay();
+		
+		A_SetScale(Scale.X * frandom[Splashes](0.8,1.2));
+		alpha = frandom[Splashes](0.8,1.0);
+		bXFLIP = random[Splashs](0,100) <= 50;
+		
+		double amt = max(1, frandom[LiquidParticles](10,30) * halodoom_effectintensity);
+		if(largeSplash) amt *= 2.5;
+		
+		vector3 spPos = level.vec3offset(pos, (0,0,12));
+		for(int i = 0; i < ceil(amt); i++)
+		{
+			let p = Spawn("LiquidSplashParticles", spPos);
+			
+			double spAngle = frandom[LiquidParticles](0,360);
+			double spPitch = frandom[LiquidParticles](10,40);
+			p.vel = (
+				cos(spAngle),
+				sin(spAngle),
+				sin(spPitch)
+			) * frandom[LiquidParticles](3,8);
+			p.SetShade(partColor);
+		}
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		sprite = GetSpriteIndex(spriteBase);
+	}
+	
+	States
+	{
+		Cache:
+			SPHW "#" 0;
+			SPHO "#" 0;
+			SPHR "#" 0;
+			SPHG "#" 0;
+			SPHN "#" 0;
+			// Big
+			GSPL "#" 0;
+			GSPP "#" 0;
+			GSPB "#" 0;
+			GSPN "#" 0;
+			GSPS "#" 0;
+	
+		Spawn:
+			TNT1 A 0; // Another case where NoDelay simply doesn't work...
+			TNT1 A 0 A_JumpIf(largeSplash, "Big");
+		Small:
+			"####" ABCD 2;
+			"####" E 2 A_FadeOut(0.2);
+		wait;
+		
+		Big:
+			"####" ABCDEFGHIJKLMNOPQRSTUVWXY 2;
+			"####" Z 2 A_FadeOut(0.2);
+		wait;
+	}
+}
+class LiquidSplashParticles : CheapActor
+{
+	Default
+	{
+		Scale 0.025;
+		Alpha 0.5;
+		+ROLLSPRITE;
+		RenderStyle "Shaded";
+	}
+	
+	override void PostBeginPlay()
+	{
+		super.PostBeginPlay();
+		
+		// These are purely cosmetic so, we can use consoleplayer without desync issues.
+		let cplr = players[consoleplayer].mo;
+		angle = cplr.angle;
+		roll = frandom[IceSnowSFX](-180,180);
+		A_SetScale(Scale.X * frandom[IceSnowSFX](0.75,1.25));
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		if(isFrozen()) return;
+		
+		vel.z -= GetGravity() * 0.14;
+		SetOrigin(level.vec3offset(pos, vel), true);
+	
+		if(pos.z <= floorz)
+		{
+			vel *= 0;
+			SetOrigin((pos.xy, floorz), true);
+		}
+		vel *= 0.96; 
+		
+		A_SetScale(default.Scale.X * 0.98);
+		if(Scale.X <= 0)
+		{
+			Destroy();
+			return;
+		}
+	}
+	
+	States
+	{
+		Spawn:
+			ICSN "#" 1 NoDelay A_JumpIf(pos.z <= floorz, "Fadeout");
+		loop;
+		
+		Fadeout:
+			ICSN "#" 1 
+			{
+				bFLATSPRITE = true;
+				A_FadeOut(0.004);
+			}
+		wait;
+	}
+}
+
+// Splash Actors
+class WaterSplash_Small : HaloLiquidSplash
+{
+	Default
+	{
+		HaloLiquidSplash.SplashSprites "SPHW";
+		HaloLiquidSplash.SplashColor "Blue";
+	}
+}
+class LavaSplash_Small : HaloLiquidSplash
+{
+	Default
+	{
+		HaloLiquidSplash.SplashSprites "SPHO";
+		HaloLiquidSplash.SplashColor "Orange";
+	}
+}
+class BloodSplash_Small : HaloLiquidSplash
+{
+	Default
+	{
+		HaloLiquidSplash.SplashSprites "SPHR";
+		HaloLiquidSplash.SplashColor "Red";
+	}
+}
+class AcidSplash_Small : HaloLiquidSplash
+{
+	Default
+	{
+		HaloLiquidSplash.SplashSprites "SPHG";
+		HaloLiquidSplash.SplashColor "Green";
+	}
+}
+class SlimeSplash_Small : HaloLiquidSplash
+{
+	Default
+	{
+		HaloLiquidSplash.SplashSprites "SPHN";
+		HaloLiquidSplash.SplashColor "Brown";
+	}
+}
+// Large Splashes
+class WaterSplash_Large : HaloLiquidSplash
+{
+	Default
+	{
+		Scale 1.0;
+		HaloLiquidSplash.SplashSprites "GSPL";
+		HaloLiquidSplash.SplashColor "Blue";
+		HaloLiquidSplash.BigSplash true;
+	}
+}
+class LavaSplash_Large : WaterSplash_Large
+{
+	Default
+	{
+		HaloLiquidSplash.SplashSprites "GSPP";
+		HaloLiquidSplash.SplashColor "Orange";
+	}
+}
+class BloodSplash_Large : WaterSplash_Large
+{
+	Default
+	{
+		HaloLiquidSplash.SplashSprites "GSPB";
+		HaloLiquidSplash.SplashColor "Red";
+	}
+}
+class AcidSplash_Large : WaterSplash_Large
+{
+	Default
+	{
+		HaloLiquidSplash.SplashSprites "GSPN";
+		HaloLiquidSplash.SplashColor "Green";
+	}
+}
+class SlimeSplash_Large : WaterSplash_Large
+{
+	Default
+	{
+		HaloLiquidSplash.SplashSprites "GSPS";
+		HaloLiquidSplash.SplashColor "Brown";
+	}
+}

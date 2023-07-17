@@ -90,14 +90,14 @@ class Scorpion_TurretCannon : VehPart
 			double rmax = 1.5;
 			double arecoil = frandom(-rmax, rmax);
 			double precoil = frandom(-rmax, rmax);
-			let proj = HaloMath.FireProjectile("HaloMagnum_Bullet", pos, angle + arecoil, pitch + precoil, 30, 175, 30, 1, 200);
+			let proj = HaloMath.FireProjectile("HaloGPMG_Bullet", pos, angle + arecoil, pitch + precoil, 30, 175, 30, 1, 200);
 			
 			// We need to set the target of this projectile if we want hitmarkers to show up
 			// for the person who shoots it.
 			proj.target = base.driver;
 			
-			A_StartSound("Halo/Weapons/Rifle/Fire", CHAN_WEAPON, CHANF_OVERLAP);
-			cooldown_chaingun = 2;
+			A_StartSound("Halo/Weapons/GPMG/Fire", CHAN_WEAPON, CHANF_OVERLAP);
+			cooldown_chaingun = 12;
 		}
 	}
 	

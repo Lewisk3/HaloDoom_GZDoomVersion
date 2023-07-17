@@ -1,0 +1,188 @@
+// HaloSkulls_Event -> skulls
+
+class HaloDoom_SkullMenu : HaloMenuBase
+{	
+	Array<HaloSkull> skulls;
+	int selected_player;
+
+	override void Init(Menu parent, ListMenuDescriptor desc)
+	{
+		Super.Init(parent, desc);
+		
+		let plrMenu = HaloDoom_PlayerClassMenu(parent);
+		if(plrMenu) selected_player = plrMenu.selected_class;
+		
+		mMouse = Mouse.Create("", 0,0,8,8);
+		let skullEvents = HaloSkulls_Events(EventHandler.Find("HaloSkulls_Events"));
+		if(skullEvents) skulls.Copy(skullEvents.skulls);
+		
+		double btnX = 280;
+		double btnY = 350; 
+		double btnW = 1.0;
+		double btnH = 1.0;
+		double itemSpacing = 200;
+		double perX = 5;
+		
+		string btnON  = "Graphics/Skulls/SkullIcon_Active.png";
+		string btnOFF = "Graphics/Skulls/SkullIcon.png";
+		string btnHover = "Graphics/Skulls/SkullIcon_Hovered.png";
+		string btnLight = "Graphics/UI/Title/btn_light.png";
+		
+		vector2 btnpos = (btnX, btnY);
+		double xpart = 0;
+		foreach(skull : skulls)
+		{	
+			if(!skull) return;
+			buttons.push(Button.Create('SkullButton', btnOFF, btnON, btnHover, btnpos.x, btnpos.y, 0.6,0.6));
+			
+			btnpos.x += itemSpacing;
+			if(xpart++ >= perX) 
+			{
+				xpart = 0;
+				btnpos.x = btnX;
+				btnpos.y += itemSpacing;
+			}
+		}
+		
+		TextElement btntxt = newBtnText("Accept", scale:0.2);
+		buttons.push(Button.Create('AcceptSkulls', btnLight, btnLight, btnLight, 1550,810, 0.3,0.2, btntxt));
+		
+		btntxt = newBtnText("Enable All", scale:0.2);
+		buttons.push(Button.Create('AllSkullsON', btnLight, btnLight, btnLight, 450,950, 0.3,0.2, btntxt));
+		
+		btntxt = newBtnText("Disable All", scale:0.2);
+		buttons.push(Button.Create('AllSkullsOFF', btnLight, btnLight, btnLight, 800,950, 0.3,0.2, btntxt));
+		
+		for(int i = 0; i < buttons.Size(); i++)
+			buttons[i].ScaleCollider(0.8, 0.9);
+
+		DontDim = true;
+		mMouse.SetPos(buttons[0].btnrect.pos);
+		btn_selected = 0;
+		buttonAlpha = 0.7;
+		
+	
+		DontDim = true;
+	}
+	
+	override void Drawer ()
+	{
+		uint drawFlags = HLSBS.SS_NOASPECTCORRECTION;
+		uint strFlags = HLSBS.SS_SCREEN_TOP_CENTER | HLSBS.SS_TEXT_CENTER | drawFlags;
+		
+		vector2 descPos = (1200,500);
+		
+		// Description
+		vector2 descOffs = (descPos.x+190, descPos.y-256);
+		HLSBS.Fill(0xFF000000, descOffs.x,descOffs.y, 370,520, flags:drawFlags);
+		HLSBS.DrawString("HaloFont", "Skull Info", (descOffs.x + 20,descOffs.y + 10), 0, Font.CR_BLUE, scale:(0.20,0.20));
+		vector2 desc_pos = descOffs + (10,80);
+		
+		Super.Drawer();
+		mMouse.Draw();
+					
+		// Do not iterate all the way through buttons,
+		// as the last one is not a Skull.
+		for(int i = 0; i < buttons.Size(); i++)
+		{	
+			let btn = buttons[i];
+			if(i >= skulls.Size())
+			{
+				btn.btntext.font_color = Font.CR_BLACK;
+				if(btn.pressed) btn.btntext.font_color = Font.CR_WHITE;
+				if(btn.hovered) btn.btntext.font_color = Font.CR_GREEN;
+				continue;
+			}
+		
+			vector2 btnScale = btn.btnrect.size;
+			vector2 iconPos = (btn.btnrect.pos + (0,-5));
+			string skullIcon = skulls[i].graphic;
+			
+			string skDesc = StringTable.Localize(skulls[i].description);
+			skDesc = StringHelper.formatLnBreaks(skDesc, 30);
+			
+			// btn.DrawCollider();
+			HLSBS.DrawImage(skullIcon, iconPos, flags:drawFlags, scale:btnScale);
+		
+			if(btn.hovered)
+			{
+				// Draw skull name
+				HLSBS.DrawString("HaloFont", skulls[i].displayName, desc_pos - (0,30), flags:drawFlags, Font.CR_GREEN, scale:(0.20,0.20), linespacing:130);
+				
+				// Draw skull description
+				HLSBS.DrawString("HaloFont", skDesc, desc_pos + (0,50), flags:drawFlags, Font.CR_WHITE, scale:(0.15,0.15), linespacing:130);
+			}
+		}
+		
+		HLSBS.DrawString("BigFont", "Select Skulls", (0,100), strFlags, Font.CR_BLACK, scale:(2.0,2.0));
+	}
+
+	override void OnMenuThink()
+	{
+		// Update Server CVar for active Skulls
+		string skullStr = "";
+		for(int i = 0; i < buttons.Size(); i++)
+		{
+			if(i >= skulls.Size()) continue;
+			if(buttons[i].toggled) 
+			{
+				if(skullStr == "") 
+					skullStr.AppendFormat("%s", skulls[i].getClassName());
+				else
+					skullStr.AppendFormat(", %s", skulls[i].getClassName());
+			}
+		}
+		
+		// This should only be active from the title, so we don't really
+		// need to worry about player numbers.
+		let sv_activeskulls = CVar.GetCVar("halodoom_activeskulls", players[consoleplayer]);
+		if(sv_activeskulls) sv_activeskulls.SetString(skullStr);
+	}
+
+	override void Ticker()
+	{		
+		for(int i = 0; i < buttons.Size(); i++)
+		{
+			let btn = buttons[i];
+			btn.Update(mMouse, btn_selected == -1);
+				
+			if(btn.clicked)
+			{
+				if(btn.type == 'AcceptSkulls')
+				{
+					// Exit to episode selection, with player class index.
+					MenuSound("UI/Next");
+					Menu.SetMenu("episodemenu", selected_player);
+					btn.clicked = false;
+				}
+				else if(btn.type == 'AllSkullsON')
+				{
+					MenuSound("UI/PressedButton");
+					S_StartSound("Halo/Skulls/ALL", CHAN_VOICE, CHANF_OVERLAP);
+					for(int i = 0; i < buttons.Size(); i++)
+					{
+						if(i >= skulls.Size()) continue;
+						buttons[i].toggled = true;
+					}
+				}
+				else if(btn.type == 'AllSkullsOFF')
+				{
+					MenuSound("UI/PressedButton");
+					for(int i = 0; i < buttons.Size(); i++)
+					{
+						if(i >= skulls.Size()) continue;
+						buttons[i].toggled = false;
+					}
+				}
+				else
+				{
+					MenuSound("UI/Selected");
+				}
+				
+				// Handle skull selection
+				btn.clicked = false;
+				btn.toggled = !btn.toggled;
+			}
+		}
+	}
+}

@@ -1,0 +1,15 @@
+Thunderstorm: Upgrades the rank of most enemies.
+Streaking: Player shields constantly decay at a slow pace but recharge some with every enemy kill.
+Recession: Every shot is worth twice the ammo. (?)
+Piñata:    Punching enemies makes them drop grenades. Beat them 'til candy comes out!
+Mythic: Enemies have increased health.
+Grunt Funeral: Grunts explode when they die.
+Grunt Birthday Party: Grunt headshots lead to glorious celebrations.
+Ghost: AI no longer flinch from attacks. (?)
+Foreign: Players cannot pick up or use Covenant weapons. (?)
+Fog: The motion tracker is disabled. You'll miss those eyes in the back of your head.
+Famine:    Weapons dropped by AI have half the ammo they normally would.
+Blind: HUD and weapon do not display onscreen.
+Bandanna: Infinite Ammo.
+Assassins: All enemies in the game are permanently cloaked.
+Anger:    Enemies fire their weapons faster and more frequently.

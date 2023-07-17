@@ -18,6 +18,129 @@ HardwareShader Texture MISSNG
 	Speed 2.0
 }
 
+HardwareShader Texture "Graphics/UI/Radar/RADARBG_Glitch.png"
+{
+	Shader "shaders/glitch.fp"
+	Speed 1.17
+}
+
+HardwareShader PostProcess Screen
+{
+	Shader "Shaders/fisheye.fp" 330
+	// Enabled
+}
+
+HardwareShader PostProcess Scene
+{
+	Name "visorShader"
+	Shader "shaders/visor.fp" 330
+	Uniform float timer
+	Uniform float curSectorLight
+}
+
+material texture "Models/Equipment/Ice/tex_rust.jpeg"
+{
+	normal "Models/Equipment/Ice/Ice_NRM.jpg"
+	specular "Models/Equipment/Ice/Ice_SPEC.jpg"
+}
+
+material texture "Models/Casings/Pistol/Ammo_pack_.50_AE_BaseColor.png"
+{
+	normal "Models/Casings/Pistol/Ammo_pack_.50_AE_Normal.png"
+	// metallic "Models/Casings/Pistol/Ammo_pack_.50_AE_Metallic.png"
+	roughness "Models/Casings/Pistol/Ammo_pack_.50_AE_Roughness.png"
+	ao "Models/Casings/Pistol/Ammo_pack_.50_AE_AO.png"
+	Shader "shaders/SimSun.fp"
+}
+material texture "Models/Casings/50cal/bullet_.50_Bullet_BaseColor.png"
+{
+	normal "Models/Casings/50cal/bullet_.50_Bullet_Normal.png"
+	metallic "Models/Casings/50cal/bullet_.50_Bullet_Metallic.png"
+	roughness "Models/Casings/50cal/bullet_.50_Bullet_Roughness.png"
+	Shader "shaders/SimSun.fp"
+}
+material texture "Models/Casings/Rifle/Ammo_pack_7.62_x_51_NATO_BaseColor.png"
+{
+	normal "Models/Casings/Rifle/Ammo_pack_7.62_x_51_NATO_Normal.png"
+	// metallic "Models/Casings/Rifle/Ammo_pack_7.62_x_51_NATO_Metallic.png"
+	roughness "Models/Casings/Rifle/Ammo_pack_7.62_x_51_NATO_Roughness.png"
+	ao "Models/Casings/Rifle/Ammo_pack_7.62_x_51_NATO_AO.png"
+	Shader "shaders/SimSun.fp"
+}
+material texture "Models/Casings/Shotgun/T_ShotgunShell12Gauge_BaseColor.png"
+{
+	normal "Models/Casings/Shotgun/T_ShotgunShell12Gauge_Norma_OpenGLl.png"
+	// metallic "Models/Casings/Shotgun/T_ShotgunShell12Gauge_OcclusionRoughnessMetallic.png"
+	roughness "Models/Casings/Shotgun/T_ShotgunShell12Gauge_Roughness.png"
+	ao "Models/Casings/Shotgun/T_ShotgunShell12Gauge_AO.png"
+	Shader "shaders/SimSun.fp"
+}
+material texture "Models/Casings/Shotgun/T_ShotgunShell12Gauge_BaseColor_Black.png"
+{
+	normal "Models/Casings/Shotgun/T_ShotgunShell12Gauge_Norma_OpenGLl.png"
+	// metallic "Models/Casings/Shotgun/T_ShotgunShell12Gauge_OcclusionRoughnessMetallic.png"
+	roughness "Models/Casings/Shotgun/T_ShotgunShell12Gauge_Roughness.png"
+	ao "Models/Casings/Shotgun/T_ShotgunShell12Gauge_AO.png"
+	Shader "shaders/SimSun.fp"
+}
+material texture "Models/Casings/Shotgun/T_ShotgunShell12Gauge_BaseColor_Blue.png"
+{
+	normal "Models/Casings/Shotgun/T_ShotgunShell12Gauge_Norma_OpenGLl.png"
+	// metallic "Models/Casings/Shotgun/T_ShotgunShell12Gauge_OcclusionRoughnessMetallic.png"
+	roughness "Models/Casings/Shotgun/T_ShotgunShell12Gauge_Roughness.png"
+	ao "Models/Casings/Shotgun/T_ShotgunShell12Gauge_AO.png"
+	Shader "shaders/SimSun.fp"
+}
+material texture "Models/Casings/Fuelrod/fuel_rod_diffuse.png"
+{
+	Shader "shaders/SimSun.fp"
+}
+
+material texture "Models/Mags/AR/assault_rifle_diffuse.png"
+{
+	Shader "shaders/SimSun.fp"
+}
+material texture "Models/Mags/BR_DMR/dmr_diffuse.png"
+{
+	Shader "shaders/SimSun.fp"
+}
+material texture "Models/Mags/Carbine/storm_covenant_carbine_diff.png"
+{
+	Shader "shaders/SimSun.fp"
+}
+material texture "Models/Mags/Commando/Commando_Diffuse.png"
+{
+	Shader "shaders/SimSun.fp"
+}
+material texture "Models/Mags/GPMG/GPMG_Diffuse.png"
+{
+	Shader "shaders/SimSun.fp"
+}
+material texture "Models/Mags/Mag/magnum_diffuse.png"
+{
+	Shader "shaders/SimSun.fp"
+}
+material texture "Models/Mags/NeedleJavelin/needle_rifle_diffuse.png"
+{
+	Shader "shaders/SimSun.fp"
+}
+material texture "Models/Mags/PlasmaCaster/concussion_rifle_diffuse.png"
+{
+	Shader "shaders/SimSun.fp"
+}
+material texture "Models/Mags/Sniper_Stanchion/sniper_rifle_diffuse.png"
+{
+	Shader "shaders/SimSun.fp"
+}
+material texture "Models/Mags/Spiker/spike_rifle_diffuse.png"
+{
+	Shader "shaders/SimSun.fp"
+}
+material texture "Models/Mags/Spnkr/rocket_launcher_diffuse.png"
+{
+	Shader "shaders/SimSun.fp"
+}
+
 /*
 HardwareShader Sprite BLHLA0
 {

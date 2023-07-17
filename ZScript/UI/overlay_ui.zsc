@@ -121,7 +121,7 @@ class Halo_OverlayUI : EventHandler
 				
 		if(args[0] == "hitmark")
 		{
-			uint plrnum = e.Args[0];
+			int plrnum = e.Args[0];
 			// Saftey check.
 			if(ui_hitmarkers.Size() < plrnum) return;
 			
@@ -193,6 +193,18 @@ class Halo_OverlayUI : EventHandler
 		if(levelTransition)
 			levelTransition.Process(deltaTime);
 		
+		// Draw weapon-specific UI
+		let curweap = HaloGun(haloplr.player.ReadyWeapon);
+		if(curweap) curweap.OverlayUIFX(e, deltaTime);
+		
+		// Draw item-specific UI
+		let it = ThinkerIterator.Create("HaloPowerGiver");
+		HaloPowerGiver hpower;
+		while(hpower = HaloPowerGiver(it.Next()))
+		{
+			hpower.UIOverlayDraw(e, haloplr, deltatime);
+		}
+		
 		// Keep track of time, always.
 		if(!prevMS)
 		{
@@ -203,6 +215,21 @@ class Halo_OverlayUI : EventHandler
 		prevMS = MSTime();
 		double dtime = 1000.0 / 60.;
 		deltatime = (ftime/dtime);
+	}
+	
+	override void RenderUnderlay(RenderEvent e)
+	{	
+		// Get player
+		HaloPlayer haloplr = HaloPlayer(e.Camera);
+		if(!haloplr)
+		{
+			let halocam = HaloVehCamera(e.Camera);
+			if(halocam) haloplr = HaloPlayer(halocam.source);
+			if(!haloplr) return;
+		}
+	
+		let curweap = HaloGun(haloplr.player.ReadyWeapon);
+		if(curweap) curweap.UnderlayUIFX(e, deltaTime);	
 	}
 	
 	ui void DrawKeys(RenderEvent e)

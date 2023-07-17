@@ -1,0 +1,865 @@
+
+// Freezer Beam
+class PowerFreezerBeam : HaloPowerup
+{
+	bool tryfire;
+	bool idle;
+	ui double curLight;
+	double cooldown;
+	double heat;
+	
+	FreezerLaserBeam freezerLaser;
+	Actor laserTarget;
+	
+	const PSP_FREEZER = 229; // 229 = Fubuki (Blizzard in Japanese)
+	const CHAN_FREEZER = PSP_FREEZER;
+	
+	vector2 pspOffs;
+	
+	ui double graphicHeat;
+	ui double graphicCooldown;
+
+	Default
+	{
+		Powerup.Duration 0x7FFFFFFD; 
+		Inventory.maxamount 1;
+		+INVENTORY.UNDROPPABLE;
+		+INVENTORY.PERSISTENTPOWER;
+	}
+	
+	override void HUDDraw(HaloHUD hudbase, double dt)
+	{
+		double maxCooldown = (35.0*15.0);
+		graphicCooldown = HaloMath.Lerp(graphicCooldown, cooldown / maxCooldown, 0.1 * dt);
+		graphicHeat = HaloMath.Lerp(graphicHeat, heat / 100.0, 0.1 * dt);
+		
+		if(graphicHeat >= 0.8 || graphicHeat <= 0.1) 
+			graphicHeat = heat / 100.0;
+			
+		if(graphicCooldown >= 0.99 || graphicCooldown <= 0.01) 
+			graphicCooldown = (cooldown / maxCooldown);
+		
+		vector2 drawPos = hudbase.getPowerupPos(2);
+		vector2 heatPos = drawPos + ((48,0) * hudbase.powerupScale);
+		double perc = clamp(graphicCooldown, 0, 1.0);
+		double radius = 40 * hudbase.powerupScale; 
+		Color circleColor = 0xFF63E3DF;
+		if(idle && cooldown > 0) circleColor = 0xFFE03B3B;
+		
+		let pxl = TexMan.CheckForTexture("BLANK", TexMan.Type_Any);
+		
+		HLSBS.DrawPartialCircle(
+			drawPos, radius, circleColor ,
+			fillpercent:perc, alpha:0.35
+		);
+		
+		String graphic = "Graphics/UI/Abilities/IcebeamIcon.png";
+		string ring    = "Graphics/UI/Abilities/JetpackRing.png";
+		String heatFG  = "Graphics/UI/Abilities/IcebeamHeat_FG.png";
+		String heatBG  = "Graphics/UI/Abilities/IcebeamHeat_BG.png";
+		
+		let icon = TexMan.CheckForTexture(graphic);
+		vector2 iconSize;
+		[iconSize.x, iconSize.y] = TexMan.getSize(icon);
+		vector2 iconScale = ((radius*2) / iconSize.x, (radius*2) / iconSize.y);
+		
+		icon = TexMan.CheckForTexture(heatFG);
+		vector2 heatSize;
+		vector2 heatScale = (iconScale * 1.25);
+		[heatSize.x, heatSize.y] = TexMan.getSize(icon);
+		heatSize.x *= heatScale.x;
+		heatSize.y *= heatScale.y;
+		
+		HLSBS.DrawImage(graphic, drawPos, alpha:1.0, scale:iconScale, texoffs:(1,1));
+		HLSBS.DrawImage(ring, drawPos, alpha:1.0, scale:iconScale*1.05, texoffs:(1,1));
+		
+		/*
+		int heatTics = max(1,graphicHeat*6);
+		string heatImg = "Graphics/UI/Abilities/Icebeam_Heat/IHB%d.png";
+		HLSBS.DrawImage(String.Format(heatImg,heatTics), heatPos, alpha:1.0, scale:heatScale, rotation:-90, texoffs:(1,1));
+		*/
+		
+		HLSBS.DrawImage(heatBG,  heatPos, alpha:1.0, scale:heatScale, texoffs:(1,1));
+		double heatDiff = heatSize.y * (1.0-graphicHeat);
+		HLSBS.SetClipRect(
+			heatPos.x - (heatSize.x*0.5), (heatPos.y - (heatSize.y*0.5)) + heatDiff, 
+			heatSize.x, heatSize.y - heatDiff, 
+			visual:false
+		);
+		HLSBS.DrawImage(heatFG,  heatPos, alpha:1.0, scale:heatScale, texoffs:(1,1));
+		HLSBS.ClearClipRect();
+	}
+	
+	action void A_InitOverlay()
+	{
+		A_OverlayFlags(OverlayID(), PSPF_ADDWEAPON, false);
+		A_OverlayFlags(OverlayID(), PSPF_ADDBOB, false);
+		
+		invoker.pspOffs = (-90, -90);
+		A_OverlayOffset(OverlayID(), invoker.pspOffs.x, invoker.pspOffs.y);
+	}
+	
+	action state A_BeamReady()
+	{
+		/*
+		if(player.cmd.buttons & BT_ATTACK)
+			return ResolveState("FreezerBeam.Fire");
+		*/
+		let haloplr = HaloPlayer(self);
+		if(haloplr && haloplr.aimActor) 
+		{
+			return ResolveState("FreezeBeam.Fire");
+		}
+		
+		return ResolveState(null);
+	}
+	
+	action void A_LerpOffset(double tox, double toy, bool add = true)
+	{
+		if(add)
+		{
+			tox += invoker.pspOffs.x;
+			toy += invoker.pspOffs.y;
+		}
+		
+		invoker.pspOffs.x = tox;
+		invoker.pspOffs.y = toy;
+	}
+	
+	virtual void SetupPSprite(Actor src)
+	{
+		if(!src.player) return;
+		src.player.SetPSprite(PSP_FREEZER, ResolveState("InitFreezerBeam"));
+		let psp = src.player.FindPSprite(PSP_FREEZER);
+		if(psp) psp.caller = self;
+	}
+	
+	override void AttachToOwner(Actor other)
+	{
+		super.AttachToOwner(other);
+		SetupPSprite(other);
+	}
+		
+	override void DetachFromOwner ()
+	{
+		if(freezerLaser) freezerLaser.Destroy();
+	}
+	
+	override string SelectUIGraphic()
+	{
+		return "";
+	}
+
+	action void A_FireLaser(vector3 offs)
+	{
+		let haloplr = HaloPlayer(self);
+		if(!invoker.freezerLaser)
+			invoker.freezerLaser = FreezerLaserBeam(LaserBeam.Create(self, offs.x,offs.y,offs.z, type:"FreezerLaserBeam"));
+		
+		if(invoker.freezerLaser && haloplr && invoker.laserTarget)
+		{
+			if(!invoker.freezerlaser.enabled) 
+				A_StartSound("Halo/Powerup/CryoCannon/Fire", CHAN_AUTO, CHANF_OVERLAP);
+			else
+				A_StartSound("Halo/Powerup/CryoCannon/FireLoop", CHAN_FREEZER, CHANF_LOOPING);
+			
+			vector3 followPos = (
+				invoker.laserTarget.pos.xy, 
+				invoker.laserTarget.pos.z + (invoker.laserTarget.height * 0.5)
+			);
+		
+			invoker.freezerlaser.trackingActor = invoker.laserTarget;
+			invoker.freezerLaser.SetEnabled(true);
+			invoker.freezerLaser.StartTracking(followPos);
+		}
+	}
+	
+	action void A_LaserOff()
+	{
+		if(invoker.freezerLaser)
+		{
+			A_StopSound(CHAN_FREEZER);
+			A_StartSound("Halo/Powerup/CryoCannon/FireTail", CHAN_AUTO, CHANF_OVERLAP);
+			invoker.freezerLaser.SetEnabled(false);
+			invoker.freezerLaser.StopTracking();
+		}
+	}
+		
+	override void DoEffect()
+	{
+		super.DoEffect();
+		if(!Owner.player) return;
+		
+		let haloplr = HaloPlayer(Owner);
+		if(!haloplr) return;
+		
+		cooldown = clamp(cooldown, 0, (35.0*15.0));
+		heat = clamp(heat, 0, 100);
+		
+		let psp = Owner.player.FindPSprite(PSP_FREEZER);
+		if(psp)
+		{		
+			if(InStateSequence(ResolveState("FreezeBeam.Fire"), psp.CurState) && tryfire) 
+			{
+				// Cancel firing
+				tryfire = false;
+				psp.SetState(ResolveState("FreezeBeam.StopFire"));
+			}
+			
+			psp.x = HaloMath.Lerp(psp.x, pspOffs.x, 0.1);
+			psp.y = HaloMath.Lerp(psp.y, pspOffs.y, 0.1);
+		}
+		else
+		{
+			SetupPSprite(Owner);
+		}
+	}
+	
+	action void A_LaserMove(double amtX, double amtY)
+	{
+		A_LerpOffset(amtX, amtY);
+		if(invoker.freezerLaser) 
+			invoker.freezerLaser.offsets += (amtX * 0.031, amtY * 0.035);
+	}
+	
+	States (Weapon)
+	{
+		InitFreezerBeam:
+			TNT1 A 1;
+			TNT1 A 0 A_InitOverlay();
+		goto FreezeBeam.Idle;
+	
+		FreezeBeam.Idle:
+			TNT1 A 1
+			{
+				invoker.idle = true;
+				let haloplr = HaloPlayer(self);
+				if(haloplr)
+				{
+					if(invoker.cooldown > 0) 
+					{
+						invoker.cooldown -= 1;
+						
+						 // Don't be ready to fire if we're cooling down.
+						invoker.tryfire = false;
+					}
+					if(invoker.heat > 0) invoker.heat--;
+					
+					if(invoker.tryfire && !invoker.cooldown && invoker.heat <= 20)
+					{
+						invoker.tryfire = false;
+						if(!haloplr.aimActor) 
+						{
+							return ResolveState(null);
+						}
+						else
+						{
+							let frz = I_Frozen(haloplr.aimActor.FindInventory("I_Frozen"));
+							if( (frz && frz.frozen && !frz.thawing) || !haloplr.aimActor.bSHOOTABLE || (haloplr.aimActor is "I_Frozen") )
+								return ResolveState(null);
+						}
+						
+						invoker.laserTarget = haloplr.aimActor;
+						return ResolveState("FreezeBeam.Raise");
+					}
+				}
+				return ResolveState(null);
+			}
+		loop;
+			
+		FreezeBeam.Raise:
+			FRZB A 10 
+			{
+				A_LerpOffset(-30,0, false);
+				invoker.idle = false;
+			}
+		goto FreezeBeam.Ready;
+		
+		FreezeBeam.Lower:
+			FRZB A 10 A_LerpOffset(-90,-90, false);
+		goto FreezeBeam.Idle;
+		
+		FreezeBeam.Ready:
+			FRZB A 1 
+			{
+				A_LerpOffset(0,0, false);
+				return A_BeamReady();
+			}
+		loop;	
+		
+		FreezeBeam.Fire:
+			FRZB A 4
+			{
+				A_FireLaser((10,-20,8));
+				A_LaserMove(frandom[FreezerRNG](-3,3),frandom[FreezerRNG](-3,3));
+				
+				let haloplr = HaloPlayer(self);
+				if(haloplr && invoker.laserTarget)
+				{
+					/*
+					if(haloplr.aimActor && haloplr.aimActor != invoker.laserTarget)
+						invoker.laserTarget = haloplr.aimActor;
+					*/
+						
+					let frz = I_Frozen(invoker.laserTarget.FindInventory("I_Frozen"));
+					invoker.cooldown += 35;
+					invoker.heat += 6;
+					
+					if(invoker.heat >= 100)
+					{
+						// Overheated
+						A_LaserOff();
+						A_StartSound("Halo/Powerup/CryoCannon/Overheat", CHAN_AUTO, CHANF_OVERLAP);
+						return ResolveState("FreezeBeam.Vent");
+					}
+						
+					if(frz && frz.frozen && !frz.thawing)
+						return ResolveState("FreezeBeam.StopFire");
+				}
+				else
+				{
+					return ResolveState("FreezeBeam.StopFire");
+				}
+				
+				if( (!invoker.laserTarget || invoker.laserTarget.health <= 0) )
+					return ResolveState("FreezeBeam.StopFire");
+					
+				return ResolveState(null);
+			}
+			FRZB A 4 A_LerpOffset(0,0, false);
+		loop;	
+		
+		FreezeBeam.Vent:
+			FRZB A 2
+			{
+				A_LerpOffset(0,0, false);
+			}
+			FRZB A 4 
+			{
+				A_LerpOffset(frandom[FreezerRNG](-12,12),frandom[FreezerRNG](-12,12));
+				double amt = max(1, invoker.heat / 20.0) * halodoom_effectintensity;
+				for(int i = 0; i < ceil(amt); i++)
+				{
+					vector3 offs = Quat.FromAngles(angle, pitch, roll) * (10,10,6);
+					Spawn("MuzzleSmoke", level.vec3offset((pos.xy, player.viewz), offs));
+				}
+				
+				invoker.heat-=4;
+				if(invoker.heat < 10) 
+					return ResolveState("FreezeBeam.Fire");
+					
+				return ResolveState(null);
+			}
+		loop;
+		
+		FreezeBeam.StopFire:
+			FRZB A 4 
+			{
+				A_LaserOff();
+				A_LerpOffset(0,0, false);
+			}
+		goto FreezeBeam.Lower;
+	}
+}
+
+class I_Frozen : Inventory
+{
+	double freezeTics;
+	double freezePerc;
+	double frozenTics;
+	bool frozen;
+	bool thawing;
+
+	Default
+	{
+		+SHOOTABLE;
+		+SOLID;
+		Inventory.maxamount 1;
+		
+		Height 56;
+		Radius 20;
+		
+		RenderStyle "Translucent";
+		Alpha 0.47;
+	}
+	
+	virtual void IceFX(bool nowait = false)
+	{
+		let cplr = players[consoleplayer].mo;
+		if(!cplr) return;
+		
+		if( !(getAge()%4) || nowait )
+		{			
+			vector3 spawnPos = (
+				frandom[IceSnowFX](-1,1),
+				frandom[IceSnowFX](-1,1),
+				frandom[IceSnowFX](-1,1)
+			) * 30;
+			spawnPos.z += (height * 0.5);
+			spawnPos = level.vec3offset(pos, spawnPos);
+			
+			HaloMath.SpawnFX("IcecubeSnow", spawnPos, cplr.angle, 15,30,30);
+		}
+		
+		if( !(getAge()%10) || nowait )
+		{
+			vector3 spawnPos = (
+				frandom[IceSmokeFX](-1,1),
+				frandom[IceSmokeFX](-1,1),
+				frandom[IceSmokeFX](-1,1)
+			) * 10;
+			spawnPos.z += (height * 0.5);
+			spawnPos = level.vec3offset(pos, spawnPos);
+			
+			HaloMath.SpawnFX("IcecubeSmoke", spawnPos, cplr.angle, 1,10,10);
+		}
+	}
+	
+	virtual void IceExplode(bool superheated = false)
+	{
+		let cplr = players[consoleplayer].mo;
+		if(!cplr) return;
+		
+		if(!superheated)
+		{
+			Owner.DamageMobJ(target, self, Owner.health*3.0, "IceBlock");
+			Spawn("IcecubeExplosion", (pos.xy, pos.z + (height*0.5)));
+			
+			vector3 spawnPos = (
+				frandom[IceSmokeFX](-1,1),
+				frandom[IceSmokeFX](-1,1),
+				frandom[IceSmokeFX](-1,1)
+			) * 20;
+			spawnPos.z += (height * 0.5);
+			spawnPos = level.vec3offset(pos, spawnPos);
+			
+			HaloMath.SpawnFX("IcecubeSmoke", spawnPos, cplr.angle, 10,20,20);
+			HaloMath.SpawnFX("IcecubeShard", spawnPos, frandom[IceShardFX](0,360), 50,5,5, 
+				frandom[IceShardFX](0,360), 
+				frandom[IceShardFX](40,70), 
+				frandom[IceShardFX](8,20)
+			);
+		}
+	}
+	
+	override void DoEffect()
+	{
+		super.DoEffect();
+		if(!Owner) return;
+		
+		if(!frozen) SetOrigin(Owner.pos, false);
+		
+		// Scale
+		A_SetSize(Owner.radius+8, Owner.height+4);
+		double xmul = ( (Owner.radius*freezePerc) / default.radius );
+		double ymul = (Owner.height / default.height); 
+		if(frozenTics >= (35*10))
+		{
+			xmul = ( Owner.radius / default.radius );
+			ymul = ( (Owner.height*freezePerc) / default.height ); 
+		}
+		Scale.X = 0.8 * xmul;
+		Scale.Y = 1.2 * ymul;
+
+		// Effects
+		if(freezePerc >= 0.5) 
+		{
+			IceFX();
+			Owner.A_SetSpeed(0);
+		}
+		else
+		{
+			Owner.A_SetSpeed(Owner.default.Speed);
+		}
+		
+		// Freeze percent
+		freezePerc = clamp(freezeTics / double(Owner.GetMaxHealth()), 0, 1.0);
+		bSHOOTABLE = bSOLID = freezePerc >= 1.0;
+		
+		if(freezePerc >= 1.0 && !frozen)
+		{
+			frozen = true;
+			IceFX(true);
+			
+			frozenTics = 0;
+			A_StartSound("Halo/Powerup/CryoCannon/Freeze", CHAN_AUTO, CHANF_OVERLAP);
+		}
+		
+		// Thawing
+		if( freezeTics > 0 && (!frozen || frozenTics > (35*10)) ) 
+		{
+			thawing = true;
+			freezeTics -= 0.5; // Slowly thaw out.
+			if(freezeTics <= 1) freezeTics = -1;
+			
+			if(frozen && freezeTics <= 10) frozen = false;
+		}
+		else if(frozen)
+		{
+			thawing = false;
+		}
+		
+		bool thawed = (freezeTics < 0 && freezePerc <= 0.001);
+		
+		// Owner properties
+		if(frozen)
+		{
+			Owner.tics = -1;
+			Owner.bFLOAT = false;
+			bNOGRAVITY = false;
+			vel.z -= GetGravity();
+			if(pos.z <= Owner.floorz) 
+			{
+				SetOrigin((pos.xy, Owner.floorz), true);
+				vel.z = 0;
+			}
+			
+			SetOrigin(level.vec3offset(pos, (0,0,vel.z)), true);
+			Owner.SetOrigin(pos, true);
+			
+			frozenTics++;
+		}
+	
+		// Force render
+		if(GetAge() <= 1)
+		{
+			bInvisible = false; 
+			A_ChangeLinkFlags(false, false);
+			ChangeStatNum(STAT_DEFAULT); 
+			A_SetHealth(Owner.health * 0.33);
+			return;
+		}
+		
+		// Health and tracking
+		if( (Owner.health <= 0 || Owner.bCORPSE) || thawed )
+		{ 
+			if(Owner.health <= 0) IceExplode();
+			Owner.tics = 1;
+			Owner.bFLOAT = Owner.default.bFLOAT;
+			
+			Owner.RemoveInventory(self);
+			GoAwayAndDie();
+			return;
+		}
+	}
+	
+	States
+	{
+		Spawn:
+			MODL A -1;
+		stop;
+		
+		Held:
+			MODL A -1;
+		stop;
+		
+		XDeath:
+		Death:
+			TNT1 A 1 
+			{
+				IceExplode();
+			}
+		wait;
+	}
+}
+
+class FreezerLaserBeam : LaserBeam
+{
+	LaserBeam core;
+	Color coreColor;
+	Property CoreColor : coreColor;
+	Actor trackingActor;
+
+	Default
+	{
+		Scale 5.0;
+		DamageType "Freeze";
+		LaserBeam.LaserColor "0AB2F0";
+		LaserBeam.TrackAngles true;			
+		LaserBeam.TrackWeapon false, 0;
+		LaserBeam.AimFromWeapon false;		 // Fire from weapon "muzzle", only used if TrackWeapon is enabled.
+		FreezerLaserBeam.CoreColor "White";
+	}
+	
+	override void PostBeginPlay()
+	{
+		super.PostBeginPlay();
+		
+		core = LaserBeam.Create(source, offsets.x, offsets.y, offsets.z, angleOffsets.x, angleOffsets.y, maxDist, "FreezerLaserBeam_Core");
+		if(core) 
+		{
+			core.shade = coreColor;
+			core.master = self;
+		}
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		
+		// Update core shade
+		if(core)
+		{
+			core.shade = coreColor;
+			core.alpha = alpha;
+			core.trackingPos = trackingPos;
+			core.targetPos = targetPos;
+			core.followAngles = followAngles;
+			core.trackPSprite = trackPSprite;
+			core.trackPSLayer = trackPSLayer;
+			core.aimWithWeapon = aimWithWeapon;
+			core.enabled = enabled;  
+		}
+	}
+	
+	override void OnDestroy()
+	{
+		if(core) core.Destroy();
+	}
+	
+	override void BeamTick()
+	{
+		if(!trackingActor) return;
+		if( !source.IsVisible(trackingActor, false) ) return;
+		
+		let frz = I_Frozen(trackingActor.FindInventory("I_Frozen"));
+		if(!frz) 
+		{
+			trackingActor.GiveInventory("I_Frozen", 1);
+			frz = I_Frozen(trackingActor.FindInventory("I_Frozen"));
+		}
+		if( !frz || (frz.frozen && !frz.thawing) ) return;
+	
+		frz.freezeTics+=8;
+		if(frz.thawing)
+		{
+			frz.frozen = false;
+			frz.thawing = false;
+		}
+		if(!(frz.freezeTics%40)) 
+			trackingActor.TriggerPainChance(damageType, true);
+		
+		alpha = 0.6 + (sin(level.maptime*30) * 0.5); 
+	}
+	
+	override void OnImpact(vector3 hitPos, Actor hitActor)
+	{
+	}
+}
+class FreezerLaserBeam_Core : LaserBeam
+{
+	Default
+	{
+		Scale 2.0;
+		LaserBeam.LaserColor "White";
+	}
+	override void BeamTick()
+	{
+		
+	}
+}
+
+class IcecubeExplosion : CheapActor
+{
+	Default
+	{
+		Scale 1.0;
+		Alpha 0.8;
+		Translation "0:255=@60[24, 180, 237]";
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 0;
+			TNT1 A 1 
+			{	
+				A_StartSound("Halo/Icecube/Explode", CHAN_AUTO, CHANF_OVERLAP);
+				vector3 fxpos = (pos.xy, pos.z+20);
+				let flare = Spawn("TankRocket_Flare", (pos.xy, pos.z+30));
+				if(flare)
+				{
+					flare.A_SetRenderStyle(1.0, STYLE_AddShaded);
+					flare.SetShade(0xFF18B4ED);
+					flare.A_SetScale(0.75 * Scale.X);
+				}
+				A_QuakeEx(3,3,3, 16, 0, 512, "", QF_SCALEDOWN);
+			}
+			SX04 ABCDEFGHIJKLMNOPQ 1 Bright;
+		stop;
+	}
+}
+
+class IcecubeShard : CheapActor
+{
+	Default
+	{
+		Scale 1.0;
+		Alpha 0.5;
+		+ROLLSPRITE;
+		RenderStyle "Translucent";
+	}
+	
+	override void PostBeginPlay()
+	{
+		super.PostBeginPlay();
+		frame = random[IceShardSFX](0,7);
+		roll = frandom[IceShardSFX](-180,180);
+		A_SetScale(default.Scale.X * frandom[IceShardSFX](0.65,1.0));
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		if(isFrozen()) return;
+		
+		vel.z -= GetGravity() * 0.5;
+		SetOrigin(level.vec3offset(pos, vel), true);
+		
+		if(pos.z <= floorz)
+		{
+			vel *= 0.87;
+			vel.z = 0;
+			SetOrigin((pos.xy, floorz), true);
+		}
+		else
+		{
+			vel *= 0.96;
+		}
+	}
+	
+	States
+	{
+		Spawn:
+			ICSH "#" 1 NoDelay A_JumpIf(pos.z <= floorz, "Fadeout");
+		loop;
+		
+		Fadeout:
+			ICSH "#" 1 
+			{
+				bFLATSPRITE = true;
+				A_FadeOut(0.001);
+			}
+		wait;
+	}
+}
+
+class IcecubeSnow : CheapActor
+{
+	Default
+	{
+		Scale 0.025;
+		Alpha 0.5;
+		+ROLLSPRITE;
+		RenderStyle "Translucent";
+	}
+	
+	override void PostBeginPlay()
+	{
+		super.PostBeginPlay();
+		
+		// These are purely cosmetic so, we can use consoleplayer without desync issues.
+		let cplr = players[consoleplayer].mo;
+		angle = cplr.angle;
+		roll = frandom[IceSnowSFX](-180,180);
+		A_SetScale(default.Scale.X * frandom[IceSnowSFX](0.75,1.25));
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		if(isFrozen()) return;
+		
+		vel.z -= GetGravity() * 0.02;
+		SetOrigin(level.vec3offset(pos, vel), true);
+	
+		if(pos.z <= floorz)
+		{
+			vel *= 0;
+			SetOrigin((pos.xy, floorz), true);
+		}
+		else
+		{
+			vector2 windForce = (cos(angle+90), sin(angle+90)) * (sin(getAge()*5) * 0.07);
+			vel.xy += windForce;
+		}
+		vel *= 0.9; 
+		
+		A_SetScale(default.Scale.X * 0.96);
+		if(Scale.X <= 0)
+		{
+			Destroy();
+			return;
+		}
+	}
+	
+	States
+	{
+		Spawn:
+			ICSN "#" 1 NoDelay A_JumpIf(pos.z <= floorz, "Fadeout");
+		loop;
+		
+		Fadeout:
+			ICSN "#" 1 
+			{
+				bFLATSPRITE = true;
+				A_FadeOut(0.065);
+			}
+		wait;
+	}
+}
+
+class IcecubeSmoke : CheapActor
+{
+	double rollDir;
+	Default
+	{
+		Scale 1.75;
+		Alpha 0.30;
+		+ROLLSPRITE;
+		RenderStyle "Translucent";
+		Translation "0:255=@60[180, 182, 233]";
+	}
+	
+	override void PostBeginPlay()
+	{
+		super.PostBeginPlay();
+		frame = random[IcesmokeSFX](3,11);
+		roll = frandom[IcesmokeSFX](-180,180);
+		rollDir = frandom[IcesmokeSFX](-1,1);
+		alpha = 0.01;
+		A_SetScale(default.Scale.X * frandom[IcesmokeSFX](0.75,1.50));
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		if(isFrozen()) return;
+		
+		// These are purely cosmetic so, we can use consoleplayer without desync issues.
+		let cplr = players[consoleplayer].mo;
+		angle = cplr.angle;
+		
+		A_SetScale(default.Scale.X * 1.1);
+		roll += 0.5 * rollDir;
+		SetOrigin(level.vec3offset(pos, vel), true);
+	}
+	
+	States
+	{
+		Spawn:
+			SMKE "#" 1
+			{
+				alpha += 0.02;
+				if(alpha >= default.alpha)
+					return FindState("Fadeout");
+					
+				return FindState(null);
+			}
+		loop;
+		
+		Fadeout:
+			SMKE "#" 1 A_FadeOut(0.005);
+		wait;
+	}
+}

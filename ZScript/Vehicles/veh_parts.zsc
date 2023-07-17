@@ -18,7 +18,6 @@ class Veh_Manager : Inventory
 		if(passive) newdamage = 0;
 	}
 	
-	
 	static Veh_Manager Setup(PlayerPawn to, VehBase onveh, bool disableweaps = true)
 	{
 		to.GiveInventoryType("Veh_Manager");
@@ -528,9 +527,9 @@ class VehCamera : VehPart
 			}
 		
 			vector3 q = quake_desiredI * quakeperc;
-			vector3 quakeoffs = ( frandom(-q.y, q.y),
-								  frandom(-q.x, q.x),
-								  frandom(-q.z, q.z) );			
+			vector3 quakeoffs = ( frandom[VehFX](-q.y, q.y),
+								  frandom[VehFX](-q.x, q.x),
+								  frandom[VehFX](-q.z, q.z) );			
 			relposoffs += quakeoffs;
 		}
 	}

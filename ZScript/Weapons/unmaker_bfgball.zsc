@@ -21,6 +21,7 @@ class UnmakerBall : HaloSlowProjectile
 		HaloSlowProjectile.MinRangeDamage 100; 
 		HaloSlowProjectile.BaseDamage Unmaker_DMG * 0.25;
 		HaloSlowProjectile.Speed_MPS Unmaker_BMPS;
+		HaloSlowProjectile.SplashSpawner "LargeSplashSpawner";
 	}
 	
 	void FireLasers(double amt = 5, double maxDist = 1024)
@@ -81,15 +82,15 @@ class UnmakerBall : HaloSlowProjectile
 			vector2 view = (0, 0);
 			int adjustedAmt = max(20 * halodoom_effectintensity, 0);
 			bool doFireLasers = true;
-			uint effectCount = 0;
+			int effectCount = 0;
 			
 			for(int i = 0; i < 20; i++)
 			{
-				vector2 localPos = (frandom(-1,1) * 30.0, frandom(-1,1) * (30.0 / 1.2));
+				vector2 localPos = (frandom[UnmakerRNG](-1,1) * 30.0, frandom[UnmakerRNG](-1,1) * (30.0 / 1.2));
 				vector3 lightningPos = HaloMath.RelativeV3Offset(self, 0,0,0, 0, localPos.x, localPos.y, 1.);
 				
-				view.x = frandom(0,360);
-				view.y = frandom(-60,60);
+				view.x = frandom[UnmakerRNG](0,360);
+				view.y = frandom[UnmakerRNG](-60,60);
 				class<LightningActor> lType = "UnmakerLightning";
 				if(random[unmakerLightningType](0,4)==4) 
 				{
@@ -108,9 +109,9 @@ class UnmakerBall : HaloSlowProjectile
 		}
 		if( !(getAge()%5) && random[unmakerSmoke](0,1)==1 )
 		{
-			vector3 randPos = (frandom(-1,1),frandom(-1,1),frandom(-1,1)) * 15;  
-		//	HaloMath.SpawnFX("UnmakerLaserSmoke", pos + randPos, angle + frandom(-10,10), random(5,10), 64, 10);
-			HaloMath.SpawnFX("UnmakerBallSmoke", pos + randPos, angle + frandom(-10,10), random(5,10), 64, 10);
+			vector3 randPos = (frandom[UnmakerRNG](-1,1),frandom[UnmakerRNG](-1,1),frandom[UnmakerRNG](-1,1)) * 15;  
+		//	HaloMath.SpawnFX("UnmakerLaserSmoke", pos + randPos, angle + frandom[UnmakerRNG](-10,10), random[UnmakerRNG](5,10), 64, 10);
+			HaloMath.SpawnFX("UnmakerBallSmoke", pos + randPos, angle + frandom[UnmakerRNG](-10,10), random[UnmakerRNG](5,10), 64, 10);
 		}
 		
 		// Setup decorations.
@@ -165,15 +166,15 @@ class UnmakerBall : HaloSlowProjectile
 				vector2 view = (0,0);
 				for(int i = 0; i < adjustedAmt; i++)
 				{
-					vector2 localPos = (frandom(-1,1) * 30.0, frandom(-1,1) * (30.0 / 1.2));
+					vector2 localPos = (frandom[UnmakerRNG](-1,1) * 30.0, frandom[UnmakerRNG](-1,1) * (30.0 / 1.2));
 					vector3 lightningPos = HaloMath.RelativeV3Offset(self, 0,0,0, 0, localPos.x, localPos.y, 1.);
 					
-					view.x = frandom(0,360);
-					view.y = (-pitch) + frandom(-30,30);
+					view.x = frandom[UnmakerRNG](0,360);
+					view.y = (-pitch) + frandom[UnmakerRNG](-30,30);
 					BiriBiri.DoLightning(lightningPos, view, type:"BigUnmakerLightning", dist:200, 1.0, 12.0, 10.0, 30, 0);
 				}
-				vector3 randPos = (frandom(-1,1),frandom(-1,1),frandom(-1,1)) * 30;  
-				HaloMath.SpawnFX("UnmakerBallSmoke", pos + randPos, angle + frandom(-10,10), random(5,10), 64, 10, angle+180, -pitch, 8);
+				vector3 randPos = (frandom[UnmakerRNG](-1,1),frandom[UnmakerRNG](-1,1),frandom[UnmakerRNG](-1,1)) * 30;  
+				HaloMath.SpawnFX("UnmakerBallSmoke", pos + randPos, angle + frandom[UnmakerRNG](-10,10), random[UnmakerRNG](5,10), 64, 10, angle+180, -pitch, 8);
 	
 				A_Quake(5, 30, 0, 1024, "");
 				let plr = HaloPlayer(target);

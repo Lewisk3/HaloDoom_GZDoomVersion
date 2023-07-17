@@ -1,0 +1,32 @@
+extend class HLSBS
+{
+	static void DrawPartialCircle(vector2 pos, double radius, Color circleColor = 0xFF63E3DF, double fillpercent = 1.0, double alpha = 1.0, double points = 360)
+	{
+		double perc = fillpercent;
+		let pxl = TexMan.CheckForTexture("BLANK", TexMan.Type_Any);
+		
+		vector2 circlePos = pos;
+		double circleAlpha = alpha;
+		double angfrac = 360/points;
+		double pointPerc = ceil(points*perc);
+		
+		// Initialize Circle 
+		Shape2D circle = new("Shape2D");
+		circle.PushCoord((0,0)); // Middle
+		double startPoint = points - pointPerc;
+		
+		// Push coordinates and polygons
+		for(double i = startPoint; i <= points; i++) circle.PushCoord((cos(angfrac*i),sin(angfrac*i)));
+		for(double i = 1; i <= pointPerc; i++) circle.PushTriangle(i,i+1,0);
+		
+		// Vertices
+		vector2 circleRes = ( Screen.getWidth() / HLSBS.getBaseWidth(), Screen.getHeight() / HLSBS.getBaseHeight() );
+		vector2 adjustedPos = (circlePos.x * circleRes.x, circlePos.y * circleRes.y);
+		circle.Clear(Shape2D.C_Verts);
+		circle.PushVertex((adjustedPos.x,adjustedPos.y)); // Middle
+		for(double i = 0; i <= floor(pointPerc); i++) 
+			circle.PushVertex((adjustedPos.x+cos(angfrac*i)*radius*circleRes.x,adjustedPos.y+sin(angfrac*i)*radius*circleRes.y));
+		
+		HLSBS.DrawShape(pxl, circle, alpha:circleAlpha, tint:circleColor);
+	}
+}

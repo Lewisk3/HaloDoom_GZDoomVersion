@@ -1,0 +1,74 @@
+Anger:	Enemies fire their weapons faster and more frequently.
+
+
+Assassins: All enemies in the game are permanently cloaked.
+
+
+Bandanna: Infinite Ammo.
+
+
+Blind: HUD and weapon do not display onscreen.
+
+
+Bonded Pair: Co-op skull: When one player dies, the other player 
+gets a large damage boost that lasts a while.
+
+
+Boom: Explosions have twice the damage radius. Light fuse, run away.
+
+
+Cowbell: Acceleration from explosions is increased.
+
+
+Famine:	Weapons dropped by AI have half the ammo they normally would.
+
+
+Feather: Player and enemy melee strikes impart more movement physics.
+
+
+Fog: The motion tracker is disabled. You'll miss those eyes in the back of your head.
+
+
+Foreign: Players cannot pick up or use Covenant weapons.
+
+
+Ghost: AI no longer flinch from attacks.
+
+
+Grunt Birthday Party: Grunt headshots lead to glorious celebrations.
+
+
+Grunt Funeral: Grunts explode when they die.
+
+
+Malfunction: Every time you respawn, a random element of your HUD is disabled.
+
+
+Masterblaster: Co-op skull: One player's shields recharge to overshield level and can only melee while the second player has no shields but infinite ammo. Roles switch after a number of enemy kills.
+
+
+Mythic: Enemies have increased health.
+
+
+Piñata:	Punching enemies makes them drop grenades. Beat them 'til candy comes out!
+
+
+Recession: Every shot is worth twice the ammo.
+
+
+Scarab: All player-held weapons fire Scarab Gun beams.
+
+
+Streaking: Player shields constantly decay at a slow pace but recharge some with every enemy kill.
+
+
+That's Just... Wrong: Increases enemy awareness of player.
+
+
+Thunderstorm: Upgrades the rank of most enemies.
+
+
+Tilt: Enemy resistances and weaknesses are increased.
+
+
+Tough Luck: Enemies always go berserk, always dive out of the way, never flee.

@@ -12,7 +12,7 @@ class HaloDoom_PlayerClassMenu : HaloMenuBase
 		string btnON  = "Graphics/UI/Title/NONE.png";
 		string btnOFF = "Graphics/UI/Title/NONE.png";
 		string btnHover = "Graphics/UI/Title/btn_light.png";
-		
+				
 		// Build class buttons
 		vector2 btnpos = (520, 400);
 		for(int i = 0; i < PlayerClasses.Size(); i++)
@@ -60,7 +60,12 @@ class HaloDoom_PlayerClassMenu : HaloMenuBase
 				if(buttons[i].pressed)
 					buttons[i].btntext.font_color = Font.CR_BLUE;
 				else if(buttons[i].hovered)
+				{
+					if(buttons[i].btntext.font_color != Font.CR_WHITE)
+						MenuSound("UI/Selected");
+				
 					buttons[i].btntext.font_color = Font.CR_WHITE;
+				}
 				else
 					buttons[i].btntext.font_color = Font.CR_GOLD;
 			}
@@ -75,7 +80,7 @@ class HaloDoom_PlayerClassMenu : HaloMenuBase
 		uint drawFlags = HLSBS.SS_NOASPECTCORRECTION;
 		vector2 plrpos = (1200,500);
 		Color bgcol = 0x266f03fc;
-		uint index = -1;
+		int index = -1;
 		for(int i = 0; i < buttons.Size(); i++)
 		{
 			bool btnactive = (buttons[i].hovered || buttons[i].pressed);
@@ -171,11 +176,10 @@ class HaloDoom_PlayerClassMenu : HaloMenuBase
 			
 			if(buttons[i].clicked)
 			{
-				MenuSound("UI/PressButton");
+				MenuSound("UI/Next");
 				buttons[i].clicked = false;
-
-				// Enter skill menu with selected player class.
-				Menu.SetMenu("episodemenu", selected_class);
+				
+				Menu.SetMenu("HaloSkullMenu");
 				break;
 			}
 		}

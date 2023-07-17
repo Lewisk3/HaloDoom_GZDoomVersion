@@ -57,6 +57,7 @@ class Halo_DMR : HaloGun
 {
 	Default
 	{
+		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 4;
 		Obituary "%o got the Call of Duty treatment from %k's DMR.";
 		Inventory.PickupMessage	"Picked up the M392 Designated Marksman Rifle.";
@@ -66,8 +67,8 @@ class Halo_DMR : HaloGun
 		Weapon.AmmoType1 "Halo_DMR_Reserves";
 		Weapon.AmmoGive 24;
 		Weapon.AmmoType2 "Halo_DMRClip";
+		HaloGun.Faction "Human";
 		
-		HaloGun.Availability "HL3, HL4";
 		HaloGun.PowerTier P_MID;
 		HaloGun.Rarity 50;
 				
@@ -82,6 +83,8 @@ class Halo_DMR : HaloGun
 		HaloGun.UISight "SI_DMR1", 0.25, 0.7;
 		HaloGun.SetupScope 2.0, 0.25;
 		HaloGun.ZoomSounds "Halo/Weapons/Sniper/Zoom/IN", "Halo/Weapons/Sniper/Zoom/OUT";
+		HaloGun.SetupUIAmmo "WI_AMM6", 20, 12, 0, 5;
+		HaloGun.UIAmmo_Scale_Offset 0.7, 0,0;
 		
 		RecoilWeapon.YOffsetRange -5, 40;
 	}
@@ -108,8 +111,8 @@ class Halo_DMR : HaloGun
 	action void A_FireDMR()
 	{
 		A_Light(4);
-		A_WeapSound("Halo/Weapons/DMR/Fire", CHANF_OVERLAP, true);
-		A_WeapSound("Halo/Weapons/DMR/Fire/Bass", CHANF_OVERLAP, true);
+		A_WeapSound("Halo/Weapons/DMR/Fire", CHANF_OVERLAP);
+		A_WeapSound("Halo/Weapons/DMR/Fire/Bass", CHANF_OVERLAP);
 		vector3 shootpos = A_ShootProjectile("HaloDMR_Bullet", 2, 6);
 		
 		A_SetSFXPos(25,-10,-8);
@@ -117,7 +120,7 @@ class Halo_DMR : HaloGun
 			A_SpawnSFX("MuzzleSmoke", 0,0);
 			
 		A_SetSFXPos(25,-15,-30);
-		A_SpawnSFX("BulletCasing", -90,-50);
+		A_SpawnSFX("HighCaliburCasing", -90,-50);
 			
 		A_TakeAmmo(1);
 		A_UpdateSpread();
@@ -171,14 +174,40 @@ class Halo_DMR : HaloGun
 				A_Light(0);
 				A_SetRecoil(-0.18, 0, 8);
 			}
-			TNT1 A 0 A_WeapSound("Halo/Weapons/DMR/Mech", CHANF_OVERLAP);
+			TNT1 A 0 A_WeapSound("Halo/Weapons/DMR/Fire/Mech", CHANF_OVERLAP);
 			WJF1 DEFG 1 A_RecoilOffset(0,0,4);
 			WJF1 HI 1;
 			WJI1 A 8;
 			TNT1 A 0 A_ReFire();
 		goto Ready.Active;
 		
-		Bolt:
+
+		Reload:
+			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
+			TNT1 A 0 A_ScopeDisable();
+			TNT1 A 0 A_ReloadSound();
+			WJR1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1;
+			WJR2 A 1;
+			WJR2 B 1 
+			{
+				A_SetRecoil(-0.7, -0.35, 3);
+				A_SetSFXPos(10,-15,-20);
+				if(!CountReloadAmmo()) A_SpawnSFX("Debris_RifleMagazine", 0, 60);
+			}
+			WJR2 CDEFGHIJKLMNOPQRSTUVWXYZ 1;
+			WJR3 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1;
+			WJR4 ABCDEFGHIJ 1;
+			WJR4 K 1 
+			{
+				A_SetRecoil(0.7, 0.35, 3);
+				A_ReloadClip();
+			}
+			WJR4 LMNOPQRSTUVWXYZ 1;
+			WJR5 A 1;
+			TNT1 A 0 A_JumpIf(!CountReloadAmmo(), "Reload.Bolt");
+			TNT1 A 0 A_GotoState("Ready.Active");
+		
+		Reload.Bolt:
 			TNT1 A 0 A_ScopeDisable();
 			WJR5 ABCDEFGHIJKLMNOPQRSTUVWX 1;
 			WJR5 YZ 1 A_SetRecoil(-0.34, 0, 1);
@@ -192,26 +221,7 @@ class Halo_DMR : HaloGun
 			WJR6 FGHIJKLMNOPQRSTUVXY 1;
 		goto Ready.Active;
 				
-		Reload:
-			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
-			TNT1 A 0 A_ScopeDisable();
-			TNT1 A 0 A_ReloadSound();
-			WJR1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1;
-			WJR2 A 1;
-			WJR2 B 1 A_SetRecoil(-0.7, -0.35, 3);
-			WJR2 CDEFGHIJKLMNOPQRSTUVWXYZ 1;
-			WJR3 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1;
-			WJR4 ABCDEFGHIJ 1;
-			WJR4 K 1 
-			{
-				A_SetRecoil(0.7, 0.35, 3);
-				A_ReloadClip();
-			}
-			WJR4 LMNOPQRSTUVWXYZ 1;
-			WJR5 A 1;
-	
-			TNT1 A 0 A_JumpIf(!CountReloadAmmo(), "Bolt");
-		goto Ready.Active;
+		
 		
 		Scope.ON:
 			TNT1 A 1 

@@ -1,4 +1,4 @@
-version "4.5"
+version "4.10.0"
 
 // Essentials
 #include "ZScript/math.zsc"
@@ -21,9 +21,13 @@ version "4.5"
 // UI
 #include "ZScript/SBS/halo_sbs_base.zsc"
 #include "ZScript/SBS/halo_sbs_3D.zsc"
+#include "ZScript/SBS/halo_sbs_ext.zsc"
+#include "ZScript/UI/halohud_base.zsc"
 #include "ZScript/UI/halo_hud.zsc"
+#include "ZScript/UI/compat_huds.zsc"
 #include "ZScript/UI/overlay_ui.zsc"
 #include "ZScript/UI/hitmarkers.zsc"
+#include "ZScript/UI/hudselector.zsc"
 
 // Menu(s)
 #include "ZScript/Menus/Base/halomenu_base.zsc"
@@ -31,6 +35,7 @@ version "4.5"
 #include "ZScript/Menus/halomenu_title.zsc"
 #include "ZScript/Menus/halomenu_splash.zsc"
 #include "ZScript/Menus/halomenu_playerselection.zsc"
+#include "ZScript/Menus/halomenu_skulls.zsc"
 #include "ZScript/Menus/halomenu_skillmenu.zsc"
 #include "ZScript/Menus/halomenu_gametype.zsc"
 
@@ -40,6 +45,8 @@ version "4.5"
 #include "ZScript/Items/powerups.zsc"
 #include "ZScript/Items/pickups.zsc"
 #include "ZScript/Items/barrels.zsc"
+#include "ZScript/Items/shield_base.zsc"
+#include "ZScript/Items/damage_effects.zsc"
 
 // Weapon base
 #include "ZScript/Weapons/Base/recoilbase.zsc"
@@ -47,7 +54,9 @@ version "4.5"
 #include "ZScript/Weapons/Base/projectile_common.zsc"
 #include "ZScript/Weapons/Base/projectilebase.zsc"
 #include "ZScript/Weapons/Base/ammobase.zsc"
+#include "ZScript/Weapons/weapondebris.zsc"
 #include "ZScript/Weapons/sfx.zsc"
+#include "ZScript/Weapons/bullet_splashes.zsc"
 
 // Weapons
 #include "ZScript/Weapons/grapple.zsc"
@@ -66,6 +75,8 @@ version "4.5"
 #include "ZScript/Weapons/grenades.zsc"
 #include "ZScript/Weapons/gravityhammer.zsc"
 #include "ZScript/Weapons/fuelrod.zsc"
+#include "ZScript/Weapons/commando.zsc"
+#include "ZScript/Weapons/GPMG.zsc"
 
 // S2
 #include "ZScript/Weapons/sidekick.zsc"
@@ -83,6 +94,14 @@ version "4.5"
 #include "ZScript/Weapons/lightrifle.zsc"
 #include "ZScript/Weapons/scattershot.zsc"
 
+// S3
+#include "ZScript/Weapons/flamethrower.zsc"
+#include "ZScript/Weapons/plasmacaster.zsc"
+#include "ZScript/Weapons/hydra.zsc"
+#include "ZScript/Items/freezerbeam.zsc"
+#include "ZScript/Weapons/stickydet.zsc"
+#include "ZScript/Weapons/needlejavelin.zsc"
+
 // Vehicles
 #include "ZScript/Vehicles/Kinematics/kine_parts.zsc" 
 #include "ZScript/Vehicles/veh_parts.zsc"
@@ -96,13 +115,76 @@ version "4.5"
 
 // Laser(s)
 #include "ZScript/Lasers/base/smoothlaser_base.zsc"
-#include "ZScript/Lasers/base/laser_base.zsc"
-#include "ZScript/Lasers/base/laserfx_base.zsc"
 #include "ZScript/Lasers/halo_lasers.zsc"
 
 // BiriBiri (Lightning)
 #include "ZScript/Lightning/biribiri_base.zsc"
 #include "ZScript/Lightning/biribiri_parts.zsc"
 
+// Skull Events
+#include "ZScript/Skulls/skulls_base.zsc" 
+#include "ZScript/Skulls/skulls_events.zsc" 
+#include "ZScript/Skulls/skulls.zsc" 
+
 // [>> Gameplay Constants <<]
 const UNIT_METER = 8.f;
+
+// Stuff that may be used later 
+class CoverTest : Actor
+{
+	Default
+	{
+		+SHOOTABLE;
+		+SOLID;
+		+DONTTHRUST;
+		
+		RenderStyle "Add";
+		Alpha 0.35;
+		Health int.max;
+		Radius 16;
+		Height 64;
+	}
+	
+	override bool CanCollideWith(Actor other, bool passive)
+	{
+		if(other.target is "HaloPlayer") return false;
+		return super.CanCollideWith(other, passive);
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		for(let item = Inv; item; item = item.Inv)
+		{
+			if(item is "DamageFX_Item")
+			{
+				DamageFX_Item(item).DisableItem();
+				RemoveInventory(item);
+				item.Destroy();
+			}
+		}
+	}
+	
+	States
+	{
+		Spawn:
+			FATT A -1;
+		stop;
+	}
+}
+
+// Custom intermission test
+class SeamlessIntermission : StatusScreen
+{
+	override void initStats ()
+	{
+		CurState = LeavingIntermission;
+		nowipe = true;
+	}
+
+	override void updateStats () {}
+	override void Drawer()
+	{
+		HLSBS.DrawString("HaloFont", "LOADING", (0,0), flags:HLSBS.SS_SCREEN_CENTER|HLSBS.SS_TEXT_CENTER);
+	}
+}

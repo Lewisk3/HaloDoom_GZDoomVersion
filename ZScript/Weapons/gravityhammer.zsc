@@ -21,6 +21,9 @@ class GravityHammerExplosion : CheapActor
 			TNT1 A 0;
 			TNT1 A 1 
 			{
+				let splash = Spawn("LargeSplashSpawner", pos);
+				if(splash) splash.A_SetScale(splash.Scale.X * 2.5);
+				
 				let sparks = Spawn("ImpactSparks", pos);
 				if(sparks) sparks.A_SetScale(2.0);
 				
@@ -38,7 +41,7 @@ class GravityHammerExplosion : CheapActor
 			TNT1 A 0 
 			{
 				vector3 fxpos = (pos.xy, pos.z+40);
-				 HaloMath.SpawnFX("FragGrenade_FlyingExplosion", fxpos, angle, random(15,25), 10, 20, 180,45, 10);
+				 HaloMath.SpawnFX("FragGrenade_FlyingExplosion", fxpos, angle, random[GravRNG](15,25), 10, 20, 180,45, 10);
 			}
 			SX04 EFGHIJKLMNOPQ 1 Bright
 			{
@@ -47,13 +50,13 @@ class GravityHammerExplosion : CheapActor
 					for(int i = 0; i < 8; i++)
 					{
 						vector2 biriView = (
-							frandom( 0,1) * 360,
-							frandom(-1,1) * 90
+							frandom[GravRNG]( 0,1) * 360,
+							frandom[GravRNG](-1,1) * 90
 						);
 						vector3 posOffs = (
-							frandom(-1,1),
-							frandom(-1,1),
-							frandom(-0.25,0.25)
+							frandom[GravRNG](-1,1),
+							frandom[GravRNG](-1,1),
+							frandom[GravRNG](-0.25,0.25)
 						) * 30;
 						
 						vector3 spawnpos = level.Vec3Offset(pos, posOffs);
@@ -81,11 +84,11 @@ class GravityHammerField : RepulsorField
 			TNT1 A 2
 			{
 				Spawn("FX_Shockwave", pos);
-				HaloMath.ExplodeEx(self, 400, 128, 1.0, damagetype:"Crush");
+				HaloMath.ExplodeEx(self, 400, 128, 1.0, thrustMod:0.25, damagetype:"Crush");
 				let expl = Spawn("GravityHammerExplosion", pos);
 			}
 		Repulse:
-			TNT1 AAAAAAAA 1 A_DoRepulse();
+			TNT1 AAAAAAAA 1 A_DoRepulse(target);
 		stop;
 	}
 }
@@ -96,6 +99,7 @@ class Halo_GravityHammer : HaloGun
 
 	Default
 	{
+		//$Category "HaloDoom/Weapons"
 		Height 127;
 		Weapon.SlotNumber 5;
 		Obituary "%o was turned into a viscous red jelly by %k's Gravity Hammer.";
@@ -107,6 +111,7 @@ class Halo_GravityHammer : HaloGun
 		Weapon.AmmoType2 "Halo_GravityHammer_Battery";
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 10;
+		HaloGun.Faction "Human";
 				
 		// Recoil
 		HaloGun.Bloom 0.8;
@@ -116,7 +121,6 @@ class Halo_GravityHammer : HaloGun
 		HaloGun.Crosshair "GHAMRet", 1.0;
 		HaloGun.UIGraphic "WI_GHAM", 1.0, 1.0;
 		
-		HaloGun.Availability "HL3, HL4, StarWars";
 		HaloGun.PowerTier P_MELEE;
 		
 		RecoilWeapon.YOffsetRange -10, 1000;
@@ -129,8 +133,8 @@ class Halo_GravityHammer : HaloGun
 		vector2 view;
 		for(int i = 0; i < amt; i++)
 		{
-			view.x = angle + frandom(-90,90);
-			view.y = pitch + frandom(-35,35);
+			view.x = angle + frandom[WeapFX](-90,90);
+			view.y = pitch + frandom[WeapFX](-35,35);
 			BiriBiri.DoLightning(invoker.sfx_pos, view, dist:50, 0.5, 20.0, 10.0, 30, 0);
 		}*/
 		
@@ -138,7 +142,7 @@ class Halo_GravityHammer : HaloGun
 		vector2 muzzlePos = (280,20) + posoffs;
 		DoSpriteLightning(
 			amt,
-			frandom(-180,180), muzzlePos, boltlen:boltlen, 
+			frandom[WeapFX](-180,180), muzzlePos, boltlen:boltlen, 
 			stepsize:2.5, roughness:14
 		);
 	}
@@ -228,7 +232,7 @@ class Halo_GravityHammer : HaloGun
 			TNT1 A 1 
 			{
 				vel.z += 5;
-				A_Pushback(5);				
+				A_Pushback(8);				
 				
 				A_SetFlashColor("White", 0.78);
 				A_Overlay(60, "MuzzleBiris");

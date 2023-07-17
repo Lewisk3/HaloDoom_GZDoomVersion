@@ -1,0 +1,260 @@
+Model PistolCasing
+{ 
+   Path "Models/Casings/Pistol"
+   MODEL 0 "Pistol.obj"
+   Skin 0 "Ammo_pack_.50_AE_BaseColor.png"
+
+   Scale 1.0 1.0 1.0 
+   USEACTORROLL
+   USEACTORPITCH
+   CORRECTPIXELSTRETCH
+   FrameIndex MODL A 0 0 
+}
+
+Model RifleCasing
+{ 
+   Path "Models/Casings/Rifle"
+   MODEL 0 "Rifle.obj"
+   Skin 0 "Ammo_pack_7.62_x_51_NATO_BaseColor.png"
+
+   Scale 1.35 1.35 1.35 
+   USEACTORROLL
+   USEACTORPITCH
+   CORRECTPIXELSTRETCH
+   FrameIndex MODL A 0 0 
+}
+
+Model ShellCasing
+{ 
+   Path "Models/Casings/Shotgun"
+   MODEL 0 "Shotgun_Shell.obj"
+   Skin 0 "T_ShotgunShell12Gauge_BaseColor.png"
+
+   Scale 0.2 0.2 0.2
+   USEACTORROLL
+   USEACTORPITCH
+   CORRECTPIXELSTRETCH
+   FrameIndex MODL A 0 0 
+}
+
+Model BlackShellCasing
+{ 
+   Path "Models/Casings/Shotgun"
+   MODEL 0 "Shotgun_Shell.obj"
+   Skin 0 "T_ShotgunShell12Gauge_BaseColor_Black.png"
+
+   Scale 0.2 0.2 0.2
+   USEACTORROLL
+   USEACTORPITCH
+   CORRECTPIXELSTRETCH
+   FrameIndex MODL A 0 0 
+}
+
+Model BlueShellCasing
+{ 
+   Path "Models/Casings/Shotgun"
+   MODEL 0 "Shotgun_Shell.obj"
+   Skin 0 "T_ShotgunShell12Gauge_BaseColor_Blue.png"
+
+   Scale 0.2 0.2 0.2
+   USEACTORROLL
+   USEACTORPITCH
+   CORRECTPIXELSTRETCH
+   FrameIndex MODL A 0 0 
+}
+
+Model HighCaliburCasing
+{ 
+   Path "Models/Casings/50cal"
+   MODEL 0 "50cal.obj"
+   Skin 0 "bullet_.50_Bullet_BaseColor.png"
+
+   Scale 20.0 20.0 20.0 
+   USEACTORROLL
+   USEACTORPITCH
+   CORRECTPIXELSTRETCH
+   FrameIndex MODL A 0 0 
+}
+
+Model FuelrodCasing
+{ 
+   Path "Models/Casings/Fuelrod"
+   MODEL 0 "Fuelrod_Casing.obj"
+   Skin 0 "fuel_rod_diffuse.png"
+
+   Scale 20.0 20.0 20.0 
+   USEACTORROLL
+   USEACTORPITCH
+   CORRECTPIXELSTRETCH
+   FrameIndex MODL A 0 0 
+}
+
+Model Debris_RifleMagazine
+{ 
+   Path "Models/Mags/AR"
+   MODEL 0 "AR_Mag.obj"
+   Skin 0 "assault_rifle_diffuse.png"
+
+   Scale 2.0 2.0 2.0
+   USEACTORROLL
+   USEACTORPITCH
+   CORRECTPIXELSTRETCH
+   FrameIndex MODL A 0 0 
+}
+Model Debris_BulldogMagazine
+{ 
+   Path "Models/Mags/PlasmaCaster"
+   MODEL 0 "PC_Mag.obj"
+   Skin 0 "concussion_rifle_diffuse.png"
+
+   Scale 2.0 2.0 2.0
+   USEACTORROLL
+   USEACTORPITCH
+   CORRECTPIXELSTRETCH
+   FrameIndex MODL A 0 0 
+}
+Model Debris_RocketClip
+{ 
+   Path "Models/Mags/Spnkr"
+   MODEL 0 "SPNKR_Mag.obj"
+   Skin 0 "rocket_launcher_diffuse.png"
+
+   Scale 1.0 1.0 1.0
+   USEACTORROLL
+   USEACTORPITCH
+   CORRECTPIXELSTRETCH
+   FrameIndex MODL A 0 0 
+}
+Model Debris_CarbineMagazine
+{ 
+   Path "Models/Mags/Carbine"
+   MODEL 0 "Carbine_Mag.obj"
+   Skin 0 "storm_covenant_carbine_diff.png"
+
+   Scale 2.0 2.0 2.0
+   USEACTORROLL
+   USEACTORPITCH
+   CORRECTPIXELSTRETCH
+   FrameIndex MODL A 0 0 
+}
+Model Debris_PlasmaCasterMag
+{ 
+   Path "Models/Mags/PlasmaCaster"
+   MODEL 0 "PC_Mag.obj"
+   Skin 0 "concussion_rifle_diffuse.png"
+
+   Scale 2.0 2.0 2.0
+   USEACTORROLL
+   USEACTORPITCH
+   CORRECTPIXELSTRETCH
+   FrameIndex MODL A 0 0 
+}
+Model Debris_CommandoMagazine
+{ 
+   Path "Models/Mags/Commando"
+   MODEL 0 "Commando_Mag.obj"
+   Skin 0 "Commando_Diffuse.png"
+
+   Scale 2.0 2.0 2.0
+   USEACTORROLL
+   USEACTORPITCH
+   CORRECTPIXELSTRETCH
+   FrameIndex MODL A 0 0 
+}
+Model Debris_GPMGMagazine
+{ 
+   Path "Models/Mags/GPMG"
+   MODEL 0 "GPMG_Mag.obj"
+   Skin 0 "GPMG_diffuse.png"
+
+   Scale 2.0 2.0 2.0
+   USEACTORROLL
+   USEACTORPITCH
+   CORRECTPIXELSTRETCH
+   FrameIndex MODL A 0 0 
+}
+Model Debris_MagnumClip
+{ 
+   Path "Models/Mags/Mag"
+   MODEL 0 "Magnum_Mag.obj"
+   Skin 0 "magnum_diffuse.png"
+
+   Scale 2.0 2.0 2.0
+   USEACTORROLL
+   USEACTORPITCH
+   CORRECTPIXELSTRETCH
+   FrameIndex MODL A 0 0 
+}
+Model Debris_NeedlerJavelinMag
+{ 
+   Path "Models/Mags/NeedleJavelin"
+   MODEL 0 "Javelin_Mag.obj"
+   Skin 0 "needle_rifle_diffuse.png"
+
+   Scale 2.0 2.0 2.0
+   USEACTORROLL
+   USEACTORPITCH
+   CORRECTPIXELSTRETCH
+   FrameIndex MODL A 0 0 
+}
+Model Debris_SMGMagazine
+{ 
+   Path "Models/Mags/SMG"
+   MODEL 0 "SMG_Mag.obj"
+   Skin 0 "SMG_Diffuse.png"
+
+   Scale 1.0 1.0 1.0
+   USEACTORROLL
+   USEACTORPITCH
+   CORRECTPIXELSTRETCH
+   FrameIndex MODL A 0 0 
+}
+Model Debris_SniperMagazine
+{ 
+   Path "Models/Mags/Sniper_Stanchion"
+   MODEL 0 "Sniper_Mag.obj"
+   Skin 0 "sniper_rifle_diffuse.png"
+
+   Scale 2.0 2.0 2.0
+   USEACTORROLL
+   USEACTORPITCH
+   CORRECTPIXELSTRETCH
+   FrameIndex MODL A 0 0 
+}
+Model Debris_StanchionMagazine
+{ 
+   Path "Models/Mags/Sniper_Stanchion"
+   MODEL 0 "Sniper_Mag.obj"
+   Skin 0 "sniper_rifle_diffuse.png"
+
+   Scale 2.0 2.0 2.0
+   USEACTORROLL
+   USEACTORPITCH
+   CORRECTPIXELSTRETCH
+   FrameIndex MODL A 0 0 
+}
+Model Debris_SpikerClip
+{ 
+   Path "Models/Mags/Spiker"
+   MODEL 0 "Spiker_Mag.obj"
+   Skin 0 "spike_rifle_diffuse.png"
+
+   Scale 2.0 2.0 2.0
+   USEACTORROLL
+   USEACTORPITCH
+   CORRECTPIXELSTRETCH
+   FrameIndex MODL A 0 0 
+}
+Model Debris_SidekickClip
+{ 
+   Path "Models/Mags/Sidekick"
+   MODEL 0 "P226MAG.obj"
+   Skin 0 "P226MAG.jpg"
+
+   Scale 2.0 2.0 2.0
+   USEACTORROLL
+   USEACTORPITCH
+   CORRECTPIXELSTRETCH
+   FrameIndex MODL A 0 0 
+}
+

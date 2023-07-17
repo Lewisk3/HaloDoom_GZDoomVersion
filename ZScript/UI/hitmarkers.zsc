@@ -139,7 +139,7 @@ class HitM_Headshot : HitMarker
 	
 	override void Init()
 	{
-		pickimg = random(0,1);
+		pickimg = random[HitmarkRNG](0,1);
 		img = String.Format("hithed%d", pickimg+1);
 		alpha = 1.0;
 		animscale = 1.0;

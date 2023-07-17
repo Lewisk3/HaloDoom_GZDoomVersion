@@ -29,18 +29,18 @@ Starbuckmoko
 Killerkouhai
 
 Weapon Animation:
-REVENGE (Key Framing) (We miss you.)
-Moa Dixon (interpolation)
+REVENGE (Key Framing) 
+Moa Dixon (interpolation) (We miss you.)
 Morbid Angel (Interpolation)
 Warry (Interpolation)
 
 Item Sprites: 
 Craneo
 
-Special Thanks:
-Halo Archive
-Surasia
-Plastered Crab
+Splash Sprites:
+https://github.com/pa1nki113r/Project_Brutality
+Realm 667
+
 
 All Models used for spriting not mentioned in these credits are made by Bungie, and property of Microsoft and 343 Industries. HDE was created under microsoft's content usage rules which can be found here:
 https://www.xbox.com/en-US/developers/rules

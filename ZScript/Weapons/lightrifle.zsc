@@ -50,6 +50,7 @@ class LSR_LightRifle : LSR_UnmakerBeam
 		}
 		
 		DoLaserDecal(laserDecalType);
+		Spawn("BulletSplashSpawner", hitPos);
 		if(hitActor) hitActor.DamageMobJ(self, source, LIGHTRIFLE_DMG, "Plasma");
 	}
 }
@@ -80,6 +81,7 @@ class Halo_LightRifle : HaloGun
 {
 	Default
 	{
+		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 5;
 		Obituary "%o was blinded by %k's Light Rifle.";
 		Inventory.PickupMessage	"Picked up the Light Rifle.";
@@ -90,8 +92,8 @@ class Halo_LightRifle : HaloGun
 		Weapon.AmmoType2 "Halo_LightRifleBattery";
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 2;
+		HaloGun.Faction "Forerunner";
 		
-		HaloGun.Availability "HL4, StarWars";
 		HaloGun.PowerTier P_MID;
 		HaloGun.Rarity 10;
 				
@@ -112,6 +114,12 @@ class Halo_LightRifle : HaloGun
 		HaloGun.ZoomSounds "Halo/Weapons/LightRifle/Zoom/IN", "Halo/Weapons/LightRifle/Zoom/OUT";
 		RecoilWeapon.YOffsetRange -10, 40;
 	}
+	
+	override int GetPowerTier()
+	{	
+		if(HaloPlayer.IsGameType("SpartanOverkill")) return P_MID;
+		return super.GetPowerTier();
+	}	
 		
 	action void A_FireLightRifleBurst(int ammouse = 2)
 	{

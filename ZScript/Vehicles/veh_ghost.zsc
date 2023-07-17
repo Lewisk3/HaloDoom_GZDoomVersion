@@ -27,14 +27,23 @@ class HaloGhost_Guns : VehPart
 		
 		if( CheckButtons(BT_ATTACK, VehButtons.BTS_DOWN) && !cooldown )
 		{
-			cooldown = 12;
-			double rmax = 2.0;
+			cooldown = 6;
+			double rmax = 1.0;
+			
+			/*
 			for(int i = 0; i < 7; i++)
 			{
 				double arecoil = frandom(-rmax, rmax);
 				double precoil = frandom(-rmax, rmax)*0.5;
-				let pball = HaloMath.FireProjectile("PlasmaBall", level.vec3offset(pos, base.vel), angle + arecoil, pitch + precoil, 0, 0, 20, 1, 60);
+				let pball = HaloMath.FireProjectile("HaloPlasmaRifle_Proj", level.vec3offset(pos, base.vel), angle + arecoil, pitch + precoil, 0, 0, 20, 1, 60);
 			}
+			*/
+			
+			double arecoil = frandom(-rmax, rmax);
+			double precoil = frandom(-rmax, rmax)*0.5;
+			let pball_left = HaloMath.FireProjectile("HaloPlasmaRifle_Proj", level.vec3offset(pos, base.vel), angle + arecoil, pitch + precoil, -15, 0, 5, 1, 60);
+			let pball_right = HaloMath.FireProjectile("HaloPlasmaRifle_Proj", level.vec3offset(pos, base.vel), angle + arecoil, pitch + precoil, 15, 0, 5, 1, 60);
+			
 			A_StartSound("Halo/Ghost/Fire", CHAN_BODY, CHANF_OVERLAP);
 			cam.Quake(1.25,1.25,0,0.5);
 		}
@@ -52,6 +61,7 @@ class HaloGhost : HaloVehicle
 {
 	VehPart gun;
 	uint explosiontimer;
+	double moveRoll;
 	bool firstboost;
 	
 	Default
@@ -177,12 +187,23 @@ class HaloGhost : HaloVehicle
 		{
 			vector2 accel = (spd, spd * 1.35);
 			vector2 movedir = (forwardmove, -sidemove).Unit();
-
+			moveRoll -= movedir.y * 1.1;
+			
 			movedir = RotateVector(movedir, angle);
 			accel.x *= movedir.x;
 			accel.y *= movedir.y;
 			vel.xy += accel;
 		}
+		
+		vector2 dir = AngleToVector(angle);
+		vector2 aimdir = AngleToVector(viewcam.angle);
+		double cosAng = (dir dot aimdir); // -1 to 1;
+		vector2 slowforce = AngleToVector(angle, spd * 2.0) * (1.0-cosAng);
+		moveRoll += slowforce.Length();
+		
+		moveRoll = clamp(moveRoll, -20, 20);
+		moveRoll *= 0.90;
+		A_SetRoll(moveRoll, SPF_INTERPOLATE);
 		
 		DoCollisionDamage();
 	}

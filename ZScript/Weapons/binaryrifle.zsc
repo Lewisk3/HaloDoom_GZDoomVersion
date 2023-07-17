@@ -41,10 +41,12 @@ class LSR_BinaryRifle : LSR_UnmakerBeam
 		let puff = UnmakerLaserPuff(Spawn("BinaryRiflePuff", hitPos));
 		if(puff) 
 		{
+			startTracking(hitPos);
 			puff.angle = angle + 180;
 			puff.pitch = -(pitch-90);
 		}
 		
+		Spawn("LargeSplashSpawner", hitPos);
 		if(hitActor) hitActor.DamageMobJ(self, source, hitDmg, "Fire");
 	}
 }
@@ -60,7 +62,10 @@ class LSR_BinaryRifleCore : LSR_BinaryRifle
 		+BRIGHT;
 	}
 	
-	override void OnImpact(vector3 hitPos, Actor hitActor) {}
+	override void OnImpact(vector3 hitPos, Actor hitActor) 
+	{
+		startTracking(hitPos);
+	}
 }
 class BinaryRiflePuff : UnmakerLaserPuff
 {
@@ -74,6 +79,7 @@ class Halo_BinaryRifle : HaloGun
 {
 	Default
 	{
+		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 5;
 		Obituary "%o was disintegrated by %k's Binary Rifle.";
 		Inventory.PickupMessage	"Picked up the Binary Rifle.";
@@ -84,8 +90,8 @@ class Halo_BinaryRifle : HaloGun
 		Weapon.AmmoType2 "Halo_BinaryRifleBattery";
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 5;
+		HaloGun.Faction "Forerunner";
 		
-		HaloGun.Availability "HL4, StarWars";
 		HaloGun.PowerTier P_POWER;
 		HaloGun.Rarity 10;
 				
@@ -106,6 +112,12 @@ class Halo_BinaryRifle : HaloGun
 		
 		HaloGun.ZoomSounds "Halo/Weapons/BinaryRifle/Zoom/IN", "Halo/Weapons/BinaryRifle/Zoom/OUT";
 		RecoilWeapon.YOffsetRange -10, 40;
+	}
+	
+	override int GetPowerTier()
+	{	
+		if(HaloPlayer.IsGameType("SpartanOverkill")) return P_MID;
+		return super.GetPowerTier();
 	}
 	
 	action void A_FireBinaryRifle()
@@ -166,7 +178,7 @@ class Halo_BinaryRifle : HaloGun
 			WOF1 C 2 Bright;
 			WOF1 D 1 Bright
 			{
-				A_RecoilOffset(random(-12,12),12,3);
+				A_RecoilOffset(random[WeapFX](-12,12),12,3);
 				A_SetRecoil(4.20, 2.40, 2);
 				A_RollQuake(4, 10, 2);
 			}

@@ -49,6 +49,13 @@ pulselight RedPulseLight
 	secondarySize 8
     interval 2.5
 }
+pulselight SmallOrangeFlickeringLight
+{
+	color 1.0 0.5 0.0
+	size 14    
+	secondarySize 2
+    interval 0.25
+}
 pulselight BluePulseLight
 {
 	color 0 0 0.96
@@ -82,6 +89,11 @@ object UnmakerLightning
 	Frame BEAM { light TinyYellowPointLight }
 }
 */
+object HaloFlames
+{
+	Frame XTH1 { light OrangePointLight }
+	Frame XTH2 { light OrangePointLight }
+}
 
 object HaloScatterShot_Proj
 {
@@ -107,20 +119,28 @@ object UnmakerLaserPuff
 object HaloPlasmaRifle_Proj
 {
 	Frame HPLB { light BlueBrightLight }
+	Frame MODL { light BlueBrightLight }
 }
 object HaloPulseCarbine_Proj
 {
+	Frame MODL { light BlueBrightLight }
 	Frame HPLB { light BlueBrightLight }
 }
 object HaloPlasma_Proj
 {
 	Frame HPLB { light GreenPointLight }
+	Frame MODL { light GreenPointLight }
 }
 object HaloChargedPlasma_Proj
 {
 	Frame HPLB { light GreenPointLight }
+	Frame MODL { light GreenPointLight }
 }
 object HaloNeedleProjectile
+{
+	Frame TRAC { light BlueBrightLight }
+}
+object HaloNeedleJavelin_Proj
 {
 	Frame TRAC { light BlueBrightLight }
 }
@@ -184,6 +204,11 @@ object WraithPlasma
 object FuelRodPlasma
 {
 	frame FSP2 { light GreenPointLight }
+}
+
+object DFX_FireEffect
+{
+	frame FLML { light SmallOrangeFlickeringLight }
 }
 
 // Sprite brightmaps

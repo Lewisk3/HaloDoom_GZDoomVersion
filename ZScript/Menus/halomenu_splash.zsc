@@ -51,7 +51,7 @@ class HaloDoom_IntroSeq : HaloMenuBase
 class Intro_Disclaimer : AnimatedImage
 {
 	double fade;
-	uint fadedir;
+	int fadedir;
 	
 	override void Setup()
 	{

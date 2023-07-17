@@ -49,10 +49,17 @@ class Segment : Actor
 	
 	virtual void FollowPos(vector3 target, bool forcefollow = false)
 	{
-		vector3 dir = level.Vec3Diff(pos, target);
+		vector3 dir = level.Vec3Diff(pos, target).Unit();
+		if(dir != dir)
+		{
+			// console.printf("NAN :> %f, %f, %f (%f)", dir.x,dir.y,dir.z, level.Vec3Diff(pos, target));
+			MovePos(target);
+			return; // Check for NaN.
+		}
+
 		vector2 dirangles = (
-			atan2(dir.y, dir.x),
-			atan2(sqrt(dir.x**2 + dir.y**2), dir.z)
+			  atan2(dir.y, dir.x),
+			  atan2(dir.xy.Length(), dir.z)
 		);
 		
 		if( followangle || forcefollow ) 
@@ -65,9 +72,8 @@ class Segment : Actor
 		else
 			pitch = pitchoffs;
 		
-		double len = (pos - endpos).Length();
-		dir = dir.Unit() * -len;
-		MovePos(level.vec3offset(target, dir));
+		dir *= (pos - endpos).Length();
+		MovePos(level.vec3offset(target, -dir));
 	}
 	
 	void MovePos(vector3 topos)
@@ -162,7 +168,7 @@ class KineLimb : Actor
 		
 		if(!bInvisible)
 		{
-			uint end = segs.Size()-1;
+			int end = segs.Size()-1;
 			segs[end].FollowPos(followpos);
 			for(int i = end-1; i >= 0; i--) segs[i].FollowPos(segs[i+1].pos);
 			

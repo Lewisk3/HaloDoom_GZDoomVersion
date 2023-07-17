@@ -116,9 +116,12 @@ class GrapplingHook : KineLimb
 	
 	override void Update()
 	{
+		if(plr && plr.player && (plr.player.cheats & CF_PREDICTING)) return;
+		
 		endpos = HaloMath.Lerp3D(fixedpos, hookpos, lerp);
 		GetRelPos();
-
+		if(GetAge() >= 35*10) retracting = true;
+	
 		let haloplr = HaloPlayer(plr);
 		uint btns = plr.player.cmd.buttons; 
 		
@@ -157,6 +160,7 @@ class GrapplingHook : KineLimb
 			{
 				ClearSegs();
 				Destroy();
+				haloplr.grapple = NULL;
 			}
 			return;
 		}

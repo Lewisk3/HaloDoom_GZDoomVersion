@@ -8,6 +8,7 @@ class HaloDoom_Events : EventHandler
 	
 	HaloDoom_EngineEvents engHandle;
 	Dictionary surfacesDatabase;
+	Dictionary splashDatabase;
 	
 	static Dictionary GetSurfacesData()
 	{
@@ -16,15 +17,51 @@ class HaloDoom_Events : EventHandler
 		return null;
 	}
 	
+	static Dictionary GetSplashData()
+	{
+		let haloEvents = HaloDoom_Events(EventHandler.Find("HaloDoom_Events"));
+		if(haloEvents) return haloEvents.splashDatabase;
+		return null;
+	}
+	
 	override void OnRegister()
 	{
 		engHandle = HaloDoom_EngineEvents(StaticEventHandler.Find("HaloDoom_EngineEvents"));
-		populateSpawnArrays();
 				
 		// Initialize footsteps
 		surfacesDatabase = Dictionary.Create();
-		PopulateFootsteps();
+		splashDatabase = Dictionary.Create();
+		PopulateSurfaces();
 		runningLZDoom = !!CVar.GetCVar("vid_displaybits");
+	}
+	
+	override void PlayerSpawned(PlayerEvent e)
+	{
+		if(halodoom_allpoweredup) GivePlayerPowerups(e.PlayerNumber);
+	}
+	override void PlayerRespawned(PlayerEvent e)
+	{
+		if(halodoom_allpoweredup) GivePlayerPowerups(e.PlayerNumber);
+	}
+	
+	void GivePlayerPowerups(int pnum)
+	{
+		let plr = players[pnum];
+		if(plr && plr.mo)
+		{
+			for(int i = 0; i < AllActorClasses.Size(); i++)
+			{
+				let classtype = AllActorClasses[i];
+				if(classtype is "HaloPowerGiver" && classtype != "HaloPowerGiver") 
+				{
+					let power = (class<HaloPowerGiver>)(classtype);
+					let defs = GetDefaultByType(power);
+					if(!defs.bUPGRADEPOWER) continue;
+					
+					plr.mo.GiveInventory((class<Inventory>)(defs.powerupType), 1);
+				}
+			}
+		}
 	}
 	
 	void StringFilterEOL(out string src)
@@ -32,8 +69,10 @@ class HaloDoom_Events : EventHandler
 		for(int i = src.Length(); i >= 0; i--)
 			if(src.ByteAt(i) == TOK_EndOfLine) src.Remove(i,1);
 	}
-	void PopulateFootsteps()
+	void PopulateSurfaces()
 	{
+		string tok_Splash = "splash";
+	
 		// Read stepdefs 
 		for(int lump = -1; (lump = Wads.FindLump("SURFDEFS", lump+1)) != -1;)
 		{
@@ -63,12 +102,23 @@ class HaloDoom_Events : EventHandler
 			for(int i = 0; i < dataPoints.Size(); i++)
 			{
 				string defs = dataPoints[i];
+				string defsLower = dataPoints[i].MakeLower();
 				if(defs == "" || defs.Length() <= 0) continue;
 				
 				int argStart = defs.IndexOf("{");
 				if(argStart < 0) 
 					ThrowAbortException("STEPDEFS Error, expecting { following sound name.");
-					
+				
+				int keyword_Splash = defsLower.IndexOf(tok_Splash);
+				string splashname = "";
+				
+				if(keyword_Splash >= 0) 
+				{
+					int start = keyword_Splash+tok_Splash.Length();
+					splashname = defs.Mid(start, argStart-start);
+					StringFilterEOL(splashname);
+				}
+				
 				string soundname = defs.Left(argStart);
 				string textures = defs.Mid(argStart+1, defs.Length()-argStart);
 				StringFilterEOL(soundname);
@@ -82,7 +132,10 @@ class HaloDoom_Events : EventHandler
 					string texName = textureNames[t];
 					StringFilterEOL(texName);
 					
-					surfacesDatabase.Insert(texName, soundName);
+					if(splashname)
+						splashDatabase.Insert(texName, splashname);
+					else
+						surfacesDatabase.Insert(texName, soundName);
 				}
 			}
 		}
@@ -114,6 +167,15 @@ class HaloDoom_Events : EventHandler
 			);
 			if(!plr.soundwait) plr.soundwait = 2;
 		}
+		
+		// Process damage-type effects.
+		string dmgType = e.DamageType;
+		dmgType = dmgType.MakeLower();
+		
+		if(dmgType.IndexOf("fire") != -1 && random[DMGTypeEffect](0,100) <= 20)
+		{
+			victim.GiveInventory("DamageFX_Fire", 1);
+		}
 	}
 	
 	override void WorldThingDied(WorldEvent e)
@@ -140,6 +202,8 @@ class HaloDoom_Events : EventHandler
 				Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Headshot:1:Hit/Killed:replace", plrnum);
 			else
 				Halo_OverlayUI.SendNetworkEvent("hitmark:HitM_Killed:1:Hit/Killed:replace", plrnum);
+				
+			if(victim != plr) plr.OnEnemyKilled(victim);
 		}
 	}
 	
@@ -173,11 +237,22 @@ class HaloDoom_Events : EventHandler
 			Object.ThrowAbortException("\c[Red]Playsim aborted.");
 		}
 		
+		if(e.Name ~== "togglegravity" && haloplr)
+		{
+			haloplr.SetSpaceMovement(!haloplr.spacemovement);
+			console.printf("Space move :> %d", haloplr.spacemovement);
+		}
+		
 		// Extra keys
 		if(haloplr && haloplr.health > 0)
 		{			
 			if(e.Name ~== "+weaponInfo") haloplr.drawWeaponInfo = true;
 			if(e.Name ~== "-weaponInfo") haloplr.drawWeaponInfo = false;
+			if(e.Name ~== "+icebeam")
+			{
+				let frzbeam = PowerFreezerBeam(haloplr.FindInventory("PowerFreezerBeam"));
+				if(frzbeam) frzbeam.tryfire = true;
+			}
 		
 			if(e.Name ~== "haveashield")
 			{
@@ -187,7 +262,7 @@ class HaloDoom_Events : EventHandler
 					console.printf("Gave shield.");
 				}
 			}
-		
+				
 			if(e.Name ~== "throwgrenade")
 			{
 				let haloweap = HaloGun(haloplr.player.ReadyWeapon);
@@ -199,7 +274,17 @@ class HaloDoom_Events : EventHandler
 			}
 			if(e.Name ~== "toggleflashlight")
 			{
-				if(haloplr.flashlight) 
+				if(haloplr.visor)
+				{
+					// Disable flashlight
+					if(haloplr.flashlight && haloplr.flashlight.active) 
+						haloplr.flashlight.active = false;
+					
+					haloplr.visor.SetEnabled(!haloplr.visor.enabled);
+					string flStatus = haloplr.visor.enabled ? "ON" : "OFF";
+					haloplr.A_StartSound("Halo/Visor/" .. flStatus, CHAN_AUTO);
+				}
+				else if(haloplr.flashlight) 
 				{
 					haloplr.flashlight.active = !haloplr.flashlight.active;
 					string flStatus = haloplr.flashlight.active ? "ON" : "OFF";
@@ -217,7 +302,15 @@ class HaloDoom_Events : EventHandler
 			if(obj) Actor.Spawn(obj, haloplr.aimpos);
 		}
 		
-		if(multiplayer) return;
+		if(args[0] == "crosshairgive" && haloplr)
+		{
+			class<Inventory> item = args[1];
+			if(!item || !haloplr.aimActor) return;
+			
+			haloplr.aimActor.GiveInventory(item, 1);
+		}
+		
+		if(multiplayer && sv_cheats == 0) return;
 		if(e.Name == "HaloDoom_GiveAll")
 		{	
 			Array<class<HaloGun> > guns;
@@ -226,9 +319,7 @@ class HaloDoom_Events : EventHandler
 				let classtype = AllActorClasses[i];
 				if(classtype is "HaloGun" && classtype != "HaloGun") 
 				{
-					let weap = (class<Weapon>) (classtype);
-					if(shouldFilterWeapon(weap)) continue;
-					
+					if(shouldFilterWeapon(classtype.getClassName())) continue;	
 					guns.Push(AllActorClasses[i]);
 				}
 			}
@@ -241,6 +332,27 @@ class HaloDoom_Events : EventHandler
 			}
 		}
 		
+		if(e.Name ~== "HaloDoom_SpawnHaloPowerups")
+		{
+			Array<class<HaloPowerGiver> > powers;
+			for(int i = 0; i < AllActorClasses.Size(); i++)
+			{
+				let classtype = AllActorClasses[i];
+				if(classtype is "HaloPowerGiver" && classtype != "HaloPowerGiver") 
+				{
+					powers.Push(AllActorClasses[i]);
+				}
+			}
+			
+			int spacing = 360./powers.Size();
+			for(int i = 0; i < powers.Size(); i++)
+			{
+				let powerType = powers[i];
+				vector2 spawnpos = Actor.AngleToVector(i*spacing, 80);
+				Actor.Spawn(powerType, src.mo.Vec3Offset(spawnpos.x,spawnpos.y, src.mo.floorz));
+			}
+		}
+
 		if(e.Name == "HaloDoom_GiveAllAmmo") // twosticksandarock
 		{
 			Array<class<Ammo> > gunAmmo;
@@ -338,6 +450,7 @@ class HaloDoom_Events : EventHandler
 	
 	override void WorldLoaded(WorldEvent e)
 	{
+		populateSpawnArrays();
 		if(!e.IsSaveGame)
 		{
 			// Clear used keys
@@ -396,7 +509,7 @@ class HaloDoom_Events : EventHandler
 class HaloDoom_EngineEvents : StaticEventHandler 
 {		
 	ui bool intro_played;
-	
+
 	override void UITick()
 	{
 		let curmenu = Menu.GetCurrentMenu();

@@ -62,7 +62,12 @@ class HaloDoom_GameTypeMenu : HaloMenuBase
 				if(buttons[i].pressed)
 					buttons[i].btntext.font_color = Font.CR_BLUE;
 				else if(buttons[i].hovered)
+				{
+					if(buttons[i].btntext.font_color != Font.CR_WHITE)
+						MenuSound("UI/Selected");
+						
 					buttons[i].btntext.font_color = Font.CR_WHITE;
+				}
 				else
 					buttons[i].btntext.font_color = Font.CR_GOLD;
 			}
@@ -96,25 +101,52 @@ class HaloDoom_GameTypeMenu : HaloMenuBase
 		if(index != -1)
 		{
 			let gameType = gtInfo[index];
+			string weaplimit = String.Format("Weapon Limit: %d", gameType.backpackLimit);
+			if(gameType.flags & GameTypeInfo.UNLIMITEDBACKPACK) weaplimit = "Can carry all weapons";
+			
 			string gtName = StringTable.Localize(gameType.displayName);
 			string gtDesc = StringTable.Localize(gameType.Description);
 			gtDesc = StringHelper.formatLnBreaks(gtDesc, 30);
+			
+			string gtStartWeapons; 
+			for(int i = 0; i < gameType.loadoutWeapons.Size(); i++)
+			{
+				let weap = (class<Weapon>)(gameType.loadoutWeapons[i]);
+				if(!weap) continue;
+				let defs = GetDefaultByType(weap);
+				
+				string weaptag = defs.getTag();
+				if(i == 0) 
+				{
+					gtStartWeapons = weaptag;
+				}
+				else if(i == gameType.loadoutWeapons.Size()-1)
+				{
+					gtStartWeapons = String.Format("%s, %s.", gtStartWeapons, weaptag);
+				}
+				else
+				{
+					gtStartWeapons = String.Format("%s, %s", gtStartWeapons, weaptag);
+				}
+			}
+			gtStartWeapons = StringHelper.formatLnBreaks(gtStartWeapons, 30);
 				
 			HLSBS.DrawString("HaloFont", gtDesc, (desc_pos.x+50,desc_pos.y+80), flags:drawFlags, Font.CR_WHITE, scale:(0.15,0.15), linespacing:130);
 			
 			Array<String> gametype_weaps;
-			HaloGun.getGameTypeWeapons( !index ? 0 : 1 << (index-1), gametype_weaps );
+			HaloGun.getGameTypeWeapons(gameType.defName, gametype_weaps);
 			
 			String weaps = "";
 			for(int i = 0; i < gametype_weaps.Size(); i++)
 			{
 				string comma = ", ";
 				if(i >= gametype_weaps.Size()-1) comma = ".";
-				
 				weaps = weaps .. gametype_weaps[i] .. comma;
 			}
 				
 			weaps = StringHelper.formatLnBreaks(weaps, 60);
+			HLSBS.DrawString("HaloFont", String.Format("Loadout: %s", gtStartWeapons), (desc_pos.x+20,desc_pos.y+295), flags:drawFlags, Font.CR_ORANGE, scale:(0.10,0.10), linespacing:100);
+			HLSBS.DrawString("HaloFont", weaplimit, (desc_pos.x+20,desc_pos.y+320), flags:drawFlags, Font.CR_ORANGE, scale:(0.10,0.10), linespacing:100);
 			HLSBS.DrawString("HaloFont", weaps, (desc_pos.x+20,desc_pos.y+350), flags:drawFlags, Font.CR_GREEN, scale:(0.10,0.10), linespacing:100);
 		}
 	}
@@ -128,12 +160,12 @@ class HaloDoom_GameTypeMenu : HaloMenuBase
 
 			if(buttons[i].clicked)
 			{
-				MenuSound("UI/PressButton");
+				MenuSound("UI/Next");
 				buttons[i].clicked = false;
 				
 				// Setup gametype
 				CVar gameType = CVar.GetCVar("halodoom_gametype");
-				gameType.SetInt(!i ? 0 : 1 << (i-1));
+				gameType.SetInt(i);
 			
 				// Enter playeclass menu.
 				Menu.SetMenu("HaloPlayerClassMenu");
