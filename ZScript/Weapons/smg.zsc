@@ -141,10 +141,11 @@ class Halo_SMG : HaloGun
 		A_StartSound(reload_snd, CHAN_RELOADING, CHANF_OVERLAP);
 	}
 	
+	int burstCooldown;
 	int burstRefire;
 	action state A_CheckBurstFire(Statelabel st = "Fire")
 	{
-		if( A_ButtonStatus(BT_ATTACK, BTS_DOWN) || invoker.burstRefire > 0 )
+		if( (A_ButtonStatus(BT_ATTACK, BTS_DOWN) && !A_CheckInScope()) || invoker.burstRefire > 0 )
 		{
 			invoker.burstRefire--;
 			return ResolveState(st);
@@ -152,15 +153,24 @@ class Halo_SMG : HaloGun
 		return ResolveState(null);
 	}
 	
-	action state A_DoBurstFire(int amt)
+	action void A_DoBurstFire(int amt, int cooldown)
 	{
 		invoker.burstRefire = amt;
-		return ResolveState("Fire");
+		invoker.burstCooldown = cooldown;
+		// return ResolveState("Fire");
+	}
+	
+	action state A_CheckSMGRefire(bool cond, StateLabel st)
+	{
+		if(cond) return A_RefireState(st);
+		return ResolveState(null);
 	}
 	
 	override void DoEffect()
 	{
 		super.DoEffect();
+		if(burstCooldown) burstCooldown--;
+		
 		A_UpdateCrosshair(zoomed ? "SMGZRet" : "", self);
 	}
 	
@@ -178,7 +188,7 @@ class Halo_SMG : HaloGun
 		Ready.Active:
 			WFG1 A 1 
 			{	
-				A_HaloWeaponReady(WRF_ALLOWRELOAD, usescope:false);
+				A_HaloWeaponReady(WRF_ALLOWRELOAD, usescope:true);
 				A_ClearRefire();
 			}
 		loop;
@@ -199,7 +209,15 @@ class Halo_SMG : HaloGun
 		Fire:
 			TNT1 A 0 A_GunCheckReload();
 			TNT1 A 0 
-			{	
+			{
+				if( A_CheckInScope() )
+				{
+					if(invoker.burstRefire <= 0 && invoker.burstCooldown <= 0)
+						A_DoBurstFire(4, 25);
+					else if(invoker.burstRefire <= 0)
+						return ResolveState("Ready.Active");
+				}
+				
 				bool firstFire = player.refire < 2 || invoker.burstRefire > 0;
 				if(!firstFire) return ResolveState("Fire.Continuous");
 				return A_Jump(127, "Fire.Two");
@@ -218,7 +236,7 @@ class Halo_SMG : HaloGun
 				A_Light(0);
 				A_MechanismSound("Halo/Weapons/SMG/Mech");
 			}
-			TNT1 A 0 A_RefireState("Fire");
+			TNT1 A 0 A_CheckSMGRefire(!A_CheckInScope(), "Fire");
 			WFS1 DEFGHIJKLMNOPQRST 1 A_CheckBurstFire();
 		goto Ready.Active;
 		Fire.Two:
@@ -235,7 +253,7 @@ class Halo_SMG : HaloGun
 				A_Light(0);
 				A_MechanismSound("Halo/Weapons/SMG/Mech");
 			}
-			TNT1 A 0 A_RefireState("Fire");
+			TNT1 A 0 A_CheckSMGRefire(!A_CheckInScope(), "Fire");
 			WFS1 XYZ 1 A_CheckBurstFire();
 			WFS2 ABCDEFGHIJKLMN 1 A_CheckBurstFire();
 		goto Ready.Active;
@@ -296,12 +314,7 @@ class Halo_SMG : HaloGun
 			WFF2 UVWXYZ 1 A_CheckBurstFire();
 			WFF3 ABCDEFGH 1 A_CheckBurstFire();
 		goto Ready.Active;
-		
-		AltFire:
-			WFG1 A 2;
-			TNT1 A 0 A_DoBurstFire(4);
-		goto Ready.Active;
-		
+				
 		Reload:
 			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
 			TNT1 A 0 
