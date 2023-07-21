@@ -213,7 +213,7 @@ class Halo_SMG : HaloGun
 				if( A_CheckInScope() )
 				{
 					if(invoker.burstRefire <= 0 && invoker.burstCooldown <= 0)
-						A_DoBurstFire(4, 25);
+						A_DoBurstFire(5, 18);
 					else if(invoker.burstRefire <= 0)
 						return ResolveState("Ready.Active");
 				}
