@@ -40,6 +40,7 @@ class HaloBulldog_Bullet : HaloBullet
 		HaloProjectile.BaseDamage BULLDOG_DMG;
 		HaloProjectile.Speed_MPS BULLDOG_BMPS;
 		HaloProjectile.HeadshotDMGFactor BULLDOG_HEDMOD;
+		HaloProjectile.RipperCount 3;
 	}
 	
 	override void OnRicochet(Actor proj)
