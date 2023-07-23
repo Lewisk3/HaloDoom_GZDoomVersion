@@ -121,6 +121,7 @@ class Halo_PlasmaCaster : HaloGun
 		Weapon.AmmoType2 "Halo_PlasmaCaster_Clip";
 		Weapon.AmmoGive 10;
 		HaloGun.Faction "Covenant";
+		HaloGun.Rarity 60;
 				
 		// Recoil (Only cosmetic in this case)
 		HaloGun.Bloom 0.8;

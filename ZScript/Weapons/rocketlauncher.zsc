@@ -253,6 +253,7 @@ class Halo_RocketLauncher : HaloGun
 		HaloGun.UIGraphic "WI_RKT", 1.0, 1.0;
 		HaloGun.SetupUIAmmo "WI_AMM3", 57, 16, 0, 2;
 		HaloGun.UIAmmo_Scale_Offset 2.0, -24,0;
+		HaloGun.Rarity 80;
 		
 		HaloGun.PowerTier P_POWER;
 		

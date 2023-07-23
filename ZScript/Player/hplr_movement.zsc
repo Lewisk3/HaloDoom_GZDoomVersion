@@ -544,7 +544,7 @@ extend class HaloPlayer
 			if(player.onground) jumpHeld = 0;
 		}
 		
-		if(jumpHeld >= JETHOLD && jumpdown)
+		if(jumpHeld >= JETHOLD && jumpdown && waterlevel <= 0)
 		{
 			vector2 moveinp = getMovementInputs();
 			double fuelUse = 1.0 / (35*jetPower.thrustTime);

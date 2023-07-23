@@ -382,7 +382,7 @@ class Halo_Spiker : HaloGun
 			}
 			WGM1 FGHH 1
 			{
-				A_HaloMelee(50, 48, hitsnd:"Halo/Melee/Punch", "");
+				A_HaloMelee(50, 48, hitsnd:"Halo/Melee/Punch", "", "Saw", doHitThrust:false);
 			}
 			WGM1 I 10 A_RecoilOffset(0,40,1);
 			WGM1 I 2 A_RecoilOffset(0,20,2);
@@ -410,7 +410,7 @@ class Halo_Spiker : HaloGun
 			}
 			WGM1 KLM 1 
 			{
-				A_HaloMelee(25, 64, hitsnd:"Halo/Melee/Punch", "Halo/Melee/Ouch");
+				A_HaloMelee(25, 64, hitsnd:"Halo/Melee/Punch", "Halo/Melee/Ouch", doHitThrust:false);
 			}
 			WGM1 NO 2;
 			WGM1 O 16;

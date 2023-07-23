@@ -739,7 +739,7 @@ class PowerRepulsor : HaloPowerup
 			if(!Owner.IsVisible(act, false, look)) continue;
 			if(!haloproj && act.Distance3DSquared(Owner) > reflectDist) continue;
 			if( haloproj && act.Distance3DSquared(Owner) > (reflectDist*2.0)) continue;
-			if(act.damage <= 0 && !haloproj && !haloslowproj && !nade) continue;
+			if(act.IsZeroDamage() && !haloproj && !haloslowproj && !nade) continue;
 
 			act.target = Owner;
 			act.vel = dir * (act.vel.Length()*4.0);
