@@ -1064,7 +1064,7 @@ class HaloGun : RecoilWeapon
 	// By default NULL results in using ammotype2
 	action void A_TakeAmmo(int amt = 1, bool playEmptySND = true, class<Inventory> type = NULL)
 	{
-		if(sv_infiniteammo) return;
+		if( sv_infiniteammo || (invoker.bottomless_reserves && invoker.uses_battery) ) return;
 		amt *= max(1, invoker.modifyAmmoUsage);
 		
 		if(!type) type = invoker.ammotype2;
