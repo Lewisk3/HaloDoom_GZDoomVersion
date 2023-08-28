@@ -144,15 +144,18 @@ class WeaponPickupProxy : Actor
 				to.GiveInventory(ammotype1, ammogive1 * ammogive_mod);	
 			
 			// Clip
-			let clipdefs = GetDefaultByType(ammotype2);
-			if(ammotype2 && clipammo != -1)
+			if(ammotype2)
 			{
-				to.TakeInventory(ammotype2, clipdefs.maxamount);
-				to.GiveInventory(ammotype2, clipammo);
-			}
-			else
-			{
-				to.GiveInventory(ammotype2, clipdefs.maxamount);
+				let clipdefs = GetDefaultByType(ammotype2);
+				if(ammotype2 && clipammo != -1)
+				{
+					to.TakeInventory(ammotype2, clipdefs.maxamount);
+					to.GiveInventory(ammotype2, clipammo);
+				}
+				else
+				{
+					to.GiveInventory(ammotype2, clipdefs.maxamount);
+				}
 			}
 		}
 			
