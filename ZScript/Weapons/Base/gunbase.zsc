@@ -1104,6 +1104,9 @@ class HaloGun : RecoilWeapon
 	{
 		if(invoker.skipreload && !countinv(invoker.AmmoType2)) 
 		{
+			if(countinv(invoker.AmmoType1) <= 0) 
+				return ResolveState("Reload");
+			
 			A_ReloadClip();
 			return ResolveState(NULL);
 		}
@@ -1120,7 +1123,7 @@ class HaloGun : RecoilWeapon
 	{
 		if(invoker.skipreload)
 		{
-			A_ReloadClip();
+			if(countinv(invoker.AmmoType1) > 0) A_ReloadClip();
 			return ResolveState(fallback);
 		}
 	
