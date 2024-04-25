@@ -32,8 +32,8 @@ class Halo_MA5B : HaloGun
 		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 1;
 		Obituary "%o was turned into swiss cheese by %k's MA5B.";
-		Inventory.PickupMessage	"Picked up the MA5B LMG.";
-		Tag "LMG (MA5B)";
+		Inventory.PickupMessage	"Picked up the MA5B Squad Automatic Weapon.";
+		Tag "MA5B S.A.W.";
 		Weapon.BobSpeed 1.86;
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_AR_Reserves";
