@@ -18,7 +18,7 @@ class Halo_GPMG_Reserves : Ammo
 		Inventory.MaxAmount 200;
 		Inventory.Icon "HLAMO0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
-		Inventory.PickupMessage "Picked up 25 Rounds for the GPMG";
+		Inventory.PickupMessage "Picked up 25 Rounds for the GPAC";
 		
 		Ammo.BackpackMaxAmount 200;
 	}
@@ -106,9 +106,9 @@ class Halo_GPMG : HaloGun
 	{
 		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 5;
-		Obituary "%o was turned into flesh cheese by %k's GPMG.";
-		Inventory.PickupMessage	"M247 General Purpose Machine Gun";
-		Tag "M247 GPMG";
+		Obituary "%o was blown to bits by %k's GPAC.";
+		Inventory.PickupMessage	"Picked up the M247 General Purpose Auto Cannon";
+		Tag "M247 GPAC";
 		Weapon.BobSpeed 2.0;
 		Weapon.BobRangeX 0.80;
 		Weapon.AmmoType1 "Halo_GPMG_Reserves";
