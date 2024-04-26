@@ -18,7 +18,7 @@ class Halo_Javelin_Reserves : Ammo
 		Inventory.MaxAmount 10;
 		Inventory.Icon "HLAMW0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
-		Inventory.PickupMessage "Picked up 4 Rounds for the Needler Javelin";
+		Inventory.PickupMessage "Picked up 4 Rounds for the Needle Ballista";
 		
 		Ammo.BackpackMaxAmount 14;
 	}
@@ -112,8 +112,8 @@ class Halo_NeedlerJavelin : HaloGun
 		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 7;
 		Obituary "%o was impaled %k's Needler Javelin.";
-		Inventory.PickupMessage	"Picked up the Needler Javelin.";
-		Tag "Needler Javelin";
+		Inventory.PickupMessage	"Picked up the Needle Ballista.";
+		Tag "Needle Ballista";
 		Weapon.BobSpeed 1.86;
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_Javelin_Reserves";
