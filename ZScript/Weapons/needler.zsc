@@ -292,7 +292,7 @@ class Halo_Needler : HaloGun
 				{
 					vector3 meleePos = (
 						invoker.meleeHit.pos.xy, 
-						invoker.meleeHit.z + (invoker.meleeHit.height )
+						invoker.meleeHit.pos.z + (invoker.meleeHit.height )
 					);
 					haloplr.LookAtPoint(meleePos);
 				}

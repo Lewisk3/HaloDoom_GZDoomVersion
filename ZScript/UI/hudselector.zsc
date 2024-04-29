@@ -78,7 +78,7 @@ class OptionMenuItemHaloHUDSelector : OptionMenuItem
 		return true;
 	}
 	
-	virtual bool isGrayed()
+	override bool isGrayed()
 	{
 		return hudTypes.Size() < 2;
 	}

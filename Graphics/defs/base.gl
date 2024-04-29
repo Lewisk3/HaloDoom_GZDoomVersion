@@ -140,7 +140,7 @@ object HaloNeedleProjectile
 {
 	Frame TRAC { light BlueBrightLight }
 }
-object HaloNeedleJavelin_Proj
+object HaloNeedlerJavelin_Proj
 {
 	Frame TRAC { light BlueBrightLight }
 }
