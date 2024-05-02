@@ -255,10 +255,15 @@ class Halo_GPMG : HaloGun
 				A_MechanismSound("Halo/Weapons/GPMG/Mech");
 				A_RecoilOffset(0,0,3);
 			}
-			WVF1 CDE 1 
+			WVF1 CD 1 
 			{
 				A_SetZoom(1.0, 3);
 				A_RecoilOffset(0,0,3);
+			}
+			WVF1 E 6 
+			{
+				A_SetZoom(1.0, 3);
+				A_RecoilOffset(0,0,0);
 			}
 		goto Ready.Active;
 		
