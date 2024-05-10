@@ -700,6 +700,8 @@ $random Halo/Weapons/DMR/Fire      { DMR_FIRE1 DMR_FIRE2 DMR_FIRE3 }
 $random Halo/Weapons/DMR/Fire/Bass { DMR_LOW1 DMR_LOW2 DMR_LOW3  }
 $random Halo/Weapons/DMR/Fire/Mech { DMR_MECH1 DMR_MECH2 DMR_MECH3 }
 
+$volume Halo/Weapons/DMR/Fire/Mech 0.6
+
 // Pulse Carbine
 PUL_FIRE1 "Sounds/PulseCarbine/PC_fire1.ogg"
 PUL_FIRE2 "Sounds/PulseCarbine/PC_fire2.ogg"
