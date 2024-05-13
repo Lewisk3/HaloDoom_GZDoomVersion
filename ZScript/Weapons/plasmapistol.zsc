@@ -206,11 +206,11 @@ class PlasmaSmoke : IcecubeSmoke
 		RenderStyle "Add";
 	}
 	
-		override void Tick()
-		{
-			super.Tick();
-			vel *= 0.8;
-		}
+	override void Tick()
+	{
+		super.Tick();
+		vel *= 0.8;
+	}
 	
 	States
 	{
@@ -260,6 +260,13 @@ class HaloChargedPlasma_Proj : HaloPlasma_Proj
 	{
 		super.Tick();
 		if( !(GetAge() % 2) ) HaloMath.ParticlesFX(self, col, 7, 3, 5);
+		
+		// Plasma has a somewhat limited range.
+		if(GetAge() >= (35 * 3))
+		{
+			Destroy();
+			return;
+		}
 		
 		if(!bMISSILE && !justHit)
 		{
