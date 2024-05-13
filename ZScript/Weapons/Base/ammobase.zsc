@@ -12,4 +12,22 @@ mixin class WorldAmmoBehavior
 		}
 		return false;
 	}
+	
+	override bool CanPickup(Actor toucher)
+	{
+		bool res = super.CanPickup(toucher);
+		if(!res) return res;
+		
+		// Don't allow ammo pickups for weapons which the toucher does not own.
+		bool hasWeapon = false;
+		for(Inventory inv = toucher.inv; inv; inv = Inv.Inv)
+		{
+			let weap = Weapon(inv);
+			if(!weap) continue;
+			
+			if(weap.ammoType1 == getClass() || weap.ammotype2 == getClass())
+				hasWeapon = true;
+		}
+		return hasWeapon;
+	}
 }

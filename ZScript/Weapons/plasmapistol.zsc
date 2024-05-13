@@ -201,8 +201,22 @@ class PlasmaSmoke : IcecubeSmoke
 	Default
 	{
 		Scale 0.30;
-		Alpha 0.15;
+		Alpha 0.7;
 		+BRIGHT;
+		RenderStyle "Add";
+	}
+	
+		override void Tick()
+		{
+			super.Tick();
+			vel *= 0.8;
+		}
+	
+	States
+	{
+		Fadeout:
+			SMKE "#" 1 A_FadeOut(0.1);
+		wait;
 	}
 }
 class PlasmaSmoke_Green : PlasmaSmoke
