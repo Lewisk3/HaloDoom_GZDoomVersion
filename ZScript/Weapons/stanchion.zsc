@@ -39,7 +39,8 @@ class Halo_Stanchion : HaloGun
 	bool justFiredCharged; // Used to prevent quickswap abuse.
 	const CHAN_CHARGING = 12;
 	const CHAN_CHARGED = 13;
-
+	bool fullyCharged;
+	
 	Default
 	{
 		//$Category "HaloDoom/Weapons"
@@ -86,7 +87,7 @@ class Halo_Stanchion : HaloGun
 	override void DoEffect()
 	{
 		super.DoEffect();
-		
+				
 		// Stop charge sounds if this weapon isn't currently selected.
 		if(Owner.player && Owner.player.ReadyWeapon != self)
 		{
@@ -253,7 +254,9 @@ class Halo_Stanchion : HaloGun
 		
 		Fire:
 			TNT1 A 0 A_GunCheckReload();
-			TNT1 A 0 A_JumpIf(invoker.heat >= 1.2, "Fire.Charged");
+		Hold:
+			STCI A 4 A_StartSound("Halo/Weapons/Stanchion/Charge/Complete", CHAN_CHARGING, CHANF_NOSTOP);
+			TNT1 A 0 A_RefireState("Rail.ChargeStart");
 		Fire.Normal:
 			TNT1 A 0 A_SetZoom(0.8, 1);
 			STCF A 1 Bright
@@ -266,7 +269,11 @@ class Halo_Stanchion : HaloGun
 				A_SetZoom(0.8, 2);
 				if(invoker.heat < 1.0) invoker.heat += 0.07;
 			}
-			TNT1 A 0 A_Light(0);
+			TNT1 A 0 
+			{
+				A_Light(0);
+				A_StopSound(CHAN_CHARGING);
+			}
 			STCF BCD 1 Bright 
 			{
 				A_RecoilOffset(10,10,4);
@@ -292,6 +299,7 @@ class Halo_Stanchion : HaloGun
 				A_RQuakeEx(2,10,2,10,0,20,"",QF_RELATIVE|QF_WAVE|QF_SCALEDOWN);
 				A_Pushback(30);
 				A_SetZoom(0.7, 1);
+				invoker.fullyCharged = false;
 			}
 			STCF BCD 1 Bright A_RecoilOffset(60,60,6);
 			TNT1 A 0 
@@ -307,7 +315,6 @@ class Halo_Stanchion : HaloGun
 					
 		Reload:
 			STCI A 4;
-			TNT1 A 0 A_JumpIf(A_ButtonStatus(BT_RELOAD, BTS_HELD), "Reload.ChargeStart");
 			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
 			TNT1 A 0 A_ScopeDisable();
 			TNT1 A 0 A_StartSound("Halo/Weapons/Stanchion/Reload", CHAN_RELOADING, CHANF_OVERLAP);
@@ -328,8 +335,8 @@ class Halo_Stanchion : HaloGun
 			TNT1 A 0 A_SetRecoil(-0.45, 0, 4);
 			STCR VWX 3;
 			TNT1 A 0 A_GotoState("Ready.Active"); 
-
-		Reload.ChargeStart:
+			
+		Rail.ChargeStart:
 			STCI A 1 
 			{
 				bool lowBattery = CountLoadedAmmo() < (120-(invoker.heat*100)) / 5; //25;
@@ -341,21 +348,22 @@ class Halo_Stanchion : HaloGun
 					if(lowBattery) A_HUDMessage("Cannot begin charge: LOW BATTERY");
 					if(tooHot) A_HUDMessage("Charge Status: 100%");
 					if(cooldown) A_HUDMessage("Cannot begin charge: OVERHEATED");
-					return ResolveState("Reload.ChargeEnd");
+					return ResolveState("Rail.ChargeEnd");
 				}
 				
 				if(invoker.heat >= 1.0) // Skip right to charge loop, if we've built up a lot of heat.
-					return ResolveState("Reload.ChargeLoop");
+					return ResolveState("Rail.ChargeLoop");
 					
 				A_StartSound("Halo/Weapons/Stanchion/Charge/Start", CHAN_CHARGING, CHANF_OVERLAP|CHANF_NOSTOP);
+					
 				return ResolveState(null);
 			}
 			STCI AAAAAAAAAAAAAAAAAA 3
 			{
-				bool stopCharge = A_ButtonStatus(BT_RELOAD, BTS_UP);
+				bool stopCharge = A_ButtonStatus(BT_ATTACK, BTS_UP);
 				if(stopCharge)
 				{
-					return ResolveState("Reload.ChargeEnd");
+					return ResolveState("Rail.ChargeEnd");
 				}
 				if(invoker.fxCounter++ >= 2)
 				{
@@ -365,7 +373,7 @@ class Halo_Stanchion : HaloGun
 				}
 				return ResolveState(null);
 			}
-		Reload.ChargeLoop:
+		Rail.ChargeLoop:
 			STCI A 1 
 			{
 				A_RecoilOffset(frandom[WeapFX](-2,2),frandom[WeapFX](-2,2),2);
@@ -375,21 +383,38 @@ class Halo_Stanchion : HaloGun
 					A_SpriteLightning(amt:10, posoffs:(-90,60));
 					invoker.fxCounter = 0;
 				}
-				if( !(int(invoker.heat*100)%5) ) A_TakeAmmo(1);
-				if(!(level.maptime%20)) A_HUDMessage(String.Format("Charge Status: %d%%", min(100,invoker.heat * 100)));
-				invoker.heat += 0.01;
 				
-				if(invoker.heat >= 1.2) 
+				if(!invoker.fullyCharged)
+				{
+					if( !(int(invoker.heat*100)%5) ) A_TakeAmmo(1);
+					if(!(level.maptime%20)) A_HUDMessage(String.Format("Charge Status: %d%%", min(100,invoker.heat * 100)));
+					invoker.heat += 0.01;
+				}
+				
+				if(invoker.heat >= 1.2 && !invoker.fullyCharged) 
+				{
 					A_StartSound("Halo/Weapons/Stanchion/Charge/Complete", CHAN_AUTO, CHANF_OVERLAP);
+					invoker.fullyCharged = true;
+				}
+				
+				if(A_ButtonStatus(BT_ATTACK, BTS_UP))
+					return ResolveState("Rail.ChargeEnd");
+					
+				return ResolveState(null);
 			}
-			TNT1 A 0 A_JumpIf(A_ButtonStatus(BT_RELOAD, BTS_DOWN) && invoker.heat < 1.2, "Reload.ChargeLoop");
-		Reload.ChargeEnd:
+		loop;
+		Rail.ChargeEnd:
 			STCI A 6 
 			{
 				invoker.handsbusy = false; // Ensure handsbusy is properly cleared.
 				A_WeapSound("Halo/Weapons/Stanchion/ChargeEnd", CHANF_OVERLAP);
 				A_RecoilOffset(0,0,6);
 				A_StopSound(CHAN_CHARGING);
+				
+				if(invoker.fullyCharged) 
+					return ResolveState("Fire.Charged");
+					
+				return ResolveState(null);
 			}
 		goto Ready.Active;
 
@@ -408,7 +433,6 @@ class Halo_Stanchion : HaloGun
 		Scope.Two:
 			TNT1 A 1 A_ScopeON();
 			TNT1 A 5 A_SetZoom(invoker.scopezoom * 2.0, 3, true);
-			
 		goto Scope.Ready;
 		
 		Scope.Wait:
