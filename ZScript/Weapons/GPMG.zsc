@@ -68,8 +68,10 @@ class GPMGBulletExplosion : CheapActor
 {	
 	double selfDamage;
 	double expThrust;
+	double fragIntensity;
 	Property SelfDamageAmount : selfDamage;
 	Property ExplosionThrust : expThrust;
+	Property FlyingExplosionChance : fragIntensity;
 	
 	Default
 	{
@@ -78,6 +80,7 @@ class GPMGBulletExplosion : CheapActor
 		Damage 0;
 		GPMGBulletExplosion.SelfDamageAmount 0.33;
 		GPMGBulletExplosion.ExplosionThrust 1.0;
+		GPMGBulletExplosion.FlyingExplosionChance 100;
 	}
 	
 	States
@@ -101,7 +104,8 @@ class GPMGBulletExplosion : CheapActor
 			TNT1 A 0 
 			{
 				vector3 fxpos = (pos.xy, pos.z+40);
-				HaloMath.SpawnFX("FragGrenade_FlyingExplosion", fxpos, angle, random[GPMGExplosionRNG](1,3), 10, 20, 180,45, 25);
+				if(random[FlyingExplosionRNG](0,100) <= fragIntensity) 
+					HaloMath.SpawnFX("FragGrenade_FlyingExplosion", fxpos, angle, random[GPMGExplosionRNG](1,3), 10, 20, 180,45, 25);
 			}
 			SX04 EFGHIJKLMNOPQ 1 Bright;
 		stop;
