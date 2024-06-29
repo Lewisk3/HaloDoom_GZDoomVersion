@@ -255,7 +255,7 @@ class Halo_Stanchion : HaloGun
 		Fire:
 			TNT1 A 0 A_GunCheckReload();
 		Hold:
-			STCI A 4 A_StartSound("Halo/Weapons/Stanchion/Charge/Complete", CHAN_CHARGING, CHANF_NOSTOP);
+			STCI A 4 A_StartSound("Halo/Weapons/Stanchion/Precharge", CHAN_CHARGING, CHANF_NOSTOP);
 			TNT1 A 0 A_RefireState("Rail.ChargeStart");
 		Fire.Normal:
 			TNT1 A 0 A_SetZoom(0.8, 1);
@@ -269,11 +269,7 @@ class Halo_Stanchion : HaloGun
 				A_SetZoom(0.8, 2);
 				if(invoker.heat < 1.0) invoker.heat += 0.07;
 			}
-			TNT1 A 0 
-			{
-				A_Light(0);
-				A_StopSound(CHAN_CHARGING);
-			}
+			TNT1 A 0 A_Light(0);
 			STCF BCD 1 Bright 
 			{
 				A_RecoilOffset(10,10,4);

@@ -273,7 +273,7 @@ class DragonSparkTracer : CheapActor
 		
 		if(GetAge() <= 10)
 		{
-			let trail = Spawn("HaloRocketTrail", pos);
+			let trail = Spawn("DragonSparkTrail", pos);
 			if(trail) 
 			{
 				trail.A_SetScale(0.03,0.03);
@@ -286,6 +286,26 @@ class DragonSparkTracer : CheapActor
 	{
 		Spawn:
 			TRAC A -1;
+		stop;
+	}
+}
+class DragonSparkTrail : HaloRocketTrail
+{
+	States
+	{
+		Spawn:
+			TNT1 A 0;
+			XTH1 ACEGIKMOQS 1 Bright;
+			XTH2 BDF 1 Bright;
+			XTH2 H 1 Bright 
+			{
+				if(random[rocketsmoke](0,10) == 10)
+				{
+					let smk = Spawn("FragGrenade_Smoke", pos);
+					if(smk) smk.A_SetScale(Scale.X);
+				}
+			}
+			XTH2 JLNPRT 1 Bright;
 		stop;
 	}
 }

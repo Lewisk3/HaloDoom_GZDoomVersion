@@ -92,6 +92,7 @@ class HaloDBLShotgun_Bullet : HaloBullet
 				{
 					expl.A_SetScale(expl.default.Scale.X * 0.35);
 					expl.selfDamage = 0;
+					expl.expThrust = 0.1;
 					expl.target = target;
 				}
 			}
