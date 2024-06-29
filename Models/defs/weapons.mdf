@@ -46,7 +46,7 @@ Model HydraMissile
    FrameIndex TRAC A 0 0 
 }
 
-Model SSG_SparkTracer
+Model DragonSparkTracer
 { 
    Path "Models/Weapons"
    SKIN 0 "tracer1.tga" 

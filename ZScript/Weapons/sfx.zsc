@@ -217,6 +217,79 @@ class MuzzleSparks : Actor
 	}
 }
 
+class DragonSparkTracer : CheapActor
+{
+	double falloff;
+	Property FalloffSpeed : falloff;
+
+	Default
+	{
+		+BRIGHT;
+		RenderStyle "AddShaded";
+		Scale 0.75;
+		Speed 30;
+		Radius 10;
+		Height 2;
+		DamageType "Fire";
+		DragonSparkTracer.FalloffSpeed 0;
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		if(isFrozen()) return;
+		
+		SetShade(0x0Af54f02);
+		SetOrigin(level.vec3offset(pos, vel), true);
+		vel = HaloMath.VecFromAngles(angle, pitch, speed);
+		
+		pitch += falloff;
+
+		FLineTraceData lt;
+		LineTrace(angle, vel.Length() + radius, pitch, data:lt);
+		
+		if(lt.HitType != TRACE_HitNone)
+		{
+			let hitActor = lt.HitActor;
+			bool hitGeo = lt.HitType == TRACE_HitWall || lt.HitType == TRACE_HitFloor || lt.HitType == TRACE_HitCeiling;
+			if( hitGeo || hitActor != target && hitActor && hitActor.CanCollideWith(self, false) )
+			{
+				if(hitActor) 
+				{
+					hitActor.GiveInventory("DamageFX_Fire", 1);
+					hitActor.DamageMobj(target, self, 1, damageType);
+				}
+				
+				Spawn("MuzzleSparks", lt.HitLocation);
+				Destroy();
+			}
+		}
+		
+		if(GetAge() > 20)
+		{
+			Destroy();
+			return;
+		}
+		
+		if(GetAge() <= 10)
+		{
+			let trail = Spawn("HaloRocketTrail", pos);
+			if(trail) 
+			{
+				trail.A_SetScale(0.03,0.03);
+				trail.alpha = 0.35;
+			}
+		}
+	}
+	
+	States
+	{
+		Spawn:
+			TRAC A -1;
+		stop;
+	}
+}
+
 class FX_Shockwave : CheapActor
 {
 	double exSpeed;

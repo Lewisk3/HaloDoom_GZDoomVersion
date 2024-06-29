@@ -106,6 +106,19 @@ class Halo_Bulldog : HaloGun
 			A_ShootProjectile("HaloBulldog_Bullet", 8);		
 			if(!(i%2)) A_SpawnSFX("MuzzleSmoke", 0,0);
 		}
+		
+		for(int i = 0; i < max(5, 30 * halodoom_effectintensity); i++)
+		{
+			vector3 hitPos; Actor tSpark;
+			[hitPos, tSpark] = A_ShootProjectile("DragonSparkTracer", 8);
+			if(tSpark)
+			{
+				tSpark.angle += frandom[DragonFX](-6,6);
+				tSpark.pitch += frandom[DragonFX](-6,6);
+				tSpark.target = self;
+			}
+		}
+		
 		A_MuzzleSparks(15, 60, 8,8);
 		A_TakeAmmo(1);
 		A_UpdateSpread();

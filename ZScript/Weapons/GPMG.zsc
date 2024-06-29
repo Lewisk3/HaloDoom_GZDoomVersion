@@ -66,11 +66,15 @@ class HaloGPMG_Bullet : HaloBullet
 
 class GPMGBulletExplosion : CheapActor
 {	
+	double selfDamage;
+	Property SelfDamageAmount : selfDamage;
+	
 	Default
 	{
 		Scale 0.5;
 		Alpha 0.8;
 		Damage 0;
+		GPMGBulletExplosion.SelfDamageAmount 0.33;
 	}
 	
 	States
@@ -79,15 +83,16 @@ class GPMGBulletExplosion : CheapActor
 			TNT1 A 0;
 			TNT1 A 1 
 			{
+				double sm = 2.0 * scale.X;
 				let splash = Spawn("LargeSplashSpawner", pos);
-				if(splash) splash.A_SetScale(splash.Scale.X * 2.0);
+				if(splash) splash.A_SetScale(sm * splash.Scale.X * 2.0);
 				
 				let sparks = Spawn("ImpactSparks", pos);
-				if(sparks) sparks.A_SetScale(0.35);
+				if(sparks) sparks.A_SetScale(sm * 0.35);
 				
 				let flare = Spawn("TankRocket_Flare", (pos.xy, pos.z+20));
-				if(flare) flare.A_SetScale(0.35);
-				HaloMath.ExplodeEx(self, 32, 128, selfDamage:0.33, damageBosses:false, infiniteHeight:false);
+				if(flare) flare.A_SetScale(sm * 0.35);
+				HaloMath.ExplodeEx(self, 32, 128, selfDamage:selfDamage, damageBosses:false, infiniteHeight:false);
 			}
 			SX04 ABCD 1 Bright;
 			TNT1 A 0 
