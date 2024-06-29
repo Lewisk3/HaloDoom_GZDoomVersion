@@ -232,6 +232,7 @@ extend class HaloDoom_Events
 			e.Replacement = "Overshield_LV2";
 			
 		// Ammunition spawning
+		bool isUber = false;
 		if( item is "Clip" || item is "ClipBox" ) 
 			ammoSpawns.Append(weaps_basic);
 		if( item is "Shell" ) 
@@ -243,13 +244,16 @@ extend class HaloDoom_Events
 		if(item is "Cell")
 			ammoSpawns.Append(weaps_energy);
 		if( item is "CellPack" )
+		{
 			ammoSpawns.Append(weaps_uber);
+			isUber = true;
+		}
 		
 		Array<String> validAmmos; 
 		getAmmoSpawnList(ammoSpawns, validAmmos);
 		if(validAmmos.Size() > 0)
 		{
-			int weapSpawnChance = 25;
+			int weapSpawnChance = isUber ? 0 : 25;
 			string ammoType = validAmmos[random[HaloAmmoSpawns](0, validAmmos.Size()-1)];
 			
 			if(random[HaloAmmoWeaponSpawns](0,100) < weapSpawnChance) 
