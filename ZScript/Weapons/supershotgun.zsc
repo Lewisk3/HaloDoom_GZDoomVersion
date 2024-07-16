@@ -127,7 +127,7 @@ class Halo_DBLShotgun : HaloGun
 		HaloGun.BaseRecoil DBLSHOTGUN_RECOIL;
 		HaloGun.Inaccuracy DBLSHOTGUN_ACCMOD;
 		HaloGun.Crosshair "DBLSRet1", 1.0;
-		HaloGun.UIGraphic "WI_DBL", 1.0, 1.0;
+		HaloGun.UIGraphic "WI_DBL", 0.65, 0.65;
 		HaloGun.SetupUIAmmo "WI_AMM5", 16, 16, 0, 14;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
