@@ -63,7 +63,7 @@ class Halo_SentinelBeam : HaloGun
 		HaloGun.BaseRecoil 1;
 		HaloGun.Inaccuracy 1;
 		HaloGun.Crosshair "BeamRet", 0.75;
-		HaloGun.UIGraphic "WI_BEAM", 0.6, 0.6;
+		HaloGun.UIGraphic "MISSNG", 0.6, 0.6;
 			
 		RecoilWeapon.YOffsetRange 0, 40;
 	}
@@ -103,7 +103,7 @@ class Halo_SentinelBeam : HaloGun
 	{
 		invoker.beamTics = 0;
 		if(!invoker.beam)
-			invoker.beam = MBeamSpawner.Create(self, fw, lr, ud, cooktime:20, size:3.5, "SentinelBeamSpawner");
+			invoker.beam = MBeamSpawner.Create(self, fw, lr, ud, cooktime:12, size:3.5, "SentinelBeamSpawner");
 		else
 			invoker.beam.srcOffs = (fw, lr, ud);
 			
@@ -191,7 +191,7 @@ class Halo_SentinelBeam : HaloGun
 		Ready.Active:
 			WYG1 A 1 
 			{
-				invoker.heat *= 0.96;
+				invoker.heat *= 0.98;
 				A_HaloWeaponReady(WRF_ALLOWRELOAD, usescope:false);
 				A_Overlay(69, "DoSmoke");
 			}
