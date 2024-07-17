@@ -15,6 +15,11 @@ class MBeamSpawner : Thinker
 	Actor src;
 	Actor beamTarget;
 	
+	virtual void OnCooked(Actor victim)
+	{
+		// Called when a beamTarget has been killed.
+	}
+	
 	vector3 getOffsetPos(Actor base, vector3 offset)
 	{
 		vector3 basePos = (base.pos.xy, base.pos.z + (base.height * 0.5));
@@ -22,6 +27,12 @@ class MBeamSpawner : Thinker
 		let dir = Quat.FromAngles(base.angle, base.pitch, base.roll);
 		
 		return level.vec3offset(basePos, dir * offset);
+	}
+	
+	clearscope I_MBeamCookStatus getCurrentCookStatus()
+	{
+		if(!beamTarget) return NULL;
+		return I_MBeamCookStatus(beamTarget.FindInventory("I_MBeamCookStatus"));
 	}
 	
 	override void Tick()
@@ -62,8 +73,8 @@ class MBeamSpawner : Thinker
 			
 			if(beamVisible)
 			{
-				double spawnHP = beamTarget.SpawnHealth();
 				cookStatus.cookedhealth += DamageTarget(dmgPerTic, cookStatus);
+				if(cookStatus.cookedhealth >= beamTarget.health) OnCooked(beamTarget);
 				if(src.player) src.player.cheats |= CF_INTERPVIEW;
 			}
 		}
@@ -220,7 +231,7 @@ class MBeamSpawner : Thinker
 	{
 		beamTarget = target;
 	}
-	Actor getTarget()
+	clearscope Actor getTarget()
 	{
 		return beamTarget;
 	}
@@ -302,6 +313,7 @@ class MBeamSpawner : Thinker
 class I_MBeamCookStatus : Inventory
 {
 	double cookedhealth;
+	double cookedperc;
 	double prevCook;
 	Actor damageSource, damageInflictor;
 	
@@ -319,6 +331,7 @@ class I_MBeamCookStatus : Inventory
 		let pain = Owner.FindState("Pain");
 		int newPainChance = random[MicrowavePain](0,100) <= 10;
 		if(cooking && pain && Owner.health > 0 && newPainChance) Owner.SetState(pain);
+		cookedperc = cookedhealth / double(Owner.health);
 		
 		if(cookedhealth >= Owner.health)
 		{
@@ -345,6 +358,8 @@ class MBeamSegment : Actor
 	{
 		+NOINTERACTION;
 		+INTERPOLATEANGLES;
+		+DONTTHRUST;
+		+NOBLOCKMAP;
 		Scale 0.8; 
 		
 		RenderStyle "AddShaded";
