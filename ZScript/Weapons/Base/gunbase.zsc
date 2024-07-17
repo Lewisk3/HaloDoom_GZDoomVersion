@@ -1092,6 +1092,19 @@ class HaloGun : RecoilWeapon
 			A_CancelBackpackReload();
 		}
 	}
+	action void A_ReloadAmount(double amt)
+	{
+		let amdefs = GetDefaultByType(invoker.AmmoType2);
+		double ammoMax = amdefs.maxAmount;
+		double curAmmo = countinv(invoker.AmmoType2);
+		if(curAmmo+amt > ammoMax) amt = ammoMax-curAmmo;
+		if(countinv(invoker.AmmoType1) < amt) 
+			amt = countinv(invoker.AmmoType1);
+	
+		DepleteAmmo(amt);
+		GiveInventory(invoker.AmmoType2,amt);
+		A_CancelBackpackReload();
+	}
 
 	// For readability when checking ammunition.
 	action int CountLoadedAmmo()

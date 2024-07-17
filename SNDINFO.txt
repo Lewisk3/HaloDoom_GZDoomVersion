@@ -931,6 +931,28 @@ $random Halo/Weapons/NeedlerJavelin/Fire { NJAV_FIR1 NJAV_FIR2 NJAV_FIR3 }
 Halo/Weapons/NeedlerJavelin/Draw "Sounds/NeedleJavelin/NeedleJav_Draw.ogg"
 Halo/Weapons/NeedlerJavelin/Reload "Sounds/NeedleJavelin/NeedleJav_Reload.ogg"
 Halo/Weapons/NeedlerJavelin/SuperCombine "Sounds/NeedleJavelin/Jav_Supercombine.ogg"
+
+// Sentinel Beam
+SBEAM_FIRESTART1 "Sounds/Sentinel_Beam/SB_Fire_Start1.ogg"
+SBEAM_FIRESTART2 "Sounds/Sentinel_Beam/SB_Fire_Start2.ogg"
+SBEAM_FIRESTART3 "Sounds/Sentinel_Beam/SB_Fire_Start3.ogg"
+SBEAM_FIRESTOP1 "Sounds/Sentinel_Beam/SB_Fire_End1.ogg"
+SBEAM_FIRESTOP2 "Sounds/Sentinel_Beam/SB_Fire_End2.ogg"
+SBEAM_FIRESTOP3 "Sounds/Sentinel_Beam/SB_Fire_End3.ogg"
+SBEAM_FIRELOOP1 "Sounds/Sentinel_Beam/SB_Fire_Loop1.ogg"
+SBEAM_FIRELOOP2 "Sounds/Sentinel_Beam/SB_Fire_Loop2.ogg"
+
+Halo/Weapons/SentinelBeam/Draw "Sounds/Sentinel_Beam/SB_Draw.ogg"
+Halo/Weapons/SentinelBeam/Overheat/Start "Sounds/Sentinel_Beam/SB_OH.ogg"
+Halo/Weapons/SentinelBeam/Overheat/End "Sounds/Sentinel_Beam/SB_Draw.ogg"
+Halo/Weapons/SentinelBeam/Reload/Begin "Sounds/Sentinel_Beam/SB_Alt_Charge_Start.ogg"
+Halo/Weapons/SentinelBeam/Reload/Loop "Sounds/Sentinel_Beam/SB_Alt_Charge_Loop.ogg"
+Halo/Weapons/SentinelBeam/Reload/End "Sounds/Sentinel_Beam/SB_Draw.ogg"
+Halo/Weapons/SentinelBeam/Fire/SurfaceHit "Sounds/Sentinel_Beam/SB_Beam_Hit_Surface_Loop.ogg"
+
+$random Halo/Weapons/SentinelBeam/Fire/Begin { SBEAM_FIRESTART1 SBEAM_FIRESTART2 SBEAM_FIRESTART3 }
+$random Halo/Weapons/SentinelBeam/Fire/Loop { SBEAM_FIRELOOP1 SBEAM_FIRELOOP2 }
+$random Halo/Weapons/SentinelBeam/Fire/End { SBEAM_FIRESTOP1 SBEAM_FIRESTOP2 SBEAM_FIRESTOP3 }
   
 // Hit feedback
 HMHIT1 HMHit1

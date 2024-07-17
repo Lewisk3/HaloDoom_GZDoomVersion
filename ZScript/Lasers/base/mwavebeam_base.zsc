@@ -1,0 +1,410 @@
+class MBeamSpawner : Thinker
+{
+	// How long it takes to cook an enemy
+	// Metric used is the amount of seconds to cook a cyberdemon.
+	double cooktime; // 20 seconds by default.
+	double fxRollAnim;
+	bool enabled;
+	bool beamVisible; // False while the first beam segment is invisible, if true damage will not be dealt.
+	bool BobWithWeapon;
+	
+	Array<MBeamSegment> beams;
+	vector3 srcOffs, destOffs;
+	
+	double segments, segScale;
+	Actor src;
+	Actor beamTarget;
+	
+	vector3 getOffsetPos(Actor base, vector3 offset)
+	{
+		vector3 basePos = (base.pos.xy, base.pos.z + (base.height * 0.5));
+		if(base.player && base == src) basePos.z = base.player.viewz;
+		let dir = Quat.FromAngles(base.angle, base.pitch, base.roll);
+		
+		return level.vec3offset(basePos, dir * offset);
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		if(level.isFrozen()) return;
+		
+		if(beams.Size() <= 0 || !beams[0]) 
+		{
+			beamVisible = false;
+			return;
+		}
+		beamVisible = beams[0].GetAge() > 2;
+		
+		bool validTarget = src.health > 0 && beamTarget && !beamTarget.bCORPSE && beamTarget.health > 0;
+		double dmgPerTic = 4000.0 / (cooktime * 35.0);
+		
+		if(!validTarget && beamTarget) beamTarget = NULL; // Target has died.
+		
+		if(enabled) 
+		{
+			if(src.player) src.player.cheats |= CF_INTERPVIEW;
+			UpdateSegmentPos();
+			
+			// Damage whatever is in front of us, if anything.
+			if(!validTarget)
+			{
+				FLineTraceData lt; getSourceAim(lt);
+				if(lt.HitType == TRACE_HitActor && lt.HitActor.bSHOOTABLE && lt.HitActor != src)
+					lt.HitActor.DamageMobJ(src, src, ceil(dmgPerTic * 0.33), "None"); 
+			}
+		}
+		
+		if(enabled && validTarget) 
+		{
+			let cookStatus = I_MBeamCookStatus(beamTarget.FindInventory("I_MBeamCookStatus"));
+			if(!cookStatus) cookStatus = I_MBeamCookStatus(beamTarget.GiveInventoryType("I_MBeamCookStatus"));
+			
+			if(beamVisible)
+			{
+				double spawnHP = beamTarget.SpawnHealth();
+				cookStatus.cookedhealth += DamageTarget(dmgPerTic, cookStatus);
+				if(src.player) src.player.cheats |= CF_INTERPVIEW;
+			}
+		}
+		
+		/*
+		else if(enabled) // Auto-disable if target is invalidated.
+		{	
+			Disable();
+		}
+		*/
+	}
+	
+	// Overridable, good for customizing the damage source and/or inflictor.
+	virtual double DamageTarget(double dmg, I_MBeamCookStatus cookstatus)
+	{
+		cookStatus.damageSource = src;
+		cookStatus.damageInflictor = src;
+		return dmg;
+	}
+	
+	void getSourceAim(out FLineTraceData lt)
+	{
+		double zaim = src.player ? (src.player.viewz - src.pos.z) : 0; 
+		src.LineTrace(src.angle, 4096, src.pitch, offsetz:zaim, offsetforward:src.radius, data:lt);
+	}
+	
+	private void UpdateSegmentPos()
+	{
+		if(beams.Size() < 2 || !enabled) return;
+		
+		vector2 bob = (0,0);		
+		if(BobWithWeapon && src.player)
+		{
+			let psp = src.player.GetPSprite(PSP_WEAPON);
+			if(psp)
+			{
+				bob = PlayerPawn(src).BobWeapon(1.0);
+				bob.x += psp.x;
+				bob.y += (psp.y - 32);
+				bob.x *= 0.031;
+				bob.y *= 0.035;
+			}
+		}
+		
+		vector3 destPos;
+		if(!beamTarget) 
+		{
+			// Just aim at whatever the player is looking at.
+			FLineTraceData lt; getSourceAim(lt);
+			if(lt.HitType != TRACE_HitNone)
+				destPos = lt.HitLocation;
+		}
+		else destPos = getOffsetPos(beamTarget, destOffs);
+		
+		vector3 srcPos = getOffsetPos(src, srcOffs + (0, -bob.x, bob.y));
+		vector3 prevPos = srcPos;
+		
+		vector3 diff = level.vec3diff(prevPos, destPos);
+		double dist = diff.Length();
+		double segDist = (dist / double(beams.Size()));
+	
+		
+		for(int x = 0; x < beams.Size(); x++)
+		{	
+			// Setup
+			bool lastBeam = (x == beams.Size()-1);
+			double perc = !x ? 0 : (x / double(beams.Size()-1));		
+			let beam = beams[x];
+			
+			vector3 angles = level.SphericalCoords(prevPos, destPos, (src.angle, src.pitch));
+			double localDist = level.vec3diff(prevPos, destPos).Length();
+
+			// Angles and position
+			double angleJitter = frandom[beamjitter](-15,15) * max(0.10, perc);
+			double pitchJitter = frandom[beamjitter](-4,4);
+			if(lastBeam) angleJitter = pitchJitter = 0;
+			beam.angle = src.angle - (angles.x * perc) + angleJitter;
+			beam.pitch = 90 + (src.pitch - (angles.y * perc)) + pitchJitter;
+			
+			vector3 offs = Quat.FromAngles(beam.angle, beam.pitch-90, beam.roll) * (segDist,0,0);
+			vector3 followPos = level.vec3offset(prevPos, x > 0 ? offs : (0,0,0));
+			
+			// Visuals
+			double beamlength = (lastBeam ? localDist : segDist + 0.8) * level.pixelstretch;
+			beam.SetOrigin(followPos, true);
+			beam.A_SetScale(beam.default.scale.x * segScale, beamlength);
+			prevPos = followPos;
+			
+			// Particles!
+			if(beam.getAge() <= 2) continue;
+			for(int pfx = 0; pfx <= 5; pfx++)
+			{
+				FSpawnParticleParams p;
+				p.color1 = beam.col * frandom[MBParticles](0.8,255.0);
+				
+				let pdir = Quat.FromAngles(beam.angle, beam.pitch, fxRollAnim);
+				p.pos = level.vec3offset(beam.pos, pdir * (
+					frandom[MBParticles](-1,1),
+					frandom[MBParticles](-1,1),
+					frandom[MBParticles](-1,1)) * (2 * segScale)
+				);
+				p.flags = SPF_FULLBRIGHT;
+				p.style = STYLE_Add;
+				p.lifetime = frandom[MBParticles](1,5);
+				p.size = frandom[MBParticles](0.05,0.5) * segScale;
+				p.startalpha = frandom[MBParticles](0.1,0.8);
+				p.fadestep = -1;
+				
+				level.SpawnParticle(p);
+			}
+		}
+		
+		// Make each segment face the proceeding
+		for(int i = 0; i < beams.Size()-1; i++)
+		{
+			let srcBeam = beams[i];
+			let destBeam = beams[i+1];
+			if(i == 0) 
+			{
+				// Adjust position and length of the first beam segment, so it stays attached to the player.
+				srcBeam.SetOrigin(srcPos, true);
+				vector3 diff = level.vec3diff(srcBeam.pos, destBeam.pos);
+				srcBeam.scale.y = (diff.Length() + 1.0) * level.pixelstretch;
+			}
+			
+			vector3 angles = level.SphericalCoords(srcBeam.pos, destBeam.pos, (srcBeam.angle, srcBeam.pitch-90));
+			srcBeam.angle -= angles.x;
+			srcBeam.pitch -= angles.y;
+		}
+		
+		fxRollAnim += 0.1;
+	}
+	
+	void SetupVisuals(Color outerColor, Color innerColor, double outerScale, double innerScale)
+	{
+		foreach(seg : beams)
+		{
+			seg.col = outerColor;
+			seg.A_SetScale(outerScale);
+			if(seg.coreobj) 
+			{
+				seg.coreobj.col = innerColor;
+				seg.coreobj.A_SetScale(innerScale);
+			}
+		}
+	}
+	
+	bool isActive()
+	{
+		return enabled && beamVisible;
+	}
+	
+	void SetTarget(Actor target)
+	{
+		beamTarget = target;
+	}
+	Actor getTarget()
+	{
+		return beamTarget;
+	}
+	
+	void Enable(Actor target)
+	{
+		if(enabled)
+		{
+			if(target) beamTarget = target;
+			return;
+		}
+		
+		// Destroy existing segments.
+		beamTarget = target;
+		foreach(beam : beams) if(beam) beam.source = NULL;
+		beams.Clear();
+	
+		// Create new segments.
+		for(int i = 0; i < segments; i++)
+		{
+			let seg = MBeamSegment(Actor.Spawn("MBeamSegment", src.pos));
+			seg.source = self;
+			beams.Push(seg);
+		}
+			
+		enabled = true;
+		UpdateSegmentPos();
+	}
+	
+	void Disable()
+	{
+		enabled = false;
+		beamTarget = NULL;
+		foreach(beam : beams)
+			if(beam) beam.source = NULL;
+	}
+	
+	virtual bool DoMBeamDecal(class<LaserBeamDecal> decalType, bool puffOnActors = true)
+	{
+		vector3 decalPos;
+		Line onWall = NULL;
+		FLineTraceData lt; getSourceAim(lt);
+	
+		if(!beamTarget) 
+		{
+			decalPos = lt.HitLocation;
+			onWall = lt.HitLine;
+		}
+		else
+		{
+			decalPos = getOffsetPos(beamTarget, destOffs);
+		}
+	
+		if( (beamTarget || (lt.HitType == TRACE_HitActor)) && !puffOnActors) return false;
+		let dec = LaserBeamDecal(Actor.Spawn(decalType, decalPos));
+		if(dec) 
+		{
+			dec.onWall = onWall;
+			dec.onActor = beamTarget;
+			dec.master = src;
+		}
+		return !!onWall;
+	}
+	
+	static MBeamSpawner Create(Actor src, double fw, double lr, double ud, double cooktime = 20, int segments = 20, double size = 1.0, class<MBeamSpawner> spawnerType = "MBeamSpawner")
+	{
+		let mbs = MBeamSpawner(new(spawnerType));
+		mbs.src = src;
+		mbs.srcOffs = (fw, lr, ud);
+		mbs.cooktime = cooktime;
+		mbs.segments = segments;
+		mbs.segScale = size;
+				
+		return mbs;
+	}	
+}
+
+// Beam Cook Status
+class I_MBeamCookStatus : Inventory
+{
+	double cookedhealth;
+	double prevCook;
+	Actor damageSource, damageInflictor;
+	
+	Default
+	{
+		inventory.maxamount 1;
+	}
+
+	override void DoEffect()
+	{
+		super.DoEffect();
+		bool cooking = cookedhealth != prevCook;
+		prevCook = cookedhealth;
+		
+		let pain = Owner.FindState("Pain");
+		int newPainChance = random[MicrowavePain](0,100) <= 10;
+		if(cooking && pain && Owner.health > 0 && newPainChance) Owner.SetState(pain);
+		
+		if(cookedhealth >= Owner.health)
+		{
+			Owner.A_SetTranslation("Burnt");
+			Owner.DamageMobj(damageSource, damageInflictor, cookedhealth, damagetype, DMG_FORCED);
+			Owner.RemoveInventory(self);
+			GoAwayAndDie();
+		}
+	} 
+}
+
+// Beam Actors
+class MBeamSegment : Actor
+{
+	MBeamSpawner source;
+	Color col;
+	class<MBeamSegment> coreType;
+	MBeamSegment coreobj;
+	
+	Property BeamColor : col;
+	Property Core : coreType;
+
+	Default
+	{
+		+NOINTERACTION;
+		+INTERPOLATEANGLES;
+		Scale 0.8; 
+		
+		RenderStyle "AddShaded";
+		MBeamSegment.BeamColor "1997F7";
+		MBeamSegment.Core "MBeamSegmentCore";
+	}
+	
+	virtual void SpawnCore()
+	{	
+		if(!coreType) return;
+		coreobj = MBeamSegment(Spawn(coreType, pos));
+		coreobj.master = self;
+		coreobj.source = source;
+	}
+	
+	override void PostBeginPlay()
+	{
+		super.PostBeginPlay();
+		SpawnCore();
+	}
+	
+	override void Tick()
+	{
+		bInvisible = (GetAge() <= 2);
+	
+		if(!source) Destroy();
+		SetShade(col);
+	}
+	
+	States
+	{
+		Spawn:
+			MODL A -1 BRIGHT;
+		stop;
+	}
+}
+class MBeamSegmentCore : MBeamSegment
+{
+	Default
+	{
+		Scale 0.30; 
+		RenderStyle "AddShaded";
+		MBeamSegment.BeamColor "79C1F7";
+		MBeamSegment.Core "";
+	}
+		
+	override void Tick()
+	{
+		super.Tick();
+		if(!master) 
+		{
+			Destroy();
+			return;
+		}
+		
+		angle = master.angle;
+		pitch = master.pitch;
+		roll = master.roll;
+		scale.x = default.scale.x * master.scale.x;
+		scale.y = master.scale.y;
+		SetOrigin(master.pos, true);
+	}
+}

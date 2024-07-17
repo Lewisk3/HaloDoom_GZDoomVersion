@@ -102,6 +102,9 @@ version "4.10.0"
 #include "ZScript/Weapons/stickydet.zsc"
 #include "ZScript/Weapons/needlejavelin.zsc"
 
+// S4
+#include "ZScript/Weapons/sentinelbeam.zsc"
+
 // Vehicles
 #include "ZScript/Vehicles/Kinematics/kine_parts.zsc" 
 #include "ZScript/Vehicles/veh_parts.zsc"
@@ -115,6 +118,7 @@ version "4.10.0"
 
 // Laser(s)
 #include "ZScript/Lasers/base/smoothlaser_base.zsc"
+#include "ZScript/Lasers/base/mwavebeam_base.zsc"
 #include "ZScript/Lasers/halo_lasers.zsc"
 
 // BiriBiri (Lightning)
