@@ -48,9 +48,10 @@ class MBeamSpawner : Thinker
 		beamVisible = beams[0].GetAge() > 2;
 		
 		bool validTarget = src.health > 0 && beamTarget && !beamTarget.bCORPSE && beamTarget.health > 0;
+		if(beamTarget && (beamTarget is "Inventory" || beamTarget.bNOBLOCKMAP || !beamTarget.bSHOOTABLE) ) validTarget = false;
+
 		double dmgPerTic = 4000.0 / (cooktime * 35.0);
-		
-		if(!validTarget && beamTarget) beamTarget = NULL; // Target has died.
+		if(!validTarget && beamTarget) beamTarget = NULL; // Target has died or is invalid.
 		
 		if(enabled) 
 		{

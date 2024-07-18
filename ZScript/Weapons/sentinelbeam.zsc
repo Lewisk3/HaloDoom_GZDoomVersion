@@ -74,9 +74,11 @@ class Halo_SentinelBeam : HaloGun
 		return super.GetPowerTier();
 	}
 
-	action bool A_CheckTarget(Actor act, double range = 800)
+	action bool A_CheckTarget(Actor act, double range = 600)
 	{
-		// Ensure the target isn't too far away.
+		// Ensure the target isn't too far away, or behind geometry, or even a fuckin inventory item apparently...
+		if(!act || !act.bSHOOTABLE || act.bNOBLOCKMAP || (act is "Inventory")) return false;
+		if(!isVisible(act, true) || !CheckSight(act, SF_SEEPASTSHOOTABLELINES | SF_SEEPASTBLOCKEVERYTHING)) return false;
 		return !act ? false : Distance3D(act) <= range;
 	}
 	
@@ -259,7 +261,7 @@ class Halo_SentinelBeam : HaloGun
 					
 				// Consume ammo and generate heat.
 				invoker.beamTics++;
-				if(invoker.beamTics >= 8)
+				if(invoker.beamTics >= 4)
 				{
 					A_TakeAmmo(1);
 					invoker.beamTics = 0;
@@ -441,6 +443,7 @@ class SentinelBeamExplosion : CheapActor
 				while(it.Next())
 				{
 					let act = it.Thing;
+					if(!act.bSHOOTABLE || (act is "Inventory")) continue;
 					if(act != target) act.GiveInventoryType("EMP_DeBuff");
 				}
 				
