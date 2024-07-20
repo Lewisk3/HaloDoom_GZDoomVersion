@@ -171,6 +171,7 @@ class UnmakerBeamSpawner : MBeamSpawner
 		jitterAngle = 10;
 		jitterPitch = 3;
 		lifetime = 8;
+		beamAlpha = 1.0;
 		SetupVisuals("f7a02d", "fad25c", 1.8, 1.30);
 	}
 	
