@@ -32,6 +32,31 @@ class Halo_StanchionReserves : Ammo
 	}
 }
 
+class StanchionBeamDeco : MBeamSpawner
+{
+	double scale;
+	override void Setup()
+	{
+		jitterAngle = 20;
+		jitterPitch = 4;
+		beamAlpha = 1.0;
+		useStaticAim = true;
+		src.LineTrace(src.angle, 4096, src.pitch, 0, (src.player.viewz-src.pos.z), src.radius, data:staticAimData);
+		SetupVisuals("2970ff", "3faafc", 2.0 * scale, 1.5 * scale);	
+	}
+	
+	override void BeamTick()
+	{
+		freeze = true;
+		beamAlpha *= 0.93;
+	
+		if(beamAlpha <= 0.01)
+		{
+			Disable();
+			Destroy();
+		}
+	}
+}
 
 class Halo_Stanchion : HaloGun
 {
@@ -137,12 +162,24 @@ class Halo_Stanchion : HaloGun
 		}
 	}
 	
+	action void A_SpawnDecoBeam(double fw, double lr, double ud, bool charged = false)
+	{
+		let decobeam = StanchionBeamDeco(MBeamSpawner.Create(self, fw, lr, ud, 0, spawnerType:"StanchionBeamDeco"));
+		decobeam.scale = charged ? 6.0 : 3.0;
+		decobeam.Enable(NULL);
+	}
+	
 	action void A_FireStanchion(bool charged = false)
 	{
 		// Lowered crosshair shenanigans.
 		vector2 aimoffs = (0,0);
 		if(A_GetWeapYOffs() > 0 && !A_CheckInScope()) aimoffs.y = 5;
-	
+		A_SpawnDecoBeam(50, -6, -10, charged);
+		A_SpawnDecoBeam(50, -6, -18, charged);
+		A_SpawnDecoBeam(50,  6, -18, charged);
+		A_SpawnDecoBeam(50,  6, -10, charged);
+		
+		
 		if(charged)
 		{
 			A_Light(4);

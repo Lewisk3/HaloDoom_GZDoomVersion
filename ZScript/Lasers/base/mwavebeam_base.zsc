@@ -4,9 +4,15 @@ class MBeamSpawner : Thinker
 	// Metric used is the amount of seconds to cook a cyberdemon.
 	double cooktime; // 20 seconds by default.
 	double fxRollAnim;
+	double beamAlpha;
 	bool enabled;
 	bool beamVisible; // False while the first beam segment is invisible, if true damage will not be dealt.
 	bool BobWithWeapon;
+	bool freeze; // Beam will not move if this is true
+	bool useStaticAim;
+	transient FLineTraceData staticAimData; // static aim, does not update.
+	
+	double jitterAngle, jitterPitch; // Animated angle and pitch offset; creates lightning-like effect.
 	
 	Array<MBeamSegment> beams;
 	vector3 srcOffs, destOffs;
@@ -14,6 +20,13 @@ class MBeamSpawner : Thinker
 	double segments, segScale;
 	Actor src;
 	Actor beamTarget;
+	
+	virtual void Setup()
+	{
+		jitterAngle = 15;
+		jitterPitch = 4;
+		beamAlpha = 1.0;
+	}
 	
 	virtual void OnCooked(Actor victim)
 	{
@@ -35,6 +48,11 @@ class MBeamSpawner : Thinker
 		return I_MBeamCookStatus(beamTarget.FindInventory("I_MBeamCookStatus"));
 	}
 	
+	virtual void BeamTick()
+	{
+		// Override for doing stuff while the beam is enabled.
+	}
+	
 	override void Tick()
 	{
 		super.Tick();
@@ -50,16 +68,17 @@ class MBeamSpawner : Thinker
 		bool validTarget = src.health > 0 && beamTarget && !beamTarget.bCORPSE && beamTarget.health > 0;
 		if(beamTarget && (beamTarget is "Inventory" || beamTarget.bNOBLOCKMAP || !beamTarget.bSHOOTABLE) ) validTarget = false;
 
-		double dmgPerTic = 4000.0 / (cooktime * 35.0);
+		double dmgPerTic = cooktime > 0 ? (4000.0 / (cooktime * 35.0)) : abs(cooktime);
 		if(!validTarget && beamTarget) beamTarget = NULL; // Target has died or is invalid.
 		
 		if(enabled) 
 		{
 			if(src.player) src.player.cheats |= CF_INTERPVIEW;
 			UpdateSegmentPos();
+			BeamTick();
 			
 			// Damage whatever is in front of us, if anything.
-			if(!validTarget)
+			if(!validTarget && dmgPerTic != 0)
 			{
 				FLineTraceData lt; getSourceAim(lt);
 				if(lt.HitType == TRACE_HitActor && lt.HitActor.bSHOOTABLE && lt.HitActor != src)
@@ -69,14 +88,21 @@ class MBeamSpawner : Thinker
 		
 		if(enabled && validTarget) 
 		{
-			let cookStatus = I_MBeamCookStatus(beamTarget.FindInventory("I_MBeamCookStatus"));
-			if(!cookStatus) cookStatus = I_MBeamCookStatus(beamTarget.GiveInventoryType("I_MBeamCookStatus"));
-			
-			if(beamVisible)
+			if(cooktime > 0)
 			{
-				cookStatus.cookedhealth += DamageTarget(dmgPerTic, cookStatus);
-				if(cookStatus.cookedhealth >= beamTarget.health) OnCooked(beamTarget);
-				if(src.player) src.player.cheats |= CF_INTERPVIEW;
+				let cookStatus = I_MBeamCookStatus(beamTarget.FindInventory("I_MBeamCookStatus"));
+				if(!cookStatus) cookStatus = I_MBeamCookStatus(beamTarget.GiveInventoryType("I_MBeamCookStatus"));
+				
+				if(beamVisible)
+				{
+					cookStatus.cookedhealth += DamageTarget(dmgPerTic, cookStatus);
+					if(cookStatus.cookedhealth >= beamTarget.health) OnCooked(beamTarget);
+					if(src.player) src.player.cheats |= CF_INTERPVIEW;
+				}
+			}
+			else
+			{
+				beamTarget.DamageMobJ(src, src, dmgPerTic, "None"); 
 			}
 		}
 		
@@ -104,7 +130,7 @@ class MBeamSpawner : Thinker
 	
 	private void UpdateSegmentPos()
 	{
-		if(beams.Size() < 2 || !enabled) return;
+		if(beams.Size() < 2 || !enabled || freeze) return;
 		
 		vector2 bob = (0,0);		
 		if(BobWithWeapon && src.player)
@@ -124,9 +150,17 @@ class MBeamSpawner : Thinker
 		if(!beamTarget) 
 		{
 			// Just aim at whatever the player is looking at.
-			FLineTraceData lt; getSourceAim(lt);
-			if(lt.HitType != TRACE_HitNone)
-				destPos = lt.HitLocation;
+			if(!useStaticAim)
+			{
+				FLineTraceData lt; getSourceAim(lt);
+				if(lt.HitType != TRACE_HitNone)
+					destPos = lt.HitLocation;
+			}
+			else
+			{
+				if(staticAimData.HitType != TRACE_HitNone)
+					destPos = staticAimData.HitLocation;				
+			}
 		}
 		else destPos = getOffsetPos(beamTarget, destOffs);
 		
@@ -149,8 +183,8 @@ class MBeamSpawner : Thinker
 			double localDist = level.vec3diff(prevPos, destPos).Length();
 
 			// Angles and position
-			double angleJitter = frandom[beamjitter](-15,15) * max(0.10, perc);
-			double pitchJitter = frandom[beamjitter](-4,4);
+			double angleJitter = frandom[beamjitter](-jitterAngle,jitterAngle) * max(0.10, perc);
+			double pitchJitter = frandom[beamjitter](-jitterPitch,jitterPitch);
 			if(lastBeam) angleJitter = pitchJitter = 0;
 			beam.angle = src.angle - (angles.x * perc) + angleJitter;
 			beam.pitch = 90 + (src.pitch - (angles.y * perc)) + pitchJitter;
@@ -161,7 +195,7 @@ class MBeamSpawner : Thinker
 			// Visuals
 			double beamlength = (lastBeam ? localDist : segDist + 0.8) * level.pixelstretch;
 			beam.SetOrigin(followPos, true);
-			beam.A_SetScale(beam.default.scale.x * segScale, beamlength);
+			beam.A_SetScale(beam.default.scale.x * beam.beamScale * segScale, beamlength);
 			prevPos = followPos;
 			
 			// Particles!
@@ -214,11 +248,11 @@ class MBeamSpawner : Thinker
 		foreach(seg : beams)
 		{
 			seg.col = outerColor;
-			seg.A_SetScale(outerScale);
+			seg.beamScale = outerScale;
 			if(seg.coreobj) 
 			{
 				seg.coreobj.col = innerColor;
-				seg.coreobj.A_SetScale(innerScale);
+				seg.coreobj.beamScale = innerScale;
 			}
 		}
 	}
@@ -260,6 +294,7 @@ class MBeamSpawner : Thinker
 			
 		enabled = true;
 		UpdateSegmentPos();
+		Setup();
 	}
 	
 	void Disable()
@@ -305,7 +340,7 @@ class MBeamSpawner : Thinker
 		mbs.cooktime = cooktime;
 		mbs.segments = segments;
 		mbs.segScale = size;
-				
+		
 		return mbs;
 	}	
 }
@@ -351,6 +386,8 @@ class MBeamSegment : Actor
 	Color col;
 	class<MBeamSegment> coreType;
 	MBeamSegment coreobj;
+	double beamScale;
+	Property ScaleModifier : beamScale;
 	
 	Property BeamColor : col;
 	Property Core : coreType;
@@ -366,6 +403,7 @@ class MBeamSegment : Actor
 		RenderStyle "AddShaded";
 		MBeamSegment.BeamColor "1997F7";
 		MBeamSegment.Core "MBeamSegmentCore";
+		MBeamSegment.ScaleModifier 1.0;
 	}
 	
 	virtual void SpawnCore()
@@ -386,7 +424,13 @@ class MBeamSegment : Actor
 	{
 		bInvisible = (GetAge() <= 2);
 	
-		if(!source) Destroy();
+		if(!source) 
+		{
+			Destroy();
+			return;
+		}
+		
+		alpha = source.beamAlpha;
 		SetShade(col);
 	}
 	

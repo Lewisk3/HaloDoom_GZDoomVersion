@@ -58,10 +58,10 @@ class LSR_UnmakerBeam : LaserBeam
 	override void OnImpact(vector3 hitPos, Actor hitActor)
 	{
 		super.OnImpact(hitPos, hitActor);
-		let puff = UnmakerLaserPuff(Spawn("UnmakerLaserPuff", hitPos));
+		let puff = UnmakerLaserPuff(Actor.Spawn("UnmakerLaserPuff", hitPos));
 		if(puff) 
 		{
-			Spawn("LargeSplashSpawner", hitPos);
+			Actor.Spawn("LargeSplashSpawner", hitPos);
 			if(lowEffects) puff.laserAmt = 0;
 			puff.angle = angle + 180;
 			puff.pitch = -(pitch-90);
@@ -162,6 +162,57 @@ class UnmakerLaserPuff : CheapActor
 	}
 }
 
+class UnmakerBeamSpawner : MBeamSpawner
+{
+	bool lowEffects;
+	int lifetime;
+	override void Setup()
+	{
+		jitterAngle = 10;
+		jitterPitch = 3;
+		lifetime = 8;
+		SetupVisuals("f7a02d", "fad25c", 1.8, 1.30);
+	}
+	
+	override void BeamTick()
+	{
+		if(lifetime <= 0)
+		{
+			Disable();
+			Destroy();
+		} else lifetime--;
+	}
+	
+	override bool DoMBeamDecal(class<LaserBeamDecal> decalType, bool puffOnActors)
+	{
+		vector3 decalPos;
+		Line onWall = NULL;
+		FLineTraceData lt; getSourceAim(lt);
+	
+		if(!beamTarget) 
+		{
+			decalPos = lt.HitLocation;
+			onWall = lt.HitLine;
+		}
+		else
+		{
+			decalPos = getOffsetPos(beamTarget, destOffs);
+		}
+	
+		if( (beamTarget || (lt.HitType == TRACE_HitActor)) && !puffOnActors) return false;
+		let dec = UnmakerLaserPuff(Actor.Spawn("UnmakerLaserPuff", decalPos));
+		if(dec) 
+		{
+			Actor.Spawn("LargeSplashSpawner", decalPos);
+			if(lowEffects) dec.laserAmt = 0;
+			dec.angle = src.angle + 180;
+			dec.pitch = -src.pitch;
+		}
+		
+		return !!onWall;
+	}
+}
+
 class Halo_Unmaker : HaloGun
 {
 	Default
@@ -226,17 +277,13 @@ class Halo_Unmaker : HaloGun
 	
 	action void FireLaser(Actor victim, double leftright, double updown)
 	{
-		vector3 localOffs = (10, -leftright, updown);
-		let beam = LaserBeam.Create(self, localOffs.x,localOffs.y,localOffs.z, type:"LSR_UnmakerBeam");
-		let beamCore = LaserBeam.Create(self, localOffs.x,localOffs.y,localOffs.z, type:"LSR_UnmakerBeamCore"); 
-		beam.SetEnabled(true);
-		beamCore.SetEnabled(true);
-		beam.target = invoker;
-		if(victim) 
-		{
-			beam.StartTracking( (victim.pos.xy, victim.pos.z + (victim.height*0.5)) );
-			beamCore.StartTracking( (victim.pos.xy, victim.pos.z + (victim.height*0.5)) );
-		}
+		vector3 localOffs = (8, -leftright, updown);
+		double laserDamage = (Unmaker_DMG / 40.0) / 8;
+		
+		// When a negative cooktime is passed to MBeamSpawner, the damage is instead dealt directly to the target.
+		let beam = MBeamSpawner.Create(self, localOffs.x, localOffs.y, localOffs.z, -laserDamage, spawnerType:"UnmakerBeamSpawner");
+		beam.Enable(victim);
+		beam.DoMBeamDecal(NULL);
 		
 		let pl = SetupPlasmaLightning(16, localOffs.y * 0.7, 9, scale:0.6, density:5.0, shading:"#fae60a", onlySpawn: true);
 		if(pl) pl.lifetime = 6;
@@ -351,14 +398,14 @@ class Halo_Unmaker : HaloGun
 			if(itr > 100) break; 
 		}
 		
-		double laserLR = 6;
+		double laserLR = 3;
 		double curLaserX = -laserLR; 
 		if(!targets.Size())
 		{
 			// Dumbfire
 			for(int i = 0; i < targetCount; i++)
 			{
-				FireLaser(NULL, curLaserX, -5);
+				FireLaser(NULL, curLaserX, -3);
 				curLaserX += laserLR;
 				A_TakeAmmo(1);
 				A_UpdateSpread();
@@ -370,7 +417,7 @@ class Halo_Unmaker : HaloGun
 			{
 				if(!targets[i]) continue;
 				FireLaser(targets[i], curLaserX, -5);
-				targets[i].DamageMobJ(self, self, (Unmaker_DMG / 40.0), "Plasma");
+				//targets[i].DamageMobJ(self, self, (Unmaker_DMG / 40.0), "Plasma");
 				curLaserX += laserLR;
 				A_TakeAmmo(1);
 				A_UpdateSpread();
