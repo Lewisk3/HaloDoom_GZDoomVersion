@@ -38,6 +38,7 @@ class Halo_SentinelBeam : HaloGun
 	const SND_BEAMHIT = 22;
 	ui double curCook; // Current cooking status of the targetted enemy, interpolated to the actual value.
 	double beamTics; // used for ammo consumption.
+	double beamColorTics; // used to colorize the beam over time.
 	MBeamSpawner beam;
 
 	Default
@@ -97,6 +98,7 @@ class Halo_SentinelBeam : HaloGun
 		A_StopSound(SND_BEAMHIT);
 		if(!invoker.beam || !invoker.beam.isActive()) return;
 		invoker.beam.Disable();
+		invoker.beamColorTics = 0;
 	
 		A_WeapSound("Halo/Weapons/SentinelBeam/Fire/End", CHANF_OVERLAP);
 	}
@@ -221,8 +223,8 @@ class Halo_SentinelBeam : HaloGun
 				A_WeapSound("Halo/Weapons/SentinelBeam/Fire/Begin", CHANF_OVERLAP);
 				A_SetZoom(0.92, 2);
 				A_FireBeam();
+				A_BeamVFX("fff830", "fcf886", 1.0, 1.0);
 			}
-			TNT1 A 0 A_BeamVFX("fcf630", "fffb87", 1.0, 1.0);
 			WYF1 BCDE 1;
 		Beam.Hold:
 			WYF1 E 1 A_RecoilOffset(frandom[SenBeamFX](-4,4), frandom[SenBeamFX](-4,4), 3, add:false);
@@ -231,6 +233,17 @@ class Halo_SentinelBeam : HaloGun
 				// Recoil
 				A_SetZoom(1.0, 6);
 				A_RollQuake(1,12,2);
+				invoker.beamColorTics++;
+
+				double fromHue = 60 / 360.0;
+				double toHue = 280 / 360.0;
+				double outerSat = 0.81;
+				double innerSat = 0.47;
+				double osc = (invoker.beamColorTics * 3.0) + 270;
+				double curHue = HaloMath.fmap(sin(osc), -1.0, 1.0, fromHue, toHue);
+				Color outerColor = HLStatusColor.HSLtoRGB(curHue, outerSat, 0.5);
+				Color innerColor = HLStatusColor.HSLtoRGB(curHue, innerSat, 0.5);
+				A_BeamVFX(outerColor, innerColor, 1.0, 1.0);
 				
 				// Fire sound loop
 				A_StartSound("Halo/Weapons/SentinelBeam/Fire/Loop", SND_BEAM, CHANF_LOOPING);

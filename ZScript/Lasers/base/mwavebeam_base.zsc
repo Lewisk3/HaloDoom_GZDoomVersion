@@ -163,6 +163,7 @@ class MBeamSpawner : Thinker
 			}
 		}
 		else destPos = getOffsetPos(beamTarget, destOffs);
+		if(destPos ~== (0,0,0)) destPos = getOffsetPos(src, (4096, 0, 0));
 		
 		vector3 srcPos = getOffsetPos(src, srcOffs + (0, -bob.x, bob.y));
 		vector3 prevPos = srcPos;

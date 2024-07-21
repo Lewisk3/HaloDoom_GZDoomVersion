@@ -41,7 +41,8 @@ class StanchionBeamDeco : MBeamSpawner
 		jitterPitch = 4;
 		beamAlpha = 1.0;
 		useStaticAim = true;
-		src.LineTrace(src.angle, 4096, src.pitch, 0, (src.player.viewz-src.pos.z), src.radius, data:staticAimData);
+		src.LineTrace(src.angle, 8192, src.pitch, 0, (src.player.viewz-src.pos.z), src.radius, data:staticAimData);
+		if(staticAimData.HitLocation ~== (0,0,0)) staticAimData.HitLocation = getOffsetPos(src, (8192, 0, 0));
 		SetupVisuals("2970ff", "3faafc", 2.0 * scale, 1.5 * scale);	
 	}
 	
