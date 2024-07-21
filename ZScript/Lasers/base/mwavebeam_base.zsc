@@ -306,7 +306,7 @@ class MBeamSpawner : Thinker
 			if(beam) beam.source = NULL;
 	}
 	
-	virtual bool DoMBeamDecal(class<LaserBeamDecal> decalType, bool puffOnActors = true)
+	virtual bool DoMBeamDecal(class<LaserBeamDecal> decalType, bool puffOnActors = true, bool copyShade = true)
 	{
 		vector3 decalPos;
 		Line onWall = NULL;
@@ -329,6 +329,12 @@ class MBeamSpawner : Thinker
 			dec.onWall = onWall;
 			dec.onActor = beamTarget;
 			dec.master = src;
+			if(copyShade && beams.Size())  
+			{
+				let beam = beams[0];
+				dec.A_SetRenderStyle(0.8, STYLE_AddShaded);
+				dec.SetShade(beam.col);
+			}
 		}
 		return !!onWall;
 	}

@@ -239,7 +239,7 @@ class Halo_SentinelBeam : HaloGun
 				double toHue = 280 / 360.0;
 				double outerSat = 0.81;
 				double innerSat = 0.47;
-				double osc = (invoker.beamColorTics * 3.0) + 270;
+				double osc = (invoker.beamColorTics * 5.0) + 270;
 				double curHue = HaloMath.fmap(sin(osc), -1.0, 1.0, fromHue, toHue);
 				Color outerColor = HLStatusColor.HSLtoRGB(curHue, outerSat, 0.5);
 				Color innerColor = HLStatusColor.HSLtoRGB(curHue, innerSat, 0.5);
