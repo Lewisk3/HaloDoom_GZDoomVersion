@@ -786,16 +786,15 @@ class HaloGun : RecoilWeapon
 			first_shot = true;
 		
 		// Weapon roll
-		vector2 su = (cos(Owner.angle+90), sin(Owner.angle+90));
-		vector2 vu = Owner.vel.xy;
-		vu.x *= su.x;
-		vu.y *= su.y;
+		double strafeDir = Owner.vel.xy dot (cos(Owner.angle+90), sin(Owner.angle+90));
+		double weaprotation = rotation_range * ((Owner.vel.xy.Length() * strafeDir) / 185.0);
+		weaprotation *= rotation_sens;
+		
 		psp.halign = PSPA_CENTER;
 		psp.valign = PSPA_CENTER;
-		double weaprotation = (vu.x+vu.y);
 		if(inreload) weaprotation = 0;
 		if(Owner.player.cmd.sidemove && abs(weaprotation) > 0.02)
-			psp.rotation = HaloMath.Lerp(psp.rotation, weaprotation * rotation_sens, 0.1);
+			psp.rotation = HaloMath.Lerp(psp.rotation, weaprotation, 0.1);
 		else
 			psp.rotation = HaloMath.Lerp(psp.rotation, 0, 0.1);
 			
