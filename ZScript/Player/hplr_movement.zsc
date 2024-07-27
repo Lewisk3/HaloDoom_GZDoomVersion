@@ -25,6 +25,7 @@ extend class HaloPlayer
 	bool jumpdodging; // On if jumpdodge key is being pressed.
 	bool jumpDodgePressed; // On if jumpdodge key was pressed and released.
 	bool upgraded_dodging; // If enabled dodge frequency and power will be enhanced.
+	bool onground_jumpready; // Behaves like onground, only timed. This makes jumping off ledges more responsive.
 	
 	// Switches
 	bool enable_grapple;
@@ -45,6 +46,7 @@ extend class HaloPlayer
 	int fricwait;
 	int maxjumps;
 	int jumpdodgecooldown;
+	int offgroundtics; // Used to keep track of how many tics the player has been off the ground for.
 	
 	// Footsteps
 	int stepTimer;
@@ -357,6 +359,22 @@ extend class HaloPlayer
 		bool moving = (cmd.forwardmove || cmd.sidemove);
 		bool predicting = (player.cheats & CF_PREDICTING);		
 		doomermovement = halodoom_classicmovement;
+		
+		// Keep track of offground tics.
+		if(!predicting)
+		{
+			if(!player.onground)
+			{
+				offgroundtics++;
+				if(offgroundtics >= 8) 
+					onground_jumpready = false;
+			}
+			else if(player.onground)
+			{
+				offgroundtics = 0;
+				onground_jumpready = true;
+			}
+		}
 		
 		// Add a ledge grabber if we don't have one.
 		if(!ledgeGrabber && !predicting) ledgeGrabber = LedgeTrigger.Init( self, 24,0,16 );
@@ -686,13 +704,13 @@ extend class HaloPlayer
 		}
 		
 		bool doholdjump = enable_bhop && halodoom_allowbhop;
-		if(player.onground) jumpcounter = 0;
+		if(onground_jumpready) jumpcounter = 0;
 		
 		int jumpStatus = 0;
 		vector2 moveinp = getMovementInputs();
 		bool dodgingInput = abs(moveinp.x)+abs(moveinp.y) >= 0.3;
 		
-		if( !disableJumpDodge && player.onground && jumpDodgePressed && dodgingInput && !jumpdodgecooldown )
+		if( !disableJumpDodge && onground_jumpready && jumpDodgePressed && dodgingInput && !jumpdodgecooldown )
 		{
 			// Do jump dodge
 			double dodgevel = ((JumpZ*2.0) * 35) / TICRATE;
@@ -722,7 +740,7 @@ extend class HaloPlayer
 			doJump(0.35);
 			CallOnDodge();
 		}
-		else if( !player.onground && jumpHeld <= 2 && jumping && !(obtns & BT_JUMP) && jumpcounter < maxjumps )
+		else if( !onground_jumpready && jumpHeld <= 2 && jumping && !(obtns & BT_JUMP) && jumpcounter < maxjumps )
 		{
 			// Double jump
 			jumpHeld = 0;
@@ -734,7 +752,7 @@ extend class HaloPlayer
 				jumpcounter++;
 			}
 		} 
-		else if ( player.onground && jumping && (!(obtns & BT_JUMP) || doholdjump) )
+		else if ( onground_jumpready && jumping && (!(obtns & BT_JUMP) || doholdjump) )
 		{
 			// Normal jump
 			jumpHeld = 0;
