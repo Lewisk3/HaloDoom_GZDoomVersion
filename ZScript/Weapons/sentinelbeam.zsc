@@ -75,7 +75,7 @@ class Halo_SentinelBeam : HaloGun
 		return super.GetPowerTier();
 	}
 
-	action bool A_CheckTarget(Actor act, double range = 600)
+	action bool A_CheckTarget(Actor act, double range = 800)
 	{
 		// Ensure the target isn't too far away, or behind geometry, or even a fuckin inventory item apparently...
 		if(!act || !act.bSHOOTABLE || act.bNOBLOCKMAP || (act is "Inventory")) return false;
@@ -234,7 +234,8 @@ class Halo_SentinelBeam : HaloGun
 				A_SetZoom(1.0, 6);
 				A_RollQuake(1,12,2);
 				invoker.beamColorTics++;
-
+				
+				/*
 				double fromHue = 60 / 360.0;
 				double toHue = 280 / 360.0;
 				double outerSat = 0.81;
@@ -244,7 +245,8 @@ class Halo_SentinelBeam : HaloGun
 				Color outerColor = HLStatusColor.HSLtoRGB(curHue, outerSat, 0.5);
 				Color innerColor = HLStatusColor.HSLtoRGB(curHue, innerSat, 0.5);
 				A_BeamVFX(outerColor, innerColor, 1.0, 1.0);
-				
+				*/
+						
 				// Fire sound loop
 				A_StartSound("Halo/Weapons/SentinelBeam/Fire/Loop", SND_BEAM, CHANF_LOOPING);
 				

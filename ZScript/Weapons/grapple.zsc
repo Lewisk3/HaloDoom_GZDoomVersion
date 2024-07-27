@@ -13,6 +13,23 @@ class GrappleRopeTight : LaserBeam
 	}
 }
 
+class GrappleRopePulling : MBeamSpawner
+{
+	override void Setup()
+	{
+		jitterAngle = 0;
+		jitterPitch = 0;
+		beamAlpha = 1.0;
+	}
+	
+	override void BeamTick()
+	{
+		super.BeamTick();
+		SetupVisuals("1c1c1b", "2e2e2e", 3.0, 3.0);	
+		SetBeamRenderStyle(1.0, STYLE_Stencil);
+	}
+}
+
 class GrapplingHook : KineLimb
 {
 	bool retracting;
@@ -25,7 +42,7 @@ class GrapplingHook : KineLimb
 	
 	Actor hitactor;
 	PlayerPawn plr;
-	LaserBeam grappleTight;
+	MBeamSpawner grappleTight;
 	
 	
 	double accel, maxspeed, maxdist;
@@ -69,7 +86,8 @@ class GrapplingHook : KineLimb
 		hookpos = lt.results.HitPos;
 		hitactor = lt.results.HitActor;
 		angle = 0.25;
-		grappleTight = LaserBeam.Create(plr, fixedoffs.x,fixedoffs.y,fixedoffs.z, type:"GrappleRopeTight");
+		grappleTight = MBeamSpawner.Create(plr, fixedoffs.x, -fixedoffs.y, fixedoffs.z, 0, spawnerType:"GrappleRopePulling");
+		grappleTight.StartTrackingPos(hookpos);
 		
 		if(hitactor) 
 			hitActPos = HaloMath.DiffToLocal(hookpos, hitactor.pos, (hitactor.angle, hitactor.pitch));
@@ -147,7 +165,7 @@ class GrapplingHook : KineLimb
 		// Retract
 		if(retracting) 
 		{	
-			grappleTight.SetEnabled(false); 
+			grappleTight.Disable();
 			bInvisible = false;
 			if(haloplr) 
 			{
@@ -180,8 +198,8 @@ class GrapplingHook : KineLimb
 		}
 		else // Pull
 		{
-			grappleTight.SetEnabled(true);
-			grappleTight.startTracking(followpos);
+			grappleTight.Enable(NULL);
+			grappleTight.StartTrackingPos(followpos);
 			
 			bInvisible = true;
 			diff = level.vec3diff(fixedpos, followpos);

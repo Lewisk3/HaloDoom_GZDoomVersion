@@ -17,6 +17,9 @@ class MBeamSpawner : Thinker
 	Array<MBeamSegment> beams;
 	vector3 srcOffs, destOffs;
 	
+	bool doTrackPos; // when true, trackingPos will be used.
+	vector3 trackingPos; // Absolute position to track, instead of an actor.
+	
 	double segments, segScale;
 	Actor src;
 	Actor beamTarget;
@@ -146,24 +149,27 @@ class MBeamSpawner : Thinker
 			}
 		}
 		
-		vector3 destPos;
-		if(!beamTarget) 
+		vector3 destPos = trackingPos;
+		if(!doTrackPos)
 		{
-			// Just aim at whatever the player is looking at.
-			if(!useStaticAim)
+			if(!beamTarget) 
 			{
-				FLineTraceData lt; getSourceAim(lt);
-				if(lt.HitType != TRACE_HitNone)
-					destPos = lt.HitLocation;
+				// Just aim at whatever the player is looking at.
+				if(!useStaticAim)
+				{
+					FLineTraceData lt; getSourceAim(lt);
+					if(lt.HitType != TRACE_HitNone)
+						destPos = lt.HitLocation;
+				}
+				else
+				{
+					if(staticAimData.HitType != TRACE_HitNone)
+						destPos = staticAimData.HitLocation;				
+				}
 			}
-			else
-			{
-				if(staticAimData.HitType != TRACE_HitNone)
-					destPos = staticAimData.HitLocation;				
-			}
+			else destPos = getOffsetPos(beamTarget, destOffs);
+			if(destPos ~== (0,0,0)) destPos = getOffsetPos(src, (4096, 0, 0));
 		}
-		else destPos = getOffsetPos(beamTarget, destOffs);
-		if(destPos ~== (0,0,0)) destPos = getOffsetPos(src, (4096, 0, 0));
 		
 		vector3 srcPos = getOffsetPos(src, srcOffs + (0, -bob.x, bob.y));
 		vector3 prevPos = srcPos;
@@ -171,7 +177,6 @@ class MBeamSpawner : Thinker
 		vector3 diff = level.vec3diff(prevPos, destPos);
 		double dist = diff.Length();
 		double segDist = (dist / double(beams.Size()));
-	
 		
 		for(int x = 0; x < beams.Size(); x++)
 		{	
@@ -257,6 +262,14 @@ class MBeamSpawner : Thinker
 			}
 		}
 	}
+	void SetBeamRenderStyle(double beamAlpha, int beamStyle)
+	{
+		foreach(seg : beams)
+		{
+			seg.A_SetRenderStyle(beamAlpha, beamStyle);
+			if(seg.coreobj) seg.coreobj.A_SetRenderStyle(beamAlpha, beamStyle);
+		}
+	}
 	
 	bool isActive()
 	{
@@ -270,6 +283,16 @@ class MBeamSpawner : Thinker
 	clearscope Actor getTarget()
 	{
 		return beamTarget;
+	}
+	
+	void StartTrackingPos(vector3 pos)
+	{
+		trackingPos = pos;
+		doTrackPos = true;
+	}
+	void StopTrackingPos()
+	{
+		doTrackPos = false;
 	}
 	
 	void Enable(Actor target)
