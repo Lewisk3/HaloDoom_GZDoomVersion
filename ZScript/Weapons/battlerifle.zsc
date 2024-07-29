@@ -72,11 +72,14 @@ class Halo_BattleRifle : HaloGun
 		HaloGun.Inaccuracy BARIFLE_ACCMOD;
 		HaloGun.Crosshair "BARRet", 1.0;
 		HaloGun.UIGraphic "WI_BTR", 1.0, 1.0;
-		HaloGun.UISight "SI_BR", 0.3, 0.7;
+		HaloGun.UISight "SI_BR", 1.1, 1.0;
 		HaloGun.SetupScope 2.0, 0.25;
 		HaloGun.ZoomSounds "Halo/Weapons/Zoom/IN", "Halo/Weapons/Zoom/OUT";
 		HaloGun.SetupUIAmmo "WI_AMM6", 20, 12, 0, 9;
 		HaloGun.UIAmmo_Scale_Offset 0.7, 0,0;
+		+HaloGun.SI_Fullscreen;
+		+HaloGun.SI_Rotate;
+		+HaloGun.SI_AlwaysHide;
 		
 		HaloGun.PowerTier P_NORM;
 		
