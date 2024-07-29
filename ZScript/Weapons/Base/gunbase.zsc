@@ -786,8 +786,9 @@ class HaloGun : RecoilWeapon
 			first_shot = true;
 		
 		// Weapon roll
-		double strafeDir = Owner.vel.xy dot (cos(Owner.angle+90), sin(Owner.angle+90));
-		double weaprotation = rotation_range * ((Owner.vel.xy.Length() * strafeDir) / 185.0);
+		vector2 strafeVel = Owner.vel.xy;
+		double strafeDir = strafeVel dot (cos(Owner.angle+90), sin(Owner.angle+90));
+		double weaprotation = rotation_range * ((strafeVel.Length() * strafeDir) / 185.0);
 		weaprotation *= rotation_sens;
 		
 		psp.halign = PSPA_CENTER;
