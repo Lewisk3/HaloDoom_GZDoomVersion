@@ -713,7 +713,7 @@ class HaloStatusBar : BaseStatusBar
 				bool hostileAim = aimAct && aimAct.isHostile(haloplr) && aimAct.bISMONSTER && !(aimAct is "HaloVehicle");
 				if(hostileAim) crossTint = Color(0xC4, 0xD0,0,0);
 			}
-
+			
 			vector2 midpos = (0,0);
 			if(lowerxhair) midpos.y = haloplr.xhair_lowpos;
 			HLSBS.DrawImage(crosshair, midpos, HLSBS.SS_SCREEN_CENTER, 0.65, scale:retsize, tint:crossTint);
@@ -735,7 +735,9 @@ class HaloStatusBar : BaseStatusBar
 		vector2 midpos = (0,0);
 		if(lowerxhair) midpos.y = haloplr.xhair_lowpos;
 		retsize *= 1.0+curbloom;
+		
 		HLSBS.DrawImage(crosshair, midpos, HLSBS.SS_SCREEN_CENTER, 0.65, scale:retsize, tint:crossTint);
+		
 		double ispd = 0.12;
 		if(bloom > curbloom) ispd = 0.5; 
 		curbloom = HaloMath.Lerp(curbloom, bloom, ispd*deltatime);

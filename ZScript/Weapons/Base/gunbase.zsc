@@ -134,7 +134,7 @@ class HaloGun : RecoilWeapon
 		HaloGun.Crosshair "", 1;
 		HaloGun.BaseRecoil 2;
 		HaloGun.BackpackReloadTime 35;
-		HaloGun.UISight "SI_DEF", 0.3, 0.75;
+		HaloGun.UISight "SI_DEF", 1.0, 1.0;
 		HaloGun.SetupScope 1.3, 1.0;
 		HaloGun.UIGraphic "MISSNG", 1.0, 1.0;
 		HaloGun.SwayRange 4.0;
@@ -150,6 +150,10 @@ class HaloGun : RecoilWeapon
 		Weapon.BobSpeed 0.5;
 		HaloGun.ZoomSounds "Halo/Weapons/SuitZoom/IN", "Halo/Weapons/SuitZoom/OUT";
 		Inventory.PickupSound "Halo/Pickup/Weapon";
+		
+		+HaloGun.SI_Fullscreen;
+		// +HaloGun.SI_Rotate;
+		+HaloGun.SI_AlwaysHide;
 	}
 
 	// Called when a new level is loaded.
