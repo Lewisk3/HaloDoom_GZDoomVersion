@@ -193,6 +193,69 @@ class HaloGun : RecoilWeapon
 		return false;
 	}
 	
+	ui virtual void DrawScopeZoom(vector2 pos, vector2 imgsize = (64,32), double scale = 1.0, double alpha = 1.0, double rotation = 0)
+	{
+		string gpath = "Graphics/UI/Sights/";
+	
+		double validzoom[7] = {
+			1.4, 2.0, 3.0, 4.0, 6.0, 8.0, 10.0
+		};
+		
+		string zoomgraphics_human[7] = {
+			"Mag 1P40.png",
+			"Mag 2.png",
+			"Mag 3.png",
+			"Mag 4.png",
+			"Mag 6.png",
+			"Mag 8.png",
+			"Mag 10.png"
+		};
+		
+		string zoomgraphics_covie[7] = {
+			"Covie Mag 2.png",
+			"Covie Mag 2.png",
+			"Covie Mag 3.png",
+			"Covie Mag 4.png",
+			"Covie Mag 6.png",
+			"Covie Mag 8.png",
+			"Covie Mag 10.png"
+		};
+		
+		int closest = -1;
+		double mindiff = double.infinity;
+		for(int i = 0; i < 7; i++)
+		{
+			double diff = abs(zoomfactor - validzoom[i]);
+			if(diff < mindiff) 
+			{
+				mindiff = diff;
+				closest = i;
+			}
+		}
+		if(closest < 0 || closest >= 7) return;
+		double curzoom = validzoom[closest];
+		string humanGraphic = gpath .. zoomgraphics_human[closest];
+		string covieGraphic = gpath .. zoomgraphics_covie[closest];
+		vector2 hgScale, cgScale;
+		
+		// Derrive graphic scales
+		hgScale = HaloMath.GetImageScaleToRes(humanGraphic, imgsize, keepAspect:true);
+		cgScale = HaloMath.GetImageScaleToRes(covieGraphic, imgsize, keepAspect:true);
+		hgScale *= scale;
+		cgScale *= scale;
+
+		Name curfaction = faction;
+		if(curfaction == 'human')
+		{
+			HLSBS.DrawImage(humanGraphic, pos, 0, alpha, hgScale, rotation);
+		}
+		else if(curfaction == 'covenant')
+		{
+			HLSBS.DrawImage(covieGraphic, pos, 0, alpha, hgScale, rotation);
+			HLSBS.DrawImage(humanGraphic, pos + (0,(imgsize.y * scale) * 0.75), 0, alpha, hgScale, rotation);
+		}
+	}
+	
 	clearscope virtual void GetStatsLore(out Array<String> stats, out string lore)
 	{
 		stats.Push("Unknown weapon variant.");
