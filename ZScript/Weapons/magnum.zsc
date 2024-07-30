@@ -75,7 +75,7 @@ class Halo_Magnum : HaloGun
 		HaloGun.Inaccuracy MAGNUM_ACCMOD;
 		HaloGun.Crosshair "MagRet", 1.0;
 		HaloGun.UIGraphic "WI_MAGNM", 0.8, 0.8;
-		HaloGun.UISight "SI_MAG", 1.0, 0.7;
+		// HaloGun.UISight "SI_MAG", 1.0, 0.7;
 		HaloGun.SetupScope 1.25, 0.5;
 		HaloGun.ZoomSounds "Halo/Weapons/Zoom/IN", "Halo/Weapons/Zoom/OUT";
 		HaloGun.SetupUIAmmo "WI_AMM5", 16, 16, 0, 14;
@@ -84,6 +84,7 @@ class Halo_Magnum : HaloGun
 		HaloGun.Rarity 70;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
+		+HaloGun.SI_AlwaysHide;
 	}
 
 	override int GetPowerTier()

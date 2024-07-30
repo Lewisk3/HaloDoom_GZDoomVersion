@@ -153,7 +153,7 @@ class HaloGun : RecoilWeapon
 		
 		+HaloGun.SI_Fullscreen;
 		// +HaloGun.SI_Rotate;
-		+HaloGun.SI_AlwaysHide;
+		// +HaloGun.SI_AlwaysHide;
 	}
 
 	// Called when a new level is loaded.
