@@ -1,0 +1,1 @@
+.\renamer.exe input.txt

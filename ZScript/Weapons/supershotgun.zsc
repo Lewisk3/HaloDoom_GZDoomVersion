@@ -118,7 +118,7 @@ class Halo_DBLShotgun : HaloGun
 		Weapon.AmmoType2 "Halo_DBLShotgun_Shells";
 		HaloGun.Faction "Human";
 		
-		HaloGun.PowerTier P_STRONG;
+		HaloGun.PowerTier P_STRONG | P_POWER;
 				
 		// Recoil
 		RecoilWeapon.RecoilSpeed 20;
