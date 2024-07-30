@@ -75,6 +75,7 @@ class HaloGun : RecoilWeapon
 	flagdef SI_Fullscreen : sightFlags, 0;
 	flagdef SI_Rotate : sightFlags, 1;
 	flagdef SI_AlwaysHide : sightFlags, 2;
+	flagdef SI_Vignette : sightFlags, 3;
 	
 	// Sight buttons
 	bool ADS_Pressed, ADS_Held, ADS_Up, ADS_Down;
@@ -152,6 +153,7 @@ class HaloGun : RecoilWeapon
 		Inventory.PickupSound "Halo/Pickup/Weapon";
 		
 		+HaloGun.SI_Fullscreen;
+		+HaloGun.SI_Vignette;
 		// +HaloGun.SI_Rotate;
 		// +HaloGun.SI_AlwaysHide;
 	}

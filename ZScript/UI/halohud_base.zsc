@@ -501,7 +501,7 @@ class HaloStatusBar : BaseStatusBar
 			}
 			
 			// Vignette
-			PPShader.SetEnabled("Vignette", haloweap && haloweap.zoomed);
+			PPShader.SetEnabled("Vignette", haloweap && haloweap.bSI_Vignette && haloweap.zoomed);
 						
 			// Message Queue
 			DrawMessages();
