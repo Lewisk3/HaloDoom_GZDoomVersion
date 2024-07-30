@@ -33,6 +33,13 @@ HardwareShader PostProcess Scene
 
 HardwareShader PostProcess Scene
 {
+	Name "Vignette"
+	Shader "Shaders/Vignette.fp" 330
+	// Enabled
+}
+
+HardwareShader PostProcess Scene
+{
 	Name "visorShader"
 	Shader "shaders/visor.fp" 330
 	Uniform float timer
