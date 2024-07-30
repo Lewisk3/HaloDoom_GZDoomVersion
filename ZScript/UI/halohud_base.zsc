@@ -499,6 +499,9 @@ class HaloStatusBar : BaseStatusBar
 				if(haloweap) haloweap.DrawCrosshairUI(deltaTime);
 				DrawSight();
 			}
+			
+			// Vignette
+			PPShader.SetEnabled("Vignette", haloweap && haloweap.zoomed);
 						
 			// Message Queue
 			DrawMessages();

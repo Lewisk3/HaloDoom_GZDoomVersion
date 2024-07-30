@@ -80,7 +80,7 @@ class Halo_Magnum : HaloGun
 		HaloGun.ZoomSounds "Halo/Weapons/Zoom/IN", "Halo/Weapons/Zoom/OUT";
 		HaloGun.SetupUIAmmo "WI_AMM5", 16, 16, 0, 14;
 		
-		HaloGun.PowerTier P_STRONG;
+		HaloGun.PowerTier P_STRONG | P_POWER;
 		HaloGun.Rarity 70;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
