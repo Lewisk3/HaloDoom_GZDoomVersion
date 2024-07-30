@@ -201,8 +201,8 @@ class Halo_Magnum : HaloGun
 			}
 			TNT1 A 0 A_WeapSound("Halo/Weapons/Mag_MD6/Mech", CHANF_OVERLAP);
 			W0F1 EFG 1 A_RecoilOffset(0,0,4);
-			W0F1 HI 1;
-			W0F1 JKL 1 A_JumpIf(A_CheckInScope(), "Ready.Active");
+			W0F1 HIJKL 1; 
+			TNT1 A 0 A_JumpIf(A_CheckInScope(), "Ready.Active");
 			W0F1 MNOPQRSTUVWXY 1;
 		goto Ready.Active;
 	
