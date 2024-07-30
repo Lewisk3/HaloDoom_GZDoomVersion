@@ -170,9 +170,12 @@ class Halo_Magnum : HaloGun
 			W0D2 U 1 A_GunLower();
 		wait;
 		
-		//  - 210RPM -
-		// 210/60 = 3.5
-		// 35/3.5 = 10 frames.
+		// - 87 RPM - 
+		// 87/60  = 1.45
+		// 35/1.45 = 24 frames.
+		// When zoomed - 190 RPM
+		// 190/60 = 3.11
+		// 35/3.11 = ~11 frames.
 		Fire:
 			TNT1 A 0 A_JumpIf(CountLoadedAmmo() == 1, "Fire.LastShot");
 			W0F1 A 1 bright
@@ -199,7 +202,8 @@ class Halo_Magnum : HaloGun
 			TNT1 A 0 A_WeapSound("Halo/Weapons/Mag_MD6/Mech", CHANF_OVERLAP);
 			W0F1 EFG 1 A_RecoilOffset(0,0,4);
 			W0F1 HI 1;
-			W0F1 JKLMNOPQRSTUVWXY 1; 
+			W0F1 JKL 1 A_JumpIf(A_CheckInScope(), "Ready.Active");
+			W0F1 MNOPQRSTUVWXY 1;
 		goto Ready.Active;
 	
 		Fire.LastShot:
