@@ -165,6 +165,12 @@ class Halo_BeamRifle : HaloGun
 		A_StopPlasmaLightning();
 	}
 	
+	override void OverlayUIFX(RenderEvent ev, double deltaTime)
+	{
+		vector2 mid = (1920/2.0, 1080/2.0);
+		if(zoomed) DrawScopeZoom( mid + (-480, 0), (128,128), 1.25, 1.0);
+	}
+	
 	override void DoEffect()
 	{
 		super.DoEffect();
@@ -233,7 +239,7 @@ class Halo_BeamRifle : HaloGun
 			TNT1 A 0 
 			{
 				A_BeginLaser(); 
-				A_SetZoom(0.93, 3);
+				if(!A_CheckInScope())A_SetZoom(0.93, 3);
 			}
 		Fire.Loop:
 			TNT1 A 0 A_StartSound("Halo/Weapons/BeamRifle/Laser/Loop", CHAN_VOICE, CHANF_LOOPING);
@@ -263,7 +269,7 @@ class Halo_BeamRifle : HaloGun
 			TNT1 A 0 
 			{
 				A_Light(0);
-				A_SetZoom(1.0, 3);
+				if(!A_CheckInScope())A_SetZoom(1.0, 3);
 			}
 		Fire.Done:
 			WLF1 MNOP 1 
@@ -328,11 +334,7 @@ class Halo_BeamRifle : HaloGun
 		goto Scope.Wait;
 		
 		Scope.Two:
-			TNT1 A 1 
-			{
-				A_ScopeON();
-				A_SetSightGraphic("SI_PBX8");
-			}
+			TNT1 A 1 A_ScopeON();
 			TNT1 A 5 A_SetZoom(invoker.scopezoom * 1.5, 3, true);
 		goto Scope.Ready;
 		
