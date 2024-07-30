@@ -86,6 +86,7 @@ class Halo_SniperRifle : HaloGun
 		HaloGun.UIAmmo_Scale_Offset 1.5, 100, 0;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
+		-HaloGun.SI_Fullscreen;
 	}
 	
 	override int GetPowerTier()
