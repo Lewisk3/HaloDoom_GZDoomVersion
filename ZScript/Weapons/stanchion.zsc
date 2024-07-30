@@ -97,6 +97,7 @@ class Halo_Stanchion : HaloGun
 		HaloGun.ZoomSounds "Halo/Weapons/Sniper/Zoom/IN", "Halo/Weapons/Sniper/Zoom/OUT";
 		
 		RecoilWeapon.YOffsetRange 0, 100;
+		-HaloGun.SI_Fullscreen;
 		-HaloGun.SI_Vignette;
 	}
 	
