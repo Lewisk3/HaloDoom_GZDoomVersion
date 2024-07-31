@@ -1,446 +1,644 @@
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE1", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE2", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE3", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE4", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE5", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE6", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE7", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE8", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE9", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE10", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE11", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE12", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE13", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE14", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE15", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE16", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE17", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE18", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE19", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE20", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE21", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE22", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE23", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE24", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE25", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE26", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE27", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE28", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE29", 0, 0
-}
-
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE30", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE31", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE32", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE33", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE34", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE35", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE36", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE37", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE38", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE39", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
+Sprite "W4G1~0", 318, 196
 {
-	Patch "CMDRLE40", 0, 0
+	XScale 1.800
+	YScale 2.000
+	Offset -314, -147
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_ID0.PNG", 7, 2
+	{
+		Style Overlay
+	}
 }
 
-Texture "T1R1~0", 750, 350
+Sprite "W4G1~0", 318, 196
 {
-	Patch "CMDRLE41", 0, 0
+	XScale 1.800
+	YScale 2.000
+	Offset -314, -147
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_ID1.PNG", 7, 2
+	{
+		Style Overlay
+	}
 }
 
-Texture "T1R1~0", 750, 350
+Sprite "W4G1~0", 318, 196
 {
-	Patch "CMDRLE42", 0, 0
+	XScale 1.800
+	YScale 2.000
+	Offset -314, -147
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_ID2.PNG", 7, 2
+	{
+		Style Overlay
+	}
 }
 
-Texture "T1R1~0", 750, 350
+Sprite "W4G1~0", 318, 196
 {
-	Patch "CMDRLE43", 0, 0
+	XScale 1.800
+	YScale 2.000
+	Offset -314, -147
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_ID3.PNG", 7, 2
+	{
+		Style Overlay
+	}
 }
 
-Texture "T1R1~0", 750, 350
+Sprite "W4S1~0", 328, 348
 {
-	Patch "CMDRLE44", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE45", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE46", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE47", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE48", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE49", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE50", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE51", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE52", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE53", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE54", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE55", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE56", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE57", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE58", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE59", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE60", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE61", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE62", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE63", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE64", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE65", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE66", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE67", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE68", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE69", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE70", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE71", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE72", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE73", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE74", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE75", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE76", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE77", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE78", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE79", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE80", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE81", 0, 0
-}
+	XScale 1.800
+	YScale 2.000
+	Offset -441, -278
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_OH4.PNG", 7, 2
+	{
+		Style Overlay
+	}
+}
 
-Texture "T1R1~0", 750, 350
+Sprite "W4S1~0", 326, 348
 {
-	Patch "CMDRLE82", 0, 0
+	XScale 1.800
+	YScale 2.000
+	Offset -408, -223
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_OH4.PNG", 7, 2
+	{
+		Style Overlay
+	}
 }
 
-Texture "T1R1~0", 750, 350
+Sprite "W4S1~0", 326, 348
 {
-	Patch "CMDRLE83", 0, 0
+	XScale 1.800
+	YScale 2.000
+	Offset -368, -165
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_OH4.PNG", 7, 2
+	{
+		Style Overlay
+	}
 }
 
-Texture "T1R1~0", 750, 350
+Sprite "W4S1~0", 326, 348
 {
-	Patch "CMDRLE84", 0, 0
+	XScale 1.800
+	YScale 2.000
+	Offset -354, -139
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_OH5.PNG", 3, 3
+	{
+		Style Overlay
+	}
 }
 
-Texture "T1R1~0", 750, 350
+Sprite "W4S1~0", 326, 250
 {
-	Patch "CMDRLE85", 0, 0
+	XScale 1.800
+	YScale 2.000
+	Offset -347, -135
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_OH6.PNG", 3, 3
+	{
+		Style Overlay
+	}
 }
 
-Texture "T1R1~0", 750, 350
+Sprite "W4S1~0", 318, 196
 {
-	Patch "CMDRLE86", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE87", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
-{
-	Patch "CMDRLE88", 0, 0
-}
-
-Texture "T1R1~0", 750, 350
+	XScale 1.800
+	YScale 2.000
+	Offset -316, -148
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_ID0.PNG", 7, 2
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4S1~0", 318, 196
 {
-	Patch "CMDRLE89", 0, 0
+	XScale 1.800
+	YScale 2.000
+	Offset -314, -147
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_ID0.PNG", 7, 2
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4F1~0", 697, 277
+{
+	XScale 1.795
+	YScale 1.995
+	Offset -21, -63
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_FLS.PNG", 33, 14
+	{
+		Style Overlay
+	}
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_FR0.PNG", 300, 86
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4F1~0", 697, 277
+{
+	XScale 1.750
+	YScale 1.950
+	Offset -20, -63
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_FLS.PNG", 38, 12
+	{
+		FlipX
+		FlipY
+		Alpha 0.50
+		Style Overlay
+	}
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_FR0.PNG", 300, 86
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4F1~0", 318, 196
+{
+	XScale 1.745
+	YScale 1.945
+	Offset -314, -149
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_FR1.PNG", 7, 2
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4F1~0", 318, 196
+{
+	XScale 1.750
+	YScale 1.950
+	Offset -314, -147
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_FR3.PNG", 7, 2
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4F1~0", 318, 196
+{
+	XScale 1.775
+	YScale 1.975
+	Offset -314, -147
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_ID1.PNG", 6, 2
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4F1~0", 318, 196
+{
+	XScale 1.800
+	YScale 2.000
+	Offset -315, -148
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_ID2.PNG", 7, 2
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4R1~0", 515, 234
+{
+	XScale 1.800
+	YScale 2.000
+	Offset -242, -122
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_OH1.PNG", 123, 2
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4R1~0", 615, 339
+{
+	XScale 1.800
+	YScale 2.000
+	Offset -133, -38
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_HN0.PNG", 86, 178
+	{
+		Style Overlay
+	}
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_OH2.PNG", 279, 18
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4R1~0", 615, 339
+{
+	XScale 1.800
+	YScale 2.000
+	Offset -128, -21
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_OH2.PNG", 294, 36
+	{
+		Style Overlay
+	}
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_HN0.PNG", 2, 149
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4R1~0", 815, 339
+{
+	XScale 1.800
+	YScale 2.000
+	Offset -13, -26
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_OH2.PNG", 411, 31
+	{
+		Style Overlay
+	}
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_HN1.PNG", 81, 177
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4R1~0", 815, 339
+{
+	XScale 1.800
+	YScale 2.000
+	Offset -15, -27
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_OH2.PNG", 411, 32
+	{
+		Style Overlay
+	}
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_HN1.PNG", 76, 175
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4R1~0", 815, 339
+{
+	XScale 1.800
+	YScale 2.000
+	Offset -12, -29
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_OH2.PNG", 411, 31
+	{
+		Style Overlay
+	}
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_HN1.PNG", 82, 177
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4R1~0", 815, 339
+{
+	XScale 1.800
+	YScale 2.000
+	Offset 17, -37
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_OH3.PNG", 441, 25
+	{
+		Style Overlay
+	}
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_HN1.PNG", 94, 182
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4R1~0", 615, 339
+{
+	XScale 1.800
+	YScale 2.000
+	Offset -92, -43
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_OH4.PNG", 326, 29
+	{
+		Style Overlay
+	}
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_HN0.PNG", -9, 177
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4R1~0", 615, 339
+{
+	XScale 1.800
+	YScale 2.000
+	Offset -104, -43
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_OH4.PNG", 301, 40
+	{
+		Style Overlay
+	}
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_HN0.PNG", 7, 203
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4R1~0", 615, 339
+{
+	XScale 1.800
+	YScale 2.000
+	Offset -111, -45
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_OH5.PNG", 260, 69
+	{
+		Style Overlay
+	}
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_HN3.PNG", 92, 242
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4R1~0", 615, 276
+{
+	XScale 1.800
+	YScale 2.000
+	Offset -74, -105
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_OH6.PNG", 277, 28
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4R1~0", 317, 196
+{
+	XScale 1.800
+	YScale 2.000
+	Offset -315, -148
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_ID0.PNG", 7, 2
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4M1~0", 318, 196
+{
+	XScale 1.800
+	YScale 2.000
+	Offset -314, -147
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_ID0.PNG", 7, 2
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4M1~0", 618, 196
+{
+	XScale 1.800
+	YScale 2.000
+	Offset -19, -149
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_ID4.PNG", 317, 4
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4M1~0", 737, 250
+{
+	XScale 1.800
+	YScale 2.000
+	Offset -19, -129
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_OH6.PNG", 374, 7
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4M1~0", 745, 250
+{
+	XScale 1.800
+	YScale 2.000
+	Offset 31, -116
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_OH5.PNG", 513, 24
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4M1~0", 852, 250
+{
+	XScale 1.800
+	YScale 2.000
+	Offset 103, -136
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_OH4.PNG", 701, 73
+	{
+		Style Overlay
+	}
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_HN2.PNG", -51, 120
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4M1~0", 852, 250
+{
+	XScale 1.800
+	YScale 2.000
+	Offset 103, -146
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_OH4.PNG", 760, 140
+	{
+		Style Overlay
+	}
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_HN2.PNG", -24, 116
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4M1~0", 852, 250
+{
+	XScale 1.800
+	YScale 2.000
+	Offset 103, -146
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_HN2.PNG", -20, 117
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4M1~0", 852, 250
+{
+	XScale 1.800
+	YScale 2.000
+	Offset 103, -156
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_HN2.PNG", -51, 120
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4M1~0", 745, 250
+{
+	XScale 1.800
+	YScale 2.000
+	Offset 31, -136
+}
+
+Sprite "W4M1~0", 535, 200
+{
+	XScale 1.400
+	YScale 1.600
+	Offset -302, -255
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_ML2.PNG", 4, 0
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4M1~0", 536, 207
+{
+	XScale 1.500
+	YScale 1.700
+	Offset -216, -188
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_ML2.PNG", 4, 5
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4M1~0", 540, 210
+{
+	XScale 1.775
+	YScale 1.975
+	Offset -153, -150
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_ML2.PNG", 3, 4
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4M1~0", 540, 210
+{
+	XScale 1.775
+	YScale 1.975
+	Offset -144, -159
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_ML2.PNG", 3, 4
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4M1~0", 540, 210
+{
+	XScale 1.650
+	YScale 1.850
+	Offset -141, -147
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_ML2.PNG", 3, 4
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4M1~0", 540, 210
+{
+	XScale 1.550
+	YScale 1.750
+	Offset -142, -151
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_ML2.PNG", 3, 4
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4M1~0", 540, 210
+{
+	XScale 1.450
+	YScale 1.650
+	Offset -141, -173
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_ML2.PNG", 3, 4
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4M1~0", 540, 210
+{
+	XScale 1.350
+	YScale 1.550
+	Offset -144, -205
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_ML2.PNG", 3, 4
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4M1~0", 535, 200
+{
+	XScale 1.400
+	YScale 1.600
+	Offset -126, -226
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_ML1.PNG", 4, 5
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4M1~0", 536, 207
+{
+	XScale 1.500
+	YScale 1.700
+	Offset -139, -192
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_ML1.PNG", 1, 4
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4M1~0", 540, 210
+{
+	XScale 1.775
+	YScale 1.975
+	Offset -185, -147
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_ML1.PNG", 1, 5
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4M1~0", 540, 210
+{
+	XScale 1.775
+	YScale 1.975
+	Offset -182, -143
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_ML1.PNG", 6, 4
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4M1~0", 540, 210
+{
+	XScale 1.650
+	YScale 1.850
+	Offset -159, -135
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_ML1.PNG", 7, 5
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4M1~0", 540, 210
+{
+	XScale 1.550
+	YScale 1.750
+	Offset -149, -136
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_ML1.PNG", 4, 5
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4M1~0", 540, 210
+{
+	XScale 1.450
+	YScale 1.650
+	Offset -131, -173
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_ML1.PNG", 4, 3
+	{
+		Style Overlay
+	}
+}
+
+Sprite "W4M1~0", 540, 210
+{
+	XScale 1.350
+	YScale 1.550
+	Offset -114, -203
+	Patch "GRAPHICS/PLASMARIFLE/PLSRF_ML1.PNG", 4, 2
+	{
+		Style Overlay
+	}
 }

@@ -417,9 +417,15 @@ PR_FIRE3 "Sounds/PlasmaRifle/pr_fire3.ogg"
 PR_FIRELOW1 "Sounds/PlasmaRifle/pr_low1.ogg"
 PR_FIRELOW2 "Sounds/PlasmaRifle/pr_low2.ogg"
 PR_FIRELOW3 "Sounds/PlasmaRifle/pr_low3.ogg"
+PR_MELEEHIT1 "Sounds/PlasmaRifle/PR_Melee_Hit1.ogg"
+PR_MELEEHIT2 "Sounds/PlasmaRifle/PR_Melee_Hit2.ogg"
+PR_MELEEHIT3 "Sounds/PlasmaRifle/PR_Melee_Hit3.ogg"
+
+$random Halo/Weapons/PlasmaRifle/Melee/Hit { PR_MELEEHIT1 PR_MELEEHIT2 PR_MELEEHIT3 }
 
 Halo/Weapons/PlasmaRifle/Overheat "Sounds/PlasmaRifle/pr_overheat.ogg"
 Halo/Weapons/PlasmaRifle/Select "Sounds/PlasmaRifle/pr_draw.ogg"
+Halo/Weapons/PlasmaRifle/Melee "Sounds/PlasmaRifle/PR_Melee_Rearup.ogg"
 
 $Random Halo/Weapons/PlasmaRifle/Fire 		 { PR_FIRE1 PR_FIRE2 PR_FIRE3 }
 $Random Halo/Weapons/PlasmaRifle/Fire/Bass  { PR_FIRELOW1 PR_FIRELOW2 PR_FIRELOW3 }
