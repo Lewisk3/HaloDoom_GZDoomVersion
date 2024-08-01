@@ -292,6 +292,10 @@ class Halo_PlasmaRifle : HaloGun
 			}
 		goto Ready.Active;
 		
+		DoKick:
+			TNT1 A 1 A_JumpIf(!invoker.handsbusy, "DoMelee");
+		goto super::DoKick;
+		
 		DoMelee:
 			TNT1 A 1 
 			{

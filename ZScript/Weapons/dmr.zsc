@@ -80,11 +80,13 @@ class Halo_DMR : HaloGun
 		HaloGun.Inaccuracy DMR_ACCMOD;
 		HaloGun.Crosshair "DMRRet", 0.55;
 		HaloGun.UIGraphic "WI_DMR", 1.0, 1.0;
-		HaloGun.UISight "SI_DMR1", 0.25, 0.7;
+		HaloGun.UISight "SI_BR", 1.0, 1.0;
 		HaloGun.SetupScope 2.0, 0.25;
 		HaloGun.ZoomSounds "Halo/Weapons/Sniper/Zoom/IN", "Halo/Weapons/Sniper/Zoom/OUT";
 		HaloGun.SetupUIAmmo "WI_AMM6", 20, 12, 0, 5;
 		HaloGun.UIAmmo_Scale_Offset 0.7, 0,0;
+		+HaloGun.SI_Rotate;
+		+HaloGun.SI_AlwaysHide;
 		
 		RecoilWeapon.YOffsetRange -5, 40;
 	}
@@ -243,7 +245,7 @@ class Halo_DMR : HaloGun
 			TNT1 A 1 
 			{
 				A_ScopeON();
-				invoker.UI_Sight = "SI_DMR2";
+				// invoker.UI_Sight = "SI_DMR2";
 			}
 			TNT1 A 5 A_SetZoom(invoker.scopezoom * 1.5, 3, true);
 		goto Scope.Ready;

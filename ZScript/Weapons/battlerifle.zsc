@@ -77,7 +77,6 @@ class Halo_BattleRifle : HaloGun
 		HaloGun.ZoomSounds "Halo/Weapons/Zoom/IN", "Halo/Weapons/Zoom/OUT";
 		HaloGun.SetupUIAmmo "WI_AMM6", 20, 12, 0, 9;
 		HaloGun.UIAmmo_Scale_Offset 0.7, 0,0;
-		+HaloGun.SI_Fullscreen;
 		+HaloGun.SI_Rotate;
 		+HaloGun.SI_AlwaysHide;
 		
