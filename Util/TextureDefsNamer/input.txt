@@ -1,1201 +1,416 @@
 
-Sprite "W5G1A0", 522, 196
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -128, -179
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_IDL1.PNG", 3, 2
-	{
-		Style Overlay
-	}
-}
+Sprite "W3E1~0", 600, 280
+{
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE1", 0, 0
+}
+
+Sprite "W3E1~0", 600, 280
+{
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE2", 0, 0
+}
+
+Sprite "W3E1~0", 600, 280
+{
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE3", 0, 0
+}
+
+Sprite "W3E1~0", 600, 280
+{
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE4", 0, 0
+}
+
+Sprite "W3E1~0", 600, 280
+{
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE5", 0, 0
+}
+
+Sprite "W3E1~0", 600, 280
+{
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE6", 0, 0
+}
+
+Sprite "W3E1~0", 600, 280
+{
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE7", 0, 0
+}
+
+Sprite "W3E1~0", 600, 280
+{
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE8", 0, 0
+}
+
+Sprite "W3E1~0", 600, 280
+{
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE9", 0, 0
+}
+
+Sprite "W3E1~0", 600, 280
+{
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE10", 0, 0
+}
+
+Sprite "W3E1~0", 600, 280
+{
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE11", 0, 0
+}
+
+Sprite "W3E1~0", 600, 280
+{
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE12", 0, 0
+}
+
+Sprite "W3E1~0", 600, 280
+{
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE13", 0, 0
+}
+
+Sprite "W3E1~0", 600, 280
+{
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE14", 0, 0
+}
+
+Sprite "W3E1~0", 600, 280
+{
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE15", 0, 0
+}
+
+Sprite "W3E1~0", 600, 280
+{
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE16", 0, 0
+}
+
+Sprite "W3E1~0", 600, 280
+{
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE17", 0, 0
+}
+
+Sprite "W3E1~0", 600, 280
+{
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE18", 0, 0
+}
+
+Sprite "W3E1~0", 600, 280
+{
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE19", 0, 0
+}
 
-Sprite "W5G1B0", 522, 196
+Sprite "W3E1~0", 600, 280
 {
-	XScale 1.900
-	YScale 2.100
-	Offset -128, -179
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_SGS1.PNG", 3, 2
-	{
-		Style Overlay
-	}
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE20", 0, 0
 }
 
-Sprite "W5G1C0", 522, 196
+Sprite "W3E1~0", 600, 280
 {
-	XScale 1.900
-	YScale 2.100
-	Offset -128, -179
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_SGS2.PNG", 3, 2
-	{
-		Style Overlay
-	}
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE21", 0, 0
 }
 
-Sprite "W5G1D0", 522, 196
+Sprite "W3E1~0", 600, 280
 {
-	XScale 1.895
-	YScale 2.095
-	Offset -129, -180
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FR1.PNG", 3, 2
-	{
-		Style Overlay
-	}
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE22", 0, 0
 }
 
-Sprite "W5F1~0", 522, 196
+Sprite "W3E1~0", 600, 280
 {
-	XScale 1.850
-	YScale 2.050
-	Offset -124, -177
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FR1.PNG", 3, 2
-	{
-		Style Overlay
-	}
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE23", 0, 0
 }
 
-Sprite "W5F1~0", 538, 350
+Sprite "W3E1~0", 600, 280
 {
-	XScale 1.800
-	YScale 2.000
-	Offset -76, -74
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FLASH1.PNG", 127, -33
-	{
-		Style Overlay
-	}
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FR2.PNG", 12, 79
-	{
-		Style Overlay
-	}
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE24", 0, 0
 }
 
-Sprite "W5F1~0", 538, 350
+Sprite "W3E1~0", 600, 280
 {
-	XScale 1.800
-	YScale 2.000
-	Offset -70, -63
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FLASH1.PNG", 133, -22
-	{
-		Alpha 0.60
-		Style Overlay
-	}
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FR3.PNG", 20, 61
-	{
-		Style Overlay
-	}
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE25", 0, 0
 }
-
-Sprite "W5F1~0", 510, 230
-{
-	XScale 1.800
-	YScale 2.000
-	Offset -139, -148
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FR4.PNG", 1, 0
-	{
-		Style Overlay
-	}
+
+Sprite "W3E1~0", 600, 280
+{
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE26", 0, 0
+}
+
+Sprite "W3E1~0", 600, 280
+{
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE27", 0, 0
 }
 
-Sprite "W5F1~0", 510, 230
-{
-	XScale 1.800
-	YScale 2.000
-	Offset -120, -165
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FR2.PNG", -1, 4
-	{
-		Style Overlay
-	}
+Sprite "W3E1~0", 600, 280
+{
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE28", 0, 0
 }
 
-Sprite "W5F1~0", 522, 196
-{
-	XScale 1.825
-	YScale 2.025
-	Offset -140, -183
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FR1.PNG", 3, 2
-	{
-		Style Overlay
-	}
+Sprite "W3E1~0", 600, 280
+{
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE29", 0, 0
 }
 
-Sprite "W5F1~0", 522, 196
+Sprite "W3E1~0", 600, 280
 {
-	XScale 1.850
-	YScale 2.050
-	Offset -136, -188
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FR1.PNG", 3, 2
-	{
-		Style Overlay
-	}
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE30", 0, 0
 }
 
-Sprite "W5F1~0", 522, 196
+Sprite "W3E1~0", 600, 280
 {
-	XScale 1.875
-	YScale 2.075
-	Offset -128, -181
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FR1.PNG", 3, 2
-	{
-		Style Overlay
-	}
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE31", 0, 0
 }
 
-Sprite "W5F1~0", 522, 196
+Sprite "W3E1~0", 600, 280
 {
-	XScale 1.895
-	YScale 2.095
-	Offset -128, -181
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FR1.PNG", 3, 2
-	{
-		Style Overlay
-	}
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE32", 0, 0
 }
 
-Sprite "W5F1~0", 522, 196
+Sprite "W3E1~0", 600, 280
 {
-	XScale 1.850
-	YScale 2.050
-	Offset -124, -177
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FR1.PNG", 3, 2
-	{
-		Style Overlay
-	}
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE33", 0, 0
 }
 
-Sprite "W5F1~0", 538, 330
+Sprite "W3E1~0", 600, 280
 {
-	XScale 1.800
-	YScale 2.000
-	Offset -81, -51
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FLASH2.PNG", 117, 10
-	{
-		Style Overlay
-	}
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FR2.PNG", 5, 98
-	{
-		Style Overlay
-	}
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE34", 0, 0
 }
 
-Sprite "W5F1~0", 522, 360
+Sprite "W3E1~0", 600, 280
 {
-	XScale 1.800
-	YScale 2.000
-	Offset -99, -13
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FLASH2.PNG", 106, 32
-	{
-		Style Overlay
-	}
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FR3.PNG", 5, 80
-	{
-		Style Overlay
-	}
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE35", 0, 0
 }
 
-Sprite "W5F1~0", 522, 238
+Sprite "W3E1~0", 600, 280
 {
-	XScale 1.800
-	YScale 2.000
-	Offset -144, -120
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FR4.PNG", 3, 2
-	{
-		Style Overlay
-	}
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE36", 0, 0
 }
 
-Sprite "W5F1~0", 527, 223
+Sprite "W3E1~0", 600, 280
 {
-	XScale 1.800
-	YScale 2.000
-	Offset -159, -171
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FR2.PNG", -2, 2
-	{
-		Style Overlay
-	}
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE37", 0, 0
 }
 
-Sprite "W5F1~0", 522, 196
+Sprite "W3E1~0", 600, 280
 {
-	XScale 1.800
-	YScale 2.000
-	Offset -180, -191
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FR1.PNG", 3, 2
-	{
-		Style Overlay
-	}
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE38", 0, 0
 }
 
-Sprite "W5F1~0", 280, 124
+Sprite "W3E1~0", 600, 280
 {
-	XScale 1.850
-	YScale 2.050
-	Offset -340, -241
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FR5.PNG", -2, 7
-	{
-		Style Overlay
-	}
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE39", 0, 0
 }
 
-Sprite "W5F1~0", 395, 124
+Sprite "W3E1~0", 600, 280
 {
-	XScale 1.850
-	YScale 2.050
-	Offset -273, -252
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FR6.PNG", 0, 3
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5F1~0", 395, 161
-{
-	XScale 1.850
-	YScale 2.050
-	Offset -217, -212
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FR7.PNG", 1, 2
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5F1~0", 522, 196
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE40", 0, 0
+}
+
+Sprite "W3E1~0", 600, 280
 {
-	XScale 1.850
-	YScale 2.050
-	Offset -127, -189
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FR1.PNG", 3, 2
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5F1~0", 522, 196
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE41", 0, 0
+}
+
+Sprite "W3E1~0", 600, 280
 {
-	XScale 1.875
-	YScale 2.075
-	Offset -127, -181
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FR1.PNG", 3, 2
-	{
-		Style Overlay
-	}
-}
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE42", 0, 0
+}
 
-Sprite "W5F1~0", 522, 196
+Sprite "W3E1~0", 600, 280
 {
-	XScale 1.900
-	YScale 2.100
-	Offset -128, -179
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FR1.PNG", 3, 2
-	{
-		Style Overlay
-	}
-}
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE43", 0, 0
+}
 
-Sprite "W5R1~0", 522, 196
+Sprite "W3E1~0", 600, 280
 {
-	XScale 1.900
-	YScale 2.100
-	Offset -127, -181
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FR1.PNG", 3, 2
-	{
-		Style Overlay
-	}
-}
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE44", 0, 0
+}
 
-Sprite "W5R1~0", 522, 196
+Sprite "W3E1~0", 600, 280
 {
-	XScale 1.900
-	YScale 2.100
-	Offset -128, -179
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD1_NH.PNG", 186, 9
-	{
-		Style Overlay
-	}
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_HN2.PNG", 41, 88
-	{
-		Style Overlay
-	}
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE45", 0, 0
 }
 
-Sprite "W5R1~0", 522, 196
+Sprite "W3E1~0", 600, 280
 {
-	XScale 1.900
-	YScale 2.100
-	Offset -127, -182
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD1_NH.PNG", 186, 9
-	{
-		Style Overlay
-	}
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_HN3.PNG", -164, 46
-	{
-		Style Overlay
-	}
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE46", 0, 0
 }
 
-Sprite "W5R1~0", 700, 196
+Sprite "W3E1~0", 600, 280
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 51, -183
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD1_NH.PNG", 368, 7
-	{
-		Style Overlay
-	}
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_HN1.PNG", 30, 18
-	{
-		Style Overlay
-	}
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE47", 0, 0
 }
 
-Sprite "W5R1~0", 522, 196
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -131, -179
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD1.PNG", 3, 2
-	{
-		Style Overlay
-	}
+Sprite "W3E1~0", 600, 280
+{
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE48", 0, 0
 }
 
-Sprite "W5R1~0", 522, 196
+Sprite "W3E1~0", 600, 280
 {
-	XScale 1.900
-	YScale 2.100
-	Offset -133, -180
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD1.PNG", 3, 2
-	{
-		Style Overlay
-	}
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE49", 0, 0
 }
 
-Sprite "W5R1~0", 522, 196
+Sprite "W3E1~0", 600, 280
 {
-	XScale 1.900
-	YScale 2.100
-	Offset -127, -181
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD1.PNG", 3, 2
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 518, 175
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -122, -197
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD2.PNG", 1, 3
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 475, 190
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -132, -193
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD4_D.PNG", 3, 1
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 475, 190
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -126, -218
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD5_D.PNG", 3, 1
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 475, 190
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -127, -222
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD5_D.PNG", 3, 1
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 475, 190
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -129, -216
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_HN1.PNG", -202, 74
-	{
-		Style Overlay
-	}
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD5_D_NH.PNG", 146, 2
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 475, 190
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -130, -214
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_HN3.PNG", -184, 94
-	{
-		Style Overlay
-	}
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD5_D_NH.PNG", 146, 2
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 475, 190
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -131, -213
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD5_D_NH.PNG", 146, 2
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 575, 290
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -30, -116
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD5_D_NH.PNG", 245, 103
-	{
-		Style Overlay
-	}
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_SHL3.PNG", -180, 159
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 575, 290
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -29, -115
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD5_D_NH.PNG", 244, 105
-	{
-		Style Overlay
-	}
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_SHL3.PNG", -141, 97
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 575, 290
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -28, -115
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD5_D_NH.PNG", 243, 106
-	{
-		Style Overlay
-	}
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_SHL1.PNG", -89, 58
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 575, 290
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -28, -115
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD5_D_NH.PNG", 245, 103
-	{
-		Style Overlay
-	}
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_SHL2.PNG", 18, 49
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 570, 252
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -21, -145
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD6_D.PNG", -24, 6
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 570, 252
-{
-	XScale 1.900
-	YScale 2.100
-	Offset 25, -144
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD7_D.PNG", -43, 9
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 570, 252
-{
-	XScale 1.900
-	YScale 2.100
-	Offset 26, -147
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD7_D.PNG", -43, 9
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 630, 229
-{
-	XScale 1.900
-	YScale 2.100
-	Offset 34, -198
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD8_D.PNG", 7, 5
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 621, 229
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -2, -248
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD9_D.PNG", 17, 12
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 621, 229
-{
-	XScale 1.900
-	YScale 2.100
-	Offset 2, -255
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD9_D.PNG", 17, 12
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 621, 243
-{
-	XScale 1.900
-	YScale 2.100
-	Offset 11, -225
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD9_NH.PNG", 280, 46
-	{
-		Style Overlay
-	}
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_HN4.PNG", -163, 36
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 621, 243
-{
-	XScale 1.900
-	YScale 2.100
-	Offset 27, -221
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FLK3.PNG", 279, 48
-	{
-		Style Overlay
-	}
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_HN3.PNG", -79, 63
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 621, 243
-{
-	XScale 1.900
-	YScale 2.100
-	Offset 27, -221
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FLK2.PNG", 280, 52
-	{
-		Style Overlay
-	}
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_HN3.PNG", -110, 107
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 621, 243
-{
-	XScale 1.900
-	YScale 2.100
-	Offset 27, -221
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FLK2.PNG", 278, 60
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 621, 243
-{
-	XScale 1.900
-	YScale 2.100
-	Offset 27, -221
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FLK2.PNG", 277, 62
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 305, 165
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -229, -270
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FLK3.PNG", 8, 8
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 305, 165
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -233, -242
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FLK4.PNG", 3, 2
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 305, 215
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -246, -188
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FLK5.PNG", 5, 1
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 305, 245
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -290, -131
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FLK6.PNG", 3, 4
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 305, 320
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -336, -49
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FLK8.PNG", 3, 4
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 305, 320
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -355, -51
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FLK8.PNG", 3, 4
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 305, 320
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -356, -53
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FLK8.PNG", 3, 4
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 305, 320
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -351, -75
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FLK7.PNG", 5, 6
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 446, 320
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -177, -137
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FLK9.PNG", 172, 1
-	{
-		Style Overlay
-	}
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_HN2.PNG", 36, 125
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 502, 234
-{
-	XScale 2.100
-	YScale 2.300
-	Offset -147, -178
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FR4.PNG", 10, 3
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 502, 234
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -98, -175
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FR2.PNG", 2, 7
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 522, 196
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -130, -184
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FR1.PNG", 3, 2
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 522, 196
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -129, -181
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_IDL1.PNG", 3, 2
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 518, 175
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -122, -197
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD2.PNG", 1, 3
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 475, 190
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -132, -193
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD4_S.PNG", 3, 1
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 475, 190
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -126, -218
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD5_S.PNG", 3, 1
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 475, 190
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -127, -222
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD5_S.PNG", 3, 3
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 475, 190
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -129, -216
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_HN1.PNG", -202, 74
-	{
-		Style Overlay
-	}
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD5_S_NH.PNG", 146, 2
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 475, 190
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -130, -214
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_HN3.PNG", -184, 94
-	{
-		Style Overlay
-	}
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD5_S_NH.PNG", 146, 2
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 475, 190
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -131, -213
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD5_S_NH.PNG", 146, 2
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 575, 290
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -30, -116
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD5_S_NH.PNG", 245, 103
-	{
-		Style Overlay
-	}
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_SHL6.PNG", -174, 158
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 575, 290
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -29, -115
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD5_S_NH.PNG", 244, 105
-	{
-		Style Overlay
-	}
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_SHL6.PNG", -144, 123
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 575, 290
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -28, -115
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD5_S_NH.PNG", 243, 106
-	{
-		Style Overlay
-	}
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_SHL4.PNG", -118, 95
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 575, 290
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -28, -115
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD5_S_NH.PNG", 245, 103
-	{
-		Style Overlay
-	}
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_SHL5.PNG", -46, 87
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 570, 252
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -21, -145
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD6_S.PNG", 81, 37
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 570, 252
-{
-	XScale 1.900
-	YScale 2.100
-	Offset 25, -144
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD6_S.PNG", 126, 48
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 570, 252
-{
-	XScale 1.900
-	YScale 2.100
-	Offset 26, -147
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD6_S.PNG", 125, 48
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 630, 229
-{
-	XScale 1.900
-	YScale 2.100
-	Offset 34, -198
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD7_S.PNG", 145, 38
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 621, 229
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -2, -248
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD8_S.PNG", 121, 20
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 621, 229
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -2, -248
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD8_S.PNG", 114, 25
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 621, 229
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -1, -260
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD8_S.PNG", 112, 17
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 621, 243
-{
-	XScale 1.900
-	YScale 2.100
-	Offset 11, -225
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_RLD9_NH.PNG", 280, 46
-	{
-		Style Overlay
-	}
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_HN4.PNG", -198, 51
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 621, 243
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE50", 0, 0
+}
+
+Sprite "W3E1~0", 600, 280
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 60, -229
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FLK2.PNG", 277, 62
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 305, 165
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE51", 0, 0
+}
+
+Sprite "W3E1~0", 600, 280
 {
-	XScale 1.900
-	YScale 2.100
-	Offset -219, -270
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FLK3.PNG", 8, 8
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 305, 165
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -233, -242
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FLK4.PNG", 3, 2
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 305, 215
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -246, -188
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FLK5.PNG", 5, 1
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 305, 245
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -290, -131
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FLK6.PNG", 3, 4
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 305, 320
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -336, -49
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FLK8.PNG", 3, 4
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 305, 320
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -356, -51
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FLK8.PNG", 3, 4
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 305, 320
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -362, -55
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FLK8.PNG", 3, 4
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 305, 320
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -356, -56
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FLK8.PNG", 3, 4
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 305, 320
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -348, -89
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FLK7.PNG", 5, 6
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 446, 320
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -177, -137
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FLK9.PNG", 172, 1
-	{
-		Style Overlay
-	}
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_HN2.PNG", 36, 125
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 502, 234
-{
-	XScale 2.100
-	YScale 2.300
-	Offset -147, -178
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FR4.PNG", 10, 3
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 502, 234
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -98, -175
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FR2.PNG", 2, 7
-	{
-		Style Overlay
-	}
-}
-
-Sprite "W5R1~0", 522, 196
-{
-	XScale 1.900
-	YScale 2.100
-	Offset -130, -184
-	Patch "GRAPHICS/SUPERSHOTGUN/DBSG_FR1.PNG", 3, 2
-	{
-		Style Overlay
-	}
+	XScale 1.200
+	YScale 1.200
+	Offset 107, 80
+	Patch "STGRE52", 0, 0
 }

@@ -944,12 +944,15 @@ class HaloGun : RecoilWeapon
 		spreadmod = clamp(spreadmod, 0, 2);
 		
 		// Intro sequence
-		CVar cv_intro = CVar.GetCVar("halodoom_dohelmetintro", Owner.player);
-		bool doIntro = countinv("DoHelmetAnimation") && cv_intro.GetBool();
-		if( (Owner.player.ReadyWeapon == self || Owner.player.PendingWeapon == self) && doIntro )
+		if(gamestate != GS_TITLELEVEL)
 		{
-			psp.SetState(ResolveState("HelmetAnimation"));
-			A_TakeInventory("DoHelmetAnimation", 999);
+			CVar cv_intro = CVar.GetCVar("halodoom_dohelmetintro", Owner.player);
+			bool doIntro = countinv("DoHelmetAnimation") && cv_intro.GetBool();
+			if( (Owner.player.ReadyWeapon == self || Owner.player.PendingWeapon == self) && doIntro )
+			{
+				psp.SetState(ResolveState("HelmetAnimation"));
+				A_TakeInventory("DoHelmetAnimation", 999);
+			}
 		}
 	}
 	
