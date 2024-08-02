@@ -58,7 +58,7 @@ class HaloDoom_TitleMenu : HaloMenuBase
 		mMouse.SetPos(buttons[0].btnrect.pos);
 		btn_selected = 0;
 		buttonAlpha = 0.6;
-		fadein = title ? 1.0 : 0.15;
+		fadein = title ? 1.5 : 0.15;
 		if(loadingTitleMap) fadein = 2.75;
 	}
 	
