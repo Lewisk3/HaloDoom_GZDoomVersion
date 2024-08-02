@@ -1,32 +1,44 @@
 class HaloDoom_IntroSeq : HaloMenuBase
 {
-	ANImageQueue intros;
+	// ANImageQueue intros;
+	ScreenJobRunner intros;
+	double fadeout;
+	bool debug;
+	
+	void AddVideo(String video)
+	{
+		string vidPath = String.Format("Videos/%s.ivf", video);
+		Sound sndPath = String.Format("Videos/%s.ogg", video);
+		intros.Append(
+			MoviePlayerJob.CreateWithSound(vidPath, sndPath, 0)
+		);
+	}
 
 	override void Init(Menu parent, ListMenuDescriptor desc)
 	{
 		Super.Init(parent, desc);
 		
-		intros = ANImageQueue.Create();
-		intros.push("Intro_Disclaimer");
-		intros.push("Intro_Xbox");
-		intros.push("Intro_Bungie");
-		intros.push("Intro_HaloDoom");
+		intros = new("ScreenJobRunner");
+		intros.Init(true, false);
 		
+		AddVideo("XSplash");
+		AddVideo("BSplash");
+		AddVideo("343Splash");
+		AddVideo("HDESplash");
 		DontDim = true;
-		S_ChangeMusic("INTROMUS", force:true);
-		
+		debug = false;
 		btn_selected = 0;
 	}
 	
-	override void Drawer()
+	override bool OnInputEvent(InputEvent ev)
 	{
-		intros.Process();
-		
-		if(intros.IsEmpty()) 
-		{
-			Close();
-			SetMenu("MainMenu");
-		}
+		if(intros) intros.OnEvent(ev);
+		return super.OnInputEvent(ev);
+	}
+	
+	bool IntrosDone()
+	{
+		return !intros.Validate() || intros.index >= intros.Jobs.Size();
 	}
 	
 	override bool MenuEvent(int mkey, bool fromcontroller)
@@ -35,15 +47,43 @@ class HaloDoom_IntroSeq : HaloMenuBase
 		{
 		case MKEY_Enter:
 		case MKEY_Back:
-			intros.Pop();
+			if(intros) intros.advance = true;
 			return true;
 		}
 		return false;
 	}
 	
+	override void Drawer()
+	{
+		super.Drawer();
+	
+		HLSBS.Dim(0xFF000000, 1.0);
+		if(fadeout >= 1.0)
+		{
+			Close();
+			SetMenu("MainMenu");
+			return;
+		}
+	
+		if(intros) 
+		{
+			intros.RunFrame(1.0);
+			if(IntrosDone()) intros.Destroy();
+		}
+		else fadeout += 0.1 * deltatime;
+		
+		if(debug)
+		{
+			string infostr = String.Format("Fadout: %.2f", fadeout);
+			if(intros) infostr = String.Format("Index: %d / %d", intros.index, intros.Jobs.Size());
+			HLSBS.DrawString("SmallFont", infostr, (100,100));
+			console.printf("%f", fadeout);
+		}
+	}
+	
 	override void Ticker()
 	{
-		
+		if(intros) intros.OnTick();
 	}
 }
 
