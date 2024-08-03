@@ -238,7 +238,11 @@ class Halo_Shotgun : HaloGun
 		Reload.FromEmpty:
 			W3E1 A 1 A_StartSound("Halo/Weapons/Shotgun/Open", CHAN_RELOADING, CHANF_OVERLAP);
 			W3E1 BCDEFGHIJKLMNOPQRSTUV 1;
-			W3E1 W 1 A_StartSound("Halo/Weapons/Shotgun/Reload", CHAN_RELOADING, CHANF_OVERLAP);
+			W3E1 W 1 
+			{
+				A_StartSound("Halo/Weapons/Shotgun/Reload", CHAN_RELOADING, CHANF_OVERLAP);
+				A_ReloadSingle();
+			}
 			W3E1 XYZ 1;
 			W3E2 ABCDEFGHIJKLMN 1;
 			W3E2 O 1 A_StartSound("Halo/Weapons/Shotgun/Close", CHAN_RELOADING, CHANF_OVERLAP);

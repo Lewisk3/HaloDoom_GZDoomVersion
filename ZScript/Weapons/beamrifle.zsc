@@ -16,6 +16,7 @@ class BeamRifleLaserDecal : LaserBeamDecal
 
 class LSR_BeamRifle : LaserBeam
 {
+	int ontime;
 	bool turnOff;
 	double laserDmg;
 	Property LaserDamage : laserDmg;
@@ -264,6 +265,10 @@ class Halo_BeamRifle : HaloGun
 					A_EndLaser();
 					res = ResolveState("Ready.DryFire");
 				}
+				
+				if(A_ButtonStatus(BT_ATTACK, BTS_UP) && invoker.lsrbeam.GetAge() > 8) 
+					res = ResolveState("Fire.Done");
+				
 				return res;
 			}
 			TNT1 A 0 
