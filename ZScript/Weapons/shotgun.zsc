@@ -218,6 +218,7 @@ class Halo_Shotgun : HaloGun
 		
 		Reload:
 			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
+			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Reload.FromEmpty");
 		Reload.Ready:
 			W3R1 ABCDEFGHIJ 1;
 		Reload.Loop:
@@ -231,9 +232,19 @@ class Halo_Shotgun : HaloGun
 			W3R1 TUVWXYZ 1;
 			W3R2 ABC 1;
 			TNT1 A 0 A_ValidateReload("Reload.Finish");
-			TNT1 A 0 A_JumpIf(CountLoadedAmmo() <= 1, "Reload.Pump");
 			TNT1 A 0 A_JumpIf(player.cmd.buttons & BT_ATTACK, "Fire");
 		goto Reload.Loop;
+		
+		Reload.FromEmpty:
+			W3E1 A 1 A_StartSound("Halo/Weapons/Shotgun/Open", CHAN_RELOADING, CHANF_OVERLAP);
+			W3E1 BCDEFGHIJKLMNOPQRSTUV 1;
+			W3E1 W 1 A_StartSound("Halo/Weapons/Shotgun/Reload", CHAN_RELOADING, CHANF_OVERLAP);
+			W3E1 XYZ 1;
+			W3E2 ABCDEFGHIJKLMN 1;
+			W3E2 O 1 A_StartSound("Halo/Weapons/Shotgun/Close", CHAN_RELOADING, CHANF_OVERLAP);
+			W3E2 PQRSTUVWXYZ 1;
+		goto Reload.Ready;
+		
 		Reload.Pump:
 			W3R1 IHGFEDCBA 1;
 			W3P1 ABCDEFG 1;
@@ -247,6 +258,8 @@ class Halo_Shotgun : HaloGun
 			W3P1 LKJIHGFEDCBA 1;
 			W3R1 ABCDEFGHIJ 1;
 		goto Reload.Loop;
+		
+		
 		Reload.Finish:
 			W3R1 IHGFEDCBA 1;
 		goto Ready.Active;

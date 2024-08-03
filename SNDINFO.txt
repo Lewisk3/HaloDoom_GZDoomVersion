@@ -283,6 +283,9 @@ DBBASS2 DBBASS2
 DBBASS3 DBBASS3 
 DBBASS4 DBBASS4
 
+Halo/Weapons/Shotgun/Open "Sounds/Shotgun/Empty_Open.ogg"
+Halo/Weapons/Shotgun/Close "Sounds/Shotgun/Empty_Close.ogg"
+
 $random Halo/Weapons/SuperShotgun/Fire        { DBFIRE1 DBFIRE2 DBFIRE3 DBFIRE4 }
 $random Halo/Weapons/SuperShotgun/Fire/Single { DBSFIRE1 DBSFIRE2 DBSFIRE3 DBSFIRE4 }
 $random Halo/Weapons/SuperShotgun/Fire/Bass   { DBBASS1 DBBASS2 DBBASS3 DBBASS4}
