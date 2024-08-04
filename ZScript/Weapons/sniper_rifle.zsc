@@ -140,7 +140,7 @@ class Halo_SniperRifle : HaloGun
 		HaloGun.SetupUIAmmo "WI_AMM6", 48, 16, 2, 0;
 		HaloGun.UIAmmo_Scale_Offset 1.5, 100, 0;
 		
-		RecoilWeapon.YOffsetRange -10, 40;
+		RecoilWeapon.YOffsetRange 0, 40;
 		-HaloGun.SI_Fullscreen;
 		-HaloGun.SI_Vignette;
 	}
@@ -251,6 +251,7 @@ class Halo_SniperRifle : HaloGun
 			W7F1 EFGHIJKLMNOPQ 1 A_SetZoom(1.0, 8);
 			W7F1 RSTUVWXYZ 1;
 			W7F2 ABCDE 1;
+			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Reload");
 		goto Reload.Bolt;
 		
 		// 1,280ms @ 40ms per frame rendered.
