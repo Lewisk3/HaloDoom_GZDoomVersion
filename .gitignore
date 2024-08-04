@@ -3,3 +3,6 @@ Sounds/SniperRifle/SNPRBLT1.ogg.sfk
 Sounds/SniperRifle/SNPRFIR1.ogg.sfk
 Sounds/SniperRifle/SNPRREL.ogg.sfk
 Sounds/SniperRifle/SNPRZIN.ogg.sfk
+Maps/*.dbs
+Maps/*backup*
+maps/*autosave*
