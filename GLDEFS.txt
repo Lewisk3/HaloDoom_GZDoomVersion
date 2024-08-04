@@ -56,7 +56,7 @@ material texture "Models/Title/mars_surface.jpg"
 {
 	//Shader "shaders/SimSun.fp"
 	normal "Models/Title/mars_normal.jpg"
-	roughness "Models/Title/mars_height.jpg"
+	heightmap "Models/Title/mars_height.jpg"
 }
 
 

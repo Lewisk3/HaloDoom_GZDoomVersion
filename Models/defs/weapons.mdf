@@ -294,7 +294,7 @@ Model SmokeTrail
 
 Model FX_Shockwave
 {
-	Model 0 "Models/Title/sky_sphere.obj"
+	Model 0 "Models/Title/sky_sphere.md3"
 	Skin 0 "Models/Lasers/lazer.png" // White pixel
 	Scale 50.0 50.0 50.0 
 	DONTCULLBACKFACES
@@ -304,7 +304,7 @@ Model FX_Shockwave
 
 Model FX_InverseShockWave
 {
-	Model 0 "Models/Title/sky_sphere.obj"
+	Model 0 "Models/Title/sky_sphere.md3"
 	Skin 0 "Models/Lasers/lazer.png" // White pixel
 	Scale 50.0 50.0 50.0 
 	DONTCULLBACKFACES

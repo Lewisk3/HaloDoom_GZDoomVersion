@@ -85,7 +85,7 @@ Model UnmakerBall_Shell
 	*/
 	
 	Path "Models/Title"
-	Model 0 "sky_sphere.obj"
+	Model 0 "sky_sphere.md3"
 	Skin 0 "sky_sphere.png"
 	Scale 50.0 50.0 50.0 
 	DONTCULLBACKFACES
