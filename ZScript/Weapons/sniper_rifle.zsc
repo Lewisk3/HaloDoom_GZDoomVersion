@@ -51,6 +51,61 @@ class HaloSniper_Bullet : HaloBullet
 		HaloProjectile.ShieldDamageFactors 0.5, 2.0;
 		HaloProjectile.SplashSpawner "LargeSplashSpawner";
 	}
+	
+	virtual void SpawnExplosion(double scale = 2.0)
+	{
+		let expl = HaloSniper_Explosion(Spawn("HaloSniper_Explosion", pos));
+		if(expl) 
+		{
+			expl.roll = frandom[SniperFXRNG](0,360);
+			expl.expScale = scale;
+		}
+	}
+	
+	override void OnRip(Actor victim)
+	{
+		SpawnExplosion(0.65);
+	}
+	
+	States
+	{
+		XDeath:
+		Death:
+			MODL A 2 SpawnExplosion();
+		stop;
+	}
+}
+
+class HaloSniper_Explosion : CheapActor
+{
+	double expScale;
+
+	Default
+	{
+		RenderStyle "Add";
+		Scale 2.0;
+		+ROLLSPRITE;
+		+BRIGHT;
+	}
+
+	override void PostBeginPlay()
+	{
+		super.postBeginPlay();
+		A_SetScale(expScale, expScale);
+	}
+
+	States
+	{
+		Spawn:
+			SX04 ABCDEF 1;
+			TNT1 A 0 
+			{
+				let sparks = Spawn("ImpactSparks", pos);
+				if(sparks) sparks.A_SetScale(expScale * 0.35);
+			}
+			SX04 GHIJKLMNOPQ 1;
+		stop;
+	}
 }
 
 class Halo_SniperRifle : HaloGun
@@ -147,34 +202,39 @@ class Halo_SniperRifle : HaloGun
 
 	States
 	{
-		
 		Ready:
-			TNT1 A 0 A_WeapSound("Halo/Weapons/Sniper/Ready");
-			HSND ABCDEF 1 A_DoSelectAnim();
+			TNT1 A 0 A_WeapSound("Halo/Weapons/Sniper/Ready");	
+			TNT1 A 0 A_JumpIf(!A_DoFullSelectAnimation(), "Ready.Loaded");
+			W7S1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoSelectAnim(-15, true);
+			W7S2 ABCD 1 A_DoSelectAnim(-15, true);
+		goto Ready.Active;
+		Ready.Loaded:
+			W7D1 GFEDCBA 1 A_DoSelectAnim(-15);
 		Ready.Active:
-			HSNI A 1 
+			W7G1 A 1 
 			{
 				A_HaloWeaponReady(WRF_ALLOWRELOAD, true);
 			}
 		loop;
 		
 		Ready.Dryfire:
-			HSNI A 4 A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
+			W7G1 A 4 A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
 		goto Ready.Active;
 
 		Select:
-			HSND A 1 A_GunRaise();
+			TNT1 A 1 A_GunRaise();
 		wait;
 
 		Deselect:
-			HSND FEDCB 1;
-			HSND A 1 A_GunLower();
+			W7D1 ABCDEFG 1;
+			W7D1 G 1 A_GunLower();
 		wait;
 		
 		Fire:
 			TNT1 A 0 A_GunCheckReload();
 			TNT1 A 0 A_SetZoom(0.90, 1);
-			HSNF A 1 Bright
+			W7F1 A 1 Bright;
+			W7F1 B 1 Bright
 			{
 				A_RecoilOffset(random[WeapFX](-12,12),24,3);
 				A_SetRecoil(6.66, 4.20, 2);
@@ -182,55 +242,71 @@ class Halo_SniperRifle : HaloGun
 				A_RollQuake(6, 20, 2);
 				A_RQuakeEx(2,6,2,8,0,20,"",QF_RELATIVE|QF_WAVE);
 			}
-			HSNF BC 1 Bright;
-			TNT1 A 0 
+			W7F1 CD 1 Bright;
+			W7F1 A 0 
 			{
 				A_Light(0);
 				A_RQuakeEx(3,3,3,10,0,20,"",QF_RELATIVE);
 			}
-			HSNF DEFGGHIJKL 1 A_SetZoom(1.0, 8);
-			HSNF L 4;
+			W7F1 EFGHIJKLMNOPQ 1 A_SetZoom(1.0, 8);
+			W7F1 RSTUVWXYZ 1;
+			W7F2 ABCDE 1;
 		goto Reload.Bolt;
 		
 		// 1,280ms @ 40ms per frame rendered.
 		// ~45 frames				
+		
 		Reload:
 			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
 			TNT1 A 0 A_ScopeDisable();
+			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Reload.Empty");
 			TNT1 A 0 A_StartSound("Halo/Weapons/Sniper/Reload", CHAN_RELOADING, CHANF_OVERLAP);
-			HSR1 ABCDEFG 2;
-			HSR1 HIJKLM 1;
-			HSR1 NN 1 A_SetRecoil(-2.0, 0, 3);
+			W7R1 ABCDEFGHIJKLOPQRSTUVWX 1;
+			W7R1 Y 1 A_SetRecoil(-2.0, 0, 3);
+			W7R1 Z 1;
+			W7R2 ABCDEFGHIJKLOPQRSTUVWXYZ 1;
+			W7R3 AB 1 A_SetRecoil(0.5, 1.5, 2);
+			W7R3 C 1 A_ReloadClip();
+			W7R3 DEFGHIJKLOPQRSTUVWXYZ 1;
+			W7R4 ABCDEFGHIJKLO 1;
+			TNT1 A 0 A_GotoState("Ready.Active"); 
+			
+		Reload.Empty:
+ 			TNT1 A 0 A_StartSound("Halo/Weapons/Sniper/Reload/Empty", CHAN_RELOADING, CHANF_OVERLAP);
+			W7E1 ABCDEFGHIJKLOPQRSTUVWXYZ 1;
+			W7E2 ABCDEFGHI 1;
+			W7E2 J 1 A_SetRecoil(-2.0, 0, 3);
+			W7E2 LMNOPQRSTUVW 1; 
 			TNT1 A 0
 			{
 				A_SetSFXPos(10,-15,-15);
-				if(!CountReloadAmmo()) A_SpawnSFX("Debris_SniperMagazine", 0, 60);
+				A_SpawnSFX("Debris_SniperMagazine", 0, 60);
 			}
-			HSR1 OPQRS 1;
-			HSR1 T 4;
-			HSR1 UVWXYZ 1;
-			HSR2 AB 2;
-			HSR2 CC 1 A_SetRecoil(2.0, 0, 3);
-			TNT1 A 0 A_ReloadClip();
-			HSR2 CDEFGHIJ 1;
-			HSR2 KLMNOPQRST 2;
-			TNT1 A 0 A_JumpIf(!CountReloadAmmo(), "Reload.Bolt");
+			W7E2 XYZ 1;
+			W7E3 ABCDEFGHIJ 1;
+			W7E3 K 1
+			{
+				A_SetRecoil(0.5, 1.5, 2);
+				A_ReloadClip();
+			}
+			W7E3 LMNOPQRSTUVWXYZ 1;
+			W7E4 ABCDEFGHIJKLOPQRSTUVWX 1;
 			TNT1 A 0 A_GotoState("Ready.Active"); 
-			
+
 		Reload.Bolt:
 			TNT1 A 0 A_ScopeDisable();
 			TNT1 A 0 A_StartSound("Halo/Weapons/Sniper/Bolt",CHAN_WEAPON,CHANF_OVERLAP);
-			HSNB ABCDEFGH 1;
-			HSNB IJKLMNO 1 A_SetRecoil(-0.34, 0.67, 1);
+			W7B1 ABCDEF 1;
+			W7B1 GHIJKL 1 A_SetRecoil(-0.34, 0.67, 1);
 			TNT1 A 0 
 			{
 				A_SetSFXPos(25,-20,-20);
 				A_SpawnSFX("HighCaliburCasing", -90,-20);
 			}
-			HSNB PPO 2;
-			HSNB ONNMLKJ 1; 
-			HSNB IHGFE 1 A_SetRecoil(0.34, -0.67, 1);
-			HSNB DCBAA 1;
+			W7B1 MNOPQRST 1;
+			W7B1 U 1 A_SetRecoil(0.34, -0.67, 1);
+			W7B1 VWXYZ 1;
+			W7B2 ABCDE 1;
 		goto Ready.Active;
 
 		Scope.ON:

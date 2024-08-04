@@ -320,21 +320,22 @@ $volume Halo/Weapons/Shotgun/Fire/Bass 1.0
 $volume Halo/Weapons/Shotgun/Fire 0.8
 
 // Sniper
-SNIPER_FIRE1 SNPRFIR1
-SNIPER_FIRE2 SNPRFIR2
-SNIPER_FIRE3 SNPRFIR3
-SNIPER_LOW1 SNPRLOW1
-SNIPER_LOW2 SNPRLOW2
-SNIPER_LOW3 SNPRLOW3
-SNIPER_BOLT1 SNPRBLT1
-SNIPER_BOLT2 SNPRBLT2
-SNIPER_BOLT3 SNPRBLT3
+SNIPER_FIRE1 "Sounds/SniperRifle/SNPRFIR1.ogg"
+SNIPER_FIRE2 "Sounds/SniperRifle/SNPRFIR2.ogg"
+SNIPER_FIRE3 "Sounds/SniperRifle/SNPRFIR3.ogg"
+SNIPER_LOW1 "Sounds/SniperRifle/SNPRLOW1.ogg"
+SNIPER_LOW2 "Sounds/SniperRifle/SNPRLOW2.ogg"
+SNIPER_LOW3 "Sounds/SniperRifle/SNPRLOW3.ogg"
+SNIPER_BOLT1 "Sounds/SniperRifle/SNPRBLT1.ogg"
+SNIPER_BOLT2 "Sounds/SniperRifle/SNPRBLT2.ogg"
+SNIPER_BOLT3 "Sounds/SniperRifle/SNPRBLT3.ogg"
 
-Halo/Weapons/Sniper/Select   SGDRAW
-Halo/Weapons/Sniper/Reload   SNPRREL
-Halo/Weapons/Sniper/Ready    SNPRDRAW
-Halo/Weapons/Sniper/Zoom/IN  SNPRZIN
-Halo/Weapons/Sniper/Zoom/OUT SNPRZOUT
+Halo/Weapons/Sniper/Select   "Sounds/SniperRifle/SGDRAW.ogg"
+Halo/Weapons/Sniper/Reload   "Sounds/SniperRifle/SNPRREL.ogg"
+Halo/Weapons/Sniper/Reload/Empty "Sounds/SniperRifle/SNPRREL_E.ogg"
+Halo/Weapons/Sniper/Ready    "Sounds/SniperRifle/SNPRDRAW.ogg"
+Halo/Weapons/Sniper/Zoom/IN  "Sounds/SniperRifle/SNPRZIN.ogg"
+Halo/Weapons/Sniper/Zoom/OUT "Sounds/SniperRifle/SNPRZOUT.ogg"
 
 $random Halo/Weapons/Sniper/Bolt      { SNIPER_BOLT1 SNIPER_BOLT2 SNIPER_BOLT3 }
 $random Halo/Weapons/Sniper/Fire      { SNIPER_FIRE1 SNIPER_FIRE2 SNIPER_FIRE3 }

@@ -1317,12 +1317,16 @@ class HaloGun : RecoilWeapon
 	action void A_BeginMelee(bool lower = true)
 	{
 		if(invoker.handsbusy) return;
-		if(lower) invoker.staticoffs.y += invoker.meleelower;
+		if(lower) 
+		{
+			invoker.staticoffs.y += invoker.meleelower;
+			invoker.staticoffs.x += (invoker.meleelower * 0.5);
+		}
 		invoker.handsbusy = true;
 	}
 	action void A_FinishMelee(bool raise = true)
 	{
-		if(raise) invoker.staticoffs.y = 0;
+		if(raise) invoker.staticoffs *= 0;
 		invoker.handsbusy = false;
 	}
 	action void A_BeginKick()
@@ -1478,7 +1482,7 @@ class HaloGun : RecoilWeapon
 		stop;
 		
 		DoMelee:
-			TNT1 A 2 
+			TNT1 A 4 
 			{
 				A_BeginMelee();
 				A_OverlayFlags(OverlayID(), PSPF_ADDBOB|PSPF_ADDWEAPON, 0);

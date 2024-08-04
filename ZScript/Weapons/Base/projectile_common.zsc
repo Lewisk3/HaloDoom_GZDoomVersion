@@ -235,11 +235,14 @@ mixin class HaloProjectile_Common
 			ripamount--;
 			rip_dmgmod += rip_falloff;
 			rip_dmgmod = clamp(rip_dmgmod, 0, 1.0); 
+			OnRip(victim);
 			return 1;
 		}
 		
 		return -1;
 	}
+	
+	virtual void OnRip(Actor victim) {}
 	
 	virtual void DoConverge(vector3 aimpos, vector2 offs)
 	{

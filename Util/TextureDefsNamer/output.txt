@@ -1,416 +1,263 @@
-
-Sprite "W3E1A0", 600, 280
+Sprite "W7G1A0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE1", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPIDLE", 0, 0
 }
 
-Sprite "W3E1B0", 600, 280
+Sprite "SNPBLT0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE2", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT0", 0, 0
 }
 
-Sprite "W3E1C0", 600, 280
+Sprite "W7B1A0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE3", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT1", 0, 0
 }
 
-Sprite "W3E1D0", 600, 280
+Sprite "W7B1B0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE4", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT2", 0, 0
 }
 
-Sprite "W3E1E0", 600, 280
+Sprite "W7B1C0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE5", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT3", 0, 0
 }
 
-Sprite "W3E1F0", 600, 280
+Sprite "W7B1D0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE6", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT4", 0, 0
 }
 
-Sprite "W3E1G0", 600, 280
+Sprite "W7B1E0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE7", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT5", 0, 0
 }
 
-Sprite "W3E1H0", 600, 280
+Sprite "W7B1F0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE8", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT6", 0, 0
 }
 
-Sprite "W3E1I0", 600, 280
+Sprite "W7B1G0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE9", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT7", 0, 0
 }
 
-Sprite "W3E1J0", 600, 280
+Sprite "W7B1H0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE10", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT8", 0, 0
 }
 
-Sprite "W3E1K0", 600, 280
+Sprite "W7B1I0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE11", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT9", 0, 0
 }
 
-Sprite "W3E1L0", 600, 280
+Sprite "W7B1J0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE12", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT10", 0, 0
 }
 
-Sprite "W3E1M0", 600, 280
+Sprite "W7B1K0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE13", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT11", 0, 0
 }
 
-Sprite "W3E1N0", 600, 280
+Sprite "W7B1L0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE14", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT12", 0, 0
 }
 
-Sprite "W3E1O0", 600, 280
+Sprite "W7B1M0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE15", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT13", 0, 0
 }
 
-Sprite "W3E1P0", 600, 280
+Sprite "W7B1N0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE16", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT14", 0, 0
 }
 
-Sprite "W3E1Q0", 600, 280
+Sprite "W7B1O0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE17", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT15", 0, 0
 }
 
-Sprite "W3E1R0", 600, 280
+Sprite "W7B1P0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE18", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT16", 0, 0
 }
 
-Sprite "W3E1S0", 600, 280
+Sprite "W7B1Q0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE19", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT17", 0, 0
 }
 
-Sprite "W3E1T0", 600, 280
+Sprite "W7B1R0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE20", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT18", 0, 0
 }
 
-Sprite "W3E1U0", 600, 280
+Sprite "W7B1S0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE21", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT19", 0, 0
 }
 
-Sprite "W3E1V0", 600, 280
+Sprite "W7B1T0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE22", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT20", 0, 0
 }
 
-Sprite "W3E1W0", 600, 280
+Sprite "W7B1U0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE23", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT21", 0, 0
 }
 
-Sprite "W3E1X0", 600, 280
+Sprite "W7B1V0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE24", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT22", 0, 0
 }
 
-Sprite "W3E1Y0", 600, 280
+Sprite "W7B1W0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE25", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT23", 0, 0
 }
 
-Sprite "W3E1Z0", 600, 280
+Sprite "W7B1X0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE26", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT24", 0, 0
 }
 
-Sprite "W3E2A0", 600, 280
+Sprite "W7B1Y0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE27", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT25", 0, 0
 }
 
-Sprite "W3E2B0", 600, 280
+Sprite "W7B1Z0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE28", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT26", 0, 0
 }
 
-Sprite "W3E2C0", 600, 280
+Sprite "W7B2A0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE29", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT27", 0, 0
 }
 
-Sprite "W3E2D0", 600, 280
+Sprite "W7B2B0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE30", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT28", 0, 0
 }
 
-Sprite "W3E2E0", 600, 280
+Sprite "W7B2C0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE31", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT29", 0, 0
 }
 
-Sprite "W3E2F0", 600, 280
+Sprite "W7B2D0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE32", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT30", 0, 0
 }
 
-Sprite "W3E2G0", 600, 280
+Sprite "W7B2E0", 600, 300
 {
 	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE33", 0, 0
-}
-
-Sprite "W3E2H0", 600, 280
-{
-	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE34", 0, 0
-}
-
-Sprite "W3E2I0", 600, 280
-{
-	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE35", 0, 0
-}
-
-Sprite "W3E2J0", 600, 280
-{
-	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE36", 0, 0
-}
-
-Sprite "W3E2K0", 600, 280
-{
-	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE37", 0, 0
-}
-
-Sprite "W3E2L0", 600, 280
-{
-	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE38", 0, 0
-}
-
-Sprite "W3E2M0", 600, 280
-{
-	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE39", 0, 0
-}
-
-Sprite "W3E2N0", 600, 280
-{
-	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE40", 0, 0
-}
-
-Sprite "W3E2O0", 600, 280
-{
-	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE41", 0, 0
-}
-
-Sprite "W3E2P0", 600, 280
-{
-	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE42", 0, 0
-}
-
-Sprite "W3E2Q0", 600, 280
-{
-	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE43", 0, 0
-}
-
-Sprite "W3E2R0", 600, 280
-{
-	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE44", 0, 0
-}
-
-Sprite "W3E2S0", 600, 280
-{
-	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE45", 0, 0
-}
-
-Sprite "W3E2T0", 600, 280
-{
-	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE46", 0, 0
-}
-
-Sprite "W3E2U0", 600, 280
-{
-	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE47", 0, 0
-}
-
-Sprite "W3E2V0", 600, 280
-{
-	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE48", 0, 0
-}
-
-Sprite "W3E2W0", 600, 280
-{
-	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE49", 0, 0
-}
-
-Sprite "W3E2X0", 600, 280
-{
-	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE50", 0, 0
-}
-
-Sprite "W3E2Y0", 600, 280
-{
-	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE51", 0, 0
-}
-
-Sprite "W3E2Z0", 600, 280
-{
-	XScale 1.200
-	YScale 1.200
-	Offset 107, 80
-	Patch "STGRE52", 0, 0
+	YScale 1.400
+	Offset 109, 66
+	Patch "SNPBLT31", 0, 0
 }
