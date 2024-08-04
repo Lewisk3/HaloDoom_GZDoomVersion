@@ -261,9 +261,9 @@ class Halo_MarsPlanet : Actor
 		Scale 3.0;
 	}
 	
-	override void PostBeginPlay()
+	override void Tick()
 	{
-		super.PostBeginPlay();
+		super.Tick();
 	
 		pitch = 25.19;
 		
