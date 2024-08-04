@@ -52,6 +52,14 @@ material texture "Models/Equipment/Ice/tex_rust.jpeg"
 	specular "Models/Equipment/Ice/Ice_SPEC.jpg"
 }
 
+material texture "Models/Title/mars_surface.jpg"
+{
+	//Shader "shaders/SimSun.fp"
+	normal "Models/Title/mars_normal.jpg"
+	roughness "Models/Title/mars_height.jpg"
+}
+
+
 material texture "Models/Casings/Pistol/Ammo_pack_.50_AE_BaseColor.png"
 {
 	normal "Models/Casings/Pistol/Ammo_pack_.50_AE_Normal.png"

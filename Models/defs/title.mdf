@@ -12,12 +12,25 @@ Model Halo_Ring
 	FrameIndex RING A 0 0 
 }
 
+Model Halo_MarsPlanet
+{
+	Path "Models/Title"
+	Model 0 "sky_sphere.md3"
+	Skin 0 "mars_surface.jpg"
+	Scale 150.0 150.0 150.0 
+	USEACTORROLL
+	USEACTORPITCH
+	CORRECTPIXELSTRETCH
+	
+	FrameIndex PLNT A 0 0 
+}
+
 Model Halo_Sky
 {
 	Path "Models/Title"
-	Model 0 "sky_sphere.obj"
-	Skin 0 "sky_sphere.png"
-	Scale 400.0 400.0 400.0 
+	Model 0 "sky_sphere.md3"
+	Skin 0 "sky_sphere_nasa.jpg"
+	Scale 600.0 600.0 600.0 
 	CORRECTPIXELSTRETCH
 	
 	FrameIndex RING A 0 0 

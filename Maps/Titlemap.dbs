@@ -19,17 +19,38 @@ maps
 			resource0
 			{
 				type = 1;
-				location = "E:\\IDTech - Moding\\HaloDoom Project\\HaloDoom Source";
+				location = "C:\\Users\\korbi\\Documents\\GitHub\\HaloDoom_GZDoomVersion";
 				option1 = 0;
 				option2 = 0;
 				notfortesting = 0;
+				requiredarchives = "";
+			}
+			
+			resource1
+			{
+				type = 2;
+				location = "C:\\Users\\korbi\\Documents\\GZDoom\\gzdoom.pk3";
+				option1 = 0;
+				option2 = 0;
+				notfortesting = 1;
+				requiredarchives = "gzdoom";
+			}
+			
+			resource2
+			{
+				type = 0;
+				location = "C:\\Users\\korbi\\Documents\\GZDoom\\doom2.wad";
+				option1 = 0;
+				option2 = 0;
+				notfortesting = 0;
+				requiredarchives = "";
 			}
 		}
 		overrideceiltexture = false;
-		viewpositionx = 213.6049f;
+		viewpositionx = 35.80852f;
 		defaulttoptexture = "STARTAN2";
 		overrideceilheight = false;
-		viewpositiony = -342.5143f;
+		viewpositiony = -1048.577f;
 		overridebrightness = false;
 		overridefloortexture = false;
 		
@@ -42,7 +63,7 @@ maps
 			gridrotate = 0;
 			backscalex = 100;
 			gridoriginx = 0;
-			gridsize = 1;
+			gridsize = 128;
 			background = "";
 			backoffsety = 0;
 		}
@@ -54,7 +75,35 @@ maps
 		customceilheight = 128;
 		overridemiddletexture = false;
 		custombrightness = 196;
-		viewscale = 0.2158682f;
+		viewscale = 0.3648167f;
+		
+		reloadresourceprecommand
+		{
+			autocloseonsuccess = true;
+			exitcodeiserror = true;
+			stderriserror = true;
+		}
+		
+		reloadresourcepostcommand
+		{
+			autocloseonsuccess = true;
+			exitcodeiserror = true;
+			stderriserror = true;
+		}
+		
+		testprecommand
+		{
+			autocloseonsuccess = true;
+			exitcodeiserror = true;
+			stderriserror = true;
+		}
+		
+		testpostcommand
+		{
+			autocloseonsuccess = true;
+			exitcodeiserror = true;
+			stderriserror = true;
+		}
 		
 		scriptdocuments
 		{

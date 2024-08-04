@@ -227,6 +227,59 @@ class Halo_RingPlanet : Actor
 	}	
 }
 
+class Halo_DistantStar : Actor
+{
+	Default
+	{
+		//$Category "HaloDoom/Title"
+		Tag "Planet";
+		+NOINTERACTION;
+		+WALLSPRITE;
+		+BRIGHT;
+		RenderStyle "Add";
+		Alpha 1.0;
+		Scale 0.2;
+	}
+	
+	States
+	{
+		Spawn:
+			PLNT B -1;
+		stop;
+	}	
+}
+
+
+class Halo_MarsPlanet : Actor
+{
+	Default
+	{
+		//$Category "HaloDoom/Title"
+		Tag "Mars Deco";
+		+NOINTERACTION;
+		+INTERPOLATEANGLES;
+		Scale 3.0;
+	}
+	
+	override void PostBeginPlay()
+	{
+		super.PostBeginPlay();
+	
+		pitch = 25.19;
+		
+		// Actual rotation speed of mars, 35x
+		angle += 0.005;
+	}
+	
+	
+	States
+	{
+		Spawn:
+			PLNT A -1;
+		stop;
+	}	
+}
+
 class Halo_Sky : Actor
 {
 	Default
@@ -234,6 +287,7 @@ class Halo_Sky : Actor
 		//$Category "HaloDoom/Title"
 		Tag "Space Skybox";
 		+NOINTERACTION;
+		Scale 2.0;
 	}
 	
 	States

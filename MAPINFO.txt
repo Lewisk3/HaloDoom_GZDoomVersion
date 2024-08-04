@@ -39,6 +39,8 @@ DoomEdNums
 	16000 = "Halo_Ring" 
 	16001 = "Halo_RingPlanet"
 	16002 = "Halo_Sky"
+	16003 = "Halo_MarsPlanet"
+	16004 = "Halo_DistantStar"
 	
 	// Weapons
 	16030 = "Halo_AssaultRifle"
