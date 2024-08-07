@@ -197,11 +197,17 @@ class Halo_FuelRod : HaloGun
 		
 		A_SetSFXPos(8, -12, -8);
 		vector3 hitpos; Actor proj;
+		let plr = HaloPlayer(self);
+		if(!plr) return;
+		
 		[hitpos, proj] = A_ShootProjectile("FuelrodPlasma");
 		if(proj) 
 		{
 			proj.target = self;
-			proj.vel.z -= 1;
+			
+			// I have no fucking idea why the pitch on this thing comes out soo wrong...
+			vector3 shootAngles = level.SphericalCoords(invoker.sfx_pos, plr.aimPos, (angle, pitch)); 
+			proj.vel = HaloMath.V3Offset(angle-shootAngles.x, pitch-shootAngles.y, roll, 1,0,0, 40);			
 		}
 		
 		A_TakeAmmo(playEmptySND:false);
@@ -226,60 +232,59 @@ class Halo_FuelRod : HaloGun
 		
 		Ready:
 			TNT1 A 0 A_WeapSound("Halo/Weapons/FuelRod/Select", CHANF_OVERLAP);
-			FRDS BCDEF 1 A_DoSelectAnim();
+			W8D1 ACEGIJ 1 A_DoSelectAnim();
 		Ready.Active:
-			FRDI A 1 A_HaloWeaponReady();
+			W8G1 A 1 A_HaloWeaponReady();
 		loop;
 		
 		Ready.Dryfire:
-			FRDI A 4 A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
+			W8G1 A 4 A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
 		goto Ready.Active;
 
 		Select:
-			FRDS A 0 A_GunRaise();
+			TNT1 A 0 A_GunRaise();
 		wait;
 
 		Deselect:
-			FRDS FEDCB 1;
-			FRDS A 1 A_GunLower();
+			W8D1 JIGECA 1;
+			W8D1 A 1 A_GunLower();
 		wait;
 		
 		Fire:
 			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Ready.Dryfire");
-			FRDF A 1 Bright
+			W8F1 AB 1;
+			W8F1 C 1 Bright
 			{
-				A_RecoilOffset(40,40,6);
-				A_SetRecoil(6.0, 0, 2);
+				A_RecoilOffset(20,20,6);
+				A_SetRecoil(8.0, 0, 2);
 				A_SetZoom(0.87, 2);
 				A_FireFuelRod();
-				A_RQuakeEx(4,2,3,8,0,20,"",QF_RELATIVE|QF_WAVE);
+				A_RQuakeEx(4,2,3,20,0,20,"",QF_RELATIVE|QF_WAVE);
 			}
-			FRDF BC 1 Bright A_RecoilOffset(40,40,6);
-			FRDF A 0 
+			W8F1 DE 1 Bright A_RecoilOffset(40,40,6);
+			W8F1 E 12;
+			W8F1 E 2 
 			{
 				A_Light(0);
 				A_SetSFXPos(25,-25,-15);
 				A_SpawnSFX("FuelrodCasing", -90,-30);
+				A_RQuakeEx(2,2,2,8,0,20,"",QF_RELATIVE);
 			}
-			FRDF DDDDD 1 
-			{
-				A_SetZoom(1.0, 16);
-				A_RQuakeEx(2,2,2,12,0,20,"",QF_RELATIVE);
-			}
+			TNT1 A 0 A_RecoilOffset(0,0,16);
+			W8F1 FGHI 3 A_SetZoom(1.0, 12);
 			TNT1 A 0 A_WeapSound("Halo/Weapons/FuelRod/Fire/Mech", CHANF_OVERLAP);
-			FRDF EE 1 A_RecoilOffset(0,0,10);
-			FRDF FGHIJ 2;
-			FRDI A 1 A_Overlay(60, "DoSmoke");
+			W8G1 A 12 A_RecoilOffset(0,0,16);
+			W8F1 A 1 A_Overlay(60, "DoSmoke");
 		goto Overheat;
 					
 		Overheat:
 			TNT1 A 0 A_ScopeDisable();
 			TNT1 A 0 A_StartSound("Halo/Weapons/FuelRod/Overheat", CHAN_RELOADING, CHANF_OVERLAP);
 			TNT1 A 0 A_Quake(2,16,0,20,"");
-			FRDH ABCDEGHI 2 A_RecoilOffset(frandom[WeapFX](-3,5),frandom[WeapFX](-3,3),2, add:true);
+			W8V1 ABCCCCCC 2 A_RecoilOffset(frandom[WeapFX](-3,5),frandom[WeapFX](-3,3),2, add:true);
 			TNT1 A 0 A_Quake(1,20,0,20,"");
-			FRDH JKLMNOJKLMNOJKLMNOJKLMNOJKLMNO 2 A_RecoilOffset(frandom[WeapFX](-3,3),frandom[WeapFX](-3,3),2, add:true);
-			FRDH PQRSTU 2 A_RecoilOffset(0,0,6);
+			W8V1 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC 2 A_RecoilOffset(frandom[WeapFX](-3,3),frandom[WeapFX](-3,3),2, add:true);
+			W8V1 CCCBA 2 A_RecoilOffset(0,0,6);
 		goto Ready.Active;
 
 		Spawn:
