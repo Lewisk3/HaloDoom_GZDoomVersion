@@ -316,9 +316,9 @@ class Halo_TitleCamera_Source : Actor
 		super.Tick();
 		
 		// Smooth interpolation begins here
-		A_SetAngle(HaloMath.LerpAngle(angle, parent.angle, 0.25), SPF_INTERPOLATE);
-		A_SetPitch(HaloMath.Lerp(pitch, parent.pitch, 0.25), SPF_INTERPOLATE);
-		A_SetRoll(HaloMath.Lerp(roll, parent.roll, 0.25), SPF_INTERPOLATE);
+		A_SetAngle(HaloMath.LerpAngle(angle, parent.angle, 0.1), SPF_INTERPOLATE);
+		A_SetPitch(HaloMath.Lerp(pitch, parent.pitch, 0.1), SPF_INTERPOLATE);
+		A_SetRoll(HaloMath.Lerp(roll, parent.roll, 0.1), SPF_INTERPOLATE);
 		
 		SetOrigin(HaloMath.Lerp3D(pos, parent.pos, 0.5), true);
 	}
