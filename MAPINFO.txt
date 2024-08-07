@@ -41,6 +41,7 @@ DoomEdNums
 	16002 = "Halo_Sky"
 	16003 = "Halo_MarsPlanet"
 	16004 = "Halo_DistantStar"
+	16005 = "Halo_TitleCamera"
 	
 	// Weapons
 	16030 = "Halo_AssaultRifle"

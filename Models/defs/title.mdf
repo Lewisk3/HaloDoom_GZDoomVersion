@@ -4,10 +4,11 @@ Model Halo_Ring
 	Model 0 "Halo_Ring.md3"
 	SurfaceSkin 0 0 "Halo_Ring_Inner.png"
 	SurfaceSkin 0 1 "Halo_Ring_Outer.png"
-	Scale 0.25 0.25 0.25
+	Scale 0.24 0.55 0.24
 	USEACTORPITCH
 	USEACTORROLL
 	CORRECTPIXELSTRETCH
+	DONTCULLBACKFACES
 	
 	FrameIndex RING A 0 0 
 }

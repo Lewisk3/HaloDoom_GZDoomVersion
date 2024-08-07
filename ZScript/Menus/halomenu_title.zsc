@@ -202,7 +202,7 @@ class Halo_Ring : Actor
 		Spawn:
 			RING A 1
 			{
-				pitch += 0.125;
+				pitch += (0.125 * 0.25);
 			}
 		loop;
 	}
@@ -295,5 +295,56 @@ class Halo_Sky : Actor
 		Spawn:
 			RING A -1 Bright;
 		stop;
+	}
+}
+
+class Halo_TitleCamera_Source : Actor
+{
+	Halo_TitleCamera parent;
+	vector3 angleVel;
+
+	Default
+	{
+		+NOINTERACTION;
+		+INTERPOLATEANGLES;
+		Radius 1;
+		Height 1;
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		
+		// Smooth interpolation begins here
+		A_SetAngle(HaloMath.LerpAngle(angle, parent.angle, 0.25), SPF_INTERPOLATE);
+		A_SetPitch(HaloMath.Lerp(pitch, parent.pitch, 0.25), SPF_INTERPOLATE);
+		A_SetRoll(HaloMath.Lerp(roll, parent.roll, 0.25), SPF_INTERPOLATE);
+		
+		SetOrigin(HaloMath.Lerp3D(pos, parent.pos, 0.5), true);
+	}
+}
+
+class Halo_TitleCamera : MovingCamera
+{
+	Default
+	{
+		CameraFOV 70.0;
+		Radius 1;
+		Height 1;
+		+INTERPOLATEANGLES;
+	}
+	
+	override void Activate(Actor activator)
+	{
+		super.Activate(activator);
+		let realcam = Halo_TitleCamera_Source(Spawn("Halo_TitleCamera_Source", pos));
+		if(!realcam) return;
+		
+		realcam.parent = self;
+		realcam.angle = angle;
+		realcam.pitch = pitch;
+		realcam.roll = roll;
+		let viewer = players[consoleplayer].mo;
+		viewer.SetCamera(realcam);
 	}
 }
