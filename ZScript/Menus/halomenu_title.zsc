@@ -344,6 +344,7 @@ class Halo_TitleCamera : MovingCamera
 		realcam.angle = angle;
 		realcam.pitch = pitch;
 		realcam.roll = roll;
+		realcam.CameraFOV = CameraFOV;
 		let viewer = players[consoleplayer].mo;
 		viewer.SetCamera(realcam);
 	}
