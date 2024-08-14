@@ -11,6 +11,13 @@ Halo/Pickup/Weapon "Sounds/SFX/GunPickup.ogg"
 Halo/Pickup/Ammo "Sounds/Ammo/AmmoPickup.ogg"
 Halo/SecretFound "Sounds/SFX/secretreveal.ogg"
 
+// Title music
+Music/TITLEMUS1 "Music/TITLEMUS1.ogg"
+Music/TITLEMUS2 "Music/TITLEMUS2.ogg"
+Music/TITLEMUS3 "Music/TITLEMUS3.ogg"
+Music/TITLEMUS4 "Music/TITLEMUS4.ogg"
+Music/TITLEMUS5 "Music/TITLEMUS5.ogg"
+
 CLAMBER1 "Sounds/Clamber/Clamber1.ogg"
 CLAMBER2 "Sounds/Clamber/Clamber2.ogg"
 CLAMBER3 "Sounds/Clamber/Clamber3.ogg"

@@ -4,6 +4,10 @@ class HaloDoom_TitleMenu : HaloMenuBase
 	bool loadingTitleMap;
 	bool title;
 	
+	int curTitleMus;
+	int musicTimer;
+	int musicLength;
+	
 	override void Init(Menu parent, ListMenuDescriptor desc)
 	{
 		Super.Init(parent, desc);
@@ -52,7 +56,11 @@ class HaloDoom_TitleMenu : HaloMenuBase
 		for(int i = 0; i < buttons.Size(); i++)
 			buttons[i].ScaleCollider(0.9, 0.7);
 		
-		if(title) S_ChangeMusic("Music/TITLEMUS" .. random[TMUS](1,5) .. ".ogg", force:true);
+		if(title) 
+		{
+			curTitleMus = random[TMUS](1,5);
+			StartTitleMusic();
+		}
 		
 		DontDim = true;
 		mMouse.SetPos(buttons[0].btnrect.pos);
@@ -60,6 +68,13 @@ class HaloDoom_TitleMenu : HaloMenuBase
 		buttonAlpha = 0.6;
 		fadein = title ? 1.5 : 0.15;
 		if(loadingTitleMap) fadein = 2.75;
+	}
+	
+	void StartTitleMusic()
+	{
+		string musicFile = "Music/TITLEMUS" .. curTitleMus .. ".ogg";
+		S_ChangeMusic(musicFile, force:true);
+		musicLength = S_GetLength("Music/TITLEMUS" .. curTitleMus) * TICRATE;
 	}
 	
 	override bool MenuEvent(int mkey, bool fromcontroller)
@@ -148,6 +163,14 @@ class HaloDoom_TitleMenu : HaloMenuBase
 	
 	override void Ticker()
 	{
+		if(musicLength) 
+			musicLength--;
+		else
+		{	
+			curTitleMus = (curTitleMus%5) + 1;
+			StartTitleMusic();
+		}
+	
 		for(int i = 0; i < buttons.Size(); i++)
 		{
 			buttons[i].Update(mMouse, btn_selected == -1);
