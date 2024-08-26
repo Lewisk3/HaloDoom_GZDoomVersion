@@ -65,7 +65,7 @@ class Halo_DMR : HaloGun
 		Weapon.BobSpeed 2.12;
 		Weapon.BobRangeX 0.63;
 		Weapon.AmmoType1 "Halo_DMR_Reserves";
-		Weapon.AmmoGive 24;
+		Weapon.AmmoGive 30;
 		Weapon.AmmoType2 "Halo_DMRClip";
 		HaloGun.Faction "Human";
 		

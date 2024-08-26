@@ -11,6 +11,8 @@ Halo/Pickup/Weapon "Sounds/SFX/GunPickup.ogg"
 Halo/Pickup/Ammo "Sounds/Ammo/AmmoPickup.ogg"
 Halo/SecretFound "Sounds/SFX/secretreveal.ogg"
 
+$volume Halo/SecretFound 0.6
+
 // Title music
 Music/TITLEMUS1 "Music/TITLEMUS1.ogg"
 Music/TITLEMUS2 "Music/TITLEMUS2.ogg"
@@ -718,7 +720,8 @@ $random Halo/Weapons/DMR/Fire      { DMR_FIRE1 DMR_FIRE2 DMR_FIRE3 }
 $random Halo/Weapons/DMR/Fire/Bass { DMR_LOW1 DMR_LOW2 DMR_LOW3  }
 $random Halo/Weapons/DMR/Fire/Mech { DMR_MECH1 DMR_MECH2 DMR_MECH3 }
 
-$volume Halo/Weapons/DMR/Fire/Mech 0.6
+$volume Halo/Weapons/DMR/Fire/Mech 0.3
+$volume Halo/Weapons/DMR/Fire/Bass 0.6
 
 // Pulse Carbine
 PUL_FIRE1 "Sounds/PulseCarbine/PC_fire1.ogg"
