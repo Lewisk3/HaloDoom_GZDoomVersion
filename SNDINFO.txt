@@ -743,6 +743,9 @@ Halo/Weapons/PulseCarbine/Draw "Sounds/PulseCarbine/PC_draw.ogg"
 $Random Halo/Weapons/PulseCarbine/Fire 		 { PUL_FIRE1 PUL_FIRE2 PUL_FIRE3 PUL_FIRE4 PUL_FIRE5 PUL_FIRE6 }
 $Random Halo/Weapons/PulseCarbine/Fire/Bass  { PUL_FIRELOW1 PUL_FIRELOW2 PUL_FIRELOW3 PUL_FIRELOW4 }
 
+$volume Halo/Weapons/PulseCarbine/Fire 1.0
+$volume Halo/Weapons/PulseCarbine/Fire/Bass 0.5
+
 // Unmaker
 Unmaker_FIRE1 "Sounds/Unmaker/Unmaker_Fire1.ogg"
 Unmaker_FIRE2 "Sounds/Unmaker/Unmaker_Fire2.ogg"
