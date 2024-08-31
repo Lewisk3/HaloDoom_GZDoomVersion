@@ -219,7 +219,7 @@ class Halo_StickyDetonator : HaloGun
 		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 6;
 		Obituary "%o was stuck by %k's Sticky Detonator.";
-		Inventory.PickupMessage	"Picked up the Sticky Detonator.";
+		Inventory.PickupMessage	"Picked up the M363 RPD Sticky Detonator.";
 		Tag "Sticky Detonator";
 		Weapon.BobSpeed 1.86;
 		Weapon.BobRangeX 0.30;

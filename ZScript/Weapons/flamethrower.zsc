@@ -280,7 +280,7 @@ class Halo_Flamethrower : HaloGun
 		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 6;
 		Obituary "%o was burnt to a crisp by %k's Flamethrower.";
-		Inventory.PickupMessage	"Picked up the M6634 Flamethrower.";
+		Inventory.PickupMessage	"Picked up the M7057 Defoliant Flamethrower.";
 		Tag "Flamethrower";
 		Weapon.BobSpeed 1.32;
 		Weapon.BobRangeX 0.50;

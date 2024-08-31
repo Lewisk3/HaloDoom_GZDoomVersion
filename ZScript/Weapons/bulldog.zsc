@@ -55,7 +55,7 @@ class Halo_Bulldog : HaloGun
 	{	
 		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 3;
-		Obituary "%o's riot was controlled by %k's Riot Shotgun.";
+		Obituary "%o's running riot was controlled by %k's Riot Shotgun.";
 		Inventory.PickupMessage	"Picked up the CQS-48 Riot Shotgun.";
 		Tag "Riot Shotgun";
 		Weapon.BobSpeed 1.68;

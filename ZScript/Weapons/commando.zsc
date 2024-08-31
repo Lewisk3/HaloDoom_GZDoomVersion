@@ -18,7 +18,7 @@ class Halo_CMDO_Reserves : Ammo
 		Inventory.MaxAmount 140;
 		Inventory.Icon "HLAMT0"; // TODO: Unique ammo drop sprite
 		Inventory.PickupSound "Halo/Pickup/Ammo";
-		Inventory.PickupMessage "Picked up 20 Rounds for the Commando";
+		Inventory.PickupMessage "Picked up 20 Rounds for the Tactical Rifle";
 		
 		Ammo.BackpackMaxAmount 140;
 	}
@@ -53,9 +53,9 @@ class Halo_Commando : HaloGun
 	{
 		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 1;
-		Obituary "%o was filled with holes by %k's VK78 Commando.";
-		Inventory.PickupMessage	"Picked up the VK80 7.62 Commando.";
-		Tag "VK80 Commando";
+		Obituary "%o was filled with holes by %k's Tactical Rifle.";
+		Inventory.PickupMessage	"Picked up the VK78 Tactical Rifle.";
+		Tag "Tactical Rifle";
 		Weapon.BobSpeed 1.36;
 		Weapon.BobRangeX 0.48;
 		Weapon.AmmoType1 "Halo_CMDO_Reserves";
@@ -86,14 +86,14 @@ class Halo_Commando : HaloGun
 	
 	override void GetStatsLore(out Array<String> stats, out string lore)
 	{
-		stats.Push("VK78 Commando");
+		stats.Push("VK78 Tactical Rifle");
 		stats.Push("Ammo Type: 7.62mm");
 		// stats.Push("Frame: Front Loader");.
 		stats.Push("Feed System: 20 Round Detachable Box Magazine");	
 		stats.Push(String.Format("Base Damage: %d", COMMANDO_DMG));
 	
 		lore = (
-			"Manufactured by Vakara GesmbH, the VK78 Commando is an automatic rifle "
+			"Manufactured by Vakara GesmbH, the VK78 Tactical Rifle is an automatic rifle "
 			"that has been in service since at least the late 25th century. It fires "
 			"7.62mm rounds and is fed by a detachable box magazine that typically holds "
 			"20 rounds. Along its top, it features a mounting rail for optics, with "
@@ -106,7 +106,7 @@ class Halo_Commando : HaloGun
 			"The VK78 had entered production as early as the late 25th century, "
 			"when it was in service with the Colonial Military Authority (CMA). "
 			"In 2495, it was chosen as a replacement for the older HMG-38 heavy "
-			"machine gun rifle among CMA frontier forces.[1] It remained in service "
+			"machine gun among CMA frontier forces. It remained in service "
 			"for at least a further six decades, seeing use within the UNSC Armed" 
 			"Forces at the Battle for Installation 07 in December, 2559, and in "
 			"ensuing conflicts the following year. "

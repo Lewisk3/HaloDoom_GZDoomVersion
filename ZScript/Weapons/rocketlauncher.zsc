@@ -234,8 +234,8 @@ class Halo_RocketLauncher : HaloGun
 	{
 		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 6;
-		Obituary "%o got the Alex Mercer treatment from %k's Rocket Launcher.";
-		Inventory.PickupMessage	"Picked up the M41 SSR MAV/AW Rocket Launcher.";
+		Obituary "%o got the Alex Mercer'd by %k's Rocket Launcher.";
+		Inventory.PickupMessage	"Picked up the M41 SSR SPNKR Rocket Launcher.";
 		Tag "Rocket Launcher";
 		Weapon.BobSpeed 1.86;
 		Weapon.BobRangeX 0.30;

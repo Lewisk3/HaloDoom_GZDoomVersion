@@ -193,7 +193,7 @@ class Halo_Hydra : HaloGun
 		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 5;
 		Obituary "%o was torn to giblets by %k's Hydra Missiles.";
-		Inventory.PickupMessage	"Picked up the MLRS-2 Hydra.";
+		Inventory.PickupMessage	"Picked up the MLRS-2 Hydra Gyroc Launcher.";
 		Tag "Hydra";
 		Weapon.BobSpeed 1.5;
 		Weapon.BobRangeX 0.12;

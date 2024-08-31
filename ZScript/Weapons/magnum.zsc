@@ -59,7 +59,7 @@ class Halo_Magnum : HaloGun
 		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 2;
 		Obituary "%o got a taste of Halo CE Competitive from %k's Magnum.";
-		Inventory.PickupMessage	"Picked up the M6D-PD Magnum.";
+		Inventory.PickupMessage	"Picked up the M6D-PDW Magnum.";
 		Tag "Magnum";
 		Weapon.BobSpeed 1.86;
 		Weapon.BobRangeX 0.30;

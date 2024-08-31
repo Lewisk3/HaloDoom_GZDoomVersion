@@ -56,7 +56,7 @@ class Halo_BattleRifle : HaloGun
 		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 1;
 		Obituary "%o got a taste of competitive halo by %k's Battle Rifle.";
-		Inventory.PickupMessage	"Picked up the Battle Rifle.";
+		Inventory.PickupMessage	"Picked up the BR45 Battle Rifle.";
 		Tag "Battle Rifle";
 		Weapon.BobSpeed 1.86;
 		Weapon.BobRangeX 0.30;

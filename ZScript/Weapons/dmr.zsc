@@ -15,11 +15,11 @@ class Halo_DMR_Reserves : Ammo
 		Height 6;
 		Scale 0.65;
 
-		Inventory.Amount 8;
+		Inventory.Amount 15;
 		Inventory.MaxAmount 60;
 		Inventory.Icon "HLAMF0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
-		Inventory.PickupMessage "Picked up 8 Rounds for the DMR.";
+		Inventory.PickupMessage "Picked up 15 Rounds for the DMR.";
 		
 		Ammo.BackpackMaxAmount 72;
 	}
