@@ -397,7 +397,8 @@ class I_MBeamCookStatus : Inventory
 		let pain = Owner.FindState("Pain");
 		int newPainChance = random[MicrowavePain](0,100) <= 10;
 		if(cooking && pain && Owner.health > 0 && newPainChance) Owner.SetState(pain);
-		cookedperc = cookedhealth / double(Owner.health);
+		cookedperc = max(1,cookedhealth) / max(1, double(Owner.health));
+		cookedperc = clamp(cookedperc, 0, 1.0);
 		
 		if(cookedhealth >= Owner.health)
 		{

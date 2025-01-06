@@ -602,7 +602,7 @@ class WraithPlasma_FlyingPlasma : FastActor
 		SpawnLoop_One:
 			FX58 A 2 Bright
 			{
-				A_FadeOut(0.006);
+				A_FadeOut(1.0/double(TICRATE));
 				A_SetScale(Scale.X * 0.95);
 				let trail = Actor.Spawn("WraithPlasma_Trail", pos);
 				if(trail) 
@@ -617,6 +617,9 @@ class WraithPlasma_FlyingPlasma : FastActor
 				}
 			}
 		wait;
+		CullObject:
+			TNT1 A 0;
+		stop;
 	}
 }
 

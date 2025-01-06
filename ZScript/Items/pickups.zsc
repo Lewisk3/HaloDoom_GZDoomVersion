@@ -212,12 +212,12 @@ class HaloAmmoCrate : Actor
 			let classtype = AllActorClasses[i];
 			if(classtype is "Ammo" && classtype != "Ammo") 
 			{
-				class<Inventory> ammoItem = (class<Inventory>) (classtype);
+				class<Ammo> ammoItem = (class<Ammo>) (classtype);
 				let defs = GetDefaultByType(ammoItem);
 				String iconSprite = TexMan.GetName(defs.Icon);
 				if(iconSprite.IndexOf("HLAM") == -1) continue; 
 				
-				gunAmmo.Push(AllActorClasses[i]);
+				gunAmmo.Push(ammoItem);
 			}
 		}
 		

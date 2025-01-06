@@ -85,7 +85,7 @@ class Halo_Stanchion : HaloGun
 				
 		// Recoil
 		RecoilWeapon.RecoilSpeed 20;
-		HaloGun.HasBattery true, 20;
+		HaloGun.HasBattery true, 5;
 		HaloGun.Bloom 1.25;
 		HaloGun.BloomSpeed 0.08;
 		HaloGun.BaseRecoil STANCHION_RECOIL;
@@ -293,11 +293,11 @@ class Halo_Stanchion : HaloGun
 		wait;
 		
 		Fire:
-			TNT1 A 0 A_GunCheckReload();
 		Hold:
 			STCI A 4 A_StartSound("Halo/Weapons/Stanchion/Precharge", CHAN_CHARGING, CHANF_NOSTOP);
 			TNT1 A 0 A_RefireState("Rail.ChargeStart");
 		Fire.Normal:
+			TNT1 A 0 A_GunCheckReload();
 			TNT1 A 0 A_SetZoom(0.8, 1);
 			STCF A 1 Bright
 			{
