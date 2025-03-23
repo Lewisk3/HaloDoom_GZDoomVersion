@@ -633,7 +633,7 @@ $random Halo/Weapons/MA5B/Fire/Bass { MA5B_LOW1 MA5B_LOW2 MA5B_LOW3 }
 $random Halo/Weapons/MA5B/Mech { MA5B_MECH1 MA5B_MECH2 MA5B_MECH3 MA5B_MECH4 }
 
 $volume Halo/Weapons/MA5B/Fire 1.0
-$volume Halo/Weapons/MA5B/Fire/Bass 1.0
+$volume Halo/Weapons/MA5B/Fire/Bass 0.3
 $volume Halo/Weapons/MA5B/Mech 0.7
 
 // RocketLauncher
