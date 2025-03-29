@@ -15,6 +15,7 @@ class HaloMAB_Bullet : HaloBullet
 		HaloProjectile.BaseDamage ARMA5B_DMG;
 		HaloProjectile.Speed_MPS ARMA5B_BMPS;
 		HaloProjectile.HeadshotDMGFactor ARMA5B_HEDMOD;
+		HaloProjectile.RipperCount 3;
 		Scale 0.5;
 	}
 }
