@@ -12,8 +12,7 @@ class HaloDoom_TitleMenu : HaloMenuBase
 	{
 		Super.Init(parent, desc);
 
-		title = (gamestate != GS_LEVEL);
-		loadingTitleMap = (gamestate == GS_DEMOSCREEN);
+		GetGameState();
 		
 		MainBG = MenuTexture.Create("Graphics/UI/Title/TitleLogo.png",(0,-200),(0.5,0.5));
 		mMouse = Mouse.Create("", 0,0,8,8);
@@ -56,11 +55,7 @@ class HaloDoom_TitleMenu : HaloMenuBase
 		for(int i = 0; i < buttons.Size(); i++)
 			buttons[i].ScaleCollider(0.9, 0.7);
 		
-		if(title) 
-		{
-			curTitleMus = random[TMUS](1,5);
-			StartTitleMusic();
-		}
+		if(title) StartTitleMusic();
 		
 		DontDim = true;
 		mMouse.SetPos(buttons[0].btnrect.pos);
@@ -70,8 +65,25 @@ class HaloDoom_TitleMenu : HaloMenuBase
 		if(loadingTitleMap) fadein = 2.75;
 	}
 	
-	void StartTitleMusic()
+	void GetGameState()
 	{
+		title = (gamestate == GS_TITLELEVEL);
+		loadingTitleMap = (gamestate == GS_DEMOSCREEN);
+	}
+	
+	void StartTitleMusic(int mus = -1, int trackCount = 5)
+	{
+		if(mus < 0) 
+		{
+			// Pick random track
+			curTitleMus = random[TMUS](1,trackCount);
+		}
+		else
+		{
+			// Take mus as current music, clamp to track maximum.
+			curTitleMus = (mus%trackCount);
+		}
+		
 		string musicFile = "Music/TITLEMUS" .. curTitleMus .. ".ogg";
 		S_ChangeMusic(musicFile, force:true);
 		musicLength = S_GetLength("Music/TITLEMUS" .. curTitleMus) * TICRATE;
@@ -98,7 +110,7 @@ class HaloDoom_TitleMenu : HaloMenuBase
 				buttons[btn_selected].clicked = true;
 			return true;
 		case MKEY_Back:
-			if(gamestate != GS_TITLELEVEL) Close();
+			if(!title) Close();
 			return true;
 		}
 		return false;
@@ -141,7 +153,12 @@ class HaloDoom_TitleMenu : HaloMenuBase
 		if(fadein > 0.15) 
 		{
 			fadein -= 0.02 * deltatime;
-			if(fadein <= 0.5) loadingTitleMap = false;
+			if(fadein <= 0.5 && loadingTitleMap) 
+			{
+				loadingTitleMap = false;
+				StartTitleMusic();	
+				GetGameState();
+			}
 		}
 		
 		string branch = HaloMath.GetGitBranch();
@@ -163,14 +180,14 @@ class HaloDoom_TitleMenu : HaloMenuBase
 	
 	override void Ticker()
 	{
-		if(musicLength) 
-			musicLength--;
-		else
-		{	
-			curTitleMus = (curTitleMus%5) + 1;
-			StartTitleMusic();
+		if(title)
+		{
+			if(musicLength) 
+				musicLength--;
+			else
+				StartTitleMusic(curTitleMus + 1);
 		}
-	
+		
 		for(int i = 0; i < buttons.Size(); i++)
 		{
 			buttons[i].Update(mMouse, btn_selected == -1);

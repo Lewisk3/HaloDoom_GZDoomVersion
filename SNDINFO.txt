@@ -686,6 +686,7 @@ SPIKER_SHRAPNEL4 "Sounds/Spiker/Shrap_surface4.ogg"
  
 Halo/Weapons/Spiker/Melee "Sounds/Spiker/Spiker_melee.ogg"
 Halo/Weapons/Spiker/Reload "Sounds/Spiker/Spiker_reload.ogg"
+Halo/Weapons/Spiker/Reload/Empty "Sounds/Spiker/Spiker_reload_empty.ogg"
 Halo/Weapons/Spiker/Draw "Sounds/Spiker/Spiker_Draw.ogg"
 
 

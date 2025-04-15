@@ -14,7 +14,7 @@ int main(int argc, const char* argv[])
  
     std::string fileName = argv[1];
     std::ifstream file;
-    file.open(".\\" + fileName);
+    file.open(fileName);
     if(!file.is_open())
     {
         std::cout << "File to open file " << fileName << std::endl;
