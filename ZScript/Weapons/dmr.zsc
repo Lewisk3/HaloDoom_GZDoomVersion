@@ -134,8 +134,8 @@ class Halo_DMR : HaloGun
 		Ready:
 			TNT1 A 0 A_JumpIf(!A_DoFullSelectAnimation(), "Ready.Active");
 			TNT1 A 4 A_WeapSound("Halo/Weapons/DMR/Draw");
-			WJD1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoSelectAnim(-5, true);
-			WJD2 ABCDEFGHIJKLMNOPQRSTUV 1;
+			WJD1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoSelectAnim(0, true);
+			WJD2 ABCDEFGHIJKLMNOPQRSTUV 1 A_DoSelectAnim(0, true);
 		goto Ready.Active;
 
 		Ready.Active:
