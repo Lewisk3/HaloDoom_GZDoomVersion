@@ -1,11 +1,11 @@
 -----------------------------------
 Populated weapons slots (Prefix: W)
 
-[0] 1 [2] [3] [4] [5] 6 [7] [8] 9 [A] B C D [E] [F] [G] 
+[0] 1 [2] [3] [4] [5] 6 [7] [8] [9] [A] B C D [E] [F] [G] 
 [H] [I] [J] [K] [L] [M] [N] [O] [P] [Q] [R] [S] [T] [U] [V] [W] [X] [Y] Z
 
 Available
-1 6 9 B C D Z
+1 6 B C D Z
 
 ----------------------------------
 Populated weapon slots (Prefix: G)
