@@ -761,7 +761,6 @@ class HaloGun : RecoilWeapon
 	
 	virtual bool HasInternalAmmo()
 	{
-		console.printf("%s :> %s", AmmoType1.getClassName(), AmmoType2.getClassName());
 		return (AmmoType1 != AmmoType2);
 	}
 	
