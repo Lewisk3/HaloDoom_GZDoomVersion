@@ -21,6 +21,9 @@ class Halo_StanchionReserves : Ammo
 		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "Picked up 1 Battery for Stanchion (50%)";
 		
+		// Can only pickup this ammo if the player has the Stanchion.
+		Halo_StanchionReserves.RestrictedAmmoType true;
+		
 		Ammo.BackpackMaxAmount 600;
 	}
 	

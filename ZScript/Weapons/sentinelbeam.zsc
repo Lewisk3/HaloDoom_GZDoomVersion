@@ -10,7 +10,7 @@ class Halo_SentinelBeam_Reserves : Ammo
 {
 	Default 
 	{
-		Inventory.MaxAmount 300;
+		Inventory.MaxAmount 400;
 	}
 }
 
@@ -52,7 +52,7 @@ class Halo_SentinelBeam : HaloGun
 		Weapon.BobRangeX 0.55;
 		Weapon.AmmoType1 "Halo_SentinelBeam_Reserves";
 		Weapon.AmmoType2 "Halo_SentinelBeam_Battery";
-		Weapon.AmmoGive 100;
+		Weapon.AmmoGive 200;
 		HaloGun.HasBattery true, 1;
 		HaloGun.Faction "Forerunner";
 		

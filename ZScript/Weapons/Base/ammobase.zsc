@@ -1,5 +1,9 @@
 mixin class WorldAmmoBehavior
 {
+	// If true, ammo can only be picked up if the player owns this weapon.
+	bool restrictedAmmo; 
+	Property RestrictedAmmoType : restrictedAmmo;
+
 	// Man, Mixins are really a god send for Ammo-based actors.
 	override bool SpecialDropAction (Actor dropper)
 	{
@@ -13,12 +17,8 @@ mixin class WorldAmmoBehavior
 		return false;
 	}
 	
-	override bool CanPickup(Actor toucher)
+	bool ActorHasWeapon(Actor toucher)
 	{
-		bool res = super.CanPickup(toucher);
-		if(!res) return res;
-		
-		// Don't allow ammo pickups for weapons which the toucher does not own.
 		bool hasWeapon = false;
 		for(Inventory inv = toucher.inv; inv; inv = Inv.Inv)
 		{
@@ -29,5 +29,18 @@ mixin class WorldAmmoBehavior
 				hasWeapon = true;
 		}
 		return hasWeapon;
+	}
+	
+	bool AllowPickup(Actor toucher)
+	{
+		return restrictedAmmo ? ActorHasWeapon(toucher) : true;
+	}
+	
+	override bool CanPickup(Actor toucher)
+	{
+		bool res = super.CanPickup(toucher);
+		if(!res) return res;
+		
+		return AllowPickup(toucher);
 	}
 }

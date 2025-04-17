@@ -9,14 +9,17 @@ class Halo_UnmakerReserves : Ammo
 		Scale 0.65;
 		
 		Inventory.Amount 60;
-		Inventory.MaxAmount 666;
+		Inventory.MaxAmount 333;
 		Inventory.Icon "HLAMU0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "Picked up 1 Battery for Unmaker (60%)";
 		
+		// Can only pickup this ammo if the player has the Unmaker.
+		Halo_UnmakerReserves.RestrictedAmmoType true;
+		
 		Ammo.BackpackMaxAmount 666;
 	}
-	
+
 	States
 	{
 		Spawn:
@@ -226,6 +229,7 @@ class Halo_Unmaker : HaloGun
 		Weapon.BobSpeed 1.87;
 		Weapon.BobRangeX 0.63;
 		Weapon.AmmoType1 "Halo_UnmakerReserves";
+		Weapon.AmmoGive 270;
 		Weapon.AmmoType2 "Halo_UnmakerReserves";
 		HaloGun.Faction "Forerunner";
 		
@@ -279,7 +283,7 @@ class Halo_Unmaker : HaloGun
 	action void FireLaser(Actor victim, double leftright, double updown)
 	{
 		vector3 localOffs = (8, -leftright, updown);
-		double laserDamage = (Unmaker_DMG / 40.0) / 8;
+		double laserDamage = (Unmaker_DMG / 40.0) / 6;
 		
 		// When a negative cooktime is passed to MBeamSpawner, the damage is instead dealt directly to the target.
 		let beam = MBeamSpawner.Create(self, localOffs.x, localOffs.y, localOffs.z, -laserDamage, spawnerType:"UnmakerBeamSpawner");
@@ -408,7 +412,7 @@ class Halo_Unmaker : HaloGun
 			{
 				FireLaser(NULL, curLaserX, -3);
 				curLaserX += laserLR;
-				A_TakeAmmo(1);
+				A_TakeAmmo(3);
 				A_UpdateSpread();
 			}
 		}
@@ -420,7 +424,7 @@ class Halo_Unmaker : HaloGun
 				FireLaser(targets[i], curLaserX, -5);
 				//targets[i].DamageMobJ(self, self, (Unmaker_DMG / 40.0), "Plasma");
 				curLaserX += laserLR;
-				A_TakeAmmo(1);
+				A_TakeAmmo(3);
 				A_UpdateSpread();
 			}
 		}
@@ -437,7 +441,7 @@ class Halo_Unmaker : HaloGun
 		}
 		
 		A_ShootProjectile("UnmakerBall", 0, 2);	
-		A_TakeAmmo(20);
+		A_TakeAmmo(111);
 		for(int i = 0; i < 40; i++) A_UpdateSpread();
 		invoker.heat = 2.0;
 	}
@@ -494,7 +498,7 @@ class Halo_Unmaker : HaloGun
 		wait;
 		
 		Fire:
-			TNT1 A 0 A_JumpIf(countinv(invoker.AmmoType1) < 3, "Ready.DryFire");
+			TNT1 A 0 A_JumpIf(countinv(invoker.AmmoType1) < 9, "Ready.DryFire");
 			TNT1 A 0 A_SetZoom(0.95, 1);
 			WKF1 A 1 Bright
 			{
@@ -522,7 +526,7 @@ class Halo_Unmaker : HaloGun
 		goto Ready.Active;
 		
 		AltFire:
-			TNT1 A 0 A_JumpIf(countinv(invoker.AmmoType1) < 10, "Ready.DryFire");
+			TNT1 A 0 A_JumpIf(countinv(invoker.AmmoType1) < 111, "Ready.DryFire");
 			TNT1 A 0 
 			{
 				invoker.wcrosshair = "UMRet";

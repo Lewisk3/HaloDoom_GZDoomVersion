@@ -121,7 +121,7 @@ class Halo_GravityHammer : HaloGun
 		Weapon.AmmoType1 "Halo_GravityHammer_Battery";
 		Weapon.AmmoType2 "Halo_GravityHammer_Battery";
 		Weapon.AmmoGive 100;
-		HaloGun.HasBattery true, 10;
+		HaloGun.HasBattery true, 5;
 		HaloGun.Faction "Human";
 				
 		// Recoil
@@ -181,7 +181,7 @@ class Halo_GravityHammer : HaloGun
 		{
 			A_WeapSound("Halo/Weapons/GravityHammer/Fire", 0, true);
 			A_WeapSound("Halo/Weapons/GravityHammer/Fire/Bass", CHANF_OVERLAP, true);
-			A_TakeAmmo(10, false);
+			A_TakeAmmo(5, false);
 		
 			let field = Spawn("GravityHammerField", aimpos);
 			if(field) field.target = self;

@@ -315,7 +315,7 @@ class HaloGun : RecoilWeapon
 	override void OnDrop (Actor dropper) 
 	{
 		let wp = WeaponPickupProxy.BecomeWeaponProxy(self, !!dropper.player);
-		if(wp) wp.clipammo = dropper.countinv(ammotype2);
+		if(wp) wp.clipammo = HasInternalAmmo() ? dropper.countinv(ammotype2) : 0;
 	}
 	
 	// Called when a weapon is dropped then switched out for another.
@@ -759,6 +759,12 @@ class HaloGun : RecoilWeapon
 		invoker.UI_Sight = invoker.default.UI_Sight;
 	}
 	
+	virtual bool HasInternalAmmo()
+	{
+		console.printf("%s :> %s", AmmoType1.getClassName(), AmmoType2.getClassName());
+		return (AmmoType1 != AmmoType2);
+	}
+	
 	clearscope Weapon FindNextWeapon()
 	{
 		/*
@@ -963,13 +969,13 @@ class HaloGun : RecoilWeapon
 		if(!(toucher is "PlayerPawn")) return super.TryPickup(toucher);
 		if(!toucher.FindInventory(getClassName())) 
 		{
-			if(AmmoType2)
+			if(AmmoType2 && HasInternalAmmo())
 			{
 				let rammo = GetDefaultByType(AmmoType2);
 				toucher.GiveInventory(AmmoType2,rammo.maxamount);
 			}
 		}
-		return super.TryPickup(toucher);;
+		return super.TryPickup(toucher);
 	}
 	
 	// Called from event handler, needed for extra action buttons, not limited to USER1-4.

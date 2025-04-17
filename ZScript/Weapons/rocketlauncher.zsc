@@ -20,7 +20,7 @@ class Halo_RL_Reserves : Ammo
 		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "Picked up 2 Rounds for the Rocket Launcher";
 		
-		Ammo.BackpackMaxAmount 16;
+		Ammo.BackpackMaxAmount 10;
 	}
 	
 	States
@@ -241,7 +241,7 @@ class Halo_RocketLauncher : HaloGun
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_RL_Reserves";
 		Weapon.AmmoType2 "Halo_RL_Clip";
-		Weapon.AmmoGive 4;
+		Weapon.AmmoGive 2;
 		HaloGun.Faction "Human";
 				
 		// Recoil

@@ -15,12 +15,12 @@ class Halo_StickyDet_Reserves : Ammo
 		Scale 0.15;
 
 		Inventory.Amount 3;
-		Inventory.MaxAmount 18;
+		Inventory.MaxAmount 8;
 		Inventory.Icon "STIKA0"; // TODO: Icon for StickyDet ammo(?)
 		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "Picked up 3 Rounds for the Sticky Detonator";
 		
-		Ammo.BackpackMaxAmount 28;
+		Ammo.BackpackMaxAmount 12;
 	}
 	
 	States
@@ -225,7 +225,7 @@ class Halo_StickyDetonator : HaloGun
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_StickyDet_Reserves";
 		Weapon.AmmoType2 "Halo_StickyDet_Clip";
-		Weapon.AmmoGive 6;
+		Weapon.AmmoGive 4;
 		HaloGun.Faction "Human";
 				
 		// Recoil
@@ -240,6 +240,7 @@ class Halo_StickyDetonator : HaloGun
 		HaloGun.UIAmmo_Scale_Offset 1.5, 0,0;
 		
 		HaloGun.PowerTier P_MID;
+		HaloGun.Rarity 40;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
 	}
