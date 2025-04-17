@@ -559,7 +559,7 @@ class RailgunProjectile : FastProjectile
 		return super.CanCollideWith(other, passive);
 	}
 	
-	static RailgunProjectile FireRailgun(Actor source, double dmg, double expdmg, vector3 offs, double size = 1.0, vector2 viewoffs = (0,0), bool doShockwave = true, vector3 colors = (0xFFFF0000, 0xFFfc9d03, 0xFFFFFFFF))
+	static RailgunProjectile FireRailgun(Actor source, double dmg, double expdmg, vector3 offs, double size = 1.0, vector2 viewoffs = (0,0), bool doShockwave = true, vector3 colors = (0xFFFF0000, 0xFFfc9d03, 0xFFFFFFFF), bool disableTrail = false)
 	{
 		vector3 spawnpos = HaloMath.RelativeV3Offset(source, 0,0,0, offs.x, offs.y, offs.z, 1.);
 		let proj = RailgunProjectile(Actor.Spawn("RailgunProjectile", spawnpos));
@@ -596,7 +596,19 @@ class RailgunProjectile : FastProjectile
 			let muzexp = Spawn("Railgun_MuzzleExplosion", proj.pos);
 			if(muzexp) muzexp.A_SetScale(min(muzexp.default.Scale.X * 2., size));
 			
+			// Shockwave
+			if(doShockwave) proj.Shockwave(0.2 * size, 0, 0xFF313de8); 
+			proj.Biri(min(12, 10 * size), min(200, 200 * size), 0);
+			
+			//proj.Shockwave(0.1, 0.1);
+			//proj.Biri(5, 100, 0.1);
+			
+			//proj.Shockwave(0.05, 0.25);
+			//proj.Biri(5, 75, 0.25);
+			
 			// Outer-most trail
+			if(disableTrail) return proj;
+			
 			let smok = SmokeTrail.Start(int(colors.x), spawnpos, hitpos, (proj.angle, proj.pitch), 0.5, type:"RailgunTrail");
 			if(smok)
 			{
@@ -616,16 +628,6 @@ class RailgunProjectile : FastProjectile
 			{
 				smok.A_SetScale(5.0 * 0.7 * size);
 			}
-			
-			// Shockwave
-			if(doShockwave) proj.Shockwave(0.2 * size, 0, 0xFF313de8); 
-			proj.Biri(min(12, 10 * size), min(200, 200 * size), 0);
-			
-			//proj.Shockwave(0.1, 0.1);
-			//proj.Biri(5, 100, 0.1);
-			
-			//proj.Shockwave(0.05, 0.25);
-			//proj.Biri(5, 75, 0.25);
 		}
 		return proj;
 	}
