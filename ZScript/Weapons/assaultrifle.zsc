@@ -255,9 +255,12 @@ class Halo_AssaultRifle : HaloGun
 		LCD_Compass:
 			LCDC A 1 Bright
 			{
+				double snap = 360 / 8;
+				double compassAngle = int((angle-90) / snap) * snap;
+			
 				A_OverlayPivotAlign(LCD_CLayer, PSPA_CENTER, PSPA_CENTER);
 				A_OverlayPivot(LCD_CLayer, 0, 0.18);
-				A_OverlayRotate(LCD_CLayer, angle-90, WOF_INTERPOLATE);
+				A_OverlayRotate(LCD_CLayer, compassAngle, WOF_INTERPOLATE);
 				A_OverlayOffset(LCD_CLayer, invoker.lcd_offs.x, invoker.lcd_offs.y);
 				A_FollowRotatedPos(LCD_CLayer, PSP_WEAPON, (40,20));
 			}
