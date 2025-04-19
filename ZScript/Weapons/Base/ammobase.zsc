@@ -38,6 +38,7 @@ mixin class WorldAmmoBehavior
 	
 	override bool CanPickup(Actor toucher)
 	{
+		bIGNORESKILL = true;
 		bool res = super.CanPickup(toucher);
 		if(!res) return res;
 		

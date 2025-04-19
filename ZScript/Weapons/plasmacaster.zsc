@@ -134,6 +134,7 @@ class Halo_PlasmaCaster : HaloGun
 		HaloGun.UIAmmo_Scale_Offset 1.5, 0,0;
 		
 		HaloGun.PowerTier P_POWER | P_ENERGY;
+		HaloGun.Rarity 60;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
 	}

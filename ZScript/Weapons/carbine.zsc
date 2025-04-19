@@ -268,7 +268,7 @@ class Halo_Carbine : HaloGun
 		LCD_Ammo:
 			CRBL "#" 1 Bright
 			{
-				A_FollowRotatedPos(OverlayID(), PSP_WEAPON, (40,0));
+				A_FollowRotatedPos(OverlayID(), PSP_WEAPON, (40,0), addOffs:false);
 				A_FollowRotation(OverlayID(), PSP_WEAPON);
 				A_SetFrame(CountLoadedAmmo() ? 0 : 1, OverlayID()); 
 			}
