@@ -194,8 +194,9 @@ class Halo_Stanchion : HaloGun
 		
 		if(invoker.heat >= 1.2 && !invoker.fullyCharged) 
 		{
-			// A_StartSound("Halo/Weapons/Stanchion/Charge/Complete", CHAN_AUTO, CHANF_OVERLAP);
+			A_StartSound("Halo/Weapons/Stanchion/Charge/Complete", CHAN_AUTO, CHANF_OVERLAP);
 			invoker.fullyCharged = true;
+			A_StopSound(CHAN_CHARGING);
 		}
 		
 		if(A_ButtonStatus(BT_ATTACK, BTS_UP) || invoker.forceChargedFire)
@@ -542,33 +543,33 @@ class Halo_Stanchion : HaloGun
 				return ResolveState(null);
 			}
 			
-			W9C1 ACEGIKMOQSUWY 1 A_ChargeBegin();
-			W9C2 ACEGIKMOQSUWY 1 A_ChargeBegin();
-			W9C3 BDFHJLNPRTVXZ 1 A_ChargeBegin();
-			W9C4 BDFHJLNPRTVXZ 1 A_ChargeBegin();
-			W9C5 ACEGIKMOQSUWY 1 A_ChargeBegin();
-			W9C6 ACEGIKMOQSUWY 1 A_ChargeBegin();
-			W9C7 BDFHJLNPRTVXZ 1 A_ChargeBegin();
+			W9C1 ACEGIKMOQSUWY 1 Bright A_ChargeBegin();
+			W9C2 ACEGIKMOQSUWY 1 Bright A_ChargeBegin();
+			W9C3 BDFHJLNPRTVXZ 1 Bright A_ChargeBegin();
+			W9C4 BDFHJLNPRTVXZ 1 Bright A_ChargeBegin();
+			W9C5 ACEGIKMOQSUWY 1 Bright A_ChargeBegin();
+			W9C6 ACEGIKMOQSUWY 1 Bright A_ChargeBegin();
+			W9C7 BDFHJLNPRTVXZ 1 Bright A_ChargeBegin();
 			W9C8 ABC 1 A_ChargeBegin();
 		Rail.ChargeLoop:
-			W9C8 DEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoChargeLoop();
-			W9C9 ADEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoChargeLoop();
-			W9CA ADEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoChargeLoop();
-			W9CB ADEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoChargeLoop();
-			W9CC ADEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoChargeLoop();
-			W9CD ADEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoChargeLoop();
-			W9CE ADEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoChargeLoop();
-			W9CF ADEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoChargeLoop();
-			W9CG ADEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoChargeLoop();
+			W9C8 DEFGHIJKLMNOPQRSTUVWXYZ 1 Bright A_DoChargeLoop();
+			W9C9 ADEFGHIJKLMNOPQRSTUVWXYZ 1 Bright A_DoChargeLoop();
+			W9CA ADEFGHIJKLMNOPQRSTUVWXYZ 1 Bright A_DoChargeLoop();
+			W9CB ADEFGHIJKLMNOPQRSTUVWXYZ 1 Bright A_DoChargeLoop();
+			W9CC ADEFGHIJKLMNOPQRSTUVWXYZ 1 Bright A_DoChargeLoop();
+			W9CD ADEFGHIJKLMNOPQRSTUVWXYZ 1 Bright A_DoChargeLoop();
+			W9CE ADEFGHIJKLMNOPQRSTUVWXYZ 1 Bright A_DoChargeLoop();
+			W9CF ADEFGHIJKLMNOPQRSTUVWXYZ 1 Bright A_DoChargeLoop();
+			W9CG ADEFGHIJKLMNOPQRSTUVWXYZ 1 Bright A_DoChargeLoop();
 		loop;
 		Rail.ChargeEnd:
-			W9CH ABCDEFGHIJKLMNO 1;
+			TNT1 A 0 A_StopSound(CHAN_CHARGING);
+			W9CH ABCDEFGHIJKLMNO 1 Bright;
 			W9G1 A 6 
 			{
 				invoker.handsbusy = false; // Ensure handsbusy is properly cleared.
 				A_WeapSound("Halo/Weapons/Stanchion/Charge/PreFire", CHANF_OVERLAP);
 				A_RecoilOffset(0,0,6);
-				A_StopSound(CHAN_CHARGING);
 				
 				if(invoker.fullyCharged) 
 					return ResolveState("Fire.Charged");
