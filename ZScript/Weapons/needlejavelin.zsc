@@ -15,12 +15,12 @@ class Halo_Javelin_Reserves : Ammo
 		Scale 0.25;
 
 		Inventory.Amount 4;
-		Inventory.MaxAmount 10;
+		Inventory.MaxAmount 12;
 		Inventory.Icon "HLAMW0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "Picked up 4 Rounds for the Needle Ballista";
 		
-		Ammo.BackpackMaxAmount 14;
+		Ammo.BackpackMaxAmount 16;
 	}
 	
 	States
@@ -118,7 +118,7 @@ class Halo_NeedlerJavelin : HaloGun
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_Javelin_Reserves";
 		Weapon.AmmoType2 "Halo_Javelin_Clip";
-		Weapon.AmmoGive 2;
+		Weapon.AmmoGive 5;
 		HaloGun.Faction "Covenant";
 				
 		// Recoil

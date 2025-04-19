@@ -16,7 +16,7 @@ class Halo_StanchionReserves : Ammo
 		Scale 0.65;
 		
 		Inventory.Amount 50;
-		Inventory.MaxAmount 300;
+		Inventory.MaxAmount 400;
 		Inventory.Icon "HLAMM0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "Picked up 1 Battery for Stanchion (50%)";
@@ -24,7 +24,7 @@ class Halo_StanchionReserves : Ammo
 		// Can only pickup this ammo if the player has the Stanchion.
 		Halo_StanchionReserves.RestrictedAmmoType true;
 		
-		Ammo.BackpackMaxAmount 600;
+		Ammo.BackpackMaxAmount 750;
 	}
 	
 	States

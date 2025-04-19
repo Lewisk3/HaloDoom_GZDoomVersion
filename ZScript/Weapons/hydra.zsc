@@ -199,7 +199,7 @@ class Halo_Hydra : HaloGun
 		Weapon.BobRangeX 0.12;
 		Weapon.AmmoType1 "Halo_Hydra_Reserves";
 		Weapon.AmmoType2 "Halo_Hydra_Clip";
-		Weapon.AmmoGive 24;
+		Weapon.AmmoGive 30;
 		HaloGun.Faction "Human";
 				
 		// Recoil
@@ -213,7 +213,7 @@ class Halo_Hydra : HaloGun
 		HaloGun.SetupUIAmmo "WI_AMM3", 32, 16, 0, 3;
 		HaloGun.UIAmmo_Scale_Offset 1.0, -24,0;
 		
-		HaloGun.PowerTier P_STRONG;
+		HaloGun.PowerTier P_STRONG | P_POWER;
 		
 		RecoilWeapon.YOffsetRange 0, 40;
 	}
@@ -475,7 +475,7 @@ class Halo_Hydra : HaloGun
 				A_WeapSound("Halo/Weapons/Hydra/ReloadLoad", CHANF_OVERLAP);
 				A_ReloadSingle();
 			}
-			WTR1 OPQRSTUV 2;
+			WTR1 OPQRSTUV 1;
 			TNT1 A 0 A_ValidateReload("Reload.Close");
 			TNT1 A 0 A_JumpIf(player.cmd.buttons & BT_ATTACK, "Reload.Close"); // Check for reload cancel
 		goto Reload.Loop;

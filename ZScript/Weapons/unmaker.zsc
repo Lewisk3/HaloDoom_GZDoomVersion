@@ -229,7 +229,7 @@ class Halo_Unmaker : HaloGun
 		Weapon.BobSpeed 1.87;
 		Weapon.BobRangeX 0.63;
 		Weapon.AmmoType1 "Halo_UnmakerReserves";
-		Weapon.AmmoGive 270;
+		Weapon.AmmoGive 333;
 		Weapon.AmmoType2 "Halo_UnmakerReserves";
 		HaloGun.Faction "Forerunner";
 		
@@ -244,6 +244,7 @@ class Halo_Unmaker : HaloGun
 		HaloGun.Inaccuracy UNMAKER_ACCMOD;
 		HaloGun.Crosshair "MarRet", 0.2;
 		HaloGun.UIGraphic "MISSNG", 0.8, 0.7;
+		HaloGun.Rarity 30;
 		
 		RecoilWeapon.YOffsetRange -10, 100;
 	}
