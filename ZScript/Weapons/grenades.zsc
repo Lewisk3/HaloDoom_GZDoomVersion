@@ -81,11 +81,13 @@ class PlasmaGrenades : FragGrenades
 // Nade projectiles
 class HaloGrenade_Proj : Actor
 {
-	// TODO: Unique nade behavior
+	// Common class for grenade projectiles.
 }
 
 class FragGrenade_Proj : HaloGrenade_Proj
 {
+	FSpawnParticleParams trail;
+
 	Default
 	{	
 		BounceType "Doom";
@@ -107,10 +109,31 @@ class FragGrenade_Proj : HaloGrenade_Proj
 		Scale 0.08;
 	}	
 	
+	override void PostBeginPlay()
+	{
+		super.PostBeginPlay();
+		
+		
+		// Setup particle trail
+		trail.color1 = 0xFFFFD269; 
+		trail.pos = pos;
+		trail.vel = vel;
+		trail.accel = (0,0,0);
+		trail.flags = SPF_REPLACE | SPF_NO_XY_BILLBOARD;
+		trail.style = STYLE_Add;
+		trail.lifetime = 25;
+		trail.size = 4;
+		trail.startalpha = 0.7;
+		trail.fadestep = 1.0 / double(trail.lifetime);
+		trail.sizestep = 4 / double(trail.lifetime);
+	}
+	
 	override int SpecialMissileHit(Actor victim)
 	{
 		int res = super.SpecialMissileHit(victim);
-		if(res != 1) 
+		if(victim == target) return res;
+		
+		if(res != 1)  
 		{
 			let pain = victim.FindState("Pain");
 			if(pain) victim.SetState(pain);
@@ -130,6 +153,18 @@ class FragGrenade_Proj : HaloGrenade_Proj
 			
 			if(!InStateSequence(CurState, FindState("Death"))) 
 				SetState(FindState("Death"));
+		}
+		
+		if(pos.z > floorz)
+		{
+			trail.pos = pos;
+			double parts = 10;
+			for(int i = 0; i < parts; i++)
+			{
+				trail.pos -= vel/parts;
+				trail.vel = (0,0,0);
+				level.SpawnParticle(trail);
+			}
 		}
 	}
 	
@@ -266,6 +301,7 @@ class PlasmaGrenade_Proj : HaloGrenade_Proj
 	{
 		super.Tick();
 		
+		if(isFrozen()) return;
 		if(!bMISSILE && !bNOGRAVITY)
 		{
 			onfloor = (pos.z <= floorz);
