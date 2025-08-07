@@ -113,7 +113,6 @@ class FragGrenade_Proj : HaloGrenade_Proj
 	{
 		super.PostBeginPlay();
 		
-		
 		// Setup particle trail
 		trail.color1 = 0xFFFFD269; 
 		trail.pos = pos;
@@ -124,8 +123,8 @@ class FragGrenade_Proj : HaloGrenade_Proj
 		trail.lifetime = 25;
 		trail.size = 4;
 		trail.startalpha = 0.7;
-		trail.fadestep = 1.0 / double(trail.lifetime);
-		trail.sizestep = 4 / double(trail.lifetime);
+		trail.fadestep = trail.startalpha / double(trail.lifetime);
+		trail.sizestep = -(trail.size / double(trail.lifetime));
 	}
 	
 	override int SpecialMissileHit(Actor victim)
@@ -261,7 +260,6 @@ class FragGrenadeExplosion : CheapActor
 		stop;
 	}
 }
-
 
 // Plasma Grenade
 class PlasmaGrenade_Proj : HaloGrenade_Proj

@@ -63,6 +63,9 @@ class HaloSpiker_Bullet : HaloSlowProjectile
 
 class HaloSpiker_Shrapnel : HaloSlowProjectile
 {
+	double heat;
+	Property ShrapnelHeat : heat;
+
 	Default
 	{
 		HaloSlowProjectile.SetRanges 0, 0;
@@ -71,14 +74,13 @@ class HaloSpiker_Shrapnel : HaloSlowProjectile
 		HaloSlowProjectile.Speed_MPS 150;
 		HaloSlowProjectile.HeadshotDMGFactor 1.0;
 		HaloSlowProjectile.SetupWallpinning 0, 0; 
-	
+		HaloSpiker_Shrapnel.ShrapnelHeat 1.0;
+		
 		DamageType "Fire";
 		Scale 0.5;
 		Gravity 0.75;
 		-NOGRAVITY;
 	}
-	
-	double heat;
 	
 	override void Tick()
 	{
@@ -118,7 +120,6 @@ class HaloSpiker_Shrapnel : HaloSlowProjectile
 	
 	override void PostBeginPlay()
 	{
-		heat = 1.0;
 		sprite = GetSpriteIndex(String.Format("SPK%d", random[WeapFX](1,3)));		
 		super.PostBeginPlay();
 	}
@@ -135,7 +136,7 @@ class HaloSpiker_Shrapnel : HaloSlowProjectile
 			"####" "#" 5 
 			{
 				if(heat > 0.1) 
-					HaloMath.ExplodeEx(self, 3, 16, thrustMod:0, damageType:"Fire", selfDamage:1.0);
+					HaloMath.ExplodeEx(self, 3, 16, thrustMod:0, damageType:damageType, selfDamage:1.0);
 			}
 			"####" "#" 0 
 			{
@@ -145,7 +146,7 @@ class HaloSpiker_Shrapnel : HaloSlowProjectile
 		loop;
 		
 		TrueDeath:
-			"####" "#" 1 A_FadeOut(0.01);
+			"####" "#" 1 A_FadeOut(0.005);
 		wait;
 		
 		// Tell GZDoom to preload these sprites.

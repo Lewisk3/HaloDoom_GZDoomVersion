@@ -1,2351 +1,3112 @@
-Sprite "WAI1A0", 750, 350
+Sprite "G1G1A0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDIDLE", 0, 0
+	XScale 1.400
+	YScale 1.600
+	Offset 196, 81
+	Patch "GRNLIDLE", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW0", 0, 0
+	Patch "GRNLDR0", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW1", 0, 0
+	Patch "GRNLDR1", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW2", 0, 0
+	Patch "GRNLDR2", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW3", 0, 0
+	Patch "GRNLDR3", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW4", 0, 0
+	Patch "GRNLDR4", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW5", 0, 0
+	Patch "GRNLDR5", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW6", 0, 0
+	Patch "GRNLDR6", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW7", 0, 0
+	Patch "GRNLDR7", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW8", 0, 0
+	Patch "GRNLDR8", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW9", 0, 0
+	Patch "GRNLDR9", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW10", 0, 0
+	Patch "GRNLDR10", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW11", 0, 0
+	Patch "GRNLDR11", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW12", 0, 0
+	Patch "GRNLDR12", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW13", 0, 0
+	Patch "GRNLDR13", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW14", 0, 0
+	Patch "GRNLDR14", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW15", 0, 0
+	Patch "GRNLDR15", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW16", 0, 0
+	Patch "GRNLDR16", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW17", 0, 0
+	Patch "GRNLDR17", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW18", 0, 0
+	Patch "GRNLDR18", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW19", 0, 0
+	Patch "GRNLDR19", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW20", 0, 0
+	Patch "GRNLDR20", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW21", 0, 0
+	Patch "GRNLDR21", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW22", 0, 0
+	Patch "GRNLDR22", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW23", 0, 0
+	Patch "GRNLDR23", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW24", 0, 0
+	Patch "GRNLDR24", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW25", 0, 0
+	Patch "GRNLDR25", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW26", 0, 0
+	Patch "GRNLDR26", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW27", 0, 0
+	Patch "GRNLDR27", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW28", 0, 0
+	Patch "GRNLDR28", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW29", 0, 0
+	Patch "GRNLDR29", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW30", 0, 0
+	Patch "GRNLDR30", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW31", 0, 0
+	Patch "GRNLDR31", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW32", 0, 0
+	Patch "GRNLDR32", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW33", 0, 0
+	Patch "GRNLDR33", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW34", 0, 0
+	Patch "GRNLDR34", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW35", 0, 0
+	Patch "GRNLDR35", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW36", 0, 0
+	Patch "GRNLDR36", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW37", 0, 0
+	Patch "GRNLDR37", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW38", 0, 0
+	Patch "GRNLDR38", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW39", 0, 0
+	Patch "GRNLDR39", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW40", 0, 0
+	Patch "GRNLDR40", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW41", 0, 0
+	Patch "GRNLDR41", 0, 0
 }
 
-Sprite "WAD1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULDRW42", 0, 0
+	Patch "GRNLDR42", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR0", 0, 0
+	Patch "GRNLDR43", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR1", 0, 0
+	Patch "GRNLDR44", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR2", 0, 0
+	Patch "GRNLDR45", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR3", 0, 0
+	Patch "GRNLDR46", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR4", 0, 0
+	Patch "GRNLDR47", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR5", 0, 0
+	Patch "GRNLDR48", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR6", 0, 0
+	Patch "GRNLDR49", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR7", 0, 0
+	Patch "GRNLDR50", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR8", 0, 0
+	Patch "GRNLDR51", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR9", 0, 0
+	Patch "GRNLDR52", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR10", 0, 0
+	Patch "GRNLDR53", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR11", 0, 0
+	Patch "GRNLDR54", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR12", 0, 0
+	Patch "GRNLDR55", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR13", 0, 0
+	Patch "GRNLDR56", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR14", 0, 0
+	Patch "GRNLDR57", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR15", 0, 0
+	Patch "GRNLDR58", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR16", 0, 0
+	Patch "GRNLDR59", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1R1~0", 750, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR17", 0, 0
+	Patch "GRNLDR60", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR18", 0, 0
+	Patch "GRNLF0", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR19", 0, 0
+	Patch "GRNLF1", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR20", 0, 0
+	Patch "GRNLF2", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR21", 0, 0
+	Patch "GRNLF3", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR22", 0, 0
+	Patch "GRNLF4", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR23", 0, 0
+	Patch "GRNLF5", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR24", 0, 0
+	Patch "GRNLF6", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR25", 0, 0
+	Patch "GRNLF7", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR26", 0, 0
+	Patch "GRNLF8", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR27", 0, 0
+	Patch "GRNLF9", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR28", 0, 0
+	Patch "GRNLF10", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR29", 0, 0
+	Patch "GRNLF11", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR30", 0, 0
+	Patch "GRNLF12", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR31", 0, 0
+	Patch "GRNLF13", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR32", 0, 0
+	Patch "GRNLF14", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR33", 0, 0
+	Patch "GRNLF15", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR34", 0, 0
+	Patch "GRNLF16", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR35", 0, 0
+	Patch "GRNLF17", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR36", 0, 0
+	Patch "GRNLF18", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR37", 0, 0
+	Patch "GRNLF19", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR38", 0, 0
+	Patch "GRNLF20", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR39", 0, 0
+	Patch "GRNLF21", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR40", 0, 0
+	Patch "GRNLF22", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR41", 0, 0
+	Patch "GRNLF23", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR42", 0, 0
+	Patch "GRNLF24", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR43", 0, 0
+	Patch "GRNLF25", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR44", 0, 0
+	Patch "GRNLF26", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR45", 0, 0
+	Patch "GRNLF27", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR46", 0, 0
+	Patch "GRNLF28", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR47", 0, 0
+	Patch "GRNLF29", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR48", 0, 0
+	Patch "GRNLF30", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR49", 0, 0
+	Patch "GRNLF31", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR50", 0, 0
+	Patch "GRNLF32", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR51", 0, 0
+	Patch "GRNLF33", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR52", 0, 0
+	Patch "GRNLF34", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR53", 0, 0
+	Patch "GRNLF35", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR54", 0, 0
+	Patch "GRNLF36", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR55", 0, 0
+	Patch "GRNLF37", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR56", 0, 0
+	Patch "GRNLF38", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR57", 0, 0
+	Patch "GRNLF39", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR58", 0, 0
+	Patch "GRNLF40", 0, 0
 }
 
-Sprite "WAF1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULFIR59", 0, 0
+	Patch "GRNLF41", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE0", 0, 0
+	Patch "GRNLF42", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE1", 0, 0
+	Patch "GRNLF43", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE2", 0, 0
+	Patch "GRNLF44", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE3", 0, 0
+	Patch "GRNLF45", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE4", 0, 0
+	Patch "GRNLF46", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE5", 0, 0
+	Patch "GRNLF47", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE6", 0, 0
+	Patch "GRNLF48", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE7", 0, 0
+	Patch "GRNLF49", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE8", 0, 0
+	Patch "GRNLF50", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE9", 0, 0
+	Patch "GRNLF51", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE10", 0, 0
+	Patch "GRNLF52", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE11", 0, 0
+	Patch "GRNLF53", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE12", 0, 0
+	Patch "GRNLF54", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE13", 0, 0
+	Patch "GRNLF55", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE14", 0, 0
+	Patch "GRNLF56", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE15", 0, 0
+	Patch "GRNLF57", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE16", 0, 0
+	Patch "GRNLF58", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE17", 0, 0
+	Patch "GRNLF59", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE18", 0, 0
+	Patch "GRNLF60", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE19", 0, 0
+	Patch "GRNLF61", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE20", 0, 0
+	Patch "GRNLF62", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE21", 0, 0
+	Patch "GRNLF63", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE22", 0, 0
+	Patch "GRNLF64", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE23", 0, 0
+	Patch "GRNLF65", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE24", 0, 0
+	Patch "GRNLF66", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE25", 0, 0
+	Patch "GRNLF67", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE26", 0, 0
+	Patch "GRNLF68", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE27", 0, 0
+	Patch "GRNLF69", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE28", 0, 0
+	Patch "GRNLF70", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE29", 0, 0
+	Patch "GRNLF71", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE30", 0, 0
+	Patch "GRNLF72", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE31", 0, 0
+	Patch "GRNLF73", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE32", 0, 0
+	Patch "GRNLF74", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE33", 0, 0
+	Patch "GRNLF75", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE34", 0, 0
+	Patch "GRNLF76", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE35", 0, 0
+	Patch "GRNLF77", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE36", 0, 0
+	Patch "GRNLF78", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE37", 0, 0
+	Patch "GRNLF79", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE38", 0, 0
+	Patch "GRNLF80", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE39", 0, 0
+	Patch "GRNLF81", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE40", 0, 0
+	Patch "GRNLF82", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE41", 0, 0
+	Patch "GRNLF83", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE42", 0, 0
+	Patch "GRNLF84", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE43", 0, 0
+	Patch "GRNLF85", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE44", 0, 0
+	Patch "GRNLF86", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE45", 0, 0
+	Patch "GRNLF87", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE46", 0, 0
+	Patch "GRNLF88", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE47", 0, 0
+	Patch "GRNLF89", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE48", 0, 0
+	Patch "GRNLF90", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE49", 0, 0
+	Patch "GRNLF91", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE50", 0, 0
+	Patch "GRNLF92", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE51", 0, 0
+	Patch "GRNLF93", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE52", 0, 0
+	Patch "GRNLF94", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE53", 0, 0
+	Patch "GRNLF95", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE54", 0, 0
+	Patch "GRNLF96", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE55", 0, 0
+	Patch "GRNLF97", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE56", 0, 0
+	Patch "GRNLF98", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE57", 0, 0
+	Patch "GRNLF99", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE58", 0, 0
+	Patch "GRNLF100", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE59", 0, 0
+	Patch "GRNLF101", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE60", 0, 0
+	Patch "GRNLF102", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE61", 0, 0
+	Patch "GRNLF103", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE62", 0, 0
+	Patch "GRNLF104", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE63", 0, 0
+	Patch "GRNLF105", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE64", 0, 0
+	Patch "GRNLF106", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE65", 0, 0
+	Patch "GRNLF107", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE66", 0, 0
+	Patch "GRNLF108", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE67", 0, 0
+	Patch "GRNLF109", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE68", 0, 0
+	Patch "GRNLF110", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE69", 0, 0
+	Patch "GRNLF111", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE70", 0, 0
+	Patch "GRNLF112", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE71", 0, 0
+	Patch "GRNLF113", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE72", 0, 0
+	Patch "GRNLF114", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE73", 0, 0
+	Patch "GRNLF115", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE74", 0, 0
+	Patch "GRNLF116", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE75", 0, 0
+	Patch "GRNLF117", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE76", 0, 0
+	Patch "GRNLF118", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE77", 0, 0
+	Patch "GRNLF119", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE78", 0, 0
+	Patch "GRNLF120", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE79", 0, 0
+	Patch "GRNLF121", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE80", 0, 0
+	Patch "GRNLF122", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE81", 0, 0
+	Patch "GRNLF123", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE82", 0, 0
+	Patch "GRNLF124", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE83", 0, 0
+	Patch "GRNLF125", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE84", 0, 0
+	Patch "GRNLF126", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE85", 0, 0
+	Patch "GRNLF127", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE86", 0, 0
+	Patch "GRNLF128", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE87", 0, 0
+	Patch "GRNLF129", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE88", 0, 0
+	Patch "GRNLF130", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE89", 0, 0
+	Patch "GRNLF131", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE90", 0, 0
+	Patch "GRNLF132", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE91", 0, 0
+	Patch "GRNLF133", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE92", 0, 0
+	Patch "GRNLF134", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE93", 0, 0
+	Patch "GRNLF135", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE94", 0, 0
+	Patch "GRNLF136", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE95", 0, 0
+	Patch "GRNLF137", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE96", 0, 0
+	Patch "GRNLF138", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE97", 0, 0
+	Patch "GRNLF139", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE98", 0, 0
+	Patch "GRNLF140", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE99", 0, 0
+	Patch "GRNLF141", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE100", 0, 0
+	Patch "GRNLF142", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE101", 0, 0
+	Patch "GRNLF143", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE102", 0, 0
+	Patch "GRNLF144", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE103", 0, 0
+	Patch "GRNLF145", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE104", 0, 0
+	Patch "GRNLF146", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE105", 0, 0
+	Patch "GRNLF147", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE106", 0, 0
+	Patch "GRNLF148", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRE107", 0, 0
+	Patch "GRNLF149", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT0", 0, 0
+	Patch "GRNLF150", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT1", 0, 0
+	Patch "GRNLF151", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT2", 0, 0
+	Patch "GRNLF152", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT3", 0, 0
+	Patch "GRNLF153", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT4", 0, 0
+	Patch "GRNLF154", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT5", 0, 0
+	Patch "GRNLF155", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT6", 0, 0
+	Patch "GRNLF156", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT7", 0, 0
+	Patch "GRNLF157", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT8", 0, 0
+	Patch "GRNLF158", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT9", 0, 0
+	Patch "GRNLF159", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT10", 0, 0
+	Patch "GRNLF160", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT11", 0, 0
+	Patch "GRNLF161", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT12", 0, 0
+	Patch "GRNLF162", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT13", 0, 0
+	Patch "GRNLF163", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT14", 0, 0
+	Patch "GRNLF164", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT15", 0, 0
+	Patch "GRNLF165", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT16", 0, 0
+	Patch "GRNLF166", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT17", 0, 0
+	Patch "GRNLF167", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT18", 0, 0
+	Patch "GRNLF168", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT19", 0, 0
+	Patch "GRNLF169", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT20", 0, 0
+	Patch "GRNLF170", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT21", 0, 0
+	Patch "GRNLF171", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT22", 0, 0
+	Patch "GRNLF172", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT23", 0, 0
+	Patch "GRNLF173", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT24", 0, 0
+	Patch "GRNLF174", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT25", 0, 0
+	Patch "GRNLF175", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT26", 0, 0
+	Patch "GRNLF176", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT27", 0, 0
+	Patch "GRNLF177", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT28", 0, 0
+	Patch "GRNLF178", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT29", 0, 0
+	Patch "GRNLF179", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT30", 0, 0
+	Patch "GRNLF180", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT31", 0, 0
+	Patch "GRNLF181", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT32", 0, 0
+	Patch "GRNLF182", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT33", 0, 0
+	Patch "GRNLF183", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT34", 0, 0
+	Patch "GRNLF184", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT35", 0, 0
+	Patch "GRNLF185", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT36", 0, 0
+	Patch "GRNLF186", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT37", 0, 0
+	Patch "GRNLF187", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT38", 0, 0
+	Patch "GRNLF188", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT39", 0, 0
+	Patch "GRNLF189", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT40", 0, 0
+	Patch "GRNLF190", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT41", 0, 0
+	Patch "GRNLF191", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT42", 0, 0
+	Patch "GRNLF192", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT43", 0, 0
+	Patch "GRNLF193", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT44", 0, 0
+	Patch "GRNLF194", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT45", 0, 0
+	Patch "GRNLF195", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT46", 0, 0
+	Patch "GRNLF196", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT47", 0, 0
+	Patch "GRNLF197", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT48", 0, 0
+	Patch "GRNLF198", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT49", 0, 0
+	Patch "GRNLF199", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT50", 0, 0
+	Patch "GRNLF200", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT51", 0, 0
+	Patch "GRNLF201", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT52", 0, 0
+	Patch "GRNLF202", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT53", 0, 0
+	Patch "GRNLF203", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT54", 0, 0
+	Patch "GRNLF204", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT55", 0, 0
+	Patch "GRNLF205", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT56", 0, 0
+	Patch "GRNLF206", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT57", 0, 0
+	Patch "GRNLF207", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT58", 0, 0
+	Patch "GRNLF208", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT59", 0, 0
+	Patch "GRNLF209", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT60", 0, 0
+	Patch "GRNLF210", 0, 0
 }
 
-Sprite "WAR1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULRLT61", 0, 0
+	Patch "GRNLF211", 0, 0
 }
 
-Sprite "WAS1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULSW0", 0, 0
+	Patch "GRNLF212", 0, 0
 }
 
-Sprite "WAS1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULSW1", 0, 0
+	Patch "GRNLF213", 0, 0
 }
 
-Sprite "WAS1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULSW2", 0, 0
+	Patch "GRNLF214", 0, 0
 }
 
-Sprite "WAS1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULSW3", 0, 0
+	Patch "GRNLF215", 0, 0
 }
 
-Sprite "WAS1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULSW4", 0, 0
+	Patch "GRNLF216", 0, 0
 }
 
-Sprite "WAS1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULSW5", 0, 0
+	Patch "GRNLF217", 0, 0
 }
 
-Sprite "WAS1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULSW6", 0, 0
+	Patch "GRNLF218", 0, 0
 }
 
-Sprite "WAS1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULSW7", 0, 0
+	Patch "GRNLF219", 0, 0
 }
 
-Sprite "WAS1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULSW8", 0, 0
+	Patch "GRNLF220", 0, 0
 }
 
-Sprite "WAS1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULSW9", 0, 0
+	Patch "GRNLF221", 0, 0
 }
 
-Sprite "WAS1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULSW10", 0, 0
+	Patch "GRNLF222", 0, 0
 }
 
-Sprite "WAS1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULSW11", 0, 0
+	Patch "GRNLF223", 0, 0
 }
 
-Sprite "WAS1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULSW12", 0, 0
+	Patch "GRNLF224", 0, 0
 }
 
-Sprite "WAS1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULSW13", 0, 0
+	Patch "GRNLF225", 0, 0
 }
 
-Sprite "WAS1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULSW14", 0, 0
+	Patch "GRNLF226", 0, 0
 }
 
-Sprite "WAS1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULSW15", 0, 0
+	Patch "GRNLF227", 0, 0
 }
 
-Sprite "WAS1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULSW16", 0, 0
+	Patch "GRNLF228", 0, 0
 }
 
-Sprite "WAS1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULSW17", 0, 0
+	Patch "GRNLF229", 0, 0
 }
 
-Sprite "WAS1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULSW18", 0, 0
+	Patch "GRNLF230", 0, 0
 }
 
-Sprite "WAS1~0", 750, 350
+Texture "G1F1~0", 850, 350
 {
-	XScale 1.500
-	YScale 1.700
-	Offset 110, 68
-	Patch "BULSW19", 0, 0
+	Patch "GRNLF231", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF232", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF233", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF234", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF235", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF236", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF237", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF238", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF239", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF240", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF241", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF242", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF243", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF244", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF245", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF246", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF247", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF248", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF249", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF250", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF251", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF252", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF253", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF254", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF255", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF256", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF257", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF258", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF259", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF260", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF261", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF262", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF263", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF264", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF265", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF266", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF267", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF268", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF269", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF270", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF271", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF272", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF273", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF274", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF275", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF276", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF277", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF278", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF279", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF280", 0, 0
+}
+
+Texture "G1F1~0", 850, 350
+{
+	Patch "GRNLF281", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE0", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE1", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE2", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE3", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE4", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE5", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE6", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE7", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE8", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE9", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE10", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE11", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE12", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE13", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE14", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE15", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE16", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE17", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE18", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE19", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE20", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE21", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE22", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE23", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE24", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE25", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE26", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE27", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE28", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE29", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE30", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE31", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE32", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE33", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE34", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE35", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE36", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE37", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE38", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE39", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE40", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE41", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE42", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE43", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE44", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE45", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE46", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE47", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE48", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE49", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE50", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE51", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE52", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE53", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE54", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE55", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE56", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE57", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE58", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE59", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE60", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE61", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE62", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE63", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE64", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE65", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE66", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE67", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE68", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE69", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE70", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE71", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE72", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE73", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE74", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE75", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE76", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE77", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE78", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE79", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE80", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE81", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE82", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE83", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE84", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE85", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE86", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE87", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE88", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE89", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE90", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE91", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE92", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE93", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE94", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE95", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE96", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE97", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE98", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE99", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE100", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE101", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE102", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE103", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE104", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE105", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE106", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE107", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE108", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE109", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE110", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE111", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE112", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE113", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE114", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE115", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE116", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE117", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE118", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE119", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE120", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE121", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRE122", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT0", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT1", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT2", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT3", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT4", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT5", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT6", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT7", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT8", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT9", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT10", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT11", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT12", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT13", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT14", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT15", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT16", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT17", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT18", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT19", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT20", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT21", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT22", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT23", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT24", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT25", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT26", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT27", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT28", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT29", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT30", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT31", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT32", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT33", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT34", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT35", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT36", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT37", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT38", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT39", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT40", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT41", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT42", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT43", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT44", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT45", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT46", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT47", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT48", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT49", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT50", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT51", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT52", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT53", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT54", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT55", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT56", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT57", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT58", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT59", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT60", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT61", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT62", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT63", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT64", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT65", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT66", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT67", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT68", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT69", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT70", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT71", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT72", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT73", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT74", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT75", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT76", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT77", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT78", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT79", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT80", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT81", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT82", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT83", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT84", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT85", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT86", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT87", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT88", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT89", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT90", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT91", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT92", 0, 0
+}
+
+Texture "G1R1~0", 750, 350
+{
+	Patch "GRLRT93", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR0", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR1", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR2", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR3", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR4", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR5", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR6", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR7", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR8", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR9", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR10", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR11", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR12", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR13", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR14", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR15", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR16", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR17", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR18", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR19", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR20", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR21", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR22", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR23", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR24", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR25", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR26", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR27", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR28", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR29", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR30", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR31", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR32", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR33", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR34", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR35", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR36", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR37", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR38", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR39", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR40", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR41", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR42", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR43", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR44", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR45", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR46", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR47", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR48", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR49", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR50", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR51", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR52", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR53", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR54", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR55", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR56", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR57", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR58", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR59", 0, 0
+}
+
+Texture "G1D1~0", 750, 350
+{
+	Patch "GRNLDR60", 0, 0
 }

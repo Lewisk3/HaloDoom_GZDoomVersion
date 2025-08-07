@@ -26,7 +26,7 @@ class Halo_GPMG_Reserves : Ammo
 	States
 	{
 		Spawn:
-			HLAM O -1 Bright;
+			HLAM V -1 Bright;
 		stop;
 	}
 }

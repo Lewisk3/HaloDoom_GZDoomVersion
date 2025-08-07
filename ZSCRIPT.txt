@@ -77,6 +77,7 @@ version "4.10.0"
 #include "ZScript/Weapons/fuelrod.zsc"
 #include "ZScript/Weapons/commando.zsc"
 #include "ZScript/Weapons/GPMG.zsc"
+#include "ZScript/Weapons/grenadelauncher.zsc"
 
 // S2
 #include "ZScript/Weapons/sidekick.zsc"
