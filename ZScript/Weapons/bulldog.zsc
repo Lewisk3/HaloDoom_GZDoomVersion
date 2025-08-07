@@ -142,7 +142,7 @@ class Halo_Bulldog : HaloGun
 			TNT1 A 0 A_JumpIf(!A_DoFullSelectAnimation(), "Ready.Chambered");
 			TNT1 A 4 A_WeapSound("Halo/Weapons/Bulldog/Ready");
 			WAD1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoSelectAnim(0, true);
-			WAD2 ABCDEFGHIJKLMNOPQR 1 A_DoSelectAnim(0, true);
+			WAD2 ABCDEFGHIJKLMNOPQ 1 A_DoSelectAnim(0, true);
 		goto Ready.Active;
 		Ready.Chambered:
 			TNT1 A 0 A_WeapSound("Halo/Weapons/Bulldog/Ready");
@@ -265,40 +265,37 @@ class Halo_Bulldog : HaloGun
 			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
 			TNT1 A 0 A_ReloadSound();
 			TNT1 A 0 A_JumpIf(!CountReloadAmmo(), "Reload.Empty");
-			WAR1 ABCDEFGHI 1;
-			WAR1 J 1 
+			WAR5 EFGHIJKLM 1;
+			WAR5 N 1
 			{
 				A_SetRecoil(-1.0, 0, 2);
 			}
-			WAR1 KLMNOPQRSTUVWXYZ 1;
-			WAR2 ABCDEFGH 1;
-			WAR2 I 1 A_SetRecoil(1.0, 0, 2);
+			WAR5 OPQRSTUVWXYZ 1;
+			WAR6 ABCDEFGHIJKL 1;
+			WAR6 M 1 A_SetRecoil(1.0, 0, 2);
 			TNT1 A 0 A_ReloadClip();
-			WAR2 JKLMNOPQRSTUVWXYZ 1;
-			WAR3 ABCDEFGHIJK 1;
+			WAR6 NOPQRSTUVWXYZ 1;
+			WAR7 ABCDEFGHIJKLMN 1;
 			TNT1 A 0 A_GotoState("Ready.Active");
 
 		Reload.Empty:
-			WAR3 LMNOPQRSTUVWXYZ 1;
-			WAR4 ABCDEFGH 1;
-			WAR4 I 1 
+			WAR1 ABCDEFGHIJKLMNOPQRSTUVWX 1;
+			WAR1 Y 1
 			{
 				A_SetRecoil(-2.0, 0, 2);
 				A_SetSFXPos(10,-5,-20);
 				A_SpawnSFX("Debris_BulldogMagazine", 0, 60);
 			}
-			WAR4 JKLMNOPQRSTUVWXYZ 1;
-			WAR5 ABCDEFGHIJ 1;
-			WAR5 K 1 A_SetRecoil(2.0, 0, 2);
+			WAR1 Z 1;
+			WAR2 ABCDEFGHIJKLMNOPQRSTUVWXY 1; 
+			WAR2 Z 1 A_SetRecoil(2.0, 0, 2);
 			TNT1 A 0 A_ReloadClip();
-			WAR5 LMNOPQRSTUVWXYZ 1;
-			WAR6 ABC 1;
-			WAR6 DEFGH 1;
-			WAR6 I 1 A_SetRecoil(-0.5, 0, 2);
-			WAR6 JKLMNO 1;
-			WAR6 P 1 A_SetRecoil(-0.5, 0, 2);
-			WAR6 QRSTUVWXYZ 1;
-			WAR7 ABCDEFGHIJKLMN 1;
+			WAR3 ABCDEFGHIJKLMNOPQRSTUVWXY 1;
+			WAR3 Z 1 A_SetRecoil(-0.5, 0, 2);
+			WAR4 ABCDE 1;
+			WAR4 F 1 A_SetRecoil(-0.5, 0, 2);
+			WAR4 GHIJLMNOPQRSTUVWXYZ 1;
+			WAR5 ABCDE 1;
 		goto Ready.Active;
 		
 		Spawn:

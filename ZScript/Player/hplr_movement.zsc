@@ -670,6 +670,7 @@ extend class HaloPlayer
 		uint btns = player.cmd.buttons;
 		uint obtns = player.oldbuttons;
 		bool jumping = (btns & BT_JUMP);
+		bool jumpPressed = jumping && !(obtns & BT_JUMP);
 				
 		if(!cv_snd_jump) cv_snd_jump = CVar.GetCVar("halodoom_snd_jumpgrunt", player);
 		
@@ -691,6 +692,7 @@ extend class HaloPlayer
 		int jumpStatus = 0;
 		vector2 moveinp = getMovementInputs();
 		bool dodgingInput = abs(moveinp.x)+abs(moveinp.y) >= 0.3;
+		bool canDoubleJump = maxjumps > 1;
 		
 		if( !disableJumpDodge && player.onground && jumpDodgePressed && dodgingInput && !jumpdodgecooldown )
 		{
@@ -722,7 +724,7 @@ extend class HaloPlayer
 			doJump(0.35);
 			CallOnDodge();
 		}
-		else if( !player.onground && jumpHeld <= 2 && jumping && !(obtns & BT_JUMP) && jumpcounter < maxjumps )
+		else if( !player.onground && canDoubleJump && jumpHeld <= 2 && jumpPressed && jumpcounter < maxjumps )
 		{
 			// Double jump
 			jumpHeld = 0;
@@ -734,7 +736,7 @@ extend class HaloPlayer
 				jumpcounter++;
 			}
 		} 
-		else if ( player.onground && jumping && (!(obtns & BT_JUMP) || doholdjump) )
+		else if ( player.onground && (jumpPressed || (jumping && doholdjump)) )
 		{
 			// Normal jump
 			jumpHeld = 0;

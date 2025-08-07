@@ -76,7 +76,6 @@ DoomEdNums
 	16059 = "Halo_Hydra"
 	16060 = "Halo_Commando"
 	16061 = "Halo_GPMG"
-	16062 = "Halo_Hydra"
 	16063 = "Halo_StickyDetonator"
 	
 	// Powerups

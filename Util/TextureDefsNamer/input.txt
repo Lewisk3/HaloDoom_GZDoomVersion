@@ -1,2103 +1,2351 @@
-Sprite "W1G1A0", 750, 350
+Sprite "WAI1A0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARIDLE", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDIDLE", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW0", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW0", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW1", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW1", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW2", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW2", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW3", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW3", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW4", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW4", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW5", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW5", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW6", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW6", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW7", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW7", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW8", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW8", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW9", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW9", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW10", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW10", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW11", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW11", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW12", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW12", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW13", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW13", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW14", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW14", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW15", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW15", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW16", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW16", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW17", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW17", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW18", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW18", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW19", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW19", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW20", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW20", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW21", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW21", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW22", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW22", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW23", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW23", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW24", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW24", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW25", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW25", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW26", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW26", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW27", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW27", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW28", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW28", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW29", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW29", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW30", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW30", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW31", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW31", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW32", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW32", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW33", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW33", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW34", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW34", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW35", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW35", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW36", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW36", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW37", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW37", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW38", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW38", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW39", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW39", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW40", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW40", 0, 0
 }
 
-Sprite "W1D1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARDRAW41", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW41", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAD1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE0", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULDRW42", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE1", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR0", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE2", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR1", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE3", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR2", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE4", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR3", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE5", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR4", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE6", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR5", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE7", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR6", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE8", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR7", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE9", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR8", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE10", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR9", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE11", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR10", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE12", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR11", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE13", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR12", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE14", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR13", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE15", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR14", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE16", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR15", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE17", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR16", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE18", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR17", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE19", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR18", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE20", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR19", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE21", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR20", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE22", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR21", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE23", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR22", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE24", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR23", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE25", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR24", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE26", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR25", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE27", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR26", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE28", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR27", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE29", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR28", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE30", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR29", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE31", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR30", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE32", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR31", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE33", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR32", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE34", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR33", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE35", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR34", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE36", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR35", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE37", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR36", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE38", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR37", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE39", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR38", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE40", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR39", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE41", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR40", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE42", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR41", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE43", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR42", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE44", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR43", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE45", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR44", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE46", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR45", 0, 0
 }
 
-Sprite "W1F1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARFIRE47", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR46", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE0", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR47", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE1", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR48", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE2", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR49", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE3", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR50", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE4", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR51", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE5", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR52", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE6", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR53", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE7", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR54", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE8", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR55", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE9", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR56", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE10", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR57", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE11", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR58", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAF1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE12", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULFIR59", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE13", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE0", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE14", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE1", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE15", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE2", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE16", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE3", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE17", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE4", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE18", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE5", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE19", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE6", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE20", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE7", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE21", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE8", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE22", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE9", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE23", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE10", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE24", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE11", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE25", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE12", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE26", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE13", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE27", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE14", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE28", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE15", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE29", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE16", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE30", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE17", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE31", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE18", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE32", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE19", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE33", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE20", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE34", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE21", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE35", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE22", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE36", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE23", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE37", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE24", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE38", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE25", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE39", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE26", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE40", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE27", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE41", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE28", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE42", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE29", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE43", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE30", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE44", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE31", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE45", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE32", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE46", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE33", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE47", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE34", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE48", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE35", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE49", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE36", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE50", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE37", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE51", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE38", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE52", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE39", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE53", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE40", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE54", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE41", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE55", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE42", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE56", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE43", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE57", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE44", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE58", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE45", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE59", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE46", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE60", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE47", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE61", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE48", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE62", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE49", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE63", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE50", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE64", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE51", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE65", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE52", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE66", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE53", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE67", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE54", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE68", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE55", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE69", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE56", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE70", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE57", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE71", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE58", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE72", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE59", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE73", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE60", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE74", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE61", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE75", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE62", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE76", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE63", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE77", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE64", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE78", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE65", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE79", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE66", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE80", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE67", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE81", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE68", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE82", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE69", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE83", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE70", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE84", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE71", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE85", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE72", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE86", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE73", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE87", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE74", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE88", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE75", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE89", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE76", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE90", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE77", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE91", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE78", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE92", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE79", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARRELE93", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE80", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL0", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE81", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL1", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE82", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL2", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE83", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL3", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE84", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL4", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE85", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL5", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE86", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL6", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE87", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL7", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE88", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL8", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE89", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL9", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE90", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL10", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE91", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL11", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE92", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL12", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE93", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL13", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE94", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL14", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE95", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL15", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE96", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL16", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE97", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL17", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE98", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL18", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE99", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL19", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE100", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL20", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE101", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL21", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE102", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL22", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE103", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL23", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE104", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL24", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE105", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL25", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE106", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL26", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRE107", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL27", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT0", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL28", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT1", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL29", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT2", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL30", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT3", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL31", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT4", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL32", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT5", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL33", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT6", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL34", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT7", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL35", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT8", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL36", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT9", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL37", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT10", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL38", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT11", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL39", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT12", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL40", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT13", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL41", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT14", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL42", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT15", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL43", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT16", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL44", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT17", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL45", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT18", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL46", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT19", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL47", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT20", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL48", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT21", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL49", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT22", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL50", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT23", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL51", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT24", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL52", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT25", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL53", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT26", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL54", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT27", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL55", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT28", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL56", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT29", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL57", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT30", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL58", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT31", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL59", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT32", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL60", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT33", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL61", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT34", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL62", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT35", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL63", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT36", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL64", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT37", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL65", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT38", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL66", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT39", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL67", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT40", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL68", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT41", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL69", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT42", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL70", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT43", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL71", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT44", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL72", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT45", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL73", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT46", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL74", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT47", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL75", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT48", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL76", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT49", 0, 0
 }
 
-Sprite "W1R1~0", 750, 350
+Sprite "WAR1~0", 750, 350
 {
-	XScale 1.900
-	YScale 2.100
-	Offset 62, 20
-	Patch "ARREL77", 0, 0
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT50", 0, 0
+}
+
+Sprite "WAR1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT51", 0, 0
+}
+
+Sprite "WAR1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT52", 0, 0
+}
+
+Sprite "WAR1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT53", 0, 0
+}
+
+Sprite "WAR1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT54", 0, 0
+}
+
+Sprite "WAR1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT55", 0, 0
+}
+
+Sprite "WAR1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT56", 0, 0
+}
+
+Sprite "WAR1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT57", 0, 0
+}
+
+Sprite "WAR1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT58", 0, 0
+}
+
+Sprite "WAR1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT59", 0, 0
+}
+
+Sprite "WAR1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT60", 0, 0
+}
+
+Sprite "WAR1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULRLT61", 0, 0
+}
+
+Sprite "WAS1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULSW0", 0, 0
+}
+
+Sprite "WAS1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULSW1", 0, 0
+}
+
+Sprite "WAS1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULSW2", 0, 0
+}
+
+Sprite "WAS1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULSW3", 0, 0
+}
+
+Sprite "WAS1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULSW4", 0, 0
+}
+
+Sprite "WAS1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULSW5", 0, 0
+}
+
+Sprite "WAS1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULSW6", 0, 0
+}
+
+Sprite "WAS1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULSW7", 0, 0
+}
+
+Sprite "WAS1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULSW8", 0, 0
+}
+
+Sprite "WAS1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULSW9", 0, 0
+}
+
+Sprite "WAS1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULSW10", 0, 0
+}
+
+Sprite "WAS1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULSW11", 0, 0
+}
+
+Sprite "WAS1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULSW12", 0, 0
+}
+
+Sprite "WAS1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULSW13", 0, 0
+}
+
+Sprite "WAS1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULSW14", 0, 0
+}
+
+Sprite "WAS1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULSW15", 0, 0
+}
+
+Sprite "WAS1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULSW16", 0, 0
+}
+
+Sprite "WAS1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULSW17", 0, 0
+}
+
+Sprite "WAS1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULSW18", 0, 0
+}
+
+Sprite "WAS1~0", 750, 350
+{
+	XScale 1.500
+	YScale 1.700
+	Offset 110, 68
+	Patch "BULSW19", 0, 0
 }
