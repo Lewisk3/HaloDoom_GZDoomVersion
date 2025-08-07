@@ -202,7 +202,8 @@ class HaloPowerGiver : PowerupGiver abstract
 		super.Tick();
 
 		vel *= 0.94;
-		if(oldfloorz != floorz && spawnSector == CurSector)
+		bool ZeroGravity = !gravity;
+		if( !ZeroGravity && (oldfloorz != floorz && spawnSector == CurSector) )
 		{
 			double addz = bFXHOVER ? height : 0;
 			SetOrigin((pos.xy, floorz + addz), true);
