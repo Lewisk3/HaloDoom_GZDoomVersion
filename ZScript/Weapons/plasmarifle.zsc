@@ -143,6 +143,7 @@ class Halo_PlasmaRifle : HaloGun
 				shading:"#13afed", spawnFreq:2, 
 				lifetime:victim.freezeTics
 			);
+			console.printf("Victim: %s", victim.getClassName());
 			victim.A_GiveInventory("EMP_DeBuff", 1); // Taser effect 
 			A_TakeAmmo(taserAmmoUse);
 			return ResolveState(taserState);

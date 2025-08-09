@@ -82,9 +82,9 @@ class Halo_40MM_Proj : HaloSlowProjectile
 		trail.accel = (0,0,0);
 		trail.flags = SPF_REPLACE | SPF_NO_XY_BILLBOARD;
 		trail.style = STYLE_Add;
-		trail.lifetime = 25;
+		trail.lifetime = 35;
 		trail.size = 4;
-		trail.startalpha = 0.7;
+		trail.startalpha = 0.9;
 		trail.fadestep = trail.startalpha / double(trail.lifetime);
 		trail.sizestep = -(trail.size / double(trail.lifetime));
 	}
@@ -171,6 +171,19 @@ class Halo_40MM_Proj : HaloSlowProjectile
 				
 				exp = Spawn("GPMGBulletExplosion", pos);
 				GPMGBulletExplosion(exp).dmgScale = 0;
+				
+				// AOE EMP effect
+				double EMP_Radius = 256;
+				let it = ThinkerIterator.Create("Actor");
+				Actor act;
+				while(act = Actor(it.Next()))
+				{
+					if(act == target || !act.bSHOOTABLE || !act.CanCollideWith(self, false)) continue;
+					double todist = Distance3DSquared(act) - act.radius;
+					if(todist > EMP_Radius*EMP_Radius) continue; 
+					
+					act.GiveInventory("EMP_Debuff", 1);
+				}
 			}
 		stop;
 		
@@ -301,14 +314,13 @@ class Halo_GrenadeLauncher : HaloGun
 		wait;
 
 		Deselect:
-			G1D3 IHGFEDCBA 1;
-			G1D2 ZYXWVUTSRQPONMLKJIHGFEDCBA 1;
-			G1D1 GFEDCBA 1;
-			G1D1 A 1 A_GunLower(16);
+			G1S1 ABCD 1;
+			G1S1 D 1 A_GunLower(16);
 		wait;
 		
 		Fire:
 			TNT1 A 0 A_GunCheckReload();
+			G1G1 A 1 A_JumpIf(invoker.nade && invoker.nade.manualMode, "Ready.DryFire");
 			//TNT1 A 0 A_Jump(128, "Fire1", "Fire2", "Fire3");
 					
 		Fire1:
