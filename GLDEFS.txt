@@ -118,7 +118,12 @@ material texture "Models/Equipment/SpartanCharge/shieldtex.png"
 	Shader "shaders/glitch.fp"
 	Speed 1.0
 }
-
+material texture "Models/GL_Grenade/grenade_launcher_diffuse.jpg"
+{
+	normal "Models/GL_Grenade/grenade_launcher_zbump.png"
+	Shader "shaders/SimSun.fp"
+	Speed 1.0
+}
 
 material texture "Models/Mags/AR/assault_rifle_diffuse.png"
 {

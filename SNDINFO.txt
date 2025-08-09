@@ -979,6 +979,26 @@ Halo/Weapons/SentinelBeam/Fire/SurfaceHit "Sounds/Sentinel_Beam/SB_Beam_Hit_Surf
 $random Halo/Weapons/SentinelBeam/Fire/Begin { SBEAM_FIRESTART1 SBEAM_FIRESTART2 SBEAM_FIRESTART3 }
 $random Halo/Weapons/SentinelBeam/Fire/Loop { SBEAM_FIRELOOP1 SBEAM_FIRELOOP2 }
 $random Halo/Weapons/SentinelBeam/Fire/End { SBEAM_FIRESTOP1 SBEAM_FIRESTOP2 SBEAM_FIRESTOP3 }
+
+// Grenade Launcher
+GLAUNCHER_FIRE1 "Sounds/GrenadeLauncher/GL_Fire1.ogg"
+GLAUNCHER_FIRE2 "Sounds/GrenadeLauncher/GL_Fire2.ogg"
+GLAUNCHER_FIRE3 "Sounds/GrenadeLauncher/GL_Fire3.ogg"
+GLAUNCHER_PUMP1 "Sounds/GrenadeLauncher/GL_Pump1.ogg"
+GLAUNCHER_PUMP2 "Sounds/GrenadeLauncher/GL_Pump2.ogg"
+GLAUNCHER_PUMP3 "Sounds/GrenadeLauncher/GL_Pump3.ogg"
+GLNADE_EXPLODE1 "Sounds/GrenadeLauncher/GL_Impact1.ogg"
+GLNADE_EXPLODE2 "Sounds/GrenadeLauncher/GL_Impact2.ogg"
+GLNADE_EXPLODE3 "Sounds/GrenadeLauncher/GL_Impact3.ogg"
+
+$random Halo/Weapons/GrenadeLauncher/Fire { GLAUNCHER_FIRE1 GLAUNCHER_FIRE2 GLAUNCHER_FIRE3 }
+$random Halo/Weapons/GrenadeLauncher/Pump { GLAUNCHER_PUMP1 GLAUNCHER_PUMP2 GLAUNCHER_PUMP3 }
+$random Halo/40MM/Explode { GLNADE_EXPLODE1 GLNADE_EXPLODE2 GLNADE_EXPLODE3 }
+
+Halo/Weapons/GrenadeLauncher/Reload "Sounds/GrenadeLauncher/GL_Reload.ogg"
+Halo/Weapons/GrenadeLauncher/ReloadEmpty "Sounds/GrenadeLauncher/GL_ReloadEmpty.ogg"
+
+				
   
 // Hit feedback
 HMHIT1 HMHit1

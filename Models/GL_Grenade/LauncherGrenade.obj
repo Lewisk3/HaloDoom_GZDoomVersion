@@ -1,6 +1,5 @@
 # Blender 3.5.0
 # www.blender.org
-mtllib GL Grenade.mtl
 o default:default.007
 v 0.192266 -0.029150 -0.017541
 v 0.192266 -0.033660 -0.000712

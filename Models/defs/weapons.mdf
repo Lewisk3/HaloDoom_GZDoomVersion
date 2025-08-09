@@ -322,3 +322,16 @@ Model I_Frozen
 	
 	FrameIndex MODL A 0 0
 }
+
+Model Halo_40MM_Proj
+{
+	Model 0 "Models/GL_Grenade/LauncherGrenade.obj"
+	Skin 0 "Models/GL_Grenade/grenade_launcher_diffuse.jpg"
+	Skin 1 "Models/GL_Grenade/pioneer_truck_paint_detail_diffuse.png"
+	Scale 30.0 30.0 30.0
+	
+	USEACTORPITCH
+    USEACTORROLL
+    CORRECTPIXELSTRETCH
+	FrameIndex HNAD A 0 0
+}
