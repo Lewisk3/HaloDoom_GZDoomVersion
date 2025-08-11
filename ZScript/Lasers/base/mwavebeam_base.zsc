@@ -6,10 +6,11 @@ class MBeamSpawner : Thinker
 	double fxRollAnim;
 	double beamAlpha;
 	bool enabled;
-	bool beamVisible; // False while the first beam segment is invisible, if true damage will not be dealt.
+	bool beamVisible; // False while the first beam segment is invisible, if false damage will not be dealt.
 	bool BobWithWeapon;
 	bool freeze; // Beam will not move if this is true
 	bool useStaticAim;
+	bool DontSpawnParticles;
 	transient FLineTraceData staticAimData; // static aim, does not update.
 	
 	double jitterAngle, jitterPitch; // Animated angle and pitch offset; creates lightning-like effect.
@@ -89,7 +90,7 @@ class MBeamSpawner : Thinker
 			}
 		}
 		
-		if(enabled && validTarget) 
+		if(enabled && validTarget && dmgPerTic > 0) 
 		{
 			if(cooktime > 0)
 			{
@@ -189,8 +190,8 @@ class MBeamSpawner : Thinker
 			double localDist = level.vec3diff(prevPos, destPos).Length();
 
 			// Angles and position
-			double angleJitter = frandom[beamjitter](-jitterAngle,jitterAngle) * max(0.10, perc);
-			double pitchJitter = frandom[beamjitter](-jitterPitch,jitterPitch);
+			double angleJitter = jitterAngle ? frandom[beamjitter](-jitterAngle,jitterAngle) * max(0.10, perc) : 0;
+			double pitchJitter = jitterPitch ? frandom[beamjitter](-jitterPitch,jitterPitch) : 0;
 			if(lastBeam) angleJitter = pitchJitter = 0;
 			beam.angle = src.angle - (angles.x * perc) + angleJitter;
 			beam.pitch = 90 + (src.pitch - (angles.y * perc)) + pitchJitter;
@@ -205,7 +206,7 @@ class MBeamSpawner : Thinker
 			prevPos = followPos;
 			
 			// Particles!
-			if(beam.getAge() <= 2) continue;
+			if(beam.getAge() <= 2 || DontSpawnParticles) continue;
 			for(int pfx = 0; pfx <= 5; pfx++)
 			{
 				FSpawnParticleParams p;

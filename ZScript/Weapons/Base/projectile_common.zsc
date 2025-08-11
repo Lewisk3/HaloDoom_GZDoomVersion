@@ -143,7 +143,7 @@ mixin class HaloProjectile_Common
 	
 	virtual bool DoRicochet()
 	{
-		if(RicochetChance <= 0) return false;
+		if(RicochetChance <= 0 || !bMISSILE || vel.length() == 0) return false;
 		
 		if(random[BulletRicochet](0,100) <= min(RicochetChance, 80))
 		{
@@ -309,6 +309,11 @@ mixin class HaloProjectile_Common
 		) * speed;
 		
 		SetDamage(0);
+	}
+	
+	clearscope virtual double getSpeed()
+	{
+		return (meterspeed / 35.)*UNIT_METER;
 	}
 }
 

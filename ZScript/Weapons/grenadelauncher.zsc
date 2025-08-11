@@ -2,7 +2,7 @@ class Halo_GrenadeLauncher_Mag : Ammo
 {
 	Default 
 	{
-		Inventory.MaxAmount 4;
+		Inventory.MaxAmount 6;
 	}
 }
 class Halo_GrenadeLauncher_Reserves : Ammo
@@ -14,12 +14,12 @@ class Halo_GrenadeLauncher_Reserves : Ammo
 		Height 6;
 
 		Inventory.Amount 1;
-		Inventory.MaxAmount 20;
+		Inventory.MaxAmount 30;
 		Inventory.Icon "HLAMC0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "Picked up 8 Shells for the Riot Shotgun";
 		
-		Ammo.BackpackMaxAmount 24;
+		Ammo.BackpackMaxAmount 36;
 	}
 	
 	States
@@ -208,7 +208,7 @@ class Halo_GrenadeLauncher : HaloGun
 		Weapon.BobSpeed 1.68;
 		Weapon.BobRangeX 0.10;
 		Weapon.AmmoType1 "Halo_GrenadeLauncher_Reserves";
-		Weapon.AmmoGive 4;
+		Weapon.AmmoGive 6;
 		Weapon.AmmoType2 "Halo_GrenadeLauncher_Mag";
 		HaloGun.Faction "Human";
 		

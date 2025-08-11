@@ -34,7 +34,7 @@ int main(int argc, const char* argv[])
     int head = data.find(CODEPTR, 0); // Code-points for sprite sequences are the & symbol.
     if(head == std::string::npos)
     {
-        std::cout << "Texture defs is not setup correctly: unable to find codepoint \"&\"" << std::endl;
+        std::cout << "Texture defs is not setup correctly: unable to find codepoint \"" << CODEPTR << "\"" << std::endl;
         return 0;
     }
 
