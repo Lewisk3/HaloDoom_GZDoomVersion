@@ -188,7 +188,7 @@ mixin class HaloProjectile_Common
 	virtual int Handle_MissileHit(Actor victim)
 	{
 		// Skip these victims
-		if( victim == target || !victim.bSHOOTABLE || !victim.CanCollideWith(self, false) ) return 1;
+		if(!victim || victim == target || !victim.bSHOOTABLE || !victim.CanCollideWith(self, false) ) return 1;
 				
 		// Ripped through actors only take damage once.
 		if(act_hits.Find(victim) != act_hits.Size()) return 1;

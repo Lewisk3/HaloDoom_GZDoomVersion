@@ -41,30 +41,13 @@ class HaloBoltShot_Proj : HaloProjectile
 		
 		Spawn("HaloBoltShot_Trail", pos);
 		
-		if(trackTics > 0)
+		if(trackTics)
 		{
-			vector3 trackAngles = level.sphericalCoords(pos, trackingPos, (angle, pitch));
-			vector3 targetDir = level.vec3diff(pos, trackingPos);
-			double perc = clamp(GetAge() / trackTics, 0, 1.0);
-		
-			if(trackTics <= 3)
-			{
-				vel *= 0;
-				SetOrigin(trackingPos, true);
-				SpecialMissileHit(trackingVictim);
-				bMISSILE = false;
-			}
-			
-			angle -= trackAngles.x * perc;
-			pitch -= trackAngles.y * perc;
-			
-			if(getAge() > trackTics) 
-			{
-				vel *= 0;
-				bMISSILE = false;
-			}
-			
-			vel = Quat.FromAngles(angle, pitch, 0) * (getSpeed(), 0, 0);
+			vel *= 0;
+			SetOrigin(trackingPos, false);
+			SpecialMissileHit(trackingVictim);
+			ExplodeMissile(target:trackingVictim);
+			bMISSILE = false;
 		}
 	}
 	
@@ -279,8 +262,10 @@ class Halo_BoltShot : HaloGun
 		if(useTarget >= 0 && invoker.targetList[useTarget])
 		{
 			let boltProj = HaloBoltShot_Proj(proj);
+			boltProj.vel *= 0;
+			boltProj.ricochetChance = 0;
 			boltProj.trackingPos = invoker.beams[useTarget].trackingPos;
-			boltProj.trackTics = max(1, HaloMath.Distance3D(proj.pos, boltProj.trackingPos) / boltProj.getSpeed());
+			boltProj.trackTics = 1; //max(1, HaloMath.Distance3D(proj.pos, boltProj.trackingPos) / boltProj.getSpeed());
 			boltProj.trackingVictim = invoker.targetList[useTarget];
 			invoker.beamCounter = (invoker.beamCounter+1) % 3;
 		}
@@ -490,3 +475,31 @@ class Halo_BoltShot : HaloGun
 		stop;
 	}
 }
+
+/*
+if(trackTics > 0)
+{
+	vector3 trackAngles = level.sphericalCoords(pos, trackingPos, (angle, pitch));
+	vector3 targetDir = level.vec3diff(pos, trackingPos);
+	double perc = clamp(GetAge() / trackTics, 0, 1.0);
+
+	if(trackTics <= 3)
+	{
+		vel *= 0;
+		SetOrigin(trackingPos, false);
+		SpecialMissileHit(trackingVictim);
+		bMISSILE = false;
+	}
+	
+	angle -= trackAngles.x * perc;
+	pitch -= trackAngles.y * perc;
+	
+	if(getAge() > trackTics) 
+	{
+		vel *= 0;
+		bMISSILE = false;
+	}
+	
+	vel = Quat.FromAngles(angle, pitch, 0) * (getSpeed(), 0, 0);
+}
+*/
