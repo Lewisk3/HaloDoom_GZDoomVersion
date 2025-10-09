@@ -33,6 +33,10 @@ class SpartanDummy : Actor
 			HALO ABCD 6;
 		loop;
 		
+		Pain:
+			HALO A 4;
+		goto Spawn;
+		
 		Death:
 			TNT1 A 0 
 			{

@@ -135,7 +135,8 @@ class Halo_PlasmaRifle : HaloGun
 		let victim = A_HaloMelee(50, 48, hitsnd:taserSound, "", "Plasma", doHitThrust:false);
 		if(victim && victim.health > 0 && hasAmmo) 
 		{
-			victim.SetState(victim.FindState("Pain"));
+			let victimState = victim.FindState("Pain");
+			if(victimState) victim.SetState(victimState);
 			victim.freezeTics = TICRATE*2;
 			TESLightningEffect.AttachToActor(
 				victim, 4, 0, 0, 
