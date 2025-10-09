@@ -273,6 +273,12 @@ class LightningParticle : Actor
 			bInvisible = false;
 		else if(!(level.time%flashtics))
 			bInvisible = !bInvisible;
+			
+		if(alpha <= 0.01) 
+		{
+			Destroy();
+			return;
+		}
 		
 		//animation:
 		if (tics != -1) 

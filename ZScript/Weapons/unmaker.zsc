@@ -219,6 +219,9 @@ class UnmakerBeamSpawner : MBeamSpawner
 
 class Halo_Unmaker : HaloGun
 {
+	const SND_CHARGELOOP = 25;
+	bool firedUnmakerBall; // Used to retain overheat animation on swap.
+
 	Default
 	{
 		//$Category "HaloDoom/Weapons"
@@ -443,8 +446,15 @@ class Halo_Unmaker : HaloGun
 		
 		A_ShootProjectile("UnmakerBall", 0, 2);	
 		A_TakeAmmo(111);
+		invoker.firedUnmakerBall = true;
 		for(int i = 0; i < 40; i++) A_UpdateSpread();
 		invoker.heat = 2.0;
+	}
+
+	
+	override void OnQuickSwap()
+	{
+		A_StopSound(SND_CHARGELOOP);
 	}
 
 	States
@@ -475,6 +485,7 @@ class Halo_Unmaker : HaloGun
 		Ready.Normal:
 			WKD1 LKJIHGFEDCBA 1 A_DoSelectAnim();
 		Ready.Active:
+			TNT1 A 0 A_JumpIf(invoker.firedUnmakerBall, "Overheat");
 			WKI1 A 1 
 			{
 				A_HaloWeaponReady(usescope:false);
@@ -493,7 +504,12 @@ class Halo_Unmaker : HaloGun
 		wait;
 
 		Deselect:
-			TNT1 A 0 A_WeapSound("Halo/Weapons/Unmaker/Draw");
+			TNT1 A 0 
+			{
+				A_WeapSound("Halo/Weapons/Unmaker/Draw");
+				A_StopSound(SND_CHARGELOOP);
+				A_Light(0);
+			}
 			WKD1 ABCDEFGHIJK 1;
 			WKD1 L 1 A_GunLower();
 		wait;
@@ -542,7 +558,7 @@ class Halo_Unmaker : HaloGun
 			}
 			TNT1 A 0 
 			{
-				A_StartSound("Halo/Weapons/Unmaker/Charge", CHAN_BODY, flags:CHANF_LOOPING);
+				A_StartSound("Halo/Weapons/Unmaker/Charge", SND_CHARGELOOP, flags:CHANF_LOOPING);
 				A_RollQuake(1, 10, 1); // Reset rollquake.	
 			}
 		AltHold:
@@ -555,7 +571,7 @@ class Halo_Unmaker : HaloGun
 		AltDoFire:
 			TNT1 A 0 
 			{
-				A_StopSound(CHAN_BODY);
+				A_StopSound(SND_CHARGELOOP);
 				A_WeapSound("Halo/Weapons/Unmaker/Charge/Fire");
 			}
 			TNT1 A 0 A_SetZoom(0.75, 1);
@@ -580,10 +596,10 @@ class Halo_Unmaker : HaloGun
 				A_RecoilOffset(0,0,10);
 			}
 			WKZ1 FGHIJK 2;
-			TNT1 A 0 A_Overlay(60, "DoSmoke");
 		goto Overheat;
 					
 		Overheat:
+			TNT1 A 0 A_Overlay(60, "DoSmoke");
 			TNT1 A 0 A_ScopeDisable();
 			TNT1 A 0 A_StartSound("Halo/Weapons/Unmaker/Overheat", CHAN_RELOADING, CHANF_OVERLAP);
 			WKH1 ABCDEF 3; 
@@ -594,6 +610,7 @@ class Halo_Unmaker : HaloGun
 			}
 			WKH2 ABCDDDDDDDDDDDDDDDDDD 1;
 			WKH2 EFGHIJ 3;
+			TNT1 A 0 { invoker.firedUnmakerBall = false; }
 		goto Ready.Active;
 		
 		SetupGunLightning:

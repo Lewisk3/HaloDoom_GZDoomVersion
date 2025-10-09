@@ -158,7 +158,7 @@ class Halo_BoltShot : HaloGun
 		HaloGun.Faction "Forerunner";
 		
 		HaloGun.PowerTier P_MID;
-		HaloGun.Rarity 10;
+		HaloGun.Rarity 0; // Debug - Will not spawn until completed.
 				
 		// Recoil
 		HaloGun.Bloom 0.8;
@@ -280,6 +280,11 @@ class Halo_BoltShot : HaloGun
 		for(int i = 0; i < 3; i++)
 		{
 			let beam = beams[i];
+			if(!beam)
+			{
+				beams.Clear();
+				return;
+			}
 	
 			beam.beamTarget = targetList[i];
 			beam.lockPerc = targetLockPerc[i];
@@ -378,7 +383,8 @@ class Halo_BoltShot : HaloGun
 			
 			return;
 		} 
-		else if(!beams.Size())
+		
+		if(!beams.Size())
 		{
 			// Populate beams
 			vector3 beamOffs = (7, -3.75, -4);
@@ -395,9 +401,11 @@ class Halo_BoltShot : HaloGun
 			}
 			return;
 		}
-		
-		UpdateBeams();
-		GetTargets();
+		else
+		{
+			UpdateBeams();
+			GetTargets();
+		}
 	}
 	
 	action bool A_CheckHasTarget()

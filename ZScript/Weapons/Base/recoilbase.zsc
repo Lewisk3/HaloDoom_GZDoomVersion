@@ -260,12 +260,13 @@ class RecoilWeapon : Weapon
 		if(!ptr) ptr = invoker;
 		bool noreplace = ptr.Owner.player.refire > 0;
 		
+		if(ptr.rollshake_time) 
+		{
+			ptr.Owner.A_SetRoll(0, SPF_INTERPOLATE);
+		}
+		
 		if(!noreplace || ptr.rollshake_str == 0)
 		{
-			if(ptr.rollshake_time) 
-			{
-				ptr.Owner.A_SetRoll(0, SPF_INTERPOLATE);
-			}
 			ptr.rollshake_str = str;
 			ptr.rollshake_time = dur;
 			ptr.rollshake_maxtime = dur;
@@ -315,6 +316,7 @@ class RecoilWeapon : Weapon
 		
 				Owner.A_SetRoll(Owner.roll + rshake, SPF_INTERPOLATE);
 				rollshake_time--;
+				if(rollshake_time <= 0) Owner.A_SetRoll(0, SPF_INTERPOLATE);
 			}
 			else if(rollshake_str != 0)
 			{

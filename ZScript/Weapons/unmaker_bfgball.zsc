@@ -15,6 +15,7 @@ class UnmakerBall : HaloSlowProjectile
 		+NOGRAVITY;
 		+BRIGHT;
 		+ROLLSPRITE;
+		+SKYEXPLODE;
 		Projectile;
 		
 		HaloSlowProjectile.SetRanges 0, 0;
