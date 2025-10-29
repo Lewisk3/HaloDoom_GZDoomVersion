@@ -1374,7 +1374,7 @@ class HaloGun : RecoilWeapon
 		{
 			let tesl = TESLightningEffect.AttachToActor(
 				self, fw, lr, ud, scale:scale, density:density,
-				shading:shading, followingGun:true, interpolateGunView:true
+				shading:shading, followingGun:true, interpolateGunView:false
 			);
 			tesl.restrictedToWeapon = Weapon(invoker);
 			return tesl;
@@ -1385,7 +1385,7 @@ class HaloGun : RecoilWeapon
 		{
 			invoker.plasmaLightning = TESLightningEffect.AttachToActor(
 				self, fw, lr, ud, scale:scale, density:density,
-				shading:shading, followingGun:true, interpolateGunView:true
+				shading:shading, followingGun:true, interpolateGunView:false
 			);
 			invoker.plasmaLightning.restrictedToWeapon = Weapon(invoker);
 		}
