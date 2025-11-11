@@ -154,6 +154,8 @@ class TESLightningEffect : CheapActor
 	vector3 lastSpawnPos;
 	Weapon restrictedToWeapon;
 	int lifetime;
+	
+	TextureID partTextures[4];
 
 	Default
 	{
@@ -186,6 +188,11 @@ class TESLightningEffect : CheapActor
 			tesl.lifetime = lifetime;
 			tesl.followingGun = followingGun;
 			tesl.interpolateGunView = interpolateGunView;
+			
+			tesl.partTextures[0] = TexMan.CheckForTexture("Sprites/Effects/Lightning/LTNGA0.png");
+			tesl.partTextures[1] = TexMan.CheckForTexture("Sprites/Effects/Lightning/LTNGB0.png");
+			tesl.partTextures[2] = TexMan.CheckForTexture("Sprites/Effects/Lightning/LTNGC0.png");
+			tesl.partTextures[3] = TexMan.CheckForTexture("Sprites/Effects/Lightning/LTNGD0.png");
 		}
 		return tesl;
 	}
@@ -211,6 +218,7 @@ class TESLightningEffect : CheapActor
 			let p = LightningParticle(Spawn("LightningParticle", lastSpawnPos));
 			if(p) 
 			{
+				p.parent = self;
 				p.A_SetScale(0.01*particleScale);
 				p.SetShade(particleShade);
 				p.follow = master;
@@ -235,6 +243,8 @@ class TESLightningEffect : CheapActor
 
 class LightningParticle : Actor
 {
+	TESLightningEffect parent;
+	
 	Actor follow;
 	vector3 followOffs, lastPos;
 	bool followingGun, interpolateGunView;
@@ -326,15 +336,8 @@ class LightningParticle : Actor
 		
 		vector3 offs = dir * (followOffs.x, followOffs.y - bob.x, followOffs.z - bob.y);
 		SetOrigin(level.vec3offset(followPos, offs), true);
-		
-		TextureID partTextures[4] = {
-			TexMan.CheckForTexture("Sprites/Effects/Lightning/LTNGA0.png"), 
-			TexMan.CheckForTexture("Sprites/Effects/Lightning/LTNGB0.png"), 
-			TexMan.CheckForTexture("Sprites/Effects/Lightning/LTNGC0.png"), 
-			TexMan.CheckForTexture("Sprites/Effects/Lightning/LTNGD0.png")
-		};
-		
-		if( random[LightningFX](0,100) <= 5 )
+				
+		if( (random[LightningFX](0,100) <= 5) && parent )
 		{
 			pset.color1 = fillcolor;
 			pset.style = STYLE_Add;
@@ -343,7 +346,7 @@ class LightningParticle : Actor
 			
 			for(int i = 0; i < 5; i++)
 			{
-				pset.texture = partTextures[random[LightningFX](0,3)];
+				pset.texture = parent.partTextures[random[LightningFX](0,3)];
 				pset.vel = dir * (frandom[LightningFX](0,3), frandom[LightningFX](-3,3), frandom[LightningFX](-3,3));
 				pset.size = frandom[LightningFX](1.0,2.5) * (min(Scale.X, Scale.Y)*100.0);
 				pset.startalpha = 3.0;

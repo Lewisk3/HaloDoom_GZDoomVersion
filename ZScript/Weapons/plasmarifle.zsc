@@ -230,19 +230,15 @@ class Halo_PlasmaRifle : HaloGun
 				A_FireHaloPlasma();
 				A_SetRecoil(0.40, 0, 2);
 				A_RecoilOffset(frandom[WeapFX](-2,2),frandom[WeapFX](1,3),2);
-				//A_RollQuake(2,8,1);
 				if(!player.refire) A_RQuakeEx(2,2,2,6,0,20,"",QF_RELATIVE|QF_SCALEDOWN);
 			}
 			W4F1 B 1 A_Light(0);
 			W4F1 C 1 Bright
 			{	
 				A_SetFrameTics(3 - invoker.firespeed);
-				// A_FireHaloPlasma(false);
-					
+				
 				A_SetRecoil(-0.15, 0, 2);
 				A_SetZoom(1.0, 2);
-				//A_RollQuake(2,8,1);
-				//A_RQuakeEx(2,2,1,3,0,20,"",QF_RELATIVE|QF_WAVE);
 				A_RecoilOffset(0,0,2);
 			}
 			W4F1 D 1 
