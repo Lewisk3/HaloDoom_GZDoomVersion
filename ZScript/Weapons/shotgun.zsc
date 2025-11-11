@@ -41,6 +41,7 @@ class HaloShotgun_Bullet : HaloBullet
 		HaloProjectile.BaseDamage SHOTGUN_DMG;
 		HaloProjectile.Speed_MPS SHOTGUN_BMPS;
 		HaloProjectile.HeadshotDMGFactor SHOTGUN_HEDMOD;
+		HaloProjectile.RipperCount 2;
 	}
 	
 	override void OnRicochet(Actor proj)
