@@ -229,7 +229,7 @@ class Halo_Unmaker : HaloGun
 		Obituary "%o was undone by %k's Unmaker.";
 		Inventory.PickupMessage	"Error 666: Weapon not recognized. No Data available in Weapon Wiki.";
 		Tag "Unmaker";
-		Weapon.BobSpeed 1.87;
+		Weapon.BobSpeed 2.45;
 		Weapon.BobRangeX 0.63;
 		Weapon.AmmoType1 "Halo_UnmakerReserves";
 		Weapon.AmmoGive 333;

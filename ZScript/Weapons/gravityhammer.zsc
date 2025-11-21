@@ -116,7 +116,7 @@ class Halo_GravityHammer : HaloGun
 		Obituary "%o was turned into a viscous red jelly by %k's Gravity Hammer.";
 		Inventory.PickupMessage	"Picked up the Type-2 Gravity Hammer.";
 		Tag "Gravity Hammer";
-		Weapon.BobSpeed 1.86;
+		Weapon.BobSpeed 2.45;
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_GravityHammer_Battery";
 		Weapon.AmmoType2 "Halo_GravityHammer_Battery";

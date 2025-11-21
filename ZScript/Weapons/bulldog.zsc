@@ -58,7 +58,7 @@ class Halo_Bulldog : HaloGun
 		Obituary "%o's running riot was controlled by %k's Riot Shotgun.";
 		Inventory.PickupMessage	"Picked up the CQS-48 Riot Shotgun.";
 		Tag "Riot Shotgun";
-		Weapon.BobSpeed 1.68;
+		Weapon.BobSpeed 2.45;
 		Weapon.BobRangeX 0.10;
 		Weapon.AmmoType1 "Halo_Bulldog_Reserves";
 		Weapon.AmmoGive 48;

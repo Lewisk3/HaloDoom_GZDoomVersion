@@ -60,7 +60,7 @@ class Halo_Needler : HaloGun
 		Obituary "%o was super-combined by %k's Needler.";
 		Inventory.PickupMessage	"Picked up the Type-33 Needler.";
 		Tag "Needler";
-		Weapon.BobSpeed 1.86;
+		Weapon.BobSpeed 2.45;
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_Needler_Reserves";
 		Weapon.AmmoType2 "Halo_Needler_Mag";

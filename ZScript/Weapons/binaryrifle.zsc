@@ -84,7 +84,7 @@ class Halo_BinaryRifle : HaloGun
 		Obituary "%o was disintegrated by %k's Binary Rifle.";
 		Inventory.PickupMessage	"Picked up the Binary Rifle.";
 		Tag "Binary Rifle";
-		Weapon.BobSpeed 2.12;
+		Weapon.BobSpeed 2.45;
 		Weapon.BobRangeX 0.63;
 		Weapon.AmmoType1 "Halo_BinaryRifleBattery";
 		Weapon.AmmoType2 "Halo_BinaryRifleBattery";

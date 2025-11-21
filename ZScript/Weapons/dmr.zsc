@@ -62,7 +62,7 @@ class Halo_DMR : HaloGun
 		Obituary "%o got the Call of Duty treatment from %k's DMR.";
 		Inventory.PickupMessage	"Picked up the M392 Designated Marksman Rifle.";
 		Tag "DMR";
-		Weapon.BobSpeed 2.12;
+		Weapon.BobSpeed 2.45;
 		Weapon.BobRangeX 0.63;
 		Weapon.AmmoType1 "Halo_DMR_Reserves";
 		Weapon.AmmoGive 30;

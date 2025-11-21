@@ -193,7 +193,7 @@ class Halo_Spiker : HaloGun
 		Obituary "%o was skewered by %k's Spiker.";
 		Inventory.PickupMessage	"Picked up the Type-25 Spiker.";
 		Tag "Spiker";
-		Weapon.BobSpeed 1.86;
+		Weapon.BobSpeed 2.45;
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_Spiker_Reserves";
 		Weapon.AmmoType2 "Halo_Spiker_Clip";

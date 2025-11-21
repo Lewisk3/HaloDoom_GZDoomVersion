@@ -150,7 +150,7 @@ class Halo_BoltShot : HaloGun
 		Tag "Bolt Shot (Feature Demo)";
 		Weapon.BobSpeed 0.8;
 		Weapon.BobRangeX 0.50;
-		Weapon.BobSpeed 1.60;
+		Weapon.BobSpeed 2.45;
 		Weapon.AmmoType1 "Halo_BoltshotBattery";
 		Weapon.AmmoType2 "Halo_BoltshotBattery";
 		Weapon.AmmoGive 100;

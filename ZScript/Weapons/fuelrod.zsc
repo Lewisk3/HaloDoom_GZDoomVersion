@@ -147,7 +147,7 @@ class Halo_FuelRod : HaloGun
 		Obituary "%o felt %k's green rod.";
 		Inventory.PickupMessage	"Picked up the Type-33 Fuel-Rod gun.";
 		Tag "Fuel Rod";
-		Weapon.BobSpeed 1.87;
+		Weapon.BobSpeed 2.45;
 		Weapon.BobRangeX 0.63;
 		Weapon.AmmoGive 5;
 		Weapon.AmmoType1 "Halo_FuelClip";

@@ -205,7 +205,7 @@ class Halo_GrenadeLauncher : HaloGun
 		Obituary "%o's was turned into red mist by %k's Grenade Launcher.";
 		Inventory.PickupMessage	"Picked up the Grenade Launcher.";
 		Tag "Grenade Launcher";
-		Weapon.BobSpeed 1.68;
+		Weapon.BobSpeed 2.45;
 		Weapon.BobRangeX 0.10;
 		Weapon.AmmoType1 "Halo_GrenadeLauncher_Reserves";
 		Weapon.AmmoGive 6;

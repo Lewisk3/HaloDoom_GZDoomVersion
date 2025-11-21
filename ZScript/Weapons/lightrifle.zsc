@@ -86,7 +86,7 @@ class Halo_LightRifle : HaloGun
 		Obituary "%o was blinded by %k's Light Rifle.";
 		Inventory.PickupMessage	"Picked up the Light Rifle.";
 		Tag "Light Rifle";
-		Weapon.BobSpeed 2.12;
+		Weapon.BobSpeed 2.45;
 		Weapon.BobRangeX 0.63;
 		Weapon.AmmoType1 "Halo_LightRifleBattery";
 		Weapon.AmmoType2 "Halo_LightRifleBattery";

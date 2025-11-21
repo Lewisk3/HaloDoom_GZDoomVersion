@@ -195,7 +195,7 @@ class Halo_Hydra : HaloGun
 		Obituary "%o was torn to giblets by %k's Hydra Missiles.";
 		Inventory.PickupMessage	"Picked up the MLRS-2 Hydra Gyroc Launcher.";
 		Tag "Hydra";
-		Weapon.BobSpeed 1.5;
+		Weapon.BobSpeed 2.45;
 		Weapon.BobRangeX 0.12;
 		Weapon.AmmoType1 "Halo_Hydra_Reserves";
 		Weapon.AmmoType2 "Halo_Hydra_Clip";

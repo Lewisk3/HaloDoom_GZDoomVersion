@@ -59,7 +59,7 @@ class Halo_Shotgun : HaloGun
 		Obituary "%o got an 8-Gauge Breakfast from %k's Tactical Shotgun";
 		Inventory.PickupMessage	"Picked up the M35 Tactical Shotgun";
 		Tag "Tactical Shotgun";
-		Weapon.BobSpeed 2.0;
+		Weapon.BobSpeed 2.45;
 		Weapon.BobRangeX 0.10;
 		Weapon.AmmoType1 "Halo_Shotgun_Reserves";
 		Weapon.AmmoGive 16;

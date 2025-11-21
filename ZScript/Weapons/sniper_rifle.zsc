@@ -117,7 +117,7 @@ class Halo_SniperRifle : HaloGun
 		Obituary "%o got the Call of Duty treatment from %k's Sniper Rifle.";
 		Inventory.PickupMessage	"Picked up the SRS99 Bolt-Action Sniper Rifle.";
 		Tag "Sniper Rifle";
-		Weapon.BobSpeed 2.12;
+		Weapon.BobSpeed 2.45;
 		Weapon.BobRangeX 0.63;
 		Weapon.AmmoType1 "Halo_Sniper_Reserves";
 		Weapon.AmmoGive 8;

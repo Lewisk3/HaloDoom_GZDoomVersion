@@ -48,7 +48,7 @@ class Halo_SentinelBeam : HaloGun
 		Obituary "%o was disintigrated by %k's Sentinel Beam.";
 		Inventory.PickupMessage	"Picked up the Sentinel Beam.";
 		Tag "Sentinel Beam";
-		Weapon.BobSpeed 2.0;
+		Weapon.BobSpeed 2.45;
 		Weapon.BobRangeX 0.55;
 		Weapon.AmmoType1 "Halo_SentinelBeam_Reserves";
 		Weapon.AmmoType2 "Halo_SentinelBeam_Battery";

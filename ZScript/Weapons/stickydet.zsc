@@ -221,7 +221,7 @@ class Halo_StickyDetonator : HaloGun
 		Obituary "%o was stuck by %k's Sticky Detonator.";
 		Inventory.PickupMessage	"Picked up the M363 RPD Sticky Detonator.";
 		Tag "Sticky Detonator";
-		Weapon.BobSpeed 1.86;
+		Weapon.BobSpeed 2.45;
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_StickyDet_Reserves";
 		Weapon.AmmoType2 "Halo_StickyDet_Clip";

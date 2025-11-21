@@ -66,7 +66,7 @@ class Halo_PulseCarbine : HaloGun
 		Obituary "%o was sublimated by %k's Pulse Carbine.";
 		Inventory.PickupMessage	"Picked up the Pulse Carbine.";
 		Tag "Pulse Carbine";
-		Weapon.BobSpeed 1.83;
+		Weapon.BobSpeed 2.45;
 		Weapon.BobRangeX 0.45;
 		Weapon.AmmoType1 "Halo_PulseCarbine_Battery";
 		Weapon.AmmoType2 "Halo_PulseCarbine_Battery";

@@ -103,7 +103,7 @@ class Halo_BeamRifle : HaloGun
 		Obituary "%o was melted by %k's Beam Rifle.";
 		Inventory.PickupMessage	"Picked up the Type-50 Particle Beam Rifle.";
 		Tag "Particle Beam Rifle";
-		Weapon.BobSpeed 1.36;
+		Weapon.BobSpeed 2.45;
 		Weapon.BobRangeX 0.45;
 		Weapon.AmmoType1 "Halo_BeamRifle_Battery";
 		Weapon.AmmoType2 "Halo_BeamRifle_Battery";

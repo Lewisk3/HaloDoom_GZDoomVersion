@@ -282,7 +282,7 @@ class Halo_Flamethrower : HaloGun
 		Obituary "%o was burnt to a crisp by %k's Flamethrower.";
 		Inventory.PickupMessage	"Picked up the M7057 Defoliant Flamethrower.";
 		Tag "Flamethrower";
-		Weapon.BobSpeed 1.32;
+		Weapon.BobSpeed 2.45;
 		Weapon.BobRangeX 0.50;
 		Weapon.AmmoType1 "Halo_FlamerFuel";
 		Weapon.AmmoType2 "Halo_FlamerFuel";

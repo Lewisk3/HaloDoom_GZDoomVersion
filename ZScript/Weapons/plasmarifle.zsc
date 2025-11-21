@@ -85,7 +85,7 @@ class Halo_PlasmaRifle : HaloGun
 		Obituary "%o got the boomer shooter treatment by %k's Plasma Rifle.";
 		Inventory.PickupMessage	"Picked up the Type-25 Plasma Rifle.";
 		Tag "Plasma Rifle";
-		Weapon.BobSpeed 1.86;
+		Weapon.BobSpeed 2.45;
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_PlasmaRifle_Clip";
 		Weapon.AmmoType2 "Halo_PlasmaRifle_Clip";

@@ -61,7 +61,7 @@ class Halo_MA5B : HaloGun
 		Obituary "%o was turned into swiss cheese by %k's MA5B.";
 		Inventory.PickupMessage	"Picked up the MA5B Squad Automatic Weapon.";
 		Tag "MA5B S.A.W.";
-		Weapon.BobSpeed 1.86;
+		Weapon.BobSpeed 2.45;
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_AR_Reserves";
 		Weapon.AmmoType2 "Halo_MAB_Clip";

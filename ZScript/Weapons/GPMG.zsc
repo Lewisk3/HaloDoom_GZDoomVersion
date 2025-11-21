@@ -130,7 +130,7 @@ class Halo_GPMG : HaloGun
 		Obituary "%o was blown to bits by %k's GPAC.";
 		Inventory.PickupMessage	"Picked up the M247 General Purpose Auto Cannon";
 		Tag "M247 GPAC";
-		Weapon.BobSpeed 2.0;
+		Weapon.BobSpeed 2.45;
 		Weapon.BobRangeX 0.80;
 		Weapon.AmmoType1 "Halo_GPMG_Reserves";
 		Weapon.AmmoType2 "Halo_GPMG_Clip";

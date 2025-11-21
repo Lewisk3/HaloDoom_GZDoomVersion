@@ -56,7 +56,7 @@ class Halo_Commando : HaloGun
 		Obituary "%o was filled with holes by %k's Tactical Rifle.";
 		Inventory.PickupMessage	"Picked up the VK78 Tactical Rifle.";
 		Tag "Tactical Rifle";
-		Weapon.BobSpeed 1.36;
+		Weapon.BobSpeed 2.45;
 		Weapon.BobRangeX 0.48;
 		Weapon.AmmoType1 "Halo_CMDO_Reserves";
 		Weapon.AmmoType2 "Halo_CMDO_Clip";

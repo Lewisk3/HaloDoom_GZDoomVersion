@@ -58,7 +58,7 @@ class Halo_BattleRifle : HaloGun
 		Obituary "%o got a taste of competitive halo by %k's Battle Rifle.";
 		Inventory.PickupMessage	"Picked up the BR45 Battle Rifle.";
 		Tag "Battle Rifle";
-		Weapon.BobSpeed 1.86;
+		Weapon.BobSpeed 2.45;
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_BAR_Reserves";
 		Weapon.AmmoType2 "Halo_BAR_Clip";

@@ -59,7 +59,7 @@ class Halo_AssaultRifle : HaloGun
 		Obituary "%o learned the Rifleman's Creed from %k's Assault Rifle.";
 		Inventory.PickupMessage	"Picked up the MA37 Assault Rifle.";
 		Tag "Assault Rifle";
-		Weapon.BobSpeed 1.86;
+		Weapon.BobSpeed 2.45;
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_AR_Reserves";
 		Weapon.AmmoType2 "Halo_AR_Clip";
