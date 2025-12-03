@@ -13,11 +13,11 @@ class Halo_GrenadeLauncher_Reserves : Ammo
 		Radius 8;
 		Height 6;
 
-		Inventory.Amount 1;
+		Inventory.Amount 8;
 		Inventory.MaxAmount 30;
 		Inventory.Icon "HLAMC0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
-		Inventory.PickupMessage "Picked up 8 Shells for the Riot Shotgun";
+		Inventory.PickupMessage "Picked up 8 Rounds for the Grenade Launcher";
 		
 		Ammo.BackpackMaxAmount 36;
 	}
@@ -203,7 +203,7 @@ class Halo_GrenadeLauncher : HaloGun
 		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 4;
 		Obituary "%o's was turned into red mist by %k's Grenade Launcher.";
-		Inventory.PickupMessage	"Picked up the Grenade Launcher.";
+		Inventory.PickupMessage	"Picked up the M320 Tau Ceti Lake Individual Grenade Launcher.";
 		Tag "Grenade Launcher";
 		Weapon.BobSpeed 2.45;
 		Weapon.BobRangeX 0.10;
