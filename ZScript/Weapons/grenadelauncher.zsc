@@ -13,7 +13,7 @@ class Halo_GrenadeLauncher_Reserves : Ammo
 		Radius 8;
 		Height 6;
 
-		Inventory.Amount 8;
+		Inventory.Amount 6;
 		Inventory.MaxAmount 30;
 		Inventory.Icon "HLAMC0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
