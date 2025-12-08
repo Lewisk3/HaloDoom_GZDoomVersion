@@ -871,7 +871,7 @@ class ShieldLightningAnimator : CustomInventory
 		Pickup:
 			TNT1 AAAAAAAAAAAAAAAAAA 4
 			{
-				vector3 atpos = (pos.xy, pos.z + (height));
+				vector3 atpos = (pos.xy, pos.z + (height * 0.5));
 				if(player) atpos.z = player.viewz;
 				atpos.x += frandom[ShieldFX](-1,1) * 30;
 				atpos.y += frandom[ShieldFX](-1,1) * 30;

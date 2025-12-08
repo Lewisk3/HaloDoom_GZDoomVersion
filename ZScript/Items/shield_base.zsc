@@ -76,6 +76,7 @@ class ShieldProcessor : Inventory
 	virtual void OnShieldBreak()
 	{
 		Owner.A_StartSound(snd_ShieldBreak, CHAN_AUTO, CHANF_OVERLAP);
+		A_GiveInventory("ShieldLightningAnimator", 1);
 	}
 	
 	virtual void updateShields()
