@@ -1,0 +1,39 @@
+class HaloDoom_EnemyBase : Actor abstract
+{
+	void A_AimToTarget(double heightAimScale, bool lookDir = true, Actor victim = NULL)
+	{
+		if(!victim) victim = target;
+		vector3 aimFrom = (pos.xy, pos.z + (height * 0.5));
+		vector3 aimTo = (victim.pos.xy, victim.pos.z + (height * heightAimScale));
+		let diff = level.vec3diff(aimFrom, aimTo);
+		vector2 aimDir = (angle, pitch);
+		if(diff.Length() > 0)
+		{
+			diff = diff.Unit();
+			aimDir = (atan2(diff.y, diff.x), -asin(diff.z));
+		}
+		
+		A_SetAngle(aimDir.x, SPF_INTERPOLATE);
+		A_SetPitch(aimDir.y, SPF_INTERPOLATE);
+	}
+
+	Actor A_Fire3DProjectile(class<Actor> proj, double forward = 0, double leftright = 0, double updown = 0, double angleOffset = 0, double pitchOffset = 0)
+	{
+		let projActor = HaloMath.Fire3DProjectile(self, proj, forward, leftright, updown, false, angleOffset, pitchOffset);
+		if(projActor) projActor.target = self;
+		
+		return projActor;
+	}
+	
+	ShieldProcessor A_SetupShield(double maxShields, double regenDelay, double regenSpeed, Sound snd_ShieldBreak = "Shield/Explode", Sound snd_ShieldLow = "Shield/Low", Sound snd_ShieldRecover = "Shield/Regenerate", class<ShieldProcessor> type = "ShieldProcessor")
+	{	
+		let shields = ShieldProcessor.Attach(self);
+		shields.maxShields = maxShields;
+		shields.regenDelay = regenDelay;
+		shields.regenSpeed = regenSpeed;
+		shields.snd_ShieldBreak = snd_ShieldBreak;
+		shields.snd_ShieldRecover = snd_ShieldRecover;	
+		
+		return shields;
+	}
+}

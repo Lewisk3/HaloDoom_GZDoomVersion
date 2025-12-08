@@ -95,6 +95,10 @@ class HaloStickyDetProj : HaloSlowProjectile
 		vector3 followPos = HaloMath.V3Offset(targ.angle, targ.pitch, targ.roll, stuckOffs.x * 0.5, stuckOffs.y * 0.5, stuckOffs.z, 1.0);
 		followPos = level.Vec3Offset(targ.pos, followPos);
 		SetOrigin(followPos, true);
+		
+		let stickState = targ.FindState("Pain.PlasmaStuck", true);
+		if(!stickState) return;
+		targ.SetState(stickState);
 	}
 	
 	States
