@@ -12,12 +12,14 @@ class HaloSpartan_III : HaloPlayer
 			"Employing thruster packs for\n"
 			"added mobility to accomodate\n"
 			"their pugilist fighting style."
+			"\n\n\n"
+			"\c[Orange]Shields only recharge on Melee.\c[White]"
 		), "Dash, Double Jump, Black Eye";
 		
 		// Vitals
-		Health 100; 
-		Player.MaxHealth 100;
-		HaloPlayer.Shields 30, 5, 2; // 3 seconds to recharge, 2 seconds to max.
+		Health 30; 
+		Player.MaxHealth 30;
+		HaloPlayer.Shields 100, 0x7FFFFFFF, 2; // Melee to recharge (or wait like 2 years lmao), 2 seconds to max.
 		HaloPlayer.ShieldRegenSound "Shield/Regenerate/Fast";
 					
 		// Movement
