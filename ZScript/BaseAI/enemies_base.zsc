@@ -25,6 +25,23 @@ class HaloDoom_EnemyBase : Actor abstract
 		return projActor;
 	}
 	
+	BulletCasing A_SpawnWeaponDebris(class<BulletCasing> debris, double fw, double lr, double ud, double vel_fw, double vel_lr, double vel_ud)
+	{
+		CVar doSpawnFX = CVar.GetCVar("halodoom_fx_casings", players[consoleplayer]);
+		if(!doSpawnFX || !doSpawnFX.GetBool()) return NULL;
+		
+		vector3 spawnDir = Quat.FromAngles(angle, pitch, roll) * (fw, lr, ud);
+		vector3 spawnPos = level.vec3offset( (pos.xy, pos.z + (height * 0.5)), spawnDir );
+		
+		let proj = BulletCasing(Spawn(debris, spawnPos));
+		if(proj)
+		{
+			proj.vel = Quat.FromAngles(angle, pitch, roll) * (vel_fw, vel_lr, vel_ud);
+			proj.target = self;
+		}
+		return proj;
+	}
+	
 	ShieldProcessor A_SetupShield(double maxShields, double regenDelay, double regenSpeed, Sound snd_ShieldBreak = "Shield/Explode", Sound snd_ShieldLow = "Shield/Low", Sound snd_ShieldRecover = "Shield/Regenerate", class<ShieldProcessor> type = "ShieldProcessor")
 	{	
 		let shields = ShieldProcessor.Attach(self);

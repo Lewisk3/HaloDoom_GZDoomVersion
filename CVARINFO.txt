@@ -19,6 +19,7 @@ user int halodoom_hudtype_index = 0;
 user int halodoom_cortanamode = 0;
 user bool halodoom_spartanvoicelines = false;
 user bool halodoom_showspeed = false;
+user bool halodoom_dosecretsnd = true;
 
 // Server settings
 server bool halodoom_overhealthdecay = true;
