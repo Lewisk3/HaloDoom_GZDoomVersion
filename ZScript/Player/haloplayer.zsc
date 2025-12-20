@@ -67,6 +67,7 @@ class HaloPlayer : DoomPlayer
 		
 	// CVar(s)
 	transient CVar lowered_xhair;
+	transient CVar playsnd_secret;
 	
 	Property Shields : maxshields, shield_regentime, shield_regenrate;
 	Property MovementBob : movebob;
@@ -131,7 +132,7 @@ class HaloPlayer : DoomPlayer
 	override bool OnGiveSecret(bool printmsg, bool playsound) 
 	{ 
 		SendHUDMessage("Found a secret area.");
-		A_StartSound("Halo/SecretFound", CHAN_AUTO);
+		if(playsnd_secret.GetBool()) A_StartSound("Halo/SecretFound", CHAN_AUTO);
 		return false; 
 	}
 	
@@ -421,6 +422,8 @@ class HaloPlayer : DoomPlayer
 		// Get CVar(s)
 		if(!lowered_xhair)
 			lowered_xhair = CVar.GetCVar("halodoom_loweredcrosshair", player);
+		if(!playsnd_secret)
+			playsnd_secret = CVar.GetCVar("halodoom_dosecretsnd", player); 
 		
 		// Processes lowered crosshair differences.
 		double defvz = default.viewheight;
