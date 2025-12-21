@@ -13,17 +13,45 @@ namespace fs = std::experimental::filesystem;
 void DoResizeLanczos(std::string file, std::string outputFile, std::string scaleStr)
 {
     Image img(file);  
-    // Preserve sharp transparency during resize (no edge bleed)
     img.matte(true);
-    img.backgroundColor("none");
+    img.backgroundColor("none"); 
 
-    // High-quality resize
     img.filterType(LanczosFilter);
     //img.blur(0.4);
     img.resize(Geometry(scaleStr + "%>"));
     img.sharpen(0.5, 0.3);
 
     img.write(outputFile);    
+}
+
+bool strCompareNoCase(std::string str1, std::string str2)
+{
+    if (str1.length() != str2.length())
+        return false;
+
+    for (unsigned int i = 0; i < str1.length(); ++i)
+    {
+        if (std::tolower(str1[i]) != std::tolower(str2[i]))
+            return false;
+    }
+
+    return true;
+}
+
+bool CheckPatch(std::string line, std::string patchName)
+{
+    if(line.find("/") != std::string::npos)
+    {
+        size_t nameStart = line.find_last_of('/') + 1;
+        size_t nameEnd = line.find_last_of('.', line.size());
+
+        if (nameEnd != std::string::npos && nameEnd > nameStart)
+            line = line.substr(nameStart, nameEnd - nameStart);
+        else
+            line = line.substr(nameStart);
+    }
+
+    return strCompareNoCase(line, patchName);
 }
 
 bool UpdateTextureDefs(std::string& texturedefs, std::vector<std::string>& entries, double scale) 
@@ -57,7 +85,7 @@ bool UpdateTextureDefs(std::string& texturedefs, std::vector<std::string>& entri
         
         for(size_t i = 0; i < lines.size(); ++i) 
         {
-            if(std::regex_search(lines[i], match, patch) && match[1].str() == spriteName) 
+            if(std::regex_search(lines[i], match, patch) && CheckPatch(match[1].str(), spriteName)) 
             {
                 patchLine = i;
                 foundPatch = true;
@@ -130,7 +158,7 @@ bool UpdateTextureDefs(std::string& texturedefs, std::vector<std::string>& entri
             foundPatch = false;
             for(size_t i = patchLine+1; i < lines.size(); ++i) 
             {
-                if(std::regex_search(lines[i], match, patch) && match[1].str() == spriteName) 
+                if(std::regex_search(lines[i], match, patch) && CheckPatch(match[1].str(), spriteName)) 
                 {
                     patchLine = i;
                     foundPatch = true;
@@ -175,6 +203,8 @@ int main(int argc, char** argv)
     fs::path outputDir(argv[2]);
 
     // Iterate through valid files
+    std::cout << "Resizing..." << std::endl;
+
     int fileCount = 0;
     std::vector<std::string> patchNameEntries;
     for(const auto& file : fs::recursive_directory_iterator(inputDir))
@@ -197,7 +227,7 @@ int main(int argc, char** argv)
             // Proceed to resize.
             try {
                 DoResizeLanczos(filePath.string(), outputPath.string(), str_scale);
-                std::cout << "Resizing: " << "[ " << filePath.string() << " -> " << outputPath.string() << "]" << std::endl; 
+                // std::cout << "Resizing: " << "[ " << filePath.string() << " -> " << outputPath.string() << "]" << std::endl; 
             } catch (Exception& resizeError) {
                 std::cerr << "Errored on file " << filePath.string() << ": " << resizeError.what() << std::endl;
                 return 1;
