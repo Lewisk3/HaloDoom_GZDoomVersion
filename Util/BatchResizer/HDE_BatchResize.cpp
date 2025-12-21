@@ -15,7 +15,7 @@ void DoResizeLanczos(std::string file, std::string outputFile, std::string scale
     Image img(file);  
     // Preserve sharp transparency during resize (no edge bleed)
     img.matte(true);
-    img.backgroundColor("none");  // Transparent background
+    img.backgroundColor("none");
 
     // High-quality resize
     img.filterType(LanczosFilter);
@@ -23,8 +23,6 @@ void DoResizeLanczos(std::string file, std::string outputFile, std::string scale
     img.resize(Geometry(scaleStr + "%>"));
     img.sharpen(0.5, 0.3);
 
-    // After resize, snap alpha to 0% or 100% (removes fuzzy edges)
-    //img.quantizeColors(2);  // 2 levels: black/white
     img.write(outputFile);    
 }
 
