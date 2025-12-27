@@ -212,7 +212,7 @@ class Halo_Spiker : HaloGun
 		HaloGun.PowerTier P_MID;
 		HaloGun.Rarity 70;
 		
-		RecoilWeapon.YOffsetRange -5, 40;
+		RecoilWeapon.YOffsetRange 0, 40;
 	}
 	
 	override void MarkPrecacheSounds()

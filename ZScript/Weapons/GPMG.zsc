@@ -150,7 +150,7 @@ class Halo_GPMG : HaloGun
 		HaloGun.PowerTier P_POWER;
 		HaloGun.Rarity 50;
 		
-		RecoilWeapon.YOffsetRange -4, 40;
+		RecoilWeapon.YOffsetRange 0, 40;
 	}
 	
 	override int GetPowerTier()

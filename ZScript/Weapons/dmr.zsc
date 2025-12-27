@@ -88,7 +88,7 @@ class Halo_DMR : HaloGun
 		+HaloGun.SI_Rotate;
 		+HaloGun.SI_AlwaysHide;
 		
-		RecoilWeapon.YOffsetRange -5, 40;
+		RecoilWeapon.YOffsetRange 0, 40;
 	}
 	
 		

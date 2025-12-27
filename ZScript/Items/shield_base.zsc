@@ -81,6 +81,7 @@ class ShieldProcessor : Inventory
 	
 	virtual void updateShields()
 	{
+		if( (Owner && Owner.health <= 0) || !Owner ) return;
 		if(shields <= 0) regenTimer++;
 		
 		if(snd_ShieldLow)
@@ -102,8 +103,9 @@ class ShieldProcessor : Inventory
 		{
 			shields += maxshields/regenSpeed;
 			shields = clamp(shields, 0, maxshields);
+			double recharge_perc = (shields / maxshields);
 			if(!regenerating) 
-				Owner.A_StartSound(snd_ShieldRecover, CHAN_AUTO, CHANF_OVERLAP);
+				Owner.A_StartSound(snd_ShieldRecover, CHAN_AUTO, CHANF_OVERLAP, startTime:recharge_perc);
 			else
 				Owner.A_StartSound(snd_ShieldRecharging, CHAN_AUTO, CHANF_OVERLAP);
 			regenerating = true;

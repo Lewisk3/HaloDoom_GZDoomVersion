@@ -25,6 +25,15 @@ class HaloDoom_EnemyBase : Actor abstract
 		return projActor;
 	}
 	
+	void A_Fire3DProjectiles(class<Actor> proj, double count, double angleSpread = 0, double pitchSpread = 0, double forward = 0, double leftright = 0, double updown = 0, out Array<Actor> projectiles = NULL)
+	{
+		for(int i = 0; i < count; i++)
+		{
+			let proj = A_Fire3DProjectile(proj, forward, leftright, updown, angleSpread, pitchSpread);
+			if(projectiles) projectiles.Push(proj);
+		}
+	}
+	
 	BulletCasing A_SpawnWeaponDebris(class<BulletCasing> debris, double fw, double lr, double ud, double vel_fw, double vel_lr, double vel_ud)
 	{
 		CVar doSpawnFX = CVar.GetCVar("halodoom_fx_casings", players[consoleplayer]);

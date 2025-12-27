@@ -76,7 +76,7 @@ class Halo_Bulldog : HaloGun
 		HaloGun.UIGraphic "WI_BDOG", 0.65, 0.65;
 		HaloGun.SetupUIAmmo "WI_AMM5", 16, 16, 0, 6;
 		
-		RecoilWeapon.YOffsetRange -10, 40;
+		RecoilWeapon.YOffsetRange 0, 40;
 	}
 	
 	override int GetPowerTier()

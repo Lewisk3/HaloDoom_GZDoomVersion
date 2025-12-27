@@ -486,7 +486,7 @@ class HaloGun : RecoilWeapon
 	// For some reason weapons start with an odd offset.
 	action void A_DoSelectAnim(double yoffs = 0., bool first_time_draw = false)
 	{
-		 A_RecoilOffset(0, 20 + yoffs, 2, forced:true);
+		 A_RecoilOffset(0, 30 + yoffs, 2, forced:true);
 		 if(first_time_draw) invoker.donefirstdrawanim = true;
 	}
 
@@ -992,7 +992,11 @@ class HaloGun : RecoilWeapon
 	}
 	
 	// Called when quickswap is initiated.
-	virtual void OnQuickswap() {}
+	virtual void OnQuickswap() 
+	{
+		// Reset light level.
+		Owner.A_Light(0);
+	}
 	
 	virtual bool CheckDoKick(bool reloading)
 	{

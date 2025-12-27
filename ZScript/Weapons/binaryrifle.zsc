@@ -111,7 +111,7 @@ class Halo_BinaryRifle : HaloGun
 		+HaloGun.SI_AlwaysHide;
 		
 		HaloGun.ZoomSounds "Halo/Weapons/BinaryRifle/Zoom/IN", "Halo/Weapons/BinaryRifle/Zoom/OUT";
-		RecoilWeapon.YOffsetRange -10, 40;
+		RecoilWeapon.YOffsetRange 0, 40;
 	}
 	
 	override int GetPowerTier()

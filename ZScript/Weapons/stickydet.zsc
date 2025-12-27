@@ -299,7 +299,7 @@ class Halo_StickyDetonator : HaloGun
 		vector2 scaleMod = (
 			toRes.x / texsize.x,
 			toRes.y / texsize.y
-		);
+		) * 1.1;
 		
 		uint flags = HLSBS.SS_SCREEN_CENTER | HLSBS.SS_COORDS_TEXGRID;
 		TexMan.SetCameraToTexture(activeDet,"ScopeCamera",90.0);

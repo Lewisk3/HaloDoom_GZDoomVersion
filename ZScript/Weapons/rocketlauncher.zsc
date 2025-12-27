@@ -257,7 +257,7 @@ class Halo_RocketLauncher : HaloGun
 		
 		HaloGun.PowerTier P_POWER;
 		
-		RecoilWeapon.YOffsetRange -10, 40;
+		RecoilWeapon.YOffsetRange 0, 40;
 	}
 	
 	override int GetPowerTier()
