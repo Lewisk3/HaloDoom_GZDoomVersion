@@ -29,7 +29,11 @@ class HaloDoom_EnemyBase : Actor abstract
 	{
 		for(int i = 0; i < count; i++)
 		{
-			let proj = A_Fire3DProjectile(proj, forward, leftright, updown, angleSpread, pitchSpread);
+			vector2 spread = (
+				frandom(-angleSpread, angleSpread),
+				frandom(-pitchSpread, pitchSpread)
+			);
+			let proj = A_Fire3DProjectile(proj, forward, leftright, updown, spread.x, spread.y);
 			if(projectiles) projectiles.Push(proj);
 		}
 	}
