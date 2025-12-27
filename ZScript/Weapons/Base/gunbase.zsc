@@ -1472,7 +1472,8 @@ class HaloGun : RecoilWeapon
 			"####" ABCD 1;
 			"####" E 2 
 			{
-				A_SetSFXPos(20,17,-15);
+				// A_SetSFXPos(20,17,-15);
+				A_SetSFXPos(20,0,-10);
 				let plr = HaloPlayer(self);
 				let nadeItem = plr.activeGrenade;
 				let nade = Spawn(nadeItem.nadeType, invoker.sfx_pos);

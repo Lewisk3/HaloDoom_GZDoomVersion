@@ -15,7 +15,7 @@ class FragGrenades : Inventory
 
 	Default
 	{
-		Inventory.MaxAmount 3;
+		Inventory.MaxAmount 4;
 		Inventory.PickupMessage "Picked up a Frag Grenade";
 		Inventory.PickupSound "Halo/Grenade/Frag/Pickup";
 		+Inventory.KEEPDEPLETED;
@@ -104,8 +104,8 @@ class FragGrenade_Proj : HaloGrenade_Proj
 		-NOGRAVITY;
 		Speed 20;
 		
-		Radius 3;
-		Height 3;
+		Radius 2;
+		Height 2;
 		Scale 0.08;
 	}	
 	
@@ -280,8 +280,8 @@ class PlasmaGrenade_Proj : HaloGrenade_Proj
 		-NOGRAVITY;
 		Speed 40;
 		
-		Radius 5;
-		Height 5;
+		Radius 2;
+		Height 2;
 		Scale 0.08;
 	}	
 	
