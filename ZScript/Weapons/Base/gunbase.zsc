@@ -129,7 +129,8 @@ class HaloGun : RecoilWeapon
 	
 	Default
 	{
-		Height 56;
+		Height 32;
+		Radius 10;
 		RecoilWeapon.RecoilSpeed 16;
 		HaloGun.Bloom 0.32;
 		HaloGun.Crosshair "", 1;
@@ -156,6 +157,7 @@ class HaloGun : RecoilWeapon
 		+HaloGun.SI_Vignette;
 		// +HaloGun.SI_Rotate;
 		// +HaloGun.SI_AlwaysHide;
+		Scale 0.7;
 	}
 
 	// Called when a new level is loaded.

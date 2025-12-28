@@ -30,7 +30,7 @@ class FragGrenades : Inventory
 		FragGrenades.Type "FragGrenade_Proj";
 		FragGrenades.ThrowSound "Halo/Grenade/Frag/Throw";
 		
-		Scale 0.10;
+		Scale 0.07;
 	}
 	
 	override void BeginPlay()

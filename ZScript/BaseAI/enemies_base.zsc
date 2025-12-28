@@ -1,17 +1,15 @@
 class HaloDoom_EnemyBase : Actor abstract
 {
-	void A_AimToTarget(double heightAimScale, bool lookDir = true, Actor victim = NULL)
+	void A_AimToTarget(double heightAimScale, Actor victim = NULL)
 	{
 		if(!victim) victim = target;
 		vector3 aimFrom = (pos.xy, pos.z + (height * 0.5));
 		vector3 aimTo = (victim.pos.xy, victim.pos.z + (height * heightAimScale));
-		let diff = level.vec3diff(aimFrom, aimTo);
 		vector2 aimDir = (angle, pitch);
-		if(diff.Length() > 0)
-		{
-			diff = diff.Unit();
-			aimDir = (atan2(diff.y, diff.x), -asin(diff.z));
-		}
+		
+		let diff = level.vec3diff(aimFrom, aimTo);
+		if(diff.Length() > 1) diff = diff.Unit();
+		aimDir = (atan2(diff.y, diff.x), -asin(diff.z));
 		
 		A_SetAngle(aimDir.x, SPF_INTERPOLATE);
 		A_SetPitch(aimDir.y, SPF_INTERPOLATE);

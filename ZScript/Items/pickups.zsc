@@ -8,6 +8,7 @@ class HaloMedicalItem : Inventory
 	{
 		+BRIGHT;
 		HaloMedicalItem.HealPercent 100, false;
+		Scale 0.7;
 	}
 	
 	static const double skillMod[] =
@@ -59,6 +60,7 @@ class HaloShieldCharge : Inventory
 		Height 8;
 		Radius 8;
 		HaloShieldCharge.ShieldBoost 100, false;
+		Scale 0.7;
 	}
 	
 	static const double skillMod[] =
