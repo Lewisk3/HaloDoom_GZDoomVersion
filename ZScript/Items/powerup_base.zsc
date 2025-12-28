@@ -41,7 +41,7 @@ class HaloPowerup : Powerup
 		if(hplr) hplr.overlay_img = toImg;
 	}
 	
-	static void DoParticles(Actor source, Color pcol = 0xFF21c24c, double amt = 60, double dist = 16, double zoffset = 12)
+	static void DoParticles(Actor source, Color pcol = 0xFF21c24c, double amt = 60, double dist = 8, double zoffset = 12)
 	{
 		double phase = cos(source.GetAge());
 		double bobz = source.GetBobOffset();
@@ -219,7 +219,7 @@ class HaloOvershield : Inventory
 	Default
 	{
 		RenderStyle "Add";
-		Alpha 0.6;
+		Alpha 1.0;
 		+FLOATBOB;
 		+NOGRAVITY;
 		Scale 0.05;

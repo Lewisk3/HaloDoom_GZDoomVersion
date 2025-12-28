@@ -45,7 +45,7 @@ class HasteTrail : HaloScatterShot_Trail
 {
 	Default
 	{
-		Scale 0.05;
+		Scale 0.025;
 		+INTERPOLATEANGLES;
 		+NOINTERACTION;
 	}
@@ -305,12 +305,12 @@ class HaloPower_Strength : HaloPower_Haste replaces Megasphere
 		double scaleBob = phase;
 		A_SetScale(default.Scale.X * scaleBob);
 
-		bobz = sin(level.maptime*10) * 5;
+		bobz = sin(level.maptime*5);
 		HaloPowerup.DoParticles(self, pcol:"Red", amt: 20, zoffset:0);
 		
 		vector3 fxpos = (pos.xy, pos.z - (height*0.5));
-		if(!(GetAge()%4))
-			HaloMath.SpawnFX("PowerStrengthSmoke", fxpos, angle, 1, 20, 20, rstyle:STYLE_Subtract);
+		if(!(GetAge()%8))
+			HaloMath.SpawnFX("PowerStrengthSmoke", fxpos, angle, 1, 20, 10, rstyle:STYLE_Subtract);
 			
 		if( !(getAge()%20) ) DoLightning(random[BiriRNG](4,8), type:"PowerStrengthLightning");
 	}
