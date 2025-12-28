@@ -79,6 +79,7 @@ class WeaponPickupProxy : Actor
 			wp.clipammo = -1;
 			wp.ammogive_mod = ammogiveModifier;
 			wp.A_SetSize(source.radius, source.height);
+			wp.A_SetScale(source.scale.x, source.scale.y);
 			source.Destroy();
 		}
 		return wp;
