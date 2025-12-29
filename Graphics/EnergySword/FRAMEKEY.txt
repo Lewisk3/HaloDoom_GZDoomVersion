@@ -1,0 +1,43 @@
+	Energy Sword Frame Key
+-----------------------------------------
+Draw [WND]:
+	1A -> 3J
+	3K -> 5T
+Holster [WNH]:
+	1A -> 2J
+Return [WNR]:
+	1A -> 1U
+Block [WNB]
+	1A -> 2P
+-----------------------------------------
+Melee [WNM]:
+	1A -> 2Q [Combo Starter!]
+-----------------------------------------
+Quick Melees: 
+	[Down] 2Q -> 2Z + Return
+	[Down] 3A -> 3I + Return
+	[Diag-Right] 3J -> 3R + Return
+	[Right] 3S -> 4B + Return
+	[Left] 4C -> 4M + Return
+	[Left] 4N -> 4X + Return
+Quick Melee Finisher:
+	[Jab] 4Y -> 6R
+-----------------------------------------
+Combos [WNC] ends with Return if Fire released:
+	[Down] 1A -> 1H
+	[Up] 1I -> 1Z 
+	[Left] 2A -> 2H
+	[Left] 2I -> 2Q
+	[Jab-Up] 2R -> 3I 
+	[Diag-Left] 3J -> 4C
+	[Diag-Left] 4D -> 4J
+	[Right] 4K -> 4Q 
+Combo Finisher [WNF]:
+	1A -> 3M
+-----------------------------------------
+	
+
+	
+	
+	
+	

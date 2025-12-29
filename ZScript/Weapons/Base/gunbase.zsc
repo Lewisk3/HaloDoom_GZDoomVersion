@@ -320,6 +320,38 @@ class HaloGun : RecoilWeapon
 		if(wp) wp.clipammo = HasInternalAmmo() ? dropper.countinv(ammotype2) : 0;
 	}
 	
+	// Returns true or false, if true the weapon will be picked up if USE is pressed.
+	virtual bool CanPickupWeapon(WeaponPickupProxy proxy)
+	{
+		// Override for custom behavior.
+		return true;
+	}
+	
+	void DiscardWeapon(class<Actor> debris = NULL, bool destroy = true)
+	{
+		// Drops the current weapon.
+		if(!Owner) return;
+		let previousOwner = Owner;
+		vector3 dropPos = (Owner.pos.xy, Owner.floorz); 
+		
+		BecomePickup();
+		if(destroy)
+		{
+			let deb = Spawn(debris, dropPos);
+			if(deb) 
+			{
+				deb.A_SetScale(scale.x, scale.y);
+				deb.A_SetRenderStyle(alpha, GetRenderStyle());
+			}
+			GoAwayAndDie();
+		}
+		else
+		{
+			SetOrigin(dropPos, false);
+			OnDrop(previousOwner);
+		}
+	}
+	
 	// Called when a weapon is dropped then switched out for another.
 	virtual void OnDropSwap()
 	{

@@ -59,6 +59,13 @@ class WeaponPickupProxy : Actor
 		return false;
 	}
 	
+	int getLoadedAmmo()
+	{
+		let clipAmmoType = GetDefaultByType(trueitem).ammotype2;
+		double defClipAmmo = clipAmmoType ? GetDefaultByType(clipAmmoType).maxAmount : 0;
+		return clipammo < 0 ? defClipAmmo : clipammo;
+	}
+	
 	override bool CanCollideWith(Actor other, bool passive)
 	{
 		if(other is "PlayerPawn") return false;
@@ -95,6 +102,17 @@ class WeaponPickupProxy : Actor
 		let ammodef1  = ammogive1 ? GetDefaultByType(ammotype1) : NULL;
 		let ammodef2  = ammogive2 ? GetDefaultByType(ammotype2) : NULL;
 		bool hasitem = to.countinv(trueitem);
+		
+		// Custom logic callback for halodoom weapons.
+		let haloweap = (class<HaloGun>)(trueitem);
+		if(haloweap)
+		{
+			let tmp = HaloGun(Spawn(trueitem));
+			tmp.Owner = to; // Jank but required for the function call...
+			bool success = tmp.CanPickupWeapon(self);
+			tmp.Destroy();
+			if(!success) return NULL;
+		}
 		
 		// Do not pickup if we already own this item but we have max ammo
 		// for it.
@@ -293,10 +311,10 @@ class WeaponPickupProxy : Actor
 			{
 				if(!hasweap && wcontrol)
 				{
-					wcontrol.DropSelectedWeapon(pos);
 					let nweap = GiveWeaponItem(plr);
 					if(nweap) 
 					{
+						wcontrol.DropSelectedWeapon(pos);
 						nweap.Use(true);
 						Destroy();
 					}
