@@ -193,14 +193,7 @@ class Halo_EnergySword : HaloGun
 			WNH1 ZYXWVUTSRQPONMLKJIHGFEDCBA 1 A_DoSelectAnim(-5);
 		goto Ready.Active;
 		Ready.OnPickup:
-			TNT1 A 0 A_Jump(127, "Select.Two");
-		Select.One:
-			WND1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoSelectAnim(-5);
-			WND2 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoSelectAnim(-5);
-			WND3 ABCDEFGHIJ 1 A_DoSelectAnim(-5);
-		goto Ready.Active;
-		Select.Two:
-			WND3 KLMNOPQRSTUVWXYZ 1 A_DoSelectAnim(-5);
+			WND3 KLMNOPQRSTUVWXYZ 1 A_DoSelectAnim(-5, true);
 			WND4 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoSelectAnim(-5);
 			WND5 ABCDEFGHIJKLMNOPQRST 1 A_DoSelectAnim(-5);
 		goto Ready.Active;

@@ -194,7 +194,7 @@ class HaloPowerGiver : PowerupGiver abstract
 	
 	virtual void VisualFX()
 	{
-		bobz = sin(level.maptime*10) * 5;
+		bobz = sin(level.maptime*10);
 	}
 	
 	override void Tick()
