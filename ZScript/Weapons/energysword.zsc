@@ -227,13 +227,18 @@ class Halo_EnergySword : HaloGun
 		Deselect:
 			TNT1 A 0 A_StopSound(CHAN_VOICE);
 			TNT1 A 0 A_WeapSound("Halo/Weapons/EnergySword/NoBattery", CHANF_OVERLAP);
+			TNT1 A 0 { invoker.handsbusy = true; }
 			WNH1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1;
 			WNH2 ABCDEFGHIJ 1;
+			TNT1 A 0 { invoker.handsbusy = false; }
 		Deselect.Loop:
 			TNT1 A 1 
 			{
-				player.ReadyWeapon = NULL;
-				player.PendingWeapon = invoker.FindNextWeapon();
+				if(health > 0)
+				{
+					player.ReadyWeapon = NULL;
+					player.PendingWeapon = invoker.FindNextWeapon();
+				}
 				A_GunLower();
 			}
 		loop;
