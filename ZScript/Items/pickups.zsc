@@ -2,7 +2,9 @@ class HaloMedicalItem : Inventory
 {
 	double healperc;
 	bool overHeal;
+	bool NoDiffScale;
 	Property HealPercent : healperc, overHeal;
+	Property DoesntScale : NoDiffScale;
 
 	Default
 	{
@@ -27,7 +29,7 @@ class HaloMedicalItem : Inventory
 		
 		if(hplr)
 		{
-			double adjustedHealPerc = healperc * skillMod[min(4, skill)];
+			double adjustedHealPerc = healperc * (NoDiffScale ? 1.0 : skillMod[min(4, skill)]);
 			double maxHP = hplr.GetMaxHealth();
 			double healTo = maxHP * (0.01*adjustedHealPerc);
 			if(hplr.health >= maxHP && !overHeal) 
@@ -119,6 +121,7 @@ class HaloMedikit : HaloMedicalItem replaces Medikit
 	Default
 	{
 		HaloMedicalItem.HealPercent 100, false;
+		HaloMedicalItem.DoesntScale true;
 		Inventory.PickupSound "Halo/Pickup/Medikit";
 		Inventory.PickupMessage "Applied a medkit.";
 	}
