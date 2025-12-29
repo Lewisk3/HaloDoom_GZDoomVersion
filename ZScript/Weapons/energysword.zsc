@@ -399,7 +399,7 @@ class Halo_EnergySword : HaloGun
 			TNT1 A 1 
 			{
 				let psp = player.GetPSprite(PSP_WEAPON);
-				if(psp) psp.SetState(ResolveState("SwordMelee"));
+				if(psp && !invoker.handsbusy) psp.SetState(ResolveState("SwordMelee"));
 			}
 		stop;
 		
