@@ -149,7 +149,8 @@ class Halo_EnergySword : HaloGun
 		let plr = HaloPlayer(self);
 		if(!plr) return;
 
-		let victim = invoker.curHit;
+		let hitActor = A_HaloMelee(0, 64, (0,0), "Halo/Weapons/EnergySword/Hit", "Halo/Weapons/EnergySword/Miss", "Saw", doHitThrust:false);
+		let victim = hitActor;
 		if(victim)
 		{
 			bool inMissile = victim.InStateSequence(victim.CurState, victim.FindState("Missile"));
@@ -159,8 +160,8 @@ class Halo_EnergySword : HaloGun
 				victim.TriggerPainChance("Parry", true);				
 				plr.OnMeleeHit(victim);
 			}
-			plr.invulnTics = 8;
 		}
+		plr.invulnTics = 8;
 		invoker.parryCooldown = TICRATE;
 	}
 	

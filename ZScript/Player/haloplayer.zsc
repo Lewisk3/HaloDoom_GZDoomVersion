@@ -544,6 +544,8 @@ class HaloPlayer : DoomPlayer
 				aimActor_anglesTo.z = toAngles.z;
 			}
 		}
+		
+		console.printf("I: %d", invulnTics);
 	}
 	
 	override int DamageMobJ(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle)
