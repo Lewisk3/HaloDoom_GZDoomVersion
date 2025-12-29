@@ -83,6 +83,7 @@ class Halo_BattleRifle : HaloGun
 		HaloGun.PowerTier P_NORM;
 		
 		RecoilWeapon.YOffsetRange 0, 40;
+		Scale 0.85;
 	}
 	
 	override void GetStatsLore(out Array<String> stats, out string lore)
@@ -100,8 +101,8 @@ class Halo_BattleRifle : HaloGun
 			"used by the army and navy, other branches complained about it "
 			"being over engineered with intense recoil and inconsistent "
 			"accuracy. Later models of the BR45 replaced the barrel with one "
-			"that was longer, heavier, and featured a faster cyclic rate in "
-			"the rifling for better accuracy. The BR4 series was eventually "
+			"that was longer, heavier, and featured a faster Hammer Forge "
+			"rifling for better accuracy. The BR4 series was eventually "
 			"replaced by its younger brother, "
 			"the BR5 series around 2525. "
 		);
