@@ -15,10 +15,10 @@ class Halo_CMDO_Reserves : Ammo
 		Scale 0.65;
 
 		Inventory.Amount 25;
-		Inventory.MaxAmount 140;
+		Inventory.MaxAmount 175;
 		Inventory.Icon "HLAMT0"; // TODO: Unique ammo drop sprite
 		Inventory.PickupSound "Halo/Pickup/Ammo";
-		Inventory.PickupMessage "Picked up 20 Rounds for the Tactical Rifle";
+		Inventory.PickupMessage "Picked up 25 Rounds for the Tactical Rifle";
 		
 		Ammo.BackpackMaxAmount 140;
 	}
@@ -54,13 +54,13 @@ class Halo_Commando : HaloGun
 		//$Category "HaloDoom/Weapons"
 		Weapon.SlotNumber 1;
 		Obituary "%o was filled with holes by %k's Tactical Rifle.";
-		Inventory.PickupMessage	"Picked up the VK78 Tactical Rifle.";
+		Inventory.PickupMessage	"Picked up the MA7C Tactical Rifle.";
 		Tag "Tactical Rifle";
 		Weapon.BobSpeed 2.45;
 		Weapon.BobRangeX 0.48;
 		Weapon.AmmoType1 "Halo_CMDO_Reserves";
 		Weapon.AmmoType2 "Halo_CMDO_Clip";
-		Weapon.AmmoGive 60;
+		Weapon.AmmoGive 50;
 		HaloGun.Faction "Human";
 				
 		// Recoil	
@@ -93,23 +93,21 @@ class Halo_Commando : HaloGun
 		stats.Push(String.Format("Base Damage: %d", COMMANDO_DMG));
 	
 		lore = (
-			"Manufactured by Vakara GesmbH, the VK78 Tactical Rifle is an automatic rifle "
-			"that has been in service since at least the late 25th century. It fires "
-			"7.62mm rounds and is fed by a detachable box magazine that typically holds "
-			"20 rounds. Along its top, it features a mounting rail for optics, with "
-			"one common configuration including a sight akin to a recon sight. The "
-			"model employed by forces attached to the UNSC Infinity in the aftermath "
-			"of the emergence of the Created had an olive drab and matte black finish, "
-			"with a vertical white stripe running across its front end, from the "
-			"foregrip up to the rail."
+			"The MA7C is a Medium Magnum Tactical Rifle. The rifle was created "
+			"in joint collaboration between Vakara GesmbH, and Misriah to meet "
+			"the needs of the UNSC and the CMA for a battle rifle that served as an "
+			"intermediate between DMRs like the M392, and Standard service rifles "
+			"like the MA37, and BR45 It’s 8x51mm SL4MMR rounds has armor defeating "
+			"capabilities comparable to the BR series of rifles but at the cost of a "
+			"slower fire rate of 400 rpm to make recoil under continuous fire managable "
+			"The MA7C was employed in 2495, where it began trials for the  "
+			"Colonial Military Authority to replace aging stocks of HMG-38s in "
+			"then-current service where it saw light adoption by certain UNSC branches. "
 			"\n"
-			"The VK78 had entered production as early as the late 25th century, "
-			"when it was in service with the Colonial Military Authority (CMA). "
-			"In 2495, it was chosen as a replacement for the older HMG-38 heavy "
-			"machine gun among CMA frontier forces. It remained in service "
-			"for at least a further six decades, seeing use within the UNSC Armed" 
-			"Forces at the Battle for Installation 07 in December, 2559, and in "
-			"ensuing conflicts the following year. "
+			"By 2560, the MA7C was employed by wider UNSC Armed Forces where it saw "
+			"heavy use during the Created Occupation, and the Installation 07 conflict. "
+			"It is a favorite among some spartans, and marines alike due to its "
+			"fire rate and accuracy which is comparable to its bullpup contemporaries.  "
 		);
 	}
 	
