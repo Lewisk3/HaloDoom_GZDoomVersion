@@ -860,6 +860,12 @@ class HaloGun : RecoilWeapon
 		return footpsp && InStateSequence(footpsp.CurState, ResolveState(stateName));
 	}
 	
+	action bool A_CheckState(StateLabel stateName, int layer = PSP_WEAPON)
+	{
+		let psp = player.FindPSprite(layer);
+		return psp && invoker.InStateSequence(psp.CurState, ResolveState(stateName));
+	}
+	
 	action void A_RWeaponReady(uint flags=0)
 	{
 		A_RecoilSetupWeaponReady(flags);
@@ -1018,8 +1024,8 @@ class HaloGun : RecoilWeapon
 		let curNade = HaloPlayer(Owner).activeGrenade;
 		if(!handsbusy)
 		{
-			if(curNade && curNade.amount > 0 && CallMeleeState("ThrowFrag"))
-				curNade.amount--;
+			if(curNade && curNade.amount > 0)
+				 CallMeleeState("ThrowFrag");
 			else
 				HaloPlayer(Owner).SendHUDMessage("Grenade depleted!");
 		}
@@ -1502,7 +1508,12 @@ class HaloGun : RecoilWeapon
 				return ResolveState(null);
 			}
 			TNT1 A 8;
-			TNT1 A 0 A_SetSprite(HaloPlayer(self).activeGrenade.throwSprite, OverlayID());
+			TNT1 A 0 
+			{
+				if(!HaloPlayer(self).activeGrenade) return ResolveState("ThrowFrag.Abort");
+				A_SetSprite(HaloPlayer(self).activeGrenade.throwSprite, OverlayID());
+				return ResolveState(null);
+			}
 			"####" ABCD 1;
 			"####" E 2 
 			{
@@ -1516,6 +1527,7 @@ class HaloGun : RecoilWeapon
 					vector3 throwAngles = level.SphericalCoords(invoker.sfx_pos, plr.aimPos, (angle, pitch)); 
 					nade.vel = HaloMath.V3Offset(angle-throwAngles.x, pitch-throwAngles.y, roll, 1,0,0, 40);
 					nade.target = self;
+					nadeItem.amount--;
 				}
 				
 				A_SetRecoil(-0.75, 0, 3);

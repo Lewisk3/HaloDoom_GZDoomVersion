@@ -121,7 +121,7 @@ class Halo_EnergySword : HaloGun
 	
 	action bool A_CheckMeleeRefire()
 	{
-		return A_ButtonStatus(BT_USER2, BTS_PRESSED);
+		return A_ButtonStatus(BT_USER2, BTS_DOWN);
 	}
 	
 	override bool CanPickupWeapon(WeaponPickupProxy proxy)
@@ -149,7 +149,8 @@ class Halo_EnergySword : HaloGun
 		let plr = HaloPlayer(self);
 		if(!plr) return;
 
-		let hitActor = A_HaloMelee(0, 64, (0,0), "Halo/Weapons/EnergySword/Hit", "Halo/Weapons/EnergySword/Miss", "Saw", doHitThrust:false);
+		bool doHitSound = (invoker.parryCooldown <= 0);
+		let hitActor = A_HaloMelee(0, 64, (0,0), doHitSound ? "Halo/Weapons/EnergySword/Hit" : "", doHitSound ? "Halo/Weapons/EnergySword/Miss" : "", "", doHitThrust:false);
 		let victim = hitActor;
 		if(victim)
 		{
@@ -202,7 +203,7 @@ class Halo_EnergySword : HaloGun
 		Ready.Active:
 			WNI1 A 1 
 			{
-				invoker.handsbusy = false;
+				if(A_CheckState("ThrowFrag", MELEE_OVERLAY)) A_SetFrame(1);
 				if(CountLoadedAmmo()) 
 					A_StartSound("Halo/Weapons/EnergySword/Idle", CHAN_VOICE, CHANF_LOOPING);
 				else
@@ -265,6 +266,7 @@ class Halo_EnergySword : HaloGun
 			WNM2 ABCDEFHIJKLMNOPQ 1 A_PickMeleeState();
 			WNI1 A 1 A_JumpIf(!A_ButtonStatus(BT_ATTACK, BTS_DOWN), "Ready.Active");
 		Fire.Combos:
+			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Ready.Dryfire");
 			TNT1 A 0 A_DoSwing();
 			TNT1 A 0 
 			{
@@ -375,13 +377,13 @@ class Halo_EnergySword : HaloGun
 			{
 				if(!invoker.curHit) 
 					A_FireSword(stun:true);
+				invoker.meleeCombo = 0;
 			} 
-			WNF1 JKLMNOPQRSTUVWXYZ 1;
-			WNF2 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1;
+			WNF1 JKLMNOPQRSTUVWXYZ 1 A_PickMeleeState();
+			WNF2 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_PickMeleeState();
 			WNF3 ABCDEFGHIJKLM 1;
 			TNT1 A 0 
-			{ 
-				invoker.meleeCombo = 0;
+			{ 	
 				invoker.handsbusy = false; 
 			}
 		goto Ready.Active;
@@ -400,6 +402,7 @@ class Halo_EnergySword : HaloGun
 			TNT1 A 1 
 			{
 				let psp = player.GetPSprite(PSP_WEAPON);
+				player.SetPSprite(MELEE_OVERLAY, NULL);
 				if(psp && !invoker.handsbusy) psp.SetState(ResolveState("SwordMelee"));
 			}
 		stop;
@@ -407,12 +410,16 @@ class Halo_EnergySword : HaloGun
 		SwordMelee:
 			"####" "#" 1; // This is needed to ensure this state is actually completely set.
 			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Ready.Dryfire");
-			TNT1 A 0 A_BeginMelee(false);
+			TNT1 A 0 
+			{
+				A_BeginMelee(false);
+			}
 			TNT1 A 0
 			{
 				HaloGun.CallTryMelee(self); // Makes Parrying attacks more responsive.
 			}
 		PickMelee:
+			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Ready.Dryfire");
 			TNT1 A 0 A_DoSwing();
 			TNT1 A 0 
 			{
@@ -513,12 +520,12 @@ class Halo_EnergySword : HaloGun
 			{
 				if(!invoker.curHit) 
 					A_FireSword(stun:true);
+				invoker.meleeCombo = 0;
 			}
-			WNM5 FGHIJKLMNOPQRSTUVWXYZ 1;
-			WNM5 ABCDEFGHIJKLMNOPQR 1;
+			WNM5 FGHIJKLMNOPQRSTUVWXYZ 1 A_PickMeleeState();
+			WNM5 ABCDEFGHIJKLMNOPQR 1 A_PickMeleeState();
 			TNT1 A 0 
 			{ 
-				invoker.meleeCombo = 0;
 				invoker.handsbusy = false; 
 			}
 		goto Ready.Active;
@@ -530,9 +537,10 @@ class Halo_EnergySword : HaloGun
 			{ 
 				invoker.meleeCombo = 0;
 				invoker.handsbusy = false; 
+				A_FinishMelee(false);
 			}
 		goto Ready.Active;
-		
+				
 		// Parry (not the platypus, unless...)
 		AltFire:
 			"####" "#" 1 A_JumpIf(invoker.parryCooldown > 0, "Ready.Active");
