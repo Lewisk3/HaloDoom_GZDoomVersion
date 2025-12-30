@@ -860,10 +860,13 @@ class HaloGun : RecoilWeapon
 		return footpsp && InStateSequence(footpsp.CurState, ResolveState(stateName));
 	}
 	
-	action bool A_CheckState(StateLabel stateName, int layer = PSP_WEAPON)
+	action bool A_CheckState(StateLabel stateName, int layer = PSP_WEAPON, bool anyState = false)
 	{
 		let psp = player.FindPSprite(layer);
-		return psp && invoker.InStateSequence(psp.CurState, ResolveState(stateName));
+		if(!psp) return false;
+		
+		bool inState = anyState ? psp.CurState != NULL : invoker.InStateSequence(psp.CurState, ResolveState(stateName));
+		return psp && inState;
 	}
 	
 	action void A_RWeaponReady(uint flags=0)

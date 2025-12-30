@@ -202,7 +202,11 @@ class Halo_EnergySword : HaloGun
 		Ready.Active:
 			WNI1 A 1 
 			{
-				if(A_CheckState("ThrowFrag", MELEE_OVERLAY)) A_SetFrame(1);
+				if(A_CheckState("...", MELEE_OVERLAY, anyState:true)) 
+					A_SetFrame(1);
+				else
+					invoker.handsbusy = false;
+					
 				if(CountLoadedAmmo()) 
 					A_StartSound("Halo/Weapons/EnergySword/Idle", CHAN_VOICE, CHANF_LOOPING);
 				else
