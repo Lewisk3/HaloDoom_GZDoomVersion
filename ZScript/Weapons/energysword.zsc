@@ -35,7 +35,6 @@ class Halo_EnergySword : HaloGun
 		Weapon.AmmoType2 "Halo_EnergySword_Clip";
 		Weapon.AmmoGive 100;
 		HaloGun.HasBattery true, 1;
-		HaloGun.DisableKicking true;
 		HaloGun.Faction "Covenant";
 		
 		HaloGun.PowerTier P_MELEE;
@@ -398,6 +397,7 @@ class Halo_EnergySword : HaloGun
 			}
 		goto Ready.Active;
 		
+		DoKick:
 		DoMelee:
 			TNT1 A 1 
 			{
@@ -547,8 +547,8 @@ class Halo_EnergySword : HaloGun
 		AltFire.Parry:
 			WNB1 ABCDE 1;
 			WNB1 FGHIJKL 1 A_DoParry();
-			WNB1 LMNOPQRSTUVWXYZ 1;
-			WNB2 ABCDEFGHIJKLMNOP 1; 
+			WNB1 LMNOPQRSTUVWXYZ 1 A_PickMeleeState();
+			WNB2 ABCDEFGHIJKLMNOP 1 A_PickMeleeState();
 		goto Ready.Active;
 		
 		
