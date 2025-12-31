@@ -111,7 +111,7 @@ class Halo_EnergySword : HaloGun
 	{
 		double mDist = A_CheckMeleeRange();
 		let hplr = HaloPlayer(self);
-		if(hplr && !hplr.aimActor) thrust *= 0.25;
+		if(hplr && !hplr.aimActor) thrust *= 0.1;
 		if(mDist > dist) 
 			vel += HaloMath.VecFromAngles(angle, pitch, thrust);
 			

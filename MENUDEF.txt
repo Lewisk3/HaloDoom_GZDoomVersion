@@ -156,9 +156,10 @@ OptionMenu "HaloDoomGameplayOptions"
 	Option "Bunny hopping", "halodoom_allowbhop", "EnabledDisabled"	
 	Option "Mimic Doom Friction", "halodoom_classicmovement", "EnabledDisabled"	
 	StaticText " "
-	StaticText "Cheats", "Black"
+	StaticText "- Cheats -", "Black"
 	Option "Unlimited Weapon capacity", "halodoom_unlimitedbackpack", "EnabledDisabled"
 	Command "Spawn all weapons", "hdeall"
+	Command "Spawn all powerups", "hdepower"
 	
 }
 

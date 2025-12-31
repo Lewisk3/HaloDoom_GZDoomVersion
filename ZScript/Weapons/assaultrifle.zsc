@@ -68,7 +68,7 @@ class Halo_AssaultRifle : HaloGun
 				
 		// Recoil
 		HaloGun.Bloom 0.32;
-		HaloGun.BloomSpeed 0.24;
+		HaloGun.BloomSpeed 0.45;
 		HaloGun.BaseRecoil ARIFLE_RECOIL;
 		HaloGun.Inaccuracy ARIFLE_ACCMOD;
 		HaloGun.Crosshair "RifleRet", 1.0;
@@ -205,7 +205,7 @@ class Halo_AssaultRifle : HaloGun
 				A_SetRecoil(0.8, 0, 1);
 				A_RQuakeEx(1,2,0,3,0,20,"",QF_RELATIVE|QF_WAVE);
 				A_LCDOffset(4, 0);
-				A_RollQuake(1,6,2);
+				//A_RollQuake(1,2,2);
 			}
 			"####" B 1 Bright
 			{
@@ -218,9 +218,8 @@ class Halo_AssaultRifle : HaloGun
 				A_RecoilOffset(0,0,2);
 				A_LCDOffset(8, 2);
 			}
-			"####" D 1 A_LCDOffset(0, 0);
 			"####" A 0 A_Refire();
-			"####" EFGHIJKLMNOP 1;
+			"####" DEFGHIJKLMNOP 1 A_LCDOffset(0, 0);
 		goto Ready.Active;
 		
 		// Cache all fire variations so GZDoom doesn't have an aneurism.
