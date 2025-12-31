@@ -317,7 +317,7 @@ class HaloGun : RecoilWeapon
 	override void OnDrop (Actor dropper) 
 	{
 		let wp = WeaponPickupProxy.BecomeWeaponProxy(self, !!dropper.player);
-		if(wp) wp.clipammo = HasInternalAmmo() ? dropper.countinv(ammotype2) : 0;
+		if(wp) wp.clipammo = (HasInternalAmmo() || uses_battery) ? dropper.countinv(ammotype2) : 0;
 	}
 	
 	// Returns true or false, if true the weapon will be picked up if USE is pressed.
