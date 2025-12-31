@@ -15,12 +15,12 @@ class Halo_Needler_Reserves : Ammo
 		Scale 0.65;
 		
 		Inventory.Amount 20;
-		Inventory.MaxAmount 80;
+		Inventory.MaxAmount 120;
 		Inventory.Icon "HLAMI0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "Picked up 20 Rounds for the Needler";
 		
-		Ammo.BackpackMaxAmount 120;
+		Ammo.BackpackMaxAmount 160;
 	}
 	
 	States

@@ -63,7 +63,7 @@ class Halo_MA5B : HaloGun
 		Tag "MA5B S.A.W.";
 		Weapon.BobSpeed 2.45;
 		Weapon.BobRangeX 0.30;
-		Weapon.AmmoType1 "Halo_AR_Reserves";
+		Weapon.AmmoType1 "Halo_MAB_Reserves";
 		Weapon.AmmoType2 "Halo_MAB_Clip";
 		Weapon.AmmoGive 180;
 		HaloGun.Faction "Human";
