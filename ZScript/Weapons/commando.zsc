@@ -156,8 +156,7 @@ class Halo_Commando : HaloGun
 				A_WeapSound("Halo/Weapons/Commando/Select");
 				return A_JumpIf(A_DoFullSelectAnimation(), "Ready.Chamber");
 			}
-			// TODO: Fast select animation
-			WUI1 A 1 A_DoSelectAnim();
+			WUS1 DCBA 1 A_DoSelectAnim();
 		goto Ready.Active;
 		Ready.Chamber:
 			TNT1 A 0 A_DoSelectAnim(0, true);
@@ -176,8 +175,8 @@ class Halo_Commando : HaloGun
 		wait;
 
 		Deselect:
-			WUI1 A 1; // TODO: Fast select in reverse
-			WUI1 A 1 A_GunLower();
+			WUS1 ABCD 1;
+			WUS1 D 1 A_GunLower();
 		wait;
 		
 		// 550 RPM
