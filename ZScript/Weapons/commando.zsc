@@ -73,7 +73,7 @@ class Halo_Commando : HaloGun
 		HaloGun.UIGraphic "WI_CMDO", 1.0, 1.0;
 		HaloGun.SetupUIAmmo "WI_AMM7", 12, 14, 0, 8;
 		
-		HaloGun.UISight "SI_CMDO", 1.0, 1.0;
+		HaloGun.UISight "SI_CMDO", 1.3, 1.0;
 		HaloGun.SetupScope 1.5, 0.15;
 		+HaloGun.SI_Fullscreen;
 		+HaloGun.SI_Rotate;
@@ -86,7 +86,7 @@ class Halo_Commando : HaloGun
 	
 	override void GetStatsLore(out Array<String> stats, out string lore)
 	{
-		stats.Push("VK78 Tactical Rifle");
+		stats.Push("MA7C Tactical Rifle");
 		stats.Push("Ammo Type: 7.62mm");
 		// stats.Push("Frame: Front Loader");.
 		stats.Push("Feed System: 20 Round Detachable Box Magazine");	
