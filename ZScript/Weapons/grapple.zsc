@@ -20,6 +20,7 @@ class GrappleRopePulling : MBeamSpawner
 		jitterAngle = 0;
 		jitterPitch = 0;
 		beamAlpha = 1.0;
+		DontSpawnParticles = true;
 	}
 	
 	override void BeamTick()

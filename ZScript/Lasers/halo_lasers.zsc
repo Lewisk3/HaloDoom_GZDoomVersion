@@ -7,7 +7,6 @@ class CarbineLaserDecal : LaserBeamDecal
 	}
 }
 
-
 class LSR_CarbineTrail : LaserBeam
 {
 	Default
