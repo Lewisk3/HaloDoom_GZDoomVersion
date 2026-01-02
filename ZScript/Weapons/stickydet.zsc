@@ -122,10 +122,7 @@ class HaloStickyDetProj : HaloSlowProjectile
 			STIK A 1
 			{
 				A_StartSound("Halo/Weapons/StickyDet/Proj/Ping", CHAN_BODY, CHANF_LOOPING);
-				bSOLID = true;
-				bMISSILE = false;
-				bSHOOTABLE = true;
-				A_ChangeLinkFlags(false);
+				A_SolidifyProjectile();
 						
 				// Check for wall collision.
 				LineTrace(angle, 16, pitch, data:hitlt);

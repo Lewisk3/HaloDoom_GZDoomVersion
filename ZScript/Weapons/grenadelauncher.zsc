@@ -44,6 +44,7 @@ class Halo_40MM_Proj : HaloSlowProjectile
 		HaloSlowProjectile.Speed_MPS  GLAUNCHER_BMPS;
 		HaloSlowProjectile.HeadshotDMGFactor 1.0;
 		
+		Health 25;
 		Radius 4;
 		Height 8;
 		Alpha 1.0;
@@ -128,6 +129,9 @@ class Halo_40MM_Proj : HaloSlowProjectile
 			HaloMath.SpawnFX("HydraSmoke", fxpos, angle, 1, 20, 20);
 		}
 		
+		if(health <= 0) 
+			detonate = true;
+			
 		if(detonate)
 		{
 			SetState(FindState("Detonate"));
@@ -155,7 +159,11 @@ class Halo_40MM_Proj : HaloSlowProjectile
 		goto Detonate;
 		
 		Detonate.Wait:
-			HNAD A 1 A_JumpIf(!manualMode || detonate, "Detonate");
+			HNAD A 1 
+			{
+				A_SolidifyProjectile();
+				return A_JumpIf(!manualMode || detonate, "Detonate");
+			}
 		loop;
 		
 		Detonate:
@@ -190,7 +198,6 @@ class Halo_40MM_Proj : HaloSlowProjectile
 		Pickup:
 			HNAD A 1;
 		stop;
-		
 	}
 }
 
@@ -220,7 +227,7 @@ class Halo_GrenadeLauncher : HaloGun
 		HaloGun.BaseRecoil GLAUNCHER_RECOIL;
 		HaloGun.Inaccuracy GLAUNCHER_ACCMOD;
 		HaloGun.Crosshair "NadeRet", 0.8;
-		HaloGun.UIGraphic "MISSNG", 0.65, 0.65;
+		HaloGun.UIGraphic "WI_GL", 0.65, 0.65;
 		HaloGun.SetupUIAmmo "WI_AMM2", 16, 16, 0, 6;
 		
 		HaloGun.UISight "GL_ADS", 1.0, 1.0;

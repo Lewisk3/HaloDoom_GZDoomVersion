@@ -74,6 +74,15 @@ mixin class HaloProjectile_Common
 		splashSpawner = default.splashSpawner;
 	}
 	
+	// Makes projectile shootable and/or interactable.
+	virtual void A_SolidifyProjectile()
+	{
+		bSOLID = true;
+		bMISSILE = false;
+		bSHOOTABLE = true;
+		A_ChangeLinkFlags(false);
+	}
+	
 	virtual void SpawnSplash()
 	{
 		if(!splashSpawner) return;
