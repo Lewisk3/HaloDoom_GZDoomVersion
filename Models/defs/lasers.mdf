@@ -220,3 +220,24 @@ Model MBeamSegmentCore
 	
 	FrameIndex MODL A 0 0
 }
+
+Model GrappleSegment
+{
+	Path "models/MWave/"
+	Model 0 "beam.md3"
+	Skin 0 "beam.png"
+	USEACTORPITCH
+	DONTCULLBACKFACES
+	
+	FrameIndex MODL A 0 0
+}
+Model GrappleSegmentCore
+{
+	Path "models/MWave/"
+	Model 0 "beam_cyl.md3"
+	Skin 0 "beam_cyl.png"
+	USEACTORPITCH
+	DONTCULLBACKFACES
+	
+	FrameIndex MODL A 0 0
+}

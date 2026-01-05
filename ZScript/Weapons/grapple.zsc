@@ -21,6 +21,7 @@ class GrappleRopePulling : MBeamSpawner
 		jitterPitch = 0;
 		beamAlpha = 1.0;
 		DontSpawnParticles = true;
+		SegClass = "GrappleSegment";
 	}
 	
 	override void BeamTick()
@@ -29,6 +30,17 @@ class GrappleRopePulling : MBeamSpawner
 		SetupVisuals("1c1c1b", "2e2e2e", 3.0, 3.0);	
 		SetBeamRenderStyle(1.0, STYLE_Stencil);
 	}
+}
+class GrappleSegment : MBeamSegment
+{
+	Default
+	{
+		MBeamSegment.Core "GrappleSegmentCore";
+	}
+}
+class GrappleSegmentCore : MBeamSegmentCore
+{
+	// Deco
 }
 
 class GrapplingHook : KineLimb

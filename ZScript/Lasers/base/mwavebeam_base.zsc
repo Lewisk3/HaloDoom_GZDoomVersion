@@ -15,6 +15,7 @@ class MBeamSpawner : Thinker
 	
 	double jitterAngle, jitterPitch; // Animated angle and pitch offset; creates lightning-like effect.
 	
+	class<MBeamSegment> SegClass;
 	Array<MBeamSegment> beams;
 	vector3 srcOffs, destOffs;
 	
@@ -312,7 +313,8 @@ class MBeamSpawner : Thinker
 		// Create new segments.
 		for(int i = 0; i < segments; i++)
 		{
-			let seg = MBeamSegment(Actor.Spawn("MBeamSegment", src.pos));
+			if(SegClass == NULL) SegClass = "MBeamSegment";
+			let seg = MBeamSegment(Actor.Spawn(SegClass, src.pos));
 			seg.source = self;
 			beams.Push(seg);
 		}
@@ -371,6 +373,7 @@ class MBeamSpawner : Thinker
 		mbs.cooktime = cooktime;
 		mbs.segments = segments;
 		mbs.segScale = size;
+		mbs.Setup();
 		
 		return mbs;
 	}	

@@ -169,6 +169,10 @@ material texture "Models/Mags/Spnkr/rocket_launcher_diffuse.png"
 {
 	Shader "shaders/SimSun.fp"
 }
+material texture "Models/Lasers/BEAM_detailed.png"
+{
+	Shader "shaders/lasernoise.fp"
+}
 
 /*
 HardwareShader Sprite BLHLA0
