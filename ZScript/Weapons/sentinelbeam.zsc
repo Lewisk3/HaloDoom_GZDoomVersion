@@ -103,7 +103,7 @@ class Halo_SentinelBeam : HaloGun
 		A_WeapSound("Halo/Weapons/SentinelBeam/Fire/End", CHANF_OVERLAP);
 	}
 	
-	action void A_FireBeam(double fw = 8, double lr = -2.5, double ud = -4.25)
+	action void A_FireBeam(double fw = 4, double lr = -2.5, double ud = -4.25)
 	{
 		invoker.beamTics = 0;
 		if(!invoker.beam)

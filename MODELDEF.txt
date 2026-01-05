@@ -9,8 +9,8 @@
 Model Segment
 { 
    Path "Models/Lasers"
-   Skin 0 "BEAM.png" 
-   Model 0 "beam_complex.md3" 
+   Skin 0 "BEAM_detailed.png" 
+   Model 0 "beam_simple.md3" 
    Scale 20.0 10.0 10.0
    PitchOffset -90
    ZOffset 2;

@@ -1,7 +1,7 @@
 Model LSR_CarbineTrail
 {
-	Model 0 "Models/Lasers/lazer.md3"
-	Skin 0 "Models/Lasers/lazer.png"
+	Model 0 "Models/Lasers/beam_simple.md3"
+	Skin 0 "Models/Lasers/BEAM_detailed.png"
 	USEACTORPITCH
 	
 	FrameIndex MODL A 0 0
@@ -9,16 +9,16 @@ Model LSR_CarbineTrail
 
 Model FreezerLaserBeam
 {
-	Model 0 "Models/Lasers/lazer.md3"
-	Skin 0 "Models/Lasers/lazer.png"
+	Model 0 "Models/Lasers/beam_simple.md3"
+	Skin 0 "Models/Lasers/BEAM_detailed.png"
 	USEACTORPITCH
 	
 	FrameIndex MODL A 0 0
 } 
 Model FreezerLaserBeam_Core
 {
-	Model 0 "Models/Lasers/lazer.md3"
-	Skin 0 "Models/Lasers/lazer.png"
+	Model 0 "Models/Lasers/beam_simple.md3"
+	Skin 0 "Models/Lasers/BEAM_detailed.png"
 	USEACTORPITCH
 	
 	FrameIndex MODL A 0 0
@@ -26,8 +26,8 @@ Model FreezerLaserBeam_Core
 
 Model LSR_WeldingBeam
 {
-	Model 0 "Models/Lasers/lazer.md3"
-	Skin 0 "Models/Lasers/lazer.png"
+	Model 0 "Models/Lasers/beam_simple.md3"
+	Skin 0 "Models/Lasers/BEAM_detailed.png"
 	USEACTORPITCH
 	
 	FrameIndex MODL A 0 0
@@ -35,8 +35,8 @@ Model LSR_WeldingBeam
 
 Model LSR_WeldingBeamCore
 {
-	Model 0 "Models/Lasers/lazer.md3"
-	Skin 0 "Models/Lasers/lazer.png"
+	Model 0 "Models/Lasers/beam_simple.md3"
+	Skin 0 "Models/Lasers/BEAM_detailed.png"
 	USEACTORPITCH
 	
 	FrameIndex MODL A 0 0
@@ -53,8 +53,8 @@ Model LSR_UnmakerBeam
 
 Model LSR_BinaryRifle
 {
-	Model 0 "Models/Lasers/lazer.md3"
-	Skin 0 "Models/Lasers/lazer.png"
+	Model 0 "Models/Lasers/beam_simple.md3"
+	Skin 0 "Models/Lasers/BEAM_detailed.png"
 	USEACTORPITCH
 	
 	FrameIndex MODL A 0 0
@@ -62,8 +62,8 @@ Model LSR_BinaryRifle
 
 Model LSR_BinaryRifleCore
 {
-	Model 0 "Models/Lasers/lazer.md3"
-	Skin 0 "Models/Lasers/lazer.png"
+	Model 0 "Models/Lasers/beam_simple.md3"
+	Skin 0 "Models/Lasers/BEAM_detailed.png"
 	USEACTORPITCH
 	
 	FrameIndex MODL A 0 0
@@ -71,8 +71,8 @@ Model LSR_BinaryRifleCore
 
 Model LSR_LightRifle
 {
-	Model 0 "Models/Lasers/lazer.md3"
-	Skin 0 "Models/Lasers/lazer.png"
+	Model 0 "Models/Lasers/beam_simple.md3"
+	Skin 0 "Models/Lasers/BEAM_detailed.png"
 	USEACTORPITCH
 	
 	FrameIndex MODL A 0 0
@@ -80,8 +80,8 @@ Model LSR_LightRifle
 
 Model LSR_LightRifleCore
 {
-	Model 0 "Models/Lasers/lazer.md3"
-	Skin 0 "Models/Lasers/lazer.png"
+	Model 0 "Models/Lasers/beam_simple.md3"
+	Skin 0 "Models/Lasers/BEAM_detailed.png"
 	USEACTORPITCH
 	
 	FrameIndex MODL A 0 0
@@ -89,8 +89,8 @@ Model LSR_LightRifleCore
 
 Model LSR_LightRifleDMR
 {
-	Model 0 "Models/Lasers/lazer.md3"
-	Skin 0 "Models/Lasers/lazer.png"
+	Model 0 "Models/Lasers/beam_simple.md3"
+	Skin 0 "Models/Lasers/BEAM_detailed.png"
 	USEACTORPITCH
 	
 	FrameIndex MODL A 0 0
@@ -99,8 +99,8 @@ Model LSR_LightRifleDMR
 
 Model LSR_BeamRifle
 {
-	Model 0 "Models/Lasers/lazer.md3"
-	Skin 0 "Models/Lasers/lazer.png"
+	Model 0 "Models/Lasers/beam_simple.md3"
+	Skin 0 "Models/Lasers/BEAM_detailed.png"
 	USEACTORPITCH
 	
 	FrameIndex MODL A 0 0
@@ -108,8 +108,8 @@ Model LSR_BeamRifle
 
 Model LSR_BeamRifleCore
 {
-	Model 0 "Models/Lasers/lazer.md3"
-	Skin 0 "Models/Lasers/lazer.png"
+	Model 0 "Models/Lasers/beam_simple.md3"
+	Skin 0 "Models/Lasers/BEAM_detailed.png"
 	USEACTORPITCH
 	
 	FrameIndex MODL A 0 0
@@ -117,8 +117,8 @@ Model LSR_BeamRifleCore
 
 Model LSR_UnmakerBall
 {
-	Model 0 "Models/Lasers/lazer.md3"
-	Skin 0 "Models/Lasers/lazer.png"
+	Model 0 "Models/Lasers/beam_simple.md3"
+	Skin 0 "Models/Lasers/BEAM_detailed.png"
 	USEACTORPITCH
 	
 	FrameIndex MODL A 0 0
@@ -126,8 +126,8 @@ Model LSR_UnmakerBall
 
 Model LSR_UnmakerBallCore
 {
-	Model 0 "Models/Lasers/lazer.md3"
-	Skin 0 "Models/Lasers/lazer.png"
+	Model 0 "Models/Lasers/beam_simple.md3"
+	Skin 0 "Models/Lasers/BEAM_detailed.png"
 	USEACTORPITCH
 	
 	FrameIndex MODL A 0 0
@@ -135,8 +135,8 @@ Model LSR_UnmakerBallCore
 
 Model LSR_UnmakerBeamCore
 {
-	Model 0 "Models/Lasers/lazer.md3"
-	Skin 0 "Models/Lasers/lazer.png"
+	Model 0 "Models/Lasers/beam_simple.md3"
+	Skin 0 "Models/Lasers/BEAM_detailed.png"
 	USEACTORPITCH
 	
 	FrameIndex MODL A 0 0
@@ -193,8 +193,8 @@ Model RopeSegment
 
 Model "LaserBeam"
 {
-	Model 0 "Models/Lasers/lazer.md3"
-	Skin 0 "Models/Lasers/lazer.png"
+	Model 0 "Models/Lasers/beam_simple.md3"
+	Skin 0 "Models/Lasers/BEAM_detailed.png"
 	USEACTORPITCH
 	
 	FrameIndex MODL A 0 0
@@ -202,9 +202,9 @@ Model "LaserBeam"
 
 Model MBeamSegment
 {
-	Path "models/MWave/"
-	Model 0 "beam.md3"
-	Skin 0 "beam.png"
+	Path "models/Lasers/"
+	Model 0 "beam_simple.md3"
+	Skin 0 "BEAM_detailed.png"
 	USEACTORPITCH
 	DONTCULLBACKFACES
 	
@@ -212,9 +212,9 @@ Model MBeamSegment
 }
 Model MBeamSegmentCore
 {
-	Path "models/MWave/"
-	Model 0 "beam_cyl.md3"
-	Skin 0 "beam_cyl.png"
+	Path "models/Lasers/"
+	Model 0 "beam_simple.md3"
+	Skin 0 "BEAM_detailed.png"
 	USEACTORPITCH
 	DONTCULLBACKFACES
 	

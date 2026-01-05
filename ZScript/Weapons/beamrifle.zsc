@@ -265,7 +265,7 @@ class Halo_BeamRifle : HaloGun
 					A_EndLaser();
 					res = ResolveState("Ready.DryFire");
 				} 
-				else if(A_ButtonStatus(BT_ATTACK, BTS_UP) && invoker.lsrbeam.GetAge() > 8) 
+				else if( !invoker.lsrbeam || (A_ButtonStatus(BT_ATTACK, BTS_UP) && invoker.lsrbeam.GetAge() > 8) ) 
 				{
 					res = ResolveState("Fire.Done");
 				}
