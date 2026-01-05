@@ -551,6 +551,12 @@ class HaloPlayer : DoomPlayer
 		// Don't take damage if invuln tics are active.
 		if(invulnTics > 0 || !player) return 0;
 		
+		// Immune to toxic gas if radsuit is equipped.
+		if(mod == "ToxicPlasma" && FindInventory("PowerIronFeet", subclass:true))
+		{
+			return 0;
+		}
+		
 		double dmg = GetModifiedDamage(mod, damage, true);
 		if(shields > 0)
 			dmg = HaloProjectile.ApplyShieldDamage(dmg, HaloProjectile(inflictor), mod == 'Headshot');
