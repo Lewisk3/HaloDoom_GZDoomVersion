@@ -311,7 +311,7 @@ class Halo_SentinelBeam : HaloGun
 			WYH1 DDDDDDDDDDDDDDDDD 4
 			{	
 				A_RecoilOffset(frandom[SenBeamFX](-6,6), frandom[SenBeamFX](-6,6), 6);
-				A_ReloadAmount(3);
+				A_ReloadAmount(6);
 				return A_ValidateReload("Reload.Finish");
 			}
 		Reload.Finish:

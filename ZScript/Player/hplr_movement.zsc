@@ -745,12 +745,13 @@ extend class HaloPlayer
 		}
 		
 		// Jump SFX
-		if ( !(player.cheats & CF_PREDICTING) && cv_snd_jump.getBool() ) 
+		if ( !(player.cheats & CF_PREDICTING) ) 
 		{
+			bool doJumpGrunt = cv_snd_jump.getBool();
 			switch(jumpStatus)
 			{
 				case JMP_NORMAL:
-					A_StartSound("*jump", CHAN_BODY, CHANF_OVERLAP);
+					if(doJumpGrunt) A_StartSound("*jump", CHAN_BODY, CHANF_OVERLAP);
 				break;
 				case JMP_DOUBLE:
 					A_StartSound("Halo/Spartan/DoubleJump", CHAN_BODY, CHANF_OVERLAP);
