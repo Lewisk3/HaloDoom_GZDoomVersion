@@ -174,12 +174,13 @@ class Halo_Shotgun : HaloGun
 				// A_RecoilOffset(15, 20, 4);
 				A_RQuakeEx(2,2,2,4,0,20,"",QF_RELATIVE);
 			}
-			W3F1 EFGGGH 1 
+			W3F1 EFGH 1 
 			{
 				// A_RecoilOffset(8,10,6);
 				A_SetRecoil(-0.36, -0.13, 10);
 			}
 			W3F1 IJK 1 A_RecoilOffset(0,0,8);
+			W3F1 K 2;
 		goto Pump;
 		
 		Pump:
