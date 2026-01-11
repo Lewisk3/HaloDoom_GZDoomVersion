@@ -1,5 +1,66 @@
+struct LastDamageInfo
+{
+	class<Actor> damager;
+	bool headshot;
+	bool killed;
+	double dmgTaken;
+	State prevState;
+}
+
 class HaloDoom_EnemyBase : Actor abstract
 {
+	transient LastDamageInfo damageInfo;
+	
+	States
+	{
+		Info.DamageTaken:
+			"####" "#" 0 A_ResumePrevious();
+	}	
+
+	override int DamageMobJ(Actor inflictor, Actor source, int dmg, Name mod, int flags, double angle)
+	{
+		int dmg = super.DamageMobJ(inflictor, source, dmg, mod, flags, angle);
+		if(dmg <= 0) return dmg;
+		
+		Actor damageSource = inflictor;
+		if(!damageSource) damageSource = source;
+		
+		double headsize = 8;
+		double dmgz = damageSource.pos.z;
+        double headz    = (pos.z + default.height);
+		
+		bool isHeadshot = (dmgz <= headz) && (dmgz >= headz-headsize);
+		damageInfo.damager = damageSource.getClass();
+		damageInfo.headshot = isHeadshot;
+		damageInfo.prevState = CurState;
+		damageInfo.dmgTaken = dmg;
+		damageInfo.killed = (health <= 0 || bCORPSE);
+		SetState(ResolveState("Info.DamageTaken"));
+		return dmg;
+	}
+
+	State A_ResumePrevious()
+	{
+		if(damageInfo.prevState)
+		{
+			State st = damageInfo.prevState;
+			damageInfo.prevState = NULL;
+			return st;
+		}
+			
+		// Go back to doing whatever if there is nothing to resume to.
+		return ResolveState(null);
+	}
+	
+	bool A_CheckDamageInfo(class<Actor> damager, bool isHeadshot)
+	{
+		return (damageInfo.damager is damager) && (damageInfo.headshot == isHeadshot);
+	}
+	int A_GetDamageTaken(bool killed = false)
+	{
+		return (killed && damageInfo.killed) || ceil(damageInfo.dmgTaken);
+	}
+
 	void A_AimToTarget(double heightAimScale, Actor victim = NULL)
 	{
 		if(!victim) victim = target;
@@ -65,3 +126,72 @@ class HaloDoom_EnemyBase : Actor abstract
 		return shields;
 	}
 }
+
+/* Example
+class TestImp : HaloDoom_EnemyBase
+{
+	Default
+	{
+		Health 60;
+		Radius 20;
+		Height 56;
+		Mass 100;
+		Speed 8;
+		PainChance 200;
+		Monster;
+		+FLOORCLIP
+		SeeSound "imp/sight";
+		PainSound "imp/pain";
+		DeathSound "imp/death";
+		ActiveSound "imp/active";
+		HitObituary "$OB_IMPHIT";
+		Obituary "$OB_IMP";
+		Tag "$FN_IMP";
+	}
+	States
+	{
+		Info.DamageTaken:
+			TNT1 A 0 A_JumpIf(A_CheckDamageInfo("HaloShotgun_Bullet", false) && A_GetDamageTaken(killed:true), "Death.Shotgun");
+ 			TNT1 A 0 A_ResumePrevious();
+		goto See;
+	
+		Spawn:
+			TROO AB 10 A_Look;
+		Loop;
+		See:
+			TROO AABBCCDD 3 A_Chase;
+		Loop;
+		Melee:
+		Missile:
+			TROO EF 8 A_FaceTarget;
+			TROO G 6 A_TroopAttack ;
+		Goto See;
+		Pain:
+			TROO H 2;
+			TROO H 2 A_Pain;
+		Goto See;
+		Death:
+			TROO I 8;
+			TROO J 8 A_Scream;
+			TROO K 6;
+			TROO L 6 A_NoBlocking;
+			TROO M -1;
+		Stop;
+		
+		Death.Shotgun:
+			TNT1 A 0 { console.printf("Shotgun death"); }
+		XDeath:
+			TROO N 5;
+			TROO O 5 A_XScream;
+			TROO P 5;
+			TROO Q 5 A_NoBlocking;
+			TROO RST 5;
+			TROO U -1;
+		Stop;
+		Raise:
+			TROO ML 8;
+			TROO KJI 6;
+		Goto See;
+	}
+}
+*/
