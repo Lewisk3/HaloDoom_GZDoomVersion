@@ -1,5 +1,6 @@
 struct LastDamageInfo
 {
+	bool processing; // If true, needs to be set to false before updated again.
 	class<Actor> damager;
 	bool headshot;
 	bool killed;
@@ -11,6 +12,13 @@ class HaloDoom_EnemyBase : Actor abstract
 {
 	transient LastDamageInfo damageInfo;
 	
+	override void Tick()
+	{
+		super.Tick();
+		if(damageInfo.processing && InStateSequence(CurState, ResolveState("See")))
+			damageInfo.processing = false;
+	}
+	
 	States
 	{
 		Info.DamageTaken:
@@ -20,7 +28,7 @@ class HaloDoom_EnemyBase : Actor abstract
 	override int DamageMobJ(Actor inflictor, Actor source, int dmg, Name mod, int flags, double angle)
 	{
 		int dmg = super.DamageMobJ(inflictor, source, dmg, mod, flags, angle);
-		if(dmg <= 0) return dmg;
+		if(dmg <= 0 || damageInfo.processing) return dmg;
 		
 		Actor damageSource = inflictor;
 		if(!damageSource) damageSource = source;
@@ -35,12 +43,14 @@ class HaloDoom_EnemyBase : Actor abstract
 		damageInfo.prevState = CurState;
 		damageInfo.dmgTaken = dmg;
 		damageInfo.killed = (health <= 0 || bCORPSE);
+		damageInfo.processing = true;
 		SetState(ResolveState("Info.DamageTaken"));
 		return dmg;
 	}
 
 	State A_ResumePrevious()
 	{
+		damageInfo.processing = false;
 		if(damageInfo.prevState)
 		{
 			State st = damageInfo.prevState;
