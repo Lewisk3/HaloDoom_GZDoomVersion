@@ -201,9 +201,8 @@ class Halo_Carbine : HaloGun
 				A_WeapSound("Halo/Weapons/Carbine/Select");
 				return A_JumpIf(A_DoFullSelectAnimation(), "Ready.Load");
 			}
-			// Quicker select animation (Temporary)
-			W6D1 ABCDEFGHI 1 A_DoSelectAnim();
-			W6D2 CDEFGHIJKL 1 A_DoSelectAnim();
+			// Quicker select animation
+			W6S1 FEDCBA 1 A_DoSelectAnim();
 		goto Ready.Active;
 		
 		Ready.Load:
@@ -231,9 +230,8 @@ class Halo_Carbine : HaloGun
 			{
 				A_DisableLCD();
 			}
-			W6D2 LKJIHGFEDC 1;
-			W6D1 IHGFEDCBA 1;
-			CRBS A 1 A_GunLower();
+			W6S1 ABCDEF 1;
+			W6S1 D 1 A_GunLower();
 		wait;
 		
 		Fire:
