@@ -396,6 +396,7 @@ CARBINE_MECH4 "Sounds/Carbine/CarbineMech4.ogg"
 
 Halo/Weapons/Carbine/Select   "Sounds/Carbine/CarbineDraw.ogg"
 Halo/Weapons/Carbine/Reload   "Sounds/Carbine/CarbineReload.ogg"
+Halo/Weapons/Carbine/Reload/Empty "Sounds/Carbine/CarbineReloadEmpty.ogg"
 
 $random Halo/Weapons/Carbine/Fire      { CARBINE_FIRE1 CARBINE_FIRE2 CARBINE_FIRE3 }
 $random Halo/Weapons/Carbine/Fire/Bass { CARBINE_LOW1 CARBINE_LOW2 CARBINE_LOW3 CARBINE_LOW4 }

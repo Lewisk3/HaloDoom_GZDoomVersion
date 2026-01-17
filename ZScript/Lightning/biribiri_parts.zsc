@@ -96,7 +96,7 @@ class LightningBiri : LightningActor
 		+LightningActor.DOFLASH;
 		LightningActor.FlashTic 2;
 
-		Scale 0.05;
+		Scale 0.35;
 		Translation "0:255=@80[4,8,76]";
 	}
 	

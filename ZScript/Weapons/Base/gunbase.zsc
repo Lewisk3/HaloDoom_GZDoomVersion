@@ -1414,6 +1414,11 @@ class HaloGun : RecoilWeapon
 		return ResolveState(null);
 	}
 	
+	action bool A_CheckFireHeld()
+	{
+		return A_ButtonStatus(BT_ATTACK, BTS_HELD);
+	}
+	
 	action TESLightningEffect SetupPlasmaLightning(double fw, double lr, double ud, double scale = 0.7, double density = 3.0, Color shading = Color(0,0,0,0), bool onlySpawn = false, bool replace = false)
 	{
 		ud -= 12.4;
