@@ -364,7 +364,6 @@ class Halo_Carbine : HaloGun
 			TNT1 A 1;
 		stop;
 		
-		
 		Spawn:
 			CARF A -1;
 		stop;
