@@ -4,7 +4,7 @@
 //     Authors : Pietro De Nicola, Lewisk3
 //     License Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License
 // 
-// Sources for shader developement:
+// Sources for shader development:
 // 		- https://thebookofshaders.com/13/ (Research on noise and fbm functions)
 //		- https://www.shadertoy.com/view/lsjGWD (Origin for hash function, noise, fbm)
 

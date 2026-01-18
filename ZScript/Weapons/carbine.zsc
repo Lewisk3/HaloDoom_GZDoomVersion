@@ -113,6 +113,60 @@ class Halo_Carbine : HaloGun
 		RecoilWeapon.YOffsetRange 0, 40;
 	}
 	
+	// For sight effects 
+	override void OverlayUIFX(RenderEvent e, double dT)
+	{
+		if(!zoomed) return; // Do not draw if not in sight.
+		
+		int drawFlags = HLSBS.SS_SCREEN_CENTER | HLSBS.SS_NOASPECTCORRECTION;
+		double sightScale = 0.50;
+		vector2 drawPos = (130,525);
+		double rotation = 0;
+		
+		if(bSI_Rotate && Owner.player)
+		{
+			let weapPSP = Owner.player.GetPSprite(PSP_WEAPON);
+			if(weapPSP) rotation = weapPSP.rotation * 0.5;
+		}
+		drawPos.x += sin(rotation * 2.0) * 128;
+		
+		let curAmmo = GetDefaultByType(AmmoType2);
+		double ammoPerc = Owner.countinv(AmmoType2) / double(curAmmo.maxamount);
+		
+		double fullColorHue = 0.3333333; // One third
+		Color sightColor = HLStatusColor.HSLtoRGB(ammoPerc > 0 ? fullColorHue : 0, 1.0, 0.5);
+		
+		string dir = "Graphics/UI/Sights/Carbine_LCD";
+		string circleGraphic = String.Format("%s/SI_CARB_Main.png", dir); 
+		string chargeMeterGraphic = String.Format("%s/SI_CARB_AC.png", dir);
+		string chargeMeterOuter = String.Format("%s/SI_CARB_ACO.png", dir);
+		
+		HLSBS.DrawImage(circleGraphic, drawPos, flags:drawFlags, scale:(sightScale,sightScale), rotation:rotation, tint:sightColor);
+		
+		// Meter - Inner
+		HLSBS.DrawImage(chargeMeterGraphic, drawPos, flags:drawFlags, alpha:0.75, scale:(sightScale,sightScale), rotation:rotation, tint:0xFFFF0000);
+		
+		Screen.EnableStencil(true);
+		Screen.SetStencil(0, SOP_Increment, SF_AllOn);
+
+		vector2 clipPos = ((1920.0, 1080.0) * 0.5) + drawPos + ((-250, -250 + 32) * sightScale);
+		double radius = 232 * sightScale;
+		HLSBS.DrawPartialCircle(
+			clipPos, radius, 0xFF00FF00,
+			fillpercent:ammoPerc * 0.5, alpha:0,
+			rotation: rotation,
+			flipx:true
+		);
+		Screen.SetStencil(1, SOP_Keep, SF_AllOn);
+		
+		HLSBS.DrawImage(chargeMeterGraphic, drawPos, flags:drawFlags, alpha:0.75, scale:(sightScale,sightScale), rotation:rotation, tint:sightColor);
+		Screen.EnableStencil(false);
+		Screen.ClearStencil();
+		
+		// Meter - Outer
+		HLSBS.DrawImage(chargeMeterOuter, drawPos, flags:drawFlags, scale:(sightScale,sightScale), rotation:rotation, tint:0xFF545454);
+	}
+	
 	override void MarkPrecacheSounds()
 	{
 		// Prevent stutters by precaching weapon sounds.
