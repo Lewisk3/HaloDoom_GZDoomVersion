@@ -184,6 +184,9 @@ Halo/Powerup/SpartanCharge/Impact "Sounds/Items/SpartanCharge/SpartanCharge_Impa
 Halo/Melee/Punch1 "Sounds/Melee/PunchHit1.ogg"
 Halo/Melee/Punch2 "Sounds/Melee/PunchHit2.ogg"
 Halo/Melee/Punch3 "Sounds/Melee/PunchHit3.ogg"
+Halo/Melee/Punch4 "Sounds/Melee/PunchHit4.ogg"
+Halo/Melee/Punch5 "Sounds/Melee/PunchHit5.ogg"
+Halo/Melee/Punch6 "Sounds/Melee/PunchHit6.ogg"
 Halo/Melee/Knife1 "Sounds/Melee/KnifeHit1.ogg"
 Halo/Melee/Knife2 "Sounds/Melee/KnifeHit2.ogg"
 Halo/Melee/Swing1 "Sounds/Melee/MeleeSwing1.ogg"
@@ -192,7 +195,7 @@ Halo/Melee/Swing3 "Sounds/Melee/MeleeSwing3.ogg"
 Halo/Melee/Ouch   "Sounds/Melee/MeleeMiss.ogg"
 Halo/Melee/NeedlerHit "Sounds/Needler/Needler_Hit.ogg"
 
-$random Halo/Melee/Punch { Halo/Melee/Punch1 Halo/Melee/Punch2 Halo/Melee/Punch3 }
+$random Halo/Melee/Punch { Halo/Melee/Punch1 Halo/Melee/Punch2 Halo/Melee/Punch3 Halo/Melee/Punch4 Halo/Melee/Punch5 Halo/Melee/Punch6 }
 $random Halo/Melee/Swing { Halo/Melee/Swing1 Halo/Melee/Swing2 Halo/Melee/Swing3 }
 $random Halo/Melee/Knife { Halo/Melee/Knife1 Halo/Melee/Knife2 Halo/Melee/Knife3 }
 
