@@ -78,6 +78,7 @@ class Halo_Carbine : HaloGun
 {
 	const LCD = 22;
 	vector2 lcd_offs;
+	ui double sightAmmo;
 
 	Default
 	{
@@ -132,6 +133,7 @@ class Halo_Carbine : HaloGun
 		
 		let curAmmo = GetDefaultByType(AmmoType2);
 		double ammoPerc = Owner.countinv(AmmoType2) / double(curAmmo.maxamount);
+		sightAmmo = HaloMath.lerp(sightAmmo, ammoPerc, 0.25 * dT);
 		
 		double fullColorHue = 0.3333333; // One third
 		Color sightColor = HLStatusColor.HSLtoRGB(ammoPerc > 0 ? fullColorHue : 0, 1.0, 0.5);
@@ -153,7 +155,7 @@ class Halo_Carbine : HaloGun
 		double radius = 232 * sightScale;
 		HLSBS.DrawPartialCircle(
 			clipPos, radius, 0xFF00FF00,
-			fillpercent:ammoPerc * 0.5, alpha:0,
+			fillpercent:sightAmmo * 0.5, alpha:0,
 			rotation: rotation,
 			flipx:true
 		);
