@@ -132,7 +132,7 @@ class Halo_PlasmaRifle : HaloGun
 		bool hasAmmo = (CountLoadedAmmo() >= taserAmmoUse);
 		string taserSound = hasAmmo ? "Halo/Weapons/PlasmaRifle/Melee/Hit" : "Halo/Melee/Punch";
 
-		let victim = A_HaloMelee(50, 48, hitsnd:taserSound, "", "Plasma", doHitThrust:false);
+		let victim = A_HaloMelee(50, 48, hitsnd:taserSound, "", "Taser", doHitThrust:false);
 		if(victim && victim.health > 0 && hasAmmo) 
 		{
 			let victimState = victim.FindState("Pain");
