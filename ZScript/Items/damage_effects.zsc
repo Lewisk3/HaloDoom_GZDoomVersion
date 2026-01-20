@@ -145,7 +145,7 @@ class DamageFX_Fire : DamageFX_Item
 		DamageFX_Item.Duration 7 * TICRATE;
 		DamageFX_Item.EffectLimit 5;
 		
-		Damage (4);
+		Damage (2);
 		DamageType "Burn";
 	}
 	

@@ -282,7 +282,7 @@ class Halo_SentinelBeam : HaloGun
 					A_TakeAmmo(1);
 					invoker.beamTics = 0;
 				}
-				invoker.heat += 1.0 / (35 * 5.0); // 3 seconds of fire time.
+				invoker.heat += 1.0 / (35 * 5.0); // 5 seconds of fire time.
 				
 				// Overheat if needed
 				if(invoker.heat >= 1.0)

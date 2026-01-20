@@ -78,8 +78,6 @@ version "4.10.0"
 #include "ZScript/Weapons/fuelrod.zsc"
 #include "ZScript/Weapons/commando.zsc"
 #include "ZScript/Weapons/GPMG.zsc"
-#include "ZScript/Weapons/grenadelauncher.zsc"
-#include "ZScript/Weapons/boltshot.zsc"
 
 // S2
 #include "ZScript/Weapons/sidekick.zsc"
@@ -107,6 +105,8 @@ version "4.10.0"
 
 // S4
 #include "ZScript/Weapons/sentinelbeam.zsc"
+#include "ZScript/Weapons/grenadelauncher.zsc"
+#include "ZScript/Weapons/boltshot.zsc"
 
 // Vehicles
 #include "ZScript/Vehicles/Kinematics/kine_parts.zsc" 
