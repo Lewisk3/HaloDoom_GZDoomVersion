@@ -110,6 +110,7 @@ class BoltShotBeamSpawner : MBeamSpawner
 		bobWithWeapon = true;
 		doTrackPos = true;
 		DontSpawnParticles = true;
+		SegClass = "BoltShotBeamSegment";
 		SetupVisuals("274cf2", "4769ff", 0.45, 0.17);
 	}
 	
@@ -130,6 +131,14 @@ class BoltShotBeamSpawner : MBeamSpawner
 	override bool DoMBeamDecal(class<LaserBeamDecal> decalType, bool puffOnActors)
 	{
 		return false;
+	}
+}
+
+class BoltShotBeamSegment : MBeamSegment
+{
+	Default
+	{
+		MBeamSegment.Core "";
 	}
 }
 

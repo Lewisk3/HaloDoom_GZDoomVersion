@@ -221,6 +221,17 @@ Model MBeamSegmentCore
 	FrameIndex MODL A 0 0
 }
 
+Model BoltShotBeamSegment
+{
+	Path "models/MWave/"
+	Model 0 "beam.md3"
+	Skin 0 "beam.png"
+	USEACTORPITCH
+	DONTCULLBACKFACES
+	
+	FrameIndex MODL A 0 0
+}
+
 Model GrappleSegment
 {
 	Path "models/MWave/"
