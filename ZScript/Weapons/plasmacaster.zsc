@@ -194,7 +194,7 @@ class Halo_PlasmaCaster : HaloGun
 			WSS1 DCBA 1 A_DoSelectAnim();
 		goto Ready.Active;
 		Ready.OnPickup:
-			WSD1 FEDCBA 2 A_DoSelectAnim(-10, true);
+			WSD1 GFEDCCBBAA 1 A_DoSelectAnim(-10, true);
 		Ready.Active:
 			WSI1 "#" 1 
 			{
@@ -306,9 +306,9 @@ class Halo_PlasmaCaster : HaloGun
 			TNT1 A 0 
 			{
 				if(!CountLoadedAmmo())
-					A_WeapSound("Halo/Weapons/PlasmaCaster/Reload");
+					A_WeapSound("Halo/Weapons/PlasmaCaster/Reload", CHANF_OVERLAP);
 				else
-					A_WeapSound("Halo/Weapons/PlasmaCaster/Reload/Tactical");
+					A_WeapSound("Halo/Weapons/PlasmaCaster/Reload/Tactical", CHANF_OVERLAP);
 			}
 			WSR1 ABCD 2;
 			WSR1 EF 2;
