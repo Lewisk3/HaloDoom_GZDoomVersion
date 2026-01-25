@@ -909,6 +909,7 @@ PlasmaCaster_CFIRE3 "Sounds/PlasmaCaster/PCaster_ChargeFire3.ogg"
 
 Halo/Weapons/PlasmaCaster/Draw "Sounds/PlasmaCaster/PCaster_Draw.ogg"
 Halo/Weapons/PlasmaCaster/Reload "Sounds/PlasmaCaster/PCaster_Reload.ogg"
+Halo/Weapons/PlasmaCaster/Reload/Tactical "Sounds/PlasmaCaster/PCaster_Reload_Tac.ogg"
 Halo/Weapons/PlasmaCaster/ChargeBegin "Sounds/PlasmaCaster/PCaster_ChargeLoop1.ogg"
 Halo/Weapons/PlasmaCaster/ChargeLoop "Sounds/PlasmaCaster/PCaster_ChargeLoop2.ogg"
 

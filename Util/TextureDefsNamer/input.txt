@@ -1,311 +1,95 @@
-Sprite "WSI1A0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSTIDLE", 0, 0
-}
-
-Sprite "WSC1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSC0000", 0, 0
-}
-
-Sprite "WSC1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSC0001", 0, 0
-}
-
-Sprite "WSC1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSC0002", 0, 0
-}
-
-Sprite "WSC1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSC0003", 0, 0
-}
-
-Sprite "WSC1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSC0004", 0, 0
-}
-
-Sprite "WSC1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSC0005", 0, 0
-}
-
-Sprite "WSC1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSC0006", 0, 0
-}
-
-Sprite "WSC1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSC0007", 0, 0
-}
-
-Sprite "WSC1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSC0008", 0, 0
-}
-
-Sprite "WSC1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSC0009", 0, 0
-}
-
-Sprite "WSC1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSC0010", 0, 0
-}
-
-Sprite "WSC1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSC0011", 0, 0
-}
-
-Sprite "WSC1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSC0012", 0, 0
-}
-
-Sprite "WSC1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSC0013", 0, 0
-}
-
-Sprite "WSC1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSC0014", 0, 0
-}
-
-Sprite "WSC1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSC0015", 0, 0
-}
-
-Sprite "WSC1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSC0016", 0, 0
-}
-
-Sprite "WSC1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSC0017", 0, 0
-}
-
-Sprite "WSC1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSC0018", 0, 0
-}
-
-Sprite "WSC1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSC0019", 0, 0
-}
-
-Sprite "WSF1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSF0000", 0, 0
-}
-
-Sprite "WSF1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSF0001", 0, 0
-}
-
-Sprite "WSF1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSF0002", 0, 0
-}
-
-Sprite "WSR1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSR0000", 0, 0
-}
-
-Sprite "WSR1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSR0001", 0, 0
-}
-
-Sprite "WSR1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSR0002", 0, 0
-}
-
-Sprite "WSR1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSR0003", 0, 0
-}
-
-Sprite "WSR1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSR0004", 0, 0
-}
-
-Sprite "WSR1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSR0005", 0, 0
-}
-
-Sprite "WSR1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSR0006", 0, 0
-}
-
-Sprite "WSR1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSR0007", 0, 0
-}
-
-Sprite "WSR1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSR0008", 0, 0
-}
-
-Sprite "WSR1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSR0009", 0, 0
-}
-
-Sprite "WSR1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSR0010", 0, 0
-}
-
-Sprite "WSR1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSR0011", 0, 0
-}
-
-Sprite "WSR1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSR0012", 0, 0
-}
-
-Sprite "WSR1~0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSR0013", 0, 0
-}
-
-Sprite "WSR1~0", 384, 216
+Sprite "WSR1O0", 384, 216
 {
 	XScale 0.800
 	YScale 0.900
 	Offset 62, 65
 	Patch "PCSR0014", 0, 0
+}
+
+Sprite "WSD1~0", 384, 216
+{
+	XScale 0.800
+	YScale 0.900
+	Offset 62, 65
+	Patch "PCSD0000", 0, 0
+}
+
+Sprite "WSD1~0", 384, 216
+{
+	XScale 0.800
+	YScale 0.900
+	Offset 62, 65
+	Patch "PCSD0001", 0, 0
+}
+
+Sprite "WSD1~0", 384, 216
+{
+	XScale 0.800
+	YScale 0.900
+	Offset 62, 65
+	Patch "PCSD0002", 0, 0
+}
+
+Sprite "WSD1~0", 384, 216
+{
+	XScale 0.800
+	YScale 0.900
+	Offset 62, 65
+	Patch "PCSD0003", 0, 0
+}
+
+Sprite "WSD1~0", 384, 216
+{
+	XScale 0.800
+	YScale 0.900
+	Offset 62, 65
+	Patch "PCSD0004", 0, 0
+}
+
+Sprite "WSD1~0", 384, 216
+{
+	XScale 0.800
+	YScale 0.900
+	Offset 62, 65
+	Patch "PCSD0005", 0, 0
+}
+
+Sprite "WSD1~0", 384, 216
+{
+	XScale 0.800
+	YScale 0.900
+	Offset 62, 65
+	Patch "PCSD0006", 0, 0
+}
+
+Sprite "WSS1~0", 384, 216
+{
+	XScale 0.800
+	YScale 0.900
+	Offset 62, 65
+	Patch "PCSS0000", 0, 0
+}
+
+Sprite "WSS1~0", 384, 216
+{
+	XScale 0.800
+	YScale 0.900
+	Offset 62, 65
+	Patch "PCSS0001", 0, 0
+}
+
+Sprite "WSS1~0", 384, 216
+{
+	XScale 0.800
+	YScale 0.900
+	Offset 62, 65
+	Patch "PCSS0002", 0, 0
+}
+
+Sprite "WSS1~0", 384, 216
+{
+	XScale 0.800
+	YScale 0.900
+	Offset 62, 65
+	Patch "PCSS0003", 0, 0
 }

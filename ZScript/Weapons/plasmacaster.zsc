@@ -186,8 +186,15 @@ class Halo_PlasmaCaster : HaloGun
 	States
 	{
 		Ready:
-			TNT1 A 0 A_WeapSound("Halo/Weapons/PlasmaCaster/Draw");
-			WSS1 FEDCBA 1 A_DoSelectAnim();
+			TNT1 A 0
+			{
+			    A_WeapSound("Halo/Weapons/PlasmaCaster/Draw");
+				return A_JumpIf(A_DoFullSelectAnimation(), "Ready.OnPickup");
+			}
+			WSS1 DCBA 1 A_DoSelectAnim();
+		goto Ready.Active;
+		Ready.OnPickup:
+			WSD1 FEDCBA 2 A_DoSelectAnim(-10, true);
 		Ready.Active:
 			WSI1 "#" 1 
 			{
@@ -209,8 +216,8 @@ class Halo_PlasmaCaster : HaloGun
 
 		Deselect:
 			TNT1 A 0 A_StopSound(CHAN_VOICE);
-			WSS1 ABCDE 1;
-			WSS1 F 1 A_GunLower();
+			WSS1 ABCD 1;
+			WSS1 D 1 A_GunLower();
 		wait;
 				
 		Fire:
@@ -281,8 +288,9 @@ class Halo_PlasmaCaster : HaloGun
 				A_SetZoom(1.0, 8);
 				A_RecoilOffset(1,1,6, true);
 			}
-			WSC1 LMNOPQ 2 A_RecoilOffset(1,1,6, true);
+			WSC1 LMNOPQ 4 A_RecoilOffset(1,1,6, true);
 			WSC1 RST 2 A_RecoilOffset(0,0,6);
+			WSI1 A 12;
 		goto Ready.Active;
 		Charge.Finish:
 			TNT1 A 0 A_StopSound(CHAN_VOICE);
@@ -295,7 +303,13 @@ class Halo_PlasmaCaster : HaloGun
 				A_StopPlasmaLightning();
 				return A_ValidateReload("Ready.Dryfire");
 			}
-			TNT1 A 0 A_WeapSound("Halo/Weapons/PlasmaCaster/Reload");
+			TNT1 A 0 
+			{
+				if(!CountLoadedAmmo())
+					A_WeapSound("Halo/Weapons/PlasmaCaster/Reload");
+				else
+					A_WeapSound("Halo/Weapons/PlasmaCaster/Reload/Tactical");
+			}
 			WSR1 ABCD 2;
 			WSR1 EF 2;
 			WSR1 G 4;
