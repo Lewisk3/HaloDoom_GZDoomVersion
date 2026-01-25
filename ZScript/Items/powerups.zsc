@@ -67,7 +67,7 @@ class HaloPowerGiver : PowerupGiver abstract
 	vector2 overlayUseOffs;
 	uint fxFlags;
 	
-	flagdef FXHOVER : fxFlags, 0;
+	flagdef FXHOVER : fxFlags, 1;
 	flagdef USETOPICKUP : fxFlags, 2;
 	flagdef BACKPACKSPAWN : fxFlags, 3;
 	flagdef UPGRADEPOWER : fxFlags, 4; 
@@ -203,7 +203,7 @@ class HaloPowerGiver : PowerupGiver abstract
 
 		vel *= 0.94;
 		bool ZeroGravity = !gravity;
-		if( !ZeroGravity && (oldfloorz != floorz && spawnSector == CurSector) )
+		if( GetAge() <= 2 || (!ZeroGravity && (oldfloorz != floorz && spawnSector == CurSector)) )
 		{
 			double addz = bFXHOVER ? height : 0;
 			SetOrigin((pos.xy, floorz + addz), true);
@@ -708,3 +708,47 @@ class HaloPower_SpartanCharge : HaloPower_Repulsor
 		stop;
 	}
 }
+
+// Radsuit
+class HaloPower_Radsuit : HaloPowerGiver replaces Radsuit
+{
+	Default
+	{
+		+BRIGHT;
+		+FLATSPRITE;
+		+INTERPOLATEANGLES;
+		Height 46;
+		Scale 0.3;
+		Powerup.Type "PowerIronFeet";
+		
+		Inventory.PickupMessage "$GOTSUIT!";
+		Inventory.PickupSound "Halo/Powerup/Radsuit";
+		+INVENTORY.AUTOACTIVATE;
+		-HaloPowerGiver.FXHOVER;
+	}
+	
+	override void PostBeginPlay()
+	{
+		super.postBeginPlay();
+		deco = Spawn("RadsuitDeco", pos);
+	}
+	
+	override void OnPickup(Actor other) {}
+	
+	override void VisualFX()
+	{
+		bobz = sin(level.maptime*2) * 0.5;	
+		angle+=2;
+		pitch = -90;
+		
+		//alpha = (sin(level.maptime*10) + 1) * 0.5;
+		//HaloPowerup.DoParticles(self, pcol:"Green", amt: 5, zoffset:0);	
+	}
+	
+	States
+	{
+		Spawn:
+			SUIT A -1;
+		stop;
+	}
+} 
