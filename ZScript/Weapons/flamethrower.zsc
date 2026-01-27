@@ -297,9 +297,10 @@ class Halo_Flamethrower : HaloGun
 		HaloGun.Crosshair "FLMRet", 0.5;
 		HaloGun.UIGraphic "WI_FLM", 0.75, 0.75;
 	
+		HaloGun.TwoHandedWeapon true;
 		HaloGun.PowerTier P_ENERGY;
 		
-		HaloGun.LowerOnMelee 200; // Lower off screen.
+		// HaloGun.LowerOnMelee 200; // Lower off screen.
 		
 		RecoilWeapon.YOffsetRange 0, 40;
 	}
