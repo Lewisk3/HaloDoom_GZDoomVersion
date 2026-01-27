@@ -30,8 +30,8 @@ class HaloDoom_EnemyBase : Actor abstract
 		int dmg = super.DamageMobJ(inflictor, source, dmg, mod, flags, angle);
 		if(dmg <= 0 || damageInfo.processing) return dmg;
 		
-		Actor damageSource = inflictor;
-		if(!damageSource) damageSource = source;
+		Actor damageSource = inflictor ? inflictor : source;
+		if(!damageSource) return dmg; // Skip if we cannot find a damager.
 		
 		double headsize = 8;
 		double dmgz = damageSource.pos.z;
