@@ -1042,7 +1042,7 @@ class LedgeTrigger : CheapActor
 		let weap = HaloGun(plr.player.ReadyWeapon);
 		
 		// No ledge grab for two-handed guns.
-		if(weap.isTwoHandedWeapon) return;
+		if(weap && weap.isTwoHandedWeapon) return;
 
 		while(grabTics > 0)
 		{
