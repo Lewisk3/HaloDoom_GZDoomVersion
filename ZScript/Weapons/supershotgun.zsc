@@ -228,8 +228,8 @@ class Halo_DBLShotgun : HaloGun
 			TNT1 A 0 A_WeapSound("Halo/Weapons/SuperShotgun/Select");
 		Ready.Chamber:
 			W5D1 A 1 A_SetRecoil(0.25, 0, 4);
-			W5D1 BCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoSelectAnim();
-			W5D2 ABCDE 1 A_DoSelectAnim();
+			W5D1 BCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoSelectAnim(-25);
+			W5D2 ABCDE 1 A_DoSelectAnim(-25);
 		Ready.Active:
 			W5I1 "#" 1 
 			{	
