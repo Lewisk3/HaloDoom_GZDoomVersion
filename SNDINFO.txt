@@ -1144,6 +1144,18 @@ Halo/Grenade/Plasma/FuseLoop "Sounds/Grenades/Sticky_Fuse.ogg"
 $limit Halo/Grenade/Plasma/Explode 0
 $limit Grenade/Frag/Explode 0
 
+// Flesh Impact
+BulletImpact/Flesh1 "Sounds/Impacts/Flesh/bullet_impact_flesh1.wav"
+BulletImpact/Flesh2 "Sounds/Impacts/Flesh/bullet_impact_flesh2.wav"
+BulletImpact/Flesh3 "Sounds/Impacts/Flesh/bullet_impact_flesh3.wav"
+BulletImpact/Flesh4 "Sounds/Impacts/Flesh/bullet_impact_flesh4.wav"
+$random BulletImpact/Flesh { BulletImpact/Flesh1 BulletImpact/Flesh2 BulletImpact/Flesh3 BulletImpact/Flesh4 }
+$limit BulletImpact/Flesh1 2
+$limit BulletImpact/Flesh2 2
+$limit BulletImpact/Flesh3 2
+$limit BulletImpact/Flesh4 2
+$limit BulletImpact/Flesh 2
+
 // Surface Sounds
 WALKWATER1 "Sounds/SurfaceSound/Walk Water 1.ogg"
 WALKWATER2 "Sounds/SurfaceSound/Walk Water 2.ogg"

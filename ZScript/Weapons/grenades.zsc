@@ -364,6 +364,8 @@ class PlasmaGrenade_Proj : HaloGrenade_Proj
 			hitactor = victim;
 			hitoffs = HaloMath.DiffToLocal(pos, victim.pos, (victim.angle, victim.pitch));
 			OnStick(victim);
+			bMISSILE = false;
+			SetState(FindState("Death"));
 		}
 		
 		return -1;

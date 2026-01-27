@@ -20,6 +20,7 @@ user int halodoom_cortanamode = 0;
 user bool halodoom_spartanvoicelines = false;
 user bool halodoom_showspeed = false;
 user bool halodoom_dosecretsnd = true;
+user bool halodoom_fx_hitmark_sound = true;
 
 // Server settings
 server bool halodoom_overhealthdecay = true;

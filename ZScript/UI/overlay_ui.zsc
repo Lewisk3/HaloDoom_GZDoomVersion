@@ -131,11 +131,12 @@ class Halo_OverlayUI : EventHandler
 			if(plrnum == plr.PlayerNumber())
 			{
 				let dohitmarkers = CVar.GetCVar("halodoom_fx_hitmarkers", players[plrnum]);
+				let dohitmarksound = CVar.GetCVar("halodoom_fx_hitmark_sound", players[plrnum]);
 				if(dohitmarkers && dohitmarkers.GetBool())
 				{
 					class<Hitmarker> type = args[1];
 					uint layer = args[2].ToInt();
-					if(args.Size() >= 4)
+					if(args.Size() >= 4 && dohitmarksound && dohitmarksound.getBool())
 					{
 						Sound snd = args[3];
 						plr.A_StartSound(snd, CHAN_VOICE, sndflag);
