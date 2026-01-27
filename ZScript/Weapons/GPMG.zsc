@@ -132,7 +132,8 @@ class Halo_GPMG : HaloGun
 		HaloGun.UIGraphic "WI_GPMG", 0.4, 0.4;
 		HaloGun.SetupUIAmmo "WI_AMMO", 12.5, 12.5, 0, 9;
 		HaloGun.UIAmmo_Scale_Offset 1.0, 0, -10;
-
+		
+		HaloGun.TwoHandedWeapon true;
 		HaloGun.PowerTier P_POWER;
 		HaloGun.Rarity 50;
 		

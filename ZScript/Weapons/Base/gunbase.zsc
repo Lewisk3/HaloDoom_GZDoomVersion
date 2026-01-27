@@ -42,6 +42,7 @@ class HaloGun : RecoilWeapon
 	bool feetbusy; 
 	bool nokick; // Disables kick for this weapon.
 	bool skipreload; // Skips reload animations.
+	bool isTwoHandedWeapon; // If true, cannot use other hand for actions while selected.
 	Weapon NextWeapon;
 	Name faction; // Weapon faction, usually; Human, Covenant or Forerunner
 	TESLightningEffect plasmaLightning; // Gun plasma lightning;
@@ -118,6 +119,7 @@ class HaloGun : RecoilWeapon
 	Property _ProjDamageMod : damage_modifier;
 	Property DisableKicking : nokick;
 	Property Faction : faction;
+	Property TwoHandedWeapon : isTwoHandedWeapon;
 
 	enum ButtonStates
 	{
@@ -870,10 +872,10 @@ class HaloGun : RecoilWeapon
 		return psp && inState;
 	}
 	
-	action void A_RWeaponReady(uint flags=0)
+	action void A_RWeaponReady(uint flags=0, bool canAlwaysSwitch = false)
 	{
 		A_RecoilSetupWeaponReady(flags);
-		if(invoker.handsbusy) player.WeaponState &= ~WF_WEAPONSWITCHOK;
+		if(invoker.handsbusy && !canAlwaysSwitch) player.WeaponState &= ~WF_WEAPONSWITCHOK;
 	}
 	
 	override void DoEffect()
@@ -1026,6 +1028,9 @@ class HaloGun : RecoilWeapon
 	// Called from event handler, needed for extra action buttons, not limited to USER1-4.
 	void ThrowCurrentGrenade()
 	{
+		// Cannot throw grenades if two-handed.
+		if(isTwoHandedWeapon) return;
+	
 		// Throw nades
 		let curNade = HaloPlayer(Owner).activeGrenade;
 		if(!handsbusy)
@@ -1077,7 +1082,7 @@ class HaloGun : RecoilWeapon
 		// Melee attack
 		FLineTraceData meleeLT;
 		let meleepsp = Owner.player.FindPSprite(MELEE_OVERLAY);
-		bool meleeReady = Owner.player.onground && !inreload && (!handsbusy || CheckMeleeState("GrappleWait"));
+		bool meleeReady = !isTwoHandedWeapon && Owner.player.onground && !inreload && (!handsbusy || CheckMeleeState("GrappleWait"));
 		bool barrelKick = GetMeleeVictim(Owner, meleeLT, 70) is "ExplosiveCoil" || !!I_HoldingCoil.GetHoldingCoil(Owner);
 		bool inmelee = meleepsp && meleepsp.CurState != NULL;
 
@@ -1093,7 +1098,7 @@ class HaloGun : RecoilWeapon
 		
 		// Check for LedgeGrab
 		let ledgeStatus = plr.ledgeGrabber;
-		if(ledgeStatus && ledgeStatus.grabTics > 0 && !handsbusy)
+		if(ledgeStatus && ledgeStatus.grabTics > 0 && !handsbusy && !isTwoHandedWeapon)
 		{
 			CallMeleeState("LedgeGrab", true);
 		}
@@ -1103,7 +1108,7 @@ class HaloGun : RecoilWeapon
 			CallKickState("SlideStart");
 			
 		// Grapple
-		if(plr.grapple && !handsbusy)
+		if(plr.grapple && !handsbusy && !isTwoHandedWeapon)
 		{
 			Owner.player.SetPSprite(MELEE_OVERLAY, FindState("GrappleStart"));
 			if(inreload) psp.SetState(FindState("Ready.Active"));
@@ -1356,14 +1361,14 @@ class HaloGun : RecoilWeapon
 	{
 		return invoker.zoomed;
 	}
-	action void A_HaloWeaponReady(uint flags = 0, bool usescope = true)
+	action void A_HaloWeaponReady(uint flags = 0, bool usescope = true, bool canAlwaysSwitch = false)
 	{
 		if(usescope) 
 		{
 			A_ScopeEnable();
 			A_Overlay(SIGHT_OVERLAY, "Scope.Ready", true);
 		}
-		A_RWeaponReady(flags);
+		A_RWeaponReady(flags, canAlwaysSwitch);
 	}
 	action bool A_LowerAim()
 	{

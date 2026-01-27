@@ -488,8 +488,8 @@ extend class HaloPlayer
 		
 		// Grappling hook
 		let weap = HaloGun(player.ReadyWeapon);
-		
-		if( (btns & BT_GRAPPLE) && !(obtns & BT_GRAPPLE) && enable_grapple && (weap && !weap.handsbusy) )
+		bool weaponBlocking = weap && (weap.handsbusy || weap.isTwoHandedWeapon);
+		if( (btns & BT_GRAPPLE) && !(obtns & BT_GRAPPLE) && enable_grapple && !weaponBlocking )
 		{
 			if(grapple)
 				grapple.Retract();
@@ -1039,6 +1039,10 @@ class LedgeTrigger : CheapActor
 	{
 		super.Tick();
 		if(!plr || !plr.player) return;
+		let weap = HaloGun(plr.player.ReadyWeapon);
+		
+		// No ledge grab for two-handed guns.
+		if(weap.isTwoHandedWeapon) return;
 
 		while(grabTics > 0)
 		{
