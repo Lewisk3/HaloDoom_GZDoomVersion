@@ -1,95 +1,2391 @@
-Sprite "WSR1O0", 384, 216
+Sprite "W5I1A0", 450, 210
 {
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSR0014", 0, 0
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLSIDLE", 0, 0
 }
 
-Sprite "WSD1~0", 384, 216
+Sprite "W5I1B0", 450, 210
 {
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSD0000", 0, 0
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLSFIR1", 0, 0
 }
 
-Sprite "WSD1~0", 384, 216
+Sprite "W5I1C0", 450, 210
 {
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSD0001", 0, 0
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLSEMTY", 0, 0
 }
 
-Sprite "WSD1~0", 384, 216
+Sprite "W5D1~0", 450, 210
 {
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSD0002", 0, 0
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0000", 0, 0
 }
 
-Sprite "WSD1~0", 384, 216
+Sprite "W5D1~0", 450, 210
 {
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSD0003", 0, 0
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0001", 0, 0
 }
 
-Sprite "WSD1~0", 384, 216
+Sprite "W5D1~0", 450, 210
 {
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSD0004", 0, 0
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0002", 0, 0
 }
 
-Sprite "WSD1~0", 384, 216
+Sprite "W5D1~0", 450, 210
 {
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSD0005", 0, 0
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0003", 0, 0
 }
 
-Sprite "WSD1~0", 384, 216
+Sprite "W5D1~0", 450, 210
 {
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSD0006", 0, 0
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0004", 0, 0
 }
 
-Sprite "WSS1~0", 384, 216
+Sprite "W5D1~0", 450, 210
 {
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSS0000", 0, 0
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0005", 0, 0
 }
 
-Sprite "WSS1~0", 384, 216
+Sprite "W5D1~0", 450, 210
 {
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSS0001", 0, 0
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0006", 0, 0
 }
 
-Sprite "WSS1~0", 384, 216
+Sprite "W5D1~0", 450, 210
 {
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSS0002", 0, 0
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0007", 0, 0
 }
 
-Sprite "WSS1~0", 384, 216
+Sprite "W5D1~0", 450, 210
 {
-	XScale 0.800
-	YScale 0.900
-	Offset 62, 65
-	Patch "PCSS0003", 0, 0
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0008", 0, 0
+}
+
+Sprite "W5D1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0009", 0, 0
+}
+
+Sprite "W5D1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0010", 0, 0
+}
+
+Sprite "W5D1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0011", 0, 0
+}
+
+Sprite "W5D1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0012", 0, 0
+}
+
+Sprite "W5D1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0013", 0, 0
+}
+
+Sprite "W5D1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0014", 0, 0
+}
+
+Sprite "W5D1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0015", 0, 0
+}
+
+Sprite "W5D1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0016", 0, 0
+}
+
+Sprite "W5D1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0017", 0, 0
+}
+
+Sprite "W5D1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0018", 0, 0
+}
+
+Sprite "W5D1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0019", 0, 0
+}
+
+Sprite "W5D1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0020", 0, 0
+}
+
+Sprite "W5D1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0021", 0, 0
+}
+
+Sprite "W5D1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0022", 0, 0
+}
+
+Sprite "W5D1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0023", 0, 0
+}
+
+Sprite "W5D1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0024", 0, 0
+}
+
+Sprite "W5D1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0025", 0, 0
+}
+
+Sprite "W5D1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0026", 0, 0
+}
+
+Sprite "W5D1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0027", 0, 0
+}
+
+Sprite "W5D1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0028", 0, 0
+}
+
+Sprite "W5D1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0029", 0, 0
+}
+
+Sprite "W5D1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLD0030", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0000", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0001", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0002", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0003", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0004", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0005", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0006", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0007", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0008", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0009", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0010", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0011", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0012", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0013", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0014", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0015", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0016", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0017", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0018", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0019", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0020", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0021", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0022", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0023", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0024", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0025", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0026", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0027", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0028", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0029", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0030", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0031", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0032", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0033", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0034", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0035", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0036", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0037", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0038", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0039", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0040", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0041", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0042", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0043", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0044", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0045", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0046", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0047", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0048", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0049", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0050", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0051", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0052", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0053", 0, 0
+}
+
+Sprite "W5F1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLF0054", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0000", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0001", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0002", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0003", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0004", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0005", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0006", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0007", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0008", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0009", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0010", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0011", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0012", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0013", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0014", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0015", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0016", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0017", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0018", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0019", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0020", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0021", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0022", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0023", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0024", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0025", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0026", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0027", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0028", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0029", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0030", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0031", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0032", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0033", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0034", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0035", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0036", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0037", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0038", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0039", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0040", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0041", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0042", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0043", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0044", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0045", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0046", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0047", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0048", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0049", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0050", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0051", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0052", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0053", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0054", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0055", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0056", 0, 0
+}
+
+Sprite "W5B1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLB0057", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0000", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0001", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0002", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0003", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0004", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0005", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0006", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0007", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0008", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0009", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0010", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0011", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0012", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0013", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0014", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0015", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0016", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0017", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0018", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0019", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0020", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0021", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0022", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0023", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0024", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0025", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0026", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0027", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0028", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0029", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0030", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0031", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0032", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0033", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0034", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0035", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0036", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0037", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0038", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0039", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0040", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0041", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0042", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0043", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0044", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0045", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0046", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0047", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0048", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0049", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0050", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0051", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0052", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0053", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0054", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0055", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0056", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0057", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0058", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0059", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0060", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0061", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0062", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0063", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0064", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0065", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0066", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0067", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0068", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0069", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0070", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0071", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0072", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0073", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0074", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBLR0075", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0000", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0001", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0002", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0003", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0004", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0005", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0006", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0007", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0008", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0009", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0010", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0011", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0012", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0013", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0014", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0015", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0016", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0017", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0018", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0019", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0020", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0021", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0022", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0023", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0024", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0025", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0026", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0027", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0028", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0029", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0030", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0031", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0032", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0033", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0034", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0035", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0036", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0037", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0038", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0039", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0040", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0041", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0042", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0043", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0044", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0045", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0046", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0047", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0048", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0049", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0050", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0051", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0052", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0053", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0054", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0055", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0056", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0057", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0058", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0059", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0060", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0061", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0062", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0063", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0064", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0065", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0066", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0067", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0068", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0069", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0070", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0071", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0072", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0073", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0074", 0, 0
+}
+
+Sprite "W5R1~0", 450, 210
+{
+	XScale 1.100
+	YScale 1.200
+	Offset 45, 15
+	Patch "DBRS0075", 0, 0
 }
