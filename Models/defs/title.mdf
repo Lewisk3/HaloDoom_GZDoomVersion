@@ -16,7 +16,7 @@ Model Halo_Ring
 Model Halo_MarsPlanet
 {
 	Path "Models/Title"
-	Model 0 "sky_sphere.md3"
+	Model 0 "mars.obj"
 	Skin 0 "mars_surface.jpg"
 	Scale 150.0 150.0 150.0 
 	USEACTORROLL

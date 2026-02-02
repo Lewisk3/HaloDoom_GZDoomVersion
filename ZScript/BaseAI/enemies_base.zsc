@@ -68,7 +68,10 @@ class HaloDoom_EnemyBase : Actor abstract
 	}
 	int A_GetDamageTaken(bool killed = false)
 	{
-		return (killed && damageInfo.killed) || ceil(damageInfo.dmgTaken);
+		if(killed)
+			return damageInfo.killed;
+		else
+			return ceil(damageInfo.dmgTaken);
 	}
 
 	void A_AimToTarget(double heightAimScale, Actor victim = NULL)

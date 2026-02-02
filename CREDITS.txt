@@ -23,6 +23,10 @@ Morbid Angel (Bulldog)
 Macus Lehto (Remastered MA5B coming in season 2!)
 SPV3 (Needler)
 
+Mars Model (Source: https://sketchfab.com/3d-models/mars-6f9ebc64e6c74068a8412a7dd74dfb96)
+Made by: JanesBT
+Creative Commons License
+
 UI Design:
 Alien WheelChair aka Pretzel Glasses
 Starbuckmoko
@@ -30,6 +34,7 @@ Killerkouhai
 
 Weapon Animation:
 REVENGE (Key Framing) 
+Berzaric (Animation)
 Moa Dixon (interpolation) (We miss you.)
 Morbid Angel (Interpolation)
 Warry (Interpolation)

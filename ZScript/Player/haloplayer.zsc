@@ -109,7 +109,7 @@ class HaloPlayer : DoomPlayer
 		Player.DisplayName "Spartan Template";
 		HaloPlayer.Description "Template Spartan class.", "";
 		HaloPlayer._ShieldSNDVolume 1.0;
-		HaloPlayer.RadarRange 800;
+		HaloPlayer.RadarRange 2048;
 		
 		// Vitals
 		Health 45; 

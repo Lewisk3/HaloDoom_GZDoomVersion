@@ -241,9 +241,9 @@ class WeaponPickupProxy : Actor
 		
 		if(pos.z != floorz && abs(vel.z) <= 1) SetOrigin((pos.x,pos.y,floorz), true);
 		
-		bool hasweap = !plr ? false : !!plr.FindInventory(trueitem);
-		CheckPlrCollide(hasweap ? 0.5 : 1.0);
+		CheckPlrCollide(1.0);
 		if(!plr || !plr.player) return;
+		bool hasweap = !plr ? false : !!plr.FindInventory(trueitem);
 		ProcessPickupCollision();
 			
 		// If invalid sprite, use default.
@@ -311,8 +311,9 @@ class WeaponPickupProxy : Actor
 			{
 				if(!hasweap && wcontrol)
 				{
+					console.printf("Doesn't have weapon: %s", trueitem.getClassName());
 					let nweap = GiveWeaponItem(plr);
-					if(nweap) 
+					if(nweap && nweap.Owner) 
 					{
 						wcontrol.DropSelectedWeapon(pos);
 						nweap.Use(true);
