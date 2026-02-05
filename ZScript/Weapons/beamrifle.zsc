@@ -211,7 +211,7 @@ class Halo_BeamRifle : HaloGun
 		Ready.Pickup:
 			WLD1 ABCDEFGHIJKLMNOPQ 1 A_DoSelectAnim();
 		Ready.Active:
-			WLG1 A 1 
+			WLI1 A 1 
 			{
 				invoker.heat *= 0.96;
 				A_HaloWeaponReady(0);
@@ -220,7 +220,7 @@ class Halo_BeamRifle : HaloGun
 		loop;
 		
 		Ready.Dryfire:
-			WLS1 A 12 A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
+			WLI1 A 12 A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
 		goto Ready.Active;
 
 		Select:
