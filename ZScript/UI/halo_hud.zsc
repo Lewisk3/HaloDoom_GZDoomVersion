@@ -535,14 +535,15 @@ class HaloDoomHUD : HaloHUD
 				
 				vector2 dScale = (1.0, 1.0);
 				dScale *= clamp(1.0-(drawdist/512.), 0.5, 1.0);
-				dScale *= (obj.radius / 64.0); // Scale by object hitbox size (roughly).
+				dScale *= max(0.25, (obj.radius / 64.0)); // Scale by object hitbox size (roughly).
 				
 				HLSBS.DrawImage(basegraphic, finalpos, 0, (drawdist>radarsize ? 0.6 : 1.0), dScale);
 			}
 		}
 		
 		// Draw Radar middle, "player"
-		HLSBS.DrawImage("RADARMID", baseoffs);	
+		double plrScale = (haloplr.radius / 32);
+		HLSBS.DrawImage("RADARMID", baseoffs, scale:(plrScale,plrScale));	
 	}
 
 	// Planned to implement, currently unimplemented.
