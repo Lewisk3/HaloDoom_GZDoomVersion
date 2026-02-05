@@ -139,10 +139,10 @@ class Halo_BeamRifle : HaloGun
 		A_Light(2);
 		if(!invoker.lsrbeam)
 		{
-			invoker.lsrbeam = LSR_BeamRifle(LaserBeam.Create(self, 5, 1.5, -1, maxDist:BEAMRIFLE_RANGE, type:"LSR_BeamRifle"));
+			invoker.lsrbeam = LSR_BeamRifle(LaserBeam.Create(self, 5, 1.5, -1.25, maxDist:BEAMRIFLE_RANGE, type:"LSR_BeamRifle"));
 			invoker.lsrbeam.setEnabled(true);
 			
-			invoker.lsrbeamCore = LSR_BeamRifle(LaserBeam.Create(self, 5, 1.5, -1, maxDist:BEAMRIFLE_RANGE, type:"LSR_BeamRifleCore")); 
+			invoker.lsrbeamCore = LSR_BeamRifle(LaserBeam.Create(self, 5, 1.5, -1.25, maxDist:BEAMRIFLE_RANGE, type:"LSR_BeamRifleCore")); 
 			invoker.lsrbeamCore.setEnabled(true);
 		}
 		else
@@ -206,10 +206,10 @@ class Halo_BeamRifle : HaloGun
 				A_WeapSound("Halo/Weapons/BeamRifle/Draw");
 				return A_JumpIf(A_DoFullSelectAnimation(), "Ready.Pickup");
 			}
-			WLS1 GFEDCBA 1 A_DoSelectAnim(0, true);
+			WLS1 EDCBA 1 A_DoSelectAnim();
 		goto Ready.Active;
 		Ready.Pickup:
-			WLD1 ABCDEFGHIJKLMNOPQ 1 A_DoSelectAnim();
+			WLD1 ABCDEEEEEEFFFFGGGGHHHHHHIIJJ 1 A_DoSelectAnim(0, true);
 		Ready.Active:
 			WLI1 A 1 
 			{
@@ -229,22 +229,23 @@ class Halo_BeamRifle : HaloGun
 
 		Deselect:
 			TNT1 A 0 A_EndLaser(false);
-			WLS1 ABCDEFG 1;
-			WLS1 G 1 A_GunLower();
+			WLS1 ABCDE 1;
+			WLS1 E 1 A_GunLower();
 		wait;
 		
 		Fire:
 			TNT1 A 0 A_JumpIf(invoker.heat >= 1.0, "Overheat");
 			TNT1 A 0 A_JumpIf(!CountLoadedAmmo(), "Ready.Dryfire");
-			WLF1 AB 1 Bright;
+			TNT1 A 0 A_StartSound("Halo/Weapons/BeamRifle/Laser/Begin", CHAN_WEAPON, CHANF_OVERLAP);
+			WLF1 ABCD 1 Bright;
 			TNT1 A 0 
 			{
 				A_BeginLaser(); 
-				if(!A_CheckInScope())A_SetZoom(0.93, 3);
+				if(!A_CheckInScope())A_SetZoom(0.97, 3);
 			}
 		Fire.Loop:
 			TNT1 A 0 A_StartSound("Halo/Weapons/BeamRifle/Laser/Loop", CHAN_VOICE, CHANF_LOOPING);
-			WLF1 CDEFGHIJKLCDEFGHIJKLCDEFGHIJKL 1 Bright
+			WLF1 CDEFGHICDEFGHICDEFGHICDEFGHIJJ 1 Bright // 30 tics
 			{
 				if(invoker.lsrTics++ >= 2) 
 				{
@@ -254,9 +255,10 @@ class Halo_BeamRifle : HaloGun
 				
 				A_AddRecoil(0.012, 0, 2);
 				A_RecoilOffset(frandom[WeapFX](-4,4), frandom[WeapFX](-8,8), 2);
-				A_RollQuake(1,10,1);
+				//A_RollQuake(1,10,1);
 				A_Light( (!(GetAge()%4)) * 2 );
 				invoker.heat += 0.017;
+				// A_SetZoom(0.97 + frandom[BMR_RECOIL](-0.02,0.02), 2);
 				
 				let res = ResolveState(null);
 				if(invoker.heat >= 1.0) res = ResolveState("Overheat");
@@ -278,12 +280,12 @@ class Halo_BeamRifle : HaloGun
 				if(!A_CheckInScope())A_SetZoom(1.0, 3);
 			}
 		Fire.Done:
-			WLF1 MNOP 1 
+			WLI1 A 4 
 			{
 				A_EndLaser();
 				A_RecoilOffset(0,0,6);
 			}
-			WLG1 A 12;
+			WLI1 A 12;
 		goto Ready.Active;
 		
 		Reload:
@@ -297,10 +299,10 @@ class Halo_BeamRifle : HaloGun
 				return A_JumpIf(invoker.heat < 0.5, "Ready.Dryfire");
 			}
 			TNT1 A 0 A_WeapSound("Halo/Weapons/BeamRifle/Overheat/Start", CHANF_OVERLAP);
-			WLH1 ABC 1 Bright;
+			WLO1 ABCD 1 Bright;
 			TNT1 A 0 A_RollQuake(2,35,1);
 			TNT1 A 0 A_StartSound("Halo/Weapons/BeamRifle/Overheat/Loop", CHAN_VOICE, CHANF_LOOPING);
-			WLH1 DEFGHIJKLMNOPQRSTU 2 Bright
+			WLO1 DEFGHIJKLMNOPQRRR 2 Bright // 18 frames, or 36 tics.
 			{
 				for(int i = 0; i < floor(4 * halodoom_effectintensity); i++) 
 				{
@@ -314,8 +316,8 @@ class Halo_BeamRifle : HaloGun
 				A_WeapSound("Halo/Weapons/BeamRifle/Overheat/End", CHANF_OVERLAP);
 				A_StopSound(CHAN_VOICE);
 			}
-			WLH1 VWXYZ 2 Bright;
-			WLH2 AB 1;
+			WLO1 ST 4 Bright;
+			WLI1 A 2;
 			TNT1 A 0 
 			{
 				invoker.heat = 0;
