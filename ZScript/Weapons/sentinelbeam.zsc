@@ -24,6 +24,12 @@ class SentinelBeamDecal : LaserBeamDecal
 
 class SentinelBeamSpawner : MBeamSpawner
 {
+	override void Setup()
+	{
+		super.Setup();
+		DontSpawnParticles = true;
+	}
+	
 	override void OnCooked(Actor victim)
 	{
 		let spawnPos = getOffsetPos(victim, destOffs);

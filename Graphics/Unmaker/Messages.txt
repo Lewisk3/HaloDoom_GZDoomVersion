@@ -1,3 +1,0 @@
-Pick up: Error 666: Weapon not recognized. No Data available in Weapon Wiki.
-
-Death: Player was undone by Killer's Unmaker.
