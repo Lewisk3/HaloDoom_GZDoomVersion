@@ -311,7 +311,6 @@ class WeaponPickupProxy : Actor
 			{
 				if(!hasweap && wcontrol)
 				{
-					console.printf("Doesn't have weapon: %s", trueitem.getClassName());
 					let nweap = GiveWeaponItem(plr);
 					if(nweap && nweap.Owner) 
 					{

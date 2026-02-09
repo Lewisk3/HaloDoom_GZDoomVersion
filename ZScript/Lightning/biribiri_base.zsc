@@ -393,30 +393,3 @@ class LightningParticle : Actor
 		wait;
 	}
 }
-
-class FUCKYOU : CheapActor
-{
-	Default
-	{
-		Radius 1;
-		+NOINTERACTION;
-		RenderStyle "AddShaded";
-		Alpha 1.0;
-		Scale 0.01;
-		+ROLLSPRITE;
-		+BRIGHT;
-	}
-
-	override void Tick()
-	{
-		super.Tick();
-		SetShade("FFFF0000");
-	}
-
-	States
-	{
-		Spawn:
-			LTNG A 1;
-		loop;
-	}
-}
