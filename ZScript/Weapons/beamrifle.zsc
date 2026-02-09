@@ -150,7 +150,7 @@ class Halo_BeamRifle : HaloGun
 			invoker.lsrbeam.setEnabled(true);
 			invoker.lsrbeamCore.setEnabled(true);
 		}
-		SetupPlasmaLightning(16, -6, 8, scale:2.0, density:3.0, shading:"#d20afa");
+		SetupPlasmaLightning(16, -4, 8, scale:0.65, density:3.0, shading:"#d20afa");
 	}
 	
 	action void A_EndLaser(bool dosound = true)
@@ -192,10 +192,10 @@ class Halo_BeamRifle : HaloGun
 				for(int i = 0; i < floor(amt); i++)
 					A_SpawnSFX("MuzzleSmoke", 0,0);
 				
-				if( invoker.heat >= 0.9 && !(level.maptime%4) ) 	
+				if( invoker.heat >= 0.9 && !(level.maptime%8) ) 	
 				{
-					let pl = SetupPlasmaLightning(8, -6+random[BRifleRNG](-4,4), 9+random[BRifleRNG](-2,4), scale:0.6, density:2.0, shading:"#0adefa", onlySpawn:true);
-					if(pl) pl.lifetime = 70;
+					let pl = SetupPlasmaLightning(8, -5+random[BRifleRNG](-2,2), 9+random[BRifleRNG](-1,2), scale:0.3, density:2.0, shading:"#fc1717", onlySpawn:true);
+					if(pl) pl.lifetime = 35;
 				}
 			}
 		stop;
@@ -209,7 +209,7 @@ class Halo_BeamRifle : HaloGun
 			WLS1 EDCBA 1 A_DoSelectAnim();
 		goto Ready.Active;
 		Ready.Pickup:
-			WLD1 ABCDEEEFFFFGGGGHHHHIIJJ 1 A_DoSelectAnim(0, true);
+			WLD1 ABCEFGHIJKLMNOPQRSTUVWXYZ 1 A_DoSelectAnim(0, true);
 		Ready.Active:
 			WLI1 A 1 
 			{

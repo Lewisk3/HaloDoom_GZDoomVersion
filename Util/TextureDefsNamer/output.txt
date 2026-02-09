@@ -1,615 +1,207 @@
-Sprite "WKI1A0", 384, 216
+Sprite "WLD1A0", 384, 216
 {
 	XScale 0.800
 	YScale 0.900
-	Offset 60, 60
-	Patch "UNMKIDLE", 0, 0
+	Offset 70, 60
+	Patch "BEMD0000", 0, 0
 }
 
-Sprite "WKD1A0", 384, 216
+Sprite "WLD1B0", 384, 216
 {
 	XScale 0.800
 	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0000", 0, 0
+	Offset 70, 60
+	Patch "BEMD0001", 0, 0
 }
 
-Sprite "WKD1B0", 384, 216
+Sprite "WLD1C0", 384, 216
 {
 	XScale 0.800
 	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0001", 0, 0
+	Offset 70, 60
+	Patch "BEMD0002", 0, 0
 }
 
-Sprite "WKD1C0", 384, 216
+Sprite "WLD1D0", 384, 216
 {
 	XScale 0.800
 	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0002", 0, 0
+	Offset 70, 60
+	Patch "BEMD0003", 0, 0
 }
 
-Sprite "WKD1D0", 384, 216
+Sprite "WLD1E0", 384, 216
 {
 	XScale 0.800
 	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0003", 0, 0
+	Offset 70, 60
+	Patch "BEMD0004", 0, 0
 }
 
-Sprite "WKD1E0", 384, 216
+Sprite "WLD1F0", 384, 216
 {
 	XScale 0.800
 	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0004", 0, 0
+	Offset 70, 60
+	Patch "BEMD0005", 0, 0
 }
 
-Sprite "WKD1F0", 384, 216
+Sprite "WLD1G0", 384, 216
 {
 	XScale 0.800
 	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0005", 0, 0
+	Offset 70, 60
+	Patch "BEMD0006", 0, 0
 }
 
-Sprite "WKD1G0", 384, 216
+Sprite "WLD1H0", 384, 216
 {
 	XScale 0.800
 	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0006", 0, 0
+	Offset 70, 60
+	Patch "BEMD0007", 0, 0
 }
 
-Sprite "WKD1H0", 384, 216
+Sprite "WLD1I0", 384, 216
 {
 	XScale 0.800
 	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0007", 0, 0
+	Offset 70, 60
+	Patch "BEMD0008", 0, 0
 }
 
-Sprite "WKD1I0", 384, 216
+Sprite "WLD1J0", 384, 216
 {
 	XScale 0.800
 	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0008", 0, 0
+	Offset 70, 60
+	Patch "BEMD0009", 0, 0
 }
 
-Sprite "WKD1J0", 384, 216
+Sprite "WLD1K0", 384, 216
 {
 	XScale 0.800
 	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0009", 0, 0
+	Offset 70, 60
+	Patch "BEMD0010", 0, 0
 }
 
-Sprite "WKD1K0", 384, 216
+Sprite "WLD1L0", 384, 216
 {
 	XScale 0.800
 	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0010", 0, 0
+	Offset 70, 60
+	Patch "BEMD0011", 0, 0
 }
 
-Sprite "WKD1L0", 384, 216
+Sprite "WLD1M0", 384, 216
 {
 	XScale 0.800
 	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0011", 0, 0
+	Offset 70, 60
+	Patch "BEMD0012", 0, 0
 }
 
-Sprite "WKD1M0", 384, 216
+Sprite "WLD1N0", 384, 216
 {
 	XScale 0.800
 	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0012", 0, 0
+	Offset 70, 60
+	Patch "BEMD0013", 0, 0
 }
 
-Sprite "WKD1N0", 384, 216
+Sprite "WLD1O0", 384, 216
 {
 	XScale 0.800
 	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0013", 0, 0
+	Offset 70, 60
+	Patch "BEMD0014", 0, 0
 }
 
-Sprite "WKD1O0", 384, 216
+Sprite "WLD1P0", 384, 216
 {
 	XScale 0.800
 	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0014", 0, 0
+	Offset 70, 60
+	Patch "BEMD0015", 0, 0
 }
 
-Sprite "WKD1P0", 384, 216
+Sprite "WLD1Q0", 384, 216
 {
 	XScale 0.800
 	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0015", 0, 0
+	Offset 70, 60
+	Patch "BEMD0016", 0, 0
 }
 
-Sprite "WKD1Q0", 384, 216
+Sprite "WLD1R0", 384, 216
 {
 	XScale 0.800
 	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0016", 0, 0
+	Offset 70, 60
+	Patch "BEMD0017", 0, 0
 }
 
-Sprite "WKD1R0", 384, 216
+Sprite "WLD1S0", 384, 216
 {
 	XScale 0.800
 	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0017", 0, 0
+	Offset 70, 60
+	Patch "BEMD0018", 0, 0
 }
 
-Sprite "WKD1S0", 384, 216
+Sprite "WLD1T0", 384, 216
 {
 	XScale 0.800
 	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0018", 0, 0
+	Offset 70, 60
+	Patch "BEMD0019", 0, 0
 }
 
-Sprite "WKD1T0", 384, 216
+Sprite "WLD1U0", 384, 216
 {
 	XScale 0.800
 	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0019", 0, 0
+	Offset 70, 60
+	Patch "BEMD0020", 0, 0
 }
 
-Sprite "WKD1U0", 384, 216
+Sprite "WLD1V0", 384, 216
 {
 	XScale 0.800
 	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0020", 0, 0
+	Offset 70, 60
+	Patch "BEMD0021", 0, 0
 }
 
-Sprite "WKD1V0", 384, 216
+Sprite "WLD1W0", 384, 216
 {
 	XScale 0.800
 	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0021", 0, 0
+	Offset 70, 60
+	Patch "BEMD0022", 0, 0
 }
 
-Sprite "WKD1W0", 384, 216
+Sprite "WLD1X0", 384, 216
 {
 	XScale 0.800
 	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0022", 0, 0
+	Offset 70, 60
+	Patch "BEMD0023", 0, 0
 }
 
-Sprite "WKD1X0", 384, 216
+Sprite "WLD1Y0", 384, 216
 {
 	XScale 0.800
 	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0023", 0, 0
+	Offset 70, 60
+	Patch "BEMD0024", 0, 0
 }
 
-Sprite "WKD1Y0", 384, 216
+Sprite "WLD1Z0", 384, 216
 {
 	XScale 0.800
 	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0024", 0, 0
-}
-
-Sprite "WKD1Z0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0025", 0, 0
-}
-
-Sprite "WKD2A0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0026", 0, 0
-}
-
-Sprite "WKD2B0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0027", 0, 0
-}
-
-Sprite "WKD2C0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0028", 0, 0
-}
-
-Sprite "WKD2D0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0029", 0, 0
-}
-
-Sprite "WKD2E0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0030", 0, 0
-}
-
-Sprite "WKD2F0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0031", 0, 0
-}
-
-Sprite "WKD2G0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0032", 0, 0
-}
-
-Sprite "WKD2H0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0033", 0, 0
-}
-
-Sprite "WKD2I0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0034", 0, 0
-}
-
-Sprite "WKD2J0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0035", 0, 0
-}
-
-Sprite "WKD2K0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0036", 0, 0
-}
-
-Sprite "WKD2L0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMD0037", 0, 0
-}
-
-Sprite "WKF1A0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMF0000", 0, 0
-}
-
-Sprite "WKF1B0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMF0001", 0, 0
-}
-
-Sprite "WKF1C0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMF0002", 0, 0
-}
-
-Sprite "WKF1D0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMF0003", 0, 0
-}
-
-Sprite "WKF1E0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMF0004", 0, 0
-}
-
-Sprite "WKF1F0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMF0005", 0, 0
-}
-
-Sprite "WKF1G0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMF0006", 0, 0
-}
-
-Sprite "WKC1A0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMC0000", 0, 0
-}
-
-Sprite "WKC1B0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMC0001", 0, 0
-}
-
-Sprite "WKC1C0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMC0002", 0, 0
-}
-
-Sprite "WKC1D0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMC0003", 0, 0
-}
-
-Sprite "WKC1E0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMC0004", 0, 0
-}
-
-Sprite "WKC1F0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMC0005", 0, 0
-}
-
-Sprite "WKC1G0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMC0006", 0, 0
-}
-
-Sprite "WKC1H0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMC0007", 0, 0
-}
-
-Sprite "WKC1I0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMC0008", 0, 0
-}
-
-Sprite "WKC1J0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMC0009", 0, 0
-}
-
-Sprite "WKC1K0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMC0010", 0, 0
-}
-
-Sprite "WKC1L0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMC0011", 0, 0
-}
-
-Sprite "WKC1M0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMC0012", 0, 0
-}
-
-Sprite "WKC1N0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMC0013", 0, 0
-}
-
-Sprite "WKC1O0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMC0014", 0, 0
-}
-
-Sprite "WKC1P0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMC0015", 0, 0
-}
-
-Sprite "WKC1Q0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMC0016", 0, 0
-}
-
-Sprite "WKC1R0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMC0017", 0, 0
-}
-
-Sprite "WKC1S0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMC0018", 0, 0
-}
-
-Sprite "WKC1T0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMC0019", 0, 0
-}
-
-Sprite "WKC1U0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMC0020", 0, 0
-}
-
-Sprite "WKC1V0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMC0021", 0, 0
-}
-
-Sprite "WKC1W0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMC0022", 0, 0
-}
-
-Sprite "WKC1X0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMC0023", 0, 0
-}
-
-Sprite "WKH1A0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMH0000", 0, 0
-}
-
-Sprite "WKH1B0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMH0001", 0, 0
-}
-
-Sprite "WKH1C0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMH0002", 0, 0
-}
-
-Sprite "WKH1D0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMH0003", 0, 0
-}
-
-Sprite "WKH1E0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMH0004", 0, 0
-}
-
-Sprite "WKH1F0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMH0005", 0, 0
-}
-
-Sprite "WKH1G0", 384, 216
-{
-	XScale 0.800
-	YScale 0.900
-	Offset 60, 60
-	Patch "UNMH0006", 0, 0
+	Offset 70, 60
+	Patch "BEMD0025", 0, 0
 }

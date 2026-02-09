@@ -193,8 +193,8 @@ class UnmakerBall : HaloSlowProjectile
 					
 					if(haloweap) 
 					{
-						double pow = HaloMath.DistFalloff(pos, plr.pos, 4096);
-						haloweap.A_RollQuake(8 * pow, 20, 4, ptr:haloweap);
+						double pow = max(0, HaloMath.DistFalloff(pos, plr.pos, 4096));
+						haloweap.A_RollQuake(6 * pow, 20, 2, ptr:haloweap);
 					}
 				}
 	

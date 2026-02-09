@@ -188,7 +188,7 @@ class TESLightningEffect : CheapActor
 			tesl.lifetime = lifetime;
 			tesl.followingGun = followingGun;
 			tesl.interpolateGunView = interpolateGunView;
-			
+		
 			tesl.partTextures[0] = TexMan.CheckForTexture("Sprites/Effects/Lightning/LTNGA0.png");
 			tesl.partTextures[1] = TexMan.CheckForTexture("Sprites/Effects/Lightning/LTNGB0.png");
 			tesl.partTextures[2] = TexMan.CheckForTexture("Sprites/Effects/Lightning/LTNGC0.png");
@@ -263,7 +263,7 @@ class LightningParticle : Actor
 		+NOINTERACTION;
 		RenderStyle "AddShaded";
 		Alpha 1.0;
-		Scale 0.01;
+		Scale 0.007;
 		+ROLLSPRITE;
 		+BRIGHT;
 	}
@@ -284,7 +284,7 @@ class LightningParticle : Actor
 		else if(!(level.time%flashtics))
 			bInvisible = !bInvisible;
 			
-		if(alpha <= 0.01) 
+		if(alpha < 0.01) 
 		{
 			Destroy();
 			return;
@@ -336,11 +336,12 @@ class LightningParticle : Actor
 		
 		vector3 offs = dir * (followOffs.x, followOffs.y - bob.x, followOffs.z - bob.y);
 		SetOrigin(level.vec3offset(followPos, offs), true);
-				
+		
 		if( (random[LightningFX](0,100) <= 5) && parent )
 		{
 			pset.color1 = fillcolor;
-			pset.style = STYLE_Add;
+			pset.style = STYLE_AddShaded;
+			pset.flags = SPF_FULLBRIGHT|SPF_ROLL|SPF_REPLACE;
 			pset.pos = pos + (dir * (0, frandom[LightningFX](-3,3), frandom[LightningFX](-5,5)));
 			pset.lifetime = 8;
 			
@@ -348,7 +349,7 @@ class LightningParticle : Actor
 			{
 				pset.texture = parent.partTextures[random[LightningFX](0,3)];
 				pset.vel = dir * (frandom[LightningFX](0,3), frandom[LightningFX](-3,3), frandom[LightningFX](-3,3));
-				pset.size = frandom[LightningFX](1.0,2.5) * (min(Scale.X, Scale.Y)*100.0);
+				pset.size = frandom[LightningFX](1.0,2.5) * (defScale * 100.0);
 				pset.startalpha = 3.0;
 				pset.startroll = frandom[LightningFX](-180,180);
 				if(follow) pset.vel += follow.vel;
@@ -360,6 +361,9 @@ class LightningParticle : Actor
 	
 	States
 	{
+		Cache:
+			LTNG ABCD 0;
+	
 		Spawn:
 			TNT1 A 0; // When does nodelay ever actually work? 
 			TNT1 "#" 1
@@ -377,7 +381,7 @@ class LightningParticle : Actor
 				curScaleFactor = HaloMath.Lerp(curScaleFactor, desiredScale, 0.25);
 				A_SetScale(defScale * curScaleFactor);
 				
-				if( abs(curScaleFactor-desiredScale) <= 0.1 )
+				if( abs(curScaleFactor-desiredScale) < 0.1 )
 					return ResolveState("Fadeout");
 					
 				return ResolveState(null);
@@ -387,5 +391,32 @@ class LightningParticle : Actor
 		Fadeout:
 			"####" "#" 1 A_FadeOut(0.5);
 		wait;
+	}
+}
+
+class FUCKYOU : CheapActor
+{
+	Default
+	{
+		Radius 1;
+		+NOINTERACTION;
+		RenderStyle "AddShaded";
+		Alpha 1.0;
+		Scale 0.01;
+		+ROLLSPRITE;
+		+BRIGHT;
+	}
+
+	override void Tick()
+	{
+		super.Tick();
+		SetShade("FFFF0000");
+	}
+
+	States
+	{
+		Spawn:
+			LTNG A 1;
+		loop;
 	}
 }

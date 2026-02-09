@@ -402,6 +402,8 @@ class HaloGun : RecoilWeapon
 				PSprite curBiri = player.FindPSprite(curLayer);
 				if(curBiri)
 				{
+					double boltScale = frandom[WeapFX](0.5, 1.15) * (1.0 - (max(i,1) / (boltLen * 2.0)));
+					double boltAlpha = 1.0 - (double(max(i,1)) / (boltLen));
 					curBiri.caller = invoker;
 					curBiri.x = curPos.x;
 					curBiri.y = curPos.y;
@@ -409,9 +411,9 @@ class HaloGun : RecoilWeapon
 					curBiri.bAddWeapon = true;
 					curBiri.bAddBob = true;
 					curBiri.pivot = (0.5, 0.5);
-					curBiri.scale = (size,size) * min( 1.0, ( 1.0 - (double(max(i,1)) / boltLen) ) );
+					curBiri.scale = (size,size) * boltScale;
 					curBiri.rotation = curAngle;
-					curBiri.alpha = 1.0;
+					curBiri.alpha = boltAlpha;
 					
 					if(prevBiri)
 					{
