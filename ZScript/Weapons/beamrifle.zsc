@@ -135,7 +135,7 @@ class Halo_BeamRifle : HaloGun
 		
 	action void A_BeginLaser()
 	{
-		A_WeapSound("Halo/Weapons/BeamRifle/Laser/Fire", CHANF_OVERLAP);
+		A_StartSound("Halo/Weapons/BeamRifle/Laser/Fire", CHAN_WEAPON, CHANF_OVERLAP);
 		A_Light(2);
 		if(!invoker.lsrbeam)
 		{
@@ -244,13 +244,13 @@ class Halo_BeamRifle : HaloGun
 				if(!A_CheckInScope())A_SetZoom(0.97, 3);
 			}
 		Fire.Loop:
-			TNT1 A 0 A_StartSound("Halo/Weapons/BeamRifle/Laser/Loop", CHAN_VOICE, CHANF_LOOPING);
 			WLF1 CDEFGHICDEFGHICDEFGHICDEFGHIJ 1 Bright // 30 tics
 			{
 				if(invoker.lsrTics++ >= 2) 
 				{
 					A_TakeAmmo(1);
 					invoker.lsrTics = 0;
+					A_StartSound("Halo/Weapons/BeamRifle/Laser/Loop", CHAN_VOICE, CHANF_LOOPING, volume:0.65);
 				}
 				
 				A_AddRecoil(0.012, 0, 2);
