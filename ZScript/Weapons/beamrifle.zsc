@@ -274,7 +274,6 @@ class Halo_BeamRifle : HaloGun
 				
 				return res;
 			}
-			TNT1 A 0 A_StartSound("Halo/Weapons/BeamRifle/Laser/End", CHAN_WEAPON, CHANF_OVERLAP);
 			TNT1 A 0 
 			{
 				A_Light(0);
@@ -282,7 +281,9 @@ class Halo_BeamRifle : HaloGun
 			}
 		Fire.Done:
 			TNT1 A 0 A_EndLaser();
-			WLF1 DEFGHCCDDEEFFGGHHIJ 1 A_RecoilOffset(0,0,6);
+			WLF1 DEFG 1 A_RecoilOffset(0,0,6);
+			TNT1 A 0 A_StartSound("Halo/Weapons/BeamRifle/Laser/End", CHAN_WEAPON, CHANF_OVERLAP);
+			WLF1 HCCDDEEFFGGHHIJ 1 A_RecoilOffset(0,0,6);
 			WLI1 A 4;
 		goto Ready.Active;
 		
