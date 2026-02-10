@@ -39,6 +39,7 @@ class PlasmaCasterProj : PlasmaGrenade_Proj
 		BounceCount 2;
 		BounceFactor 0.35;
 		WallBounceFactor 0.35;
+		Scale 0.2;
 		
 		+ALLOWBOUNCEONACTORS;
 		+BOUNCEONACTORS;
@@ -53,6 +54,26 @@ class PlasmaCasterProj : PlasmaGrenade_Proj
 	{
 		super.DoExplode();
 		Spawn("PlasmaSplashSpawner", pos);
+	}
+	
+	States
+	{
+		Spawn:
+			PLGN B 1
+			{
+				roll += 5;
+			}
+		loop;
+		
+		Crash:
+		XDeath:
+		Death:
+			PLGN B 70 
+			{
+				A_StartSound("Halo/Grenade/Plasma/Armed"); 
+				A_AlertMonsters(128);
+			}
+		goto Detonate;
 	}
 }
 
@@ -76,6 +97,37 @@ class PlasmaCasterClusterProj : PlasmaGrenade_Proj
 				mini.vel.z = frandom[CasterCluster](5,10);
 			}
 		}
+	}
+	
+	override void Tick()
+	{
+		Super.Tick();
+		
+		vector2 fxAngles = (
+			angle+frandom(-180,180), 
+			-45 + frandom(-20,20)
+		);
+		BiriBiri.DoLightning(pos, fxAngles, dist:25, 0.5, 8.0, 20.0, 80, 100);
+	}
+		
+	States
+	{
+		Spawn:
+			PLGN B 1
+			{
+				roll += 5;
+			}
+		loop;
+		
+		Crash:
+		XDeath:
+		Death:
+			PLGN B 70 
+			{
+				A_StartSound("Halo/Grenade/Plasma/Armed"); 
+				A_AlertMonsters(128);
+			}
+		goto Detonate;
 	}
 }
 
@@ -153,7 +205,7 @@ class Halo_PlasmaCaster : HaloGun
 		vector3 hitPos; Actor proj;
 		[hitPos, proj] = A_ShootProjectile("PlasmaCasterProj", 12, 2);	
 		
-		SetupPlasmaLightning(16, -6, 8, scale:1.2, density:3.0, shading:"#13afed");
+		SetupPlasmaLightning(16, -6, 8, scale:0.65, density:3.0, shading:"#630cff");
 		A_TakeAmmo();
 	}
 	

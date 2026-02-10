@@ -96,7 +96,7 @@ class FragGrenade_Proj : HaloGrenade_Proj
 		+BOUNCEONFLOORS;
 		+BOUNCEONCEILINGS;
 		+USEBOUNCESTATE;
-		BounceFactor 0.6;
+		BounceFactor 0.35;
 		Projectile;
 		Gravity 0.67;
 		+ROLLSPRITE;
@@ -270,6 +270,7 @@ class PlasmaGrenade_Proj : HaloGrenade_Proj
 	bool onfloor;
 	bool onceiling;
 	vector3 hitoffs;
+	TESLightningEffect lightningFX;
 	
 	Default
 	{	
@@ -324,7 +325,7 @@ class PlasmaGrenade_Proj : HaloGrenade_Proj
 		let smoke = Spawn("PlasmaGrenade_Trail", pos);
 		if(smoke) 
 		{
-			smoke.A_SetScale(0.15);
+			smoke.A_SetScale(0.08);
 			if(!bMISSILE)
 			{
 				smoke.vel.z = 1;
@@ -375,6 +376,13 @@ class PlasmaGrenade_Proj : HaloGrenade_Proj
 	{
 		let expl = Spawn("PlasmaGrenadeExplosion", pos);
 		if(expl) expl.target = target;
+		if(lightningFX) lightningFX.Destroy();
+	}
+	
+	override void PostBeginPlay()
+	{
+		super.PostBeginPlay();
+		lightningFX = TESLightningEffect.AttachToActor(self, 0,0,0, 2.0, 5.0, "#3fd4ff");
 	}
 	
 	States
@@ -415,6 +423,7 @@ class PlasmaGrenade_Smoke : Actor
 		+ROLLSPRITE;
 		Scale 1.0;
 		RenderStyle "Add";
+		Alpha 0.75;
 		Translation "0:255=@60[24, 180, 237]";
 	}
 	
