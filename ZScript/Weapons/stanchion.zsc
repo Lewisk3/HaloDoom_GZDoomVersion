@@ -71,6 +71,7 @@ class Halo_Stanchion : HaloGun
 	bool fullyCharged;
 	int chargeTimer;
 	bool forceChargedFire;
+	double prevCharge;
 	
 	Default
 	{
@@ -196,11 +197,6 @@ class Halo_Stanchion : HaloGun
 	
 	action state A_ChargeBegin()
 	{
-		bool stopCharge = A_ButtonStatus(BT_ATTACK, BTS_UP);
-		if(stopCharge)
-		{
-			return ResolveState("Rail.ChargeEnd");
-		}
 		if(invoker.fxCounter++ >= 2)
 		{
 			A_SpriteLightning(amt:10, posoffs:(-90,60));
@@ -211,7 +207,12 @@ class Halo_Stanchion : HaloGun
 		if(!invoker.fullyCharged)
 		{
 			// if( !(int(invoker.heat*100)%5) ) A_TakeAmmo(4);
-			if(!(level.maptime%10)) A_HUDMessage(String.Format("Charge Status: %d%%", min(100,invoker.heat * 100)));
+			double curCharge = min(100,invoker.heat * 100);
+			if( abs(invoker.prevCharge - curCharge) >= 20 || (curCharge == 100 && curCharge != invoker.prevCharge) ) 
+			{
+				A_HUDMessage(String.Format("Charge Status: %d%%", curCharge));
+				invoker.prevCharge = curCharge;
+			}
 			invoker.heat += 0.015;
 		}
 		
@@ -220,6 +221,13 @@ class Halo_Stanchion : HaloGun
 			A_StartSound("Halo/Weapons/Stanchion/Charge/Complete", CHAN_AUTO, CHANF_OVERLAP);
 			invoker.fullyCharged = true;
 			A_StopSound(CHAN_CHARGING);
+		}
+		
+		bool stopCharge = A_ButtonStatus(BT_ATTACK, BTS_UP);
+		if(stopCharge)
+		{
+			invoker.fullyCharged = false;
+			return ResolveState("Rail.ChargeEnd");
 		}
 		
 		return ResolveState(null);
@@ -335,7 +343,10 @@ class Halo_Stanchion : HaloGun
 					else
 					{
 						double timeSecs = round((maxChargeTime - invoker.chargeTimer) / double(TICRATE));
-						if(!(invoker.chargeTimer%35)) A_HUDMessage(String.Format("WARNING OVERHEAT IN %ds", timeSecs));
+						if(!(invoker.chargeTimer%35)) 
+						{	
+							A_HUDMessage(String.Format("WARNING OVERHEAT IN %ds", timeSecs));
+						}
 					}
 				}
 				else
@@ -536,13 +547,20 @@ class Halo_Stanchion : HaloGun
 				{
 					A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
 					if(lowBattery) A_HUDMessage("Cannot begin charge: LOW BATTERY");
-					if(tooHot) A_HUDMessage("Charge Status: 100%");
 					if(cooldown) A_HUDMessage("Cannot begin charge: OVERHEATED");
+					if(tooHot) 
+					{
+						A_HUDMessage("Charge Status: 100%");
+						invoker.fullyCharged = true;
+					}
 					return ResolveState("Rail.ChargeEnd");
 				}
 				
 				if(invoker.heat >= 1.0) // Skip right to charge loop, if we've built up a lot of heat.
+				{
+					invoker.fullyCharged = true;
 					return ResolveState("Rail.ChargeLoop");
+				}
 				
 				A_StartSound("Halo/Weapons/Stanchion/Charge", CHAN_CHARGING, CHANF_OVERLAP|CHANF_NOSTOP);
 				return ResolveState(null);

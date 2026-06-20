@@ -754,7 +754,7 @@ class Railgun_Explosion : FastActor
 {
 	Default
 	{
-		Scale 1.75;
+		Scale 1.35;
 	}
 	
 	States
@@ -781,7 +781,7 @@ class Railgun_Explosion : FastActor
 				}
 				
 				// Flying explosions
-				double adjustedAmt = max(random[RailgunEXP](15,30) * halodoom_effectintensity, 0);
+				double adjustedAmt = max(random[RailgunEXP](10,20) * halodoom_effectintensity, 0);
 				for(int i = 0; i < adjustedAmt; i++)
 				{
 					double spawnang = frandom[RailgunEXP](0,180);
