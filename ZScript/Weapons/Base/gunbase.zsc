@@ -1623,11 +1623,11 @@ class HaloGun : RecoilWeapon
 				if( (victim is "ExplosiveCoil") )
 				{
 					if(holdingCoil) holdingCoil.explodeOnImpact = true;
-					A_HaloMelee(0, 70, fpthrust:(16,16), hitsnd:"Halo/Melee/Punch", "Halo/Melee/Ouch", forceThrust:true);
+					A_HaloMelee(0, 70, fpthrust:(16,16), hitsnd:"Halo/Melee/Punch", wallsnd:"Halo/Melee/Ouch", damageType:"Kick", forceThrust:true);
 				}
 				else
 				{
-					A_HaloMelee(50, 70, fpthrust:(12,12), hitsnd:"Halo/Melee/Punch", "Halo/Melee/Ouch");
+					A_HaloMelee(50, 70, fpthrust:(12,12), hitsnd:"Halo/Melee/Punch", wallsnd:"Halo/Melee/Ouch", damageType:"Kick");
 				}
 			}
 			HSKI FGHI 1;
@@ -1665,12 +1665,12 @@ class HaloGun : RecoilWeapon
 				if( (victim is "ExplosiveCoil") )
 				{
 					if(holdingCoil) holdingCoil.explodeOnImpact = true;
-					A_HaloMelee(0, 70, fpthrust:(20,0), hitsnd:"Halo/Melee/Punch", "Halo/Melee/Ouch", forceThrust:true);
+					A_HaloMelee(0, 70, fpthrust:(20,0), hitsnd:"Halo/Melee/Punch", wallsnd:"Halo/Melee/Ouch", damageType:"Kick", forceThrust:true);
 				}
 				else
 				{
 					if(victim) victim.TriggerPainChance("FaceKick", true);
-					A_HaloMelee(75, 70, fpthrust:(12,12), hitsnd:"Halo/Melee/Punch", "Halo/Melee/Ouch");
+					A_HaloMelee(75, 70, fpthrust:(12,12), hitsnd:"Halo/Melee/Punch", wallsnd:"Halo/Melee/Ouch", damageType:"Kick");
 				}
 			}
 			HSKI N 8;

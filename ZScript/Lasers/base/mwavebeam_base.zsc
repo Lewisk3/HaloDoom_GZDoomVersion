@@ -408,7 +408,7 @@ class I_MBeamCookStatus : Inventory
 		{
 			Owner.A_SetTranslation("Burnt");
 			Owner.DamageMobj(damageSource, damageInflictor, cookedhealth, damagetype, DMG_FORCED);
-			Owner.RemoveInventory(self);
+			if(Owner) Owner.RemoveInventory(self);
 			GoAwayAndDie();
 		}
 	} 
