@@ -1216,6 +1216,13 @@ M_GOTKILL1 "Sounds/Players/M_KILL1.ogg"
 M_GOTKILL2 "Sounds/Players/M_KILL2.ogg"
 M_GOTKILL3 "Sounds/Players/M_KILL3.ogg"
 M_GOTKILL4 "Sounds/Players/M_KILL4.ogg"
+M_GOTKILL5 "Sounds/Players/M_KILL5.ogg"
+M_GOTKILL6 "Sounds/Players/M_KILL6.ogg"
+M_GOTKILL7 "Sounds/Players/M_KILL7.ogg"
+M_GOTKILL8 "Sounds/Players/M_KILL8.ogg"
+M_GOTKILL9 "Sounds/Players/M_KILL9.ogg"
+M_GOTKILL10 "Sounds/Players/M_KILL10.ogg"
+M_GOTKILL11 "Sounds/Players/M_KILL11.ogg"
 M_GOTKILLREV1 "Sounds/Players/M_Kill_Rev1.ogg"
 M_GOTKILLREV2 "Sounds/Players/M_Kill_Rev2.ogg"
 M_GOTKILLSPECTRE1 "Sounds/Players/M_Kill_Spectre1.ogg"
@@ -1223,7 +1230,7 @@ M_GOTKILLSPECTRE2 "Sounds/Players/M_Kill_Spectre2.ogg"
 
 $random Halo/Spartan/M/GotKill_Spectre { M_GOTKILLSPECTRE1 M_GOTKILLSPECTRE2 }
 $random Halo/Spartan/M/GotKill_Revenant { M_GOTKILLREV1 M_GOTKILLREV2 }
-$random Halo/Spartan/M/GotKill { M_GOTKILL1 M_GOTKILL2 M_GOTKILL3 M_GOTKILL4 }
+$random Halo/Spartan/M/GotKill { M_GOTKILL1 M_GOTKILL2 M_GOTKILL3 M_GOTKILL4 M_GOTKILL5 M_GOTKILL6 M_GOTKILL7 M_GOTKILL8 M_GOTKILL9 M_GOTKILL10 M_GOTKILL11 }
 
 F_GOTKILL1 "Sounds/Players/Female/F_KILL1.ogg"
 F_GOTKILL2 "Sounds/Players/Female/F_KILL2.ogg"
