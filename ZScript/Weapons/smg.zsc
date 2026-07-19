@@ -79,7 +79,7 @@ class Halo_SMG : HaloGun
 		HaloGun.PowerTier P_NORM;
 		
 		RecoilWeapon.YOffsetRange 0, 40;
-		Scale 0.55;
+		Scale 1.0;
 	}
 	
 	override void GetStatsLore(out Array<String> stats, out string lore)

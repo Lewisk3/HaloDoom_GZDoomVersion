@@ -135,6 +135,7 @@ class Halo_GravityHammer : HaloGun
 		HaloGun.PowerTier P_MELEE;
 		
 		RecoilWeapon.YOffsetRange -10, 1000;
+		Scale 1.1;
 	}
 	
 	action void A_MuzzleLightning(int amt = 10, vector2 posoffs = (0,0))

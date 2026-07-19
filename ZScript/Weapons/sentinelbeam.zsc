@@ -73,6 +73,7 @@ class Halo_SentinelBeam : HaloGun
 		HaloGun.UIGraphic "MISSNG", 0.6, 0.6;
 			
 		RecoilWeapon.YOffsetRange 0, 40;
+		Scale 1.0;
 	}
 	
 	override int GetPowerTier()

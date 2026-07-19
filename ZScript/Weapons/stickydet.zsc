@@ -244,6 +244,7 @@ class Halo_StickyDetonator : HaloGun
 		HaloGun.Rarity 40;
 		
 		RecoilWeapon.YOffsetRange -10, 40;
+		Scale 1.0;
 	}
 	
 	override int GetPowerTier()

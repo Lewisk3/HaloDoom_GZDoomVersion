@@ -125,6 +125,7 @@ class Halo_BeamRifle : HaloGun
 		HaloGun.SetupScope 2.0, 1.0;
 		
 		RecoilWeapon.YOffsetRange 0, 40;
+		Scale 1.1;
 	}
 	
 	override int GetPowerTier()

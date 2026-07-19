@@ -85,6 +85,8 @@ class Halo_Magnum : HaloGun
 		
 		RecoilWeapon.YOffsetRange -10, 40;
 		+HaloGun.SI_AlwaysHide;
+		
+		Scale 1.2;
 	}
 
 	override int GetPowerTier()

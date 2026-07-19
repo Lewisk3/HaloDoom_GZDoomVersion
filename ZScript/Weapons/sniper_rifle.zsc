@@ -142,6 +142,8 @@ class Halo_SniperRifle : HaloGun
 		
 		RecoilWeapon.YOffsetRange 0, 40;
 		-HaloGun.SI_Vignette;
+		
+		Scale 1.1;
 	}
 	
 	override int GetPowerTier()

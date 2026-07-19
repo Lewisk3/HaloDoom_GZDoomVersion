@@ -80,6 +80,7 @@ class Halo_Needler : HaloGun
 		HaloGun.SetupUIAmmo "WI_AMM4", 12, 14, 0, 10;
 		
 		RecoilWeapon.YOffsetRange 0, 40;
+		Scale 0.6;
 	}
 	
 	override void MarkPrecacheSounds()

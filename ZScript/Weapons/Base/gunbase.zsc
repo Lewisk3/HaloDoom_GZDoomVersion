@@ -160,7 +160,7 @@ class HaloGun : RecoilWeapon
 		+HaloGun.SI_Vignette;
 		// +HaloGun.SI_Rotate;
 		// +HaloGun.SI_AlwaysHide;
-		Scale 0.7;
+		Scale 0.85;
 	}
 
 	// Called when a new level is loaded.
