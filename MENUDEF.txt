@@ -110,6 +110,7 @@ OptionMenu "HaloDoomGameplayOptions"
 	Slider "Weapon recoil intensity", "halodoom_recoil_intensity", 0, 2.0, 0.1, 1
 	Slider "Screenshake Intensity", "r_quakeintensity", 0.0, 1.0, 0.1, 1
 	Option "Spartan One-liners", "halodoom_spartanvoicelines", "EnabledDisabled"
+	Slider "One-liner Chance", "halodoom_spartanvoicelines_frequency", 0, 100, 1, 0
 	Option "Secret Found SFX", "halodoom_dosecretsnd", "EnabledDisabled"
 	StaticText " "
 	StaticText "Effects", "Black"

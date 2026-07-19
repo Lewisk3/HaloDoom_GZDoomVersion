@@ -1181,16 +1181,8 @@ $random Halo/Surface/Nature/Footstep { WALKNATURE1 WALKNATURE2 WALKNATURE3 WALKN
 $random Halo/Surface/Water/Footstep  { WALKWATER1 WALKWATER2 WALKWATER3 WALKWATER4 }
 
 // Player sounds
-Halo/Spartan/Death1 "Sounds/Players/death1.ogg" 
-Halo/Spartan/Death2 "Sounds/Players/death2.ogg" 
-Halo/Spartan/Death3 "Sounds/Players/death3.ogg" 
-Halo/Spartan/Death4 "Sounds/Players/death4.ogg" 
-Halo/Spartan/Death5 "Sounds/Players/death5.ogg" 
-Halo/Spartan/PainLow "Sounds/Players/pain_low.ogg" 
-Halo/Spartan/PainMed "Sounds/Players/pain_med.ogg" 
-Halo/Spartan/PainHigh "Sounds/Players/pain_high.ogg" 
-Halo/Spartan/Jump1 "Sounds/Players/jump1.ogg"
-Halo/Spartan/Jump2 "Sounds/Players/jump2.ogg"
+
+// Generic 
 Halo/Spartan/DoubleJump1 "Sounds/Players/Abilities/dbljump1.ogg"
 Halo/Spartan/DoubleJump2 "Sounds/Players/Abilities/dbljump2.ogg"
 Halo/Spartan/DoubleJump3 "Sounds/Players/Abilities/dbljump2.ogg"
@@ -1212,17 +1204,46 @@ Halo/Spartan/Land/Normal "Sounds/Players/land_normal.ogg"
 Halo/Spartan/Land/Hard "Sounds/Players/land_hard.ogg"
 Halo/Spartan/LowHealthLoop "Sounds/Players/Player_Low_Health_Loop.ogg"
 
-M_GOTKILL1 "Sounds/Players/M_KILL1.ogg"
-M_GOTKILL2 "Sounds/Players/M_KILL2.ogg"
-M_GOTKILL3 "Sounds/Players/M_KILL3.ogg"
-M_GOTKILL4 "Sounds/Players/M_KILL4.ogg"
-M_GOTKILL5 "Sounds/Players/M_KILL5.ogg"
-M_GOTKILL6 "Sounds/Players/M_KILL6.ogg"
-M_GOTKILL7 "Sounds/Players/M_KILL7.ogg"
-M_GOTKILL8 "Sounds/Players/M_KILL8.ogg"
-M_GOTKILL9 "Sounds/Players/M_KILL9.ogg"
-M_GOTKILL10 "Sounds/Players/M_KILL10.ogg"
-M_GOTKILL11 "Sounds/Players/M_KILL11.ogg"
+$random Halo/Spartan/Dash { Halo/Spartan/Dash1 Halo/Spartan/Dash2 Halo/Spartan/Dash3 Halo/Spartan/Dash4 }
+$random Halo/Spartan/Slide { Halo/Spartan/Slide1 Halo/Spartan/Slide2 Halo/Spartan/Slide3 }
+$random Halo/Spartan/DoubleJump { Halo/Spartan/DoubleJump1 Halo/Spartan/DoubleJump2 Halo/Spartan/DoubleJump3 }
+$random Halo/Spartan/DodgeJump { Halo/Spartan/DodgeJump1 Halo/Spartan/DodgeJump2 }
+
+// Male
+M_GOTKILL1 "Sounds/Players/Male/M_KILL1.ogg"
+M_GOTKILL2 "Sounds/Players/Male/M_KILL2.ogg"
+M_GOTKILL3 "Sounds/Players/Male/M_KILL3.ogg"
+M_GOTKILL4 "Sounds/Players/Male/M_KILL4.ogg"
+M_GOTKILL5 "Sounds/Players/Male/M_KILL5.ogg"
+M_GOTKILL6 "Sounds/Players/Male/M_KILL6.ogg"
+M_GOTKILL7 "Sounds/Players/Male/M_KILL7.ogg"
+M_GOTKILL8 "Sounds/Players/Male/M_KILL8.ogg"
+M_GOTKILL9 "Sounds/Players/Male/M_KILL9.ogg"
+M_GOTKILL10 "Sounds/Players/Male/M_KILL10.ogg"
+M_GOTKILL11 "Sounds/Players/Male/M_KILL11.ogg"
+M_GOTHEADSHOT1 "Sounds/Players/Male/M_HDSHT1.ogg"
+M_GOTHEADSHOT2 "Sounds/Players/Male/M_HDSHT2.ogg"
+M_GOTHEADSHOT3 "Sounds/Players/Male/M_HDSHT3.ogg"
+M_GOTHEADSHOT4 "Sounds/Players/Male/M_HDSHT4.ogg"
+M_GOTHEADSHOT5 "Sounds/Players/Male/M_HDSHT5.ogg"
+M_GOTHEADSHOT6 "Sounds/Players/Male/M_HDSHT6.ogg"
+M_GOTHEADSHOT7 "Sounds/Players/Male/M_HDSHT7.ogg"
+M_GOTHEADSHOT8 "Sounds/Players/Male/M_HDSHT8.ogg"
+M_INTRO1 "Sounds/Players/Male/M_Intro1.ogg"
+M_INTRO2 "Sounds/Players/Male/M_Intro2.ogg"
+M_INTRO3 "Sounds/Players/Male/M_Intro3.ogg"
+M_INTRO4 "Sounds/Players/Male/M_Intro4.ogg"
+M_INTRO5 "Sounds/Players/Male/M_Intro5.ogg"
+M_INTRO6 "Sounds/Players/Male/M_Intro6.ogg"
+M_INTRO7 "Sounds/Players/Male/M_Intro7.ogg"
+M_INTRO8 "Sounds/Players/Male/M_Intro8.ogg"
+M_INTRO9 "Sounds/Players/Male/M_Intro9.ogg"
+M_GOTSHOTGUNKILL1 "Sounds/Players/Male/M_SHTGN1.ogg" 
+M_GOTSHOTGUNKILL2 "Sounds/Players/Male/M_SHTGN2.ogg"
+M_GOTSHOTGUNKILL3 "Sounds/Players/Male/M_SHTGN3.ogg"
+M_GOTSHOTGUNKILL4 "Sounds/Players/Male/M_SHTGN4.ogg"
+M_GOTSHOTGUNKILL5 "Sounds/Players/Male/M_SHTGN5.ogg"
+
 M_GOTKILLREV1 "Sounds/Players/M_Kill_Rev1.ogg"
 M_GOTKILLREV2 "Sounds/Players/M_Kill_Rev2.ogg"
 M_GOTKILLSPECTRE1 "Sounds/Players/M_Kill_Spectre1.ogg"
@@ -1231,34 +1252,71 @@ M_GOTKILLSPECTRE2 "Sounds/Players/M_Kill_Spectre2.ogg"
 $random Halo/Spartan/M/GotKill_Spectre { M_GOTKILLSPECTRE1 M_GOTKILLSPECTRE2 }
 $random Halo/Spartan/M/GotKill_Revenant { M_GOTKILLREV1 M_GOTKILLREV2 }
 $random Halo/Spartan/M/GotKill { M_GOTKILL1 M_GOTKILL2 M_GOTKILL3 M_GOTKILL4 M_GOTKILL5 M_GOTKILL6 M_GOTKILL7 M_GOTKILL8 M_GOTKILL9 M_GOTKILL10 M_GOTKILL11 }
+$random Halo/Spartan/M/GotKill_Headshot { M_GOTHEADSHOT1 M_GOTHEADSHOT2 M_GOTHEADSHOT3 M_GOTHEADSHOT4 M_GOTHEADSHOT5 M_GOTHEADSHOT6 M_GOTHEADSHOT7 M_GOTHEADSHOT8 M_GOTHEADSHOT9 }
+$random Halo/Spartan/M/GotKill_Shotgun { M_GOTSHOTGUNKILL1 M_GOTSHOTGUNKILL2 M_GOTSHOTGUNKILL3 M_GOTSHOTGUNKILL4 M_GOTSHOTGUNKILL5 }
+$random Halo/Spartan/M/Intro { M_INTRO1 M_INTRO2 M_INTRO3 M_INTRO4 M_INTRO5 M_INTRO6 M_INTRO7 M_INTRO8 M_INTRO9 }
 
+// Female
 F_GOTKILL1 "Sounds/Players/Female/F_KILL1.ogg"
 F_GOTKILL2 "Sounds/Players/Female/F_KILL2.ogg"
 F_GOTKILL3 "Sounds/Players/Female/F_KILL3.ogg"
 F_GOTKILL4 "Sounds/Players/Female/F_KILL4.ogg"
-$random Halo/Spartan/F/GotKill { F_GOTKILL1 F_GOTKILL2 F_GOTKILL3 F_GOTKILL4 }
+F_GOTKILL5 "Sounds/Players/Female/F_KILL5.ogg"
+F_GOTKILL6 "Sounds/Players/Female/F_KILL6.ogg"
+F_GOTKILL7 "Sounds/Players/Female/F_KILL7.ogg"
+F_GOTKILL8 "Sounds/Players/Female/F_KILL8.ogg"
+F_GOTKILL9 "Sounds/Players/Female/F_KILL9.ogg"
+F_GOTKILL10 "Sounds/Players/Female/F_KILL10.ogg"
+F_GOTKILL11 "Sounds/Players/Female/F_KILL11.ogg"
+F_GOTHEADSHOT1 "Sounds/Players/Female/F_HDSHT1.ogg"
+F_GOTHEADSHOT2 "Sounds/Players/Female/F_HDSHT2.ogg"
+F_GOTHEADSHOT3 "Sounds/Players/Female/F_HDSHT3.ogg"
+F_GOTHEADSHOT4 "Sounds/Players/Female/F_HDSHT4.ogg"
+F_GOTHEADSHOT5 "Sounds/Players/Female/F_HDSHT5.ogg"
+F_GOTHEADSHOT6 "Sounds/Players/Female/F_HDSHT6.ogg"
+F_GOTHEADSHOT7 "Sounds/Players/Female/F_HDSHT7.ogg"
+F_GOTHEADSHOT8 "Sounds/Players/Female/F_HDSHT8.ogg"
+F_INTRO1 "Sounds/Players/Female/F_Intro1.ogg"
+F_INTRO2 "Sounds/Players/Female/F_Intro2.ogg"
+F_INTRO3 "Sounds/Players/Female/F_Intro3.ogg"
+F_INTRO4 "Sounds/Players/Female/F_Intro4.ogg"
+F_INTRO5 "Sounds/Players/Female/F_Intro5.ogg"
+F_INTRO6 "Sounds/Players/Female/F_Intro6.ogg"
+F_INTRO7 "Sounds/Players/Female/F_Intro7.ogg"
+F_INTRO8 "Sounds/Players/Female/F_Intro8.ogg"
+F_INTRO9 "Sounds/Players/Female/F_Intro9.ogg"
+F_GOTSHOTGUNKILL1 "Sounds/Players/Female/F_SHTGN1.ogg" 
+F_GOTSHOTGUNKILL2 "Sounds/Players/Female/F_SHTGN2.ogg"
+F_GOTSHOTGUNKILL3 "Sounds/Players/Female/F_SHTGN3.ogg"
+F_GOTSHOTGUNKILL4 "Sounds/Players/Female/F_SHTGN4.ogg"
+F_GOTSHOTGUNKILL5 "Sounds/Players/Female/F_SHTGN5.ogg"
 
-$random Halo/Spartan/Dash { Halo/Spartan/Dash1 Halo/Spartan/Dash2 Halo/Spartan/Dash3 Halo/Spartan/Dash4 }
-$random Halo/Spartan/Slide { Halo/Spartan/Slide1 Halo/Spartan/Slide2 Halo/Spartan/Slide3 }
-$random Halo/Spartan/DoubleJump { Halo/Spartan/DoubleJump1 Halo/Spartan/DoubleJump2 Halo/Spartan/DoubleJump3 }
-$random Halo/Spartan/DodgeJump { Halo/Spartan/DodgeJump1 Halo/Spartan/DodgeJump2 }
-$random Halo/Spartan/Jump { Halo/Spartan/Jump1 Halo/Spartan/Jump2 }
-$random Halo/Spartan/Death { Halo/Spartan/Death1 Halo/Spartan/Death2 Halo/Spartan/Death3 Halo/Spartan/Death4 Halo/Spartan/Death5 }
+F_GOTKILLREV1 "Sounds/Players/F_Kill_Rev1.ogg"
+F_GOTKILLREV2 "Sounds/Players/F_Kill_Rev2.ogg"
+F_GOTKILLSPECTRE1 "Sounds/Players/F_Kill_Spectre1.ogg"
+F_GOTKILLSPECTRE2 "Sounds/Players/F_Kill_Spectre2.ogg"
+
+$random Halo/Spartan/F/GotKill_Spectre { F_GOTKILLSPECTRE1 F_GOTKILLSPECTRE2 }
+$random Halo/Spartan/F/GotKill_Revenant { F_GOTKILLREV1 F_GOTKILLREV2 }
+$random Halo/Spartan/F/GotKill { F_GOTKILL1 F_GOTKILL2 F_GOTKILL3 F_GOTKILL4 F_GOTKILL5 F_GOTKILL6 F_GOTKILL7 F_GOTKILL8 F_GOTKILL9 F_GOTKILL10 F_GOTKILL11 }
+$random Halo/Spartan/F/GotKill_Headshot { F_GOTHEADSHOT1 F_GOTHEADSHOT2 F_GOTHEADSHOT3 F_GOTHEADSHOT4 F_GOTHEADSHOT5 F_GOTHEADSHOT6 F_GOTHEADSHOT7 F_GOTHEADSHOT8 F_GOTHEADSHOT9 }
+$random Halo/Spartan/F/Intro { F_INTRO1 F_INTRO2 F_INTRO3 F_INTRO4 F_INTRO5 F_INTRO6 F_INTRO7 F_INTRO8 F_INTRO9 }
+$random Halo/Spartan/F/GotKill_Shotgun { F_GOTSHOTGUNKILL1 F_GOTSHOTGUNKILL2 F_GOTSHOTGUNKILL3 F_GOTSHOTGUNKILL4 F_GOTSHOTGUNKILL5 }
 
 // Skulls
 Halo/Skulls/ConfettiPop "Sounds/Skulls/Grunt_Birthday_Pop.ogg"
 Halo/Skulls/ALL "Sounds/Skulls/All_Skulls_On.ogg"
 
-$playersound	Spartan  male	*death 	  "Sounds/Players/death2.ogg" 
-$playersound	Spartan  male	*xdeath	  "Sounds/Players/death4.ogg" 
-$playersound	Spartan  male	*gibbed	  "Sounds/Players/death5.ogg" 
-$playersound	Spartan  male	*pain100  "Sounds/Players/pain_high.ogg" 
-$playersound	Spartan  male	*pain75	  "Sounds/Players/pain_high.ogg" 
-$playersound	Spartan  male	*pain50	  "Sounds/Players/pain_med.ogg" 
-$playersound	Spartan  male	*pain25	  "Sounds/Players/pain_low.ogg" 
-$playersound	Spartan  male	grunt	  "Sounds/Players/jump2.ogg"
+$playersound	Spartan  male	*death 	  "Sounds/Players/Male/M_Death2.ogg" 
+$playersound	Spartan  male	*xdeath	  "Sounds/Players/Male/M_Death4.ogg" 
+$playersound	Spartan  male	*gibbed	  "Sounds/Players/Male/M_Death5.ogg" 
+$playersound	Spartan  male	*pain100  "Sounds/Players/Male/F_Death1.ogg" 
+$playersound	Spartan  male	*pain75	  "Sounds/Players/Male/M_Pain_High.ogg" 
+$playersound	Spartan  male	*pain50	  "Sounds/Players/Male/M_Pain_Med.ogg" 
+$playersound	Spartan  male	*pain25	  "Sounds/Players/Male/M_pain_Low.ogg" 
+$playersound	Spartan  male	grunt	  "Sounds/Players/Male/M_Jump1.ogg"
+$playersound	Spartan  male	*jump	  "Sounds/Players/Male/M_Jump1.ogg"
 $playersound	Spartan  male	*land	  "Sounds/Players/land_normal.ogg"
-$playersound	Spartan  male	*jump	  "Sounds/Players/jump1.ogg"
 $playersound	Spartan  male	*fist	  dspunch
 $playersound	Spartan  male	*usefail  "Sounds/Melee/MeleeMiss.ogg"
 
@@ -1269,8 +1327,8 @@ $playersound	Spartan  female	*pain100  "Sounds/Players/Female/F_Death3.ogg"
 $playersound	Spartan  female	*pain75	  "Sounds/Players/Female/F_Pain_High.ogg" 
 $playersound	Spartan  female	*pain50	  "Sounds/Players/Female/F_Pain_Med.ogg" 
 $playersound	Spartan  female	*pain25	  "Sounds/Players/Female/F_Pain_Low.ogg" 
-$playersound	Spartan  female	grunt	  "Sounds/Players/Female/F_Jump.ogg"
+$playersound	Spartan  female	grunt	  "Sounds/Players/Female/F_Jump1.ogg"
 $playersound	Spartan  female	*land	  "Sounds/Players/land_normal.ogg"
-$playersound	Spartan  female	*jump	  "Sounds/Players/Female/F_Jump.ogg"
+$playersound	Spartan  female	*jump	  "Sounds/Players/Female/F_Jump1.ogg"
 $playersound	Spartan  female	*fist	  dspunch
 $playersound	Spartan  female	*usefail  "Sounds/Melee/MeleeMiss.ogg"

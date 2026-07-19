@@ -150,12 +150,13 @@ class HaloPlayer : DoomPlayer
 		return gt.defName ~== types;
 	}
 	
-	virtual void OnEnemyKilled(Actor victim)
+	// Outputs the resulting audio as defined in SNDINFO.
+	virtual string PlayOneLiner(string category, int channel = CHAN_VOICELINES, int flags = CHANF_NOPAUSE|CHANF_NOSTOP, bool forced = false)
 	{
-		if(!player) return;
-		
+		if(!player) return "";
 		let cv_voicelines = CVar.GetCVar("halodoom_spartanvoicelines", player);
-		if(!cv_voicelines || !cv_voicelines.getBool()) return;
+		bool voiceDisabled = !cv_voicelines || !cv_voicelines.getBool();
+		if( (voiceDisabled || IsActorPlayingSound(CHAN_VOICELINES)) && !forced ) return "";
 		
 		String SNDGender = "";
 		switch(player.GetGender())
@@ -164,7 +165,8 @@ class HaloPlayer : DoomPlayer
 				SNDGender = "F";
 			break;
 				
-			/* TODO: Sounds for these.
+			/* Sounds for these?
+				-- IDEA: Perhaps the OBJECT gender can be some vocaloid?
 			case GENDER_OBJECT
 				SNDGender = "O";
 			break;
@@ -179,20 +181,47 @@ class HaloPlayer : DoomPlayer
 			break;
 		}
 		
+		string SNDFinal = String.Format("Halo/Spartan/%s/%s", SNDGender, category);
+		A_StartSound(SNDFinal, channel, flags);
+		
+		return SNDFinal;
+	}
+	
+	virtual void OnEnemyKilled(Actor victim, bool isHeadshot, HaloGun weaponUsed)
+	{
+		if(!player) return;
+
+		let cv_voicelinefreq = CVar.GetCVar("halodoom_spartanvoicelines_frequency", player);
+		if(!cv_voicelinefreq) return;
+		
 		int res = random[OnelinersRNG](0,100);
-		if( res >= 70 && !IsActorPlayingSound(CHAN_VOICELINES) )
+		int odds = clamp(100 - cv_voicelinefreq.GetInt(), 0, 100);
+		if( res >= odds )
 		{
-			string SNDBase = String.Format("Halo/Spartan/%s/GotKill", SNDGender);
+			string SNDBase = "GotKill";
 			string SNDType = "";
 			
+			// Enemy specific sounds
 			if(victim is "Revenant")
 				SNDType = "Revenant";
 			else if(victim.bSHADOW || victim.GetRenderStyle() == STYLE_OPTFUZZY)
 				SNDType = "Spectre";
-		
+				
+			// Weapon specific sounds
+			if(weaponUsed)
+			{
+				string weapTag = weaponUsed.GetTag();
+				bool isShotgun = (weapTag.IndexOf("Shotgun") != -1) || (weapTag.IndexOf("shotgun") != -1);
+				if(isShotgun) SNDType = "Shotgun";
+			}
+			
+			// Headshot sounds
+			if(isHeadshot)
+				SNDType = "Headshot";
+			
+			// Play One Liner
 			string SNDFinal = (SNDType != "") ? String.Format("%s_%s", SNDBase, SNDType) : SNDBase;
-			// console.printf("Final %s", SNDFinal); 
-			A_StartSound(SNDFinal, CHAN_VOICELINES, CHANF_NOPAUSE|CHANF_NOSTOP);
+			PlayOneLiner(SNDFinal);
 		}
 	}
 	

@@ -18,6 +18,7 @@ user float halodoom_footstep_volume = 0.5;
 user int halodoom_hudtype_index = 0;
 user int halodoom_cortanamode = 0;
 user bool halodoom_spartanvoicelines = false;
+user int halodoom_spartanvoicelines_frequency = 30;
 user bool halodoom_showspeed = false;
 user bool halodoom_dosecretsnd = true;
 user bool halodoom_fx_hitmark_sound = true;
