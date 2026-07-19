@@ -30,21 +30,21 @@ class FragGrenades : Inventory
 		FragGrenades.Type "FragGrenade_Proj";
 		FragGrenades.ThrowSound "Halo/Grenade/Frag/Throw";
 		
-		Scale 0.07;
+		Scale 0.15;
 	}
 	
 	override void BeginPlay()
 	{
 		super.BeginPlay();
 		
-		A_SpriteOffset(0, -20);
-		roll = 45;
+		A_SpriteOffset(0, -10);
+		//roll = 0;
 	}
 	
 	States
 	{
 		// Make sure to cache all "throwSprite" here.
-		// Otherwise, you'll be very strange issues, from GZDoom hard crashing
+		// Otherwise, you'll have very strange issues, from GZDoom hard crashing
 		// to graphics data being completely invalid.
 		Cache:
 			T1F1 A 0;
