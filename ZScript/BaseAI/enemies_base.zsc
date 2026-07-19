@@ -11,12 +11,25 @@ struct LastDamageInfo
 class HaloDoom_EnemyBase : Actor abstract
 {
 	transient LastDamageInfo damageInfo;
+	double moveFriction, curChaseAngle, curDesiredAngle;
+	vector3 targetLastPos, curTrackingPos;
+	bool trackLastPos;
+	int wanderTime;
+	
+	Property HDE_MoveFriction : moveFriction;
+	
+	Default
+	{
+		HaloDoom_EnemyBase.HDE_MoveFriction 0.7;
+	}
 	
 	override void Tick()
 	{
 		super.Tick();
 		if(damageInfo.processing && InStateSequence(CurState, ResolveState("See")))
 			damageInfo.processing = false;
+			
+		vel.xy *= moveFriction;			
 	}
 	
 	States
@@ -137,6 +150,124 @@ class HaloDoom_EnemyBase : Actor abstract
 		shields.snd_ShieldRecover = snd_ShieldRecover;	
 		
 		return shields;
+	}
+	
+	// Smooth directional chase.
+	double curChaseDir;
+	
+	virtual void A_Chase3D(StateLabel meleeState = "Melee", StateLabel missileState = "Missile", int flags = 0)
+	{
+		double prevAngle = angle;
+		bool noMove = flags & CHF_DONTMOVE;
+
+		// Not going to be a rewrite or a fully custom chase, as there is a LOT going on, on that front.
+		// So, we'll handle direction turning and movement instead.
+		A_Chase(meleeState, missileState, flags | CHF_DONTMOVE | CHF_DONTTURN);
+
+		// Find real move direction
+		if(!target) return;
+		
+		LookExParams look;
+		look.FOV = 360;
+		bool canSee = IsVisible(target, true, look);
+		
+		FLineTraceData lt;
+		LineTrace(angle, 64, pitch, data:lt);
+		bool canMoveTo = lt.HitType == TRACE_HitNone;
+		
+		look.FOV = 90;
+		bool inView = IsVisible(target, false, look);
+		
+		if(canSee && canMoveTo)
+		{
+			// Can see and move towards
+			UpdateDesiredAngle(target.pos);
+			if(!noMove) MoveTowardsFacing();
+			
+			targetLastPos = target.pos;
+			trackLastPos = true;
+		}
+		else if(canMoveTo)
+		{	
+			// Cannot see, but can move.
+			if(trackLastPos)
+			{
+				vector3 diff = level.Vec3Diff(pos, targetLastPos);
+				curDesiredAngle = atan2(diff.y, diff.x);
+				if(!noMove) MoveTowardsFacing(0.8);
+				
+				if( diff.Length() <= radius*2.0 ) 
+				{
+					// If we're still looking at this point, we've got no idea where 
+					// they went.
+					trackLastPos = false;
+				}
+			}
+			else 
+			{
+				// Wander about
+				A_Wander3D();
+			}
+		}
+		else if(!canMoveTo) 
+		{
+			NewChaseDir();
+			curDesiredAngle = HaloMath.LerpDegrees(curDesiredAngle, movedir*45, 0.25);
+			
+			if(!noMove) MoveTowardsFacing(0.9);
+		}
+	}
+	
+	virtual void A_Wander3D()
+	{
+		wanderTime++;
+			
+		vector3 posDiff = level.Vec3Diff(pos, curTrackingPos);
+		bool atChasePos = (posDiff.Length() <= radius*2.0);
+		
+		FLineTraceData lt;
+		LineTrace(angle, radius+128, pitch, data:lt);
+		bool canMoveTo = lt.HitType == TRACE_HitNone;
+		
+		if(atChasePos || wanderTime >= (35*10) || !canMoveTo)
+		{
+			vector3 wanderPos = (
+				frandom[HDEWanderRNG](-1,1),
+				frandom[HDEWanderRNG](-1,1),
+				frandom[HDEWanderRNG](-1,1)
+			) * frandom[HDEWanderRNG](-1024, 1024);
+			
+			wanderPos = level.vec3offset(pos, Quat.FromAngles(angle,0,0) * wanderPos);
+			curTrackingPos = wanderPos;
+			wanderTime = 0;
+		}
+		
+		// Move
+		UpdateDesiredAngle(curTrackingPos);
+		MoveTowardsFacing(0.9);
+	}
+	
+	void MoveTowardsFacing(double precision = 0)
+	{
+		// Turn towards direction.
+		curChaseAngle = HaloMath.LerpDegrees(curChaseAngle, curDesiredAngle, 0.1);
+		A_SetAngle(curChaseAngle, SPF_INTERPOLATE);
+	
+		// Get angular difference
+		double deltaAngle = HaloMath.AngleDiff(angle, curDesiredAngle);
+		double diff = clamp(1.0 - (atan2(sin(deltaAngle), cos(deltaAngle)) / 180.), 0, 1.0);
+		
+		if(diff > precision)
+			vel += Quat.FromAngles(angle, 0, 0) * (Speed * diff, 0, 0);
+			
+		// console.printf("C: %f, D:%f, Diff %f", angle, curDesiredAngle, diff);
+	}
+	
+	void UpdateDesiredAngle(vector3 toPos)
+	{
+		vector3 diff = level.Vec3Diff(pos, toPos);
+		double toAngle = atan2(diff.y, diff.x);
+		curDesiredAngle = toAngle;
 	}
 }
 
