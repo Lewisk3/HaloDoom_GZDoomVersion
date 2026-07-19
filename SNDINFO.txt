@@ -1200,9 +1200,9 @@ Halo/Spartan/Grapple/Latch "Sounds/Players/Abilities/grapple_latch.ogg"
 Halo/Spartan/ZipLine/Start "Sounds/Players/Abilities/zip_begin.ogg"
 Halo/Spartan/ZipLine/Loop "Sounds/Players/Abilities/zip_loop.ogg"
 Halo/Spartan/ZipLine/End "Sounds/Players/Abilities/zip_end.ogg"
-Halo/Spartan/Land/Normal "Sounds/Players/land_normal.ogg"
-Halo/Spartan/Land/Hard "Sounds/Players/land_hard.ogg"
-Halo/Spartan/LowHealthLoop "Sounds/Players/Player_Low_Health_Loop.ogg"
+Halo/Spartan/Land/Normal "Sounds/Players/Generic/land_normal.ogg"
+Halo/Spartan/Land/Hard "Sounds/Players/Generic/land_hard.ogg"
+Halo/Spartan/LowHealthLoop "Sounds/Players/Generic/Player_Low_Health_Loop.ogg"
 
 $random Halo/Spartan/Dash { Halo/Spartan/Dash1 Halo/Spartan/Dash2 Halo/Spartan/Dash3 Halo/Spartan/Dash4 }
 $random Halo/Spartan/Slide { Halo/Spartan/Slide1 Halo/Spartan/Slide2 Halo/Spartan/Slide3 }
@@ -1316,7 +1316,7 @@ $playersound	Spartan  male	*pain50	  "Sounds/Players/Male/M_Pain_Med.ogg"
 $playersound	Spartan  male	*pain25	  "Sounds/Players/Male/M_pain_Low.ogg" 
 $playersound	Spartan  male	grunt	  "Sounds/Players/Male/M_Jump1.ogg"
 $playersound	Spartan  male	*jump	  "Sounds/Players/Male/M_Jump1.ogg"
-$playersound	Spartan  male	*land	  "Sounds/Players/land_normal.ogg"
+$playersound	Spartan  male	*land	  "Sounds/Players/Generic/land_normal.ogg"
 $playersound	Spartan  male	*fist	  dspunch
 $playersound	Spartan  male	*usefail  "Sounds/Melee/MeleeMiss.ogg"
 
@@ -1328,7 +1328,7 @@ $playersound	Spartan  female	*pain75	  "Sounds/Players/Female/F_Pain_High.ogg"
 $playersound	Spartan  female	*pain50	  "Sounds/Players/Female/F_Pain_Med.ogg" 
 $playersound	Spartan  female	*pain25	  "Sounds/Players/Female/F_Pain_Low.ogg" 
 $playersound	Spartan  female	grunt	  "Sounds/Players/Female/F_Jump1.ogg"
-$playersound	Spartan  female	*land	  "Sounds/Players/land_normal.ogg"
+$playersound	Spartan  female	*land	  "Sounds/Players/Generic/land_normal.ogg"
 $playersound	Spartan  female	*jump	  "Sounds/Players/Female/F_Jump1.ogg"
 $playersound	Spartan  female	*fist	  dspunch
 $playersound	Spartan  female	*usefail  "Sounds/Melee/MeleeMiss.ogg"
