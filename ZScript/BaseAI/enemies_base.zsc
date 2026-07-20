@@ -15,6 +15,7 @@ class HaloDoom_EnemyBase : Actor abstract
 	vector3 targetLastPos, curTrackingPos;
 	bool trackLastPos;
 	int wanderTime;
+	bool keepChaseAngle;
 	
 	Property HDE_MoveFriction : moveFriction;
 	
@@ -30,6 +31,10 @@ class HaloDoom_EnemyBase : Actor abstract
 			damageInfo.processing = false;
 			
 		vel.xy *= moveFriction;			
+		
+		// Only use this when Chase3D is being used.
+		if(!keepChaseAngle) 
+			curDesiredAngle = angle;
 	}
 	
 	States
@@ -89,6 +94,8 @@ class HaloDoom_EnemyBase : Actor abstract
 
 	void A_AimToTarget(double heightAimScale, Actor victim = NULL)
 	{
+		if(!target) return;
+		
 		if(!victim) victim = target;
 		vector3 aimFrom = (pos.xy, pos.z + (height * 0.5));
 		vector3 aimTo = (victim.pos.xy, victim.pos.z + (height * heightAimScale));
@@ -152,9 +159,7 @@ class HaloDoom_EnemyBase : Actor abstract
 		return shields;
 	}
 	
-	// Smooth directional chase.
-	double curChaseDir;
-	
+	// Smooth directional chase
 	virtual void A_Chase3D(StateLabel meleeState = "Melee", StateLabel missileState = "Missile", int flags = 0)
 	{
 		double prevAngle = angle;
@@ -162,11 +167,22 @@ class HaloDoom_EnemyBase : Actor abstract
 
 		// Not going to be a rewrite or a fully custom chase, as there is a LOT going on, on that front.
 		// So, we'll handle direction turning and movement instead.
+		State prevState = CurState;
 		A_Chase(meleeState, missileState, flags | CHF_DONTMOVE | CHF_DONTTURN);
+	
+		// Jump occured, leave control to missile or see
+		bool changedStates = (prevState != CurState);
+		keepChaseAngle = !changedStates;
+		if(changedStates) return;
 
-		// Find real move direction
-		if(!target) return;
+		// Wander if no target
+		if(!target) 
+		{
+			A_Wander3D();
+			return;
+		}
 		
+		// Find real move direction
 		LookExParams look;
 		look.FOV = 360;
 		bool canSee = IsVisible(target, true, look);

@@ -28,7 +28,7 @@ extend class HaloDoom_Events
 			let weap = (class<HaloGun>) (weaps[i]);
 			if(!weap) continue;
 			let defs = GetDefaultByType(weap);
-			if(defs.spawnRarity < seed) 
+			if(defs.spawnRarity == 0 || defs.spawnRarity < seed) 
 				weaps.Delete(i);
 		}
 		
@@ -253,7 +253,8 @@ extend class HaloDoom_Events
 			string ammoType = validAmmos[random[HaloAmmoSpawns](0, validAmmos.Size()-1)];
 			let weap = getWeaponFromAmmoType(ammoType);
 			let weapDefs = GetDefaultByType((class<HaloGun>)(weap));
-			if(weapDefs.spawnTier & HaloGun.P_UBER) weapSpawnChance = 0;
+			if( (weapDefs.spawnTier & HaloGun.P_UBER) || (weapDefs.spawnRarity == 0) )
+				weapSpawnChance = 0;
 			
 			if(weapSpawnChance > 0 && random[HaloAmmoWeaponSpawns](0,100) < weapSpawnChance) 
 				e.Replacement = getWeaponFromAmmoType(ammoType);
