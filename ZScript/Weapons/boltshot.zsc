@@ -174,11 +174,12 @@ class Halo_BoltShot : HaloGun
 	double targetLockPerc[3];
 	Actor targetList[3];
 	bool smartModeActive;
-	double maxSmartAngle, maxSmartDistance;
+	double maxSmartAngle, maxSmartDistance, smartLockTime;
 
 	Array<BoltShotBeamSpawner> beams;
 	Property SmartAimFOV : maxSmartAngle;
 	Property SmartAimDistance : maxSmartDistance;
+	Property SmartLockTics : smartLockTime;
 
 	Default
 	{
@@ -200,7 +201,8 @@ class Halo_BoltShot : HaloGun
 		
 		// Smart Mode Settings
 		Halo_BoltShot.SmartAimFOV 20;
-		Halo_BoltShot.SmartAimDistance 1024;
+		Halo_BoltShot.SmartAimDistance 1600;
+		Halo_BoltShot.SmartLockTics ceil(TICRATE * 0.5); // Half a second.
 				
 		// Recoil
 		HaloGun.Bloom 0.8;
@@ -377,7 +379,7 @@ class Halo_BoltShot : HaloGun
 				curTarget = targetList[i] = NULL;
 			
 			if(curTarget)
-				targetLockPerc[i] = HaloMath.Lerp(targetLockPerc[i], 1.0, 0.1);
+				targetLockPerc[i] = HaloMath.Lerp(targetLockPerc[i], 1.0, 1.0 / smartLockTime);
 			else
 			{
 				// Look for closest target, taking into account closest aim position.
@@ -483,12 +485,12 @@ class Halo_BoltShot : HaloGun
 	override void OnDropSwap()
 	{	
 		super.OnDropSwap();
-		A_StopSound(CHAN_RELOADLOOP);
+		Owner.A_StopSound(CHAN_RELOADLOOP);
 	}
 	override void OnQuickswap()
 	{	
 		super.OnQuickSwap();
-		A_StopSound(CHAN_RELOADLOOP);
+		Owner.A_StopSound(CHAN_RELOADLOOP);
 	}
 
 	bool sightsHold;

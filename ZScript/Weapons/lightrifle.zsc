@@ -113,6 +113,8 @@ class Halo_LightRifle : HaloGun
 		
 		HaloGun.ZoomSounds "Halo/Weapons/LightRifle/Zoom/IN", "Halo/Weapons/LightRifle/Zoom/OUT";
 		RecoilWeapon.YOffsetRange 0, 40;
+		
+		Scale 0.5;
 	}
 	
 	override int GetPowerTier()
