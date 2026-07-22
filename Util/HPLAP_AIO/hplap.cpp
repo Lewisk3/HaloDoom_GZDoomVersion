@@ -56,7 +56,6 @@ enum class ProcessStatus
     FAILED
 };
 
-
 int CountImages(fs::path dir)
 {
     int count = 0;
@@ -247,7 +246,7 @@ std::string GenerateTextureEntry(const SpriteInfo& spInfo)
     oss << "\tXScale 1.0\n";
     oss << "\tYScale 1.0\n";
     oss << "\tOffset " << xOffs << ", " << yOffs << "\n";
-    oss << "\tPatch \"" << spInfo.patchName << ", 0, 0\n";
+    oss << "\tPatch \"" << spInfo.patchName << "\"" << ", 0, 0\n";
     oss << "}\n";
 
     return oss.str();
