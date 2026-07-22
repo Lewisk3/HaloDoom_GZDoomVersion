@@ -186,7 +186,7 @@ class Halo_BoltShot : HaloGun
 		Weapon.SlotNumber 3;
 		Obituary "%o's was sublimated by %k's Bolt Shot.";
 		Inventory.PickupMessage	"Picked up the Bolt Shot.";
-		Tag "Bolt Shot (Feature Demo)";
+		Tag "Bolt Shot";
 		Weapon.BobSpeed 0.8;
 		Weapon.BobRangeX 0.50;
 		Weapon.BobSpeed 2.45;
@@ -196,7 +196,7 @@ class Halo_BoltShot : HaloGun
 		HaloGun.Faction "Forerunner";
 		
 		HaloGun.PowerTier P_MID;
-		HaloGun.Rarity 0; // Debug - Will not spawn until completed.
+		HaloGun.Rarity 20;
 		
 		// Smart Mode Settings
 		Halo_BoltShot.SmartAimFOV 20;
