@@ -56,6 +56,7 @@ enum class ProcessStatus
     FAILED
 };
 
+
 int CountImages(fs::path dir)
 {
     int count = 0;
@@ -237,14 +238,22 @@ ProcessStatus RenameSprites(const DirectoryInfo& dirInfo, std::vector<SpriteInfo
 // --------------- TEXTUREDEFS ---------------- //
 std::string GenerateTextureEntry(const SpriteInfo& spInfo)
 {
-    std::ostringstream oss;
-    int yOffs = spInfo.height - 160;
-    int xOffs = (spInfo.width / 2) - 160;
+    double baseWidth = 320 * 1.2;
+    double baseHeight = 200 * 1.2;
+    double middle = 160;
+    double shift = 5;
+
+    double XScale = spInfo.width / baseWidth;
+    double YScale = 1.2 * (spInfo.height / baseHeight);
+    int xOffs = ( (spInfo.width / XScale) * 0.5 ) - middle + shift;
+    int yOffs = (spInfo.height / YScale) - middle - shift;
     
+    std::ostringstream oss;
+    oss << std::fixed << std::setprecision(1);
     oss << "Sprite " << "\"" << spInfo.spriteName << "\"" << ", " << spInfo.width << ", " << spInfo.height << "\n";
     oss << "{\n";
-    oss << "\tXScale 1.0\n";
-    oss << "\tYScale 1.0\n";
+    oss << "\tXScale " << XScale << "\n";
+    oss << "\tYScale " << YScale << "\n";
     oss << "\tOffset " << xOffs << ", " << yOffs << "\n";
     oss << "\tPatch \"" << spInfo.patchName << "\"" << ", 0, 0\n";
     oss << "}\n";

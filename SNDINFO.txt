@@ -1005,8 +1005,35 @@ $random Halo/40MM/Explode { GLNADE_EXPLODE1 GLNADE_EXPLODE2 GLNADE_EXPLODE3 }
 Halo/Weapons/GrenadeLauncher/Reload "Sounds/GrenadeLauncher/GL_Reload.ogg"
 Halo/Weapons/GrenadeLauncher/ReloadEmpty "Sounds/GrenadeLauncher/GL_ReloadEmpty.ogg"
 
-				
-  
+// Boltshot
+Halo/Weapons/BoltShot/Draw			"Sounds/Boltshot/BS_Draw.ogg"
+Halo/Weapons/BoltShot/Swap			"Sounds/Boltshot/BS_Swap.ogg"	
+Halo/Weapons/Boltshot/ReloadLoop    "Sounds/Boltshot/BS_Charge_Loop.ogg"	
+Halo/Weapons/Boltshot/ReloadSingle	"Sounds/Boltshot/BS_Recharge_Pump.ogg"	
+Halo/Weapons/Boltshot/ReloadEnd		"Sounds/Boltshot/BS_Recharge_End.ogg"	
+Halo/Weapons/Boltshot/Mode/Smart	"Sounds/Boltshot/BS_Swap.ogg"	
+Halo/Weapons/Boltshot/Mode/Burst	"Sounds/Boltshot/BS_Swap.ogg"
+
+BOLTSHOT_FIRE1 "Sounds/Boltshot/BS_Burst1.ogg"
+BOLTSHOT_FIRE2 "Sounds/Boltshot/BS_Burst2.ogg"
+BOLTSHOT_FIRE3 "Sounds/Boltshot/BS_Burst3.ogg"
+BOLTSHOT_FIRE4 "Sounds/Boltshot/BS_Burst4.ogg" 
+BOLTSHOT_FIRE5 "Sounds/Boltshot/BS_Burst5.ogg"
+BOLTSHOT_SMTFIRE1 "Sounds/Boltshot/BS_Charge_Fire1.ogg"
+BOLTSHOT_SMTFIRE2 "Sounds/Boltshot/BS_Charge_Fire2.ogg"
+BOLTSHOT_SMTFIRE3 "Sounds/Boltshot/BS_Charge_Fire3.ogg"
+BOLTSHOT_SMTFIRE4 "Sounds/Boltshot/BS_Charge_Fire4.ogg"
+BOLTSHOT_SMTFIRE5 "Sounds/Boltshot/BS_Charge_Fire5.ogg"
+BOLTSHOT_BASS1 "Sounds/Boltshot/BS_FireBass1.ogg"
+BOLTSHOT_BASS2 "Sounds/Boltshot/BS_FireBass1.ogg"
+BOLTSHOT_BASS3 "Sounds/Boltshot/BS_FireBass1.ogg"
+BOLTSHOT_BASS4 "Sounds/Boltshot/BS_FireBass1.ogg"
+BOLTSHOT_BASS5 "Sounds/Boltshot/BS_FireBass1.ogg"
+
+$random Halo/Weapons/BoltShot/Fire { BOLTSHOT_FIRE1 BOLTSHOT_FIRE2 BOLTSHOT_FIRE3 BOLTSHOT_FIRE4 BOLTSHOT_FIRE5}
+$random Halo/Weapons/BoltShot/Smart/Fire { BOLTSHOT_SMTFIRE1 BOLTSHOT_SMTFIRE2 BOLTSHOT_SMTFIRE3 BOLTSHOT_SMTFIRE4 BOLTSHOT_SMTFIRE5}
+$random Halo/Weapons/BoltShot/Fire/Bass { BOLTSHOT_BASS1 BOLTSHOT_BASS2 BOLTSHOT_BASS3 BOLTSHOT_BASS4 BOLTSHOT_BASS5}
+
 // Hit feedback
 HMHIT1 HMHit1
 HMHIT2 HMHit2

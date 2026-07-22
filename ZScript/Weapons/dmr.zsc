@@ -129,11 +129,6 @@ class Halo_DMR : HaloGun
 		A_UpdateSpread();
 		invoker.justFired = true;
 	}
-	
-	action state A_CheckRapidFire()
-	{
-		return A_JumpIf(A_FirePressed(), "Fire");
-	}
 
 	bool justFired;
 

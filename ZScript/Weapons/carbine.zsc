@@ -188,11 +188,6 @@ class Halo_Carbine : HaloGun
 		beam.SetEnabled(true);
 	}
 	
-	action state A_CheckRapidFire()
-	{
-		return A_JumpIf(A_FirePressed(), "Fire");
-	}
-	
 	action void A_FireCarbine()
 	{
 		A_LCDOffset(10,-2);

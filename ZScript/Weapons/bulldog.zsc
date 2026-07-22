@@ -131,7 +131,7 @@ class Halo_Bulldog : HaloGun
 		A_StartSound(reload_snd, CHAN_RELOADING, CHANF_OVERLAP);
 	}
 	
-	action state A_CheckRapidFire()
+	action state A_CheckFireHold()
 	{
 		return A_JumpIf(A_ButtonStatus(BT_ATTACK, BTS_DOWN), "Fire");
 	}
@@ -186,7 +186,7 @@ class Halo_Bulldog : HaloGun
 			WAF1 EFGHIJ 1;
 			WAF1 K 1 
 			{
-				return A_CheckRapidFire();
+				return A_CheckFireHold();
 			}
 			WAF1 LMNO 1;
 		goto Ready.Active;
@@ -209,7 +209,7 @@ class Halo_Bulldog : HaloGun
 			WAF1 TUVWXY 1;
 			WAF1 Z 1 
 			{
-				return A_CheckRapidFire();
+				return A_CheckFireHold();
 			}
 			WAF2 ABCD 1;
 		goto Ready.Active;
@@ -232,7 +232,7 @@ class Halo_Bulldog : HaloGun
 			WAF2 IJKLMN 1;
 			WAF2 O 1 
 			{
-				return A_CheckRapidFire();
+				return A_CheckFireHold();
 			}
 			WAF2 PRQS 1;
 		goto Ready.Active;
@@ -256,7 +256,7 @@ class Halo_Bulldog : HaloGun
 			WAF3 ABC 1;
 			WAF3 D 1 
 			{
-				return A_CheckRapidFire();
+				return A_CheckFireHold();
 			}
 			WAF3 EFGH 1;
 		goto Ready.Active;

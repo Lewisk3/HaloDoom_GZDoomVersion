@@ -1169,6 +1169,11 @@ class HaloGun : RecoilWeapon
 	action bool A_FirePressed() { return invoker.pbtn_fire; }
 	action bool A_AltFirePressed() { return invoker.pbtn_altfire; }
 	
+	action state A_CheckRapidFire(StateLabel st = "Fire")
+	{
+		return A_JumpIf(A_FirePressed(), st);
+	}
+	
 	// [Lewisk3] Use this instead of using deprecated functions :P
 	action void A_WeapSound(sound snd, uint flags = 0, bool firesound = false)
 	{	

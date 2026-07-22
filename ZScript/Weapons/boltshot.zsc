@@ -1,9 +1,33 @@
-
-class Halo_BoltshotBattery : Ammo 
+class Halo_BoltshotClip : Ammo 
 {
-	Default
+	Default 
 	{
-		Inventory.MaxAmount 100;
+		Inventory.MaxAmount 24;
+	}
+}
+class Halo_Boltshot_Reserves : Ammo
+{
+	mixin WorldAmmoBehavior;
+	Default 
+	{
+		Radius 0;
+		Height 0;
+		Scale 0.65;
+
+		Inventory.Amount 120;
+		Inventory.MaxAmount 120;
+		Inventory.Icon "";
+		Inventory.PickupSound "";
+		Inventory.PickupMessage "";
+		
+		Ammo.BackpackMaxAmount 120;
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A -1;
+		stop;
 	}
 }
 
@@ -144,11 +168,17 @@ class BoltShotBeamSegment : MBeamSegment
 
 class Halo_BoltShot : HaloGun
 {
+	const CHAN_RELOADLOOP = 69;
+
 	int burstCounter, beamCounter;
 	double targetLockPerc[3];
 	Actor targetList[3];
-	
+	bool smartModeActive;
+	double maxSmartAngle, maxSmartDistance;
+
 	Array<BoltShotBeamSpawner> beams;
+	Property SmartAimFOV : maxSmartAngle;
+	Property SmartAimDistance : maxSmartDistance;
 
 	Default
 	{
@@ -160,14 +190,17 @@ class Halo_BoltShot : HaloGun
 		Weapon.BobSpeed 0.8;
 		Weapon.BobRangeX 0.50;
 		Weapon.BobSpeed 2.45;
-		Weapon.AmmoType1 "Halo_BoltshotBattery";
-		Weapon.AmmoType2 "Halo_BoltshotBattery";
-		Weapon.AmmoGive 100;
-		HaloGun.HasBattery true, 1;
+		Weapon.AmmoType1 "Halo_Boltshot_Reserves";
+		Weapon.AmmoType2 "Halo_BoltshotClip";
+		Weapon.AmmoGive 120;
 		HaloGun.Faction "Forerunner";
 		
 		HaloGun.PowerTier P_MID;
 		HaloGun.Rarity 0; // Debug - Will not spawn until completed.
+		
+		// Smart Mode Settings
+		Halo_BoltShot.SmartAimFOV 20;
+		Halo_BoltShot.SmartAimDistance 1024;
 				
 		// Recoil
 		HaloGun.Bloom 0.8;
@@ -177,16 +210,7 @@ class Halo_BoltShot : HaloGun
 		HaloGun.Crosshair "BoltRet1", 0.7;
 		HaloGun.UIGraphic "MISSNG", 0.8, 0.7;
 		
-		/*
-		HaloGun.UISight "SCSGADS", 1.5, 1.0;
-		HaloGun.SetupScope 1.25, 0.5;
-		+HaloGun.SI_Fullscreen;
-		+HaloGun.SI_Rotate;
-		+HaloGun.SI_AlwaysHide;
-		
-		HaloGun.ZoomSounds "Halo/Weapons/ScatterShot/Zoom/IN", "Halo/Weapons/ScatterShot/Zoom/OUT";
-		*/
-
+		HaloGun.SetupScope 1.2, 0.5;
 		RecoilWeapon.YOffsetRange 0, 40;
 	}
 		
@@ -199,7 +223,7 @@ class Halo_BoltShot : HaloGun
 	override void OverlayUIFX(RenderEvent e, double dT)
 	{
 		bool hasTarget = targetList[0] || targetList[1] || targetList[2];
-		if(!hasTarget) return;
+		if(!hasTarget || !smartModeActive) return;
 		
 		HLViewProjection viewproj = HLSBS.GetEventViewerProj(e);
 		
@@ -236,47 +260,58 @@ class Halo_BoltShot : HaloGun
 		}
 	}
 	
-	action void A_FireBoltShot()
+	action void A_FireBoltShot(bool smart = false)
 	{
 		A_Light(4);
-		A_WeapSound("Halo/Weapons/BoltShot/Fire", CHANF_OVERLAP);
-		A_WeapSound("Halo/Weapons/BoltShot/Fire/Bass", CHANF_OVERLAP);
+		if(!smart)
+		{
+			A_WeapSound("Halo/Weapons/BoltShot/Fire", CHANF_OVERLAP);
+			A_WeapSound("Halo/Weapons/BoltShot/Fire/Bass", CHANF_OVERLAP);
+		}
+		else
+		{
+			A_WeapSound("Halo/Weapons/BoltShot/Smart/Fire", CHANF_OVERLAP);
+			A_WeapSound("Halo/Weapons/BoltShot/Smart/Fire/Bass", CHANF_OVERLAP);
+		}
 		
 		let pl = SetupPlasmaLightning(16, -6, 8, scale:0.67, density:2.0, shading:"#2c72f5");
 		if(pl) pl.lifetime = 16;
 		
-		let [vec, proj] = A_ShootProjectile("HaloBoltShot_Proj", 7, -2);
+		let [vec, proj] = A_ShootProjectile("HaloBoltShot_Proj", A_CheckInScope() ? 0 : 10, -2);
 			
 		// Fire at locked target.
-		int useTarget = -1;
-		bool hasTarget = A_CheckHasTarget();
-		
-		if(hasTarget)
+		if(smart)
 		{
-			while(useTarget < 0)
+			int useTarget = -1;
+			bool hasTarget = A_CheckHasTarget();
+			
+			if(hasTarget)
 			{
-				for(int i = invoker.beamCounter; i < 3; i++)
+				while(useTarget < 0)
 				{
-					if(invoker.targetLockPerc[i] >= 0.90) 
+					for(int i = invoker.beamCounter; i < 3; i++)
 					{
-						useTarget = i;
-						invoker.beamCounter = i;
-						break;
+						if(invoker.targetLockPerc[i] >= 0.90) 
+						{
+							useTarget = i;
+							invoker.beamCounter = i;
+							break;
+						}
 					}
+					if(useTarget < 0) invoker.beamCounter = 0;
 				}
-				if(useTarget < 0) invoker.beamCounter = 0;
 			}
-		}
-		
-		if(useTarget >= 0 && invoker.targetList[useTarget])
-		{
-			let boltProj = HaloBoltShot_Proj(proj);
-			boltProj.vel *= 0;
-			boltProj.ricochetChance = 0;
-			boltProj.trackingPos = invoker.beams[useTarget].trackingPos;
-			boltProj.trackTics = 1; //max(1, HaloMath.Distance3D(proj.pos, boltProj.trackingPos) / boltProj.getSpeed());
-			boltProj.trackingVictim = invoker.targetList[useTarget];
-			invoker.beamCounter = (invoker.beamCounter+1) % 3;
+			
+			if(useTarget >= 0 && invoker.targetList[useTarget])
+			{
+				let boltProj = HaloBoltShot_Proj(proj);
+				boltProj.vel *= 0;
+				boltProj.ricochetChance = 0;
+				boltProj.trackingPos = invoker.beams[useTarget].trackingPos;
+				boltProj.trackTics = 1; //max(1, HaloMath.Distance3D(proj.pos, boltProj.trackingPos) / boltProj.getSpeed());
+				boltProj.trackingVictim = invoker.targetList[useTarget];
+				invoker.beamCounter = (invoker.beamCounter+1) % 3;
+			}
 		}
 		
 		A_TakeAmmo(1);
@@ -300,7 +335,7 @@ class Halo_BoltShot : HaloGun
 		}
 	}
 	
-	bool CheckValidTarget(int index, Actor pTarget, double maxRange = 1024)
+	bool CheckValidTarget(int index, Actor pTarget)
 	{
 		// Failsafe
 		if(!pTarget || pTarget == Owner) return false;
@@ -314,11 +349,11 @@ class Halo_BoltShot : HaloGun
 		// Janky-ass code to check if the target is behind the camera, or close to.
 		vector3 targetDir = level.vec3diff(Owner.pos, pTarget.pos).Unit();
 		double angleDiff = abs(HaloMath.AngleDiff(Owner.angle, atan2(targetDir.y, targetDir.x)));
-		if(angleDiff >= 40) return false;
+		if(angleDiff >= maxSmartAngle) return false;
 		
 		// Too far?
 		double dist = pTarget.Distance3DSquared(Owner);
-		if(dist > maxRange*maxRange) return false;
+		if(dist > maxSmartDistance*maxSmartDistance) return false;
 	
 		// Already targetted?
 		for(int i = 0; i < 3; i++)
@@ -379,9 +414,10 @@ class Halo_BoltShot : HaloGun
 		let haloplr = HaloPlayer(Owner);
 		if(!haloplr || !Owner.player) return;
 		
+		bool smartMode = smartModeActive;
 		bool isCurrentWeapon = (Owner.player.ReadyWeapon == self);
 		
-		if(!isCurrentWeapon) 
+		if(!isCurrentWeapon || !smartMode) 
 		{
 			if(beams.Size() > 0)
 			{
@@ -396,7 +432,7 @@ class Halo_BoltShot : HaloGun
 		if(!beams.Size())
 		{
 			// Populate beams
-			vector3 beamOffs = (7, -3.75, -4);
+			vector3 beamOffs = (7, 0, -4);
 			for(int i = 0; i < 3; i++)
 			{
 				let beam = BoltShotBeamSpawner(
@@ -422,9 +458,9 @@ class Halo_BoltShot : HaloGun
 		return invoker.targetLockPerc[0] >= 0.9 || invoker.targetLockPerc[1] >= 0.9 || invoker.targetLockPerc[2] >= 0.9;
 	}
 	
-	action bool CheckCanFire()
+	action bool CheckCanFire(bool requireTarget = false)
 	{
-		return A_CheckHasTarget() && CountLoadedAmmo();
+		return (!requireTarget || A_CheckHasTarget()) && CountLoadedAmmo();
 	}
 
 	action void A_ResetFire()
@@ -432,60 +468,177 @@ class Halo_BoltShot : HaloGun
 		invoker.burstCounter = invoker.beamCounter = 0;
 	}
 
+	action void A_SetSmartMode(bool onoff)
+	{
+		invoker.smartModeActive = onoff;
+	}
+	
+	action void A_PlayModeSound(bool onoff)
+	{
+		Sound smartMode = "Halo/Weapons/Boltshot/Mode/Smart";
+		Sound burstMode = "Halo/Weapons/Boltshot/Mode/Burst";
+		A_WeapSound(onoff ? smartMode : burstMode);
+	}
+	
+	override void OnDropSwap()
+	{	
+		super.OnDropSwap();
+		A_StopSound(CHAN_RELOADLOOP);
+	}
+	override void OnQuickswap()
+	{	
+		super.OnQuickSwap();
+		A_StopSound(CHAN_RELOADLOOP);
+	}
+
+	bool sightsHold;
 	States
 	{
 		
 		Ready:
 			TNT1 A 0 A_WeapSound("Halo/Weapons/BoltShot/Draw");
-			G2S1 EDCBA 1 A_DoSelectAnim();
+			G2D1 SRQPONMLKJJIIHHHGGFFFEEDDCCBBAATUVW 1 A_DoSelectAnim();
 		Ready.Active:
-			G2G1 A 1 
+			G2D1 W 1 
 			{
-				A_HaloWeaponReady();
+				A_SetSmartMode(false);
+				A_HaloWeaponReady(WRF_ALLOWRELOAD, usescope:false);
 				A_StopPlasmaLightning();
+				return A_JumpIf(A_ShouldEnableScope(), "Sights.Enable");
+			}
+		loop;
+		
+		Ready.SmartMode:
+			G2S1 A 1 
+			{
+				A_SetSmartMode(true);
+				A_HaloWeaponReady(WRF_ALLOWRELOAD, usescope:false);
+				A_StopPlasmaLightning();
+				return A_JumpIf(A_ShouldDisableScope(invoker.sightsHold), "Sights.Disable");
 			}
 		loop;
 		
 		Ready.Dryfire:
-			G2G1 A 4 
+			G2D1 W 1 
 			{
 				A_ResetFire();
 				A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
 			}
 		goto Ready.Active;
+		
+		Ready.DrySmart:
+			G2S1 A 1 
+			{
+				A_ResetFire();
+				A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
+			}
+		goto Ready.SmartMode;
 
 		Select:
 			TNT1 A 1 A_GunRaise();
 		wait;
 
 		Deselect:
-			G2S1 ABCD 1;
-			G2S1 E 1 A_GunLower();
+			G2D1 WVUT 1 A_StopSound(CHAN_RELOADLOOP);
+			G2D1 T 1 A_GunLower();
 		wait;
 		
 		Fire:
-			G2F1 A 1 A_ResetFire();
+			"####" "#" 1 A_ResetFire();
+			TNT1 A 0 A_StopSound(CHAN_RELOADLOOP);
+			TNT1 A 0 A_JumpIf(A_CheckInScope(), "Fire.Smart");
 		Fire.Burst:
-			TNT1 A 0 A_JumpIf(!CheckCanFire(), "Ready.Dryfire");
-			G2F1 B 1 Bright;
-			G2F1 C 1 Bright
+			TNT1 A 0 A_GunCheckReload();
+			TNT1 A 0 A_JumpIf(!CheckCanFire(requireTarget:false), "Ready.Dryfire");
+			G2F1 A 1 Bright
 			{
 				A_SetZoom(0.98, 2);
 				A_SetRecoil(0.7, 0, 2);
-				A_FireBoltShot();
-				//A_RollQuake(3,6,2);
+				A_FireBoltShot(smart:false);
+				A_RQuakeEx(3,2,2,2,0,20,"",QF_RELATIVE|QF_WAVE);
 				A_RecoilOffset(frandom[BLFX](3,7), frandom[BLFX](3,7), 2);
 			}
-			G2F1 DE 1
+			G2F1 B 1
 			{
 				A_Light(0);
 				A_SetZoom(1.0, 2);
 				A_RecoilOffset(0,0,2);	
 			}
-			G2F1 F 1 A_JumpIf(++invoker.burstCounter < 3, "Fire.Burst");
+			G2F1 C 1 A_JumpIf(++invoker.burstCounter < 3, "Fire.Burst");
 		Fire.Cooldown:
-			G2G1 A 8;
+			G2F1 DEFGHIJ 1;
 		goto Ready.Active;
+		
+		Fire.Smart:
+			TNT1 A 0 A_GunCheckReload();
+			TNT1 A 0 A_JumpIf(!CheckCanFire(requireTarget:true), "Ready.DrySmart");
+			G2S1 A 1 Bright
+			{
+				A_SetZoom(0.92, 2);
+				A_SetRecoil(0.5, 0, 2);
+				A_FireBoltShot(smart:true);
+				A_RollQuake(2,2,2);
+				A_RecoilOffset(frandom[BLFX](3,7), frandom[BLFX](3,7), 2);
+			}
+			G2S1 B 1
+			{
+				A_Light(0);
+				A_RecoilOffset(0,0,2);	
+			}
+			G2S1 C 1 A_SetZoom(1.0, 2);
+			G2S1 DEFGHI 1;
+			G2S1 J 1 A_JumpIf(++invoker.burstCounter < 3, "Fire.Smart");
+		Hold:
+			G2S1 A 1 A_CheckRapidFire();
+			TNT1 A 0 A_ReFire("Hold");
+		goto Ready.SmartMode;
+		
+		Reload.FromSights:
+			TNT1 A 0 A_PlayModeSound(false);
+			G2S1 DCBA 2;
+			TNT1 A 0 
+			{
+				A_SetCustomScope(0);
+				A_SetSmartMode(false);
+			}
+		Reload:
+			TNT1 A 0 A_JumpIf(A_CheckInScope(), "Reload.FromSights");
+			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
+			TNT1 A 0 A_StartSound("Halo/Weapons/Boltshot/ReloadLoop", CHAN_RELOADLOOP, CHANF_LOOPING);
+			G2R1 ABCDEFG 2;
+		Reload.Loop:
+			TNT1 A 0 A_StartSound("Halo/Weapons/Boltshot/ReloadSingle", CHAN_RELOADING, CHANF_OVERLAP);
+			G2R1 HHHHI 2;
+			G2R1 JJJ 2;
+			TNT1 A 0 A_ReloadAmount(3);
+			TNT1 A 0 A_ValidateReload("Reload.Finish");
+			G2R1 I 2;
+			TNT1 A 0 A_JumpIf(player.cmd.buttons & BT_ATTACK, "Fire");
+			TNT1 A 0 A_GotoState("Reload.Loop");
+		Reload.Finish:
+			TNT1 A 0 
+			{
+				A_StopSound(CHAN_RELOADLOOP);
+				A_StartSound("Halo/Weapons/Boltshot/ReloadEnd", CHAN_RELOADING, CHANF_OVERLAP);
+			}
+			G2R1 KLMNOPQ 2;
+		goto Ready.Active;
+		
+		Sights.Enable:
+			TNT1 A 0 A_PlayModeSound(true);
+			G2M1 ABCD 2;
+			TNT1 A 0 
+			{
+				invoker.sightsHold = invoker.ADS_Held;
+				A_SetCustomScope(1);	
+			}
+		goto Ready.SmartMode;
+		
+		Sights.Disable:
+			TNT1 A 0 A_PlayModeSound(false);
+			TNT1 A 0 A_SetCustomScope(0);
+			G2M1 DCBA 2;
+		goto Ready.Active;	
 		
 		Spawn:
 			WQP1 A -1;

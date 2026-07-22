@@ -138,10 +138,6 @@ class Halo_Magnum : HaloGun
 		A_TakeAmmo();
 		A_UpdateSpread();
 	}
-	action state A_CheckRapidFire()
-	{
-		return A_JumpIf(A_FirePressed(), "Fire");
-	}
 	
 	States
 	{
