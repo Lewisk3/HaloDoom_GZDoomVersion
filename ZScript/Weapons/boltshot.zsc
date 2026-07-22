@@ -496,8 +496,14 @@ class Halo_BoltShot : HaloGun
 	{
 		
 		Ready:
+			TNT1 A 0 A_JumpIf(A_DoFullSelectAnimation(), "Ready.Chamber");
+			TNT1 A 0 A_WeapSound("Halo/Weapons/BoltShot/Swap");
+			G2D1 TUVW 1 A_DoSelectAnim();
+		goto Ready.Active;
+		
+		Ready.Chamber:
 			TNT1 A 0 A_WeapSound("Halo/Weapons/BoltShot/Draw");
-			G2D1 SRQPONMLKJJIIHHHGGFFFEEDDCCBBAATUVW 1 A_DoSelectAnim();
+			G2D1 SRQPONMLKJJIIHHHGGFFFEEDDCCBBAATUVW 1 A_DoSelectAnim(0, true);	
 		Ready.Active:
 			G2D1 W 1 
 			{
