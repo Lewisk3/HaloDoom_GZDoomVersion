@@ -129,7 +129,7 @@ class Halo_ScatterShot : HaloGun
 		HaloGun.HasBattery true, 5;
 		HaloGun.Faction "Forerunner";
 		
-		HaloGun.PowerTier P_STRONG;
+		HaloGun.PowerTier P_MID;
 		HaloGun.Rarity 10;
 				
 		// Recoil
