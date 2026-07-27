@@ -1,0 +1,376 @@
+Sprite "WTI1A0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDRIDLE", 0, 0
+}
+
+Sprite "WTD1A0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDD0000", 0, 0
+}
+
+Sprite "WTD1B0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDD0001", 0, 0
+}
+
+Sprite "WTD1C0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDD0002", 0, 0
+}
+
+Sprite "WTD1D0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDD0003", 0, 0
+}
+
+Sprite "WTD1E0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDD0004", 0, 0
+}
+
+Sprite "WTD1F0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDD0005", 0, 0
+}
+
+Sprite "WTD1G0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDD0006", 0, 0
+}
+
+Sprite "WTD1H0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDD0007", 0, 0
+}
+
+Sprite "WTD1I0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDD0008", 0, 0
+}
+
+Sprite "WTD1J0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDD0009", 0, 0
+}
+
+Sprite "WTD1K0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDD0010", 0, 0
+}
+
+Sprite "WTD1L0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDD0011", 0, 0
+}
+
+Sprite "WTD1M0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDD0012", 0, 0
+}
+
+Sprite "WTD1N0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDD0013", 0, 0
+}
+
+Sprite "WTD1O0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDD0014", 0, 0
+}
+
+Sprite "WTD1P0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDD0015", 0, 0
+}
+
+Sprite "WTD1Q0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDD0016", 0, 0
+}
+
+Sprite "WTF1A0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDF0000", 0, 0
+}
+
+Sprite "WTF1B0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDF0001", 0, 0
+}
+
+Sprite "WTF1C0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDF0002", 0, 0
+}
+
+Sprite "WTF1D0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDF0003", 0, 0
+}
+
+Sprite "WTF1E0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDF0004", 0, 0
+}
+
+Sprite "WTF1F0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDF0005", 0, 0
+}
+
+Sprite "WTL1A0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDL0000", 0, 0
+}
+
+Sprite "WTL1B0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDL0001", 0, 0
+}
+
+Sprite "WTL1C0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDL0002", 0, 0
+}
+
+Sprite "WTR1A0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDR0000", 0, 0
+}
+
+Sprite "WTR1B0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDR0001", 0, 0
+}
+
+Sprite "WTR1C0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDR0002", 0, 0
+}
+
+Sprite "WTR1D0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDR0003", 0, 0
+}
+
+Sprite "WTR1E0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDR0004", 0, 0
+}
+
+Sprite "WTR1F0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDR0005", 0, 0
+}
+
+Sprite "WTR1G0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDR0006", 0, 0
+}
+
+Sprite "WTR1H0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDR0007", 0, 0
+}
+
+Sprite "WTR1I0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDR0008", 0, 0
+}
+
+Sprite "WTR1J0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDR0009", 0, 0
+}
+
+Sprite "WTR1K0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDR0010", 0, 0
+}
+
+Sprite "WTR1L0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDR0011", 0, 0
+}
+
+Sprite "WTR1M0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDR0012", 0, 0
+}
+
+Sprite "WTR1N0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDR0013", 0, 0
+}
+
+Sprite "WTR1O0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDR0014", 0, 0
+}
+
+Sprite "WTR1P0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDR0015", 0, 0
+}
+
+Sprite "WTR1Q0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDR0016", 0, 0
+}
+
+Sprite "WTR1R0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDR0017", 0, 0
+}
+
+Sprite "WTR1S0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDR0018", 0, 0
+}
+
+Sprite "WTR1T0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 65, 60
+	Patch "HYDR0019", 0, 0
+}
+

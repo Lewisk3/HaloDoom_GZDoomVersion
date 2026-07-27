@@ -1,0 +1,168 @@
+Sprite "WOI1A0", 360, 202
+{
+	XScale 0.8400
+	YScale 0.9600
+	Offset 48, 42
+	Patch "BINRIDLE", 0, 0
+}
+
+Sprite "WOD1A0", 360, 202
+{
+	XScale 0.8400
+	YScale 0.9600
+	Offset 48, 42
+	Patch "BINRSWP0", 0, 0
+}
+
+Sprite "WOD1B0", 360, 202
+{
+	XScale 0.8400
+	YScale 0.9600
+	Offset 48, 42
+	Patch "BINRSWP1", 0, 0
+}
+
+Sprite "WOD1C0", 360, 202
+{
+	XScale 0.8400
+	YScale 0.9600
+	Offset 48, 42
+	Patch "BINRSWP2", 0, 0
+}
+
+Sprite "WOD1D0", 360, 202
+{
+	XScale 0.8400
+	YScale 0.9600
+	Offset 48, 42
+	Patch "BINRSWP3", 0, 0
+}
+
+Sprite "WOD1E0", 360, 202
+{
+	XScale 0.8400
+	YScale 0.9600
+	Offset 48, 42
+	Patch "BINRSWP4", 0, 0
+}
+
+Sprite "WOD1F0", 360, 202
+{
+	XScale 0.8400
+	YScale 0.9600
+	Offset 48, 42
+	Patch "BINRSWP5", 0, 0
+}
+
+Sprite "WOD1G0", 360, 202
+{
+	XScale 0.8400
+	YScale 0.9600
+	Offset 48, 42
+	Patch "BINRSWP6", 0, 0
+}
+
+Sprite "WOD1H0", 360, 202
+{
+	XScale 0.8400
+	YScale 0.9600
+	Offset 48, 42
+	Patch "BINRSWP7", 0, 0
+}
+
+Sprite "WOF1A0", 360, 202
+{
+	XScale 0.8400
+	YScale 0.9600
+	Offset 48, 42
+	Patch "BINRFR0", 0, 0
+}
+
+Sprite "WOF1B0", 360, 202
+{
+	XScale 0.8400
+	YScale 0.9600
+	Offset 48, 42
+	Patch "BINRFR1", 0, 0
+}
+
+Sprite "WOF1C0", 360, 202
+{
+	XScale 0.8400
+	YScale 0.9600
+	Offset 48, 42
+	Patch "BINRFR2", 0, 0
+}
+
+Sprite "WOF1D0", 360, 202
+{
+	XScale 0.8400
+	YScale 0.9600
+	Offset 48, 42
+	Patch "BINRFR3", 0, 0
+}
+
+Sprite "WOF1E0", 360, 202
+{
+	XScale 0.8400
+	YScale 0.9600
+	Offset 48, 42
+	Patch "BINRFR4", 0, 0
+}
+
+Sprite "WOF1F0", 360, 202
+{
+	XScale 0.8400
+	YScale 0.9600
+	Offset 48, 42
+	Patch "BINRFR5", 0, 0
+}
+
+Sprite "WOF1G0", 360, 202
+{
+	XScale 0.8400
+	YScale 0.9600
+	Offset 48, 42
+	Patch "BINRFR6", 0, 0
+}
+
+Sprite "WOF1H0", 360, 202
+{
+	XScale 0.8400
+	YScale 0.9600
+	Offset 48, 42
+	Patch "BINRFR7", 0, 0
+}
+
+Sprite "WOF1I0", 360, 202
+{
+	XScale 0.8400
+	YScale 0.9600
+	Offset 48, 42
+	Patch "BINRFR8", 0, 0
+}
+
+Sprite "WOF1J0", 360, 202
+{
+	XScale 0.8400
+	YScale 0.9600
+	Offset 48, 42
+	Patch "BINRFR9", 0, 0
+}
+
+Sprite "WOF1K0", 360, 202
+{
+	XScale 0.8400
+	YScale 0.9600
+	Offset 48, 42
+	Patch "BINRFR10", 0, 0
+}
+
+Sprite "WOF1L0", 360, 202
+{
+	XScale 0.8400
+	YScale 0.9600
+	Offset 48, 42
+	Patch "BINRFR11", 0, 0
+}
+

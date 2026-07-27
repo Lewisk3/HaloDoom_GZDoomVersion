@@ -1,0 +1,2712 @@
+Sprite "WFG1A0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGIDLE", 0, 0
+}
+
+Sprite "WFD1A0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW0", 0, 0
+}
+
+Sprite "WFD1B0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW1", 0, 0
+}
+
+Sprite "WFD1C0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW2", 0, 0
+}
+
+Sprite "WFD1D0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW3", 0, 0
+}
+
+Sprite "WFD1E0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW4", 0, 0
+}
+
+Sprite "WFD1F0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW5", 0, 0
+}
+
+Sprite "WFD1G0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW6", 0, 0
+}
+
+Sprite "WFD1H0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW7", 0, 0
+}
+
+Sprite "WFD1I0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW8", 0, 0
+}
+
+Sprite "WFD1J0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW9", 0, 0
+}
+
+Sprite "WFD1K0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW10", 0, 0
+}
+
+Sprite "WFD1L0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW11", 0, 0
+}
+
+Sprite "WFD1M0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW12", 0, 0
+}
+
+Sprite "WFD1N0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW13", 0, 0
+}
+
+Sprite "WFD1O0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW14", 0, 0
+}
+
+Sprite "WFD1P0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW15", 0, 0
+}
+
+Sprite "WFD1Q0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW16", 0, 0
+}
+
+Sprite "WFD1R0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW17", 0, 0
+}
+
+Sprite "WFD1S0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW18", 0, 0
+}
+
+Sprite "WFD1T0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW19", 0, 0
+}
+
+Sprite "WFD1U0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW20", 0, 0
+}
+
+Sprite "WFD1V0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW21", 0, 0
+}
+
+Sprite "WFD1W0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW22", 0, 0
+}
+
+Sprite "WFD1X0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW23", 0, 0
+}
+
+Sprite "WFD1Y0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW24", 0, 0
+}
+
+Sprite "WFD1Z0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW25", 0, 0
+}
+
+Sprite "WFD2A0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW26", 0, 0
+}
+
+Sprite "WFD2B0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW27", 0, 0
+}
+
+Sprite "WFD2C0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW28", 0, 0
+}
+
+Sprite "WFD2D0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW29", 0, 0
+}
+
+Sprite "WFD2E0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW30", 0, 0
+}
+
+Sprite "WFD2F0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW31", 0, 0
+}
+
+Sprite "WFD2G0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW32", 0, 0
+}
+
+Sprite "WFD2H0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW33", 0, 0
+}
+
+Sprite "WFD2I0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW34", 0, 0
+}
+
+Sprite "WFD2J0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW35", 0, 0
+}
+
+Sprite "WFD2K0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW36", 0, 0
+}
+
+Sprite "WFD2L0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW37", 0, 0
+}
+
+Sprite "WFD2M0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW38", 0, 0
+}
+
+Sprite "WFD2N0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW39", 0, 0
+}
+
+Sprite "WFD2O0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW40", 0, 0
+}
+
+Sprite "WFD2P0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW41", 0, 0
+}
+
+Sprite "WFD2Q0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW42", 0, 0
+}
+
+Sprite "WFD2R0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW43", 0, 0
+}
+
+Sprite "WFD2S0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW44", 0, 0
+}
+
+Sprite "WFD2T0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW45", 0, 0
+}
+
+Sprite "WFD2U0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW46", 0, 0
+}
+
+Sprite "WFD2V0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW47", 0, 0
+}
+
+Sprite "WFD2W0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGDRW48", 0, 0
+}
+
+Sprite "WFS1A0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSA0", 0, 0
+}
+
+Sprite "WFS1B0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSA1", 0, 0
+}
+
+Sprite "WFS1C0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSA2", 0, 0
+}
+
+Sprite "WFS1D0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSA3", 0, 0
+}
+
+Sprite "WFS1E0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSA4", 0, 0
+}
+
+Sprite "WFS1F0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSA5", 0, 0
+}
+
+Sprite "WFS1G0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSA6", 0, 0
+}
+
+Sprite "WFS1H0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSA7", 0, 0
+}
+
+Sprite "WFS1I0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSA8", 0, 0
+}
+
+Sprite "WFS1J0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSA9", 0, 0
+}
+
+Sprite "WFS1K0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSA10", 0, 0
+}
+
+Sprite "WFS1L0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSA11", 0, 0
+}
+
+Sprite "WFS1M0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSA12", 0, 0
+}
+
+Sprite "WFS1N0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSA13", 0, 0
+}
+
+Sprite "WFS1O0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSA14", 0, 0
+}
+
+Sprite "WFS1P0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSA15", 0, 0
+}
+
+Sprite "WFS1Q0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSA16", 0, 0
+}
+
+Sprite "WFS1R0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSA17", 0, 0
+}
+
+Sprite "WFS1S0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSA18", 0, 0
+}
+
+Sprite "WFS1T0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSA19", 0, 0
+}
+
+Sprite "WFS1U0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSB0", 0, 0
+}
+
+Sprite "WFS1V0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSB1", 0, 0
+}
+
+Sprite "WFS1W0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSB2", 0, 0
+}
+
+Sprite "WFS1X0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSB3", 0, 0
+}
+
+Sprite "WFS1Y0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSB4", 0, 0
+}
+
+Sprite "WFS1Z0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSB5", 0, 0
+}
+
+Sprite "WFS2A0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSB6", 0, 0
+}
+
+Sprite "WFS2B0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSB7", 0, 0
+}
+
+Sprite "WFS2C0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSB8", 0, 0
+}
+
+Sprite "WFS2D0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSB9", 0, 0
+}
+
+Sprite "WFS2E0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSB10", 0, 0
+}
+
+Sprite "WFS2F0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSB11", 0, 0
+}
+
+Sprite "WFS2G0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSB12", 0, 0
+}
+
+Sprite "WFS2H0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSB13", 0, 0
+}
+
+Sprite "WFS2I0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSB14", 0, 0
+}
+
+Sprite "WFS2J0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSB15", 0, 0
+}
+
+Sprite "WFS2K0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSB16", 0, 0
+}
+
+Sprite "WFS2L0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSB17", 0, 0
+}
+
+Sprite "WFS2M0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSB18", 0, 0
+}
+
+Sprite "WFS2N0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFSB19", 0, 0
+}
+
+Sprite "WFF1A0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCA0", 0, 0
+}
+
+Sprite "WFF1B0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCA1", 0, 0
+}
+
+Sprite "WFF1C0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCA2", 0, 0
+}
+
+Sprite "WFF1D0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCA3", 0, 0
+}
+
+Sprite "WFF1E0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCA4", 0, 0
+}
+
+Sprite "WFF1F0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCA5", 0, 0
+}
+
+Sprite "WFF1G0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCA6", 0, 0
+}
+
+Sprite "WFF1H0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCA7", 0, 0
+}
+
+Sprite "WFF1I0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCA8", 0, 0
+}
+
+Sprite "WFF1J0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCA9", 0, 0
+}
+
+Sprite "WFF1K0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCA10", 0, 0
+}
+
+Sprite "WFF1L0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCA11", 0, 0
+}
+
+Sprite "WFF1M0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCA12", 0, 0
+}
+
+Sprite "WFF1N0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCA13", 0, 0
+}
+
+Sprite "WFF1O0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCA14", 0, 0
+}
+
+Sprite "WFF1P0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCA15", 0, 0
+}
+
+Sprite "WFF1Q0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCA16", 0, 0
+}
+
+Sprite "WFF1R0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCA17", 0, 0
+}
+
+Sprite "WFF1S0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCA18", 0, 0
+}
+
+Sprite "WFF1T0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCA19", 0, 0
+}
+
+Sprite "WFF1U0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCB0", 0, 0
+}
+
+Sprite "WFF1V0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCB1", 0, 0
+}
+
+Sprite "WFF1W0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCB2", 0, 0
+}
+
+Sprite "WFF1X0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCB3", 0, 0
+}
+
+Sprite "WFF1Y0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCB4", 0, 0
+}
+
+Sprite "WFF1Z0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCB5", 0, 0
+}
+
+Sprite "WFF2A0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCB6", 0, 0
+}
+
+Sprite "WFF2B0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCB7", 0, 0
+}
+
+Sprite "WFF2C0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCB8", 0, 0
+}
+
+Sprite "WFF2D0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCB9", 0, 0
+}
+
+Sprite "WFF2E0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCB10", 0, 0
+}
+
+Sprite "WFF2F0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCB11", 0, 0
+}
+
+Sprite "WFF2G0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCB12", 0, 0
+}
+
+Sprite "WFF2H0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCB13", 0, 0
+}
+
+Sprite "WFF2I0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCB14", 0, 0
+}
+
+Sprite "WFF2J0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCB15", 0, 0
+}
+
+Sprite "WFF2K0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCB16", 0, 0
+}
+
+Sprite "WFF2L0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCB17", 0, 0
+}
+
+Sprite "WFF2M0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCB18", 0, 0
+}
+
+Sprite "WFF2N0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCB19", 0, 0
+}
+
+Sprite "WFF2O0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCC0", 0, 0
+}
+
+Sprite "WFF2P0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCC1", 0, 0
+}
+
+Sprite "WFF2Q0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCC2", 0, 0
+}
+
+Sprite "WFF2R0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCC3", 0, 0
+}
+
+Sprite "WFF2S0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCC4", 0, 0
+}
+
+Sprite "WFF2T0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCC5", 0, 0
+}
+
+Sprite "WFF2U0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCC6", 0, 0
+}
+
+Sprite "WFF2V0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCC7", 0, 0
+}
+
+Sprite "WFF2W0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCC8", 0, 0
+}
+
+Sprite "WFF2X0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCC9", 0, 0
+}
+
+Sprite "WFF2Y0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCC10", 0, 0
+}
+
+Sprite "WFF2Z0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCC11", 0, 0
+}
+
+Sprite "WFF3A0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCC12", 0, 0
+}
+
+Sprite "WFF3B0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCC13", 0, 0
+}
+
+Sprite "WFF3C0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCC14", 0, 0
+}
+
+Sprite "WFF3D0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCC15", 0, 0
+}
+
+Sprite "WFF3E0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCC16", 0, 0
+}
+
+Sprite "WFF3F0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCC17", 0, 0
+}
+
+Sprite "WFF3G0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCC18", 0, 0
+}
+
+Sprite "WFF3H0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGFCC19", 0, 0
+}
+
+Sprite "WFT1A0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT0", 0, 0
+}
+
+Sprite "WFT1B0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT1", 0, 0
+}
+
+Sprite "WFT1C0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT2", 0, 0
+}
+
+Sprite "WFT1D0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT3", 0, 0
+}
+
+Sprite "WFT1E0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT4", 0, 0
+}
+
+Sprite "WFT1F0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT5", 0, 0
+}
+
+Sprite "WFT1G0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT6", 0, 0
+}
+
+Sprite "WFT1H0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT7", 0, 0
+}
+
+Sprite "WFT1I0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT8", 0, 0
+}
+
+Sprite "WFT1J0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT9", 0, 0
+}
+
+Sprite "WFT1K0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT10", 0, 0
+}
+
+Sprite "WFT1L0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT11", 0, 0
+}
+
+Sprite "WFT1M0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT12", 0, 0
+}
+
+Sprite "WFT1N0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT13", 0, 0
+}
+
+Sprite "WFT1O0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT14", 0, 0
+}
+
+Sprite "WFT1P0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT15", 0, 0
+}
+
+Sprite "WFT1Q0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT16", 0, 0
+}
+
+Sprite "WFT1R0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT17", 0, 0
+}
+
+Sprite "WFT1S0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT18", 0, 0
+}
+
+Sprite "WFT1T0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT19", 0, 0
+}
+
+Sprite "WFT1U0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT20", 0, 0
+}
+
+Sprite "WFT1V0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT21", 0, 0
+}
+
+Sprite "WFT1W0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT22", 0, 0
+}
+
+Sprite "WFT1X0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT23", 0, 0
+}
+
+Sprite "WFT1Y0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT24", 0, 0
+}
+
+Sprite "WFT1Z0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT25", 0, 0
+}
+
+Sprite "WFT2A0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT26", 0, 0
+}
+
+Sprite "WFT2B0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT27", 0, 0
+}
+
+Sprite "WFT2C0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT28", 0, 0
+}
+
+Sprite "WFT2D0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT29", 0, 0
+}
+
+Sprite "WFT2E0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT30", 0, 0
+}
+
+Sprite "WFT2F0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT31", 0, 0
+}
+
+Sprite "WFT2G0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT32", 0, 0
+}
+
+Sprite "WFT2H0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT33", 0, 0
+}
+
+Sprite "WFT2I0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT34", 0, 0
+}
+
+Sprite "WFT2J0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT35", 0, 0
+}
+
+Sprite "WFT2K0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT36", 0, 0
+}
+
+Sprite "WFT2L0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT37", 0, 0
+}
+
+Sprite "WFT2M0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT38", 0, 0
+}
+
+Sprite "WFT2N0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT39", 0, 0
+}
+
+Sprite "WFT2O0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT40", 0, 0
+}
+
+Sprite "WFT2P0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT41", 0, 0
+}
+
+Sprite "WFT2Q0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT42", 0, 0
+}
+
+Sprite "WFT2R0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT43", 0, 0
+}
+
+Sprite "WFT2S0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT44", 0, 0
+}
+
+Sprite "WFT2T0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT45", 0, 0
+}
+
+Sprite "WFT2U0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT46", 0, 0
+}
+
+Sprite "WFT2V0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT47", 0, 0
+}
+
+Sprite "WFT2W0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT48", 0, 0
+}
+
+Sprite "WFT2X0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT49", 0, 0
+}
+
+Sprite "WFT2Y0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT50", 0, 0
+}
+
+Sprite "WFT2Z0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT51", 0, 0
+}
+
+Sprite "WFT3A0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT52", 0, 0
+}
+
+Sprite "WFT3B0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT53", 0, 0
+}
+
+Sprite "WFT3C0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT54", 0, 0
+}
+
+Sprite "WFT3D0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT55", 0, 0
+}
+
+Sprite "WFT3E0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT56", 0, 0
+}
+
+Sprite "WFT3F0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT57", 0, 0
+}
+
+Sprite "WFT3G0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT58", 0, 0
+}
+
+Sprite "WFT3H0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT59", 0, 0
+}
+
+Sprite "WFT3I0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT60", 0, 0
+}
+
+Sprite "WFT3J0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT61", 0, 0
+}
+
+Sprite "WFT3K0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT62", 0, 0
+}
+
+Sprite "WFT3L0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT63", 0, 0
+}
+
+Sprite "WFT3M0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT64", 0, 0
+}
+
+Sprite "WFT3N0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT65", 0, 0
+}
+
+Sprite "WFT3O0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT66", 0, 0
+}
+
+Sprite "WFT3P0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT67", 0, 0
+}
+
+Sprite "WFT3Q0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT68", 0, 0
+}
+
+Sprite "WFT3R0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT69", 0, 0
+}
+
+Sprite "WFT3S0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT70", 0, 0
+}
+
+Sprite "WFT3T0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT71", 0, 0
+}
+
+Sprite "WFT3U0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT72", 0, 0
+}
+
+Sprite "WFT3V0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT73", 0, 0
+}
+
+Sprite "WFT3W0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT74", 0, 0
+}
+
+Sprite "WFT3X0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT75", 0, 0
+}
+
+Sprite "WFT3Y0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT76", 0, 0
+}
+
+Sprite "WFT3Z0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT77", 0, 0
+}
+
+Sprite "WFT4A0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRLT78", 0, 0
+}
+
+Sprite "WFR1A0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL0", 0, 0
+}
+
+Sprite "WFR1B0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL1", 0, 0
+}
+
+Sprite "WFR1C0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL2", 0, 0
+}
+
+Sprite "WFR1D0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL3", 0, 0
+}
+
+Sprite "WFR1E0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL4", 0, 0
+}
+
+Sprite "WFR1F0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL5", 0, 0
+}
+
+Sprite "WFR1G0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL6", 0, 0
+}
+
+Sprite "WFR1H0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL7", 0, 0
+}
+
+Sprite "WFR1I0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL8", 0, 0
+}
+
+Sprite "WFR1J0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL9", 0, 0
+}
+
+Sprite "WFR1K0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL10", 0, 0
+}
+
+Sprite "WFR1L0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL11", 0, 0
+}
+
+Sprite "WFR1M0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL12", 0, 0
+}
+
+Sprite "WFR1N0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL13", 0, 0
+}
+
+Sprite "WFR1O0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL14", 0, 0
+}
+
+Sprite "WFR1P0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL15", 0, 0
+}
+
+Sprite "WFR1Q0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL16", 0, 0
+}
+
+Sprite "WFR1R0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL17", 0, 0
+}
+
+Sprite "WFR1S0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL18", 0, 0
+}
+
+Sprite "WFR1T0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL19", 0, 0
+}
+
+Sprite "WFR1U0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL20", 0, 0
+}
+
+Sprite "WFR1V0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL21", 0, 0
+}
+
+Sprite "WFR1W0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL22", 0, 0
+}
+
+Sprite "WFR1X0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL23", 0, 0
+}
+
+Sprite "WFR1Y0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL24", 0, 0
+}
+
+Sprite "WFR1Z0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL25", 0, 0
+}
+
+Sprite "WFR2A0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL26", 0, 0
+}
+
+Sprite "WFR2B0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL27", 0, 0
+}
+
+Sprite "WFR2C0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL28", 0, 0
+}
+
+Sprite "WFR2D0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL29", 0, 0
+}
+
+Sprite "WFR2E0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL30", 0, 0
+}
+
+Sprite "WFR2F0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL31", 0, 0
+}
+
+Sprite "WFR2G0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL32", 0, 0
+}
+
+Sprite "WFR2H0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL33", 0, 0
+}
+
+Sprite "WFR2I0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL34", 0, 0
+}
+
+Sprite "WFR2J0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL35", 0, 0
+}
+
+Sprite "WFR2K0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL36", 0, 0
+}
+
+Sprite "WFR2L0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL37", 0, 0
+}
+
+Sprite "WFR2M0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL38", 0, 0
+}
+
+Sprite "WFR2N0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL39", 0, 0
+}
+
+Sprite "WFR2O0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL40", 0, 0
+}
+
+Sprite "WFR2P0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL41", 0, 0
+}
+
+Sprite "WFR2Q0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL42", 0, 0
+}
+
+Sprite "WFR2R0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL43", 0, 0
+}
+
+Sprite "WFR2S0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL44", 0, 0
+}
+
+Sprite "WFR2T0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL45", 0, 0
+}
+
+Sprite "WFR2U0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL46", 0, 0
+}
+
+Sprite "WFR2V0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL47", 0, 0
+}
+
+Sprite "WFR2W0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL48", 0, 0
+}
+
+Sprite "WFR2X0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL49", 0, 0
+}
+
+Sprite "WFR2Y0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL50", 0, 0
+}
+
+Sprite "WFR2Z0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL51", 0, 0
+}
+
+Sprite "WFR3A0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL52", 0, 0
+}
+
+Sprite "WFR3B0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL53", 0, 0
+}
+
+Sprite "WFR3C0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL54", 0, 0
+}
+
+Sprite "WFR3D0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL55", 0, 0
+}
+
+Sprite "WFR3E0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL56", 0, 0
+}
+
+Sprite "WFR3F0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL57", 0, 0
+}
+
+Sprite "WFR3G0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL58", 0, 0
+}
+
+Sprite "WFR3H0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL59", 0, 0
+}
+
+Sprite "WFR3I0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL60", 0, 0
+}
+
+Sprite "WFR3J0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL61", 0, 0
+}
+
+Sprite "WFR3K0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL62", 0, 0
+}
+
+Sprite "WFR3L0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL63", 0, 0
+}
+
+Sprite "WFR3M0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL64", 0, 0
+}
+
+Sprite "WFR3N0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL65", 0, 0
+}
+
+Sprite "WFR3O0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL66", 0, 0
+}
+
+Sprite "WFR3P0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL67", 0, 0
+}
+
+Sprite "WFR3Q0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL68", 0, 0
+}
+
+Sprite "WFR3R0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL69", 0, 0
+}
+
+Sprite "WFR3S0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL70", 0, 0
+}
+
+Sprite "WFR3T0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL71", 0, 0
+}
+
+Sprite "WFR3U0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL72", 0, 0
+}
+
+Sprite "WFR3V0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL73", 0, 0
+}
+
+Sprite "WFR3W0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL74", 0, 0
+}
+
+Sprite "WFR3X0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL75", 0, 0
+}
+
+Sprite "WFR3Y0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL76", 0, 0
+}
+
+Sprite "WFR3Z0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL77", 0, 0
+}
+
+Sprite "WFR4A0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL78", 0, 0
+}
+
+Sprite "WFR4B0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL79", 0, 0
+}
+
+Sprite "WFR4C0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL80", 0, 0
+}
+
+Sprite "WFR4D0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL81", 0, 0
+}
+
+Sprite "WFR4E0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL82", 0, 0
+}
+
+Sprite "WFR4F0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL83", 0, 0
+}
+
+Sprite "WFR4G0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL84", 0, 0
+}
+
+Sprite "WFR4H0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL85", 0, 0
+}
+
+Sprite "WFR4I0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL86", 0, 0
+}
+
+Sprite "WFR4J0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL87", 0, 0
+}
+
+Sprite "WFR4K0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL88", 0, 0
+}
+
+Sprite "WFR4L0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL89", 0, 0
+}
+
+Sprite "WFR4M0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL90", 0, 0
+}
+
+Sprite "WFR4N0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL91", 0, 0
+}
+
+Sprite "WFR4O0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL92", 0, 0
+}
+
+Sprite "WFR4P0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL93", 0, 0
+}
+
+Sprite "WFR4Q0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL94", 0, 0
+}
+
+Sprite "WFR4R0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL95", 0, 0
+}
+
+Sprite "WFR4S0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL96", 0, 0
+}
+
+Sprite "WFR4T0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL97", 0, 0
+}
+
+Sprite "WFR4U0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL98", 0, 0
+}
+
+Sprite "WFR4V0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL99", 0, 0
+}
+
+Sprite "WFR4W0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL100", 0, 0
+}
+
+Sprite "WFR4X0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL101", 0, 0
+}
+
+Sprite "WFR4Y0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL102", 0, 0
+}
+
+Sprite "WFR4Z0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL103", 0, 0
+}
+
+Sprite "WFR5A0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL104", 0, 0
+}
+
+Sprite "WFR5B0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL105", 0, 0
+}
+
+Sprite "WFR5C0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL106", 0, 0
+}
+
+Sprite "WFR5D0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL107", 0, 0
+}
+
+Sprite "WFR5E0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL108", 0, 0
+}
+
+Sprite "WFR5F0", 450, 210
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 87, 26
+	Patch "SMGRL109", 0, 0
+}
+

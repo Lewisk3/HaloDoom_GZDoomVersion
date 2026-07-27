@@ -1,0 +1,8 @@
+Sprite "MSNGA0", 140, 63
+{
+	XScale 3.0000
+	YScale 3.0000
+	Offset 68, 63
+	Patch "MISSNG", 0, 0
+}
+

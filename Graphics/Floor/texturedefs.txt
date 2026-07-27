@@ -1,0 +1,312 @@
+Sprite "SNPFA0", 150, 40
+{
+	XScale 2.5000
+	YScale 2.5000
+	Offset 79, 40
+	Patch "HDSNPFA0", 0, 0
+}
+
+Sprite "MGFLA0", 80, 80
+{
+	XScale 5.5000
+	YScale 6.5000
+	Offset 41, 81
+	Patch "HDMGFLA0", 0, 0
+}
+
+Sprite "W1P1A0", 150, 50
+{
+	XScale 3.5000
+	YScale 3.5000
+	Offset 73, 50
+	Patch "HDARFLA0", 0, 0
+}
+
+Sprite "SSGFA0", 150, 50
+{
+	XScale 3.0000
+	YScale 3.0000
+	Offset 77, 50
+	Patch "HDSSGFA0", 0, 0
+}
+
+Sprite "NOWEA0", 251, 129
+{
+	XScale 5.0000
+	YScale 7.0000
+	Offset 120, 125
+	Patch "NOWEA0", 0, 0
+}
+
+Sprite "CARFA0", 130, 50
+{
+	XScale 2.5000
+	YScale 2.5000
+	Offset 66, 50
+	Patch "HDCRBFA0", 0, 0
+}
+
+Sprite "PPFLA0", 70, 50
+{
+	XScale 3.0000
+	YScale 3.0000
+	Offset 35, 50
+	Patch "HDPPFLA0", 0, 0
+}
+
+Sprite "NDFLA0", 153, 143
+{
+	XScale 3.0000
+	YScale 3.0000
+	Offset 72, 143
+	Patch "HDNDFLA0", 0, 0
+}
+
+Sprite "STNFA0", 200, 50
+{
+	XScale 2.5000
+	YScale 2.5000
+	Offset 100, 50
+	Patch "HDSTNFA0", 0, 0
+}
+
+Sprite "PRSFA0", 110, 80
+{
+	XScale 4.0000
+	YScale 4.0000
+	Offset 56, 80
+	Patch "HDPRSFA0", 0, 0
+}
+
+Sprite "FRDGA0", 100, 70
+{
+	XScale 2.5000
+	YScale 2.5000
+	Offset 50, 70
+	Patch "HDFRDGA0", 0, 0
+}
+
+Sprite "WFP1A0", 150, 70
+{
+	XScale 4.0000
+	YScale 4.0000
+	Offset 70, 70
+	Patch "HDSMFLA0", 0, 0
+}
+
+Sprite "WHP1A0", 125, 50
+{
+	XScale 3.0000
+	YScale 3.0000
+	Offset 63, 50
+	Patch "HDMA5FA0", 0, 0
+}
+
+Sprite "WIP1A0", 150, 50
+{
+	XScale 2.5000
+	YScale 2.5000
+	Offset 72, 50
+	Patch "HDRLFLA0", 0, 0
+}
+
+Sprite "WJP1A0", 180, 50
+{
+	XScale 4.0000
+	YScale 4.0000
+	Offset 88, 50
+	Patch "HDDMRFA0", 0, 0
+}
+
+Sprite "WLP1A0", 130, 45
+{
+	XScale 3.0000
+	YScale 3.0000
+	Offset 64, 45
+	Patch "HDWLP1A0", 0, 0
+}
+
+Sprite "WEP1A0", 110, 80
+{
+	XScale 5.0000
+	YScale 5.0000
+	Offset 55, 80
+	Patch "HDWEP1A0", 0, 0
+}
+
+Sprite "WKG1A0", 150, 35
+{
+	XScale 2.0000
+	YScale 2.0000
+	Offset 74, 35
+	Patch "HDUMFLA0", 0, 0
+}
+
+Sprite "WNP1A0", 120, 50
+{
+	XScale 3.0000
+	YScale 3.0000
+	Offset 60, 50
+	Patch "HDSWDFA0", 0, 0
+}
+
+Sprite "WMP1A0", 125, 40
+{
+	XScale 2.5000
+	YScale 2.5000
+	Offset 64, 40
+	Patch "HDPCFLA0", 0, 0
+}
+
+Sprite "WOP1A0", 150, 40
+{
+	XScale 2.5000
+	YScale 2.5000
+	Offset 74, 40
+	Patch "HDBIFLA0", 0, 0
+}
+
+Sprite "WPP1A0", 200, 50
+{
+	XScale 2.0000
+	YScale 2.0000
+	Offset 101, 50
+	Patch "HDLRFLA0", 0, 0
+}
+
+Sprite "WQP1A0", 140, 50
+{
+	XScale 3.5000
+	YScale 3.5000
+	Offset 70, 50
+	Patch "HDSSFLA0", 0, 0
+}
+
+Sprite "HMRFA0", 150, 50
+{
+	XScale 3.0000
+	YScale 3.0000
+	Offset 76, 50
+	Patch "HDHM2FA0", 0, 0
+}
+
+Sprite "W2G1A0", 170, 60
+{
+	XScale 3.0000
+	YScale 3.0000
+	Offset 86, 60
+	Patch "HDBRFLA0", 0, 0
+}
+
+Sprite "WAG1A0", 140, 50
+{
+	XScale 3.0000
+	YScale 3.0000
+	Offset 71, 51
+	Patch "HDBLDFA0", 0, 0
+}
+
+Sprite "WRG1A0", 170, 60
+{
+	XScale 3.0000
+	YScale 3.0000
+	Offset 88, 61
+	Patch "HDFLMFA0", 0, 0
+}
+
+Sprite "WSG1A0", 150, 50
+{
+	XScale 3.0000
+	YScale 3.0000
+	Offset 75, 51
+	Patch "HDCSTFA0", 0, 0
+}
+
+Sprite "WTG1A0", 120, 50
+{
+	XScale 2.5000
+	YScale 2.5000
+	Offset 61, 50
+	Patch "HDHYDFA0", 0, 0
+}
+
+Sprite "WVP1A0", 140, 50
+{
+	XScale 2.5000
+	YScale 2.5000
+	Offset 71, 50
+	Patch "HDGMGFA0", 0, 0
+}
+
+Sprite "WWP1A0", 100, 50
+{
+	XScale 4.0000
+	YScale 4.0000
+	Offset 51, 50
+	Patch "HDSTDFA0", 0, 0
+}
+
+Sprite "WXG1A0", 160, 50
+{
+	XScale 2.5000
+	YScale 2.5000
+	Offset 84, 50
+	Patch "HDNJFLA0", 0, 0
+}
+
+Sprite "WYS1A0", 90, 65
+{
+	XScale 3.0000
+	YScale 3.0000
+	Offset 43, 65
+	Patch "HDSBFLA0", 0, 0
+}
+
+Sprite "W3G1A0", 150, 40
+{
+	XScale 3.0000
+	YScale 3.0000
+	Offset 73, 40
+	Patch "HDSGFLA0", 0, 0
+}
+
+Sprite "WGP1A0", 190, 80
+{
+	XScale 5.0000
+	YScale 5.0000
+	Offset 97, 80
+	Patch "HDSPKFA0", 0, 0
+}
+
+Sprite "G1P1A0", 130, 45
+{
+	XScale 2.5000
+	YScale 2.5000
+	Offset 66, 45
+	Patch "HDGLFLA0", 0, 0
+}
+
+Sprite "WNP1B0", 1150, 453
+{
+	XScale 20.0000
+	YScale 30.0000
+	Offset 620, 458
+	Patch "HDSW2FA0", 0, 0
+}
+
+Sprite "WUG1A0", 165, 60
+{
+	XScale 4.0000
+	YScale 4.0000
+	Offset 80, 60
+	Patch "HDCMDFA0", 0, 0
+}
+
+Sprite "G2P1A0", 101, 60
+{
+	XScale 4.5000
+	YScale 4.5000
+	Offset 53, 60
+	Patch "HDBSFLA0", 0, 0
+}
+

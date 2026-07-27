@@ -1,0 +1,8 @@
+Sprite "CLMBA0", 186, 328
+{
+	XScale 1.8000
+	YScale 2.0000
+	Offset -91, -11
+	Patch "CLAMBER", 0, 0
+}
+

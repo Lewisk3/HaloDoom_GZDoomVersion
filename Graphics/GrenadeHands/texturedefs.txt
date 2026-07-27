@@ -1,0 +1,176 @@
+Sprite "T1F1A0", 360, 202
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 120, 3
+	Patch "HNDFRG0", 0, 0
+}
+
+Sprite "T1F1B0", 360, 202
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 120, 3
+	Patch "HNDFRG1", 0, 0
+}
+
+Sprite "T1F1C0", 360, 202
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 120, 3
+	Patch "HNDFRG2", 0, 0
+}
+
+Sprite "T1F1D0", 360, 202
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 120, 3
+	Patch "HNDFRG3", 0, 0
+}
+
+Sprite "T1F1E0", 360, 202
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 120, 3
+	Patch "HNDFRG4", 0, 0
+}
+
+Sprite "T1F1F0", 360, 202
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 120, 3
+	Patch "HNDFRG5", 0, 0
+}
+
+Sprite "T1F1G0", 360, 202
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 120, 3
+	Patch "HNDFRG6", 0, 0
+}
+
+Sprite "T1F1H0", 360, 202
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 120, 3
+	Patch "HNDFRG7", 0, 0
+}
+
+Sprite "T1F1I0", 360, 202
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 120, 3
+	Patch "HNDFRG8", 0, 0
+}
+
+Sprite "T1F1J0", 360, 202
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 120, 3
+	Patch "HNDFRG9", 0, 0
+}
+
+Sprite "T1F1K0", 360, 202
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 120, 3
+	Patch "HNDFRG10", 0, 0
+}
+
+Sprite "T2P1A0", 360, 202
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 120, 3
+	Patch "HNDPLS0", 0, 0
+}
+
+Sprite "T2P1B0", 360, 202
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 120, 3
+	Patch "HNDPLS1", 0, 0
+}
+
+Sprite "T2P1C0", 360, 202
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 120, 3
+	Patch "HNDPLS2", 0, 0
+}
+
+Sprite "T2P1D0", 360, 202
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 120, 3
+	Patch "HNDPLS3", 0, 0
+}
+
+Sprite "T2P1E0", 360, 202
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 120, 3
+	Patch "HNDPLS4", 0, 0
+}
+
+Sprite "T2P1F0", 360, 202
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 120, 3
+	Patch "HNDPLS5", 0, 0
+}
+
+Sprite "T2P1G0", 360, 202
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 120, 3
+	Patch "HNDPLS6", 0, 0
+}
+
+Sprite "T2P1H0", 360, 202
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 120, 3
+	Patch "HNDPLS7", 0, 0
+}
+
+Sprite "T2P1I0", 360, 202
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 120, 3
+	Patch "HNDPLS8", 0, 0
+}
+
+Sprite "T2P1J0", 360, 202
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 120, 3
+	Patch "HNDPLS9", 0, 0
+}
+
+Sprite "T2P1K0", 360, 202
+{
+	XScale 1.0200
+	YScale 1.1400
+	Offset 120, 3
+	Patch "HNDPLS10", 0, 0
+}
+

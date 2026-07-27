@@ -1,0 +1,488 @@
+Sprite "WLI1A0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMRIDLE", 0, 0
+}
+
+Sprite "WLD1A0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMD0000", 0, 0
+}
+
+Sprite "WLD1B0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMD0001", 0, 0
+}
+
+Sprite "WLD1C0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMD0002", 0, 0
+}
+
+Sprite "WLD1D0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMD0003", 0, 0
+}
+
+Sprite "WLD1E0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMD0004", 0, 0
+}
+
+Sprite "WLD1F0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMD0005", 0, 0
+}
+
+Sprite "WLD1G0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMD0006", 0, 0
+}
+
+Sprite "WLD1H0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMD0007", 0, 0
+}
+
+Sprite "WLD1I0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMD0008", 0, 0
+}
+
+Sprite "WLD1J0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMD0009", 0, 0
+}
+
+Sprite "WLD1K0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMD0010", 0, 0
+}
+
+Sprite "WLD1L0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMD0011", 0, 0
+}
+
+Sprite "WLD1M0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMD0012", 0, 0
+}
+
+Sprite "WLD1N0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMD0013", 0, 0
+}
+
+Sprite "WLD1O0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMD0014", 0, 0
+}
+
+Sprite "WLD1P0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMD0015", 0, 0
+}
+
+Sprite "WLD1Q0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMD0016", 0, 0
+}
+
+Sprite "WLD1R0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMD0017", 0, 0
+}
+
+Sprite "WLD1S0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMD0018", 0, 0
+}
+
+Sprite "WLD1T0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMD0019", 0, 0
+}
+
+Sprite "WLD1U0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMD0020", 0, 0
+}
+
+Sprite "WLD1V0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMD0021", 0, 0
+}
+
+Sprite "WLD1W0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMD0022", 0, 0
+}
+
+Sprite "WLD1X0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMD0023", 0, 0
+}
+
+Sprite "WLD1Y0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMD0024", 0, 0
+}
+
+Sprite "WLD1Z0", 384, 216
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMD0025", 0, 0
+}
+
+Sprite "WLF1A0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMF0000", 0, 0
+}
+
+Sprite "WLF1B0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMF0001", 0, 0
+}
+
+Sprite "WLF1C0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMF0002", 0, 0
+}
+
+Sprite "WLF1D0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMF0003", 0, 0
+}
+
+Sprite "WLF1E0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMF0004", 0, 0
+}
+
+Sprite "WLF1F0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMF0005", 0, 0
+}
+
+Sprite "WLF1G0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMF0006", 0, 0
+}
+
+Sprite "WLF1H0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMF0007", 0, 0
+}
+
+Sprite "WLF1I0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMF0008", 0, 0
+}
+
+Sprite "WLF1J0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMF0009", 0, 0
+}
+
+Sprite "WLO1A0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMO0000", 0, 0
+}
+
+Sprite "WLO1B0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMO0001", 0, 0
+}
+
+Sprite "WLO1C0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMO0002", 0, 0
+}
+
+Sprite "WLO1D0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMO0003", 0, 0
+}
+
+Sprite "WLO1E0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMO0004", 0, 0
+}
+
+Sprite "WLO1F0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMO0005", 0, 0
+}
+
+Sprite "WLO1G0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMO0006", 0, 0
+}
+
+Sprite "WLO1H0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMO0007", 0, 0
+}
+
+Sprite "WLO1I0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMO0008", 0, 0
+}
+
+Sprite "WLO1J0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMO0009", 0, 0
+}
+
+Sprite "WLO1K0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMO0010", 0, 0
+}
+
+Sprite "WLO1L0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMO0011", 0, 0
+}
+
+Sprite "WLO1M0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMO0012", 0, 0
+}
+
+Sprite "WLO1N0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMO0013", 0, 0
+}
+
+Sprite "WLO1O0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMO0014", 0, 0
+}
+
+Sprite "WLO1P0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMO0015", 0, 0
+}
+
+Sprite "WLO1Q0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMO0016", 0, 0
+}
+
+Sprite "WLO1R0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMO0017", 0, 0
+}
+
+Sprite "WLO1S0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMO0018", 0, 0
+}
+
+Sprite "WLO1T0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMO0019", 0, 0
+}
+
+Sprite "WLS1A0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMS0000", 0, 0
+}
+
+Sprite "WLS1B0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMS0001", 0, 0
+}
+
+Sprite "WLS1C0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMS0002", 0, 0
+}
+
+Sprite "WLS1D0", 360, 203
+{
+	XScale 0.8000
+	YScale 0.9000
+	Offset 70, 60
+	Patch "BEMS0003", 0, 0
+}
+

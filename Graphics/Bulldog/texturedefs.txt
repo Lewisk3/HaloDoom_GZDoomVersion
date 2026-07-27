@@ -1,0 +1,2352 @@
+Sprite "WAI1A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDIDLE", 0, 0
+}
+
+Sprite "WAD1A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW0", 0, 0
+}
+
+Sprite "WAD1B0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW1", 0, 0
+}
+
+Sprite "WAD1C0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW2", 0, 0
+}
+
+Sprite "WAD1D0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW3", 0, 0
+}
+
+Sprite "WAD1E0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW4", 0, 0
+}
+
+Sprite "WAD1F0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW5", 0, 0
+}
+
+Sprite "WAD1G0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW6", 0, 0
+}
+
+Sprite "WAD1H0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW7", 0, 0
+}
+
+Sprite "WAD1I0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW8", 0, 0
+}
+
+Sprite "WAD1J0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW9", 0, 0
+}
+
+Sprite "WAD1K0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW10", 0, 0
+}
+
+Sprite "WAD1L0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW11", 0, 0
+}
+
+Sprite "WAD1M0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW12", 0, 0
+}
+
+Sprite "WAD1N0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW13", 0, 0
+}
+
+Sprite "WAD1O0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW14", 0, 0
+}
+
+Sprite "WAD1P0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW15", 0, 0
+}
+
+Sprite "WAD1Q0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW16", 0, 0
+}
+
+Sprite "WAD1R0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW17", 0, 0
+}
+
+Sprite "WAD1S0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW18", 0, 0
+}
+
+Sprite "WAD1T0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW19", 0, 0
+}
+
+Sprite "WAD1U0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW20", 0, 0
+}
+
+Sprite "WAD1V0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW21", 0, 0
+}
+
+Sprite "WAD1W0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW22", 0, 0
+}
+
+Sprite "WAD1X0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW23", 0, 0
+}
+
+Sprite "WAD1Y0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW24", 0, 0
+}
+
+Sprite "WAD1Z0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW25", 0, 0
+}
+
+Sprite "WAD2A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW26", 0, 0
+}
+
+Sprite "WAD2B0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW27", 0, 0
+}
+
+Sprite "WAD2C0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW28", 0, 0
+}
+
+Sprite "WAD2D0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW29", 0, 0
+}
+
+Sprite "WAD2E0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW30", 0, 0
+}
+
+Sprite "WAD2F0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW31", 0, 0
+}
+
+Sprite "WAD2G0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW32", 0, 0
+}
+
+Sprite "WAD2H0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW33", 0, 0
+}
+
+Sprite "WAD2I0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW34", 0, 0
+}
+
+Sprite "WAD2J0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW35", 0, 0
+}
+
+Sprite "WAD2K0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW36", 0, 0
+}
+
+Sprite "WAD2L0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW37", 0, 0
+}
+
+Sprite "WAD2M0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW38", 0, 0
+}
+
+Sprite "WAD2N0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW39", 0, 0
+}
+
+Sprite "WAD2O0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW40", 0, 0
+}
+
+Sprite "WAD2P0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW41", 0, 0
+}
+
+Sprite "WAD2Q0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULDRW42", 0, 0
+}
+
+Sprite "WAF1A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR0", 0, 0
+}
+
+Sprite "WAF1B0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR1", 0, 0
+}
+
+Sprite "WAF1C0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR2", 0, 0
+}
+
+Sprite "WAF1D0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR3", 0, 0
+}
+
+Sprite "WAF1E0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR4", 0, 0
+}
+
+Sprite "WAF1F0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR5", 0, 0
+}
+
+Sprite "WAF1G0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR6", 0, 0
+}
+
+Sprite "WAF1H0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR7", 0, 0
+}
+
+Sprite "WAF1I0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR8", 0, 0
+}
+
+Sprite "WAF1J0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR9", 0, 0
+}
+
+Sprite "WAF1K0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR10", 0, 0
+}
+
+Sprite "WAF1L0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR11", 0, 0
+}
+
+Sprite "WAF1M0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR12", 0, 0
+}
+
+Sprite "WAF1N0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR13", 0, 0
+}
+
+Sprite "WAF1O0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR14", 0, 0
+}
+
+Sprite "WAF1P0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR15", 0, 0
+}
+
+Sprite "WAF1Q0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR16", 0, 0
+}
+
+Sprite "WAF1R0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR17", 0, 0
+}
+
+Sprite "WAF1S0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR18", 0, 0
+}
+
+Sprite "WAF1T0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR19", 0, 0
+}
+
+Sprite "WAF1U0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR20", 0, 0
+}
+
+Sprite "WAF1V0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR21", 0, 0
+}
+
+Sprite "WAF1W0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR22", 0, 0
+}
+
+Sprite "WAF1X0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR23", 0, 0
+}
+
+Sprite "WAF1Y0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR24", 0, 0
+}
+
+Sprite "WAF1Z0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR25", 0, 0
+}
+
+Sprite "WAF2A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR26", 0, 0
+}
+
+Sprite "WAF2B0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR27", 0, 0
+}
+
+Sprite "WAF2C0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR28", 0, 0
+}
+
+Sprite "WAF2D0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR29", 0, 0
+}
+
+Sprite "WAF2E0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR30", 0, 0
+}
+
+Sprite "WAF2F0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR31", 0, 0
+}
+
+Sprite "WAF2G0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR32", 0, 0
+}
+
+Sprite "WAF2H0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR33", 0, 0
+}
+
+Sprite "WAF2I0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR34", 0, 0
+}
+
+Sprite "WAF2J0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR35", 0, 0
+}
+
+Sprite "WAF2K0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR36", 0, 0
+}
+
+Sprite "WAF2L0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR37", 0, 0
+}
+
+Sprite "WAF2M0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR38", 0, 0
+}
+
+Sprite "WAF2N0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR39", 0, 0
+}
+
+Sprite "WAF2O0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR40", 0, 0
+}
+
+Sprite "WAF2P0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR41", 0, 0
+}
+
+Sprite "WAF2Q0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR42", 0, 0
+}
+
+Sprite "WAF2R0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR43", 0, 0
+}
+
+Sprite "WAF2S0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR44", 0, 0
+}
+
+Sprite "WAF2T0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR45", 0, 0
+}
+
+Sprite "WAF2U0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR46", 0, 0
+}
+
+Sprite "WAF2V0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR47", 0, 0
+}
+
+Sprite "WAF2W0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR48", 0, 0
+}
+
+Sprite "WAF2X0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR49", 0, 0
+}
+
+Sprite "WAF2Y0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR50", 0, 0
+}
+
+Sprite "WAF2Z0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR51", 0, 0
+}
+
+Sprite "WAF3A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR52", 0, 0
+}
+
+Sprite "WAF3B0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR53", 0, 0
+}
+
+Sprite "WAF3C0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR54", 0, 0
+}
+
+Sprite "WAF3D0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR55", 0, 0
+}
+
+Sprite "WAF3E0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR56", 0, 0
+}
+
+Sprite "WAF3F0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR57", 0, 0
+}
+
+Sprite "WAF3G0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR58", 0, 0
+}
+
+Sprite "WAF3H0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULFIR59", 0, 0
+}
+
+Sprite "WAR1A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE0", 0, 0
+}
+
+Sprite "WAR1B0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE1", 0, 0
+}
+
+Sprite "WAR1C0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE2", 0, 0
+}
+
+Sprite "WAR1D0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE3", 0, 0
+}
+
+Sprite "WAR1E0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE4", 0, 0
+}
+
+Sprite "WAR1F0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE5", 0, 0
+}
+
+Sprite "WAR1G0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE6", 0, 0
+}
+
+Sprite "WAR1H0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE7", 0, 0
+}
+
+Sprite "WAR1I0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE8", 0, 0
+}
+
+Sprite "WAR1J0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE9", 0, 0
+}
+
+Sprite "WAR1K0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE10", 0, 0
+}
+
+Sprite "WAR1L0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE11", 0, 0
+}
+
+Sprite "WAR1M0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE12", 0, 0
+}
+
+Sprite "WAR1N0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE13", 0, 0
+}
+
+Sprite "WAR1O0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE14", 0, 0
+}
+
+Sprite "WAR1P0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE15", 0, 0
+}
+
+Sprite "WAR1Q0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE16", 0, 0
+}
+
+Sprite "WAR1R0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE17", 0, 0
+}
+
+Sprite "WAR1S0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE18", 0, 0
+}
+
+Sprite "WAR1T0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE19", 0, 0
+}
+
+Sprite "WAR1U0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE20", 0, 0
+}
+
+Sprite "WAR1V0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE21", 0, 0
+}
+
+Sprite "WAR1W0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE22", 0, 0
+}
+
+Sprite "WAR1X0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE23", 0, 0
+}
+
+Sprite "WAR1Y0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE24", 0, 0
+}
+
+Sprite "WAR1Z0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE25", 0, 0
+}
+
+Sprite "WAR2A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE26", 0, 0
+}
+
+Sprite "WAR2B0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE27", 0, 0
+}
+
+Sprite "WAR2C0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE28", 0, 0
+}
+
+Sprite "WAR2D0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE29", 0, 0
+}
+
+Sprite "WAR2E0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE30", 0, 0
+}
+
+Sprite "WAR2F0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE31", 0, 0
+}
+
+Sprite "WAR2G0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE32", 0, 0
+}
+
+Sprite "WAR2H0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE33", 0, 0
+}
+
+Sprite "WAR2I0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE34", 0, 0
+}
+
+Sprite "WAR2J0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE35", 0, 0
+}
+
+Sprite "WAR2K0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE36", 0, 0
+}
+
+Sprite "WAR2L0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE37", 0, 0
+}
+
+Sprite "WAR2M0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE38", 0, 0
+}
+
+Sprite "WAR2N0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE39", 0, 0
+}
+
+Sprite "WAR2O0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE40", 0, 0
+}
+
+Sprite "WAR2P0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE41", 0, 0
+}
+
+Sprite "WAR2Q0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE42", 0, 0
+}
+
+Sprite "WAR2R0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE43", 0, 0
+}
+
+Sprite "WAR2S0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE44", 0, 0
+}
+
+Sprite "WAR2T0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE45", 0, 0
+}
+
+Sprite "WAR2U0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE46", 0, 0
+}
+
+Sprite "WAR2V0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE47", 0, 0
+}
+
+Sprite "WAR2W0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE48", 0, 0
+}
+
+Sprite "WAR2X0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE49", 0, 0
+}
+
+Sprite "WAR2Y0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE50", 0, 0
+}
+
+Sprite "WAR2Z0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE51", 0, 0
+}
+
+Sprite "WAR3A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE52", 0, 0
+}
+
+Sprite "WAR3B0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE53", 0, 0
+}
+
+Sprite "WAR3C0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE54", 0, 0
+}
+
+Sprite "WAR3D0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE55", 0, 0
+}
+
+Sprite "WAR3E0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE56", 0, 0
+}
+
+Sprite "WAR3F0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE57", 0, 0
+}
+
+Sprite "WAR3G0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE58", 0, 0
+}
+
+Sprite "WAR3H0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE59", 0, 0
+}
+
+Sprite "WAR3I0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE60", 0, 0
+}
+
+Sprite "WAR3J0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE61", 0, 0
+}
+
+Sprite "WAR3K0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE62", 0, 0
+}
+
+Sprite "WAR3L0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE63", 0, 0
+}
+
+Sprite "WAR3M0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE64", 0, 0
+}
+
+Sprite "WAR3N0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE65", 0, 0
+}
+
+Sprite "WAR3O0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE66", 0, 0
+}
+
+Sprite "WAR3P0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE67", 0, 0
+}
+
+Sprite "WAR3Q0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE68", 0, 0
+}
+
+Sprite "WAR3R0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE69", 0, 0
+}
+
+Sprite "WAR3S0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE70", 0, 0
+}
+
+Sprite "WAR3T0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE71", 0, 0
+}
+
+Sprite "WAR3U0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE72", 0, 0
+}
+
+Sprite "WAR3V0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE73", 0, 0
+}
+
+Sprite "WAR3W0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE74", 0, 0
+}
+
+Sprite "WAR3X0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE75", 0, 0
+}
+
+Sprite "WAR3Y0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE76", 0, 0
+}
+
+Sprite "WAR3Z0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE77", 0, 0
+}
+
+Sprite "WAR4A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE78", 0, 0
+}
+
+Sprite "WAR4B0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE79", 0, 0
+}
+
+Sprite "WAR4C0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE80", 0, 0
+}
+
+Sprite "WAR4D0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE81", 0, 0
+}
+
+Sprite "WAR4E0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE82", 0, 0
+}
+
+Sprite "WAR4F0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE83", 0, 0
+}
+
+Sprite "WAR4G0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE84", 0, 0
+}
+
+Sprite "WAR4H0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE85", 0, 0
+}
+
+Sprite "WAR4I0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE86", 0, 0
+}
+
+Sprite "WAR4J0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE87", 0, 0
+}
+
+Sprite "WAR4K0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE88", 0, 0
+}
+
+Sprite "WAR4L0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE89", 0, 0
+}
+
+Sprite "WAR4M0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE90", 0, 0
+}
+
+Sprite "WAR4N0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE91", 0, 0
+}
+
+Sprite "WAR4O0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE92", 0, 0
+}
+
+Sprite "WAR4P0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE93", 0, 0
+}
+
+Sprite "WAR4Q0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE94", 0, 0
+}
+
+Sprite "WAR4R0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE95", 0, 0
+}
+
+Sprite "WAR4S0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE96", 0, 0
+}
+
+Sprite "WAR4T0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE97", 0, 0
+}
+
+Sprite "WAR4U0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE98", 0, 0
+}
+
+Sprite "WAR4V0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE99", 0, 0
+}
+
+Sprite "WAR4W0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE100", 0, 0
+}
+
+Sprite "WAR4X0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE101", 0, 0
+}
+
+Sprite "WAR4Y0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE102", 0, 0
+}
+
+Sprite "WAR4Z0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE103", 0, 0
+}
+
+Sprite "WAR5A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE104", 0, 0
+}
+
+Sprite "WAR5B0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE105", 0, 0
+}
+
+Sprite "WAR5C0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE106", 0, 0
+}
+
+Sprite "WAR5D0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRE107", 0, 0
+}
+
+Sprite "WAR5E0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT0", 0, 0
+}
+
+Sprite "WAR5F0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT1", 0, 0
+}
+
+Sprite "WAR5G0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT2", 0, 0
+}
+
+Sprite "WAR5H0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT3", 0, 0
+}
+
+Sprite "WAR5I0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT4", 0, 0
+}
+
+Sprite "WAR5J0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT5", 0, 0
+}
+
+Sprite "WAR5K0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT6", 0, 0
+}
+
+Sprite "WAR5L0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT7", 0, 0
+}
+
+Sprite "WAR5M0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT8", 0, 0
+}
+
+Sprite "WAR5N0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT9", 0, 0
+}
+
+Sprite "WAR5O0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT10", 0, 0
+}
+
+Sprite "WAR5P0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT11", 0, 0
+}
+
+Sprite "WAR5Q0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT12", 0, 0
+}
+
+Sprite "WAR5R0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT13", 0, 0
+}
+
+Sprite "WAR5S0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT14", 0, 0
+}
+
+Sprite "WAR5T0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT15", 0, 0
+}
+
+Sprite "WAR5U0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT16", 0, 0
+}
+
+Sprite "WAR5V0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT17", 0, 0
+}
+
+Sprite "WAR5W0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT18", 0, 0
+}
+
+Sprite "WAR5X0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT19", 0, 0
+}
+
+Sprite "WAR5Y0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT20", 0, 0
+}
+
+Sprite "WAR5Z0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT21", 0, 0
+}
+
+Sprite "WAR6A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT22", 0, 0
+}
+
+Sprite "WAR6B0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT23", 0, 0
+}
+
+Sprite "WAR6C0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT24", 0, 0
+}
+
+Sprite "WAR6D0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT25", 0, 0
+}
+
+Sprite "WAR6E0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT26", 0, 0
+}
+
+Sprite "WAR6F0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT27", 0, 0
+}
+
+Sprite "WAR6G0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT28", 0, 0
+}
+
+Sprite "WAR6H0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT29", 0, 0
+}
+
+Sprite "WAR6I0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT30", 0, 0
+}
+
+Sprite "WAR6J0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT31", 0, 0
+}
+
+Sprite "WAR6K0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT32", 0, 0
+}
+
+Sprite "WAR6L0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT33", 0, 0
+}
+
+Sprite "WAR6M0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT34", 0, 0
+}
+
+Sprite "WAR6N0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT35", 0, 0
+}
+
+Sprite "WAR6O0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT36", 0, 0
+}
+
+Sprite "WAR6P0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT37", 0, 0
+}
+
+Sprite "WAR6Q0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT38", 0, 0
+}
+
+Sprite "WAR6R0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT39", 0, 0
+}
+
+Sprite "WAR6S0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT40", 0, 0
+}
+
+Sprite "WAR6T0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT41", 0, 0
+}
+
+Sprite "WAR6U0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT42", 0, 0
+}
+
+Sprite "WAR6V0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT43", 0, 0
+}
+
+Sprite "WAR6W0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT44", 0, 0
+}
+
+Sprite "WAR6X0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT45", 0, 0
+}
+
+Sprite "WAR6Y0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT46", 0, 0
+}
+
+Sprite "WAR6Z0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT47", 0, 0
+}
+
+Sprite "WAR7A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT48", 0, 0
+}
+
+Sprite "WAR7B0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT49", 0, 0
+}
+
+Sprite "WAR7C0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT50", 0, 0
+}
+
+Sprite "WAR7D0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT51", 0, 0
+}
+
+Sprite "WAR7E0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT52", 0, 0
+}
+
+Sprite "WAR7F0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT53", 0, 0
+}
+
+Sprite "WAR7G0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT54", 0, 0
+}
+
+Sprite "WAR7H0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT55", 0, 0
+}
+
+Sprite "WAR7I0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT56", 0, 0
+}
+
+Sprite "WAR7J0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT57", 0, 0
+}
+
+Sprite "WAR7K0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT58", 0, 0
+}
+
+Sprite "WAR7L0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT59", 0, 0
+}
+
+Sprite "WAR7M0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT60", 0, 0
+}
+
+Sprite "WAR7N0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULRLT61", 0, 0
+}
+
+Sprite "WAS1A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULSW0", 0, 0
+}
+
+Sprite "WAS1B0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULSW1", 0, 0
+}
+
+Sprite "WAS1C0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULSW2", 0, 0
+}
+
+Sprite "WAS1D0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULSW3", 0, 0
+}
+
+Sprite "WAS1E0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULSW4", 0, 0
+}
+
+Sprite "WAS1F0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULSW5", 0, 0
+}
+
+Sprite "WAS1G0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULSW6", 0, 0
+}
+
+Sprite "WAS1H0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULSW7", 0, 0
+}
+
+Sprite "WAS1I0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULSW8", 0, 0
+}
+
+Sprite "WAS1J0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULSW9", 0, 0
+}
+
+Sprite "WAS1K0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULSW10", 0, 0
+}
+
+Sprite "WAS1L0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULSW11", 0, 0
+}
+
+Sprite "WAS1M0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULSW12", 0, 0
+}
+
+Sprite "WAS1N0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULSW13", 0, 0
+}
+
+Sprite "WAS1O0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULSW14", 0, 0
+}
+
+Sprite "WAS1P0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULSW15", 0, 0
+}
+
+Sprite "WAS1Q0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULSW16", 0, 0
+}
+
+Sprite "WAS1R0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULSW17", 0, 0
+}
+
+Sprite "WAS1S0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULSW18", 0, 0
+}
+
+Sprite "WAS1T0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 66, 40
+	Patch "BULSW19", 0, 0
+}
+

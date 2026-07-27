@@ -1,0 +1,5008 @@
+Sprite "G1G1A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLIDLE", 0, 0
+}
+
+Sprite "G1R1A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR0", 0, 0
+}
+
+Sprite "G1R1B0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR1", 0, 0
+}
+
+Sprite "G1R1C0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR2", 0, 0
+}
+
+Sprite "G1R1D0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR3", 0, 0
+}
+
+Sprite "G1R1E0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR4", 0, 0
+}
+
+Sprite "G1R1F0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR5", 0, 0
+}
+
+Sprite "G1R1G0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR6", 0, 0
+}
+
+Sprite "G1R1H0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR7", 0, 0
+}
+
+Sprite "G1R1I0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR8", 0, 0
+}
+
+Sprite "G1R1J0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR9", 0, 0
+}
+
+Sprite "G1R1K0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR10", 0, 0
+}
+
+Sprite "G1R1L0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR11", 0, 0
+}
+
+Sprite "G1R1M0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR12", 0, 0
+}
+
+Sprite "G1R1N0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR13", 0, 0
+}
+
+Sprite "G1R1O0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR14", 0, 0
+}
+
+Sprite "G1R1P0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR15", 0, 0
+}
+
+Sprite "G1R1Q0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR16", 0, 0
+}
+
+Sprite "G1R1R0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR17", 0, 0
+}
+
+Sprite "G1R1S0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR18", 0, 0
+}
+
+Sprite "G1R1T0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR19", 0, 0
+}
+
+Sprite "G1R1U0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR20", 0, 0
+}
+
+Sprite "G1R1V0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR21", 0, 0
+}
+
+Sprite "G1R1W0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR22", 0, 0
+}
+
+Sprite "G1R1X0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR23", 0, 0
+}
+
+Sprite "G1R1Y0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR24", 0, 0
+}
+
+Sprite "G1R1Z0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR25", 0, 0
+}
+
+Sprite "G1R2A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR26", 0, 0
+}
+
+Sprite "G1R2B0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR27", 0, 0
+}
+
+Sprite "G1R2C0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR28", 0, 0
+}
+
+Sprite "G1R2D0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR29", 0, 0
+}
+
+Sprite "G1R2E0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR30", 0, 0
+}
+
+Sprite "G1R2F0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR31", 0, 0
+}
+
+Sprite "G1R2G0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR32", 0, 0
+}
+
+Sprite "G1R2H0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR33", 0, 0
+}
+
+Sprite "G1R2I0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR34", 0, 0
+}
+
+Sprite "G1R2J0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR35", 0, 0
+}
+
+Sprite "G1R2K0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR36", 0, 0
+}
+
+Sprite "G1R2L0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR37", 0, 0
+}
+
+Sprite "G1R2M0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR38", 0, 0
+}
+
+Sprite "G1R2N0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR39", 0, 0
+}
+
+Sprite "G1R2O0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR40", 0, 0
+}
+
+Sprite "G1R2P0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR41", 0, 0
+}
+
+Sprite "G1R2Q0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR42", 0, 0
+}
+
+Sprite "G1R2R0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR43", 0, 0
+}
+
+Sprite "G1R2S0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR44", 0, 0
+}
+
+Sprite "G1R2T0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR45", 0, 0
+}
+
+Sprite "G1R2U0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR46", 0, 0
+}
+
+Sprite "G1R2V0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR47", 0, 0
+}
+
+Sprite "G1R2W0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR48", 0, 0
+}
+
+Sprite "G1R2X0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR49", 0, 0
+}
+
+Sprite "G1R2Y0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR50", 0, 0
+}
+
+Sprite "G1R2Z0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR51", 0, 0
+}
+
+Sprite "G1R3A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR52", 0, 0
+}
+
+Sprite "G1R3B0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR53", 0, 0
+}
+
+Sprite "G1R3C0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR54", 0, 0
+}
+
+Sprite "G1R3D0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR55", 0, 0
+}
+
+Sprite "G1R3E0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR56", 0, 0
+}
+
+Sprite "G1R3F0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR57", 0, 0
+}
+
+Sprite "G1R3G0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR58", 0, 0
+}
+
+Sprite "G1R3H0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR59", 0, 0
+}
+
+Sprite "G1R3I0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR60", 0, 0
+}
+
+Sprite "G1R1A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE0", 0, 0
+}
+
+Sprite "G1R1B0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE1", 0, 0
+}
+
+Sprite "G1R1C0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE2", 0, 0
+}
+
+Sprite "G1R1D0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE3", 0, 0
+}
+
+Sprite "G1R1E0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE4", 0, 0
+}
+
+Sprite "G1R1F0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE5", 0, 0
+}
+
+Sprite "G1R1G0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE6", 0, 0
+}
+
+Sprite "G1R1H0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE7", 0, 0
+}
+
+Sprite "G1R1I0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE8", 0, 0
+}
+
+Sprite "G1R1J0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE9", 0, 0
+}
+
+Sprite "G1R1K0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE10", 0, 0
+}
+
+Sprite "G1R1L0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE11", 0, 0
+}
+
+Sprite "G1R1M0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE12", 0, 0
+}
+
+Sprite "G1R1N0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE13", 0, 0
+}
+
+Sprite "G1R1O0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE14", 0, 0
+}
+
+Sprite "G1R1P0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE15", 0, 0
+}
+
+Sprite "G1R1Q0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE16", 0, 0
+}
+
+Sprite "G1R1R0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE17", 0, 0
+}
+
+Sprite "G1R1S0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE18", 0, 0
+}
+
+Sprite "G1R1T0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE19", 0, 0
+}
+
+Sprite "G1R1U0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE20", 0, 0
+}
+
+Sprite "G1R1V0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE21", 0, 0
+}
+
+Sprite "G1R1W0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE22", 0, 0
+}
+
+Sprite "G1R1X0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE23", 0, 0
+}
+
+Sprite "G1R1Y0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE24", 0, 0
+}
+
+Sprite "G1R1Z0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE25", 0, 0
+}
+
+Sprite "G1R2A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE26", 0, 0
+}
+
+Sprite "G1R2B0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE27", 0, 0
+}
+
+Sprite "G1R2C0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE28", 0, 0
+}
+
+Sprite "G1R2D0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE29", 0, 0
+}
+
+Sprite "G1R2E0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE30", 0, 0
+}
+
+Sprite "G1R2F0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE31", 0, 0
+}
+
+Sprite "G1R2G0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE32", 0, 0
+}
+
+Sprite "G1R2H0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE33", 0, 0
+}
+
+Sprite "G1R2I0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE34", 0, 0
+}
+
+Sprite "G1R2J0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE35", 0, 0
+}
+
+Sprite "G1R2K0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE36", 0, 0
+}
+
+Sprite "G1R2L0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE37", 0, 0
+}
+
+Sprite "G1R2M0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE38", 0, 0
+}
+
+Sprite "G1R2N0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE39", 0, 0
+}
+
+Sprite "G1R2O0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE40", 0, 0
+}
+
+Sprite "G1R2P0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE41", 0, 0
+}
+
+Sprite "G1R2Q0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE42", 0, 0
+}
+
+Sprite "G1R2R0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE43", 0, 0
+}
+
+Sprite "G1R2S0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE44", 0, 0
+}
+
+Sprite "G1R2T0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE45", 0, 0
+}
+
+Sprite "G1R2U0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE46", 0, 0
+}
+
+Sprite "G1R2V0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE47", 0, 0
+}
+
+Sprite "G1R2W0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE48", 0, 0
+}
+
+Sprite "G1R2X0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE49", 0, 0
+}
+
+Sprite "G1R2Y0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE50", 0, 0
+}
+
+Sprite "G1R2Z0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE51", 0, 0
+}
+
+Sprite "G1R3A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE52", 0, 0
+}
+
+Sprite "G1R3B0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE53", 0, 0
+}
+
+Sprite "G1R3C0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE54", 0, 0
+}
+
+Sprite "G1R3D0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE55", 0, 0
+}
+
+Sprite "G1R3E0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE56", 0, 0
+}
+
+Sprite "G1R3F0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE57", 0, 0
+}
+
+Sprite "G1R3G0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE58", 0, 0
+}
+
+Sprite "G1R3H0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE59", 0, 0
+}
+
+Sprite "G1R3I0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE60", 0, 0
+}
+
+Sprite "G1R3J0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE61", 0, 0
+}
+
+Sprite "G1R3K0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE62", 0, 0
+}
+
+Sprite "G1R3L0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE63", 0, 0
+}
+
+Sprite "G1R3M0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE64", 0, 0
+}
+
+Sprite "G1R3N0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE65", 0, 0
+}
+
+Sprite "G1R3O0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE66", 0, 0
+}
+
+Sprite "G1R3P0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE67", 0, 0
+}
+
+Sprite "G1R3Q0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE68", 0, 0
+}
+
+Sprite "G1R3R0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE69", 0, 0
+}
+
+Sprite "G1R3S0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE70", 0, 0
+}
+
+Sprite "G1R3T0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE71", 0, 0
+}
+
+Sprite "G1R3U0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE72", 0, 0
+}
+
+Sprite "G1R3V0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE73", 0, 0
+}
+
+Sprite "G1R3W0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE74", 0, 0
+}
+
+Sprite "G1R3X0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE75", 0, 0
+}
+
+Sprite "G1R3Y0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE76", 0, 0
+}
+
+Sprite "G1R3Z0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE77", 0, 0
+}
+
+Sprite "G1R4A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE78", 0, 0
+}
+
+Sprite "G1R4B0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE79", 0, 0
+}
+
+Sprite "G1R4C0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE80", 0, 0
+}
+
+Sprite "G1R4D0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE81", 0, 0
+}
+
+Sprite "G1R4E0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE82", 0, 0
+}
+
+Sprite "G1R4F0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE83", 0, 0
+}
+
+Sprite "G1R4G0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE84", 0, 0
+}
+
+Sprite "G1R4H0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE85", 0, 0
+}
+
+Sprite "G1R4I0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE86", 0, 0
+}
+
+Sprite "G1R4J0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE87", 0, 0
+}
+
+Sprite "G1R4K0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE88", 0, 0
+}
+
+Sprite "G1R4L0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE89", 0, 0
+}
+
+Sprite "G1R4M0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE90", 0, 0
+}
+
+Sprite "G1R4N0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE91", 0, 0
+}
+
+Sprite "G1R4O0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE92", 0, 0
+}
+
+Sprite "G1R4P0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE93", 0, 0
+}
+
+Sprite "G1R4Q0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE94", 0, 0
+}
+
+Sprite "G1R4R0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE95", 0, 0
+}
+
+Sprite "G1R4S0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE96", 0, 0
+}
+
+Sprite "G1R4T0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE97", 0, 0
+}
+
+Sprite "G1R4U0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE98", 0, 0
+}
+
+Sprite "G1R4V0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE99", 0, 0
+}
+
+Sprite "G1R4W0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE100", 0, 0
+}
+
+Sprite "G1R4X0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE101", 0, 0
+}
+
+Sprite "G1R4Y0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE102", 0, 0
+}
+
+Sprite "G1R4Z0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE103", 0, 0
+}
+
+Sprite "G1R5A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE104", 0, 0
+}
+
+Sprite "G1R5B0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE105", 0, 0
+}
+
+Sprite "G1R5C0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE106", 0, 0
+}
+
+Sprite "G1R5D0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE107", 0, 0
+}
+
+Sprite "G1R5E0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE108", 0, 0
+}
+
+Sprite "G1R5F0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE109", 0, 0
+}
+
+Sprite "G1R5G0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE110", 0, 0
+}
+
+Sprite "G1R5H0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE111", 0, 0
+}
+
+Sprite "G1R5I0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE112", 0, 0
+}
+
+Sprite "G1R5J0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE113", 0, 0
+}
+
+Sprite "G1R5K0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE114", 0, 0
+}
+
+Sprite "G1R5L0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE115", 0, 0
+}
+
+Sprite "G1R5M0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE116", 0, 0
+}
+
+Sprite "G1R5N0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE117", 0, 0
+}
+
+Sprite "G1R5O0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE118", 0, 0
+}
+
+Sprite "G1R5P0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE119", 0, 0
+}
+
+Sprite "G1R5Q0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE120", 0, 0
+}
+
+Sprite "G1R5R0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE121", 0, 0
+}
+
+Sprite "G1R5S0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRE122", 0, 0
+}
+
+Sprite "G1R5T0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT0", 0, 0
+}
+
+Sprite "G1R5U0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT1", 0, 0
+}
+
+Sprite "G1R5V0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT2", 0, 0
+}
+
+Sprite "G1R5W0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT3", 0, 0
+}
+
+Sprite "G1R5X0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT4", 0, 0
+}
+
+Sprite "G1R5Y0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT5", 0, 0
+}
+
+Sprite "G1R5Z0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT6", 0, 0
+}
+
+Sprite "G1R6A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT7", 0, 0
+}
+
+Sprite "G1R6B0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT8", 0, 0
+}
+
+Sprite "G1R6C0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT9", 0, 0
+}
+
+Sprite "G1R6D0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT10", 0, 0
+}
+
+Sprite "G1R6E0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT11", 0, 0
+}
+
+Sprite "G1R6F0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT12", 0, 0
+}
+
+Sprite "G1R6G0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT13", 0, 0
+}
+
+Sprite "G1R6H0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT14", 0, 0
+}
+
+Sprite "G1R6I0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT15", 0, 0
+}
+
+Sprite "G1R6J0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT16", 0, 0
+}
+
+Sprite "G1R6K0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT17", 0, 0
+}
+
+Sprite "G1R6L0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT18", 0, 0
+}
+
+Sprite "G1R6M0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT19", 0, 0
+}
+
+Sprite "G1R6N0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT20", 0, 0
+}
+
+Sprite "G1R6O0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT21", 0, 0
+}
+
+Sprite "G1R6P0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT22", 0, 0
+}
+
+Sprite "G1R6Q0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT23", 0, 0
+}
+
+Sprite "G1R6R0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT24", 0, 0
+}
+
+Sprite "G1R6S0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT25", 0, 0
+}
+
+Sprite "G1R6T0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT26", 0, 0
+}
+
+Sprite "G1R6U0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT27", 0, 0
+}
+
+Sprite "G1R6V0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT28", 0, 0
+}
+
+Sprite "G1R6W0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT29", 0, 0
+}
+
+Sprite "G1R6X0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT30", 0, 0
+}
+
+Sprite "G1R6Y0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT31", 0, 0
+}
+
+Sprite "G1R6Z0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT32", 0, 0
+}
+
+Sprite "G1R7A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT33", 0, 0
+}
+
+Sprite "G1R7B0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT34", 0, 0
+}
+
+Sprite "G1R7C0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT35", 0, 0
+}
+
+Sprite "G1R7D0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT36", 0, 0
+}
+
+Sprite "G1R7E0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT37", 0, 0
+}
+
+Sprite "G1R7F0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT38", 0, 0
+}
+
+Sprite "G1R7G0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT39", 0, 0
+}
+
+Sprite "G1R7H0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT40", 0, 0
+}
+
+Sprite "G1R7I0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT41", 0, 0
+}
+
+Sprite "G1R7J0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT42", 0, 0
+}
+
+Sprite "G1R7K0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT43", 0, 0
+}
+
+Sprite "G1R7L0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT44", 0, 0
+}
+
+Sprite "G1R7M0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT45", 0, 0
+}
+
+Sprite "G1R7N0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT46", 0, 0
+}
+
+Sprite "G1R7O0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT47", 0, 0
+}
+
+Sprite "G1R7P0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT48", 0, 0
+}
+
+Sprite "G1R7Q0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT49", 0, 0
+}
+
+Sprite "G1R7R0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT50", 0, 0
+}
+
+Sprite "G1R7S0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT51", 0, 0
+}
+
+Sprite "G1R7T0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT52", 0, 0
+}
+
+Sprite "G1R7U0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT53", 0, 0
+}
+
+Sprite "G1R7V0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT54", 0, 0
+}
+
+Sprite "G1R7W0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT55", 0, 0
+}
+
+Sprite "G1R7X0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT56", 0, 0
+}
+
+Sprite "G1R7Y0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT57", 0, 0
+}
+
+Sprite "G1R7Z0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT58", 0, 0
+}
+
+Sprite "G1R8A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT59", 0, 0
+}
+
+Sprite "G1R8B0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT60", 0, 0
+}
+
+Sprite "G1R8C0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT61", 0, 0
+}
+
+Sprite "G1R8D0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT62", 0, 0
+}
+
+Sprite "G1R8E0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT63", 0, 0
+}
+
+Sprite "G1R8F0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT64", 0, 0
+}
+
+Sprite "G1R8G0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT65", 0, 0
+}
+
+Sprite "G1R8H0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT66", 0, 0
+}
+
+Sprite "G1R8I0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT67", 0, 0
+}
+
+Sprite "G1R8J0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT68", 0, 0
+}
+
+Sprite "G1R8K0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT69", 0, 0
+}
+
+Sprite "G1R8L0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT70", 0, 0
+}
+
+Sprite "G1R8M0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT71", 0, 0
+}
+
+Sprite "G1R8N0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT72", 0, 0
+}
+
+Sprite "G1R8O0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT73", 0, 0
+}
+
+Sprite "G1R8P0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT74", 0, 0
+}
+
+Sprite "G1R8Q0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT75", 0, 0
+}
+
+Sprite "G1R8R0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT76", 0, 0
+}
+
+Sprite "G1R8S0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT77", 0, 0
+}
+
+Sprite "G1R8T0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT78", 0, 0
+}
+
+Sprite "G1R8U0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT79", 0, 0
+}
+
+Sprite "G1R8V0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT80", 0, 0
+}
+
+Sprite "G1R8W0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT81", 0, 0
+}
+
+Sprite "G1R8X0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT82", 0, 0
+}
+
+Sprite "G1R8Y0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT83", 0, 0
+}
+
+Sprite "G1R8Z0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT84", 0, 0
+}
+
+Sprite "G1R9A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT85", 0, 0
+}
+
+Sprite "G1R9B0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT86", 0, 0
+}
+
+Sprite "G1R9C0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT87", 0, 0
+}
+
+Sprite "G1R9D0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT88", 0, 0
+}
+
+Sprite "G1R9E0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT89", 0, 0
+}
+
+Sprite "G1R9F0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT90", 0, 0
+}
+
+Sprite "G1R9G0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT91", 0, 0
+}
+
+Sprite "G1R9H0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT92", 0, 0
+}
+
+Sprite "G1R9I0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRLRT93", 0, 0
+}
+
+Sprite "G1D1A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR0", 0, 0
+}
+
+Sprite "G1D1B0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR1", 0, 0
+}
+
+Sprite "G1D1C0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR2", 0, 0
+}
+
+Sprite "G1D1D0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR3", 0, 0
+}
+
+Sprite "G1D1E0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR4", 0, 0
+}
+
+Sprite "G1D1F0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR5", 0, 0
+}
+
+Sprite "G1D1G0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR6", 0, 0
+}
+
+Sprite "G1D1H0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR7", 0, 0
+}
+
+Sprite "G1D1I0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR8", 0, 0
+}
+
+Sprite "G1D1J0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR9", 0, 0
+}
+
+Sprite "G1D1K0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR10", 0, 0
+}
+
+Sprite "G1D1L0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR11", 0, 0
+}
+
+Sprite "G1D1M0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR12", 0, 0
+}
+
+Sprite "G1D1N0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR13", 0, 0
+}
+
+Sprite "G1D1O0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR14", 0, 0
+}
+
+Sprite "G1D1P0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR15", 0, 0
+}
+
+Sprite "G1D1Q0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR16", 0, 0
+}
+
+Sprite "G1D1R0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR17", 0, 0
+}
+
+Sprite "G1D1S0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR18", 0, 0
+}
+
+Sprite "G1D1T0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR19", 0, 0
+}
+
+Sprite "G1D1U0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR20", 0, 0
+}
+
+Sprite "G1D1V0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR21", 0, 0
+}
+
+Sprite "G1D1W0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR22", 0, 0
+}
+
+Sprite "G1D1X0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR23", 0, 0
+}
+
+Sprite "G1D1Y0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR24", 0, 0
+}
+
+Sprite "G1D1Z0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR25", 0, 0
+}
+
+Sprite "G1D2A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR26", 0, 0
+}
+
+Sprite "G1D2B0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR27", 0, 0
+}
+
+Sprite "G1D2C0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR28", 0, 0
+}
+
+Sprite "G1D2D0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR29", 0, 0
+}
+
+Sprite "G1D2E0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR30", 0, 0
+}
+
+Sprite "G1D2F0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR31", 0, 0
+}
+
+Sprite "G1D2G0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR32", 0, 0
+}
+
+Sprite "G1D2H0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR33", 0, 0
+}
+
+Sprite "G1D2I0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR34", 0, 0
+}
+
+Sprite "G1D2J0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR35", 0, 0
+}
+
+Sprite "G1D2K0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR36", 0, 0
+}
+
+Sprite "G1D2L0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR37", 0, 0
+}
+
+Sprite "G1D2M0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR38", 0, 0
+}
+
+Sprite "G1D2N0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR39", 0, 0
+}
+
+Sprite "G1D2O0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR40", 0, 0
+}
+
+Sprite "G1D2P0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR41", 0, 0
+}
+
+Sprite "G1D2Q0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR42", 0, 0
+}
+
+Sprite "G1D2R0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR43", 0, 0
+}
+
+Sprite "G1D2S0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR44", 0, 0
+}
+
+Sprite "G1D2T0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR45", 0, 0
+}
+
+Sprite "G1D2U0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR46", 0, 0
+}
+
+Sprite "G1D2V0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR47", 0, 0
+}
+
+Sprite "G1D2W0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR48", 0, 0
+}
+
+Sprite "G1D2X0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR49", 0, 0
+}
+
+Sprite "G1D2Y0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR50", 0, 0
+}
+
+Sprite "G1D2Z0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR51", 0, 0
+}
+
+Sprite "G1D3A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR52", 0, 0
+}
+
+Sprite "G1D3B0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR53", 0, 0
+}
+
+Sprite "G1D3C0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR54", 0, 0
+}
+
+Sprite "G1D3D0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR55", 0, 0
+}
+
+Sprite "G1D3E0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR56", 0, 0
+}
+
+Sprite "G1D3F0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR57", 0, 0
+}
+
+Sprite "G1D3G0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR58", 0, 0
+}
+
+Sprite "G1D3H0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR59", 0, 0
+}
+
+Sprite "G1D3I0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLDR60", 0, 0
+}
+
+Sprite "G1F1A0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF0", 0, 0
+}
+
+Sprite "G1F1B0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF1", 0, 0
+}
+
+Sprite "G1F1C0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF2", 0, 0
+}
+
+Sprite "G1F1D0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF3", 0, 0
+}
+
+Sprite "G1F1E0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF4", 0, 0
+}
+
+Sprite "G1F1F0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF5", 0, 0
+}
+
+Sprite "G1F1G0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF6", 0, 0
+}
+
+Sprite "G1F1H0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF7", 0, 0
+}
+
+Sprite "G1F1I0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF8", 0, 0
+}
+
+Sprite "G1F1J0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF9", 0, 0
+}
+
+Sprite "G1F1K0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF10", 0, 0
+}
+
+Sprite "G1F1L0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF11", 0, 0
+}
+
+Sprite "G1F1M0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF12", 0, 0
+}
+
+Sprite "G1F1N0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF13", 0, 0
+}
+
+Sprite "G1F1O0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF14", 0, 0
+}
+
+Sprite "G1F1P0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF15", 0, 0
+}
+
+Sprite "G1F1Q0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF16", 0, 0
+}
+
+Sprite "G1F1R0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF17", 0, 0
+}
+
+Sprite "G1F1S0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF18", 0, 0
+}
+
+Sprite "G1F1T0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF19", 0, 0
+}
+
+Sprite "G1F1U0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF20", 0, 0
+}
+
+Sprite "G1F1V0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF21", 0, 0
+}
+
+Sprite "G1F1W0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF22", 0, 0
+}
+
+Sprite "G1F1X0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF23", 0, 0
+}
+
+Sprite "G1F1Y0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF24", 0, 0
+}
+
+Sprite "G1F1Z0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF25", 0, 0
+}
+
+Sprite "G1F2A0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF26", 0, 0
+}
+
+Sprite "G1F2B0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF27", 0, 0
+}
+
+Sprite "G1F2C0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF28", 0, 0
+}
+
+Sprite "G1F2D0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF29", 0, 0
+}
+
+Sprite "G1F2E0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF30", 0, 0
+}
+
+Sprite "G1F2F0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF31", 0, 0
+}
+
+Sprite "G1F2G0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF32", 0, 0
+}
+
+Sprite "G1F2H0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF33", 0, 0
+}
+
+Sprite "G1F2I0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF34", 0, 0
+}
+
+Sprite "G1F2J0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF35", 0, 0
+}
+
+Sprite "G1F2K0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF36", 0, 0
+}
+
+Sprite "G1F2L0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF37", 0, 0
+}
+
+Sprite "G1F2M0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF38", 0, 0
+}
+
+Sprite "G1F2N0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF39", 0, 0
+}
+
+Sprite "G1F2O0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF40", 0, 0
+}
+
+Sprite "G1F2P0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF41", 0, 0
+}
+
+Sprite "G1F2Q0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF42", 0, 0
+}
+
+Sprite "G1F2R0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF43", 0, 0
+}
+
+Sprite "G1F2S0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF44", 0, 0
+}
+
+Sprite "G1F2T0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF45", 0, 0
+}
+
+Sprite "G1F2U0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF46", 0, 0
+}
+
+Sprite "G1F2V0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF47", 0, 0
+}
+
+Sprite "G1F2W0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF48", 0, 0
+}
+
+Sprite "G1F2X0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF49", 0, 0
+}
+
+Sprite "G1F2Y0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF50", 0, 0
+}
+
+Sprite "G1F2Z0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF51", 0, 0
+}
+
+Sprite "G1F3A0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF52", 0, 0
+}
+
+Sprite "G1F3B0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF53", 0, 0
+}
+
+Sprite "G1F3C0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF54", 0, 0
+}
+
+Sprite "G1F3D0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF55", 0, 0
+}
+
+Sprite "G1F3E0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF56", 0, 0
+}
+
+Sprite "G1F3F0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF57", 0, 0
+}
+
+Sprite "G1F3G0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF58", 0, 0
+}
+
+Sprite "G1F3H0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF59", 0, 0
+}
+
+Sprite "G1F3I0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF60", 0, 0
+}
+
+Sprite "G1F3J0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF61", 0, 0
+}
+
+Sprite "G1F3K0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF62", 0, 0
+}
+
+Sprite "G1F3L0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF63", 0, 0
+}
+
+Sprite "G1F3M0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF64", 0, 0
+}
+
+Sprite "G1F3N0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF65", 0, 0
+}
+
+Sprite "G1F3O0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF66", 0, 0
+}
+
+Sprite "G1F3P0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF67", 0, 0
+}
+
+Sprite "G1F3Q0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF68", 0, 0
+}
+
+Sprite "G1F3R0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF69", 0, 0
+}
+
+Sprite "G1F3S0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF70", 0, 0
+}
+
+Sprite "G1F3T0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF71", 0, 0
+}
+
+Sprite "G1F3U0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF72", 0, 0
+}
+
+Sprite "G1F3V0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF73", 0, 0
+}
+
+Sprite "G1F3W0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF74", 0, 0
+}
+
+Sprite "G1F3X0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF75", 0, 0
+}
+
+Sprite "G1F3Y0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF76", 0, 0
+}
+
+Sprite "G1F3Z0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF77", 0, 0
+}
+
+Sprite "G1F4A0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF78", 0, 0
+}
+
+Sprite "G1F4B0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF79", 0, 0
+}
+
+Sprite "G1F4C0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF80", 0, 0
+}
+
+Sprite "G1F4D0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF81", 0, 0
+}
+
+Sprite "G1F4E0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF82", 0, 0
+}
+
+Sprite "G1F4F0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF83", 0, 0
+}
+
+Sprite "G1F4G0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF84", 0, 0
+}
+
+Sprite "G1F4H0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF85", 0, 0
+}
+
+Sprite "G1F4I0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF86", 0, 0
+}
+
+Sprite "G1F4J0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF87", 0, 0
+}
+
+Sprite "G1F4K0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF88", 0, 0
+}
+
+Sprite "G1F4L0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF89", 0, 0
+}
+
+Sprite "G1F4M0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF90", 0, 0
+}
+
+Sprite "G1F4N0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF91", 0, 0
+}
+
+Sprite "G1F4O0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF92", 0, 0
+}
+
+Sprite "G1F4P0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF93", 0, 0
+}
+
+Sprite "G1F4Q0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF94", 0, 0
+}
+
+Sprite "G1F4R0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF95", 0, 0
+}
+
+Sprite "G1F4S0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF96", 0, 0
+}
+
+Sprite "G1F4T0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF97", 0, 0
+}
+
+Sprite "G1F4U0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF98", 0, 0
+}
+
+Sprite "G1F4V0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF99", 0, 0
+}
+
+Sprite "G1F4W0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF100", 0, 0
+}
+
+Sprite "G1F4X0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF101", 0, 0
+}
+
+Sprite "G1F4Y0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF102", 0, 0
+}
+
+Sprite "G1F4Z0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF103", 0, 0
+}
+
+Sprite "G1F5A0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF104", 0, 0
+}
+
+Sprite "G1F5B0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF105", 0, 0
+}
+
+Sprite "G1F5C0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF106", 0, 0
+}
+
+Sprite "G1F5D0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF107", 0, 0
+}
+
+Sprite "G1F5E0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF108", 0, 0
+}
+
+Sprite "G1F5F0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF109", 0, 0
+}
+
+Sprite "G1F5G0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF110", 0, 0
+}
+
+Sprite "G1F5H0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF111", 0, 0
+}
+
+Sprite "G1F5I0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF112", 0, 0
+}
+
+Sprite "G1F5J0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF113", 0, 0
+}
+
+Sprite "G1F5K0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF114", 0, 0
+}
+
+Sprite "G1F5L0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF115", 0, 0
+}
+
+Sprite "G1F5M0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF116", 0, 0
+}
+
+Sprite "G1F5N0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF117", 0, 0
+}
+
+Sprite "G1F5O0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF118", 0, 0
+}
+
+Sprite "G1F5P0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF119", 0, 0
+}
+
+Sprite "G1F5Q0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF120", 0, 0
+}
+
+Sprite "G1F5R0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF121", 0, 0
+}
+
+Sprite "G1F5S0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF122", 0, 0
+}
+
+Sprite "G1F5T0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF123", 0, 0
+}
+
+Sprite "G1F5U0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF124", 0, 0
+}
+
+Sprite "G1F5V0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF125", 0, 0
+}
+
+Sprite "G1F5W0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF126", 0, 0
+}
+
+Sprite "G1F5X0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF127", 0, 0
+}
+
+Sprite "G1F5Y0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF128", 0, 0
+}
+
+Sprite "G1F5Z0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF129", 0, 0
+}
+
+Sprite "G1F6A0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF130", 0, 0
+}
+
+Sprite "G1F6B0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF131", 0, 0
+}
+
+Sprite "G1F6C0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF132", 0, 0
+}
+
+Sprite "G1F6D0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF133", 0, 0
+}
+
+Sprite "G1F6E0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF134", 0, 0
+}
+
+Sprite "G1F6F0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF135", 0, 0
+}
+
+Sprite "G1F6G0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF136", 0, 0
+}
+
+Sprite "G1F6H0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF137", 0, 0
+}
+
+Sprite "G1F6I0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF138", 0, 0
+}
+
+Sprite "G1F6J0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF139", 0, 0
+}
+
+Sprite "G1F6K0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF140", 0, 0
+}
+
+Sprite "G1F6L0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF141", 0, 0
+}
+
+Sprite "G1F6M0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF142", 0, 0
+}
+
+Sprite "G1F6N0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF143", 0, 0
+}
+
+Sprite "G1F6O0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF144", 0, 0
+}
+
+Sprite "G1F6P0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF145", 0, 0
+}
+
+Sprite "G1F6Q0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF146", 0, 0
+}
+
+Sprite "G1F6R0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF147", 0, 0
+}
+
+Sprite "G1F6S0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF148", 0, 0
+}
+
+Sprite "G1F6T0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF149", 0, 0
+}
+
+Sprite "G1F6U0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF150", 0, 0
+}
+
+Sprite "G1F6V0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF151", 0, 0
+}
+
+Sprite "G1F6W0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF152", 0, 0
+}
+
+Sprite "G1F6X0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF153", 0, 0
+}
+
+Sprite "G1F6Y0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF154", 0, 0
+}
+
+Sprite "G1F6Z0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF155", 0, 0
+}
+
+Sprite "G1F7A0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF156", 0, 0
+}
+
+Sprite "G1F7B0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF157", 0, 0
+}
+
+Sprite "G1F7C0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF158", 0, 0
+}
+
+Sprite "G1F7D0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF159", 0, 0
+}
+
+Sprite "G1F7E0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF160", 0, 0
+}
+
+Sprite "G1F7F0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF161", 0, 0
+}
+
+Sprite "G1F7G0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF162", 0, 0
+}
+
+Sprite "G1F7H0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF163", 0, 0
+}
+
+Sprite "G1F7I0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF164", 0, 0
+}
+
+Sprite "G1F7J0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF165", 0, 0
+}
+
+Sprite "G1F7K0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF166", 0, 0
+}
+
+Sprite "G1F7L0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF167", 0, 0
+}
+
+Sprite "G1F7M0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF168", 0, 0
+}
+
+Sprite "G1F7N0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF169", 0, 0
+}
+
+Sprite "G1F7O0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF170", 0, 0
+}
+
+Sprite "G1F7P0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF171", 0, 0
+}
+
+Sprite "G1F7Q0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF172", 0, 0
+}
+
+Sprite "G1F7R0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF173", 0, 0
+}
+
+Sprite "G1F7S0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF174", 0, 0
+}
+
+Sprite "G1F7T0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF175", 0, 0
+}
+
+Sprite "G1F7U0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF176", 0, 0
+}
+
+Sprite "G1F7V0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF177", 0, 0
+}
+
+Sprite "G1F7W0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF178", 0, 0
+}
+
+Sprite "G1F7X0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF179", 0, 0
+}
+
+Sprite "G1F7Y0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF180", 0, 0
+}
+
+Sprite "G1F7Z0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF181", 0, 0
+}
+
+Sprite "G1F8A0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF182", 0, 0
+}
+
+Sprite "G1F8B0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF183", 0, 0
+}
+
+Sprite "G1F8C0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF184", 0, 0
+}
+
+Sprite "G1F8D0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF185", 0, 0
+}
+
+Sprite "G1F8E0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF186", 0, 0
+}
+
+Sprite "G1F8F0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF187", 0, 0
+}
+
+Sprite "G1F8G0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF188", 0, 0
+}
+
+Sprite "G1F8H0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF189", 0, 0
+}
+
+Sprite "G1F8I0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF190", 0, 0
+}
+
+Sprite "G1F8J0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF191", 0, 0
+}
+
+Sprite "G1F8K0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF192", 0, 0
+}
+
+Sprite "G1F8L0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF193", 0, 0
+}
+
+Sprite "G1F8M0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF194", 0, 0
+}
+
+Sprite "G1F8N0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF195", 0, 0
+}
+
+Sprite "G1F8O0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF196", 0, 0
+}
+
+Sprite "G1F8P0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF197", 0, 0
+}
+
+Sprite "G1F8Q0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF198", 0, 0
+}
+
+Sprite "G1F8R0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF199", 0, 0
+}
+
+Sprite "G1F8S0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF200", 0, 0
+}
+
+Sprite "G1F8T0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF201", 0, 0
+}
+
+Sprite "G1F8U0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF202", 0, 0
+}
+
+Sprite "G1F8V0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF203", 0, 0
+}
+
+Sprite "G1F8W0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF204", 0, 0
+}
+
+Sprite "G1F8X0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF205", 0, 0
+}
+
+Sprite "G1F8Y0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF206", 0, 0
+}
+
+Sprite "G1F8Z0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF207", 0, 0
+}
+
+Sprite "G1F9A0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF208", 0, 0
+}
+
+Sprite "G1F9B0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF209", 0, 0
+}
+
+Sprite "G1F9C0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF210", 0, 0
+}
+
+Sprite "G1F9D0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF211", 0, 0
+}
+
+Sprite "G1F9E0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF212", 0, 0
+}
+
+Sprite "G1F9F0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF213", 0, 0
+}
+
+Sprite "G1F9G0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF214", 0, 0
+}
+
+Sprite "G1F9H0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF215", 0, 0
+}
+
+Sprite "G1F9I0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF216", 0, 0
+}
+
+Sprite "G1F9J0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF217", 0, 0
+}
+
+Sprite "G1F9K0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF218", 0, 0
+}
+
+Sprite "G1F9L0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF219", 0, 0
+}
+
+Sprite "G1F9M0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF220", 0, 0
+}
+
+Sprite "G1F9N0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF221", 0, 0
+}
+
+Sprite "G1F9O0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF222", 0, 0
+}
+
+Sprite "G1F9P0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF223", 0, 0
+}
+
+Sprite "G1F9Q0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF224", 0, 0
+}
+
+Sprite "G1F9R0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF225", 0, 0
+}
+
+Sprite "G1F9S0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF226", 0, 0
+}
+
+Sprite "G1F9T0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF227", 0, 0
+}
+
+Sprite "G1F9U0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF228", 0, 0
+}
+
+Sprite "G1F9V0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF229", 0, 0
+}
+
+Sprite "G1F9W0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF230", 0, 0
+}
+
+Sprite "G1F9X0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF231", 0, 0
+}
+
+Sprite "G1F9Y0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF232", 0, 0
+}
+
+Sprite "G1F9Z0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF233", 0, 0
+}
+
+Sprite "G1FAA0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF234", 0, 0
+}
+
+Sprite "G1FAB0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF235", 0, 0
+}
+
+Sprite "G1FAC0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF236", 0, 0
+}
+
+Sprite "G1FAD0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF237", 0, 0
+}
+
+Sprite "G1FAE0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF238", 0, 0
+}
+
+Sprite "G1FAF0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF239", 0, 0
+}
+
+Sprite "G1FAG0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF240", 0, 0
+}
+
+Sprite "G1FAH0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF241", 0, 0
+}
+
+Sprite "G1FAI0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF242", 0, 0
+}
+
+Sprite "G1FAJ0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF243", 0, 0
+}
+
+Sprite "G1FAK0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF244", 0, 0
+}
+
+Sprite "G1FAL0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF245", 0, 0
+}
+
+Sprite "G1FAM0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF246", 0, 0
+}
+
+Sprite "G1FAN0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF247", 0, 0
+}
+
+Sprite "G1FAO0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF248", 0, 0
+}
+
+Sprite "G1FAP0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF249", 0, 0
+}
+
+Sprite "G1FAQ0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF250", 0, 0
+}
+
+Sprite "G1FAR0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF251", 0, 0
+}
+
+Sprite "G1FAS0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF252", 0, 0
+}
+
+Sprite "G1FAT0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF253", 0, 0
+}
+
+Sprite "G1FAU0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF254", 0, 0
+}
+
+Sprite "G1FAV0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF255", 0, 0
+}
+
+Sprite "G1FAW0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF256", 0, 0
+}
+
+Sprite "G1FAX0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF257", 0, 0
+}
+
+Sprite "G1FAY0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF258", 0, 0
+}
+
+Sprite "G1FAZ0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF259", 0, 0
+}
+
+Sprite "G1FBA0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF260", 0, 0
+}
+
+Sprite "G1FBB0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF261", 0, 0
+}
+
+Sprite "G1FBC0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF262", 0, 0
+}
+
+Sprite "G1FBD0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF263", 0, 0
+}
+
+Sprite "G1FBE0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF264", 0, 0
+}
+
+Sprite "G1FBF0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF265", 0, 0
+}
+
+Sprite "G1FBG0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF266", 0, 0
+}
+
+Sprite "G1FBH0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF267", 0, 0
+}
+
+Sprite "G1FBI0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF268", 0, 0
+}
+
+Sprite "G1FBJ0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF269", 0, 0
+}
+
+Sprite "G1FBK0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF270", 0, 0
+}
+
+Sprite "G1FBL0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF271", 0, 0
+}
+
+Sprite "G1FBM0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF272", 0, 0
+}
+
+Sprite "G1FBN0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF273", 0, 0
+}
+
+Sprite "G1FBO0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF274", 0, 0
+}
+
+Sprite "G1FBP0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF275", 0, 0
+}
+
+Sprite "G1FBQ0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF276", 0, 0
+}
+
+Sprite "G1FBR0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF277", 0, 0
+}
+
+Sprite "G1FBS0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF278", 0, 0
+}
+
+Sprite "G1FBT0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF279", 0, 0
+}
+
+Sprite "G1FBU0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF280", 0, 0
+}
+
+Sprite "G1FBV0", 510, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLF281", 0, 0
+}
+
+Sprite "G1S1A0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLSWP0", 0, 0
+}
+
+Sprite "G1S1B0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLSWP1", 0, 0
+}
+
+Sprite "G1S1C0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLSWP2", 0, 0
+}
+
+Sprite "G1S1D0", 450, 210
+{
+	XScale 0.9000
+	YScale 1.0200
+	Offset 102, 45
+	Patch "GRNLSWP3", 0, 0
+}
+

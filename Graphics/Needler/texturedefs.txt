@@ -1,0 +1,1136 @@
+Sprite "NDLIA0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLIDLE", 0, 0
+}
+
+Sprite "NDLFA0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLFIRE1", 0, 0
+}
+
+Sprite "NDLFB0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLFIRE2", 0, 0
+}
+
+Sprite "NDLFC0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLFIRE3", 0, 0
+}
+
+Sprite "NDLFD0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLFIRE4", 0, 0
+}
+
+Sprite "NDLFE0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLFIRE5", 0, 0
+}
+
+Sprite "NDLFF0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLFIRE6", 0, 0
+}
+
+Sprite "NEDLA0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLAMO01", 0, 0
+}
+
+Sprite "NEDLB0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLAMO02", 0, 0
+}
+
+Sprite "NEDLC0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLAMO03", 0, 0
+}
+
+Sprite "NEDLD0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLAMO04", 0, 0
+}
+
+Sprite "NEDLE0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLAMO05", 0, 0
+}
+
+Sprite "NEDLF0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLAMO06", 0, 0
+}
+
+Sprite "NEDLG0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLAMO07", 0, 0
+}
+
+Sprite "NEDLH0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLAMO08", 0, 0
+}
+
+Sprite "NEDLI0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLAMO09", 0, 0
+}
+
+Sprite "NEDLJ0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLAMO10", 0, 0
+}
+
+Sprite "NEDLK0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLAMO11", 0, 0
+}
+
+Sprite "NEDLL0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLAMO12", 0, 0
+}
+
+Sprite "NEDLM0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLAMO13", 0, 0
+}
+
+Sprite "NEDLN0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLAMO14", 0, 0
+}
+
+Sprite "NEDLO0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLAMO15", 0, 0
+}
+
+Sprite "NEDLP0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLAMO16", 0, 0
+}
+
+Sprite "NEDLQ0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLAMO17", 0, 0
+}
+
+Sprite "NEDLR0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLAMO18", 0, 0
+}
+
+Sprite "NEDLS0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLAMO19", 0, 0
+}
+
+Sprite "NEDLT0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLAMO20", 0, 0
+}
+
+Sprite "NDLSA0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLSEL01", 0, 0
+}
+
+Sprite "NDLSB0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLSEL02", 0, 0
+}
+
+Sprite "NDLSC0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLSEL03", 0, 0
+}
+
+Sprite "NDLSD0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLSEL04", 0, 0
+}
+
+Sprite "NDLSE0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLSEL05", 0, 0
+}
+
+Sprite "NDLSF0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLSEL06", 0, 0
+}
+
+Sprite "NDLSG0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLSEL07", 0, 0
+}
+
+Sprite "NDLSH0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLSEL08", 0, 0
+}
+
+Sprite "NDLSI0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLSEL09", 0, 0
+}
+
+Sprite "NDLSJ0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLSEL10", 0, 0
+}
+
+Sprite "NDLSK0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLSEL11", 0, 0
+}
+
+Sprite "NDLSL0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLSEL12", 0, 0
+}
+
+Sprite "NDLSM0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLSEL13", 0, 0
+}
+
+Sprite "NDLSN0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLSEL14", 0, 0
+}
+
+Sprite "NDLSO0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLSEL15", 0, 0
+}
+
+Sprite "NDLSP0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLSEL16", 0, 0
+}
+
+Sprite "NDLSQ0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLSEL17", 0, 0
+}
+
+Sprite "NDLSR0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLSEL18", 0, 0
+}
+
+Sprite "NDLSS0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLSEL19", 0, 0
+}
+
+Sprite "NDLST0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLSEL20", 0, 0
+}
+
+Sprite "NDLSU0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLSEL21", 0, 0
+}
+
+Sprite "NDR1A0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLREL01", 0, 0
+}
+
+Sprite "NDR1B0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLREL02", 0, 0
+}
+
+Sprite "NDR1C0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLREL03", 0, 0
+}
+
+Sprite "NDR1D0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLREL04", 0, 0
+}
+
+Sprite "NDR1E0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLREL05", 0, 0
+}
+
+Sprite "NDR1F0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLREL06", 0, 0
+}
+
+Sprite "NDR1G0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLREL07", 0, 0
+}
+
+Sprite "NDR1H0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLREL08", 0, 0
+}
+
+Sprite "NDR1I0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLREL09", 0, 0
+}
+
+Sprite "NDR1J0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLREL10", 0, 0
+}
+
+Sprite "NDR1K0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLREL11", 0, 0
+}
+
+Sprite "NDR1L0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLREL12", 0, 0
+}
+
+Sprite "NDR1M0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLREL13", 0, 0
+}
+
+Sprite "NDR1N0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLREL14", 0, 0
+}
+
+Sprite "NDR1O0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLREL15", 0, 0
+}
+
+Sprite "NDR1P0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLREL16", 0, 0
+}
+
+Sprite "NDR1Q0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLREL17", 0, 0
+}
+
+Sprite "NDR1R0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLREL18", 0, 0
+}
+
+Sprite "NDR1S0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLREL19", 0, 0
+}
+
+Sprite "NDR1T0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLREL20", 0, 0
+}
+
+Sprite "NDR1U0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLREL21", 0, 0
+}
+
+Sprite "NDR1V0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLREL22", 0, 0
+}
+
+Sprite "NDR1W0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLREL23", 0, 0
+}
+
+Sprite "NDR1X0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL24", 0, 0
+}
+
+Sprite "NDR1Y0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL25", 0, 0
+}
+
+Sprite "NDR1Z0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL26", 0, 0
+}
+
+Sprite "NDR2A0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL27", 0, 0
+}
+
+Sprite "NDR2B0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL28", 0, 0
+}
+
+Sprite "NDR2C0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL29", 0, 0
+}
+
+Sprite "NDR2D0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL30", 0, 0
+}
+
+Sprite "NDR2E0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL31", 0, 0
+}
+
+Sprite "NDR2F0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL32", 0, 0
+}
+
+Sprite "NDR2G0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL33", 0, 0
+}
+
+Sprite "NDR2H0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL34", 0, 0
+}
+
+Sprite "NDR2I0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL35", 0, 0
+}
+
+Sprite "NDR2J0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL36", 0, 0
+}
+
+Sprite "NDR2K0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL37", 0, 0
+}
+
+Sprite "NDR2L0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL38", 0, 0
+}
+
+Sprite "NDR2M0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL39", 0, 0
+}
+
+Sprite "NDR2N0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL40", 0, 0
+}
+
+Sprite "NDR2O0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL41", 0, 0
+}
+
+Sprite "NDR2P0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL42", 0, 0
+}
+
+Sprite "NDR2Q0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL43", 0, 0
+}
+
+Sprite "NDR2R0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL44", 0, 0
+}
+
+Sprite "NDR2S0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL45", 0, 0
+}
+
+Sprite "NDR2T0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL46", 0, 0
+}
+
+Sprite "NDR2U0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL47", 0, 0
+}
+
+Sprite "NDR2V0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL48", 0, 0
+}
+
+Sprite "NDR2W0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL49", 0, 0
+}
+
+Sprite "NDR2X0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL50", 0, 0
+}
+
+Sprite "NDR3A0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL01", 0, 0
+}
+
+Sprite "NDR3B0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL02", 0, 0
+}
+
+Sprite "NDR3C0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL03", 0, 0
+}
+
+Sprite "NDR3D0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL04", 0, 0
+}
+
+Sprite "NDR3E0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL05", 0, 0
+}
+
+Sprite "NDR3F0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL06", 0, 0
+}
+
+Sprite "NDR3G0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL07", 0, 0
+}
+
+Sprite "NDR3H0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL08", 0, 0
+}
+
+Sprite "NDR3I0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL09", 0, 0
+}
+
+Sprite "NDR3J0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL10", 0, 0
+}
+
+Sprite "NDR3K0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL11", 0, 0
+}
+
+Sprite "NDR3L0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL12", 0, 0
+}
+
+Sprite "NDR3M0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL13", 0, 0
+}
+
+Sprite "NDR3N0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL14", 0, 0
+}
+
+Sprite "NDR3O0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL15", 0, 0
+}
+
+Sprite "NDR3P0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL16", 0, 0
+}
+
+Sprite "NDR3Q0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL17", 0, 0
+}
+
+Sprite "NDR3R0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL18", 0, 0
+}
+
+Sprite "NDR3S0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL19", 0, 0
+}
+
+Sprite "NDR3T0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL20", 0, 0
+}
+
+Sprite "NDR3U0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL21", 0, 0
+}
+
+Sprite "NDR3V0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL22", 0, 0
+}
+
+Sprite "NDR3W0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDTREL23", 0, 0
+}
+
+Sprite "NDRMA0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLHIT01", 0, 0
+}
+
+Sprite "NDRMB0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLHIT02", 0, 0
+}
+
+Sprite "NDRMC0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLHIT03", 0, 0
+}
+
+Sprite "NDRMD0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLHIT04", 0, 0
+}
+
+Sprite "NDRME0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLHIT05", 0, 0
+}
+
+Sprite "NDRMF0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLHIT06", 0, 0
+}
+
+Sprite "NDRMG0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLHIT07", 0, 0
+}
+
+Sprite "NDRMH0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLHIT08", 0, 0
+}
+
+Sprite "NDRMI0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLHIT09", 0, 0
+}
+
+Sprite "NDRMJ0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLHIT10", 0, 0
+}
+
+Sprite "NDRMK0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLHIT11", 0, 0
+}
+
+Sprite "NDRML0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLHIT12", 0, 0
+}
+
+Sprite "NDRMM0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLHIT13", 0, 0
+}
+
+Sprite "NDRMN0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLHIT14", 0, 0
+}
+
+Sprite "NDRMO0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLHIT15", 0, 0
+}
+
+Sprite "NDRMP0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLHIT16", 0, 0
+}
+
+Sprite "NDRMQ0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLHIT17", 0, 0
+}
+
+Sprite "NDRMR0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLHIT18", 0, 0
+}
+
+Sprite "NDRMS0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLHIT19", 0, 0
+}
+
+Sprite "NDRMT0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLHIT20", 0, 0
+}
+
+Sprite "NDRMU0", 300, 168
+{
+	XScale 0.7200
+	YScale 0.7200
+	Offset 41, 50
+	Patch "NDLHIT21", 0, 0
+}
+

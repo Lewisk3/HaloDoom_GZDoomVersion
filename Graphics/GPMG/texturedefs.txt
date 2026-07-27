@@ -1,0 +1,216 @@
+Sprite "WVI1A0", 384, 216
+{
+	XScale 0.7000
+	YScale 0.8000
+	Offset 115, 85
+	Patch "AUTCIDLE", 0, 0
+}
+
+Sprite "WVI1B0", 384, 216
+{
+	XScale 0.7000
+	YScale 0.8000
+	Offset 90, 80
+	Patch "AUTF0004", 0, 0
+}
+
+Sprite "WVF1A0", 384, 216
+{
+	XScale 0.7000
+	YScale 0.8000
+	Offset 115, 85
+	Patch "AUTF0000", 0, 0
+}
+
+Sprite "WVF1B0", 384, 216
+{
+	XScale 0.7000
+	YScale 0.8000
+	Offset 115, 82
+	Patch "AUTF0001", 0, 0
+}
+
+Sprite "WVF1C0", 384, 216
+{
+	XScale 0.7000
+	YScale 0.8000
+	Offset 112, 82
+	Patch "AUTF0002", 0, 0
+}
+
+Sprite "WVF1D0", 384, 216
+{
+	XScale 0.7000
+	YScale 0.8000
+	Offset 115, 85
+	Patch "AUTF0003", 0, 0
+}
+
+Sprite "WVF1E0", 384, 216
+{
+	XScale 0.7000
+	YScale 0.8000
+	Offset 90, 80
+	Patch "AUTF0004", 0, 0
+}
+
+Sprite "WVF1F0", 384, 216
+{
+	XScale 0.7000
+	YScale 0.8000
+	Offset 90, 77
+	Patch "AUTF0005", 0, 0
+}
+
+Sprite "WVF1G0", 384, 216
+{
+	XScale 0.7000
+	YScale 0.8000
+	Offset 90, 80
+	Patch "AUTF0006", 0, 0
+}
+
+Sprite "WVF1H0", 384, 216
+{
+	XScale 0.7000
+	YScale 0.8000
+	Offset 90, 80
+	Patch "AUTF0007", 0, 0
+}
+
+Sprite "WVF1I0", 384, 216
+{
+	XScale 0.7000
+	YScale 0.8000
+	Offset 115, 85
+	Patch "AUTF0000", 0, 0
+}
+
+Sprite "WVF1J0", 384, 216
+{
+	XScale 0.7000
+	YScale 0.8000
+	Offset 113, 83
+	Patch "AUTF0001", 0, 0
+}
+
+Sprite "WVF1K0", 384, 216
+{
+	XScale 0.7000
+	YScale 0.8000
+	Offset 115, 85
+	Patch "AUTF0002", 0, 0
+}
+
+Sprite "WVF1L0", 384, 216
+{
+	XScale 0.7000
+	YScale 0.8000
+	Offset 115, 85
+	Patch "AUTF0003", 0, 0
+}
+
+Sprite "WVF1M0", 384, 216
+{
+	XScale 0.7000
+	YScale 0.8000
+	Offset 90, 80
+	Patch "AUTF0004", 0, 0
+}
+
+Sprite "WVF1N0", 384, 216
+{
+	XScale 0.7000
+	YScale 0.8000
+	Offset 89, 77
+	Patch "AUTF0005", 0, 0
+}
+
+Sprite "WVF1O0", 384, 216
+{
+	XScale 0.7000
+	YScale 0.8000
+	Offset 90, 80
+	Patch "AUTF0006", 0, 0
+}
+
+Sprite "WVF1P0", 384, 216
+{
+	XScale 0.7000
+	YScale 0.8000
+	Offset 90, 80
+	Patch "AUTF0007", 0, 0
+}
+
+Sprite "WVF1Q0", 384, 216
+{
+	XScale 0.7000
+	YScale 0.8000
+	Offset 90, 80
+	Patch "AUTF0008", 0, 0
+}
+
+Sprite "WVD1A0", 384, 216
+{
+	XScale 0.7000
+	YScale 0.8000
+	Offset 115, 85
+	Patch "AUTD0000", 0, 0
+}
+
+Sprite "WVD1B0", 384, 216
+{
+	XScale 0.7000
+	YScale 0.8000
+	Offset 115, 85
+	Patch "AUTD0001", 0, 0
+}
+
+Sprite "WVD1C0", 384, 216
+{
+	XScale 0.7000
+	YScale 0.8000
+	Offset 115, 85
+	Patch "AUTD0002", 0, 0
+}
+
+Sprite "WVD1D0", 384, 216
+{
+	XScale 0.7000
+	YScale 0.8000
+	Offset 115, 85
+	Patch "AUTD0003", 0, 0
+}
+
+Sprite "WVD1E0", 384, 216
+{
+	XScale 0.7000
+	YScale 0.8000
+	Offset 115, 85
+	Patch "AUTD0004", 0, 0
+}
+
+Sprite "WVD1F0", 384, 216
+{
+	XScale 0.7000
+	YScale 0.8000
+	Offset 115, 85
+	Patch "AUTD0005", 0, 0
+}
+
+Sprite "WVD1G0", 384, 216
+{
+	XScale 0.7000
+	YScale 0.8000
+	Offset 115, 85
+	Patch "AUTD0006", 0, 0
+}
+
+Sprite "WVD1H0", 384, 216
+{
+	XScale 0.7000
+	YScale 0.8000
+	Offset 115, 85
+	Patch "AUTD0007", 0, 0
+}
+

@@ -1,0 +1,144 @@
+Sprite "WYG1A0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.7800
+	Offset 91, 60
+	Patch "STNLBIDL", 0, 0
+}
+
+Sprite "WYF1A0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.7800
+	Offset 91, 60
+	Patch "STNLBFR1", 0, 0
+}
+
+Sprite "WYF1B0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.7800
+	Offset 91, 60
+	Patch "STNLBFR2", 0, 0
+}
+
+Sprite "WYF1C0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.7800
+	Offset 91, 60
+	Patch "STNLBFR3", 0, 0
+}
+
+Sprite "WYF1D0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.7800
+	Offset 91, 60
+	Patch "STNLBFR4", 0, 0
+}
+
+Sprite "WYF1E0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.7800
+	Offset 91, 60
+	Patch "STNLBFR5", 0, 0
+}
+
+Sprite "WYC1A0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.7800
+	Offset 91, 60
+	Patch "STNLBCH1", 0, 0
+}
+
+Sprite "WYH1A0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.7800
+	Offset 91, 60
+	Patch "STNLBOH1", 0, 0
+}
+
+Sprite "WYH1B0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.7800
+	Offset 91, 60
+	Patch "STNLBOH2", 0, 0
+}
+
+Sprite "WYH1C0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.7800
+	Offset 91, 60
+	Patch "STNLBOH3", 0, 0
+}
+
+Sprite "WYH1D0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.7800
+	Offset 91, 60
+	Patch "STNLBOH4", 0, 0
+}
+
+Sprite "WYH1E0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.7800
+	Offset 91, 60
+	Patch "STNLBOH5", 0, 0
+}
+
+Sprite "WYH1F0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.7800
+	Offset 91, 60
+	Patch "STNLBOH6", 0, 0
+}
+
+Sprite "WYH1G0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.7800
+	Offset 91, 60
+	Patch "STNLBOH7", 0, 0
+}
+
+Sprite "WYD1A0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.7800
+	Offset 91, 60
+	Patch "STNLBSL1", 0, 0
+}
+
+Sprite "WYD1B0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.7800
+	Offset 91, 60
+	Patch "STNLBSL2", 0, 0
+}
+
+Sprite "WYD1C0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.7800
+	Offset 91, 60
+	Patch "STNLBSL3", 0, 0
+}
+
+Sprite "WYD1D0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.7800
+	Offset 91, 60
+	Patch "STNLBSL4", 0, 0
+}
+

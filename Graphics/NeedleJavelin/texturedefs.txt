@@ -1,0 +1,384 @@
+Sprite "WXI1A0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVIDL1", 0, 0
+}
+
+Sprite "WXI1B0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 78, 64
+	Patch "NJAVIDLE", 0, 0
+}
+
+Sprite "WXP1A0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVPIK1", 0, 0
+}
+
+Sprite "WXP1B0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVPIK2", 0, 0
+}
+
+Sprite "WXP1C0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVPIK3", 0, 0
+}
+
+Sprite "WXP1D0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVPIK4", 0, 0
+}
+
+Sprite "WXP1E0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVPIK5", 0, 0
+}
+
+Sprite "WXP1F0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVPIK6", 0, 0
+}
+
+Sprite "WXP1G0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVPIK7", 0, 0
+}
+
+Sprite "WXP1H0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVPIK8", 0, 0
+}
+
+Sprite "WXP1I0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVPIK9", 0, 0
+}
+
+Sprite "WXF1A0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVFIR1", 0, 0
+}
+
+Sprite "WXF1B0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVFIR2", 0, 0
+}
+
+Sprite "WXF1C0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVFIR3", 0, 0
+}
+
+Sprite "WXF1D0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVFIR4", 0, 0
+}
+
+Sprite "WXF1E0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVFIR5", 0, 0
+}
+
+Sprite "WXF1F0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVFIR6", 0, 0
+}
+
+Sprite "WXR1A0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL0", 0, 0
+}
+
+Sprite "WXR1B0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL1", 0, 0
+}
+
+Sprite "WXR1C0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL2", 0, 0
+}
+
+Sprite "WXR1D0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL3", 0, 0
+}
+
+Sprite "WXR1E0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL4", 0, 0
+}
+
+Sprite "WXR1F0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL5", 0, 0
+}
+
+Sprite "WXR1G0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL6", 0, 0
+}
+
+Sprite "WXR1H0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL7", 0, 0
+}
+
+Sprite "WXR1I0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL8", 0, 0
+}
+
+Sprite "WXR1J0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL9", 0, 0
+}
+
+Sprite "WXR1K0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL10", 0, 0
+}
+
+Sprite "WXR1L0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL11", 0, 0
+}
+
+Sprite "WXR1M0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL12", 0, 0
+}
+
+Sprite "WXR1N0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL13", 0, 0
+}
+
+Sprite "WXR1O0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL14", 0, 0
+}
+
+Sprite "WXR1P0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL15", 0, 0
+}
+
+Sprite "WXR1Q0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL16", 0, 0
+}
+
+Sprite "WXR1R0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL17", 0, 0
+}
+
+Sprite "WXR1S0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL18", 0, 0
+}
+
+Sprite "WXR1T0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL19", 0, 0
+}
+
+Sprite "WXR1U0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL20", 0, 0
+}
+
+Sprite "WXR1V0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL21", 0, 0
+}
+
+Sprite "WXR1W0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL22", 0, 0
+}
+
+Sprite "WXR1X0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL23", 0, 0
+}
+
+Sprite "WXR1Y0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL24", 0, 0
+}
+
+Sprite "WXR1Z0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL25", 0, 0
+}
+
+Sprite "WXR2A0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL26", 0, 0
+}
+
+Sprite "WXR2B0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL27", 0, 0
+}
+
+Sprite "WXR2C0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL28", 0, 0
+}
+
+Sprite "WXR2D0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL29", 0, 0
+}
+
+Sprite "WXR2E0", 360, 202
+{
+	XScale 0.7800
+	YScale 0.8400
+	Offset 75, 64
+	Patch "NJAVRL30", 0, 0
+}
+

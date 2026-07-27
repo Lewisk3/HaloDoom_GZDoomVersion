@@ -1,0 +1,136 @@
+Sprite "WQI1A0", 360, 202
+{
+	XScale 0.7200
+	YScale 0.7800
+	Offset 60, 68
+	Patch "SCSGIDLE", 0, 0
+}
+
+Sprite "WQF1A0", 360, 202
+{
+	XScale 0.7200
+	YScale 0.7800
+	Offset 60, 68
+	Patch "SCSGFIR0", 0, 0
+}
+
+Sprite "WQF1B0", 360, 202
+{
+	XScale 0.7200
+	YScale 0.7800
+	Offset 60, 68
+	Patch "SCSGFIR1", 0, 0
+}
+
+Sprite "WQF1C0", 360, 202
+{
+	XScale 0.7200
+	YScale 0.7800
+	Offset 60, 68
+	Patch "SCSGFIR2", 0, 0
+}
+
+Sprite "WQF1D0", 360, 202
+{
+	XScale 0.7200
+	YScale 0.7800
+	Offset 60, 68
+	Patch "SCSGFIR3", 0, 0
+}
+
+Sprite "WQF1E0", 360, 202
+{
+	XScale 0.7200
+	YScale 0.7800
+	Offset 60, 68
+	Patch "SCSGFIR4", 0, 0
+}
+
+Sprite "WQF1F0", 360, 202
+{
+	XScale 0.7200
+	YScale 0.7800
+	Offset 60, 68
+	Patch "SCSGFIR5", 0, 0
+}
+
+Sprite "WQF1G0", 360, 202
+{
+	XScale 0.7200
+	YScale 0.7800
+	Offset 60, 68
+	Patch "SCSGFIR6", 0, 0
+}
+
+Sprite "WQF1H0", 360, 202
+{
+	XScale 0.7200
+	YScale 0.7800
+	Offset 60, 68
+	Patch "SCSGFIR7", 0, 0
+}
+
+Sprite "WQF1I0", 360, 202
+{
+	XScale 0.7200
+	YScale 0.7800
+	Offset 60, 68
+	Patch "SCSGFIR8", 0, 0
+}
+
+Sprite "WQS1A0", 360, 202
+{
+	XScale 0.7200
+	YScale 0.7800
+	Offset 60, 68
+	Patch "SCSGSWP0", 0, 0
+}
+
+Sprite "WQS1B0", 360, 202
+{
+	XScale 0.7200
+	YScale 0.7800
+	Offset 60, 68
+	Patch "SCSGSWP1", 0, 0
+}
+
+Sprite "WQS1C0", 360, 202
+{
+	XScale 0.7200
+	YScale 0.7800
+	Offset 60, 68
+	Patch "SCSGSWP2", 0, 0
+}
+
+Sprite "WQS1D0", 360, 202
+{
+	XScale 0.7200
+	YScale 0.7800
+	Offset 60, 68
+	Patch "SCSGSWP3", 0, 0
+}
+
+Sprite "WQS1E0", 360, 202
+{
+	XScale 0.7200
+	YScale 0.7800
+	Offset 60, 68
+	Patch "SCSGSWP4", 0, 0
+}
+
+Sprite "WQS1F0", 360, 202
+{
+	XScale 0.7200
+	YScale 0.7800
+	Offset 60, 68
+	Patch "SCSGSWP5", 0, 0
+}
+
+Sprite "WQS1G0", 360, 202
+{
+	XScale 0.7200
+	YScale 0.7800
+	Offset 60, 68
+	Patch "SCSGSWP6", 0, 0
+}
+
