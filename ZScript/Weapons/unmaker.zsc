@@ -31,6 +31,8 @@ class Halo_UnmakerReserves : Ammo
 class LSR_UnmakerBeam : LaserBeam
 {
 	bool lowEffects;
+	class<UnmakerLaserPuff> puffType;
+	Property LaserPuff : puffType;
 
 	Default
 	{
@@ -40,6 +42,7 @@ class LSR_UnmakerBeam : LaserBeam
 		LaserBeam.TrackWeapon true, PSP_WEAPON;
 		LaserBeam.AimFromWeapon false;
 		LaserBeam.LaserDecal "UnmakerDecal";
+		LSR_UnmakerBeam.LaserPuff "UnmakerLaserPuff";
 		+BRIGHT;
 	}
 	
@@ -61,11 +64,12 @@ class LSR_UnmakerBeam : LaserBeam
 	override void OnImpact(vector3 hitPos, Actor hitActor)
 	{
 		super.OnImpact(hitPos, hitActor);
-		let puff = UnmakerLaserPuff(Actor.Spawn("UnmakerLaserPuff", hitPos));
+		let puff = UnmakerLaserPuff(Actor.Spawn(puffType, hitPos));
 		if(puff) 
 		{
 			Actor.Spawn("LargeSplashSpawner", hitPos);
 			if(lowEffects) puff.laserAmt = 0;
+			puff.translation = translation;
 			puff.angle = angle + 180;
 			puff.pitch = -(pitch-90);
 		}
@@ -119,8 +123,12 @@ class UnmakerLaserPuff : CheapActor
 	double smokeMax;
 	double laserDist;
 	double fadeSpeed;
+	class<LightningBiri> lightningType;
+	
 	Property laserPuffs : laserAmt, laserDist, smokeMax;
 	Property FadeTics : fadeSpeed;
+	Property LightningType : lightningType;
+	
 	
 	Default
 	{	
@@ -130,6 +138,7 @@ class UnmakerLaserPuff : CheapActor
 		Scale 2.0;
 		UnmakerLaserPuff.laserPuffs 2, 50, 1.0;
 		UnmakerLaserPuff.FadeTics 40;
+		UnmakerLaserPuff.LightningType "UnmakerLightning";
 	}
 	
 	override void Tick()
@@ -146,7 +155,7 @@ class UnmakerLaserPuff : CheapActor
 			{
 				view.x = angle + frandom[WeapFX](-45,45);
 				view.y = pitch + frandom[WeapFX](-20,20);
-				BiriBiri.DoLightning(lightningPos, view, type:"UnmakerLightning", dist:laserDist, 0.5, 8.0, 10.0, 30, 0);;
+				BiriBiri.DoLightning(lightningPos, view, type:lightningType, dist:laserDist, 0.5, 8.0, 10.0, 30, 0);;
 			}
 		}
 		if( !(getAge()%10) && random[unmakerSmoke](0,3)==3 )

@@ -60,6 +60,15 @@ Model LSR_BinaryRifle
 	FrameIndex MODL A 0 0
 } 
 
+Model LSR_ScatterShot
+{
+	Model 0 "Models/Lasers/beam_simple.md3"
+	Skin 0 "Models/Lasers/BEAM_detailed.png"
+	USEACTORPITCH
+	
+	FrameIndex MODL A 0 0
+} 
+
 Model LSR_BinaryRifleCore
 {
 	Model 0 "Models/Lasers/beam_simple.md3"

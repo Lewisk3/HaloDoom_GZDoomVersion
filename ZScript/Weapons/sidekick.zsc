@@ -28,12 +28,12 @@ class Halo_Sidekick_Reserves : Ammo
 		Scale 0.65;
 
 		Inventory.Amount 12;
-		Inventory.MaxAmount 60;
+		Inventory.MaxAmount 120;
 		Inventory.Icon "HLAMN0";
 		Inventory.PickupSound "Halo/Pickup/Ammo";
 		Inventory.PickupMessage "Picked up 12 Rounds for the Sidekick";
 		
-		Ammo.BackpackMaxAmount 128;
+		Ammo.BackpackMaxAmount 180;
 	}
 	
 	States

@@ -9,8 +9,10 @@ class Halo_BinaryRifleBattery : Ammo
 
 class LSR_BinaryRifle : LSR_UnmakerBeam
 {
+	double fadeAmt;
 	double hitDmg;
 	Property LaserDamage : hitDmg;
+	Property LaserFade : fadeAmt;
 
 	Default
 	{
@@ -21,6 +23,8 @@ class LSR_BinaryRifle : LSR_UnmakerBeam
 		LaserBeam.AimFromWeapon false;
 		LaserBeam.LaserDecal "UnmakerDecal";
 		LSR_BinaryRifle.LaserDamage BINARYRIFLE_DMG;
+		LSR_BinaryRifle.LaserFade 0.10;
+		LSR_UnmakerBeam.LaserPuff "BinaryRiflePuff";
 		+BRIGHT;
 	}
 	
@@ -29,19 +33,21 @@ class LSR_BinaryRifle : LSR_UnmakerBeam
 		if(GetAge() < 2) 
 			aimAtCrosshair();
 
-		alpha -= 0.10;
+		alpha -= fadeAmt;
 		A_SetScale(Scale.X * 0.87, Scale.Y);
 	
 		if(alpha <= 0.1 || Scale.X <= 0.05) Destroy();
 	}
 	
 	override void OnImpact(vector3 hitPos, Actor hitActor)
-	{
+	{	
 		super.OnImpact(hitPos, hitActor);
-		let puff = UnmakerLaserPuff(Spawn("BinaryRiflePuff", hitPos));
+		let puff = UnmakerLaserPuff(Spawn(puffType, hitPos));
 		if(puff) 
 		{
 			startTracking(hitPos);
+			if(lowEffects) puff.laserAmt = 0;
+			puff.translation = translation;
 			puff.angle = angle + 180;
 			puff.pitch = -(pitch-90);
 		}
