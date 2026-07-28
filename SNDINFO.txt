@@ -870,13 +870,27 @@ ScatterShot_FIRE3 "Sounds/ScatterShot/Scatter_Fire3.ogg"
 ScatterShot_LOW1 "Sounds/ScatterShot/Scatter_Low1.ogg"
 ScatterShot_LOW2 "Sounds/ScatterShot/Scatter_Low2.ogg"
 ScatterShot_LOW3 "Sounds/ScatterShot/Scatter_Low3.ogg"
+ScatterShot_MECH1 "Sounds/ScatterShot/Scatter_fire_slider1.ogg"
+ScatterShot_MECH2 "Sounds/ScatterShot/Scatter_fire_slider2.ogg"
+ScatterShot_CFIRE1 "Sounds/ScatterShot/Scatter_Altfire1.ogg"
+ScatterShot_CFIRE2 "Sounds/ScatterShot/Scatter_Altfire2.ogg"
+ScatterShot_CFIRE3 "Sounds/ScatterShot/Scatter_Altfire3.ogg"
+ScatterShot_CLOW1 "Sounds/ScatterShot/OC_Fire1.ogg"
+ScatterShot_CLOW2 "Sounds/ScatterShot/OC_Fire2.ogg"
+ScatterShot_CLOW3 "Sounds/ScatterShot/OC_Fire3.ogg"
 
-Halo/Weapons/ScatterShot/Draw  "Sounds/LightRifle/LR_Draw.ogg" // No draw sound for Scatter Shot?
-Halo/Weapons/ScatterShot/Zoom/IN "Sounds/ScatterShot/Scatter_Zoomin.ogg"
-Halo/Weapons/ScatterShot/Zoom/OUT "Sounds/ScatterShot/Scatter_Zoomout.ogg"
+Halo/Weapons/ScatterShot/Draw  "Sounds/ScatterShot/Scatter_Draw.ogg"
+Halo/Weapons/ScatterShot/Charge/Begin "Sounds/ScatterShot/Scatter_Zoomin.ogg"
+Halo/Weapons/ScatterShot/Charge/End "Sounds/ScatterShot/Scatter_Zoomout.ogg"
+Halo/Weapons/ScatterShot/Reload/Background "Sounds/ScatterShot/Forerunner_Recharge_Background.ogg";
+Halo/Weapons/ScatterShot/Reload/Start "Sounds/ScatterShot/Scatter_Recharge_Open.ogg";
+Halo/Weapons/ScatterShot/Reload/End "Sounds/ScatterShot/Scatter_Recharge_Close.ogg";
 
+$random Halo/Weapons/ScatterShot/Charge/Fire { ScatterShot_CFIRE1 ScatterShot_CFIRE2 ScatterShot_CFIRE3 }
+$random Halo/Weapons/ScatterShot/Charge/Fire/Bass { ScatterShot_CLOW1 ScatterShot_CLOW2 ScatterShot_CLOW3 }
 $random Halo/Weapons/ScatterShot/Fire      { ScatterShot_FIRE1 ScatterShot_FIRE2 ScatterShot_FIRE3 }
 $random Halo/Weapons/ScatterShot/Fire/Bass { ScatterShot_LOW1 ScatterShot_LOW2 ScatterShot_LOW3  }
+$random Halo/Weapons/ScatterShot/Fire/Mech { ScatterShot_MECH1 ScatterShot_MECH2 }
 
 // Flamer
 Halo/Weapons/Flamer/Draw "Sounds/Flamethrower/FT_Draw.ogg"
