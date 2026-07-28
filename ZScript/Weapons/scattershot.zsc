@@ -317,7 +317,8 @@ class Halo_ScatterShot : HaloGun
 		};
 		
 		vector3 loffs = (7, 2, -2);
-		for(int i = 0; i < min(2, CountLoadedAmmo()); i++)
+		int curAmmo = CountLoadedAmmo();
+		for(int i = 0; i < min(2, curAmmo); i++)
 		{
 			let beam = LSR_ScatterShot(LaserBeam.Create(self, loffs.x,loffs.y,loffs.z, type:"LSR_ScatterShot"));
 			let beamCore = LSR_BinaryRifleCore(LaserBeam.Create(self, loffs.x,loffs.y,loffs.z, type:"LSR_BinaryRifleCore"));
