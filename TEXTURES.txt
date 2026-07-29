@@ -10566,72 +10566,106 @@ Sprite "WQD1H0", 384, 216
 
 Sprite "WQF1A0", 384, 216
 {
-	XScale 0.900
+	XScale 0.9
+	YScale 1.0
 	Offset 50, 52
-	Patch "SCSFIR00", 0, 0
+	Patch "SCSFRE00", 0, 0
 }
 
 Sprite "WQF1B0", 384, 216
 {
-	XScale 0.900
+	XScale 0.9
+	YScale 1.0
 	Offset 50, 52
-	Patch "SCSFIR01", 0, 0
+	Patch "SCSFRE01", 0, 0
 }
 
 Sprite "WQF1C0", 384, 216
 {
-	XScale 0.900
+	XScale 0.9
+	YScale 1.0
 	Offset 50, 52
-	Patch "SCSFIR02", 0, 0
+	Patch "SCSFRE02", 0, 0
 }
 
 Sprite "WQF1D0", 384, 216
 {
-	XScale 0.900
+	XScale 0.9
+	YScale 1.0
 	Offset 50, 52
-	Patch "SCSFIR03", 0, 0
+	Patch "SCSFRE03", 0, 0
 }
 
 Sprite "WQF1E0", 384, 216
 {
-	XScale 0.900
+	XScale 0.9
+	YScale 1.0
 	Offset 50, 52
-	Patch "SCSFIR04", 0, 0
+	Patch "SCSFRE04", 0, 0
 }
 
 Sprite "WQF1F0", 384, 216
 {
-	XScale 0.900
+	XScale 0.9
+	YScale 1.0
 	Offset 50, 52
-	Patch "SCSFIR05", 0, 0
+	Patch "SCSFRE05", 0, 0
 }
 
 Sprite "WQF1G0", 384, 216
 {
-	XScale 0.900
+	XScale 0.9
+	YScale 1.0
 	Offset 50, 52
-	Patch "SCSFIR06", 0, 0
+	Patch "SCSFRE06", 0, 0
 }
 
 Sprite "WQF1H0", 384, 216
 {
-	XScale 0.900
+	XScale 0.9
+	YScale 1.0
 	Offset 50, 52
-	Patch "SCSFIR07", 0, 0
+	Patch "SCSFRE07", 0, 0
 }
 
 Sprite "WQF1I0", 384, 216
 {
-	XScale 0.900
+	XScale 0.9
+	YScale 1.0
 	Offset 50, 52
-	Patch "SCSFIR08", 0, 0
+	Patch "SCSFRE08", 0, 0
 }
 
 Sprite "WQF1J0", 384, 216
 {
-	XScale 0.900
+	XScale 0.9
+	YScale 1.0
 	Offset 50, 52
-	Patch "SCSFIR09", 0, 0
+	Patch "SCSFRE09", 0, 0
+}
+
+Sprite "WQF1K0", 384, 216
+{
+	XScale 0.9
+	YScale 1.0
+	Offset 50, 52
+	Patch "SCSFRE10", 0, 0
+}
+
+Sprite "WQF1L0", 384, 216
+{
+	XScale 0.9
+	YScale 1.0
+	Offset 50, 52
+	Patch "SCSFRE11", 0, 0
+}
+
+Sprite "WQF1M0", 384, 216
+{
+	XScale 0.9
+	YScale 1.0
+	Offset 50, 52
+	Patch "SCSFRE12", 0, 0
 }
 
 Sprite "WQR1A0", 384, 216

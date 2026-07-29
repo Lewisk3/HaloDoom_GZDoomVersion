@@ -14,12 +14,12 @@ class Halo_ScatterShot_Reserves : Ammo
 		Height 0;
 		Scale 0.65;
 
-		Inventory.Amount 36;
-		Inventory.MaxAmount 36;
+		Inventory.Amount 48;
+		Inventory.MaxAmount 48;
 		Inventory.Icon "";
 		Inventory.PickupSound "";
 		Inventory.PickupMessage "";
-		Ammo.BackpackMaxAmount 36;
+		Ammo.BackpackMaxAmount 48;
 	}
 	
 	States
@@ -85,6 +85,10 @@ class HaloScatterShot_Proj : HaloSlowProjectile
 
 		let trail = Spawn("HaloScatterShot_Trail", pos);
 		trail.translation = translation;
+		
+		// Do not remain active in the homing state for longer than 20 seconds.
+		if(isHoming && getAge() > (TICRATE*20))
+			ExplodeMissile();
 	}
 	
 	States
@@ -162,7 +166,7 @@ class ScatterShot_OrangePuff : UnmakerLaserPuff
 	Default
 	{
 		UnmakerLaserPuff.laserPuffs 2, 100, 0.25;
-		Translation "0:255=@64[255,145,0]";
+		Translation "0:255=@64[249,177,0]";
 		UnmakerLaserPuff.LightningType "ScatterShot_OrangeLightning";
 	}
 }
@@ -171,7 +175,7 @@ class ScatterShot_PurplePuff : UnmakerLaserPuff
 	Default
 	{
 		UnmakerLaserPuff.laserPuffs 2, 100, 0.25;
-		Translation "0:255=@64[195,0,255]";
+		Translation "0:255=@64[145,0,249]";
 		UnmakerLaserPuff.LightningType "ScatterShot_PurpleLightning";
 	}
 }
@@ -179,21 +183,21 @@ class ScatterShot_OrangeLightning : LightningBiri
 {
 	Default
 	{
-		Translation "0:255=@64[255,145,0]";	
+		Translation "0:255=@64[249,177,0]";	
 	}
 }
 class ScatterShot_PurpleLightning : LightningBiri
 {
 	Default
 	{
-		Translation "0:255=@64[195,0,255]";
+		Translation "0:255=@64[145,0,249]";
 	}
 }
 class HaloScatterShot_ProjOrange : HaloScatterShot_Proj
 {
 	Default
 	{
-		Translation "0:255=@64[255,145,0]";
+		Translation "0:255=@64[249,177,0]";
 		HaloScatterShot_Proj.LightningType "ScatterShot_OrangeLightning";
 		HaloScatterShot_Proj.ParticleColor "Orange";
 	}
@@ -202,7 +206,7 @@ class HaloScatterShot_ProjPurple : HaloScatterShot_Proj
 {
 	Default
 	{
-		Translation "0:255=@64[195,0,255]";
+		Translation "0:255=@64[145,0,249]";
 		HaloScatterShot_Proj.LightningType "ScatterShot_PurpleLightning";
 		HaloScatterShot_Proj.ParticleColor "Purple";
 	}
@@ -365,8 +369,8 @@ class Halo_ScatterShot : HaloGun
 		wait;
 
 		Deselect:
-			WQS1 ABCDEFGH 1;
-			WQS1 H 1 A_GunLower();
+			WQD1 ABCDEFGH 1;
+			WQD1 H 1 A_GunLower();
 		wait;
 		
 		Fire:
@@ -378,17 +382,16 @@ class Halo_ScatterShot : HaloGun
 				A_SetRecoil(3.00, 0, 2);
 				A_FireScatterShot();
 				A_RollQuake(2,10,2);
-				A_RecoilOffset(4, -15, 2, add:true);
+				A_RecoilOffset(4, 4, 2, add:true);
 			}
-			WQF1 C 2 Bright A_SetZoom(1.0, 6);
+			WQF1 C 1 Bright A_SetZoom(1.0, 6);
 			WQF1 D 1 Bright
 			{	
 				A_WeapSound("Halo/Weapons/ScatterShot/Fire/Mech", CHANF_OVERLAP);
-				A_RecoilOffset(1, 30, 2, add:true);
 				A_Light(0);
 			}
-			WQF1 EEEEE 1 A_RecoilOffset(1, 25, 2, add:true);
-			WQF1 EFGHIJ 2 A_RecoilOffset(0,0,8);
+			WQF1 EFGHIJKLM 1 A_RecoilOffset(0,0,8);
+			WQI1 A 8 A_RecoilOffset(0,0,8);
 		goto Ready.Active;
 		
 		AltFire:
