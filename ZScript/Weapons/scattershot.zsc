@@ -349,8 +349,16 @@ class Halo_ScatterShot : HaloGun
 	{
 		
 		Ready:
-			TNT1 A 0 A_WeapSound("Halo/Weapons/ScatterShot/Draw");
-			WQD1 HGFEDCBA 1 A_DoSelectAnim();
+			TNT1 A 0 
+			{
+				A_WeapSound("Halo/Weapons/ScatterShot/Draw");
+				return A_JumpIf(A_DoFullSelectAnimation(), "Ready.Chamber");
+			}
+			WQS1 ABCD 1 A_DoSelectAnim();
+		goto Ready.Active;
+		
+		Ready.Chamber:
+			WQD1 HGFEDCBA 1 A_DoSelectAnim(0, true);
 		Ready.Active:
 			WQI1 A 1 
 			{
@@ -369,8 +377,8 @@ class Halo_ScatterShot : HaloGun
 		wait;
 
 		Deselect:
-			WQD1 ABCDEFGH 1;
-			WQD1 H 1 A_GunLower();
+			WQS1 DCBA 1;
+			WQS1 A 1 A_GunLower();
 		wait;
 		
 		Fire:
@@ -382,7 +390,7 @@ class Halo_ScatterShot : HaloGun
 				A_SetRecoil(3.00, 0, 2);
 				A_FireScatterShot();
 				A_RollQuake(2,10,2);
-				A_RecoilOffset(4, 4, 2, add:true);
+				A_RecoilOffset(4, 10, 2, add:true);
 			}
 			WQF1 C 1 Bright A_SetZoom(1.0, 6);
 			WQF1 D 1 Bright
@@ -391,7 +399,7 @@ class Halo_ScatterShot : HaloGun
 				A_Light(0);
 			}
 			WQF1 EFGHIJKLM 1 A_RecoilOffset(0,0,8);
-			WQI1 A 8 A_RecoilOffset(0,0,8);
+			WQI1 A 2 A_RecoilOffset(0,0,8);
 		goto Ready.Active;
 		
 		AltFire:
