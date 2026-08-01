@@ -235,6 +235,8 @@ extend class HaloPlayer
 		
 		if(speedboost) spd *= speedboost;
 		double adjustedGNDMAX = speedboost ? GNDMAX * speedboost : GNDMAX;
+		if(deathmatch) adjustedGNDMAX *= 0.65;
+		
 		double curspd = wishdir dot vel;
 		double addspd = clamp(adjustedGNDMAX - curspd, 0, (GNDACCEL*spd) / TICRATE);
 		
@@ -253,11 +255,14 @@ extend class HaloPlayer
 			return;
 		}
 	
+		double adjustedAIRMAX = AIRMAX;
+		if(deathmatch) adjustedAIRMAX *= 0.65;
+	
 		if(speedboost) spd *= speedboost;
 		if(dobhop)
 		{
 			double curspd = wishdir dot vel;
-			double addspd = clamp(AIRMAX - curspd, 0, (AIRACCEL*spd) / TICRATE);
+			double addspd = clamp(adjustedAIRMAX - curspd, 0, (AIRACCEL*spd) / TICRATE);
 					
 			vel += (addspd*AIRCONTROL) * wishdir;
 			if(AIRCONTROL < 1.) 
@@ -275,7 +280,7 @@ extend class HaloPlayer
 			vector3 wishvel = vel + (wishdir * accel);
 			double curspd = wishvel.Length();
 
-			double addspd = clamp(AIRMAX - curspd, 0, accel);
+			double addspd = clamp(adjustedAIRMAX - curspd, 0, accel);
 			vel += (addspd*AIRCONTROL) * wishdir;
 		}
 	}

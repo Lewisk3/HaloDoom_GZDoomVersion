@@ -190,7 +190,7 @@ class Halo_GPMG : HaloGun
 		A_WeapSound(fireSound, CHANF_OVERLAP, true);
 		A_WeapSound("Halo/Weapons/GPMG/Fire/Bass", CHANF_OVERLAP, true);
 		
-		let [hitPos, proj] = A_ShootProjectile("HaloGPMG_Bullet", centered ? 4 : 11, spreadmod:(centered ? 0.5 : 1.0));
+		let [hitPos, proj] = A_ShootProjectile("HaloGPMG_Bullet", centered ? 4 : 11, spreadmod:(centered ? 0.5 : 1.0), useHitscanMP:false);
 		let bullet = HaloGPMG_Bullet(proj);
 		if(bullet) bullet.explosiveAmmo = true;
 		
