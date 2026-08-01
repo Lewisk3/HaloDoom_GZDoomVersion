@@ -457,6 +457,27 @@ class NeedleMiniExplosion : NeedleExplosion
 	}
 }
 
+class HaloBulletPuff : BulletPuff
+{
+	Default
+	{
+		Decal "BulletHitDecal";
+	}
+	
+	States
+	{
+		Spawn:
+			TNT1 A 1;
+		Melee:
+			TNT1 A 1 
+			{
+				HaloMath.ParticlesFX(self, 0xFFfaf611,15,2,10);
+				let smk = Spawn("MuzzleSmoke", pos);
+			}
+		stop;
+	}
+}
+
 class HaloBullet : HaloProjectile
 {
 	Default

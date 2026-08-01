@@ -573,7 +573,17 @@ class HaloGun : RecoilWeapon
 	}
 	
 	action vector3, actor A_ShootProjectile(class<Actor> proj, double leftright = 0, double updown = 0, double spreadmod = 1.0)
-	{
+	{	
+		double speedMult = 1.0;
+		if(HaloPlayer(self))
+		{
+			bool isPlasma = (proj is "HaloPlasma_Proj");
+			if(isPlasma) speedMult = 3.0;
+			
+			bool shouldHitscan = !isPlasma && (proj is "HaloBullet");
+			if(shouldHitScan) return A_DoHitscanProjectile(proj, leftright, updown, spreadmod), null;
+		}
+	
 		vector3 hitpos = pos;
 		double scopemod = (invoker.scoperecoil == 0) ? 1.0 : invoker.scoperecoil;
 		
@@ -631,11 +641,23 @@ class HaloGun : RecoilWeapon
 			{
 				haloProj.truedamage = haloProj.default.truedamage * invoker.damage_modifier;
 				haloProj.DoConverge(aimpos, recoil);
+				
+				if(speedMult > 1.0)
+				{
+					haloProj.meterSpeed *= speedMult;
+					haloProj.Init();
+				}
 			}
 			if(haloSlowProj) 
 			{
 				haloSlowProj.truedamage = haloSlowProj.default.truedamage * invoker.damage_modifier;
 				haloSlowProj.DoConverge(aimpos, recoil);
+				
+				if(speedMult > 1.0)
+				{
+					haloSlowProj.meterSpeed *= speedMult;
+					haloSlowProj.Init();
+				}
 			}
 			
 			FLineTraceData lt;
@@ -643,6 +665,87 @@ class HaloGun : RecoilWeapon
 			hitpos = lt.HitLocation;
 		}
 		return hitpos, aproj;
+	}
+	
+	action vector3 A_DoHitscanProjectile(class<Actor> proj, double leftright = 0, double updown = 0, double spreadmod = 1.0)
+	{
+		vector3 hitpos = pos;
+		double scopemod = (invoker.scoperecoil == 0) ? 1.0 : invoker.scoperecoil;
+		let plr = PlayerPawn(self);
+		
+		let dir = Quat.FromAngles(angle, pitch, roll);
+		vector3 atkPos = (pos.xy, player.viewz);
+		double attackZ = -plr.AttackZOffset;
+		
+		vector3 offs = (0, -leftright, updown + attackZ);
+		vector3 fromPos = level.vec3offset(atkPos, dir * offs);
+		vector3 aimpos = HaloMath.getPlayerAim(plr);
+		
+		let sphere = level.SphericalCoords(fromPos, aimPos, (angle, pitch));
+		vector2 recoil = (
+			(A_RecoilSpread()*spreadmod*scopemod),
+			(A_RecoilSpread()*spreadmod*scopemod)
+		) * 0.5;
+		
+		// Get damage properties
+		let defs = GetDefaultByType((class<HaloProjectile>)(proj));
+		double dmg = defs.truedamage;
+		double dist = sphere.z / UNIT_METER;
+		double range_falloff = defs.range_falloff;
+		double range_max = defs.range_max;
+		
+		// Dampen damage until minimum.
+		if(dist >= range_falloff && range_falloff > 0)
+		{
+			double distmax = dist/range_max;
+			double dmgmod = (-1.5 * (distmax**2)) + 1;
+			dmgmod = clamp(dmgmod, defs.falloff_minimum/100., 1.0);
+			dmg = defs.truedamage*dmgmod;
+		}
+				
+		FLineTraceData ltPos;
+		vector2 hitscanAngles = (
+			(angle - sphere.x) + recoil.x, 
+			(pitch - sphere.y) + recoil.y
+		);
+		LineTrace(hitscanAngles.x, range_max * UNIT_METER, hitscanAngles.y, 0, offsetforward:20, data:ltPos);
+		
+		FTranslatedLineTarget ltAtk;
+		LineAttack(hitscanAngles.x, range_max * UNIT_METER, hitscanAngles.y, 0, defs.damageType, "HaloBulletPuff", victim:ltAtk);
+		hitpos = ltPos.HitLocation;
+		 
+		// Damage Victim
+		Actor victim = ltAtk.LineTarget;
+		if(victim)
+		{
+			Name dmgType = defs.DamageType;
+			let shield = ShieldProcessor(victim.FindInventory("ShieldProcessor", true));
+			bool headshot = HaloMath.CheckHeadshot(self, victim);
+			double scaled_damage = dmg * GAMEPLAY_DAMAGEMOD;
+			
+			if(shield && shield.shields > 0)
+			{
+				scaled_damage = HaloProjectile.ApplyShieldDamage(scaled_damage, self, headshot);
+			}
+			else
+			{
+				if(headshot) scaled_damage *= defs.headshot_multiplier;
+				dmgType = headshot ? 'Headshot' : DamageType;
+				scaled_damage = victim.GetModifiedDamage(dmgType, scaled_damage, false, self, target);
+			}
+			
+			double finalDamage = ceil(scaled_damage * max(1,defs.damageMult));
+			victim.DamageMobJ(invoker, self, finalDamage, dmgType, 0, angle);
+			
+			// Spawn Blood
+			if( victim.bISMONSTER && !victim.bNOBLOOD )
+			{
+				victim.SpawnBlood( pos, angle, ceil(scaled_damage) );
+				victim.A_StartSound("BulletImpact/Flesh", CHAN_BODY, CHANF_OVERLAP);
+			}
+		}
+		
+		return hitpos;
 	}
 	
 	action void A_DebugSFX(bool onoff = true)
