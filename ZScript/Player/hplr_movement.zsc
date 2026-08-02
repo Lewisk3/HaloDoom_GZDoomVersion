@@ -271,7 +271,7 @@ extend class HaloPlayer
 					cos(angle),
 					sin(angle)
 				) * addspd;
-				vel += forward * 0.1;
+				vel += forward * 0.05;
 			}
 		}
 		else
