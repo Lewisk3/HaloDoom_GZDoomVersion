@@ -46,8 +46,8 @@ class HaloSniper_Bullet : HaloBullet
 		HaloProjectile.BaseDamage SNIPER_DMG;
 		HaloProjectile.Speed_MPS SNIPER_BMPS;
 		HaloProjectile.HeadshotDMGFactor SNIPER_HEDMOD;
-		HaloProjectile.RipperCount 3;
-		HaloProjectile.DoExplosiveDamage 64, 128;
+		HaloProjectile.RipperCount 4;
+		//HaloProjectile.DoExplosiveDamage 64, 128;
 		HaloProjectile.ShieldDamageFactors 0.5, 2.0;
 		HaloProjectile.SplashSpawner "LargeSplashSpawner";
 	}
@@ -213,9 +213,14 @@ class Halo_SniperRifle : HaloGun
 	
 	action void A_SetFireSprite(int animset = 1)
 	{
-		bool lastShot = CountLoadedAmmo() <= 1;
+		bool lastShot = A_ShouldSkipBolt() || CountLoadedAmmo() <= 1;
 		string spr = String.Format("%s%d", lastShot ? "W7L" : "W7F", animset);
 		A_SetSprite(spr);
+	}
+	
+	action bool A_ShouldSkipBolt()
+	{
+		return halodoom_sniper_skipboltanim;
 	}
 
 	States
@@ -284,8 +289,13 @@ class Halo_SniperRifle : HaloGun
 			}
 			"####" RSTUVWXYZ 1;
 			"####" AB 1 A_SetFireSprite(2);
-			"####" A 0 A_JumpIf(!CountLoadedAmmo(), "Reload");
+			"####" A 0 
+			{
+				A_ScopeDisable();
+				return A_JumpIf(!CountLoadedAmmo(), "Reload");
+			}
 		Fire.Bolt:
+			TNT1 A 0 A_JumpIf(A_ShouldSkipBolt(), "Ready.Active");
 			W7F2 CDEFGHI 1;
 			TNT1 A 0 A_StartSound("Halo/Weapons/Sniper/Bolt",CHAN_WEAPON,CHANF_OVERLAP);
 			W7F2 JKLMN 1 A_ReloadRecoil(-0.34, -0.67, 1);
