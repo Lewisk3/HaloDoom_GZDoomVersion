@@ -3,7 +3,7 @@ class Halo_BinaryRifleMag : Ammo
 {
 	Default 
 	{
-		Inventory.MaxAmount 3;
+		Inventory.MaxAmount 2;
 	}
 }
 class Halo_BinaryRifle_Reserves : Ammo
@@ -15,12 +15,12 @@ class Halo_BinaryRifle_Reserves : Ammo
 		Height 0;
 		Scale 0.65;
 
-		Inventory.Amount 21;
-		Inventory.MaxAmount 21;
+		Inventory.Amount 12;
+		Inventory.MaxAmount 12;
 		Inventory.Icon "";
 		Inventory.PickupSound "";
 		Inventory.PickupMessage "";
-		Ammo.BackpackMaxAmount 24;
+		Ammo.BackpackMaxAmount 16;
 	}
 	
 	States
@@ -50,13 +50,13 @@ class LSR_BinaryRifle : LSR_UnmakerBeam
 	{
 		Alpha 2.0;
 		Scale 8.0;
-		LaserBeam.LaserColor "Yellow"; 
+		LaserBeam.LaserColor "#00FF94"; 
 		LaserBeam.TrackWeapon true, PSP_WEAPON;
 		LaserBeam.AimFromWeapon false;
-		LaserBeam.LaserDecal "UnmakerDecal";
 		LSR_BinaryRifle.LaserDamage BINARYRIFLE_DMG;
 		LSR_BinaryRifle.LaserFade 0.10;
 		LSR_UnmakerBeam.LaserPuff "BinaryRiflePuff";
+		Translation "0:255=@64[0,255,148]";
 		+BRIGHT;
 	}
 	
@@ -110,6 +110,15 @@ class BinaryRiflePuff : UnmakerLaserPuff
 	Default
 	{
 		UnmakerLaserPuff.laserPuffs 6, 100, 0.25;
+		Translation "0:255=@64[0,255,148]";
+		UnmakerLaserPuff.LightningType "BinaryRifle_Lightning";
+	}
+}
+class BinaryRifle_Lightning : LightningBiri
+{
+	Default
+	{
+		Translation "0:255=@64[0,255,148]";	
 	}
 }
 
@@ -174,7 +183,7 @@ class Halo_BinaryRifle : HaloGun
 		beam.setEnabled(true);
 		beamCore.setEnabled(true);
 		
-		let pl = SetupPlasmaLightning(16, A_CheckInScope() ? 0 : -4, 9, scale:1.0, density:3.0, shading:"#fae60a", replace:true);
+		let pl = SetupPlasmaLightning(16, A_CheckInScope() ? 0 : -4, 9, scale:1.0, density:3.0, shading:"#00ff94", replace:true);
 		if(pl) pl.lifetime = 16;
 		
 		A_TakeAmmo(1);
@@ -251,15 +260,17 @@ class Halo_BinaryRifle : HaloGun
 			WOR1 ABCDDDEFF 2;
 		Reload.Loop:
 			TNT1 A 0 A_StartSound("Halo/Weapons/BinaryRifle/Reload/Single", CHAN_RELOADING, CHANF_OVERLAP);
-			WOR1 FFFFFFFFFFFFFF 1 A_RecoilOffset(frandom[ScShake](-3,3), frandom[ScShake](-3,3), 2, add:true);
-			TNT1 A 0 A_ReloadAmount(1);
-			TNT1 A 0 A_ValidateReload("Reload.Finish");
-			TNT1 A 0 
+			WOR1 FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF 2 
 			{
-				bool doAbortReload = A_ButtonStatus(BT_ATTACK, BTS_DOWN);
+				// 122 tics...
+				A_RecoilOffset(frandom[ScShake](-3,3), frandom[ScShake](-3,3), 2, add:true);
+				
+				bool doAbortReload = (CountLoadedAmmo() && A_ButtonStatus(BT_ATTACK, BTS_DOWN));
 				if(doAbortReload) A_StopSound(CHAN_RELOADING);
 				return A_JumpIf(doAbortReload, "Ready.Active");
 			}
+			TNT1 A 0 A_ReloadAmount(1);
+			TNT1 A 0 A_ValidateReload("Reload.Finish");
 			TNT1 A 0 A_GotoState("Reload.Loop");
 		Reload.Finish:
 			TNT1 A 0 
