@@ -12,7 +12,7 @@ extend class HaloPlayer
 	
 	const BT_DASH = BT_USER3;
 	const BT_GRAPPLE = BT_USER4;
-	const SLIDE_TICS = 20;
+	const SLIDE_TICS = TICRATE;
 	const SLIDE_COOL = 35;
 	
 	const AIRMAX     = 10;
@@ -235,7 +235,7 @@ extend class HaloPlayer
 		
 		if(speedboost) spd *= speedboost;
 		double adjustedGNDMAX = speedboost ? GNDMAX * speedboost : GNDMAX;
-		if(deathmatch) adjustedGNDMAX *= 0.65;
+		if(deathmatch) adjustedGNDMAX *= halodoom_deathmatch_movespeedmult;
 		
 		double curspd = wishdir dot vel;
 		double addspd = clamp(adjustedGNDMAX - curspd, 0, (GNDACCEL*spd) / TICRATE);
@@ -256,7 +256,7 @@ extend class HaloPlayer
 		}
 	
 		double adjustedAIRMAX = AIRMAX;
-		if(deathmatch) adjustedAIRMAX *= 0.65;
+		if(deathmatch) adjustedAIRMAX *= halodoom_deathmatch_movespeedmult;
 	
 		if(speedboost) spd *= speedboost;
 		if(dobhop)

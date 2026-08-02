@@ -575,7 +575,7 @@ class HaloGun : RecoilWeapon
 	action vector3, actor A_ShootProjectile(class<Actor> proj, double leftright = 0, double updown = 0, double spreadmod = 1.0, bool useHitscanMP = true)
 	{	
 		double speedMult = 1.0;
-		if(useHitscanMP && multiplayer && HaloPlayer(self))
+		if(halodoom_multiplayer_usehitscan && useHitscanMP && multiplayer && HaloPlayer(self))
 		{
 			bool isPlasma = (proj is "HaloPlasma_Proj");
 			if(isPlasma) speedMult = 3.0;
