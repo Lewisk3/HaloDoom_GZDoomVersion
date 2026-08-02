@@ -831,6 +831,11 @@ Halo/Weapons/BinaryRifle/Draw  "Sounds/BinaryRifle/Binary_Draw.ogg"
 Halo/Weapons/BinaryRifle/Zoom/IN "Sounds/BinaryRifle/Binary_Zoomin.ogg"
 Halo/Weapons/BinaryRifle/Zoom/OUT "Sounds/BinaryRifle/Binary_Zoomout.ogg"
 
+Halo/Weapons/BinaryRifle/Reload/Background "Sounds/ScatterShot/Forerunner_Recharge_Background.ogg";
+Halo/Weapons/BinaryRifle/Reload/Start "Sounds/BinaryRifle/ReloadStart.ogg";
+Halo/Weapons/BinaryRifle/Reload/Single "Sounds/BinaryRifle/ReloadSingle.ogg";
+Halo/Weapons/BinaryRifle/Reload/End "Sounds/BinaryRifle/ReloadEnd.ogg";
+
 $random Halo/Weapons/BinaryRifle/Fire      { BinaryRifle_FIRE1 BinaryRifle_FIRE2 BinaryRifle_FIRE3 }
 $random Halo/Weapons/BinaryRifle/Fire/Bass { BinaryRifle_LOW1 BinaryRifle_LOW2 BinaryRifle_LOW3  }
 

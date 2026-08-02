@@ -239,6 +239,7 @@ class Halo_ScatterShot : HaloGun
 		HaloGun.Inaccuracy 1;
 		HaloGun.Crosshair "SSRet", 1.0;
 		HaloGun.UIGraphic "MISSNG", 0.8, 0.7;
+		HaloGun.SetupUIAmmo "WI_AMM5", 16, 16, 0, 14;
 		
 		/*
 			HaloGun.UISight "SCSGADS", 1.5, 1.0;
@@ -249,7 +250,7 @@ class Halo_ScatterShot : HaloGun
 			HaloGun.ZoomSounds "Halo/Weapons/ScatterShot/Zoom/IN", "Halo/Weapons/ScatterShot/Zoom/OUT";
 		*/
 	
-		RecoilWeapon.YOffsetRange -10, 20;
+		RecoilWeapon.YOffsetRange -10, 10;
 	}
 		
 	override int GetPowerTier()
