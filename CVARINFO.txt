@@ -37,6 +37,6 @@ server bool halodoom_meetyourunmaker = false;
 server int halodoom_holdmoarweapons = 0;
 server bool halodoom_allpoweredup = false;
 server string halodoom_activeskulls = "";
-server float halodoom_deathmatch_movespeedmult = 0.7;
+server float halodoom_deathmatch_movespeedmult = 0.8;
 server bool halodoom_multiplayer_usehitscan = true;
 server bool halodoom_sniper_skipboltanim = false;

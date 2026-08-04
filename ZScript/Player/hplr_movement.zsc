@@ -15,8 +15,8 @@ extend class HaloPlayer
 	const SLIDE_TICS = TICRATE;
 	const SLIDE_COOL = 35;
 	
-	const AIRMAX     = 10;
-	const AIRACCEL   = 40;
+	const AIRMAX     = 6;
+	const AIRACCEL   = 30;
 	
 	bool doomermovement;
 	bool spacemovement; // No gravity movement
@@ -225,6 +225,12 @@ extend class HaloPlayer
 		}
 	}
 
+	double AdjustMoveSpeed(double maxspd)
+	{
+		double mult = deathmatch ? halodoom_deathmatch_movespeedmult : 1.0;
+		return maxspd * mult;
+	}
+
 	void DoQuakeGroundAccel(vector3 wishdir, double spd)
 	{	
 		if(doomermovement) 
@@ -235,10 +241,11 @@ extend class HaloPlayer
 		
 		if(speedboost) spd *= speedboost;
 		double adjustedGNDMAX = speedboost ? GNDMAX * speedboost : GNDMAX;
-		if(deathmatch) adjustedGNDMAX *= halodoom_deathmatch_movespeedmult;
+		adjustedGNDMAX = AdjustMoveSpeed(adjustedGNDMAX);
 		
 		double curspd = wishdir dot vel;
 		double addspd = clamp(adjustedGNDMAX - curspd, 0, (GNDACCEL*spd) / TICRATE);
+		addspd = AdjustMoveSpeed(addspd);
 		
 		vel += addspd * wishdir;
 	}
@@ -255,14 +262,14 @@ extend class HaloPlayer
 			return;
 		}
 	
-		double adjustedAIRMAX = AIRMAX;
-		if(deathmatch) adjustedAIRMAX *= halodoom_deathmatch_movespeedmult;
-	
+		double adjustedAIRMAX = AdjustMoveSpeed(AIRMAX);
 		if(speedboost) spd *= speedboost;
+		
 		if(dobhop)
 		{
 			double curspd = wishdir dot vel;
 			double addspd = clamp(adjustedAIRMAX - curspd, 0, (AIRACCEL*spd) / TICRATE);
+			addspd = AdjustMoveSpeed(addspd);
 					
 			vel += (addspd*AIRCONTROL) * wishdir;
 			if(AIRCONTROL < 1.) 
@@ -281,6 +288,8 @@ extend class HaloPlayer
 			double curspd = wishvel.Length();
 
 			double addspd = clamp(adjustedAIRMAX - curspd, 0, accel);
+			addspd = AdjustMoveSpeed(addspd);
+			
 			vel += (addspd*AIRCONTROL) * wishdir;
 		}
 	}
