@@ -213,7 +213,7 @@ class Halo_LightRifle : HaloGun
 		beamCore.setEnabled(true);
 					
 		SetupPlasmaLightning(16, 0, 12, scale:0.2, density:3.0, shading:"#0061FF", replace:true);
-		A_TakeAmmo(3);
+		A_TakeAmmo(6);
 		A_UpdateSpread();
 	}
 
@@ -281,7 +281,8 @@ class Halo_LightRifle : HaloGun
 		stop;
 		
 		Ready.Dryfire:
-			WPI1 A 4 A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
+			"####" "#" 4 A_WeapSound("Halo/Weapons/DryFire", CHANF_OVERLAP);
+			TNT1 A 0 A_JumpIf(A_CheckInScope(), "Ready.ADS");
 		goto Ready.Active;
 
 		Select:
@@ -308,7 +309,7 @@ class Halo_LightRifle : HaloGun
 			{
 				A_RecoilOffset(0,8,1);
 			}
-			WPF1 B 2 
+			WPF1 B 1 
 			{	
 				A_SetZoom(0.98, 2);
 				A_FireLightRifleBurst(1);
@@ -322,7 +323,7 @@ class Halo_LightRifle : HaloGun
 				A_Light(0);
 				A_SetZoom(1.0, 2);
 			}
-			WPF1 D 2 
+			WPF1 D 1 
 			{
 				A_FireLightRifleBurst(1);
 				A_SetRecoil(0.3, 0, 4);
@@ -335,19 +336,18 @@ class Halo_LightRifle : HaloGun
 				A_Light(0);
 				A_SetZoom(1.0, 2);
 			}
-			WPF1 F 2 
+			WPF1 F 1 
 			{
 				A_SetZoom(0.94, 2);
 				A_FireLightRifleBurst(1);
-				A_SetRecoil(-0.15, 0, 8);
 				A_RecoilOffset(8,10,2);
 			}
-			WPF1 GH 1 A_SetZoom(1.0, 4);
-			WPF1 IIIIIIIIIIIIII 1 
+			WPF1 GHIJK 1 
 			{
+				A_SetZoom(1.0, 4);
 				A_Light(0);
 			}
-			WPF1 JK 1
+			WPF1 KKKKKKKKKKKKKK 1 
 			{
 				A_SetRecoil(0.2, 0, 2);
 				A_RecoilOffset(0,0,4);
@@ -356,7 +356,8 @@ class Halo_LightRifle : HaloGun
 		goto Ready.Active;
 		
 		Fire.Charge:
-			WPA1 D 1 A_StartSound("Halo/Weapons/LightRifle/Charge", CHAN_LRCHARGE, CHANF_OVERLAP);
+			WPA1 D 1 A_JumpIf(CountLoadedAmmo() < 6, "Ready.DryFire");
+			TNT1 A 0 A_StartSound("Halo/Weapons/LightRifle/Charge", CHAN_LRCHARGE, CHANF_OVERLAP);
 		Fire.ChargeLoop:
 			WPA1 D 1;
 			TNT1 A 0 
@@ -409,7 +410,11 @@ class Halo_LightRifle : HaloGun
 				return A_JumpIf(A_CheckInScope(), "Reload.FromScope");
 			}
 			TNT1 A 0 A_ValidateReload("Ready.Dryfire");
-			TNT1 A 0 A_StartSound("Halo/Weapons/ScatterShot/Reload/Background", CHAN_RELOADING, CHANF_OVERLAP);
+			TNT1 A 0 
+			{
+				A_StartSound("Halo/Weapons/LightRifle/Reload/Start", CHAN_RELOADING);
+				A_StartSound("Halo/Weapons/ScatterShot/Reload/Background", CHAN_RELOADING, CHANF_OVERLAP);
+			}
 			WPR1 ABCDEFG 2;
 		Reload.Loop:
 			TNT1 A 0 A_StartSound("Halo/Weapons/LightRifle/Reload/Single", CHAN_RELOADING, CHANF_OVERLAP);
@@ -421,7 +426,7 @@ class Halo_LightRifle : HaloGun
 				if(doAbortReload) A_StopSound(CHAN_RELOADING);
 				return A_JumpIf(doAbortReload, "Ready.Active");
 			}
-			TNT1 A 0 A_ReloadAmount(7);
+			TNT1 A 0 A_ReloadAmount(6);
 			TNT1 A 0 A_ValidateReload("Reload.Finish");
 			TNT1 A 0 A_GotoState("Reload.Loop");
 		Reload.Finish:
