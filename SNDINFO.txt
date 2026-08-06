@@ -857,6 +857,8 @@ LightRifle_StrongLOW3 "Sounds/LightRifle/LR_S_Low3.ogg"
 Halo/Weapons/LightRifle/Draw  "Sounds/LightRifle/LR_Draw.ogg"
 Halo/Weapons/LightRifle/Zoom/IN "Sounds/LightRifle/LR_Zoomin.ogg"
 Halo/Weapons/LightRifle/Zoom/OUT "Sounds/LightRifle/LR_Zoomout.ogg"
+Halo/Weapons/LightRifle/Charge "Sounds/LightRifle/LR_Charge.ogg"
+Halo/Weapons/LightRifle/Reload/Single "Sounds/LightRifle/LR_ReloadSingle.ogg"
 
 $random Halo/Weapons/LightRifle/Fire      { LightRifle_BurstFIRE1 LightRifle_BurstFIRE2 LightRifle_BurstFIRE3 }
 $random Halo/Weapons/LightRifle/Fire/Bass { LightRifle_BurstLOW1 LightRifle_BurstLOW2 LightRifle_BurstLOW3  }

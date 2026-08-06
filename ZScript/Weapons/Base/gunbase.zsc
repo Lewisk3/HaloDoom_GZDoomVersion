@@ -1420,11 +1420,13 @@ class HaloGun : RecoilWeapon
 		{
 			A_ScopeON(usePerspective:perspective);
 			A_SetZoom(invoker.scopezoom, zoomframes, true);	
+			A_StartSound(invoker.snd_zoomin, flags:CHANF_OVERLAP);
 		}
 		else
 		{
 			A_ScopeOFF();
 			A_SetZoom(0, zoomframes, true);
+			A_StartSound(invoker.snd_zoomout, flags:CHANF_OVERLAP);
 		}
 	}
 	
