@@ -359,7 +359,8 @@ class Halo_ScatterShot : HaloGun
 		goto Ready.Active;
 		
 		Ready.Chamber:
-			WQD1 HGFEDCBA 1 A_DoSelectAnim(0, true);
+			WQD1 HGFEDCBA 1 A_DoSelectAnim(-15, true);
+			WQR1 CBA 1 A_DoSelectAnim(-15, true);
 		Ready.Active:
 			WQI1 A 1 
 			{

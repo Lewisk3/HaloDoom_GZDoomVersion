@@ -162,6 +162,7 @@ class Halo_BinaryRifle : HaloGun
 		HaloGun.UIAmmo_Scale_Offset 1.5, 100, 0;
 		
 		RecoilWeapon.YOffsetRange 0, 40;
+		Scale 0.5;
 	}
 	
 	override int GetPowerTier()
