@@ -50,9 +50,10 @@ class LSR_LightRifleDMR : LSR_BinaryRifle
 		{
 			for(int i = 0; i < 3; i++)
 			{
-				let expl = Spawn("Coil_Hardlight_Explosion", hitPos);
+				let expl = Coil_Hardlight_Explosion(Spawn("Coil_Hardlight_Explosion", hitPos));
 				expl.translation = translation;
 				expl.target = source;
+				expl.plrSource = source;
 			}
 		}
 	}
@@ -175,8 +176,8 @@ class Halo_LightRifle : HaloGun
 	action void A_FireLightRifleBurst(int ammouse = 2)
 	{
 		A_Light(4);
-		A_WeapSound("Halo/Weapons/LightRifle/Fire", CHANF_OVERLAP, true);
-		A_WeapSound("Halo/Weapons/LightRifle/Fire/Bass", CHANF_OVERLAP, true);
+		A_WeapSound("Halo/Weapons/LightRifle/Fire", CHANF_OVERLAP, false);
+		A_WeapSound("Halo/Weapons/LightRifle/Fire/Bass", CHANF_OVERLAP, false);
 		
 		let beam = LaserBeam.Create(self, 7, 2, -2, type:"LSR_LightRifle");
 		let beamCore = LaserBeam.Create(self, 7, 2, -2, type:"LSR_LightRifleCore");
@@ -221,8 +222,8 @@ class Halo_LightRifle : HaloGun
 	action void A_FireLightRifleSniper()
 	{
 		A_Light(4);
-		A_WeapSound("Halo/Weapons/LightRifle/Fire/DMR", CHANF_OVERLAP, true);
-		A_WeapSound("Halo/Weapons/LightRifle/Fire/DMR/Bass", CHANF_OVERLAP, true);
+		A_WeapSound("Halo/Weapons/LightRifle/Fire/DMR", CHANF_OVERLAP, false);
+		A_WeapSound("Halo/Weapons/LightRifle/Fire/DMR/Bass", CHANF_OVERLAP, false);
 	
 		let beam = LaserBeam.Create(self, 7, 0, -2, type:"LSR_LightRifleDMR");
 		let beamCore = LaserBeam.Create(self, 7, 0, -2, type:"LSR_BinaryRifleCore");
@@ -369,7 +370,6 @@ class Halo_LightRifle : HaloGun
 				A_RecoilOffset(0,0,4);
 			}
 			WPF1 DEFGHIJK 1;
-			WPI1 A 12;
 		goto Ready.Active;
 		
 		Fire.Charge:

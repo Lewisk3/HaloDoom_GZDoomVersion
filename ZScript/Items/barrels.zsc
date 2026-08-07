@@ -342,6 +342,8 @@ class Coil_Hardlight_Explosion : CheapActor
 {	
 	bool lowEffects;
 	int projBoost;
+	Actor plrSource; // If non-null, this is passed to subsequent projectiles.
+	
 	Default
 	{
 		Scale 1.0;
@@ -353,7 +355,7 @@ class Coil_Hardlight_Explosion : CheapActor
 			TNT1 A 0;
 			TNT1 A 35
 			{
-				
+				if(plrSource) target = plrSource;
 				let expl = Spawn("UnmakerBallExplosion", pos);
 				expl.A_SetScale(scale.x * 0.25);
 				expl.translation = translation;
@@ -407,6 +409,8 @@ class Coil_Hardlight_Explosion : CheapActor
 						if(plasball) 
 						{
 							plasball.target = master ? master.target : NULL;
+							if(plrSource) plasball.target = plrSource;
+							
 							plasball.translation = translation;
 						}
 					}
@@ -414,7 +418,7 @@ class Coil_Hardlight_Explosion : CheapActor
 				
 				HaloMath.SpawnFX("UnmakerBallSmoke", pos+randPos, frandom[CoilLightRNG](0,360), random[CoilLightRNG](5,10), 64, 10, 0, 0, 8, fxtranslation:translation);
 				
-				A_Explode(200, 160, damagetype:"Plasma");
+				A_Explode(200, 160, flags:0, damagetype:"Plasma");
 				A_Quake(3, 10, 0, 1024, "");
 			}
 		stop;
