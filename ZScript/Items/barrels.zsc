@@ -356,10 +356,12 @@ class Coil_Hardlight_Explosion : CheapActor
 				
 				let expl = Spawn("UnmakerBallExplosion", pos);
 				expl.A_SetScale(scale.x * 0.25);
+				expl.translation = translation;
 				let shock = Spawn("FX_Shockwave", pos);
 				shock.A_SetScale(scale.x);
 				let flare = Spawn("UnmakerBallFlare", pos);
 				flare.A_SetScale(scale.x);
+				flare.translation = translation;
 
 				A_StartSound("Halo/Weapons/Unmaker/BFG/Explode", CHAN_VOICE, flags:CHANF_OVERLAP);
 				A_StartSound("Halo/Weapons/BeamRifle/Laser/Fire", CHAN_VOICE, flags:CHANF_OVERLAP);
@@ -367,14 +369,13 @@ class Coil_Hardlight_Explosion : CheapActor
 				vector3 randPos = (frandom[CoilLightRNG](-1,1),frandom[CoilLightRNG](-1,1),frandom[CoilLightRNG](-1,1)) * 30;  
 				if(!lowEffects)
 				{
-					HaloMath.SpawnFX("UnmakerLaserPuff", pos+randPos, frandom[CoilLightRNG](0,360), 5, 45, 20);
-					
 					for(int i = 0; i < 5 * halodoom_effectintensity; i++)
 					{
 						randPos = (frandom[CoilLightRNG](-1,1),frandom[CoilLightRNG](-1,1),frandom[CoilLightRNG](-1,1)) * 20;  
 						let puff = UnmakerLaserPuff(Spawn("UnmakerLaserPuff", pos+randPos));
 						if(puff) 
 						{
+							puff.translation = translation;
 							puff.angle = frandom[CoilLightRNG](0,360);
 							puff.pitch = -90;
 							puff.laserAmt = 0.25;
@@ -395,14 +396,23 @@ class Coil_Hardlight_Explosion : CheapActor
 					beam.setEnabled(true);
 					let beamCore = LaserBeam.Create(self, 10, 0, 0, view.x,view.y, type:"LSR_LightRifleCore");
 					beamCore.setEnabled(true);
+					
+					// Copy colors
+					beam.translation = translation;
+					beamCore.translation = translation;
+					
 					if( !(i%4) ) 
 					{
 						let plasball = HaloMath.FireProjectile("HaloScatterShot_Proj", pos, view.x, view.y);
-						if(plasball) plasball.target = master ? master.target : NULL;
+						if(plasball) 
+						{
+							plasball.target = master ? master.target : NULL;
+							plasball.translation = translation;
+						}
 					}
 				}
 				
-				HaloMath.SpawnFX("UnmakerBallSmoke", pos+randPos, frandom[CoilLightRNG](0,360), random[CoilLightRNG](5,10), 64, 10, 0, 0, 8);
+				HaloMath.SpawnFX("UnmakerBallSmoke", pos+randPos, frandom[CoilLightRNG](0,360), random[CoilLightRNG](5,10), 64, 10, 0, 0, 8, fxtranslation:translation);
 				
 				A_Explode(200, 160, damagetype:"Plasma");
 				A_Quake(3, 10, 0, 1024, "");

@@ -161,7 +161,7 @@ class UnmakerLaserPuff : CheapActor
 		if( !(getAge()%10) && random[unmakerSmoke](0,3)==3 )
 		{
 			vector3 randPos = (frandom[WeapFX](-1,1),frandom[WeapFX](-1,1),frandom[WeapFX](-1,1)) * 5;  
-			HaloMath.SpawnFX("UnmakerLaserSmoke", pos + randPos, angle + frandom[WeapFX](-10,10), random[WeapFX](2,5) * smokeMax, 20, 5);
+			HaloMath.SpawnFX("UnmakerLaserSmoke", pos + randPos, angle + frandom[WeapFX](-10,10), random[WeapFX](2,5) * smokeMax, 20, 5, fxtranslation:translation);
 		}
 	}
 	

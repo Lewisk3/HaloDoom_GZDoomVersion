@@ -158,7 +158,7 @@ class HaloMath Abstract
 		return proj;
 	}
 
-	play static void SpawnFX(class<Actor> type, vector3 frompos, double sangle, double amt, double maxdist, double ydist, double vel_angle = 0, double vel_pitch = 0, double vel_spd = 0, int rstyle = -1, bool absPitch = false)
+	play static void SpawnFX(class<Actor> type, vector3 frompos, double sangle, double amt, double maxdist, double ydist, double vel_angle = 0, double vel_pitch = 0, double vel_spd = 0, int rstyle = -1, bool absPitch = false, int fxTranslation = 0)
 	{
 		int adjustedAmt = max(amt * halodoom_effectintensity, 0);
 		for(int i = 0; i < adjustedAmt; i++)
@@ -183,6 +183,7 @@ class HaloMath Abstract
 				);
 				obj.vel = veldir * vel_spd;
 				obj.angle = (sangle + spawnang);
+				obj.translation = fxTranslation;
 			}
 			if(rstyle >= 0) obj.A_SetRenderStyle(obj.alpha, rstyle);
 		}
