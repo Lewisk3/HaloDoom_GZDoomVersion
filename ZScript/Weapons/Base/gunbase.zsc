@@ -838,7 +838,7 @@ class HaloGun : RecoilWeapon
 	{
 		let src_psp = player.FindPSprite(SRC_LAYER);
 		if(!src_psp) return;
-				
+
 		vector2 rvec = (cos(src_psp.rotation+90)*max.x, sin(src_psp.rotation)*max.y) * mul;
 		// if(!invoker.handsbusy) offs.y -= invoker.staticoffs.y;
 		bool hidezoom = invoker.scopezoom >= 2.0 && invoker.zoomed;
