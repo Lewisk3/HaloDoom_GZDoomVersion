@@ -426,6 +426,9 @@ $Random Halo/Weapons/PlasmaPistol/Fire 		 { PP_FIRE1 PP_FIRE2 PP_FIRE3 }
 $Random Halo/Weapons/PlasmaPistol/Fire/Bass  { PP_FIRELOW1 PP_FIRELOW2 PP_FIRELOW3 }
 $Random Halo/Weapons/PlasmaPistol/Fire/Charged/Bass  { PP_FIRECHARGEDLOW1 PP_FIRECHARGEDLOW2 PP_FIRECHARGEDLOW3 }
 
+$volume Halo/Weapons/PlasmaPistol/Fire 1.0
+$volume Halo/Weapons/PlasmaPistol/Fire/Bass 0.7
+
 $volume Halo/Weapons/PlasmaPistol/Charge/Start 0.35
 $volume Halo/Weapons/PlasmaPistol/Charge/Loop 0.35
 
