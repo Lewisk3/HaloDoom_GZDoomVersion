@@ -426,8 +426,11 @@ $Random Halo/Weapons/PlasmaPistol/Fire 		 { PP_FIRE1 PP_FIRE2 PP_FIRE3 }
 $Random Halo/Weapons/PlasmaPistol/Fire/Bass  { PP_FIRELOW1 PP_FIRELOW2 PP_FIRELOW3 }
 $Random Halo/Weapons/PlasmaPistol/Fire/Charged/Bass  { PP_FIRECHARGEDLOW1 PP_FIRECHARGEDLOW2 PP_FIRECHARGEDLOW3 }
 
-$volume Halo/Weapons/PlasmaPistol/Charge/Start 0.35
-$volume Halo/Weapons/PlasmaPistol/Charge/Loop 0.35
+$volume Halo/Weapons/PlasmaPistol/Fire 0.8
+$volume Halo/Weapons/PlasmaPistol/Fire/Bass 0.55
+
+$volume Halo/Weapons/PlasmaPistol/Charge/Start 0.4
+$volume Halo/Weapons/PlasmaPistol/Charge/Loop 0.4
 
 // Plasma Rifle
 PR_FIRE1 "Sounds/PlasmaRifle/pr_fire1.ogg"
