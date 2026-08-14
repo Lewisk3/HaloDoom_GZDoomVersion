@@ -172,12 +172,26 @@ class Halo_SentinelBeam : HaloGun
 	{
 		super.DoEffect();
 		heat = clamp(heat, 0, 1.0);
+		
+		// Fixes annoying pain in the ass bug where for some unknown reason the beam
+		// can persist if you switch weapons at just the right frame.
+		if(Owner.player.ReadyWeapon != self && beam && beam.isActive())
+		{
+			beam.Disable();
+			beamColorTics = 0;
+		}
 	}
 	
 	override void OnDropSwap()
 	{
 		super.OnDropSwap();
 		A_StopSound(SND_BEAM);
+		A_StopBeam();
+	}
+	override void OnQuickSwap()
+	{
+		super.OnQuickSwap();
+		A_StopBeam();
 	}
 	
 	States

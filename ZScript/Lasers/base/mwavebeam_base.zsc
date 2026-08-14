@@ -275,7 +275,7 @@ class MBeamSpawner : Thinker
 	
 	bool isActive()
 	{
-		return enabled && beamVisible;
+		return enabled;
 	}
 	
 	void SetTarget(Actor target)
