@@ -2,7 +2,7 @@ class Halo_PlasmaPistol_Clip : Ammo
 {
 	Default 
 	{
-		Inventory.MaxAmount 100;
+		Inventory.MaxAmount 150;
 	}
 }
 
@@ -457,6 +457,7 @@ class Halo_PlasmaPistol : HaloGun
 {
 	const LCD = 22;
 	const MFLASH = -5;
+	const SND_CHARGE = 40;
 	double charge;
 	double holdtimer;
 	double lcd_offspd;
@@ -473,7 +474,7 @@ class Halo_PlasmaPistol : HaloGun
 		Weapon.BobRangeX 0.30;
 		Weapon.AmmoType1 "Halo_PlasmaPistol_Clip";
 		Weapon.AmmoType2 "Halo_PlasmaPistol_Clip";
-		Weapon.AmmoGive 100;
+		Weapon.AmmoGive 150;
 		HaloGun.HasBattery true, 1;
 		HaloGun.Faction "Covenant";
 		
@@ -577,6 +578,17 @@ class Halo_PlasmaPistol : HaloGun
 		invoker.lcd_offs = (x,y);
 		invoker.lcd_offspd = spd;
 	}
+	
+	override void OnQuickSwap()
+	{
+		// Stop charging sound
+		Owner.A_StopSound(SND_CHARGE);
+	}
+	override void OnDropSwap()
+	{
+		// Stop charging sound
+		Owner.A_StopSound(SND_CHARGE);
+	}
 		
 	States
 	{
@@ -597,6 +609,7 @@ class Halo_PlasmaPistol : HaloGun
 				invoker.charge *= 0.5;
 				A_Overlay(LCD, "LCD_HeatLow");
 				A_Overlay(LCD+1, "LCD_HeatHigh");
+				A_LCDOffset(0,0);
 				
 				uint flags = PSPF_FORCEALPHA|PSPF_ALPHA|PSPF_ADDWEAPON|PSPF_ADDBOB;
 				A_OverlayFlags(LCD,  flags, true);
@@ -699,7 +712,7 @@ class Halo_PlasmaPistol : HaloGun
 			}
 			WCC1 ABC 1;
 		ChargeHold: 
-			TNT1 A 0 A_StartSound("Halo/Weapons/PlasmaPistol/Charge/Loop", CHAN_VOICE, CHANF_LOOPING);
+			TNT1 A 0 A_StartSound("Halo/Weapons/PlasmaPistol/Charge/Loop", SND_CHARGE, CHANF_LOOPING);
 			WCC1 C 1 
 			{
 				invoker.heat += 0.04;
@@ -707,7 +720,9 @@ class Halo_PlasmaPistol : HaloGun
 				
 				invoker.charge += 0.04;
 				SetupPlasmaLightning(16, -1, 9, scale:0.75, density:5.0, shading:"#13ed63", replace:true);
-				A_RecoilOffset(frandom[PLPOVR](-2,2),frandom[PLPOVR](-2,2),2, add:true);
+				
+				double clock = 20 * level.maptime;
+				A_RecoilOffset(sin(clock) * 0.4,cos(clock) * 0.4,2, add:true, forced:true);
 				
 				// Miss-fire if held too long.
 				if(invoker.charge >= 0.4 * (TICRATE * 10))
@@ -723,7 +738,7 @@ class Halo_PlasmaPistol : HaloGun
 		ChargeStop:
 			TNT1 A 0 
 			{
-				A_StopSound(CHAN_VOICE); // Stop charging SFX
+				A_StopSound(SND_CHARGE); // Stop charging SFX
 				A_LCDOffset(0,0);
 				A_Overlay(MFLASH, "LCD_Off");
 			}
