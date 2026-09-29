@@ -226,7 +226,7 @@ Halo/Weapons/Mag_MD6/Reload 	  HW_MAGR
 Halo/Weapons/Mag_MD6/Reload/Empty HW_MAGRE
 
 $volume Halo/Weapons/Mag_MD6/Fire 1.0
-$volume Halo/Weapons/Mag_MD6/Fire/Bass 0.67
+$volume Halo/Weapons/Mag_MD6/Fire/Bass 0.7
 $volume Halo/Weapons/Mag_MD6/Mech 1.0
 
 // AssaultRifle
